@@ -20,6 +20,10 @@ against Articles.
 
     $ ./update-install.sh
 
+## Updating
+
+    $ ./update-install.sh
+
 ## Credentials
 
 The admin username and password are "admin" and "admin. This user can also be 

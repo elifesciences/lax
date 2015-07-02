@@ -2,7 +2,7 @@
 
 set -e      # everything must succeed.
 
-#git pull    # update the Lax repo
+git pull    # update the Lax repo
 
 # create a virtualenv if necessary + activate
 if [ ! -d venv ]; then
