@@ -1,0 +1,1771 @@
+{
+    "status": "VOR", 
+    "article-type": "research-article", 
+    "force": "1", 
+    "contributors": [
+        {
+            "surname": "Ciferri", 
+            "corresp": "yes", 
+            "given-names": "Claudio", 
+            "references": {
+                "affiliation": [
+                    "aff1"
+                ], 
+                "contribution": [
+                    "con1"
+                ], 
+                "competing-interest": [
+                    "conf1"
+                ], 
+                "email": [
+                    "cor2"
+                ], 
+                "present-address": [
+                    "pa1"
+                ]
+            }, 
+            "type": "author", 
+            "id": "author-1313"
+        }, 
+        {
+            "type": "author", 
+            "given-names": "Gabriel C", 
+            "surname": "Lander", 
+            "id": "author-1314", 
+            "references": {
+                "affiliation": [
+                    "aff2"
+                ], 
+                "contribution": [
+                    "con2"
+                ], 
+                "competing-interest": [
+                    "conf1"
+                ], 
+                "funding": [
+                    "par-4"
+                ]
+            }
+        }, 
+        {
+            "type": "author", 
+            "given-names": "Alessio", 
+            "surname": "Maiolica", 
+            "id": "author-1315", 
+            "references": {
+                "affiliation": [
+                    "aff3"
+                ], 
+                "contribution": [
+                    "con3"
+                ], 
+                "competing-interest": [
+                    "conf1"
+                ], 
+                "funding": [
+                    "par-6"
+                ]
+            }
+        }, 
+        {
+            "type": "author", 
+            "given-names": "Franz", 
+            "surname": "Herzog", 
+            "id": "author-1316", 
+            "references": {
+                "affiliation": [
+                    "aff3"
+                ], 
+                "contribution": [
+                    "con4"
+                ], 
+                "competing-interest": [
+                    "conf1"
+                ], 
+                "funding": [
+                    "par-2", 
+                    "par-5"
+                ]
+            }
+        }, 
+        {
+            "type": "author", 
+            "given-names": "Ruedi", 
+            "surname": "Aebersold", 
+            "id": "author-1317", 
+            "references": {
+                "affiliation": [
+                    "aff3", 
+                    "aff4"
+                ], 
+                "contribution": [
+                    "con5"
+                ], 
+                "competing-interest": [
+                    "conf1"
+                ], 
+                "funding": [
+                    "par-3"
+                ]
+            }
+        }, 
+        {
+            "surname": "Nogales", 
+            "corresp": "yes", 
+            "given-names": "Eva", 
+            "references": {
+                "affiliation": [
+                    "aff1", 
+                    "aff2", 
+                    "aff5"
+                ], 
+                "contribution": [
+                    "con6"
+                ], 
+                "competing-interest": [
+                    "conf1"
+                ], 
+                "funding": [
+                    "par-1", 
+                    "par-7"
+                ], 
+                "email": [
+                    "cor1"
+                ]
+            }, 
+            "type": "author", 
+            "id": "author-1218"
+        }, 
+        {
+            "surname": "Struhl", 
+            "given-names": "Kevin", 
+            "role": "Reviewing editor", 
+            "affiliations": [
+                {
+                    "country": "United States", 
+                    "institution": "Harvard Medical School"
+                }
+            ], 
+            "type": "editor"
+        }
+    ], 
+    "pub-date": "2012-10-30", 
+    "title": "Molecular architecture of human polycomb repressive complex 2", 
+    "citations": {
+        "bib34": {
+            "source": "Nat Methods", 
+            "year": "2008", 
+            "title": "Identification of cross-linked peptides from large sequence databases", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "O", 
+                    "surname": "Rinner"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Seebacher"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "T", 
+                    "surname": "Walzthoeni"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "LN", 
+                    "surname": "Mueller"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Beck"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Schmidt"
+                }
+            ]
+        }, 
+        "bib9": {
+            "source": "Structure", 
+            "year": "2007", 
+            "title": "Structural basis of EZH2 recognition by EED", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "Z", 
+                    "surname": "Han"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "X", 
+                    "surname": "Xing"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Hu"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "Y", 
+                    "surname": "Zhang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "P", 
+                    "surname": "Liu"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Chai"
+                }
+            ]
+        }, 
+        "bib8": {
+            "source": "Nat Rev Mol Cell Biol", 
+            "year": "2007", 
+            "title": "Analysis of protein complexes using mass spectrometry", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "AC", 
+                    "surname": "Gingras"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Gstaiger"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Raught"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Aebersold"
+                }
+            ]
+        }, 
+        "bib17": {
+            "source": "Mol Cell Proteomics", 
+            "year": "2007", 
+            "title": "Structural analysis of multiprotein complexes by cross-linking, mass spectrometry, and database searching", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Maiolica"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Cittaro"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Borsotti"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "L", 
+                    "surname": "Sennels"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Ciferri"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Tarricone"
+                }
+            ]
+        }, 
+        "bib1": {
+            "source": "J Struct Biol", 
+            "year": "2007", 
+            "title": "The Transform Class in SPARX and EMAN2", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "PR", 
+                    "surname": "Baldwin"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "PA", 
+                    "surname": "Penczek"
+                }
+            ]
+        }, 
+        "bib3": {
+            "source": "Curr Opin Genet Dev", 
+            "year": "2004a", 
+            "title": "The functions of E(Z)/EZH2-mediated methylation of lysine 27 in histone H3", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Cao"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "Y", 
+                    "surname": "Zhang"
+                }
+            ]
+        }, 
+        "bib2": {
+            "source": "Nat Rev Mol Cell Biol", 
+            "year": "2004", 
+            "title": "The SANT domain: a unique histone-tail-binding module?", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "LA", 
+                    "surname": "Boyer"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "RR", 
+                    "surname": "Latek"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CL", 
+                    "surname": "Peterson"
+                }
+            ]
+        }, 
+        "bib5": {
+            "source": "Science", 
+            "year": "2002", 
+            "title": "Role of histone H3 lysine 27 methylation in Polycomb-group silencing", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Cao"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "L", 
+                    "surname": "Wang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "H", 
+                    "surname": "Wang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "L", 
+                    "surname": "Xia"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "H", 
+                    "surname": "Erdjument-Bromage"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "P", 
+                    "surname": "Tempst"
+                }
+            ]
+        }, 
+        "bib4": {
+            "source": "Mol Cell", 
+            "year": "2004b", 
+            "title": "SUZ12 is required for both the histone methyltransferase activity and the silencing function of the EED-EZH2 complex", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Cao"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "Y", 
+                    "surname": "Zhang"
+                }
+            ]
+        }, 
+        "bib7": {
+            "source": "Cell", 
+            "year": "2002", 
+            "title": "Drosophila enhancer of Zeste/ESC complexes have a histone H3 methyltransferase activity that marks chromosomal Polycomb sites", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Czermin"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Melfi"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "McCabe"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "V", 
+                    "surname": "Seitz"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Imhof"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "V", 
+                    "surname": "Pirrotta"
+                }
+            ]
+        }, 
+        "bib6": {
+            "source": "Cell", 
+            "year": "2008", 
+            "title": "Implications for kinetochore-microtubule attachment from the structure of an engineered Ndc80 complex", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Ciferri"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "S", 
+                    "surname": "Pasqualato"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "E", 
+                    "surname": "Screpanti"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "G", 
+                    "surname": "Varetti"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "S", 
+                    "surname": "Santaguida"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "G", 
+                    "surname": "Dos Reis"
+                }
+            ]
+        }, 
+        "bib28": {
+            "source": "J Struct Biol", 
+            "year": "2003", 
+            "title": "Topology representing network enables highly accurate classification of protein images taken by cryo electron-microscope without masking", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "T", 
+                    "surname": "Ogura"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "K", 
+                    "surname": "Iwasaki"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Sato"
+                }
+            ]
+        }, 
+        "bib29": {
+            "source": "Cell Cycle", 
+            "year": "2004", 
+            "title": "Polycomb group proteins in cell cycle progression and cancer", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Pasini"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "AP", 
+                    "surname": "Bracken"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "K", 
+                    "surname": "Helin"
+                }
+            ]
+        }, 
+        "bib20": {
+            "source": "Nature", 
+            "year": "2011", 
+            "title": "The Polycomb complex PRC2 and its mark in life", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Margueron"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Reinberg"
+                }
+            ]
+        }, 
+        "bib21": {
+            "source": "Nature", 
+            "year": "2009", 
+            "title": "Role of the polycomb protein EED in the propagation of repressive histone marks", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Margueron"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "N", 
+                    "surname": "Justin"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "K", 
+                    "surname": "Ohno"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "ML", 
+                    "surname": "Sharpe"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Son"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "WJ", 
+                    "surname": "Drury", 
+                    "suffix": "III"
+                }
+            ]
+        }, 
+        "bib22": {
+            "source": "Mol Cell", 
+            "year": "2008", 
+            "title": "Ezh1 and Ezh2 maintain repressive chromatin through different mechanisms", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Margueron"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "G", 
+                    "surname": "Li"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "K", 
+                    "surname": "Sarma"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Blais"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Zavadil"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CL", 
+                    "surname": "Woodcock"
+                }
+            ]
+        }, 
+        "bib23": {
+            "source": "J Biol Chem", 
+            "year": "2006", 
+            "title": "Substrate preferences of the EZH2 histone methyltransferase complex", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Martin"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Cao"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "Y", 
+                    "surname": "Zhang"
+                }
+            ]
+        }, 
+        "bib24": {
+            "source": "J Struct Biol", 
+            "year": "2003", 
+            "title": "Accurate determination of local defocus and specimen tilt in electron microscopy", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "JA", 
+                    "surname": "Mindell"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "N", 
+                    "surname": "Grigorieff"
+                }
+            ]
+        }, 
+        "bib25": {
+            "source": "Cell", 
+            "year": "2002", 
+            "title": "Histone methyltransferase activity of a Drosophila Polycomb group repressor complex", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Muller"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CM", 
+                    "surname": "Hart"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "NJ", 
+                    "surname": "Francis"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "ML", 
+                    "surname": "Vargas"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Sengupta"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Wild"
+                }
+            ]
+        }, 
+        "bib26": {
+            "source": "J Biol Chem", 
+            "year": "2011", 
+            "title": "Chromatin-modifying complex component Nurf55/p55 associates with histones H3 and H4 and polycomb repressive complex 2 subunit Su(z)12 through partially overlapping binding sites", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "AJ", 
+                    "surname": "Nowak"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Alfieri"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CU", 
+                    "surname": "Stirnimann"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "V", 
+                    "surname": "Rybin"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "F", 
+                    "surname": "Baudin"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "N", 
+                    "surname": "Ly-Hartig"
+                }
+            ]
+        }, 
+        "bib27": {
+            "source": "Mol Cell Biol", 
+            "year": "2001", 
+            "title": "The polycomb-group gene Ezh2 is required for early mouse development", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "O'Carroll"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "S", 
+                    "surname": "Erhardt"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Pagani"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "SC", 
+                    "surname": "Barton"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "MA", 
+                    "surname": "Surani"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "T", 
+                    "surname": "Jenuwein"
+                }
+            ]
+        }, 
+        "bib46": {
+            "source": "J Struct Biol", 
+            "year": "2007", 
+            "title": "Automation of random conical tilt and orthogonal tilt data collection using feature-based correlation", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Yoshioka"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Pulokas"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Fellmann"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CS", 
+                    "surname": "Potter"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "RA", 
+                    "surname": "Milligan"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Carragher"
+                }
+            ]
+        }, 
+        "bib44": {
+            "source": "Proc Natl Acad Sci U S A", 
+            "year": "2010", 
+            "title": "Binding of different histone marks differentially regulates the activity and specificity of polycomb repressive complex 2 (PRC2)", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Xu"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Bian"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "W", 
+                    "surname": "Yang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Galka"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "H", 
+                    "surname": "Ouyang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Chen"
+                }
+            ]
+        }, 
+        "bib45": {
+            "source": "J Biol Chem", 
+            "year": "2004", 
+            "title": "Polycomb group suppressor of zeste 12 links heterochromatin protein 1alpha and enhancer of zeste 2", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "K", 
+                    "surname": "Yamamoto"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Sonoda"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Inokuchi"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "S", 
+                    "surname": "Shirasawa"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "T", 
+                    "surname": "Sasazuki"
+                }
+            ]
+        }, 
+        "bib42": {
+            "source": "J Struct Biol", 
+            "year": "1996", 
+            "title": "A new generation of the IMAGIC image processing system", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "van Heel"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "G", 
+                    "surname": "Harauz"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "EV", 
+                    "surname": "Orlova"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Schmidt"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Schatz"
+                }
+            ]
+        }, 
+        "bib43": {
+            "source": "J Struct Biol", 
+            "year": "2009", 
+            "title": "DoG Picker and TiltPicker: software tools to facilitate particle selection in single particle electron microscopy", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "NR", 
+                    "surname": "Voss"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CK", 
+                    "surname": "Yoshioka"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Radermacher"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CS", 
+                    "surname": "Potter"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Carragher"
+                }
+            ]
+        }, 
+        "bib40": {
+            "source": "Mol Cell Biol", 
+            "year": "2007", 
+            "title": "The N terminus of Drosophila ESC binds directly to histone H3 and is required for E(Z)-dependent trimethylation of H3 lysine 27", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "F", 
+                    "surname": "Tie"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CA", 
+                    "surname": "Stratton"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "RL", 
+                    "surname": "Kurzhals"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "PJ", 
+                    "surname": "Harte"
+                }
+            ]
+        }, 
+        "bib41": {
+            "source": "J Struct Biol", 
+            "year": "2005", 
+            "title": "Fourier shell correlation threshold criteria", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "van Heel"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Schatz"
+                }
+            ]
+        }, 
+        "bib11": {
+            "source": "Nat Cell Biol", 
+            "year": "2008", 
+            "title": "A model for transmission of the H3K27me3 epigenetic mark", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "KH", 
+                    "surname": "Hansen"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "AP", 
+                    "surname": "Bracken"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Pasini"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "N", 
+                    "surname": "Dietrich"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "SS", 
+                    "surname": "Gehani"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Monrad"
+                }
+            ]
+        }, 
+        "bib10": {
+            "source": "J Biol Chem", 
+            "year": "1999", 
+            "title": "Cloning and characterization of a novel zinc finger transcriptional repressor. A direct role of the zinc finger motif in repression", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "GP", 
+                    "surname": "He"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "S", 
+                    "surname": "Kim"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "HS", 
+                    "surname": "Ro"
+                }
+            ]
+        }, 
+        "bib13": {
+            "source": "Nucleic Acids Res", 
+            "year": "2009", 
+            "title": "AEBP2 as a potential targeting protein for Polycomb Repression Complex PRC2", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "H", 
+                    "surname": "Kim"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "K", 
+                    "surname": "Kang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Kim"
+                }
+            ]
+        }, 
+        "bib12": {
+            "source": "Mol Cell Biol", 
+            "year": "2005", 
+            "title": "Subunit contributions to histone methyltransferase activities of fly and worm polycomb group complexes", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "CS", 
+                    "surname": "Ketel"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "EF", 
+                    "surname": "Andersen"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "ML", 
+                    "surname": "Vargas"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Suh"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "S", 
+                    "surname": "Strome"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "JA", 
+                    "surname": "Simon"
+                }
+            ]
+        }, 
+        "bib15": {
+            "source": "Mol Cell", 
+            "year": "2004", 
+            "title": "Different EZH2-containing complexes target methylation of histone H1 or nucleosomal histone H3", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Kuzmichev"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "T", 
+                    "surname": "Jenuwein"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "P", 
+                    "surname": "Tempst"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Reinberg"
+                }
+            ]
+        }, 
+        "bib14": {
+            "source": "Genes Dev", 
+            "year": "2004", 
+            "title": "Silencing of human polycomb target genes is associated with methylation of histone H3 Lys 27", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Kirmizis"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "SM", 
+                    "surname": "Bartley"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Kuzmichev"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Margueron"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Reinberg"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Green"
+                }
+            ]
+        }, 
+        "bib39": {
+            "source": "J Struct Biol", 
+            "year": "2007", 
+            "title": "EMAN2: an extensible image processing suite for electron microscopy", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "G", 
+                    "surname": "Tang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "L", 
+                    "surname": "Peng"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "PR", 
+                    "surname": "Baldwin"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "DS", 
+                    "surname": "Mann"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "W", 
+                    "surname": "Jiang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "I", 
+                    "surname": "Rees"
+                }
+            ]
+        }, 
+        "bib38": {
+            "source": "J Struct Biol", 
+            "year": "2005", 
+            "title": "Automated molecular microscopy: the new Leginon system", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "C", 
+                    "surname": "Suloway"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Pulokas"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Fellmann"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Cheng"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "F", 
+                    "surname": "Guerra"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Quispe"
+                }
+            ]
+        }, 
+        "bib19": {
+            "source": "Nat Rev Genet", 
+            "year": "2010", 
+            "title": "Chromatin structure and the inheritance of epigenetic information", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Margueron"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Reinberg"
+                }
+            ]
+        }, 
+        "bib18": {
+            "source": "Ultramicroscopy", 
+            "year": "2005", 
+            "title": "ACE: automated CTF estimation", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "SP", 
+                    "surname": "Mallick"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Carragher"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CS", 
+                    "surname": "Potter"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "DJ", 
+                    "surname": "Kriegman"
+                }
+            ]
+        }, 
+        "bib35": {
+            "source": "Nat Protoc", 
+            "year": "2008", 
+            "title": "Image processing for electron microscopy single-particle analysis using XMIPP", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "SH", 
+                    "surname": "Scheres"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Nunez-Ramirez"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CO", 
+                    "surname": "Sorzano"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "JM", 
+                    "surname": "Carazo"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "R", 
+                    "surname": "Marabini"
+                }
+            ]
+        }, 
+        "bib16": {
+            "source": "J Struct Biol", 
+            "year": "2009", 
+            "title": "Appion: an integrated, database-driven pipeline to facilitate EM image processing", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "GC", 
+                    "surname": "Lander"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "SM", 
+                    "surname": "Stagg"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "NR", 
+                    "surname": "Voss"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Cheng"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Fellmann"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Pulokas"
+                }
+            ]
+        }, 
+        "bib33": {
+            "source": "J Struct Biol", 
+            "year": "2011", 
+            "title": "The beginning of a beautiful friendship: cross-linking/mass spectrometry and modelling of proteins and multi-protein complexes", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Rappsilber"
+                }
+            ]
+        }, 
+        "bib32": {
+            "source": "J Microsc", 
+            "year": "1987", 
+            "title": "Three-dimensional reconstruction from a single-exposure, random conical tilt series applied to the 50S ribosomal subunit of Escherichia coli", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Radermacher"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "T", 
+                    "surname": "Wagenknecht"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Verschoor"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Frank"
+                }
+            ]
+        }, 
+        "bib31": {
+            "source": "J Comput Chem", 
+            "year": "2004", 
+            "title": "UCSF Chimera\u2014a visualization system for exploratory research and analysis", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "EF", 
+                    "surname": "Pettersen"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "TD", 
+                    "surname": "Goddard"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "CC", 
+                    "surname": "Huang"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "GS", 
+                    "surname": "Couch"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "DM", 
+                    "surname": "Greenblatt"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "EC", 
+                    "surname": "Meng"
+                }
+            ]
+        }, 
+        "bib30": {
+            "source": "Ultramicroscopy", 
+            "year": "1994", 
+            "title": "The ribosome at improved resolution: new techniques for merging and orientation refinement in 3D cryo-electron microscopy of biological particles", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "PA", 
+                    "surname": "Penczek"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "RA", 
+                    "surname": "Grassucci"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Frank"
+                }
+            ]
+        }, 
+        "bib37": {
+            "source": "Cell", 
+            "year": "2007", 
+            "title": "Genome regulation by polycomb and trithorax proteins", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Schuettengruber"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "D", 
+                    "surname": "Chourrout"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Vervoort"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "B", 
+                    "surname": "Leblanc"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "G", 
+                    "surname": "Cavalli"
+                }
+            ]
+        }, 
+        "bib36": {
+            "source": "Mol Cell", 
+            "year": "2011", 
+            "title": "Histone methylation by PRC2 is inhibited by active chromatin marks", 
+            "authors": [
+                {
+                    "group-type": "author", 
+                    "given-names": "FW", 
+                    "surname": "Schmitges"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "AB", 
+                    "surname": "Prusty"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "M", 
+                    "surname": "Faty"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "A", 
+                    "surname": "Stutzer"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "GM", 
+                    "surname": "Lingaraju"
+                }, 
+                {
+                    "group-type": "author", 
+                    "given-names": "J", 
+                    "surname": "Aiwazian"
+                }
+            ]
+        }
+    }, 
+    "impact-statement": "Electron microscopy has been used to produce the first three-dimensional image of the PRC2 gene-silencing complex.", 
+    "publish": "1", 
+    "article-version-id": "00005.1", 
+    "volume": "1", 
+    "keywords": {
+        "author-keywords": [
+            "cryo-EM", 
+            "Gene silencing", 
+            "labeling", 
+            "chemical cross-linking", 
+            "chromatin"
+        ], 
+        "research-organism": [
+            "Human"
+        ]
+    }, 
+    "doi": "10.7554/eLife.00005", 
+    "version": "1", 
+    "referenced": {
+        "present-address": {
+            "pa1": "Novartis Vaccines and Diagnostics, Cambridge, United States"
+        }, 
+        "competing-interest": {
+            "conf1": "The authors have declared that no competing interests exist"
+        }, 
+        "funding": {
+            "par-7": {
+                "institution": "Howard Hughes Medical Institute"
+            }, 
+            "par-6": {
+                "institution": "EMBO Fellowship"
+            }, 
+            "par-5": {
+                "institution": "Marie Curie Fellowship"
+            }, 
+            "par-4": {
+                "institution": "Damon Runyon Cancer Research Foundation Fellowship"
+            }, 
+            "par-3": {
+                "award-id": "233226", 
+                "institution": "ERC advanced grant \u201cProteomics v3.0\u201d"
+            }, 
+            "par-2": {
+                "award-id": "HEALTH-F4-2008-201648", 
+                "institution": "European Union Seventh Framework Program PROSPECTS"
+            }, 
+            "par-1": {
+                "award-id": "GM63072", 
+                "institution": "NIGMS"
+            }
+        }, 
+        "related-object": {}, 
+        "affiliation": {
+            "aff5": {
+                "dept": null, 
+                "city": "Berkeley", 
+                "institution": "Howard Hughes Medical Institute, UC Berkeley", 
+                "country": "United States"
+            }, 
+            "aff4": {
+                "dept": "Faculty of Science", 
+                "city": "Zurich", 
+                "institution": "University of Zurich", 
+                "country": "Switzerland"
+            }, 
+            "aff3": {
+                "dept": "Department of Biology, Institute of Molecular Systems Biology", 
+                "city": "Zurich", 
+                "institution": "ETH Zurich", 
+                "country": "Switzerland"
+            }, 
+            "aff2": {
+                "dept": "Life Sciences Division", 
+                "city": "Berkeley", 
+                "institution": "Lawrence Berkeley National Laboratory", 
+                "country": "United States"
+            }, 
+            "aff1": {
+                "dept": "Department of Molecular and Cell Biology", 
+                "city": "Berkeley", 
+                "institution": "University of California", 
+                "country": "United States"
+            }
+        }, 
+        "equal-contrib": {}, 
+        "contribution": {
+            "con1": "CC: Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article", 
+            "con2": "GL: Acquisition of data, Analysis and interpretation of data, Drafting or revising the article", 
+            "con3": "AM: Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article", 
+            "con4": "FH: Acquisition of data, Analysis and interpretation of data, Drafting or revising the article", 
+            "con5": "RA: Conception and design, Analysis and interpretation of data, Drafting or revising the article", 
+            "con6": "EN: Conception and design, Analysis and interpretation of data, Drafting or revising the article"
+        }, 
+        "email": {
+            "cor1": "enogales@lbl.gov", 
+            "cor2": "claudio.ciferri@novartis.com"
+        }
+    }, 
+    "path": "content/1/e00005", 
+    "fragments": [
+        {
+            "path": "content/1/e00005/abstract-1", 
+            "doi": "10.7554/eLife.00005.001", 
+            "type": "abstract"
+        }, 
+        {
+            "path": "content/1/e00005/abstract-2", 
+            "doi": "10.7554/eLife.00005.002", 
+            "type": "abstract", 
+            "title": "eLife digest"
+        }, 
+        {
+            "path": "content/1/e00005/F1", 
+            "doi": "10.7554/eLife.00005.003", 
+            "type": "fig", 
+            "title": "Figure 1."
+        }, 
+        {
+            "path": "content/1/e00005/F2", 
+            "doi": "10.7554/eLife.00005.004", 
+            "type": "fig", 
+            "title": "Figure 2."
+        }, 
+        {
+            "path": "content/1/e00005/F3", 
+            "doi": "10.7554/eLife.00005.005", 
+            "type": "fig", 
+            "title": "Figure 3."
+        }, 
+        {
+            "path": "content/1/e00005/F4", 
+            "doi": "10.7554/eLife.00005.006", 
+            "type": "fig", 
+            "title": "Figure 4."
+        }, 
+        {
+            "path": "content/1/e00005/F5", 
+            "doi": "10.7554/eLife.00005.007", 
+            "type": "fig", 
+            "title": "Figure 5."
+        }, 
+        {
+            "path": "content/1/e00005/F6", 
+            "doi": "10.7554/eLife.00005.008", 
+            "type": "fig", 
+            "title": "Figure 6."
+        }, 
+        {
+            "path": "content/1/e00005/F7", 
+            "doi": "10.7554/eLife.00005.009", 
+            "type": "fig", 
+            "title": "Figure 7."
+        }, 
+        {
+            "path": "content/1/e00005/F8", 
+            "doi": "10.7554/eLife.00005.010", 
+            "type": "fig", 
+            "title": "Figure 8."
+        }, 
+        {
+            "path": "content/1/e00005/F9", 
+            "fragments": [
+                {
+                    "path": "content/1/e00005/F9/F10", 
+                    "doi": "10.7554/eLife.00005.012", 
+                    "type": "fig", 
+                    "title": "Figure 9\u2014figure supplement 1."
+                }
+            ], 
+            "doi": "10.7554/eLife.00005.011", 
+            "type": "fig", 
+            "title": "Figure 9."
+        }, 
+        {
+            "path": "content/1/e00005/media-1", 
+            "doi": "10.7554/eLife.00005.013", 
+            "type": "media", 
+            "title": "Movie 1."
+        }, 
+        {
+            "path": "content/1/e00005/F11", 
+            "doi": "10.7554/eLife.00005.014", 
+            "type": "fig", 
+            "title": "Figure 10."
+        }, 
+        {
+            "path": "content/1/e00005/F12", 
+            "doi": "10.7554/eLife.00005.015", 
+            "type": "fig", 
+            "title": "Figure 11."
+        }, 
+        {
+            "path": "content/1/e00005/media-2", 
+            "doi": "10.7554/eLife.00005.016", 
+            "type": "media", 
+            "title": "Movie 2."
+        }, 
+        {
+            "path": "content/1/e00005/DC1", 
+            "doi": "10.7554/eLife.00005.017", 
+            "type": "supplementary-material", 
+            "title": "Movie 2\u2014source code 1."
+        }, 
+        {
+            "path": "content/1/e00005/F13", 
+            "doi": "10.7554/eLife.00005.018", 
+            "type": "fig", 
+            "title": "Figure 12."
+        }, 
+        {
+            "path": "content/1/e00005/F14", 
+            "doi": "10.7554/eLife.00005.019", 
+            "type": "fig", 
+            "title": "Figure 13."
+        }, 
+        {
+            "path": "content/1/e00005/DC2", 
+            "doi": "10.7554/eLife.00005.020", 
+            "type": "supplementary-material", 
+            "title": "Supplementary file 1."
+        }, 
+        {
+            "path": "content/1/e00005/1", 
+            "doi": "10.7554/eLife.00005.021", 
+            "type": "sub-article", 
+            "contributors": [
+                {
+                    "surname": "Struhl", 
+                    "given-names": "Kevin", 
+                    "role": "Reviewing editor", 
+                    "affiliations": [
+                        {
+                            "country": "United States", 
+                            "institution": "Harvard Medical School"
+                        }
+                    ], 
+                    "type": "editor"
+                }
+            ], 
+            "title": "Decision letter"
+        }, 
+        {
+            "path": "content/1/e00005/2", 
+            "doi": "10.7554/eLife.00005.022", 
+            "type": "sub-article", 
+            "title": "Author response"
+        }
+    ], 
+    "article-id": "10.7554/eLife.00005", 
+    "categories": {
+        "heading": [
+            "Biophysics and structural biology"
+        ], 
+        "display-channel": [
+            "Research article"
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{% extends "page-base.html" %}
+
+{% block page-title %}Article list{% endblock %}
+
+{% block page-body %}
+
+{% if article_list %}
+    {% for article in article_list %}
+    <li>{{ article }}</li>
+    {% endfor %}
+{% else %}
+<p>No articles found.</p>
+
+{% endif %}
+
+{% endblock %}

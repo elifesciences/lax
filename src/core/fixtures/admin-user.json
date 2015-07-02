@@ -1,0 +1,20 @@
+[
+{
+    "fields": {
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2015-07-02T16:43:50.046Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$20000$VmdP8D6SmF6z$mUB5zIXx5+/QirjSkPx1dXB3TT81qoQ++ELTlTe/FUg=",
+        "email": "admin@example.prg",
+        "date_joined": "2015-07-02T16:43:18.867Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+}
+]

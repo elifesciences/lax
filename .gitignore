@@ -1,0 +1,8 @@
+*.pyc
+*~
+*.sqlite*
+*.orig
+*.log
+media/**
+collected-static/**
+venv
