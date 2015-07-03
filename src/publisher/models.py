@@ -54,7 +54,8 @@ class Article(models.Model):
 
 def attr_type_choices():
     return [
-        ('char', 'String'),
+        ('char', 'String'), # first element is the default
+
         ('int', 'Integer'),
         ('float', 'Float'),
         ('date', 'Date'),
@@ -63,6 +64,8 @@ def attr_type_choices():
         #('td', 'TimeDelta'),
         #('ref', 'ACME Identifing Service'),
     ]
+
+DEFAULT_ATTR_TYPE = attr_type_choices()[0][0]
 
 class AttributeType(models.Model):
     name = models.CharField(max_length=50)
@@ -76,6 +79,7 @@ class AttributeType(models.Model):
         return u'<AttributeType %s (%s)>' % (self.name, self.type)
 
 class ArticleAttribute(models.Model):
+    article = models.ForeignKey(Article)
     key = models.ForeignKey(AttributeType)
     value = models.CharField(max_length=255)
 
