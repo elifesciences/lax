@@ -18,7 +18,8 @@ against Articles.
 
 ## Installation
 
-    $ ./update-install.sh
+    $ git clone https://github.com/elifesciences/lax
+    $ cd lax && ./update-install.sh
 
 ## Updating
 
@@ -30,7 +31,7 @@ The admin username and password are "admin" and "admin. This user can also be
 created with:
 
     $ ./src/manage.py loaddata src/publisher/fixtures/admin-user.json
-    
+
 If you are running the Dockerized version of Lax this admin user already exists.
 
 ## Running
@@ -38,6 +39,11 @@ If you are running the Dockerized version of Lax this admin user already exists.
     $ python src/manage.py runserver
     $ firefox http://127.0.0.1:8000/admin
     
+## Loading Article JSON
+
+    $ ./load-json.sh /path/to/json/dir/
+    
 ## Testing
 
-    $ ./src/manage.py test src/
+    $ ./test.sh
+    
