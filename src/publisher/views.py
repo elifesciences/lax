@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from annoying.decorators import render_to
 import models, logic
 from django.views.decorators.http import require_POST
@@ -36,4 +36,20 @@ def import_article(request):
     except Exception, e:
         logger.exception("unhandled exception!")
         # unhandled exception, raise 500
+        return response(500)
+
+@require_POST
+def add_attribute(request, doi, version, extant_only=True):
+    if not version:
+        version = 1
+    try:
+        article = get_object_or_404(models.Article, doi=doi, version=version)
+        keyval = json.loads(request.body)
+        logic.add_attribute_to_article(article, keyval['key'], keyval['val'], extant_only)
+        return response(200)
+    except models.AttributeType.DoesNotExist:
+        # tried to add a new attribute without turning extant_only off
+        return response(400)
+    except Exception, e:
+        logger.exception("unhandled exception attempting to add attribute to an article")
         return response(500)

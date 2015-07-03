@@ -53,6 +53,18 @@ class ImportArticleFromJSONView(BaseCase):
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.Article.objects.count())
 
+        # TODO: test the data correctness!!!
+
+
+    def test_article_created_view_with_bad_payload(self):
+        "the view raises a 400 error if the given payload cannot be deserialized from json"
+        pass
+
+    def test_article_created_view_with_incorrect_payload(self):
+        "the view raises a 400 error if the given payload does not contain the data we expect"
+        pass
+        
+
 class ArticleAttributeCreation(BaseCase):
     def setUp(self):
         self.journal = logic.journal()    
@@ -107,3 +119,50 @@ class ArticleAttributeCreation(BaseCase):
         self.assertRaises(models.AttributeType.DoesNotExist, logic.add_attribute_to_article, self.article, "foo", "bar")
 
 
+class ArticleAttributionCreationView(BaseCase):
+    def setUp(self):
+        self.c = Client()
+        doc = 'elife00005.xml.json'
+        self.json_fixture = os.path.join(self.this_dir, 'fixtures', doc)
+
+    def tearDown(self):
+        pass
+
+    def test_article_created_view(self):
+        "an article can be import from JSON via a view"
+        self.assertEqual(0, models.Article.objects.count())
+        json_data = open(self.json_fixture, 'r').read()
+        resp = self.c.post(reverse('import-article'), json_data, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.Article.objects.count())
+
+    def test_add_attribute_to_article_view(self):
+        ""
+        article_data = json.load(open(self.json_fixture, 'r'))
+        expected_data = {
+            'key': 'Article Type',
+            'val': article_data['article-type'],
+        }
+        # create the article
+        dirty_article = ingest.import_article(logic.journal(), article_data)
+        
+        # create the expected AttributeType
+        logic.create_attribute(name=expected_data['key'], type=models.DEFAULT_ATTR_TYPE)
+
+        # craft the url
+        kwargs = utils.subdict(article_data, ['doi', 'version'])
+        resp = self.c.post(reverse('add-attribute-to-article', kwargs=kwargs), json.dumps(expected_data), content_type='application/json')
+        
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.ArticleAttribute.objects.count())
+        self.assertEqual(1, models.AttributeType.objects.count())
+        
+        # TODO: test the data correctness!!!
+
+    def test_add_attribute_to_article_view_with_bad_payload(self):
+        "the view should raise a 400 error if the payload cannot be deserialized from json"
+        pass
+
+    def test_add_attribute_to_article_view_with_incorrect_payload(self):
+        "the view should raise a 400 error if the payload doesn't contain the values we expect"
+        pass
