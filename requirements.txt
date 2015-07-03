@@ -1,2 +1,5 @@
 Django==1.8.2
 django-annoying==0.8.2
+prospector==0.10.2
+pylint==1.4.4
+pylint-django==0.6.1
