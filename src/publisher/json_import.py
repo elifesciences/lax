@@ -9,6 +9,7 @@ def import_article(journal, article_json_path):
     article = json.load(open(article_json_path, 'r'))
     kwargs = subdict(article, ['title', 'version', 'doi'])
     kwargs['journal'] = journal
+    kwargs['version'] = int(kwargs['version'])
     art_id = subdict(kwargs, ['doi', 'version'])
     try:
         article_obj = models.Article.objects.get(**art_id)
@@ -19,4 +20,4 @@ def import_article(journal, article_json_path):
     article_obj = models.Article(**kwargs)
     article_obj.save()
     logger.info("created new Article %s" % article_obj)
-    return article
+    return article_obj
