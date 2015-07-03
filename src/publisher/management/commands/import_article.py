@@ -1,7 +1,7 @@
 import os, glob, pprint
 from core import utils as core_utils
 from django.core.management.base import BaseCommand
-from publisher import json_import as ingestor, logic
+from publisher import ingestor, logic
 
 import logging
 logger = logging.getLogger(__name__)

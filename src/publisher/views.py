@@ -4,7 +4,7 @@ from annoying.decorators import render_to
 import models, logic
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
-import json_import as ingestor
+import ingestor
 
 import logging
 logger = logging.getLogger(__name__)

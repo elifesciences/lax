@@ -1,5 +1,5 @@
 import os, json
-from publisher import json_import as ingest, utils, models, logic
+from publisher import ingestor, utils, models, logic
 from base import BaseCase
 import logging
 
@@ -20,7 +20,7 @@ class ImportArticleFromJSON(BaseCase):
     def test_article_created(self):
         "an article can be imported from JSON"
         self.assertEqual(0, models.Article.objects.count())
-        ingest.import_article_from_json_path(self.journal, self.json_fixture)
+        ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         self.assertEqual(1, models.Article.objects.count())
 
     def test_article_data(self):
@@ -31,7 +31,7 @@ class ImportArticleFromJSON(BaseCase):
             'doi': "10.7554/eLife.00005",
             'journal': self.journal,
         }
-        dirty_article = ingest.import_article_from_json_path(self.journal, self.json_fixture)
+        dirty_article = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         clean_article = models.Article.objects.get(pk=dirty_article.pk)
         for attr, expected_value in expected_data.items():
             self.assertEqual(getattr(clean_article, attr), expected_value)
@@ -144,7 +144,7 @@ class ArticleAttributionCreationView(BaseCase):
             'val': article_data['article-type'],
         }
         # create the article
-        dirty_article = ingest.import_article(logic.journal(), article_data)
+        dirty_article = ingestor.import_article(logic.journal(), article_data)
         
         # create the expected AttributeType
         logic.create_attribute(name=expected_data['key'], type=models.DEFAULT_ATTR_TYPE)
