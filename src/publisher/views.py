@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from annoying.decorators import render_to
 import models, logic
 from django.views.decorators.http import require_POST
@@ -33,7 +33,7 @@ def import_article(request):
     except ValueError:
         # json couldn't be decoded, user fail, raise 400
         return response(400)
-    except Exception, e:
+    except Exception:
         logger.exception("unhandled exception!")
         # unhandled exception, raise 500
         return response(500)
@@ -50,6 +50,6 @@ def add_attribute(request, doi, version, extant_only=True):
     except models.AttributeType.DoesNotExist:
         # tried to add a new attribute without turning extant_only off
         return response(400)
-    except Exception, e:
+    except Exception:
         logger.exception("unhandled exception attempting to add attribute to an article")
         return response(500)

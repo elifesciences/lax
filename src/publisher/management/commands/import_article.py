@@ -1,7 +1,7 @@
 import os, glob, pprint
 from core import utils as core_utils
-from django.core.management.base import BaseCommand, CommandError
-from publisher import models, json_import as ingestor, logic
+from django.core.management.base import BaseCommand
+from publisher import json_import as ingestor, logic
 
 import logging
 logger = logging.getLogger(__name__)
@@ -37,9 +37,9 @@ class Command(BaseCommand):
         def _import(path):
             print 'importing',path,'...'
             try:
-                ingestor.import_article(journal, path)
+                ingestor.import_article_from_json_path(journal, path)
                 success = True
-            except Exception, e:
+            except:
                 logger.exception("failed to import article")
                 success = False
             return path, success

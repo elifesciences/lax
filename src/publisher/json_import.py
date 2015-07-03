@@ -1,4 +1,4 @@
-import os, json
+import json
 import models
 from utils import subdict
 import logging
