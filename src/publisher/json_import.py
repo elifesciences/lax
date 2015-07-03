@@ -5,9 +5,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def import_article(journal, article_json_path):
-    article = json.load(open(article_json_path, 'r'))
-    kwargs = subdict(article, ['title', 'version', 'doi'])
+def import_article(journal, article_data):    
+    kwargs = subdict(article_data, ['title', 'version', 'doi'])
     kwargs['journal'] = journal
     kwargs['version'] = int(kwargs['version'])
     art_id = subdict(kwargs, ['doi', 'version'])
@@ -21,3 +20,7 @@ def import_article(journal, article_json_path):
     article_obj.save()
     logger.info("created new Article %s" % article_obj)
     return article_obj
+
+def import_article_from_json_path(journal, article_json_path):
+    "convenience function. loads the article data from a json file"
+    return import_article(journal, json.load(open(article_json_path, 'r')))

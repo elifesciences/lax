@@ -1,17 +1,16 @@
-import os, time
+import os, json
 from publisher import json_import as ingest, utils, models, logic
-
 from base import BaseCase
-
 import logging
+
+from django.test import Client
+from django.core.urlresolvers import reverse
 
 logging.getLogger("").setLevel(logging.WARNING) # suppresses debug, info messages
 
 class ImportArticleFromJSON(BaseCase):
     def setUp(self):
         self.journal = logic.journal()
-        #self.test_doc1 = os.path.join(self.this_dir, 'fixtures/test-doc.txt')
-        #self.test_doc1_name = 'fixtures/test-doc.txt'
         doc = 'elife00005.xml.json'
         self.json_fixture = os.path.join(self.this_dir, 'fixtures', doc)
 
@@ -21,7 +20,7 @@ class ImportArticleFromJSON(BaseCase):
     def test_article_created(self):
         "an article can be imported from JSON"
         self.assertEqual(0, models.Article.objects.count())
-        ingest.import_article(self.journal, self.json_fixture)
+        ingest.import_article_from_json_path(self.journal, self.json_fixture)
         self.assertEqual(1, models.Article.objects.count())
 
     def test_article_data(self):
@@ -32,10 +31,27 @@ class ImportArticleFromJSON(BaseCase):
             'doi': "10.7554/eLife.00005",
             'journal': self.journal,
         }
-        dirty_article = ingest.import_article(self.journal, self.json_fixture)
+        dirty_article = ingest.import_article_from_json_path(self.journal, self.json_fixture)
         clean_article = models.Article.objects.get(pk=dirty_article.pk)
         for attr, expected_value in expected_data.items():
             self.assertEqual(getattr(clean_article, attr), expected_value)
+
+class ImportArticleFromJSONView(BaseCase):
+    def setUp(self):
+        self.c = Client()
+        doc = 'elife00005.xml.json'
+        self.json_fixture = os.path.join(self.this_dir, 'fixtures', doc)
+
+    def tearDown(self):
+        pass
+
+    def test_article_created_view(self):
+        "an article can be import from JSON via a view"
+        self.assertEqual(0, models.Article.objects.count())
+        json_data = open(self.json_fixture, 'r').read()
+        resp = self.c.post(reverse('import-article'), json_data, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.Article.objects.count())
 
 class ArticleAttributeCreation(BaseCase):
     def setUp(self):
@@ -54,7 +70,7 @@ class ArticleAttributeCreation(BaseCase):
             'name': "Publication Date",
             'type': 'datetime',
             'description': "date and time of an article's publication. time component is optional and defaults to 00:00:00"
-        }        
+        }
 
     def tearDown(self):
         pass
@@ -88,4 +104,6 @@ class ArticleAttributeCreation(BaseCase):
 
     def test_add_article_attribute_strict(self):
         "attributes cannot be added to an Article unless attribute type already exists"
-        self.assertRaises(models.AttributeType.DoesNotExist, logic.add_attribute_to_article, self.article, "foo", "bar")        
+        self.assertRaises(models.AttributeType.DoesNotExist, logic.add_attribute_to_article, self.article, "foo", "bar")
+
+
