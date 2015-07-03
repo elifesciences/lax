@@ -27,7 +27,6 @@ def response(status):
 @require_POST
 def import_article(request):
     try:
-        logger.warning(request.body)
         article_data = json.loads(request.body)
         ingestor.import_article(logic.journal(), article_data)
         return response(200)
