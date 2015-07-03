@@ -32,7 +32,6 @@ def import_article(request):
         return response(200)
     except ValueError:
         # json couldn't be decoded, user fail, raise 400
-        raise
         return response(400)
     except Exception, e:
         logger.exception("unhandled exception!")
