@@ -25,12 +25,16 @@ class ImportArticleFromJSON(BaseCase):
         self.assertEqual(1, models.Article.objects.count())
 
     def test_article_data(self):
+        "Article object returned from json import matches our expectations"
         expected_data = {
             'title':  "Molecular architecture of human polycomb repressive complex 2",
             'version': 1,
             'doi': "10.7554/eLife.00005",
             'journal': self.journal,
         }
-        article = ingest.import_article(self.journal, self.json_fixture)
+        dirty_article = ingest.import_article(self.journal, self.json_fixture)
+        clean_article = models.Article.objects.get(pk=dirty_article.pk)
         for attr, expected_value in expected_data.items():
-            self.assertEqual(getattr(article, attr), expected_value)
+            self.assertEqual(getattr(clean_article, attr), expected_value)
+
+    
