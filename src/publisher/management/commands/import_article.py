@@ -39,11 +39,17 @@ class Command(BaseCommand):
             try:
                 ingestor.import_article_from_json_path(journal, path)
                 success = True
+            except KeyboardInterrupt:
+                raise
             except:
                 logger.exception("failed to import article")
                 success = False
             return path, success
 
-        journal = logic.journal()
-        results = map(_import, path_list)
-        pprint.pprint(results)
+        try:
+            journal = logic.journal()
+            results = map(_import, path_list)
+            pprint.pprint(results)
+        except KeyboardInterrupt:
+            print
+            exit(1)
