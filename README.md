@@ -43,6 +43,18 @@ If you are running the Dockerized version of Lax this admin user already exists.
 
     $ ./load-json.sh /path/to/json/dir/
     
+or, via http:
+    
+    $ curl -vX POST http://127.0.0.1:8000/import-article/ \
+      --data @article.json \
+      --header "Content-Type: application/json"
+
+## Adding Article Attributes
+
+    $ curl -vX POST http://127.0.0.1:8000/add-attribute-to-article/<doi>/<version>/ \
+      --data {"key": "Date Published", "val": "1997-08-29 06:14:00+UTC"} \
+      --header "Content-Type: application/json"
+
 ## Testing
 
     $ ./test.sh
