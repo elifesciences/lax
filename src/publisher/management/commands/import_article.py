@@ -14,7 +14,7 @@ def resolve_path(p):
     return p
 
 class Command(BaseCommand):
-    help = 'Closes the specified poll for voting'
+    help = 'Imports a single or multiple article JSON files or directories of files'
 
     def add_arguments(self, parser):
         parser.add_argument('paths', nargs='+', type=str)
