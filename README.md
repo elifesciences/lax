@@ -23,7 +23,7 @@ against Articles.
 
 ## Updating
 
-    $ ./update-install.sh
+    $ ./install.sh
 
 ## Credentials
 
