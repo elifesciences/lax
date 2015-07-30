@@ -19,7 +19,7 @@ against Articles.
 ## Installation
 
     $ git clone https://github.com/elifesciences/lax
-    $ cd lax && ./update-install.sh
+    $ ./lax/install.sh
 
 ## Updating
 
