@@ -1,8 +1,8 @@
 import os, requests
 import models
 from django.conf import settings
-
 import logging
+
 logger = logging.getLogger(__name__)
 
 def journal(journal_name=settings.PRIMARY_JOURNAL):
