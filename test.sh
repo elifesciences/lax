@@ -1,4 +1,3 @@
 #!/bin/bash
-set -e
-. venv/bin/activate
+source install.sh
 ./src/manage.py test src/

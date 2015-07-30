@@ -1,6 +1,5 @@
 #!/bin/bash
-set -e
-. venv/bin/activate
+source install.sh
 
 control_c() {
     echo "interrupt caught, exiting. this script can be run multiple times ..."
