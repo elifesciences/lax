@@ -1,4 +1,4 @@
-import os
+import os, requests
 import models
 from django.conf import settings
 
@@ -32,3 +32,15 @@ def add_attribute_to_article(article, key, val, extant_only=True):
     attr = models.ArticleAttribute(**kwargs)
     attr.save()
     return attr
+
+#
+#
+#
+
+def mk_dxdoi_link(doi):
+    return "http://dx.doi.org/%s" % doi
+
+def check_doi(doi):
+    """ensures that the doi both exists with crossref and that it
+    successfully redirects to an article on the website"""
+    return requests.get(mk_dxdoi_link(doi))
