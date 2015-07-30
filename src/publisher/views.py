@@ -24,32 +24,42 @@ def response(status):
     resp.status_code = status
     return resp
 
-@require_POST
-def import_article(request):
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+def rest_response(status, **rest):
+    msg = 'success'
+    ec = str(status)[0]
+    if ec == '4':
+        msg = 'warning'
+    elif ec == '5':
+        msg = 'error'
+    data = {'message': msg}
+    data.update(rest)
+    return Response(data, status=status)
+
+
+
+@api_view(['POST'])
+def import_article(rest_request):
     try:
-        article_data = json.loads(request.body)
-        ingestor.import_article(logic.journal(), article_data)
-        return response(200)
-    except ValueError:
-        # json couldn't be decoded, user fail, raise 400
-        return response(400)
+        ingestor.import_article(logic.journal(), rest_request.data)
+        return rest_response(200)
     except Exception:
         logger.exception("unhandled exception!")
-        # unhandled exception, raise 500
-        return response(500)
+        return rest_response(500)
 
-@require_POST
-def add_attribute(request, doi, version, extant_only=True):
-    if not version:
-        version = 1
+@api_view(['POST'])
+def add_attribute(rest_request, doi, extant_only=True):
     try:
-        article = get_object_or_404(models.Article, doi=doi, version=version)
-        keyval = json.loads(request.body)
+        article = get_object_or_404(models.Article, doi=doi)
+        keyval = rest_request.data
         logic.add_attribute_to_article(article, keyval['key'], keyval['val'], extant_only)
-        return response(200)
+        return rest_response(200)
     except models.AttributeType.DoesNotExist:
         # tried to add a new attribute without turning extant_only off
-        return response(400)
+        return rest_response(400)
     except Exception:
         logger.exception("unhandled exception attempting to add attribute to an article")
-        return response(500)
+        return rest_response(500)

@@ -36,7 +36,7 @@ class ImportArticleFromJSON(BaseCase):
         for attr, expected_value in expected_data.items():
             self.assertEqual(getattr(clean_article, attr), expected_value)
 
-class ImportArticleFromJSONView(BaseCase):
+class ImportArticleFromJSONViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
         doc = 'elife00005.xml.json'
@@ -54,7 +54,6 @@ class ImportArticleFromJSONView(BaseCase):
         self.assertEqual(1, models.Article.objects.count())
 
         # TODO: test the data correctness!!!
-
 
     def test_article_created_view_with_bad_payload(self):
         "the view raises a 400 error if the given payload cannot be deserialized from json"
@@ -119,7 +118,7 @@ class ArticleAttributeCreation(BaseCase):
         self.assertRaises(models.AttributeType.DoesNotExist, logic.add_attribute_to_article, self.article, "foo", "bar")
 
 
-class ArticleAttributionCreationView(BaseCase):
+class ArticleAttributionCreationViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
         doc = 'elife00005.xml.json'
@@ -128,16 +127,7 @@ class ArticleAttributionCreationView(BaseCase):
     def tearDown(self):
         pass
 
-    def test_article_created_view(self):
-        "an article can be import from JSON via a view"
-        self.assertEqual(0, models.Article.objects.count())
-        json_data = open(self.json_fixture, 'r').read()
-        resp = self.c.post(reverse('import-article'), json_data, content_type="application/json")
-        self.assertEqual(200, resp.status_code)
-        self.assertEqual(1, models.Article.objects.count())
-
     def test_add_attribute_to_article_view(self):
-        ""
         article_data = json.load(open(self.json_fixture, 'r'))
         expected_data = {
             'key': 'Article Type',
@@ -150,7 +140,7 @@ class ArticleAttributionCreationView(BaseCase):
         logic.create_attribute(name=expected_data['key'], type=models.DEFAULT_ATTR_TYPE)
 
         # craft the url
-        kwargs = utils.subdict(article_data, ['doi', 'version'])
+        kwargs = utils.subdict(article_data, ['doi'])
         resp = self.c.post(reverse('add-attribute-to-article', kwargs=kwargs), json.dumps(expected_data), content_type='application/json')
         
         self.assertEqual(200, resp.status_code)
