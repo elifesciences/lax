@@ -53,24 +53,41 @@ def get_article(rest_request, doi):
 @api_view(['POST'])
 def import_article(rest_request):
     try:
-        ingestor.import_article(logic.journal(), rest_request.data)
-        return rest_response(200)
+        article_obj = ingestor.import_article(logic.journal(), rest_request.data)
+        return Response({'doi': article_obj.doi})
     except Exception:
         logger.exception("unhandled exception!")
         return rest_response(500)
 
-@api_view(['GET', 'POST'])
-def article_attribute(rest_request, doi, extant_only=True):
+
+
+
+class ArticleAttributeSerializer(szr.Serializer):
+    attribute = szr.CharField(max_length=50)
+    attribute_value = szr.CharField(max_length=255)
+
+@api_view(['POST'])
+def add_article_attribute(rest_request, doi, extant_only=True):
+    """
+    asdf
+    ---
+    request_serializer: ArticleAttributeSerializer
+    """
     article = get_object_or_404(models.Article, doi=doi)
     keyval = rest_request.data
-    # fetch the attribute
-    if rest_request.method == 'GET':
-        data = {keyval['key']: logic.get_attribute(article, keyval['key'])}
-        return rest_response(200, data)
-
-    # update the attribute
-    logic.add_attribute_to_article(article, keyval['key'], keyval['val'], extant_only)
-    data = {keyval['key']: logic.get_attribute(article, keyval['key'])}
-    return rest_response(200, data)
+    key, val = keyval['attribute'], keyval['attribute_value']
+    logic.add_attribute_to_article(article, key, val, extant_only)
+    data = {key: logic.get_attribute(article, key)}
+    return Response(data)
         
+@api_view(['GET'])
+def get_article_attribute(rest_request, doi, attribute, extant_only=True):
+    article = get_object_or_404(models.Article, doi=doi)
+    val = logic.get_attribute(article, attribute)
+    data = {
+        'doi': article.doi,
+        'attribute': attribute,
+        'attribute_value': val,
+        attribute: val}
+    return Response(data)
     

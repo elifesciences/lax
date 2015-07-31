@@ -75,6 +75,7 @@ DEFAULT_ATTR_TYPE = attr_type_choices()[0][0]
 
 class AttributeType(models.Model):
     name = models.CharField(max_length=50)
+    slug = AutoSlugField(populate_from='name')
     type = models.CharField(max_length=10, choices=attr_type_choices())
     description = models.TextField(blank=True, null=True)
 

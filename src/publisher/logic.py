@@ -39,7 +39,7 @@ def get_attribute(article_obj, attr):
     if hasattr(article_obj, attr):
         return getattr(article_obj, attr, None)
     try:
-        article_obj.articleattribute_set.filter(key__name=attr)
+        article_obj.articleattribute_set.get(key__slug=attr)
     except models.ArticleAttribute.DoesNotExist:
         return None
         

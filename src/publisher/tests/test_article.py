@@ -147,7 +147,39 @@ class ArticleAttributeCreation(BaseCase):
         "attributes cannot be added to an Article unless attribute type already exists"
         self.assertRaises(models.AttributeType.DoesNotExist, logic.add_attribute_to_article, self.article, "foo", "bar")
 
-class ArticleAttributionCreationViaAPI(BaseCase):
+class ArticleAttributeInfoViaAPI(BaseCase):
+    def setUp(self):
+        self.c = Client()
+        doc = 'elife00005.xml.json'
+        article_data = json.load(open(os.path.join(self.this_dir, 'fixtures', doc), 'r'))
+        self.article_obj = ingestor.import_article(logic.journal(), article_data)
+        
+    def tearDown(self):
+        pass
+
+    def test_get_simple_article_attribute(self):
+        kwargs = {'doi': self.article_obj.doi, 'attribute': 'title'}
+        url = reverse('api-get-article-attribute', kwargs=kwargs)
+        expected_data = {
+            'doi': self.article_obj.doi,
+            'attribute': 'title',
+            'attribute_value': self.article_obj.title,
+            'title': self.article_obj.title,
+        }
+
+        resp = self.c.get(url)
+
+        print 'got',resp
+        
+        self.assertEqual(resp.data, expected_data)
+
+
+    def test_get_article_attribute_on_non_article(self):
+        pass
+
+        
+
+class ArticleAttributeCreationViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
         doc = 'elife00005.xml.json'
@@ -158,19 +190,21 @@ class ArticleAttributionCreationViaAPI(BaseCase):
 
     def test_add_attribute_to_article_view(self):
         article_data = json.load(open(self.json_fixture, 'r'))
-        expected_data = {
-            'key': 'Article Type',
-            'val': article_data['article-type'],
-        }
         # create the article
         dirty_article = ingestor.import_article(logic.journal(), article_data)
+
+        expected_data = {
+            'attribute': 'Article Type',
+            'attribute_value': article_data['article-type'],
+        }
         
         # create the expected AttributeType
-        logic.create_attribute(name=expected_data['key'], type=models.DEFAULT_ATTR_TYPE)
+        logic.create_attribute(name=expected_data['attribute'], type=models.DEFAULT_ATTR_TYPE)
 
         # craft the url
-        kwargs = utils.subdict(article_data, ['doi'])
-        resp = self.c.post(reverse('api-article-attribute', kwargs=kwargs), json.dumps(expected_data), content_type='application/json')
+        kwargs = {'doi': article_data['doi']}
+        url = reverse('api-add-article-attribute', kwargs=kwargs)
+        resp = self.c.post(url, json.dumps(expected_data), content_type='application/json')
         
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.ArticleAttribute.objects.count())
