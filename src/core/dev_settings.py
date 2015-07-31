@@ -30,6 +30,7 @@ INSTALLED_APPS = (
 
     'simple_history',
     'rest_framework',
+    'rest_framework_swagger',
 
     'publisher',
 )
@@ -121,6 +122,11 @@ REST_FRAMEWORK = {
     #'DEFAULT_PERMISSION_CLASSES': [
     #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     #]
+}
+
+SWAGGER_SETTINGS = {
+    'api_version': '1',
+    'api_path': '/api/v1/',
 }
 
 LOGGING = {

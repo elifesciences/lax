@@ -33,6 +33,17 @@ def add_attribute_to_article(article, key, val, extant_only=True):
     attr.save()
     return attr
 
+def get_attribute(article_obj, attr):
+    """looks for the attribute on the article itself first, then looks at
+    the list of ad-hoc article attributes and tries to retrieve attr from there."""
+    if hasattr(article_obj, attr):
+        return getattr(article_obj, attr, None)
+    try:
+        article_obj.articleattribute_set.filter(key__name=attr)
+    except models.ArticleAttribute.DoesNotExist:
+        return None
+        
+
 #
 #
 #

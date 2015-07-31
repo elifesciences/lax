@@ -49,7 +49,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         "an article can be import from JSON via a view"
         self.assertEqual(0, models.Article.objects.count())
         json_data = open(self.json_fixture, 'r').read()
-        resp = self.c.post(reverse('import-article'), json_data, content_type="application/json")
+        resp = self.c.post(reverse('api-import-article'), json_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.Article.objects.count())
 
@@ -63,6 +63,36 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         "the view raises a 400 error if the given payload does not contain the data we expect"
         pass
         
+
+class ArticleInfoViaApi(BaseCase):
+    def setUp(self):
+        self.c = Client()
+        self.journal = logic.journal()
+
+        article_data = {
+            'title':  "Molecular architecture of human polycomb repressive complex 2",
+            'version': 1,
+            'doi': "10.7554/eLife.00005",
+            'journal': self.journal,
+        }
+        article = models.Article(**article_data)
+        article.save()
+        self.article = article
+
+    def tearDown(self):
+        pass
+
+    def test_article_info_api(self):
+        "article data returned by the api is the same as what is serialize"
+        from publisher import views
+        resp = self.c.get(reverse("api-article", kwargs={'doi': self.article.doi}))
+        self.assertEqual(resp.data, views.ArticleSerializer(self.article).data)
+
+
+
+
+
+
 
 class ArticleAttributeCreation(BaseCase):
     def setUp(self):
@@ -117,7 +147,6 @@ class ArticleAttributeCreation(BaseCase):
         "attributes cannot be added to an Article unless attribute type already exists"
         self.assertRaises(models.AttributeType.DoesNotExist, logic.add_attribute_to_article, self.article, "foo", "bar")
 
-
 class ArticleAttributionCreationViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
@@ -141,7 +170,7 @@ class ArticleAttributionCreationViaAPI(BaseCase):
 
         # craft the url
         kwargs = utils.subdict(article_data, ['doi'])
-        resp = self.c.post(reverse('add-attribute-to-article', kwargs=kwargs), json.dumps(expected_data), content_type='application/json')
+        resp = self.c.post(reverse('api-article-attribute', kwargs=kwargs), json.dumps(expected_data), content_type='application/json')
         
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.ArticleAttribute.objects.count())

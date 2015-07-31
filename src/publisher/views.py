@@ -8,6 +8,7 @@ import ingestor
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import serializers as szr
 
 import logging
 logger = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ def article_list(request):
 # API
 #
 
-def rest_response(status, **rest):
+def rest_response(status, rest={}):
     msg = 'success'
     ec = str(status)[0]
     if ec == '4':
@@ -39,6 +40,16 @@ def rest_response(status, **rest):
     return Response(data, status=status)
 
 
+
+class ArticleSerializer(szr.ModelSerializer):
+    class Meta:
+        model = models.Article
+
+@api_view(['GET'])
+def get_article(rest_request, doi):
+    article = get_object_or_404(models.Article, doi=doi)
+    return Response(ArticleSerializer(article).data)
+
 @api_view(['POST'])
 def import_article(rest_request):
     try:
@@ -48,16 +59,18 @@ def import_article(rest_request):
         logger.exception("unhandled exception!")
         return rest_response(500)
 
-@api_view(['POST'])
-def add_attribute(rest_request, doi, extant_only=True):
-    try:
-        article = get_object_or_404(models.Article, doi=doi)
-        keyval = rest_request.data
-        logic.add_attribute_to_article(article, keyval['key'], keyval['val'], extant_only)
-        return rest_response(200)
-    except models.AttributeType.DoesNotExist:
-        # tried to add a new attribute without turning extant_only off
-        return rest_response(400)
-    except Exception:
-        logger.exception("unhandled exception attempting to add attribute to an article")
-        return rest_response(500)
+@api_view(['GET', 'POST'])
+def article_attribute(rest_request, doi, extant_only=True):
+    article = get_object_or_404(models.Article, doi=doi)
+    keyval = rest_request.data
+    # fetch the attribute
+    if rest_request.method == 'GET':
+        data = {keyval['key']: logic.get_attribute(article, keyval['key'])}
+        return rest_response(200, data)
+
+    # update the attribute
+    logic.add_attribute_to_article(article, keyval['key'], keyval['val'], extant_only)
+    data = {keyval['key']: logic.get_attribute(article, keyval['key'])}
+    return rest_response(200, data)
+        
+    

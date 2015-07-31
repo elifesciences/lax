@@ -4,7 +4,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-
+    url(r'^docs/', include('rest_framework_swagger.urls')),
     url(r'^api/', include('publisher.api')),
     url(r'^', include('publisher.urls')),
 ]
