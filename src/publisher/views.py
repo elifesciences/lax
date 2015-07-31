@@ -6,6 +6,9 @@ from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 import ingestor
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -19,14 +22,10 @@ def article_list(request):
         'article_list': models.Article.objects.all()
     }
 
-def response(status):
-    resp = HttpResponse()
-    resp.status_code = status
-    return resp
 
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+#
+# API
+#
 
 def rest_response(status, **rest):
     msg = 'success'
@@ -38,7 +37,6 @@ def rest_response(status, **rest):
     data = {'message': msg}
     data.update(rest)
     return Response(data, status=status)
-
 
 
 @api_view(['POST'])
