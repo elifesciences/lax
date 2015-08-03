@@ -90,4 +90,4 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
         'attribute_value': val,
         attribute: val}
     return Response(data)
-    
+
