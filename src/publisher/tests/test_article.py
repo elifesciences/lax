@@ -166,13 +166,9 @@ class ArticleAttributeInfoViaAPI(BaseCase):
             'attribute_value': self.article_obj.title,
             'title': self.article_obj.title,
         }
-
         resp = self.c.get(url)
-
-        print 'got',resp
-        
-        self.assertEqual(resp.data, expected_data)
-
+        self.assertEqual(resp.status_code, 200) # successful response
+        self.assertEqual(resp.data, expected_data) # expected data
 
     def test_get_article_attribute_on_non_article(self):
         pass
