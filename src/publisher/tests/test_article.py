@@ -171,9 +171,10 @@ class ArticleAttributeInfoViaAPI(BaseCase):
         self.assertEqual(resp.data, expected_data) # expected data
 
     def test_get_article_attribute_on_non_article(self):
-        pass
-
-        
+        kwargs = {'doi': 'foo.bar/baz', 'attribute': 'title'}
+        url = reverse('api-get-article-attribute', kwargs=kwargs)
+        resp = self.c.get(url)
+        self.assertEqual(resp.status_code, 404)
 
 class ArticleAttributeCreationViaAPI(BaseCase):
     def setUp(self):
