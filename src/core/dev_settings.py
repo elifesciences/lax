@@ -126,7 +126,7 @@ REST_FRAMEWORK = {
 
 SWAGGER_SETTINGS = {
     'api_version': '1',
-    'api_path': '/api/v1/',
+    'api_path': '/api/v1/', # TODO - useful?
     'exclude_namespaces': ['proxied'], # swagger docs are broken, but this gives them the right namespace
 }
 
