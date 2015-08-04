@@ -4,6 +4,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^proxy/lax/api/', include('publisher.api', namespace="proxied")), # integration with upstream api
     url(r'^api/', include('publisher.api')),
     url(r'^', include('publisher.urls')),
 ]
