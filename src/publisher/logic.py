@@ -2,6 +2,7 @@ import os, requests
 import models
 from django.conf import settings
 import logging
+from publisher import ingestor
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +11,12 @@ def journal(journal_name=settings.PRIMARY_JOURNAL):
     if new:
         logger.info("created new Journal %s", obj)
     return obj
+
+def article(doi):
+    try:
+        return models.Article.objects.get(doi=doi)
+    except models.Article.DoesNotExist:
+        return ingestor.import_article_from_github_repo(journal(), doi)
 
 def create_attribute(**kwargs):
     at = models.AttributeType(**kwargs)
@@ -42,7 +49,7 @@ def get_attribute(article_obj, attr):
         article_obj.articleattribute_set.get(key__slug=attr)
     except models.ArticleAttribute.DoesNotExist:
         return None
-        
+
 
 #
 #

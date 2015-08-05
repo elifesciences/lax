@@ -47,7 +47,9 @@ class ArticleSerializer(szr.ModelSerializer):
 
 @api_view(['GET'])
 def get_article(rest_request, doi):
-    article = get_object_or_404(models.Article, doi=doi)
+    article = logic.article(doi=doi)
+    if not article:
+        raise Http404()
     return Response(ArticleSerializer(article).data)
 
 @api_view(['POST'])
