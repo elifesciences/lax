@@ -58,4 +58,6 @@ def fetch_url(url):
         raise
 
 def import_article_from_github_repo(journal, doi):
+    if not doi or not str(doi).strip():
+        raise ValueError("bad doi") # todo - shift into a utility?
     return import_article(journal, fetch_url(github_url(doi)))

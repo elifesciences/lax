@@ -82,6 +82,24 @@ class ImportArticleFromRepo(BaseCase):
         self.assertEqual(dirty_article_obj.title, expected_title)
         clean_article_obj = models.Article.objects.get(doi=doi)
         self.assertEqual(clean_article_obj.title, expected_title)
+
+    def test_article_import_bad_doi(self):
+        self.assertEqual(0, models.Article.objects.count())
+        doi = "10.7554/no.pants"
+        dirty_article_obj = ingestor.import_article_from_github_repo(self.journal, doi)
+        # None returned
+        self.assertEqual(None, dirty_article_obj)
+        # nothing created
+        self.assertEqual(0, models.Article.objects.count())
+
+    def test_article_import_no_doi(self):
+        self.assertEqual(0, models.Article.objects.count())
+        doi = None
+        self.assertRaises(ValueError, ingestor.import_article_from_github_repo, self.journal, doi)
+        # nothing created
+        self.assertEqual(0, models.Article.objects.count())
+    
+        
         
 class ImportArticleFromRepoLazilyUsingAPI(BaseCase):
     def setUp(self):
@@ -104,12 +122,9 @@ class ImportArticleFromRepoLazilyUsingAPI(BaseCase):
 
     def test_article_bad_doi(self):
         doi = "10.7554/paaaaaaaaaaaaaants.party"
-        self.assertEqual(0, models.Article.objects.count())
-        
+        self.assertEqual(0, models.Article.objects.count())        
         resp = self.c.get(reverse("api-article", kwargs={'doi': doi}))
-
         # nothing is imported
         self.assertEqual(0, models.Article.objects.count())
-
         # 'not found' given
         self.assertEqual(404, resp.status_code)
