@@ -1,15 +1,14 @@
 FROM ubuntu:14.04
 MAINTAINER Luke Skibinski <l.skibinski@elifesciences.org>
-
-RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN DEBIAN_FRONTEND=noninteractive LANG=C apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install \
     git wget vim python-pip screen \
     --no-install-recommends -y
-RUN cd /srv/ && hg clone https://github.com/elifesciences/lax
+RUN pip install virtualenv
+RUN cd /srv/ && git clone https://github.com/elifesciences/lax -b develop
 
-WORKDIR /srv/lax
-RUN virtualenv venv --python=`which python2`
-RUN source venv/bin/activate
-RUN pip install -r requirements.txt
-RUN python src/manage.py syncdb --noinput
-RUN python src/manage.py loaddata publisher/fixtures/admin-user.json
+RUN cd /srv/lax/ && ./install.sh
+WORKDIR /srv/lax/src
+RUN source ../venv/bin/activate && echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')" | ./manage.py shell
+RUN echo "done!"
