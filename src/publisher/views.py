@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, Http404
 from annoying.decorators import render_to
 import models, logic
 from django.views.decorators.http import require_POST

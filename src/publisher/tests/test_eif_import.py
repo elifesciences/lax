@@ -101,3 +101,15 @@ class ImportArticleFromRepoLazilyUsingAPI(BaseCase):
         
         clean_article = models.Article.objects.get(doi=doi)
         self.assertEqual(resp.data, views.ArticleSerializer(clean_article).data)
+
+    def test_article_bad_doi(self):
+        doi = "10.7554/paaaaaaaaaaaaaants.party"
+        self.assertEqual(0, models.Article.objects.count())
+        
+        resp = self.c.get(reverse("api-article", kwargs={'doi': doi}))
+
+        # nothing is imported
+        self.assertEqual(0, models.Article.objects.count())
+
+        # 'not found' given
+        self.assertEqual(404, resp.status_code)

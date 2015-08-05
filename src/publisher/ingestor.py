@@ -7,6 +7,8 @@ import requests
 logger = logging.getLogger(__name__)
 
 def import_article(journal, article_data):
+    if not article_data:
+        return None
     kwargs = subdict(article_data, ['title', 'version', 'doi'])
     kwargs['journal'] = journal
     kwargs['version'] = int(kwargs['version'])
