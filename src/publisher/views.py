@@ -52,8 +52,17 @@ def get_article(rest_request, doi):
         raise Http404()
     return Response(ArticleSerializer(article).data)
 
+        
+class ArticleImportSerializer(szr.Serializer):
+    name = szr.CharField(max_length=255)
+
 @api_view(['POST'])
 def import_article(rest_request):
+    """
+    asdf
+    ---
+    request_serializer: ArticleImportSerializer
+    """    
     try:
         article_obj = ingestor.import_article(logic.journal(), rest_request.data)
         return Response({'doi': article_obj.doi})
@@ -81,7 +90,7 @@ def add_article_attribute(rest_request, doi, extant_only=True):
     logic.add_attribute_to_article(article, key, val, extant_only)
     data = {key: logic.get_attribute(article, key)}
     return Response(data)
-        
+
 @api_view(['GET'])
 def get_article_attribute(rest_request, doi, attribute, extant_only=True):
     article = get_object_or_404(models.Article, doi=doi)
