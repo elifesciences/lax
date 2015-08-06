@@ -2,10 +2,11 @@ from django.contrib import admin
 import models
 from simple_history.admin import SimpleHistoryAdmin
 
-class ArticleAdmin(SimpleHistoryAdmin):
-    pass
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('doi', 'title', 'datetime_published')
+    list_filter = ('datetime_published', 'status', 'volume', 'type')
 
-class ArticleAttributeAdmin(SimpleHistoryAdmin):
+class ArticleAttributeAdmin(admin.ModelAdmin):
     pass
 
 admin_list = [
