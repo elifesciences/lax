@@ -43,6 +43,12 @@ class Article(models.Model):
     # non_research_articles
     # recently_published
 
+    volume = models.PositiveSmallIntegerField(blank=True, null=True)
+    status = models.CharField(max_length=3, choices=[('poa', 'POA'), ('vor', 'VOR')], blank=True, null=True)
+    website_path = models.CharField(max_length=50)
+
+    type = models.CharField(max_length=50, blank=True, null=True)
+    
     datetime_submitted = models.DateTimeField(blank=True, null=True, help_text="Date author submitted article")
     datetime_accepted = models.DateTimeField(blank=True, null=True, help_text="Date article accepted for publication")
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
@@ -51,7 +57,7 @@ class Article(models.Model):
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
     history = HistoricalRecords()
-
+    
     def __unicode__(self):
         return self.title
 

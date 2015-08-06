@@ -3,19 +3,40 @@ import models
 from utils import subdict
 import logging
 import requests
+from datetime import datetime
+import pytz
 
 logger = logging.getLogger(__name__)
 
-def import_article(journal, article_data):
+def todt(val):
+    naive = datetime.strptime(val, "%Y-%m-%d")
+    return pytz.utc.localize(naive)
+
+def import_article(journal, article_data, update=False):
     if not article_data:
         return None
-    kwargs = subdict(article_data, ['title', 'version', 'doi'])
-    kwargs['journal'] = journal
-    kwargs['version'] = int(kwargs['version'])
-    art_id = subdict(kwargs, ['doi', 'version'])
+    kwargs = subdict(article_data, ['title', 'version', 'doi', 'volume', 'pub-date', 'path', 'status', 'article-type'])
+    kwargs.update({
+        'journal':  journal,
+        'version': int(kwargs['version']),
+        'datetime_published': todt(kwargs['pub-date']),
+        'volume': int(kwargs['volume']),
+        'status': kwargs['status'].lower(),
+        'website_path': kwargs['path'],
+        'type': kwargs['article-type'],
+    })
+    del kwargs['pub-date']
+    del kwargs['path']
+    del kwargs['article-type']
     try:
-        article_obj = models.Article.objects.get(**art_id)
-        logger.warning("article exists, not importing")
+        article_obj = models.Article.objects.get(doi=kwargs['doi'])
+        if update:
+            logger.info("article exists, updating")
+            for key, val in kwargs.items():
+                setattr(article_obj, key, val)
+            article_obj.save()
+        else:
+            logger.warning("article exists, not importing")   
         return article_obj
     except models.Article.DoesNotExist:
         pass
