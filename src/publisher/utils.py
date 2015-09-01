@@ -11,3 +11,6 @@ def dictmap(func, data, **funcargs):
     if funcargs:
         func = partial(func, **funcargs)
     return {k:func(v) for k, v in data.items()}
+
+def djobj_hasattr(djobj, key):
+    return key in djobj._meta.get_all_field_names()

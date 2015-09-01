@@ -2,7 +2,7 @@ import os, requests
 import models
 from django.conf import settings
 import logging
-from publisher import ingestor
+from publisher import ingestor, utils
 
 logger = logging.getLogger(__name__)
 
@@ -43,12 +43,20 @@ def add_attribute_to_article(article, key, val, extant_only=True):
 def get_attribute(article_obj, attr):
     """looks for the attribute on the article itself first, then looks at
     the list of ad-hoc article attributes and tries to retrieve attr from there."""
-    if hasattr(article_obj, attr):
-        return getattr(article_obj, attr, None)
+    if utils.djobj_hasattr(article_obj, attr):
+        return getattr(article_obj, attr)
     try:
         article_obj.articleattribute_set.get(key__slug=attr)
     except models.ArticleAttribute.DoesNotExist:
         return None
+
+def add_update_article_attribute(article, key, val, extant_only=True):
+    if utils.djobj_hasattr(article, key):
+        setattr(article, key, val)
+        article.save()
+    else:
+        add_attribute_to_article(article, key, val, extant_only)
+    return article
 
 
 #
