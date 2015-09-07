@@ -5,6 +5,7 @@ from simple_history.admin import SimpleHistoryAdmin
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('doi', 'title', 'datetime_published')
     list_filter = ('datetime_published', 'status', 'volume', 'type')
+    search_fields = ('doi', 'title')
 
 class ArticleAttributeAdmin(admin.ModelAdmin):
     pass
