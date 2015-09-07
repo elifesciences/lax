@@ -14,7 +14,7 @@ def journal(journal_name=settings.PRIMARY_JOURNAL):
 
 def article(doi):
     try:
-        return models.Article.objects.get(doi=doi)
+        return models.Article.objects.get(doi__iexact=doi)
     except models.Article.DoesNotExist:
         return ingestor.import_article_from_github_repo(journal(), doi)
 

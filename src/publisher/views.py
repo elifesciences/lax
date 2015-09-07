@@ -41,6 +41,20 @@ def rest_response(status, rest={}):
 
 
 
+#
+# collections of articles
+#
+
+@api_view(['GET'])
+def corpus_info(rest_request):
+    articles = models.Article.objects.all()
+    return Response({'article-count': articles.count(),
+                     'research-article-count': articles.filter(type='research-article').count()})
+
+#
+# articles
+#
+
 class ArticleSerializer(szr.ModelSerializer):
     class Meta:
         model = models.Article
@@ -78,7 +92,7 @@ class ArticleAttributeSerializer(szr.Serializer):
     attribute_value = szr.CharField(max_length=255)
 
 @api_view(['POST'])
-def add_article_attribute(rest_request, doi, extant_only=True):
+def add_update_article_attribute(rest_request, doi, extant_only=True):
     """
     asdf
     ---
@@ -93,7 +107,7 @@ def add_article_attribute(rest_request, doi, extant_only=True):
 
 @api_view(['GET'])
 def get_article_attribute(rest_request, doi, attribute, extant_only=True):
-    article = get_object_or_404(models.Article, doi=doi)
+    article = get_object_or_404(models.Article, doi__iexact=doi)
     val = logic.get_attribute(article, attribute)
     data = {
         'doi': article.doi,
@@ -101,4 +115,3 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
         'attribute_value': val,
         attribute: val}
     return Response(data)
-

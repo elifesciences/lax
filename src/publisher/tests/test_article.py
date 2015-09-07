@@ -1,5 +1,5 @@
 import os, json
-from publisher import ingestor, utils, models, logic
+from publisher import ingestor, utils, models, logic, views
 from base import BaseCase
 import logging
 
@@ -12,25 +12,45 @@ class ArticleInfoViaApi(BaseCase):
     def setUp(self):
         self.c = Client()
         self.journal = logic.journal()
-
-        article_data = {
+        self.article_data = {
             'title':  "Molecular architecture of human polycomb repressive complex 2",
             'version': 1,
             'doi': "10.7554/eLife.00005",
             'journal': self.journal,
         }
-        article = models.Article(**article_data)
-        article.save()
-        self.article = article
 
     def tearDown(self):
         pass
 
     def test_article_info_api(self):
+        "article data returned by the api is the same as what is serialize"        
+        article = models.Article(**self.article_data)
+        article.save()        
+        resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
+        self.assertEqual(resp.data, views.ArticleSerializer(article).data)
+
+    def test_article_info_api_case_insensitive(self):
         "article data returned by the api is the same as what is serialize"
-        from publisher import views
-        resp = self.c.get(reverse("api-article", kwargs={'doi': self.article.doi}))
-        self.assertEqual(resp.data, views.ArticleSerializer(self.article).data)
+        kwargs = self.article_data
+        kwargs['doi'] = kwargs['doi'].upper()
+        article = models.Article(**kwargs)
+        article.save()        
+        resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
+        self.assertEqual(resp.data, views.ArticleSerializer(article).data)
+
+    def test_article_corpus_api(self):
+        self.assertEqual(0, models.Article.objects.count())
+        resp = self.c.get(reverse("api-corpus-info"))
+        self.assertEqual(resp.data, {'article-count': 0,
+                                     'research-article-count': 0})
+        
+        article = models.Article(**self.article_data)
+        article.save()
+        self.assertEqual(1, models.Article.objects.count())
+        resp = self.c.get(reverse("api-corpus-info"))
+        self.assertEqual(resp.data, {'article-count': 1,
+                                     'research-article-count': 0})
+        
 
 
 class ArticleAttributeCreation(BaseCase):
@@ -133,6 +153,20 @@ class ArticleAttributeInfoViaAPI(BaseCase):
 
     def test_get_simple_article_attribute(self):
         kwargs = {'doi': self.article_obj.doi, 'attribute': 'title'}
+        url = reverse('api-get-article-attribute', kwargs=kwargs)
+        expected_data = {
+            'doi': self.article_obj.doi,
+            'attribute': 'title',
+            'attribute_value': self.article_obj.title,
+            'title': self.article_obj.title,
+        }
+        resp = self.c.get(url)
+        self.assertEqual(resp.status_code, 200) # successful response
+        self.assertEqual(resp.data, expected_data) # expected data
+
+    def test_get_simple_article_attribute_case_insensitive(self):
+        "doi can be case insensitive, attribute must be exact"
+        kwargs = {'doi': self.article_obj.doi.upper(), 'attribute': 'title'}
         url = reverse('api-get-article-attribute', kwargs=kwargs)
         expected_data = {
             'doi': self.article_obj.doi,
