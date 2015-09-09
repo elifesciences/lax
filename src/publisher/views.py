@@ -52,7 +52,7 @@ def corpus_info(rest_request):
                      'research-article-count': articles.filter(type='research-article').count()})
 
 #
-# articles
+# specific articles
 #
 
 class ArticleSerializer(szr.ModelSerializer):
@@ -60,43 +60,23 @@ class ArticleSerializer(szr.ModelSerializer):
         model = models.Article
 
 @api_view(['GET'])
-def get_article(rest_request, doi):
-    article = logic.article(doi=doi)
+def get_article(rest_request, doi, version=None):
+    "Returns core article data for the given doi"
+    article = logic.article(doi=doi, version=version)
     if not article:
         raise Http404()
     return Response(ArticleSerializer(article).data)
 
         
-class ArticleImportSerializer(szr.Serializer):
-    name = szr.CharField(max_length=255)
-
-@api_view(['POST'])
-def import_article(rest_request):
-    """
-    asdf
-    ---
-    request_serializer: ArticleImportSerializer
-    """    
-    try:
-        article_obj = ingestor.import_article(logic.journal(), rest_request.data)
-        return Response({'doi': article_obj.doi})
-    except Exception:
-        logger.exception("unhandled exception!")
-        return rest_response(500)
-
-
-
-
-class ArticleAttributeSerializer(szr.Serializer):
+class ArticleAttributeValueSerializer(szr.Serializer):
     attribute = szr.CharField(max_length=50)
     attribute_value = szr.CharField(max_length=255)
 
 @api_view(['POST'])
 def add_update_article_attribute(rest_request, doi, extant_only=True):
-    """
-    asdf
+    """Allows article attributes to be updated with new values.
     ---
-    request_serializer: ArticleAttributeSerializer
+    request_serializer: ArticleAttributeValueSerializer
     """
     article = get_object_or_404(models.Article, doi=doi)
     keyval = rest_request.data
@@ -107,6 +87,9 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
 
 @api_view(['GET'])
 def get_article_attribute(rest_request, doi, attribute, extant_only=True):
+    """Query the value of an article's attribute.
+    Returns the attribute value as both `attribute:value` and
+    `attribute: attribute, attribute_value: value`."""
     article = get_object_or_404(models.Article, doi__iexact=doi)
     val = logic.get_attribute(article, attribute)
     data = {
@@ -115,3 +98,25 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
         'attribute_value': val,
         attribute: val}
     return Response(data)
+
+#
+# importing
+#
+
+class ArticleImportSerializer(szr.Serializer):
+    name = szr.CharField(max_length=255)
+
+@api_view(['POST'])
+def import_article(rest_request):
+    """
+    Imports an article in eLife's EIF format: https://github.com/elifesciences/elife-eif-schema
+    Returns the doi of the inserted/updated article
+    ---
+    request_serializer: ArticleImportSerializer
+    """    
+    try:
+        article_obj = ingestor.import_article(logic.journal(), rest_request.data)
+        return Response({'doi': article_obj.doi})
+    except Exception:
+        logger.exception("unhandled exception attempting to import EIF json")
+        return rest_response(500)
