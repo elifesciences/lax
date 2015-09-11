@@ -5,7 +5,7 @@ if [ ! -d venv ]; then
 fi
 source venv/bin/activate
 if [ ! -f src/core/settings.py ]; then
-    print "no settings.py found. quitting while I'm ahead."
+    echo "no settings.py found. quitting while I'm ahead."
     exit 1
 fi
 pip install -r requirements.txt

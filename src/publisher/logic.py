@@ -12,8 +12,10 @@ def journal(journal_name=settings.PRIMARY_JOURNAL):
         logger.info("created new Journal %s", obj)
     return obj
 
-def article(doi):
+def article(doi, version=None):
     try:
+        if version:
+            return models.Article.history.filter(doi__iexact=doi, version=version).order_by('history_date').reverse()[:1][0]
         return models.Article.objects.get(doi__iexact=doi)
     except models.Article.DoesNotExist:
         return ingestor.import_article_from_github_repo(journal(), doi)
@@ -58,6 +60,19 @@ def add_update_article_attribute(article, key, val, extant_only=True):
         add_attribute_to_article(article, key, val, extant_only)
     return article
 
+def add_or_update_article(**article_data):
+    """given a article data it attempts to find the article and update it,
+    otherwise it will create it. return the created article"""
+    assert article_data.has_key('doi'), "a value for 'doi' *must* exist"
+    try:
+        art = models.Article.objects.get(doi=article_data['doi'])
+        for key, val in article_data.items():
+            setattr(art, key, val)
+        art.save()
+    except models.Article.DoesNotExist:
+        art = models.Article(**article_data)
+        art.save()
+    return art
 
 #
 #

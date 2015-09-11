@@ -34,7 +34,7 @@ class Article(models.Model):
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
     
     title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
-    slug = AutoSlugField(null=True, blank=True, populate_from='title', help_text='A friendlier version of the title for machines')
+    slug = AutoSlugField(null=True, blank=True, populate_from='title', always_update=True, help_text='A friendlier version of the title for machines')
 
     version = models.PositiveSmallIntegerField(default=1, help_text="The version of the article. All articles have at least a version 1")
 
@@ -81,7 +81,7 @@ DEFAULT_ATTR_TYPE = attr_type_choices()[0][0]
 
 class AttributeType(models.Model):
     name = models.CharField(max_length=50)
-    slug = AutoSlugField(populate_from='name')
+    slug = AutoSlugField(populate_from='name', always_update=True)
     type = models.CharField(max_length=10, choices=attr_type_choices())
     description = models.TextField(blank=True, null=True)
 

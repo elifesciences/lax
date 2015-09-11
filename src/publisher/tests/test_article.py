@@ -8,6 +8,151 @@ from django.core.urlresolvers import reverse
 
 logging.getLogger("").setLevel(logging.WARNING) # suppresses debug, info messages
 
+class ArticleLogic(BaseCase):
+    def setUp(self):
+        self.journal = logic.journal()
+        self.article_data = {
+            'title':  "Molecular architecture of human polycomb repressive complex 2",
+            'version': 1,
+            'doi': "10.7554/eLife.00005",
+            'journal': self.journal,
+        }
+
+    def tearDown(self):
+        pass
+
+    def test_fetch_article(self):
+        self.assertEqual(0, models.Article.objects.count())
+        dirty_art = logic.article(self.article_data['doi'])
+        self.assertEqual(1, models.Article.objects.count())
+
+    def test_fetch_nonexistant_article(self):
+        self.assertEqual(0, models.Article.objects.count())
+        result = logic.article('paaaaaaaaan/t.s')
+        self.assertEqual(0, models.Article.objects.count())
+        self.assertEqual(None, result) # not found
+
+    def test_fetches_latest_always(self):
+        self.assertEqual(0, models.Article.objects.count())
+        article_data_list = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+             
+            {'title': 'bar',
+             'version': 2,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 3,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        self.assertEqual(1, models.Article.objects.count())
+        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY")
+        self.assertEqual(art.version, 3)
+        self.assertEqual(art.title, 'baz')
+
+    def test_fetch_historical(self):
+        "previous versions of an article's changes are available in history"
+        self.assertEqual(0, models.Article.objects.count())
+        article_data_list = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+             
+            {'title': 'bar',
+             'version': 2,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 3,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        self.assertEqual(1, models.Article.objects.count())
+        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY")
+        self.assertEqual(3, art.history.count())
+
+        # check the data inserted vs the data returned
+        for expected, historical_art in zip(article_data_list, art.history.all().order_by('version')):
+            for attr in ['title', 'version']:
+                self.assertEqual(expected[attr], getattr(historical_art, attr))
+
+    def test_fetch_specific_historical(self):
+        "a specific previous version of an article's changes can be fetched from history"
+        self.assertEqual(0, models.Article.objects.count())
+        article_data_list = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+             
+            {'title': 'bar',
+             'version': 2,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 3,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        self.assertEqual(1, models.Article.objects.count())
+        expected_version = 1
+        art = logic.article("10.7554/eLife.DUMMY", expected_version)
+        self.assertEqual(art.version, expected_version)
+        self.assertEqual(art.title, 'foo')
+
+
+    def test_fetch_specific_historical_when_multiple_of_same_version(self):
+        """a specific previous version of an article's changes can be fetched
+        from history, even when there are multiple articles in history with the
+        same version number"""
+        self.assertEqual(0, models.Article.objects.count())
+        article_data_list = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+             
+            {'title': 'bar',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 2,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+
+            {'title': 'bup',
+             'version': 3,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+
+            {'title': 'boo',
+             'version': 3,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        self.assertEqual(1, models.Article.objects.count())
+        expected_version = 1
+        art = logic.article("10.7554/eLife.DUMMY", expected_version)
+        self.assertEqual(art.version, expected_version)
+        self.assertEqual(art.title, 'bar')
+        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 2).title, 'baz')
+        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 3).title, 'boo')
+
+
 class ArticleInfoViaApi(BaseCase):
     def setUp(self):
         self.c = Client()
@@ -37,6 +182,39 @@ class ArticleInfoViaApi(BaseCase):
         article.save()        
         resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
         self.assertEqual(resp.data, views.ArticleSerializer(article).data)
+
+    def test_article_info_version(self):
+        doi = "10.7554/eLife.DUMMY"
+        article_data_list = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': doi,
+             'journal': self.journal},
+             
+            {'title': 'bar',
+             'version': 1,
+             'doi': doi, 
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 2,
+             'doi': doi,
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        
+        expected_version = 1
+        resp = self.c.get(reverse("api-article", kwargs={'doi': doi, 'version': expected_version}))
+        print '>>>',resp.data
+        self.assertEqual(resp.data['version'], expected_version)
+        self.assertEqual(resp.data['title'], 'bar')
+
+        
+
+
+    #
+    # corpus
+    #
 
     def test_article_corpus_api(self):
         self.assertEqual(0, models.Article.objects.count())
