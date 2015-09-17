@@ -28,9 +28,8 @@ class ArticleLogic(BaseCase):
 
     def test_fetch_nonexistant_article(self):
         self.assertEqual(0, models.Article.objects.count())
-        result = logic.article('paaaaaaaaan/t.s')
+        self.assertRaises(models.Article.DoesNotExist, logic.article, 'paaaaaaaaan/t.s')
         self.assertEqual(0, models.Article.objects.count())
-        self.assertEqual(None, result) # not found
 
     def test_fetches_latest_always(self):
         "when version is not specified, `logic.article` returns the latest"
@@ -178,6 +177,12 @@ class ArticleInfoViaApi(BaseCase):
         article.save()        
         resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
         self.assertEqual(resp.data, views.ArticleSerializer(article).data)
+
+    def test_article_info_api_no_article(self):
+        "non existant articles raise a 404"
+        doi = 'paaaaaaaaan/t.s'
+        resp = self.c.get(reverse("api-article", kwargs={'doi': doi}))
+        self.assertEqual(resp.status_code, 404)
 
     def test_article_info_api_case_insensitive(self):
         "article data returned by the api is the same as what is serialize"

@@ -13,15 +13,23 @@ def journal(journal_name=settings.PRIMARY_JOURNAL):
     return obj
 
 def article(doi, version=None, lazy=True):
+    """returns the latest version of the article identified by the
+    doi, or the specific version given.
+    Raises DoesNotExist if article not found."""
     try:
         if version:
             return models.Article.objects.get(doi__iexact=doi, version=version)
         return models.Article.objects.filter(doi__iexact=doi).order_by('-version')[:1][0]
     
     except (IndexError, models.Article.DoesNotExist):
-        if lazy:
-            return ingestor.import_article_from_github_repo(journal(), doi)
-        raise
+        if lazy: # TODO: and doi-looks-like-an-elife-doi
+            ingestor.import_article_from_github_repo(journal(), doi)
+            return article(doi, version, lazy=False)
+        raise models.Article.DoesNotExist()
+
+def article_versions(doi):
+    "returns all versions of the given article"
+    return models.Article.objects.filter(doi__iexact=doi)
 
 def create_attribute(**kwargs):
     at = models.AttributeType(**kwargs)

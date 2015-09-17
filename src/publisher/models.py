@@ -61,6 +61,7 @@ class Article(models.Model):
 
     class Meta:
         unique_together = ('doi', 'version')
+        ordering = ('version',)
     
     def __unicode__(self):
         return self.title

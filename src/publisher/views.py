@@ -57,24 +57,35 @@ def corpus_info(rest_request):
 
 class ArticleSerializer(szr.ModelSerializer):
     class Meta:
+        exclude = ('id', 'journal')
         model = models.Article
 
 @api_view(['GET'])
 def get_article(rest_request, doi, version=None):
-    "Returns core article data for the given doi"
-    article = logic.article(doi=doi, version=version)
-    if not article:
+    "Returns latest article data for the given doi or for a specific version."
+    try:
+        article = logic.article(doi=doi, version=version)
+        return Response(ArticleSerializer(article).data)
+    except models.Article.DoesNotExist:
         raise Http404()
-    return Response(ArticleSerializer(article).data)
 
-        
+@api_view(['GET'])
+def get_article_versions(rest_request, doi):
+    """
+    Returns all versions of the requested article, grouped by version number.
+    
+    """
+    article_list = {obj.version: ArticleSerializer(obj).data for obj in logic.article_versions(doi)}
+    return Response(article_list)
+
+
 class ArticleAttributeValueSerializer(szr.Serializer):
     attribute = szr.CharField(max_length=50)
     attribute_value = szr.CharField(max_length=255)
 
 @api_view(['POST'])
 def add_update_article_attribute(rest_request, doi, extant_only=True):
-    """Allows article attributes to be updated with new values.
+    """Update article attributes with new values.
     ---
     request_serializer: ArticleAttributeValueSerializer
     """
@@ -87,9 +98,8 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
 
 @api_view(['GET'])
 def get_article_attribute(rest_request, doi, attribute, extant_only=True):
-    """Query the value of an article's attribute.
-    Returns the attribute value as both `attribute:value` and
-    `attribute: attribute, attribute_value: value`."""
+    """Returns the requested article's attribute value as
+    both `attribute:value` and `attribute: attribute, attribute_value: value`."""
     article = get_object_or_404(models.Article, doi__iexact=doi)
     val = logic.get_attribute(article, attribute)
     data = {
