@@ -75,7 +75,10 @@ def get_article_versions(rest_request, doi):
     Returns all versions of the requested article, grouped by version number.
     
     """
-    article_list = {obj.version: ArticleSerializer(obj).data for obj in logic.article_versions(doi)}
+    article_list = logic.article_versions(doi)
+    if not article_list:
+        raise Http404()
+    article_list = {obj.version: ArticleSerializer(obj).data for obj in article_list}
     return Response(article_list)
 
 

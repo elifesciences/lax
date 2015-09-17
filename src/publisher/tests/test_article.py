@@ -114,7 +114,6 @@ class ArticleLogic(BaseCase):
         self.assertEqual(art.version, expected_version)
         self.assertEqual(art.title, 'bar')
 
-
     def test_fetch_specific_historical_when_multiple_of_same_version(self):
         """a specific previous version of an article's changes can be fetched
         from history, even when there are multiple articles in history with the
@@ -192,6 +191,43 @@ class ArticleInfoViaApi(BaseCase):
         article.save()        
         resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
         self.assertEqual(resp.data, views.ArticleSerializer(article).data)
+
+    def test_article_info_version_grouping_no_art(self):
+        doi = 'paaaaaaaaan/t.s'
+        resp = self.c.get(reverse("api-article-versions", kwargs={'doi': doi}))
+        self.assertEqual(404, resp.status_code)
+
+    def test_article_info_version_grouping(self):
+        "test that an article with multiple versions is returned"
+        doi = "10.7554/eLife.DUMMY"
+        article_data_list = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': doi,
+             'journal': self.journal},
+             
+            {'title': 'bar',
+             'version': 2,
+             'doi': doi, 
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 3,
+             'doi': doi,
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        
+        self.assertEqual(3, models.Article.objects.count())
+        
+        resp = self.c.get(reverse("api-article-versions", kwargs={'doi': doi}))
+        data = resp.data
+        self.assertEqual([1, 2, 3], data.keys())
+        for expected_item in article_data_list:
+            resp_item = data[expected_item['version']]
+            self.assertEqual(resp_item['title'], expected_item['title'])
+            self.assertEqual(resp_item['version'], expected_item['version'])
+            self.assertEqual(resp_item['doi'], expected_item['doi'])
 
     def test_article_info_version(self):
         "test that the correct article version is returned when specified via the api"
