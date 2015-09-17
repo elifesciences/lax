@@ -33,6 +33,7 @@ class ArticleLogic(BaseCase):
         self.assertEqual(None, result) # not found
 
     def test_fetches_latest_always(self):
+        "when version is not specified, `logic.article` returns the latest"
         self.assertEqual(0, models.Article.objects.count())
         article_data_list = [
             {'title': 'foo',
@@ -51,8 +52,9 @@ class ArticleLogic(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        self.assertEqual(1, models.Article.objects.count())
-        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY")
+        self.assertEqual(3, models.Article.objects.count())
+        
+        art = logic.article("10.7554/eLife.DUMMY")
         self.assertEqual(art.version, 3)
         self.assertEqual(art.title, 'baz')
 
@@ -66,18 +68,19 @@ class ArticleLogic(BaseCase):
              'journal': self.journal},
              
             {'title': 'bar',
-             'version': 2,
+             'version': 1,
              'doi': "10.7554/eLife.DUMMY",
              'journal': self.journal},
 
             {'title': 'baz',
-             'version': 3,
+             'version': 1,
              'doi': "10.7554/eLife.DUMMY",
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(1, models.Article.objects.count())
-        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY")
+        
+        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY", version=1)
         self.assertEqual(3, art.history.count())
 
         # check the data inserted vs the data returned
@@ -105,11 +108,12 @@ class ArticleLogic(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        self.assertEqual(1, models.Article.objects.count())
-        expected_version = 1
+        self.assertEqual(3, models.Article.objects.count())
+        
+        expected_version = 2
         art = logic.article("10.7554/eLife.DUMMY", expected_version)
         self.assertEqual(art.version, expected_version)
-        self.assertEqual(art.title, 'foo')
+        self.assertEqual(art.title, 'bar')
 
 
     def test_fetch_specific_historical_when_multiple_of_same_version(self):
@@ -144,7 +148,8 @@ class ArticleLogic(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(3, models.Article.objects.count())
+        
         expected_version = 1
         art = logic.article("10.7554/eLife.DUMMY", expected_version)
         self.assertEqual(art.version, expected_version)
@@ -184,6 +189,7 @@ class ArticleInfoViaApi(BaseCase):
         self.assertEqual(resp.data, views.ArticleSerializer(article).data)
 
     def test_article_info_version(self):
+        "test that the correct article version is returned when specified via the api"
         doi = "10.7554/eLife.DUMMY"
         article_data_list = [
             {'title': 'foo',
@@ -205,7 +211,7 @@ class ArticleInfoViaApi(BaseCase):
         
         expected_version = 1
         resp = self.c.get(reverse("api-article", kwargs={'doi': doi, 'version': expected_version}))
-        print '>>>',resp.data
+        self.assertEqual(2, models.Article.objects.count())
         self.assertEqual(resp.data['version'], expected_version)
         self.assertEqual(resp.data['title'], 'bar')
 

@@ -31,12 +31,13 @@ class Article(models.Model):
     
     journal = models.ForeignKey(Journal)
 
-    doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
+    doi = models.CharField(max_length=255, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
     
     title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
     slug = AutoSlugField(null=True, blank=True, populate_from='title', always_update=True, help_text='A friendlier version of the title for machines')
 
-    version = models.PositiveSmallIntegerField(default=1, help_text="The version of the article. All articles have at least a version 1")
+    # positiveintegerfields allow zeroes
+    version = models.PositiveSmallIntegerField(default=None, help_text="The version of the article. Version=None means pre-publication")
 
     # possible custom managers ?
     # research_articles
@@ -57,6 +58,9 @@ class Article(models.Model):
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
     history = HistoricalRecords()
+
+    class Meta:
+        unique_together = ('doi', 'version')
     
     def __unicode__(self):
         return self.title
