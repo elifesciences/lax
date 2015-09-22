@@ -308,7 +308,7 @@ class ArticleAttribute(BaseCase):
     def test_attribute_correctness(self):
         "the data of a newly created attribute is what we expect"
         attribute_data = {
-            'name': "Publication Date",
+            'name': "publication_date",
             'type': 'datetime',
             'description': "date and time of an article's publication. time component is optional and defaults to 00:00:00"
         }
@@ -368,8 +368,8 @@ class ArticleAttribute(BaseCase):
         
     def test_unknown_article_attribute_correctness(self):
         "unknown/unhandled arbitrary attributes can be added to an Article"
-        dirty_attr = logic.add_update_article_attribute(self.article, "foo", "bar", extant_only=False)
-        clean_attr = models.ArticleAttribute.objects.get(pk=dirty_attr.id)
+        logic.add_update_article_attribute(self.article, "foo", "bar", extant_only=False)
+        clean_attr = models.ArticleAttribute.objects.all()[0]
         self.assertEqual(clean_attr.key.name, "foo")
         self.assertEqual(clean_attr.key.type, models.DEFAULT_ATTR_TYPE)
         self.assertEqual(clean_attr.value, "bar")
@@ -423,7 +423,7 @@ class ArticleAttributeInfoViaAPI(BaseCase):
         resp = self.c.get(url)
         self.assertEqual(resp.status_code, 404)
 
-class ArticleAttributeCreationViaAPI(BaseCase):
+class CreateUpdateArticleAttributeViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
         doc = 'elife00005.xml.json'
@@ -434,11 +434,10 @@ class ArticleAttributeCreationViaAPI(BaseCase):
 
     def test_add_attribute_to_article_view(self):
         article_data = json.load(open(self.json_fixture, 'r'))
-        # create the article
-        dirty_article = ingestor.import_article(logic.journal(), article_data)
+        ingestor.import_article(logic.journal(), article_data)
 
         expected_data = {
-            'attribute': 'Article Type',
+            'attribute': 'article_type',
             'attribute_value': article_data['article-type'],
         }
         
@@ -453,8 +452,14 @@ class ArticleAttributeCreationViaAPI(BaseCase):
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.ArticleAttribute.objects.count())
         self.assertEqual(1, models.AttributeType.objects.count())
-        
-        # TODO: test the data correctness!!!
+
+        expected_resp_data = {
+            'key': expected_data['attribute'],
+            'value': expected_data['attribute_value']
+        }
+        # just compare a slice of the response
+        resp_data_slice = utils.subdict(resp.data, expected_resp_data.keys())
+        self.assertEqual(resp_data_slice, expected_resp_data)
 
     def test_add_attribute_to_article_view_with_bad_payload(self):
         "the view should raise a 400 error if the payload cannot be deserialized from json"

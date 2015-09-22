@@ -95,9 +95,8 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
     article = get_object_or_404(models.Article, doi=doi)
     keyval = rest_request.data
     key, val = keyval['attribute'], keyval['attribute_value']
-    logic.add_update_article_attribute(article, key, val, extant_only)
-    data = {key: logic.get_attribute(article, key)}
-    return Response(data)
+    attribute = logic.add_update_article_attribute(article, key, val, extant_only)
+    return Response(attribute)
 
 @api_view(['GET'])
 def get_article_attribute(rest_request, doi, attribute, extant_only=True):

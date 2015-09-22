@@ -42,7 +42,7 @@ def get_attribute(article_obj, attr):
     if utils.djobj_hasattr(article_obj, attr):
         return getattr(article_obj, attr)
     try:
-        article_obj.articleattribute_set.get(key__slug=attr)
+        article_obj.articleattribute_set.get(key__name=attr)
     except models.ArticleAttribute.DoesNotExist:
         return None
 
@@ -51,7 +51,10 @@ def add_update_article_attribute(article, key, val, extant_only=True):
         # update the article object itself
         setattr(article, key, val)
         article.save()
-        return article
+        return {'key': key,
+                'value': getattr(article, key),
+                'doi': article.doi,
+                'version': article.version}
     
     # get/create the attribute type
     try:
@@ -88,7 +91,10 @@ def add_update_article_attribute(article, key, val, extant_only=True):
         attr = models.ArticleAttribute(**kwargs)
         attr.save()
 
-    return article
+    return {'key': attrtype.name,
+            'value': val,
+            'doi': article.doi,
+            'version': article.version}
 
 def add_or_update_article(**article_data):
     """given a article data it attempts to find the article and update it,

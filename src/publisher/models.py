@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from autoslug import AutoSlugField
 from simple_history.models import HistoricalRecords
@@ -83,12 +84,16 @@ def attr_type_choices():
     ]
 
 DEFAULT_ATTR_TYPE = attr_type_choices()[0][0]
+SUPERSLUG = re.compile('[\d\-]+')
 
 class AttributeType(models.Model):
-    name = models.CharField(max_length=50)
-    slug = AutoSlugField(populate_from='name', always_update=True)
+    name = models.SlugField(max_length=50)
     type = models.CharField(max_length=10, choices=attr_type_choices())
     description = models.TextField(blank=True, null=True)
+
+    def save(self):
+        self.name = re.sub(SUPERSLUG, '', self.name).lower()
+        super(AttributeType, self).save()
 
     def __unicode__(self):
         return self.name
