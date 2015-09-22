@@ -358,9 +358,6 @@ class ArticleAttribute(BaseCase):
         self.assertEqual(1, models.ArticleAttribute.objects.count())
         models.ArticleAttribute.objects.get(article=self.article, key__name=expected_key, value=expected_val)
 
-        # TODO: I think this failing case is indicative of a larger problem
-        
-        
 
     def test_add_unknown_article_attribute(self):
         "unknown/unhandled attributes can be added to an Article"
