@@ -278,7 +278,7 @@ class ArticleInfoViaApi(BaseCase):
         
 
 
-class ArticleAttributeCreation(BaseCase):
+class ArticleAttribute(BaseCase):
     def setUp(self):
         self.journal = logic.journal()    
         article_data = {
@@ -346,15 +346,31 @@ class ArticleAttributeCreation(BaseCase):
         self.assertEqual(0, models.ArticleAttribute.objects.count())
         self.assertEqual(expected_val, logic.get_attribute(clean_art, expected_key))
 
+    def test_update_adhoc_attribute(self):
+        "an attribute that isn't in the Article model but in the ArticleAttribute model is successfully updated"
+        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(0, models.ArticleAttribute.objects.count())
+        expected_key, expected_val = 'foo', 'pants'
+        logic.add_update_article_attribute(self.article, expected_key, expected_val, extant_only=False)
+        self.assertEqual(1, models.ArticleAttribute.objects.count())
+        
+        logic.add_update_article_attribute(self.article, expected_key, expected_val, extant_only=False)
+        self.assertEqual(1, models.ArticleAttribute.objects.count())
+        models.ArticleAttribute.objects.get(article=self.article, key__name=expected_key, value=expected_val)
+
+        # TODO: I think this failing case is indicative of a larger problem
+        
+        
+
     def test_add_unknown_article_attribute(self):
         "unknown/unhandled attributes can be added to an Article"
         self.assertEqual(0, models.ArticleAttribute.objects.count())
-        logic.add_attribute_to_article(self.article, "foo", "bar", extant_only=False)
+        logic.add_update_article_attribute(self.article, "foo", "bar", extant_only=False)
         self.assertEqual(1, models.ArticleAttribute.objects.count())
         
     def test_unknown_article_attribute_correctness(self):
         "unknown/unhandled arbitrary attributes can be added to an Article"
-        dirty_attr = logic.add_attribute_to_article(self.article, "foo", "bar", extant_only=False)
+        dirty_attr = logic.add_update_article_attribute(self.article, "foo", "bar", extant_only=False)
         clean_attr = models.ArticleAttribute.objects.get(pk=dirty_attr.id)
         self.assertEqual(clean_attr.key.name, "foo")
         self.assertEqual(clean_attr.key.type, models.DEFAULT_ATTR_TYPE)
@@ -362,7 +378,7 @@ class ArticleAttributeCreation(BaseCase):
 
     def test_add_article_attribute_strict(self):
         "attributes cannot be added to an Article unless attribute type already exists (an update)"
-        self.assertRaises(models.AttributeType.DoesNotExist, logic.add_attribute_to_article, self.article, "foo", "bar")
+        self.assertRaises(models.AttributeType.DoesNotExist, logic.add_update_article_attribute, self.article, "foo", "bar")
 
 
 

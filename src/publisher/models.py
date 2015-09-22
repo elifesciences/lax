@@ -106,6 +106,13 @@ class ArticleAttribute(models.Model):
 
     history = HistoricalRecords()
 
+    class Meta:
+        # there can be many 'Foo' attributes but only one combination of Article+'Foo'
+        # for example there can only be one SomeArticleV1.SubmissionDate.
+        # SomeArticleV1 cannot have multiple SubmissionDate.
+        # This cardinality might be tied to AttributeType if necessary
+        unique_together = ('article', 'key')
+
     def __unicode__(self):
         return '%s=%s' % (self.key.name, self.value)
 

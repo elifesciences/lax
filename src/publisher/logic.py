@@ -4,12 +4,12 @@ from django.conf import settings
 import logging
 from publisher import ingestor, utils
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 def journal(journal_name=settings.PRIMARY_JOURNAL):
     obj, new = models.Journal.objects.get_or_create(name=journal_name)
     if new:
-        logger.info("created new Journal %s", obj)
+        LOG.info("created new Journal %s", obj)
     return obj
 
 def article(doi, version=None, lazy=True):
@@ -36,23 +36,6 @@ def create_attribute(**kwargs):
     at.save()
     return at
 
-def add_attribute_to_article(article, key, val, extant_only=True):
-    try:
-        attrtype = models.AttributeType.objects.get(name=key)
-    except models.AttributeType.DoesNotExist:
-        if extant_only:
-            raise
-        attrtype = models.AttributeType(name=key, type=models.DEFAULT_ATTR_TYPE, description="[automatically created]")
-        attrtype.save()
-    kwargs = {
-        'article': article,
-        'key': attrtype,
-        'value': val,
-    }
-    attr = models.ArticleAttribute(**kwargs)
-    attr.save()
-    return attr
-
 def get_attribute(article_obj, attr):
     """looks for the attribute on the article itself first, then looks at
     the list of ad-hoc article attributes and tries to retrieve attr from there."""
@@ -65,10 +48,46 @@ def get_attribute(article_obj, attr):
 
 def add_update_article_attribute(article, key, val, extant_only=True):
     if utils.djobj_hasattr(article, key):
+        # update the article object itself
         setattr(article, key, val)
         article.save()
-    else:
-        add_attribute_to_article(article, key, val, extant_only)
+        return article
+    
+    # get/create the attribute type
+    try:
+        attrtype = models.AttributeType.objects.get(name=key)
+        # found
+    except models.AttributeType.DoesNotExist:
+        if extant_only:
+            # we've been told to *not* create new types of attributes. die.
+            raise
+        # not found, create.
+        kwargs = {
+            'name': key,
+            'type': models.DEFAULT_ATTR_TYPE,
+            'description': "[automatically created]"
+        }
+        attrtype = models.AttributeType(**kwargs)
+        attrtype.save()
+        LOG.info("created new AttributeType %r", attrtype)
+        
+    # add/update the article attribute    
+    kwargs = {
+        'article': article,
+        'key': attrtype,
+        'value': val,
+    }
+    try:
+        attr = models.ArticleAttribute.objects.get(**utils.subdict(kwargs, ['article', 'key']))
+        # article already has this attribute. update it with whatever value we were given
+        attr.value = val
+        attr.save()
+
+    except models.ArticleAttribute.DoesNotExist:
+        # article doesn't have this particular attribute yet
+        attr = models.ArticleAttribute(**kwargs)
+        attr.save()
+
     return article
 
 def add_or_update_article(**article_data):
