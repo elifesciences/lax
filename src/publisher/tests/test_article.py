@@ -353,10 +353,11 @@ class ArticleAttribute(BaseCase):
         expected_key, expected_val = 'foo', 'pants'
         logic.add_update_article_attribute(self.article, expected_key, expected_val, extant_only=False)
         self.assertEqual(1, models.ArticleAttribute.objects.count())
-        
-        logic.add_update_article_attribute(self.article, expected_key, expected_val, extant_only=False)
+
+        new_expected_val = 'pantsPARTY'
+        logic.add_update_article_attribute(self.article, expected_key, new_expected_val, extant_only=False)
         self.assertEqual(1, models.ArticleAttribute.objects.count())
-        models.ArticleAttribute.objects.get(article=self.article, key__name=expected_key, value=expected_val)
+        models.ArticleAttribute.objects.get(article=self.article, key__name=expected_key, value=new_expected_val)
 
 
     def test_add_unknown_article_attribute(self):
