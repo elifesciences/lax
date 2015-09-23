@@ -39,6 +39,11 @@ def rest_response(status, rest={}):
     data.update(rest)
     return Response(data, status=status)
 
+def article_or_404(doi, version=None):
+    try:
+        return logic.article(doi, version)
+    except models.Article.DoesNotExist:
+        raise Http404("Article not found")
 
 
 #
@@ -63,11 +68,8 @@ class ArticleSerializer(szr.ModelSerializer):
 @api_view(['GET'])
 def get_article(rest_request, doi, version=None):
     "Returns latest article data for the given doi or for a specific version."
-    try:
-        article = logic.article(doi=doi, version=version)
-        return Response(ArticleSerializer(article).data)
-    except models.Article.DoesNotExist:
-        raise Http404()
+    article = article_or_404(doi, version)
+    return Response(ArticleSerializer(article).data)
 
 @api_view(['GET'])
 def get_article_versions(rest_request, doi):
@@ -92,7 +94,7 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
     ---
     request_serializer: ArticleAttributeValueSerializer
     """
-    article = get_object_or_404(models.Article, doi=doi)
+    article = article_or_404(doi)
     keyval = rest_request.data
     key, val = keyval['attribute'], keyval['attribute_value']
     attribute = logic.add_update_article_attribute(article, key, val, extant_only)
@@ -102,7 +104,7 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
 def get_article_attribute(rest_request, doi, attribute, extant_only=True):
     """Returns the requested article's attribute value as
     both `attribute:value` and `attribute: attribute, attribute_value: value`."""
-    article = get_object_or_404(models.Article, doi__iexact=doi)
+    article = article_or_404(doi)
     val = logic.get_attribute(article, attribute)
     data = {
         'doi': article.doi,

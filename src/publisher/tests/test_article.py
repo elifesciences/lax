@@ -359,7 +359,6 @@ class ArticleAttribute(BaseCase):
         self.assertEqual(1, models.ArticleAttribute.objects.count())
         models.ArticleAttribute.objects.get(article=self.article, key__name=expected_key, value=new_expected_val)
 
-
     def test_add_unknown_article_attribute(self):
         "unknown/unhandled attributes can be added to an Article"
         self.assertEqual(0, models.ArticleAttribute.objects.count())
@@ -376,7 +375,7 @@ class ArticleAttribute(BaseCase):
 
     def test_add_article_attribute_strict(self):
         "attributes cannot be added to an Article unless attribute type already exists (an update)"
-        self.assertRaises(models.AttributeType.DoesNotExist, logic.add_update_article_attribute, self.article, "foo", "bar")
+        self.assertRaises(models.AttributeType.DoesNotExist, logic.add_update_article_attribute, self.article, "foo", "bar", extant_only=True)
 
 
 
@@ -426,40 +425,55 @@ class ArticleAttributeInfoViaAPI(BaseCase):
 class CreateUpdateArticleAttributeViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
-        doc = 'elife00005.xml.json'
-        self.json_fixture = os.path.join(self.this_dir, 'fixtures', doc)
+        self.journal = logic.journal()
+        self.article_data = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+             
+            {'title': 'bar',
+             'version': 2,
+             'doi': "10.7554/eLife.DUMMY",
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY2",
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in self.article_data]
 
     def tearDown(self):
         pass
 
     def test_add_attribute_to_article_view(self):
-        article_data = json.load(open(self.json_fixture, 'r'))
-        ingestor.import_article(logic.journal(), article_data)
+        article_data = self.article_data[0]
+        attr, val = 'attribute_type', 'foo'
 
-        expected_data = {
-            'attribute': 'article_type',
-            'attribute_value': article_data['article-type'],
-        }
-        
         # create the expected AttributeType
-        logic.create_attribute(name=expected_data['attribute'], type=models.DEFAULT_ATTR_TYPE)
+        logic.create_attribute(name=attr, type=models.DEFAULT_ATTR_TYPE)
 
         # craft the url
         kwargs = {'doi': article_data['doi']}
-        url = reverse('api-add-article-attribute', kwargs=kwargs)
-        resp = self.c.post(url, json.dumps(expected_data), content_type='application/json')
+        url = reverse('api-add-update-article-attribute', kwargs=kwargs)
+        resp = self.c.post(url, json.dumps({'attribute': attr, 'attribute_value': val}), \
+                           content_type='application/json')
         
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.ArticleAttribute.objects.count())
         self.assertEqual(1, models.AttributeType.objects.count())
 
         expected_resp_data = {
-            'key': expected_data['attribute'],
-            'value': expected_data['attribute_value']
+            'key': attr,
+            'value': val
         }
         # just compare a slice of the response
         resp_data_slice = utils.subdict(resp.data, expected_resp_data.keys())
         self.assertEqual(resp_data_slice, expected_resp_data)
+
+    def test_update_attribute(self):
+        pass
 
     def test_add_attribute_to_article_view_with_bad_payload(self):
         "the view should raise a 400 error if the payload cannot be deserialized from json"
