@@ -442,7 +442,7 @@ class CreateUpdateArticleAttributeViaAPI(BaseCase):
              'doi': "10.7554/eLife.DUMMY2",
              'journal': self.journal},
         ]
-        [logic.add_or_update_article(**article_data) for article_data in self.article_data]
+        self.articles = [logic.add_or_update_article(**article_data) for article_data in self.article_data]
 
     def tearDown(self):
         pass
@@ -473,7 +473,65 @@ class CreateUpdateArticleAttributeViaAPI(BaseCase):
         self.assertEqual(resp_data_slice, expected_resp_data)
 
     def test_update_attribute(self):
-        pass
+        "an article's attribute can be updated via the API"
+        article_data = self.article_data[-1] 
+        article = self.articles[-1]
+        attr, val = 'attribute_type', 'pants'
+        # create the attribute
+        resp = logic.add_update_article_attribute(article, attr, val, extant_only=False)
+        self.assertEqual(1, models.ArticleAttribute.objects.count())
+        self.assertEqual(1, models.AttributeType.objects.count())
+        self.assertEqual(resp['value'], val)
+
+        # update via the api
+        kwargs = {'doi': article_data['doi']}
+        url = reverse('api-add-update-article-attribute', kwargs=kwargs)
+        updated_val = 'pants-party'
+        payload = json.dumps({'attribute': attr, 'attribute_value': updated_val})
+        resp = self.c.post(url, payload, content_type='application/json')
+        
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.AttributeType.objects.count())
+        self.assertEqual(1, models.ArticleAttribute.objects.count())
+        expected_resp_data = {
+            'key': attr,
+            'value': updated_val
+        }
+        # just compare a slice of the response
+        resp_data_slice = utils.subdict(resp.data, expected_resp_data.keys())
+        self.assertEqual(resp_data_slice, expected_resp_data)
+        
+    def test_update_attribute_specific_version_of_article(self):
+        "the attribute of a specific version of an article can be updated via the API"
+        article_data = self.article_data[0] # first version of an article with two versions
+        article = self.articles[0]
+        attr, val = 'attribute_type', 'pants'
+        # create the attribute type and a value
+        resp = logic.add_update_article_attribute(article, attr, val, extant_only=False)
+        self.assertEqual(1, models.ArticleAttribute.objects.count())
+        self.assertEqual(1, models.AttributeType.objects.count())
+        self.assertEqual(resp['value'], val)
+
+        # update via the api
+        kwargs = {'doi': article_data['doi']}
+        url = reverse('api-add-update-article-attribute', kwargs=kwargs)
+        updated_val = 'pants-party'
+        payload = json.dumps({'version': article_data['version'],
+                              'attribute': attr,
+                              'attribute_value': updated_val})
+        resp = self.c.post(url, payload, content_type='application/json')
+        
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.AttributeType.objects.count())
+        self.assertEqual(1, models.ArticleAttribute.objects.count())
+
+        expected_resp_data = {
+            'key': attr,
+            'value': updated_val
+        }
+        # just compare a slice of the response
+        resp_data_slice = utils.subdict(resp.data, expected_resp_data.keys())
+        self.assertEqual(resp_data_slice, expected_resp_data)
 
     def test_add_attribute_to_article_view_with_bad_payload(self):
         "the view should raise a 400 error if the payload cannot be deserialized from json"

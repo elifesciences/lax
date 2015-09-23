@@ -87,6 +87,7 @@ def get_article_versions(rest_request, doi):
 class ArticleAttributeValueSerializer(szr.Serializer):
     attribute = szr.CharField(max_length=50)
     attribute_value = szr.CharField(max_length=255)
+    version = szr.IntegerField(required=False)
 
 @api_view(['POST'])
 def add_update_article_attribute(rest_request, doi, extant_only=True):
@@ -94,9 +95,9 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
     ---
     request_serializer: ArticleAttributeValueSerializer
     """
-    article = article_or_404(doi)
     keyval = rest_request.data
-    key, val = keyval['attribute'], keyval['attribute_value']
+    key, val, version = keyval['attribute'], keyval['attribute_value'], keyval.get('version')
+    article = article_or_404(doi, version)
     attribute = logic.add_update_article_attribute(article, key, val, extant_only)
     return Response(attribute)
 

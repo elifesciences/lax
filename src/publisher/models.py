@@ -88,7 +88,7 @@ SUPERSLUG = re.compile('[\d\-]+')
 
 class AttributeType(models.Model):
     name = models.SlugField(max_length=50)
-    type = models.CharField(max_length=10, choices=attr_type_choices())
+    type = models.CharField(max_length=10, choices=attr_type_choices(), default=DEFAULT_ATTR_TYPE)
     description = models.TextField(blank=True, null=True)
 
     def save(self):
