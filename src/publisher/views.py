@@ -118,16 +118,11 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
 # importing
 #
 
-class ArticleImportSerializer(szr.Serializer):
-    name = szr.CharField(max_length=255)
-
 @api_view(['POST'])
 def import_article(rest_request):
     """
     Imports an article in eLife's EIF format: https://github.com/elifesciences/elife-eif-schema
     Returns the doi of the inserted/updated article
-    ---
-    request_serializer: ArticleImportSerializer
     """    
     try:
         article_obj = ingestor.import_article(logic.journal(), rest_request.data)
