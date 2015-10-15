@@ -45,9 +45,9 @@ def import_article(journal, article_data, update=False):
     logger.info("created new Article %s" % article_obj)
     return article_obj
 
-def import_article_from_json_path(journal, article_json_path):
+def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
     "convenience function. loads the article data from a json file"
-    return import_article(journal, json.load(open(article_json_path, 'r')))
+    return import_article(journal, json.load(open(article_json_path, 'r')), *args, **kwargs)
 
 #
 # import article from a github repo

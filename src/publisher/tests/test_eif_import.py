@@ -1,4 +1,5 @@
 import os, json
+from os.path import join
 from publisher import ingestor, utils, models, logic
 from base import BaseCase
 import logging
@@ -106,10 +107,10 @@ class ImportFromPPPEIF(BaseCase):
     "the EIF article json floating around the PPP workflow differs from the more static stuff that can be found at github.com/elifesciences/elife-article-json"
     
     def setUp(self):
-        self.fixture_dir = os.path.join(self.this_dir, 'fixtures', 'ppp')
+        self.fixture_dir = os.path.join(self.this_dir, 'fixtures')
         self.fixture_list = []
         self.journal = logic.journal()
-        for dirpath, _, files in os.walk(self.fixture_dir):
+        for dirpath, _, files in os.walk(join(self.fixture_dir, 'ppp')):
             if not files: continue
             self.fixture_list.extend(map(lambda f: os.path.join(dirpath, f), files))
 
@@ -121,10 +122,17 @@ class ImportFromPPPEIF(BaseCase):
         for fixture in self.fixture_list:
             ingestor.import_article_from_json_path(self.journal, fixture)
 
+    def test_ppp_update(self):
+        "ppp eif can be used to update existing article without exceptions"
+        fixture = join(self.fixture_dir, 'elife00353.xml.json')
+        eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', '2d3245f7-46df-4c14-b8c2-0bb2f1731ba4', 'elife-00353-v1.json')
+        art = ingestor.import_article_from_json_path(self.journal, fixture)
+        self.assertEqual(art.title, "A good life")
+        self.assertEqual(1, art.history.count()) # original art
+        art = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
+        self.assertEqual(art.title, "A meh life")
+        self.assertEqual(1, art.history.count()) # original + updated art
 
-
-        
-        
 class ImportArticleFromRepoLazilyUsingAPI(BaseCase):
     def setUp(self):
         self.c = Client()
