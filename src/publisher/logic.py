@@ -23,8 +23,12 @@ def article(doi, version=None, lazy=True):
     
     except (IndexError, models.Article.DoesNotExist):
         if lazy: # TODO: and doi-looks-like-an-elife-doi
-            ingestor.import_article_from_github_repo(journal(), doi)
-            return article(doi, version, lazy=False)
+            try:
+                ingestor.import_article_from_github_repo(journal(), doi)
+                return article(doi, version, lazy=False)
+            except ValueError:
+                # bad data, bad doi, etc
+                pass
         raise models.Article.DoesNotExist()
 
 def article_versions(doi):

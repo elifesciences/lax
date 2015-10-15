@@ -12,34 +12,46 @@ def todt(val):
     naive = datetime.strptime(val, "%Y-%m-%d")
     return pytz.utc.localize(naive)
 
-def import_article(journal, article_data, update=False):
-    if not article_data:
-        return None
-    kwargs = subdict(article_data, ['title', 'version', 'doi', 'volume', 'pub-date', 'path', 'status', 'article-type'])
-    kwargs.update({
-        'journal':  journal,
-        'version': int(kwargs['version']),
-        'datetime_published': todt(kwargs['pub-date']),
-        'volume': int(kwargs['volume']),
-        'status': kwargs['status'].lower(),
-        'website_path': kwargs['path'],
-        'type': kwargs['article-type'],
-    })
-    del kwargs['pub-date']
-    del kwargs['path']
-    del kwargs['article-type']
+def import_article(journal, article_data, create=True, update=False):
+    if not article_data or not isinstance(article_data, dict):
+        raise ValueError("given data to import is empty/invalid")
+    expected_keys = ['title', 'version', 'doi', 'volume', 'pub-date', 'path', 'status', 'article-type']
+
+    # data wrangling
+    try:
+        kwargs = subdict(article_data, expected_keys)
+        # post process data
+        kwargs.update({
+            'journal':  journal,
+            'version': int(kwargs['version']),
+            'datetime_published': todt(kwargs['pub-date']),
+            'volume': int(kwargs['volume']),
+            'status': kwargs['status'].lower(),
+            'website_path': kwargs['path'],
+            'type': kwargs['article-type'],
+        })
+        del kwargs['pub-date']
+        del kwargs['path']
+        del kwargs['article-type']
+    except KeyError:
+        raise ValueError("expected keys invalid/not present: %s" % ", ".join(expected_keys))
+    
+    # attempt to insert
     try:
         article_obj = models.Article.objects.get(doi=kwargs['doi'])
-        if update:
-            logger.info("article exists, updating")
-            for key, val in kwargs.items():
-                setattr(article_obj, key, val)
-            article_obj.save()
-        else:
-            logger.warning("article exists, not importing")   
+        if not update:
+            raise AssertionError("article exists and I've been told not to update.")
+        logger.info("article exists, updating")
+        for key, val in kwargs.items():
+            setattr(article_obj, key, val)
+        article_obj.save()
         return article_obj
+
     except models.Article.DoesNotExist:
-        pass
+        # we've been told not to create new articles.
+        # this is now a legitimate exception
+        if not create:
+            raise
     article_obj = models.Article(**kwargs)
     article_obj.save()
     logger.info("created new Article %s" % article_obj)

@@ -8,6 +8,7 @@ import ingestor
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.parsers import ParseError
 from rest_framework import serializers as szr
 
 import logging
@@ -118,15 +119,24 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
 # importing
 #
 
-@api_view(['POST'])
-def import_article(rest_request):
+def import_article(rest_request, *args, **kwargs):
     """
     Imports an article in eLife's EIF format: https://github.com/elifesciences/elife-eif-schema
     Returns the doi of the inserted/updated article
     """    
     try:
-        article_obj = ingestor.import_article(logic.journal(), rest_request.data)
+        article_obj = ingestor.import_article(logic.journal(), rest_request.data, *args, **kwargs)
         return Response({'doi': article_obj.doi})
+    except (ParseError, ValueError), e:
+        raise ParseError("failed to parse given JSON")
     except Exception:
         logger.exception("unhandled exception attempting to import EIF json")
         return rest_response(500)
+
+@api_view(['POST'])
+def create_article(rest_request):
+    return import_article(rest_request, create=True, update=False)
+
+@api_view(['POST'])
+def update_article(rest_request):
+    return import_article(rest_request, create=False, update=True)
