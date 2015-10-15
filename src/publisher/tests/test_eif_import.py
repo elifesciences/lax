@@ -98,7 +98,31 @@ class ImportArticleFromRepo(BaseCase):
         self.assertRaises(ValueError, ingestor.import_article_from_github_repo, self.journal, doi)
         # nothing created
         self.assertEqual(0, models.Article.objects.count())
+
+
+
+
+class ImportFromPPPEIF(BaseCase):
+    "the EIF article json floating around the PPP workflow differs from the more static stuff that can be found at github.com/elifesciences/elife-article-json"
     
+    def setUp(self):
+        self.fixture_dir = os.path.join(self.this_dir, 'fixtures', 'ppp')
+        self.fixture_list = []
+        self.journal = logic.journal()
+        for dirpath, _, files in os.walk(self.fixture_dir):
+            if not files: continue
+            self.fixture_list.extend(map(lambda f: os.path.join(dirpath, f), files))
+
+    def tearDown(self):
+        pass
+
+    def test_ppp_basic_import(self):
+        "ppp eif can be imported without exceptions"
+        for fixture in self.fixture_list:
+            ingestor.import_article_from_json_path(self.journal, fixture)
+
+
+
         
         
 class ImportArticleFromRepoLazilyUsingAPI(BaseCase):
@@ -128,3 +152,4 @@ class ImportArticleFromRepoLazilyUsingAPI(BaseCase):
         self.assertEqual(0, models.Article.objects.count())
         # 'not found' given
         self.assertEqual(404, resp.status_code)
+            
