@@ -71,6 +71,11 @@ class ImportArticleFromJSON(BaseCase):
         self.assertRaises(AssertionError, ingestor.import_article_from_json_path, self.journal, self.json_fixture, update=False)
         self.assertEqual(1, models.Article.history.count())
 
+    def test_article_update_when_doesnt_exist(self):
+        # attempt the update
+        self.assertRaises(models.Article.DoesNotExist, ingestor.import_article_from_json_path, self.journal, self.json_fixture, create=False, update=True)
+        self.assertEqual(0, models.Article.history.count())
+
 class ImportArticleFromJSONViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
@@ -89,6 +94,18 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         self.assertEqual(1, models.Article.objects.count())
 
         # TODO: test the data correctness!!!
+
+    def test_article_multiple_creates(self):
+        "multiple attempts to create the same article fail after initial with 400 (Bad Request)"
+        self.assertEqual(0, models.Article.objects.count())
+        json_data = open(self.json_fixture, 'r').read()
+        resp = self.c.post(reverse('api-create-article'), json_data, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.Article.objects.count())
+
+        resp = self.c.post(reverse('api-create-article'), json_data, content_type="application/json")
+        self.assertEqual(400, resp.status_code)
+        self.assertEqual(1, models.Article.objects.count())
 
     def test_article_updated_view(self):
         "an article can be updated by importing from JSON via API"
@@ -133,6 +150,15 @@ class ImportArticleFromJSONViaAPI(BaseCase):
                 print '>>> ', bad_data
                 print e
                 raise
+
+    def test_article_update_when_doesnt_exist(self):
+        # attempt the update
+        json_data = open(self.json_fixture, 'r').read()
+        resp = self.c.post(reverse('api-update-article'), json_data, content_type="application/json")
+        self.assertEqual(404, resp.status_code)
+        self.assertEqual(0, models.Article.objects.count())
+
+
 
 class ImportArticleFromRepo(BaseCase):
     def setUp(self):

@@ -29,17 +29,6 @@ def article_list(request):
 # API
 #
 
-def rest_response(status, rest={}):
-    msg = 'success'
-    ec = str(status)[0]
-    if ec == '4':
-        msg = 'warning'
-    elif ec == '5':
-        msg = 'error'
-    data = {'message': msg}
-    data.update(rest)
-    return Response(data, status=status)
-
 def article_or_404(doi, version=None):
     try:
         return logic.article(doi, version)
@@ -128,10 +117,15 @@ def import_article(rest_request, *args, **kwargs):
         article_obj = ingestor.import_article(logic.journal(), rest_request.data, *args, **kwargs)
         return Response({'doi': article_obj.doi})
     except (ParseError, ValueError), e:
-        raise ParseError("failed to parse given JSON")
+        return Response({"message": "failed to parse given JSON"}, status=400)
+    except AssertionError:
+        return Response({"message": "failed to create/update article"}, status=400)
+    except models.Article.DoesNotExist:
+        return Response({"message": "failed to find article to update it"}, status=404)
+    
     except Exception:
         logger.exception("unhandled exception attempting to import EIF json")
-        return rest_response(500)
+        return Response(None, status=500)
 
 @api_view(['POST'])
 def create_article(rest_request):
