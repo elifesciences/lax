@@ -4,7 +4,7 @@ from publisher import ingestor, utils, models, logic
 from base import BaseCase
 import logging
 from publisher import views
-
+import json
 from django.test import Client
 from django.core.urlresolvers import reverse
 
@@ -84,6 +84,31 @@ class ImportArticleFromJSONViaAPI(BaseCase):
 
     def tearDown(self):
         pass
+
+    def test_article_created_update_view(self):
+        "an article can be import from JSON via API"
+        self.assertEqual(0, models.Article.objects.count())
+        json_data = open(self.json_fixture, 'r').read()
+        data = json.loads(json_data)
+        
+        resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.Article.objects.count())
+
+        # change the doi
+        artobj = models.Article.objects.all()[0]
+        artobj.title = 'pants.party'
+        artobj.save()
+
+        models.Article.objects.get(title='pants.party')
+
+        # update the same article (with the original doi)
+        resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.Article.objects.count())
+
+        artobj = models.Article.objects.all()[0]
+        self.assertEqual(artobj.title, data['title'])
 
     def test_article_created_view(self):
         "an article can be import from JSON via API"

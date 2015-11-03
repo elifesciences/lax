@@ -11,6 +11,7 @@ urlpatterns_v1 = [
     
     url(r'v1/article/create/$', views.create_article, name='api-create-article'),
     url(r'v1/article/update/$', views.update_article, name='api-update-article'),
+    url(r'v1/article/create-update/$', views.import_article, name='api-create-update-article'),
     
     url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/attribute/$',  views.add_update_article_attribute, name='api-add-update-article-attribute'),
     url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/attribute/(?P<attribute>[\-\w]+)/$',  views.get_article_attribute, name='api-get-article-attribute'),

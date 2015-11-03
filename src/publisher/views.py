@@ -108,13 +108,16 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
 # importing
 #
 
-def import_article(rest_request, *args, **kwargs):
+@api_view(['POST'])
+def import_article(rest_request, create=True, update=True):
     """
-    Imports an article in eLife's EIF format: https://github.com/elifesciences/elife-eif-schema
+    Imports (creates or updates) an article in eLife's EIF format:
+    https://github.com/elifesciences/elife-eif-schema
+    
     Returns the doi of the inserted/updated article
     """    
     try:
-        article_obj = ingestor.import_article(logic.journal(), rest_request.data, *args, **kwargs)
+        article_obj = ingestor.import_article(logic.journal(), rest_request.data, create, update)
         return Response({'doi': article_obj.doi})
     except (ParseError, ValueError), e:
         return Response({"message": "failed to parse given JSON"}, status=400)
