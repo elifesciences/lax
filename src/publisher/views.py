@@ -8,6 +8,7 @@ import ingestor
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.parsers import ParseError
 from rest_framework import serializers as szr
 
 import logging
@@ -27,17 +28,6 @@ def article_list(request):
 #
 # API
 #
-
-def rest_response(status, rest={}):
-    msg = 'success'
-    ec = str(status)[0]
-    if ec == '4':
-        msg = 'warning'
-    elif ec == '5':
-        msg = 'error'
-    data = {'message': msg}
-    data.update(rest)
-    return Response(data, status=status)
 
 def article_or_404(doi, version=None):
     try:
@@ -118,20 +108,32 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
 # importing
 #
 
-class ArticleImportSerializer(szr.Serializer):
-    name = szr.CharField(max_length=255)
-
 @api_view(['POST'])
-def import_article(rest_request):
+def import_article(rest_request, create=True, update=True):
     """
-    Imports an article in eLife's EIF format: https://github.com/elifesciences/elife-eif-schema
+    Imports (creates or updates) an article in eLife's EIF format:
+    https://github.com/elifesciences/elife-eif-schema
+    
     Returns the doi of the inserted/updated article
-    ---
-    request_serializer: ArticleImportSerializer
     """    
     try:
-        article_obj = ingestor.import_article(logic.journal(), rest_request.data)
+        article_obj = ingestor.import_article(logic.journal(), rest_request.data, create, update)
         return Response({'doi': article_obj.doi})
+    except (ParseError, ValueError), e:
+        return Response({"message": "failed to parse given JSON"}, status=400)
+    except AssertionError:
+        return Response({"message": "failed to create/update article"}, status=400)
+    except models.Article.DoesNotExist:
+        return Response({"message": "failed to find article to update it"}, status=404)
+    
     except Exception:
         logger.exception("unhandled exception attempting to import EIF json")
-        return rest_response(500)
+        return Response(None, status=500)
+
+@api_view(['POST'])
+def create_article(rest_request):
+    return import_article(rest_request, create=True, update=False)
+
+@api_view(['POST'])
+def update_article(rest_request):
+    return import_article(rest_request, create=False, update=True)
