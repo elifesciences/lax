@@ -2,6 +2,7 @@ import os, requests
 import models
 from django.conf import settings
 import logging
+from publisher import utils
 
 logger = logging.getLogger(__name__)
 
