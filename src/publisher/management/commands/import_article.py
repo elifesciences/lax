@@ -41,6 +41,9 @@ class Command(BaseCommand):
                 success = True
             except KeyboardInterrupt:
                 raise
+            except AssertionError, ae:
+                print ae
+                success = True
             except:
                 logger.exception("failed to import article")
                 success = False
