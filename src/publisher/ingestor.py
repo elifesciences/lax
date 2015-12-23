@@ -1,3 +1,4 @@
+from dateutil import parser
 import json
 import models
 from utils import subdict
@@ -6,11 +7,14 @@ import requests
 from datetime import datetime
 import pytz
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 def todt(val):
-    naive = datetime.strptime(val, "%Y-%m-%d")
-    return pytz.utc.localize(naive)
+    dt = parser.parse(val)
+    if not dt.tzinfo:
+        LOG.warn("encountered naive timestamp %r. UTC assumed.", val)
+        return pytz.utc.localize(dt)
+    return dt            
 
 def import_article(journal, article_data, create=True, update=False):
     if not article_data or not isinstance(article_data, dict):
@@ -41,7 +45,7 @@ def import_article(journal, article_data, create=True, update=False):
         article_obj = models.Article.objects.get(doi=kwargs['doi'])
         if not update:
             raise AssertionError("article exists and I've been told not to update.")
-        logger.info("article exists, updating")
+        LOG.info("article exists, updating")
         for key, val in kwargs.items():
             setattr(article_obj, key, val)
         article_obj.save()
@@ -54,7 +58,7 @@ def import_article(journal, article_data, create=True, update=False):
             raise
     article_obj = models.Article(**kwargs)
     article_obj.save()
-    logger.info("created new Article %s" % article_obj)
+    LOG.info("created new Article %s" % article_obj)
     return article_obj
 
 def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
@@ -78,7 +82,7 @@ def github_url(doi):
 
 def fetch_url(url):
     try:
-        logger.info("fetching url %r", url)
+        LOG.info("fetching url %r", url)
         resp = requests.get(url)
         if resp.status_code == 200:
             return resp.json()

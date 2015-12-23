@@ -14,7 +14,7 @@ DEBUG = True
 DEV, TEST, PROD = 'dev', 'test', 'prod'
 ENV = DEV
 
-TEMPLATE_DEBUG = True
+
 
 ALLOWED_HOSTS = []
 
@@ -58,6 +58,7 @@ TEMPLATES = [
         ],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -110,10 +111,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected-static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-)
-
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
 )
 
 REST_FRAMEWORK = {

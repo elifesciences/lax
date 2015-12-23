@@ -13,4 +13,4 @@ def dictmap(func, data, **funcargs):
     return {k:func(v) for k, v in data.items()}
 
 def djobj_hasattr(djobj, key):
-    return key in djobj._meta.get_all_field_names()
+    return key in map(lambda f: f.name, djobj._meta.get_fields())
