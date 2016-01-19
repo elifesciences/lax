@@ -10,6 +10,10 @@ trap control_c SIGINT
 
 if [ ! -d .elife-json ]; then
     git clone https://github.com/elifesciences/elife-article-json/ .elife-json
+else
+    cd .elife-json
+    git reset --hard
+    git pull
+    cd ..
 fi
 ./src/manage.py import_article .elife-json/article-json/
-rm -rf ./.elife-json/
