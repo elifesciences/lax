@@ -1,5 +1,6 @@
 {% extends "page-base.html" %}
+{% load md2 %}
 
-{% block page-title %}Landing{% endblock %}
+{% block page-title %}Lax{% endblock %}
 
-{% block page-body %}{% endblock %}
+{% block page-body %}{{ readme|markdown }}{% endblock %}

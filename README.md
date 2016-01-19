@@ -2,6 +2,15 @@
 
 An effort to provide a flexible, mostly-structured, data store for articles.
 
+API documentation can be found here:
+
+* [Swagger](//lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
+* [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
+
+## Data model
+
+[code](https://github.com/elifesciences/lax/blob/master/src/publisher/models.py)
+
 A publisher has one or many journals, each journal has many articles.
 
 Each article is uniquely identified by it's DOI. The DOI doesn't have to be 
@@ -14,18 +23,23 @@ supplements the normalised article data. This allows for collection of ad-hoc
 article data. These attributes and their values may be migrated into the 
 `article` database table at a later point.
 
-Both the `Article` and `ArticleAttribute` models keep a record of data that is
-changed. If an article is updated, it's previous version is kept and can be 
-queried if you want insight into it's history.
-
 ## The 'Publisher' app
+
+[code](https://github.com/elifesciences/lax/blob/master/src/publisher/)
 
 The core application on which other apps may be dependant.
 
 It models the basic relationships between entities and captures events occurring
 against Articles.
 
+Both the `Article` and `ArticleAttribute` models in the Publisher app keep a 
+record of data that is changed. If an article is updated, it's previous version 
+is kept and can be queried if you want insight into it's history.
+
+
 ## Installation
+
+[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
 
     $ git clone https://github.com/elifesciences/lax
     $ cd lax
@@ -33,13 +47,19 @@ against Articles.
 
 ## Updating
 
+[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
+
     $ ./install.sh
 
-## Testing
+## Testing 
+
+[code](https://github.com/elifesciences/lax/blob/develop/src/publisher/tests/)  
 
     $ ./test.sh
 
 ## Running
+
+[code](https://github.com/elifesciences/lax/blob/develop/runserver.sh)
 
     $ ./runserver.sh
     $ firefox http://127.0.0.1:8000/admin

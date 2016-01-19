@@ -1,3 +1,6 @@
+from os.path import join
+import os
+from django.conf import settings
 import json
 from django.shortcuts import get_object_or_404, Http404
 from annoying.decorators import render_to
@@ -12,18 +15,14 @@ from rest_framework.parsers import ParseError
 from rest_framework import serializers as szr
 
 import logging
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 @render_to("publisher/landing.html")
 def landing(request):
-    return {}
-
-@render_to("publisher/article-list.html")
-def article_list(request):
+    project_root = os.path.abspath(join(settings.BASE_DIR, '..'))
     return {
-        'article_list': models.Article.objects.all()
+        'readme': open(join(project_root, 'README.md')).read()
     }
-
 
 #
 # API
@@ -115,7 +114,7 @@ def import_article(rest_request, create=True, update=True):
     https://github.com/elifesciences/elife-eif-schema
     
     Returns the doi of the inserted/updated article
-    """    
+    """
     try:
         article_obj = ingestor.import_article(logic.journal(), rest_request.data, create, update)
         return Response({'doi': article_obj.doi})
@@ -127,7 +126,7 @@ def import_article(rest_request, create=True, update=True):
         return Response({"message": "failed to find article to update it"}, status=404)
     
     except Exception:
-        logger.exception("unhandled exception attempting to import EIF json")
+        LOG.exception("unhandled exception attempting to import EIF json")
         return Response(None, status=500)
 
 @api_view(['POST'])
