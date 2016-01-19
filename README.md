@@ -5,8 +5,54 @@ for articles.
 
 API documentation can be found here:
 
-* [Swagger](//lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
+* [Swagger](https://lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
+
+## Installation
+
+[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
+
+    $ git clone https://github.com/elifesciences/lax
+    $ cd lax
+    $ ./install.sh
+
+## Updating
+
+[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
+
+    $ ./install.sh
+
+## Testing 
+
+[code](https://github.com/elifesciences/lax/blob/develop/src/publisher/tests/)  
+
+    $ ./test.sh
+
+## Running
+
+[code](https://github.com/elifesciences/lax/blob/develop/runserver.sh)
+
+    $ ./runserver.sh
+    $ firefox http://127.0.0.1:8000/admin
+
+## Loading Article JSON
+
+eLife uses a JSON format called [EIF](https://github.com/elifesciences/elife-eif-schema) 
+(eLife Ingestor Format) that was designed to convert JATS XML into something 
+malleable for the website and other downstream projects (like Lax).
+
+The eLife EIF JSON can be imported with:
+
+    $ ./load-elife-json.sh
+
+This will clone the EIF JSON and load it sequentially into Lax.
+
+or, via http:
+    
+    $ curl -vX POST http://127.0.0.1:8000/api/v1/article/create-update/ \
+      --data @eif-article-file.json \
+      --header "Content-Type: application/json"
+
 
 ## Data model
 
@@ -36,66 +82,6 @@ against Articles.
 Both the `Article` and `ArticleAttribute` models in the Publisher app keep a 
 record of data that is changed. If an article is updated, it's previous version 
 is kept and can be queried if you want insight into it's history.
-
-
-## Installation
-
-[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
-
-    $ git clone https://github.com/elifesciences/lax
-    $ cd lax
-    $ ./install.sh
-
-## Updating
-
-[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
-
-    $ ./install.sh
-
-## Testing 
-
-[code](https://github.com/elifesciences/lax/blob/develop/src/publisher/tests/)  
-
-    $ ./test.sh
-
-## Running
-
-[code](https://github.com/elifesciences/lax/blob/develop/runserver.sh)
-
-    $ ./runserver.sh
-    $ firefox http://127.0.0.1:8000/admin
-
-## Running with Docker
-
-With Docker running, do:
-
-    $ ./build-docker.sh
-
-to build the container tagged "elifesciences/lax-develop" and once built, use:
-
-    $ ./run-docker.sh
-    
-to start the Django webserver accessible via port 8001.
-
-The admin username and password for this instance are "admin" and "admin. 
-
-## Loading Article JSON
-
-eLife uses a JSON format called [EIF](https://github.com/elifesciences/elife-eif-schema) 
-(eLife Ingestor Format) that was designed to convert JATS XML into something 
-malleable for the website and other downstream projects (like Lax).
-
-The eLife EIF JSON can be imported with:
-
-    $ ./load-elife-json.sh
-
-This will clone the EIF JSON and load it sequentially into Lax.
-
-or, via http:
-    
-    $ curl -vX POST http://127.0.0.1:8000/api/v1/article/create-update/ \
-      --data @eif-article-file.json \
-      --header "Content-Type: application/json"
 
 ## Copyright & Licence
 
