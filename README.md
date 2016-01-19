@@ -1,41 +1,45 @@
 # Lax
 
-An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, mostly-structured, data store 
-for articles.
+An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, 
+mostly-structured, data store for articles.
 
 API documentation can be found here:
 
-* [Swagger](https://lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
+* [Swagger](https://lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
 
-## Installation
+For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) article:
 
-[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
+* [https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/](https://parallel.lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/)
 
-    $ git clone https://github.com/elifesciences/lax
-    $ cd lax
-    $ ./install.sh
-
-## Updating
+## installation
 
 [code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
 
-    $ ./install.sh
+    git clone https://github.com/elifesciences/lax
+    cd lax
+    ./install.sh
 
-## Testing 
+## updating
+
+[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
+
+    ./install.sh
+
+## testing 
 
 [code](https://github.com/elifesciences/lax/blob/develop/src/publisher/tests/)  
 
-    $ ./test.sh
+    ./test.sh
 
-## Running
+## running
 
 [code](https://github.com/elifesciences/lax/blob/develop/runserver.sh)
 
-    $ ./runserver.sh
-    $ firefox http://127.0.0.1:8000/admin
+    ./runserver.sh
+    firefox http://127.0.0.1:8000/api/docs/
 
-## Loading Article JSON
+## loading article JSON
 
 eLife uses a JSON format called [EIF](https://github.com/elifesciences/elife-eif-schema) 
 (eLife Ingestor Format) that was designed to convert JATS XML into something 
@@ -43,18 +47,18 @@ malleable for the website and other downstream projects (like Lax).
 
 The eLife EIF JSON can be imported with:
 
-    $ ./load-elife-json.sh
+    ./load-elife-json.sh
 
 This will clone the EIF JSON and load it sequentially into Lax.
 
 or, via http:
     
-    $ curl -vX POST http://127.0.0.1:8000/api/v1/article/create-update/ \
+    curl -vX POST http://127.0.0.1:8000/api/v1/article/create-update/ \
       --data @eif-article-file.json \
       --header "Content-Type: application/json"
 
 
-## Data model
+## data model
 
 [code](https://github.com/elifesciences/lax/blob/master/src/publisher/models.py)
 
@@ -70,7 +74,7 @@ supplements the normalised article data. This allows for collection of ad-hoc
 article data. These attributes and their values may be migrated into the 
 `article` database table at a later point.
 
-## The 'Publisher' app
+## the 'Publisher' app
 
 [code](https://github.com/elifesciences/lax/blob/master/src/publisher/)
 
