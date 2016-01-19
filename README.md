@@ -99,7 +99,7 @@ or, via http:
 
 ## Copyright & Licence
 
-Copyright 2015 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
+Copyright 2016 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
