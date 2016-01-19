@@ -1,6 +1,7 @@
 # Lax
 
-An effort to provide a flexible, mostly-structured, data store for articles.
+An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, mostly-structured, data store 
+for articles.
 
 API documentation can be found here:
 
@@ -78,29 +79,24 @@ to start the Django webserver accessible via port 8001.
 
 The admin username and password for this instance are "admin" and "admin. 
 
-
-# deprecated
-
 ## Loading Article JSON
 
-    $ ./load-json.sh /path/to/json/dir/
-    
+eLife uses a JSON format called [EIF](https://github.com/elifesciences/elife-eif-schema) 
+(eLife Ingestor Format) that was designed to convert JATS XML into something 
+malleable for the website and other downstream projects (like Lax).
+
+The eLife EIF JSON can be imported with:
+
+    $ ./load-elife-json.sh
+
+This will clone the EIF JSON and load it sequentially into Lax.
+
 or, via http:
     
-    $ curl -vX POST http://127.0.0.1:8000/import-article/ \
-      --data @article.json \
+    $ curl -vX POST http://127.0.0.1:8000/api/v1/article/create-update/ \
+      --data @eif-article-file.json \
       --header "Content-Type: application/json"
 
-## Adding Article Attributes
-
-    $ curl -vX POST http://127.0.0.1:8000/add-attribute-to-article/<doi>/<version>/ \
-      --data {"key": "Date Published", "val": "1997-08-29 06:14:00+UTC"} \
-      --header "Content-Type: application/json"
-
-## Testing
-
-    $ ./test.sh
-   
 ## Copyright & Licence
 
 Copyright 2015 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
