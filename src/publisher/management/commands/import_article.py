@@ -37,7 +37,7 @@ class Command(BaseCommand):
         def _import(path):
             print 'importing',path,'...'
             try:
-                ingestor.import_article_from_json_path(journal, path)
+                ingestor.import_article_from_json_path(journal, path, create=True, update=True)
                 success = True
             except KeyboardInterrupt:
                 raise
