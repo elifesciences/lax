@@ -3,7 +3,7 @@
 An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, 
 mostly-structured, data store for articles.
 
-[Github repo here](https://github.com/elifesciences/lax/).
+[Github repo](https://github.com/elifesciences/lax/).
 
 API documentation can be found here:
 
@@ -16,7 +16,7 @@ For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) articl
 
 ## installation
 
-[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
+[code](https://github.com/elifesciences/lax/blob/master/install.sh)  
 
     git clone https://github.com/elifesciences/lax
     cd lax
@@ -24,19 +24,19 @@ For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) articl
 
 ## updating
 
-[code](https://github.com/elifesciences/lax/blob/develop/install.sh)  
+[code](https://github.com/elifesciences/lax/blob/master/install.sh)  
 
     ./install.sh
 
 ## testing 
 
-[code](https://github.com/elifesciences/lax/blob/develop/src/publisher/tests/)  
+[code](https://github.com/elifesciences/lax/blob/master/src/publisher/tests/)  
 
     ./test.sh
 
 ## running
 
-[code](https://github.com/elifesciences/lax/blob/develop/runserver.sh)
+[code](https://github.com/elifesciences/lax/blob/master/runserver.sh)
 
     ./runserver.sh
     firefox http://127.0.0.1:8000/api/docs/
@@ -69,7 +69,7 @@ A publisher has one or many journals, each journal has many articles.
 Each article is uniquely identified by it's DOI. The DOI doesn't have to be 
 registered with Crossref.
 
-Each article consists of a set of [known attributes](https://github.com/elifesciences/lax/blob/develop/src/publisher/models.py#L24) that are stored together in the database.
+Each article consists of a set of [known attributes](https://github.com/elifesciences/lax/blob/master/src/publisher/models.py#L24) that are stored together in the database.
 
 Each article also has zero or many attributes in a simple `key=val` table that 
 supplements the normalised article data. This allows for collection of ad-hoc 
