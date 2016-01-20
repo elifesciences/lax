@@ -3,6 +3,8 @@
 An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, 
 mostly-structured, data store for articles.
 
+[Github repo here](https://github.com/elifesciences/lax/).
+
 API documentation can be found here:
 
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
@@ -10,7 +12,7 @@ API documentation can be found here:
 
 For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) article:
 
-* [https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/](https://parallel.lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/)
+* [https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/](https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/)
 
 ## installation
 
