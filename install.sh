@@ -5,8 +5,10 @@ if [ ! -d venv ]; then
 fi
 source venv/bin/activate
 if [ ! -f src/core/settings.py ]; then
-    echo "no settings.py found. quitting while I'm ahead."
-    exit 1
+    echo "no settings.py found! using the DEV settings (dev_settings.py) by default."
+    cd src/core/
+    ln -s dev_settings.py settings.py
+    cd ../../
 fi
 pip install -r requirements.txt
 python src/manage.py migrate

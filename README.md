@@ -1,89 +1,97 @@
 # Lax
 
-An effort to provide a flexible, mostly-structured, data store for articles.
+An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, 
+mostly-structured, data store for articles.
+
+[Github repo](https://github.com/elifesciences/lax/).
+
+API documentation can be found here:
+
+* [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
+* [Swagger](https://lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
+
+For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) article:
+
+* [https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/](https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/)
+
+## installation
+
+[code](https://github.com/elifesciences/lax/blob/master/install.sh)  
+
+    git clone https://github.com/elifesciences/lax
+    cd lax
+    ./install.sh
+
+## updating
+
+[code](https://github.com/elifesciences/lax/blob/master/install.sh)  
+
+    ./install.sh
+
+## testing 
+
+[code](https://github.com/elifesciences/lax/blob/master/src/publisher/tests/)  
+
+    ./test.sh
+
+## running
+
+[code](https://github.com/elifesciences/lax/blob/master/runserver.sh)
+
+    ./runserver.sh
+    firefox http://127.0.0.1:8000/api/docs/
+
+## loading article JSON
+
+eLife uses a JSON format called [EIF](https://github.com/elifesciences/elife-eif-schema) 
+(eLife Ingestor Format) that was designed to convert JATS XML into something 
+malleable for the website and other downstream projects (like Lax).
+
+The eLife EIF JSON can be imported with:
+
+    ./load-elife-json.sh
+
+This will clone the EIF JSON and load it sequentially into Lax.
+
+or, via http:
+    
+    curl -vX POST http://127.0.0.1:8000/api/v1/article/create-update/ \
+      --data @eif-article-file.json \
+      --header "Content-Type: application/json"
+
+
+## data model
+
+[code](https://github.com/elifesciences/lax/blob/master/src/publisher/models.py)
 
 A publisher has one or many journals, each journal has many articles.
 
 Each article is uniquely identified by it's DOI. The DOI doesn't have to be 
 registered with Crossref.
 
-Each article consists of a set of [known attributes](https://github.com/elifesciences/lax/blob/develop/src/publisher/models.py#L24) that are stored together in the database.
+Each article consists of a set of [known attributes](https://github.com/elifesciences/lax/blob/master/src/publisher/models.py#L24) that are stored together in the database.
 
 Each article also has zero or many attributes in a simple `key=val` table that 
 supplements the normalised article data. This allows for collection of ad-hoc 
 article data. These attributes and their values may be migrated into the 
 `article` database table at a later point.
 
-Both the `Article` and `ArticleAttribute` models keep a record of data that is
-changed. If an article is updated, it's previous version is kept and can be 
-queried if you want insight into it's history.
+## the 'Publisher' app
 
-## The 'Publisher' app
+[code](https://github.com/elifesciences/lax/blob/master/src/publisher/)
 
 The core application on which other apps may be dependant.
 
 It models the basic relationships between entities and captures events occurring
 against Articles.
 
-## Installation
+Both the `Article` and `ArticleAttribute` models in the Publisher app keep a 
+record of data that is changed. If an article is updated, it's previous version 
+is kept and can be queried if you want insight into it's history.
 
-    $ git clone https://github.com/elifesciences/lax
-    $ cd lax
-    $ ./install.sh
-
-## Updating
-
-    $ ./install.sh
-
-## Testing
-
-    $ ./test.sh
-
-## Running
-
-    $ ./runserver.sh
-    $ firefox http://127.0.0.1:8000/admin
-
-## Running with Docker
-
-With Docker running, do:
-
-    $ ./build-docker.sh
-
-to build the container tagged "elifesciences/lax-develop" and once built, use:
-
-    $ ./run-docker.sh
-    
-to start the Django webserver accessible via port 8001.
-
-The admin username and password for this instance are "admin" and "admin. 
-
-
-# deprecated
-
-## Loading Article JSON
-
-    $ ./load-json.sh /path/to/json/dir/
-    
-or, via http:
-    
-    $ curl -vX POST http://127.0.0.1:8000/import-article/ \
-      --data @article.json \
-      --header "Content-Type: application/json"
-
-## Adding Article Attributes
-
-    $ curl -vX POST http://127.0.0.1:8000/add-attribute-to-article/<doi>/<version>/ \
-      --data {"key": "Date Published", "val": "1997-08-29 06:14:00+UTC"} \
-      --header "Content-Type: application/json"
-
-## Testing
-
-    $ ./test.sh
-   
 ## Copyright & Licence
 
-Copyright 2015 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
+Copyright 2016 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -1,5 +1,10 @@
 {% extends "page-base.html" %}
+{% load md2 %}
+{% block html-head %}
+{{ block.super }}
+<base target="_blank">
+{% endblock %}
 
-{% block page-title %}Landing{% endblock %}
+{% block page-title %}Lax{% endblock %}
 
-{% block page-body %}{% endblock %}
+{% block page-body %}{{ readme|markdown }}{% endblock %}

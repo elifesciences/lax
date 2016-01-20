@@ -31,7 +31,8 @@ INSTALLED_APPS = (
     'simple_history',
     'rest_framework',
     'rest_framework_swagger',
-
+    'django_markdown2',
+    
     'publisher',
 )
 

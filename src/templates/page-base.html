@@ -1,61 +1,12 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
-{% block extra-html-attrs %}class="no-js" lang="en" data-useragent="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)"{% endblock extra-html-attrs %}
-
 {% block html-head %}
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>{% block html-title %}{% endblock html-title %}</title>
-<meta name="description" content="{% block page-description %}{% endblock %}"/>
-<meta name="author" content="{% block page-author %}{% endblock %}"/>
-<meta name="copyright" content="{% block site-copyright %}{% endblock %}"/>
-<style type="text/css">
-.foundation-data-attribute-namespace {
-    font-family: false;
-}
-</style>
-<script src="{% static "third-party/foundation/js/vendor/modernizr.js" %}"></script>
-
-<link href="{% static "third-party/foundation/css/normalize.css" %}" rel="stylesheet" type="text/css" />
-<link href="{% static "third-party/foundation/css/foundation.min.css" %}" rel="stylesheet" type="text/css" />
+<title>{% block html-title %}Lax. A mostly-structured article store.{% endblock html-title %}</title>
+<!-- http://jasonm23.github.io/markdown-css-themes/markdown7.css -->
+<link href="{% static "css/markdown7.css" %}" rel="stylesheet" type="text/css" />
 {% endblock html-head %}
-
-{% block html-body %} 
-
-<div class="row">
-<p>&nbsp;</p>
-</div>
-
-<div class="row">
- 
-    <div class="large-9 push-3 columns">
-        <h3>{% block page-title %}Placeholder Title{% endblock %}</h3>
-        {% block page-body %}Bacon ipsum dolor sit amet salami ham hock ...{% endblock %}
-    </div>
-
-    <div class="large-3 pull-9 columns">
-        <ul class="side-nav">
-        {% block side-nav %}
-        <li><a href="{% url "admin:index" %}">Admin</a></li>        
-        <li>&nbsp;</li>
-        <li><a href="{% url "pub-landing" %}">Home</a></li>        
-        <li><a href="{% url "article-list" %}">Article list</a></li>
-        {% endblock side-nav %}
-        </ul>
-    </div>
-</div>
-
-<script src="{% static "third-party/foundation/js/vendor/jquery.js" %}"></script>
-<script src="{% static "third-party/foundation/js/foundation.min.js" %}"></script>
-<script>
-    $(document).foundation();
-</script>
-
-<script>
-      $(document).foundation();
-
-      var doc = document.documentElement;
-      doc.setAttribute('data-useragent', navigator.userAgent);
-    </script>
+{% block html-body %}
+{% block page-body %}{% endblock %}
 {% endblock html-body %}
