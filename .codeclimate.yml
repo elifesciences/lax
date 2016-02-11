@@ -21,4 +21,4 @@ ratings:
   - "**.module"
   - "**.py"
 exclude_paths:
-  - **/migrations/*
+  - "**/migrations/*"
