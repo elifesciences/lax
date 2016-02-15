@@ -41,8 +41,9 @@ def import_article(journal, article_data, create=True, update=False):
         raise ValueError("expected keys invalid/not present: %s" % ", ".join(expected_keys))
     
     # attempt to insert
+    article_key = subdict(kwargs, ['doi', 'version'])
     try:
-        article_obj = models.Article.objects.get(doi=kwargs['doi'])
+        article_obj = models.Article.objects.get(**article_key)
         if not update:
             raise AssertionError("article exists and I've been told not to update.")
         LOG.info("article exists, updating")
