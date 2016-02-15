@@ -85,7 +85,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
     def tearDown(self):
         pass
 
-    def test_article_created_update_view(self):
+    def test_article_create_update_view(self):
         "an article can be import from JSON via API"
         self.assertEqual(0, models.Article.objects.count())
         json_data = open(self.json_fixture, 'r').read()
@@ -109,6 +109,29 @@ class ImportArticleFromJSONViaAPI(BaseCase):
 
         artobj = models.Article.objects.all()[0]
         self.assertEqual(artobj.title, data['title'])
+
+    def test_article_create_update_multiple_versions_view(self):
+        "an article can be imported from JSON via API across multiple versions"
+        self.assertEqual(0, models.Article.objects.count())
+        json_data = open(self.json_fixture, 'r').read()
+        data = json.loads(json_data)
+        
+        # post the article with a version of 1
+        resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(1, models.Article.objects.count())
+
+        # post a new version of same article with a version of 2
+        data["version"] = "2"
+        json_data = json.dumps(data)
+        resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        q = models.Article.objects.filter(doi=data['doi'])
+        self.assertEqual(2, q.count())
+
+        v1, v2 = q.all() # ordering is in models.py
+        self.assertEqual(v1.version, 1)
+        self.assertEqual(v2.version, 2)
 
     def test_article_created_view(self):
         "an article can be import from JSON via API"
