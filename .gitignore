@@ -9,3 +9,4 @@ venv
 xml
 .elife-json
 src/core/settings.py
+.coverage
