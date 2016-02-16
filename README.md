@@ -3,6 +3,10 @@
 An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, 
 mostly-structured, data store for articles.
 
+This project uses the [Python programming language](https://www.python.org/),
+the [Django web framework](https://www.djangoproject.com/) and a
+[relational database](https://en.wikipedia.org/wiki/Relational_database_management_system).
+
 [Github repo](https://github.com/elifesciences/lax/).
 
 API documentation can be found here:
