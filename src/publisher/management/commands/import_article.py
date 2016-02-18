@@ -2,6 +2,7 @@ import os, glob, pprint
 from core import utils as core_utils
 from django.core.management.base import BaseCommand
 from publisher import ingestor, logic
+from functools import partial
 
 import logging
 logger = logging.getLogger(__name__)
@@ -13,14 +14,35 @@ def resolve_path(p):
         return glob.glob("%s/*.json" % p.rstrip('/'))
     return p
 
-class Command(BaseCommand):
-    help = 'Imports a single or multiple article JSON files or directories of files'
+def import_fn(create, update, path):
+    "wrapper around the import function with friendlier handling of problems"
+    print 'importing',path,'...'
+    try:
+        ingestor.import_article_from_json_path(logic.journal(), path, create=create, update=update)
+        success = True
+    except KeyboardInterrupt:
+        raise
+    except AssertionError, ae:
+        print ae
+        success = True
+    except:
+        logger.exception("failed to import article")
+        success = False
+    return path, success
 
-    def add_arguments(self, parser):
-        parser.add_argument('paths', nargs='+', type=str)
+class Command(BaseCommand):
+    help = 'Imports one or many article JSON files or directories of files'
     
-    def handle(self, *args, **kwargs):
-        paths = kwargs['paths']
+    def add_arguments(self, parser):
+        # where am I to look?
+        parser.add_argument('paths', nargs='+', type=str)
+        # create articles that don't exist?
+        parser.add_argument('--no-create', action='store_false', default=True)
+        # update articles that already exist?
+        parser.add_argument('--no-update', action='store_false', default=True)
+    
+    def handle(self, *args, **options):
+        paths = options['paths']
         path_list = list(set(core_utils.flatten(map(resolve_path, paths))))
         if not path_list:
             print 'no files to process, exiting'
@@ -34,25 +56,18 @@ class Command(BaseCommand):
             print
             exit(0)
 
-        def _import(path):
-            print 'importing',path,'...'
-            try:
-                ingestor.import_article_from_json_path(journal, path, create=True, update=True)
-                success = True
-            except KeyboardInterrupt:
-                raise
-            except AssertionError, ae:
-                print ae
-                success = True
-            except:
-                logger.exception("failed to import article")
-                success = False
-            return path, success
-
         try:
-            journal = logic.journal()
-            results = map(_import, path_list)
+            create_articles = options['no_create']
+            update_articles = options['no_update']
+
+            if not create_articles and not update_articles:
+                print 'cannot create or update, stopping here.'
+                exit(0)
+
+            fn = partial(import_fn, create_articles, update_articles)
+            results = map(fn, path_list)
             pprint.pprint(results)
+
         except KeyboardInterrupt:
             print
             exit(1)
