@@ -52,5 +52,5 @@ class Command(BaseCommand):
             return key
         map(download, dataset)
 
-        cmd = "import_article path .repop/ --no-update"
+        cmd = "import_article .repop/ --no-update"
         call_command(*cmd.split())
