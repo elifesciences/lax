@@ -3,8 +3,8 @@ import models
 from simple_history.admin import SimpleHistoryAdmin
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('doi', 'title', 'datetime_published')
-    list_filter = ('datetime_published', 'status', 'volume', 'type')
+    list_display = ('doi', 'version', 'title', 'datetime_published')
+    list_filter = ('datetime_published', 'status', 'volume', 'type', 'version')
     search_fields = ('doi', 'title')
 
 class ArticleAttributeAdmin(admin.ModelAdmin):
