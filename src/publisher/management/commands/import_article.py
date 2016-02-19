@@ -43,6 +43,9 @@ class Command(BaseCommand):
     
     def handle(self, *args, **options):
         paths = options['paths']
+        create_articles = options['no_create']
+        update_articles = options['no_update']
+        
         path_list = list(set(core_utils.flatten(map(resolve_path, paths))))
         if not path_list:
             print 'no files to process, exiting'
@@ -50,6 +53,9 @@ class Command(BaseCommand):
 
         try:
             pprint.pprint(path_list)
+            print 'create?',create_articles
+            print 'update?',update_articles
+            
             print 'importing %s files:' % len(path_list)
             raw_input('continue? (ctrl-c to exit)')
         except KeyboardInterrupt:
@@ -57,9 +63,6 @@ class Command(BaseCommand):
             exit(0)
 
         try:
-            create_articles = options['no_create']
-            update_articles = options['no_update']
-
             if not create_articles and not update_articles:
                 print 'cannot create or update, stopping here.'
                 exit(0)
