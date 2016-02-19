@@ -50,7 +50,4 @@ class Command(BaseCommand):
                 print 'downloading',s['key']
                 bucket.download_file(s['key'], path)
             return key
-        map(download, dataset)
-
-        cmd = "import_article .repop/ --no-update"
-        call_command(*cmd.split())
+        map(download, sorted(struct_map.values()))

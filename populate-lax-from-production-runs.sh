@@ -10,3 +10,4 @@ fi
 set -a; source aws-perms.sh; set +a
 # call the repopulate command
 ./manage.sh repop
+./manage.sh import_article .repop/ --no-update
