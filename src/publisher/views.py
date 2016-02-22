@@ -36,7 +36,7 @@ def article_or_404(doi, version=None):
 
 
 #
-# collections of articles
+# API, collections of articles
 #
 
 @api_view(['GET'])
@@ -46,7 +46,7 @@ def corpus_info(rest_request):
                      'research-article-count': articles.filter(type='research-article').count()})
 
 #
-# specific articles
+# API, specific articles
 #
 
 class ArticleSerializer(szr.ModelSerializer):
@@ -104,7 +104,7 @@ def get_article_attribute(rest_request, doi, attribute, extant_only=True):
     return Response(data)
 
 #
-# importing
+# API, importing
 #
 
 @api_view(['POST'])
