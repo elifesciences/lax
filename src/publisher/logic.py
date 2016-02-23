@@ -120,6 +120,36 @@ def add_or_update_article(**article_data):
 #
 #
 
+def latest_articles(where=[], limit=None, order_by=['datetime_published DESC']):
+    sql = '''
+    SELECT a.*
+    FROM publisher_article a
+    INNER JOIN (
+      SELECT doi, MAX(version) as max_version
+      FROM publisher_article
+      GROUP BY doi
+    ) AS b
+    ON a.doi = b.doi
+    AND a.version = max_version
+    %(where)s
+    %(order_by)s
+    %(limit)s
+    '''
+    context = {
+        'where': 'WHERE ' + ' AND '.join(where) if where else '',
+        'limit': 'LIMIT ' + str(limit) if limit else '',
+        'order_by': 'ORDER BY ' + ', '.join(order_by) if order_by else '',
+    }
+    sql = sql % context
+    #print sql
+    return models.Article.objects.raw(sql)
+
+
+
+#
+#
+#
+
 def mk_dxdoi_link(doi):
     return "http://dx.doi.org/%s" % doi
 

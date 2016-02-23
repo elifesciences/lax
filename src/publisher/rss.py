@@ -1,44 +1,21 @@
-from django.db.models import Q
+from django.db.models import Q, F, Max
 from django.conf.urls import include, url
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 import models, logic
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import logging
 LOG = logging.getLogger(__name__)
 
-# '/rss/articles/((poa|vor)|(poa+vor))/',
-# '/rss/articles/((poa|vor)|(poa+vor))/(24-hours|last-seven-days|last-28-days|last-168-days|last-365-days)/',
-# '/rss/articles/((poa|vor)|(poa+vor))/(today|this-week|last-week|this-month|last-month|last-six-months|this-year|last-year)/'
-
-since_list = [
-    "24-hours"
-    "last-seven-days"
-    "last-28-days",
-    "last-168-days",
-    "last-365-days",
-
-    "today",
-    "this-week",
-    "last-week",
-    "this-month",
-    "last-month",
-    "last-six-months",
-    "this-year",
-]
-
-def since_fn(since_str):
+def since_fn(since_int):
     "returns a datetime object for the given string relative to datetime.now()"
-    if since_str == 'today':
-        return datetime.now().replace(hour=0, minute=0, second=0)
-    elif since_str == '24-hours':
-        return datetime.now() - timedelta(hours=24)
-    return None
+    dt = datetime.now() - timedelta(days=int(since_int))
+    return dt.strftime('%Y-%m-%d %H-%M-%S')
 
-def type_q(type_str):
+def type_fn(type_str):
     "returns a django Q object that filters on article.status"
-    return Q(status__in=type_str.split('+'))
+    return ', '.join(map(lambda v: "'%s'" % v, type_str.split('+')))
 
 class ArticleFeed(Feed):
     title = "eLife Article Feeds"
@@ -52,12 +29,14 @@ class ArticleFeed(Feed):
                 'since': since}
 
     def items(self, obj):
-        limit_qobj = Q(datetime_published__gte=since_fn(obj['since']))
-        type_qobj = type_q(obj['article_types'])
-        return models.Article.objects.filter(type_qobj).filter(limit_qobj)
+        where_clauses = [
+            "datetime_published >= '%s'" % since_fn(obj['since']),
+            "status in (%s)" % type_fn(obj['article_types']),
+        ]
+        return logic.latest_articles(where=where_clauses)
 
     def item_title(self, item):
-        return item.title
+        return item.title + ' v' + str(item.version)
 
     def item_pubdate(self, item):
         return item.datetime_published
@@ -73,9 +52,7 @@ class ArticleFeed(Feed):
 # rss handling
 #
 
-since_list_str = "(%s)" % "|".join(since_list)
-
 urls = [
-    url("^(?P<article_types>(poa\+vor)|(poa|vor))/(?P<since>%s)/$" % since_list_str, ArticleFeed(), name='rss-articles'),
+    url("^(?P<article_types>(poa\+vor)|(poa|vor))/last-(?P<since>\d{1,3})-days/$", ArticleFeed(), name='rss-articles'),
 ]
 

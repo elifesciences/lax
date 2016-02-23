@@ -42,7 +42,7 @@ class RSSViews(BaseCase):
              }
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]        
-        url = reverse('rss-articles', kwargs={'article_types': 'vor', 'since': 'today'})
+        url = reverse('rss-articles', kwargs={'article_types': 'vor', 'since': '1'})
         resp = self.c.get(url)
         print resp.content
         self.assertEqual(1, len(re.findall('<guid', resp.content)))
