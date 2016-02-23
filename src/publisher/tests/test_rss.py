@@ -46,4 +46,4 @@ class RSSViews(BaseCase):
         resp = self.c.get(url)
         print resp.content
         self.assertEqual(1, len(re.findall('<guid', resp.content)))
-        self.assertTrue(False)
+
