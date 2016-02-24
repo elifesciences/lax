@@ -9,7 +9,9 @@ the [Django web framework](https://www.djangoproject.com/) and a
 
 [Github repo](https://github.com/elifesciences/lax/).
 
-API documentation can be found here:
+## API
+
+Documentation can be found here:
 
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
 * [Swagger](https://lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
@@ -17,6 +19,25 @@ API documentation can be found here:
 For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) article:
 
 * [https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/](https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/)
+
+## RSS
+
+RSS feeds are available here:
+
+* [All articles in the last day](/rss/articles/poa+vor/last-1-days/) (or [just POA](/rss/articles/poa/last-1-days/), or [just VOR](/rss/articles/vor/last-1-days/))
+
+* [All articles in the last week](/rss/articles/poa+vor/last-7-days/) (or [just POA](/rss/articles/poa/last-7-days/), or [just VOR](/rss/articles/vor/last-7-days/))
+
+The URLs look like:
+
+    https://lax.elifesciences.org/rss/articles/<status[+status]>/last-<n>-days/
+
+For example, if you wanted all articles published in the last month:
+
+    [https://lax.elifesciences.org/rss/articles/poa+vor/last-28-days/]
+
+Note: if a revision to an article was published within your day period only the 
+most recent article version will be displayed.
 
 ## installation
 
