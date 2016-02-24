@@ -24,9 +24,9 @@ For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) articl
 
 RSS feeds are available here:
 
-* [All articles in the last day](/rss/articles/poa+vor/last-1-days/) (or [just POA](/rss/articles/poa/last-1-days/), or [just VOR](/rss/articles/vor/last-1-days/))
+* [All articles in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) (or [just POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/), or [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/))
 
-* [All articles in the last week](/rss/articles/poa+vor/last-7-days/) (or [just POA](/rss/articles/poa/last-7-days/), or [just VOR](/rss/articles/vor/last-7-days/))
+* [All articles in the last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) (or [just POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/), or [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/))
 
 The URLs look like:
 
@@ -34,7 +34,7 @@ The URLs look like:
 
 For example, if you wanted all articles published in the last month:
 
-    [https://lax.elifesciences.org/rss/articles/poa+vor/last-28-days/]
+    https://lax.elifesciences.org/rss/articles/poa+vor/last-28-days/
 
 Note: if a revision to an article was published within your day period only the 
 most recent article version will be displayed.
