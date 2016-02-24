@@ -26,9 +26,7 @@ RSS feeds are available here:
 
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/rss.py)
 
-* [All articles in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) (or [just POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/), or [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/))
-
-* [All articles in the last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) (or [just POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/), or [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/))
+* [articles published in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) ([POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/), [VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/)), or [last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) ([just POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/), [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/))
 
 The URLs look like:
 
@@ -37,9 +35,6 @@ The URLs look like:
 For example, if you wanted all articles published in the last month:
 
     https://lax.elifesciences.org/rss/articles/poa+vor/last-28-days/
-
-Note: if a revision to an article was published within your day period only the 
-most recent article version will be displayed.
 
 ## installation
 
