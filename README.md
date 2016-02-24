@@ -26,7 +26,7 @@ RSS feeds are available here:
 
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/rss.py)
 
-* [articles published in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) ([POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/), [VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/)), or [last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) ([just POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/), [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/))
+* [articles published in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) \[[POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/)\] \[[VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/)\], or [last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) \[[POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/)\] \[[VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/)\]
 
 The URLs look like:
 
