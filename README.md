@@ -24,6 +24,8 @@ For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) articl
 
 RSS feeds are available here:
 
+* [code](https://github.com/elifesciences/lax/blob/master/src/publisher/rss.py)
+
 * [All articles in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) (or [just POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/), or [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/))
 
 * [All articles in the last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) (or [just POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/), or [just VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/))
