@@ -42,7 +42,7 @@ REPO_URL_RESOLVERS = {
 def article_eif_urls(doi):
     if not REPO_LOOKUP:
         logger.warning("no repositories have been configured. we don't know where to pull the article EIF json from!")
-        return None
+        return
 
     def _call_val(val, **kwargs):
         return val(**kwargs) if callable(val) else val
@@ -55,7 +55,7 @@ def article_eif_urls(doi):
         repo_data = utils.dictmap(_call_val, repo_data, doi=doi)
         yield REPO_URL_RESOLVERS[repo_name](doi, repo_data)
     logger.warning("failed to find article data in any of the given repositories")
-    return None
+    return
 
 def _fetch_article_eif(url):
     "downloads article eif json from a url provided by the repository"

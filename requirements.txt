@@ -1,11 +1,13 @@
+boto3==1.2.3
+coverage==4.0.3
 Django==1.9
 django-annoying==0.8.5
 django-autoslug==1.9.3
 django-filter==0.11.0
-djangorestframework==3.3.2
+django-markdown2==0.2.1
 django-rest-swagger==0.3.4
 django-simple-history==1.7.0
-Markdown==2.6.5
+djangorestframework==3.3.2
 pip-review==0.4
 prospector==0.11.7
 psycopg2==2.6.1
@@ -15,4 +17,3 @@ python-dateutil==2.4.2
 pytz==2015.7
 requests==2.9.1
 unittest-xml-reporting==1.13.0
-django-markdown2==0.2.1
