@@ -9,10 +9,6 @@ from django.utils.feedgenerator import Rss201rev2Feed
 import logging
 LOG = logging.getLogger(__name__)
 
-def type_fn(article_types):
-    "returns a django Q object that filters on article.status"
-    return ', '.join(map(lambda v: "'%s'" % v, article_types))
-
 class RSSArticleFeedGenerator(Rss201rev2Feed):
     def rss_attributes(self):
         parent_attr_dict = super(RSSArticleFeedGenerator, self).rss_attributes()
@@ -42,12 +38,12 @@ class ArticleFeed(Feed):
     def items(self, obj):
         where_clauses = [
             "datetime_published >= '%s'" % obj['since'].strftime('%Y-%m-%d %H-%M-%S'),
-            "status in (%s)" % type_fn(obj['article_types']),
+            "status in (%s)" % ', '.join(map(lambda v: "'%s'" % v, obj['article_types']))
         ]
         return logic.latest_articles(where=where_clauses)
 
     def item_title(self, item):
-        return item.title + ' v' + str(item.version)
+        return item.title
 
     def item_pubdate(self, item):
         return item.datetime_published
