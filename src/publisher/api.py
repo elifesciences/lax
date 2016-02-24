@@ -16,8 +16,13 @@ urlpatterns_v1 = [
     url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/attribute/$',  views.add_update_article_attribute, name='api-add-update-article-attribute'),
     url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/attribute/(?P<attribute>[\-\w]+)/$',  views.get_article_attribute, name='api-get-article-attribute'),
 
+    # all versions of an article
     url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/version/$', views.get_article_versions, name='api-article-versions'),
-    url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/version/(?P<version>\d+)/$', views.get_article, name='api-article'),
+
+    # specific version of a specific article
+    url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/version/(?P<version>\d{0,3})/$', views.get_article, name='api-article-version'),
+
+    # latest version of a specific article
     url(r'v1/article/(?P<doi>[\.\w]+\/[\.\w]+)/$', views.get_article, name='api-article'),
 ]
 

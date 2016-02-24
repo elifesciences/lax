@@ -198,7 +198,7 @@ class ArticleInfoViaApi(BaseCase):
         self.assertEqual(404, resp.status_code)
 
     def test_article_info_version_grouping(self):
-        "test that an article with multiple versions is returned"
+        "an article with multiple versions is returned"
         doi = "10.7554/eLife.DUMMY"
         article_data_list = [
             {'title': 'foo',
@@ -230,7 +230,7 @@ class ArticleInfoViaApi(BaseCase):
             self.assertEqual(resp_item['doi'], expected_item['doi'])
 
     def test_article_info_version(self):
-        "test that the correct article version is returned when specified via the api"
+        "the correct article version is returned when specified via the api"
         doi = "10.7554/eLife.DUMMY"
         article_data_list = [
             {'title': 'foo',
@@ -251,12 +251,25 @@ class ArticleInfoViaApi(BaseCase):
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         
         expected_version = 1
-        resp = self.c.get(reverse("api-article", kwargs={'doi': doi, 'version': expected_version}))
+        resp = self.c.get(reverse("api-article-version", kwargs={'doi': doi, 'version': expected_version}))
         self.assertEqual(2, models.Article.objects.count())
         self.assertEqual(resp.data['version'], expected_version)
         self.assertEqual(resp.data['title'], 'bar')
 
-        
+    def test_article_info_incorrect_version(self):
+        "a 404 is returned when the correct article with an incorrect version is specified via the api"
+        doi = "10.7554/eLife.DUMMY"
+        version = 1
+        article_data_list = [
+            {'title': 'foo',
+             'version': version,
+             'doi': doi,
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        url = reverse("api-article-version", kwargs={'doi': doi, 'version': version + 1})
+        resp = self.c.get(url)
+        self.assertEqual(404, resp.status_code)
 
 
     #

@@ -22,9 +22,11 @@ def article(doi, version=None, lazy=True):
         return models.Article.objects.filter(doi__iexact=doi).order_by('-version')[:1][0]
     
     except (IndexError, models.Article.DoesNotExist):
-        if lazy: # TODO: and doi-looks-like-an-elife-doi
+        # TODO: and doi-looks-like-an-elife-doi
+        # TODO: fetching articles lazily only works when a version is not specified. articles in the github repo have no version currently.
+        if lazy and version == None:
             try:
-                ingestor.import_article_from_github_repo(journal(), doi)
+                ingestor.import_article_from_github_repo(journal(), doi, version)
                 return article(doi, version, lazy=False)
             except ValueError:
                 # bad data, bad doi, etc

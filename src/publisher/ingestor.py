@@ -72,7 +72,8 @@ def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
 # src/publisher/super_lazy_repo_lookup.py
 #
 
-def github_url(doi):
+def github_url(doi, version=None):
+    assert version == None, "fetching specific versions of articles from github is not yet supported!"
     if '/' in doi:
         # we have a full doi
         fname = "%s.xml.json" % doi.lower().split('/')[1].replace('.', '')
@@ -95,7 +96,7 @@ def fetch_url(url):
         logging.exception("unhandled exception attempting to fetch url %r", url)
         raise
 
-def import_article_from_github_repo(journal, doi):
+def import_article_from_github_repo(journal, doi, version=None):
     if not doi or not str(doi).strip():
         raise ValueError("bad doi") # todo - shift into a utility?
-    return import_article(journal, fetch_url(github_url(doi)))
+    return import_article(journal, fetch_url(github_url(doi, version)))
