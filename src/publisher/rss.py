@@ -63,7 +63,7 @@ class SpecificArticleFeed(AbstractArticleFeed):
         return reverse('rss-specific-article-list', kwargs={'aid_list': ','.join(obj['aid_list'])})
 
     def items(self, obj):
-        return models.Article.objects.filter(doi__in=obj['doi_list']).order_by('datetime_record_updated', 'version')
+        return models.Article.objects.filter(doi__in=obj['doi_list']).order_by('-datetime_record_updated', 'version')
 
     def item_title(self, item):
         return u'%s (version %s)' % (item.title, item.version)
