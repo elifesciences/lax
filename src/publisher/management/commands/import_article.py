@@ -1,7 +1,6 @@
 import os, glob, pprint
-from core import utils as core_utils
 from django.core.management.base import BaseCommand
-from publisher import ingestor, logic
+from publisher import ingestor, logic, utils
 from functools import partial
 
 import logging
@@ -46,7 +45,7 @@ class Command(BaseCommand):
         create_articles = options['no_create']
         update_articles = options['no_update']
         
-        path_list = list(set(core_utils.flatten(map(resolve_path, paths))))
+        path_list = list(set(utils.flatten(map(resolve_path, paths))))
         if not path_list:
             print 'no files to process, exiting'
             exit(0)
