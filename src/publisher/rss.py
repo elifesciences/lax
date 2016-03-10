@@ -81,13 +81,13 @@ class RecentArticleFeed(AbstractArticleFeed):
         return {
             'original': {'article_types': article_types,
                          'since': since},
-            'article_types': article_types.split('+'),
+            'article_types': tuple(article_types.split('+')),
             'since': datetime.now() - timedelta(days=int(since))}
 
     def items(self, obj):
         where_clauses = [
-            "datetime_published >= '%s'" % obj['since'].strftime('%Y-%m-%d %H-%M-%S'),
-            "status in (%s)" % ', '.join(map(lambda v: "'%s'" % v, obj['article_types']))
+            ("datetime_published >= %s", obj['since'].strftime('%Y-%m-%d %H-%M-%S')),
+            ("status in (%s)", obj['article_types']),
         ]
         return logic.latest_articles(where=where_clauses)
 
@@ -99,6 +99,4 @@ class RecentArticleFeed(AbstractArticleFeed):
 urls = [
     url(r"^(?P<aid_list>(eLife\.\d{5}[,]?)+)$", SpecificArticleFeed(), name='rss-specific-article-list'),
     url(r"^(?P<article_types>(poa\+vor)|(poa|vor))/last-(?P<since>\d{1,3})-days/$", RecentArticleFeed(), name='rss-recent-article-list'),
-
 ]
-

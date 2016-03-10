@@ -3,6 +3,7 @@ import models
 from django.conf import settings
 import logging
 from publisher import ingestor, utils
+from publisher.utils import first, second
 
 LOG = logging.getLogger(__name__)
 
@@ -120,8 +121,14 @@ def add_or_update_article(**article_data):
 #
 #
 
-def latest_articles(where=[], limit=None, order_by=['datetime_published DESC']):
-    sql = '''
+def latest_articles(where=[], limit=None):
+    assert isinstance(where, list), "'where' must be a list of (clause, param) pairs"
+    assert all(map(lambda p: isinstance(p, tuple), where)), "'where' must be a list of tuples"
+    if limit:
+        assert isinstance(limit, str) or isinstance(limit, int), "'limit' but be a string or an int. got %s" % type(limit)
+
+    
+    args, sql = [], ['''
     SELECT a.*
     FROM publisher_article a
     INNER JOIN (
@@ -130,19 +137,47 @@ def latest_articles(where=[], limit=None, order_by=['datetime_published DESC']):
       GROUP BY doi
     ) AS b
     ON a.doi = b.doi
-    AND a.version = max_version
+    AND a.version = max_version''']
+
+    '''
     %(where)s
     %(order_by)s
     %(limit)s
     '''
-    context = {
-        'where': 'WHERE ' + ' AND '.join(where) if where else '',
-        'limit': 'LIMIT ' + str(limit) if limit else '',
-        'order_by': 'ORDER BY ' + ', '.join(order_by) if order_by else '',
-    }
-    sql = sql % context
-    #print sql
-    return models.Article.objects.raw(sql)
+    # the where list should be a list of tuples
+    # [(clause, value), (clause, value)]
+    if where:
+        # urgh. so, this is a total hack.
+        # django doesn't support the syntax 'where field in (%s)' and then
+        # you give it a list of values. you need to generate all those param
+        # placeholders yourself. thats what the below is doing when it detects
+        # a tuple of params given for a clause.
+        for idx, pair in enumerate(where):
+            clause, params = pair
+            if isinstance(params, tuple):
+                # update the args
+                args.extend(params)
+                # update the clause
+                clause = clause % ', '.join(['%s'] * len(params))
+                where[idx] = (clause, None)
+            else:
+                args.append(params)
+
+        clause_list, param_list = map(first, where), map(second, where)
+        sql += ['WHERE ' + ' AND '.join(clause_list)]
+
+    sql += ['ORDER BY datetime_published DESC']
+
+    if limit:
+        args.append(limit)
+        sql += ['LIMIT %s']
+
+    sql = ' '.join(sql)
+    args = filter(None, args)
+    LOG.debug("generated raw sql %s and it's args %s", sql, args)
+    res = models.Article.objects.raw(sql, args)
+    LOG.debug("executed raw sql %s", res.query)
+    return res
 
 
 

@@ -2,6 +2,20 @@ from django.utils import timezone
 from functools import partial
 import os, sys
 
+def nth(idx, x):
+    try:
+        return x[idx]
+    except IndexError:
+        return None
+    except TypeError:
+        raise
+
+def first(x):
+    return nth(0, x)
+def second(x):
+    return nth(1, x)
+
+
 # stolen from:
 # http://stackoverflow.com/questions/10823877/what-is-the-fastest-way-to-flatten-arbitrarily-nested-lists-in-python
 def flatten(container):
