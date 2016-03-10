@@ -13,4 +13,4 @@ class Journal(BaseCase):
         self.assertEqual(0, models.Journal.objects.count())
         j = logic.journal()
         self.assertEqual(1, models.Journal.objects.count())
-        self.assertEqual(j.name, settings.PRIMARY_JOURNAL)
+        self.assertEqual(j.name, settings.PRIMARY_JOURNAL['name'])

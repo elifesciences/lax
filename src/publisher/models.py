@@ -15,6 +15,7 @@ class Publisher(models.Model):
 class Journal(models.Model):
     publisher = models.ForeignKey(Publisher, null=True, help_text="A publisher may have many journals. A journal doesn't necessarily need a Publisher.")
     name = models.CharField(max_length=255, help_text="Name of the journal.")
+    inception = models.DateTimeField(null=True, blank=True, help_text="Date journal was created.")
 
     def __unicode__(self):
         return self.name
@@ -129,3 +130,14 @@ class ArticleAttribute(models.Model):
 
     def __repr__(self):
         return u'<ArticleAttribute %s>' % self.__unicode__()
+
+class ArticleCorrection(models.Model):
+    article = models.ForeignKey(Article)
+    description = models.TextField(blank=True, null=True, help_text="free text to describe what the correction was. optional.")
+    datetime_corrected = models.DateTimeField(help_text="Date and time a correction was made to this article.")
+
+    def __unicode__(self):
+        return '%s (corrected %s)' % (self.article, self.datetime_article_corrected.strftime("%Y-%m-%d"))
+
+    def __repr__(self):
+        return u'<ArticleCorrection %s>' % self.article
