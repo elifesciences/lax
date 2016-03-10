@@ -11,3 +11,4 @@ xml
 src/core/settings.py
 .coverage
 .repop*
+htmlcov/

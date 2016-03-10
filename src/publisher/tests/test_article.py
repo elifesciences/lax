@@ -156,6 +156,61 @@ class ArticleLogic(BaseCase):
         self.assertEqual(logic.article("10.7554/eLife.DUMMY", 3).title, 'boo')
 
 
+class LatestArticleLogic(BaseCase):
+    def setUp(self):
+        self.journal = logic.journal()
+        article_data_list = [
+            {'title': 'foo',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY1",
+             'journal': self.journal},
+             
+            {'title': 'foo',
+             'version': 2,
+             'doi': "10.7554/eLife.DUMMY1",
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY2",
+             'journal': self.journal},
+
+            {'title': 'baz',
+             'version': 2,
+             'doi': "10.7554/eLife.DUMMY2",
+             'journal': self.journal},
+
+            {'title': 'boo',
+             'version': 1,
+             'doi': "10.7554/eLife.DUMMY3",
+             'journal': self.journal},
+        ]
+        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        
+    def tearDown(self):
+        pass
+
+    def test_fetch_latest(self):
+        #self.assertEqual(5, models.Article.objects.count())
+        self.assertEqual(3, len(list(logic.latest_articles())))
+
+    def test_fetch_latest_limited(self):
+        self.assertEqual(1, len(list(logic.latest_articles(limit=1))))
+
+    def test_fetch_latest_where(self):
+        res = list(logic.latest_articles(where=[("title = %s", "foo")]))
+        self.assertEqual(1, len(res))
+        self.assertEqual('foo', res[0].title)
+        self.assertEqual(2, res[0].version)
+
+    '''
+    def test_fetch_latest_order(self):
+        res = list(logic.latest_articles(limit=1, order_by=['title ASC']))
+        self.assertEqual(1, len(res))
+        self.assertEqual(2, res[0].version)
+        self.assertEqual('baz', res[0].title)
+    '''
+
 class ArticleInfoViaApi(BaseCase):
     def setUp(self):
         self.c = Client()

@@ -63,6 +63,12 @@ class Article(models.Model):
     class Meta:
         unique_together = ('doi', 'version')
         ordering = ('version',)
+
+    def dxdoi_url(self):
+        return 'https://dx.doi.org/' + self.doi
+
+    def get_absolute_url(self):
+        return self.dxdoi_url()
     
     def __unicode__(self):
         return self.title
