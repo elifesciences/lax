@@ -4,11 +4,18 @@ from django.conf import settings
 import logging
 from publisher import ingestor, utils
 from publisher.utils import first, second
+from datetime import datetime
+from django.utils import timezone
 
 LOG = logging.getLogger(__name__)
 
-def journal(journal_name=settings.PRIMARY_JOURNAL):
-    obj, new = models.Journal.objects.get_or_create(name=journal_name)
+def journal(name=None):
+    journal = {'name': name}
+    if not name:
+        journal = settings.PRIMARY_JOURNAL
+    if journal.has_key('inception') and timezone.is_naive(journal['inception']):
+        journal['inception'] = timezone.make_aware(journal['inception'])
+    obj, new = models.Journal.objects.get_or_create(**journal)
     if new:
         LOG.info("created new Journal %s", obj)
     return obj
@@ -194,3 +201,19 @@ def check_doi(doi):
     """ensures that the doi both exists with crossref and that it
     successfully redirects to an article on the website"""
     return requests.get(mk_dxdoi_link(doi))
+
+#
+#
+#
+
+def record_correction(artobj, when=None):
+    if when:
+        assert timezone.is_aware(when), "refusing a naive datetime."
+        assert timezone.now() > when, "refusing a correction made in the future"
+        if artobj.journal.inception:
+            assert when > artobj.journal.inception, "refusing a correction made before the article's journal started"
+    correction = models.ArticleCorrection(**{
+        'article': artobj,
+        'datetime_corrected': when if when else datetime.now()})
+    correction.save()
+    return correction

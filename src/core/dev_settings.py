@@ -1,6 +1,10 @@
 import os
+from datetime import datetime
 
-PRIMARY_JOURNAL = 'eLife'
+PRIMARY_JOURNAL = {
+    'name': 'eLife',
+    'inception': datetime(year=2012, month=11, day=13)
+}
 
 PROJECT_NAME = 'lax'
 
