@@ -86,7 +86,7 @@ class RecentArticleFeed(AbstractArticleFeed):
 
     def items(self, obj):
         where_clauses = [
-            ("datetime_published >= %s", obj['since'].strftime('%Y-%m-%d %H-%M-%S')),
+            ("datetime_published >= %s", obj['since'].strftime('%Y-%m-%d')), # %H-%M-%S')),
             ("status in (%s)", obj['article_types']),
         ]
         return logic.latest_articles(where=where_clauses)
