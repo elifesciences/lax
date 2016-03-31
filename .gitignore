@@ -8,7 +8,7 @@ collected-static/**
 venv
 xml
 .elife-json
-src/core/settings.py
 .coverage
 .repop*
 htmlcov/
+app.cfg
