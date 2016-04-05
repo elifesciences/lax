@@ -110,6 +110,10 @@ DATABASES = {
     'default': {
         'ENGINE': cfg('database.engine'),
         'NAME': cfg('database.name'),
+        'USER': cfg('database.user'),
+        'PASSWORD': cfg('database.password'),
+        'HOST': cfg('database.host'),
+        'PORT': cfg('database.port')
     }
 }
 
