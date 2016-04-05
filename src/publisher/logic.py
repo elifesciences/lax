@@ -202,6 +202,13 @@ def check_doi(doi):
     successfully redirects to an article on the website"""
     return requests.get(mk_dxdoi_link(doi))
 
+
+def doi2msid(doi):
+    "manuscript id representation. used in EJP"
+    prefix = '10.7554/eLife.'
+    return doi[len(prefix):].lstrip('0')
+
+
 #
 #
 #
