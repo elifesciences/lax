@@ -4,11 +4,9 @@ if [ ! -d venv ]; then
     virtualenv --python=`which python2` venv
 fi
 source venv/bin/activate
-if [ ! -f src/core/settings.py ]; then
-    echo "no settings.py found! using the DEV settings (dev_settings.py) by default."
-    cd src/core/
-    ln -s dev_settings.py settings.py
-    cd ../../
+if [ ! -f app.cfg ]; then
+    echo "* no app.cfg found! using the example settings (elife.cfg) by default."
+    ln -s elife.cfg app.cfg
 fi
 pip install -r requirements.txt
 python src/manage.py migrate

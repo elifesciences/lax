@@ -1,26 +1,49 @@
-import os
-from datetime import datetime
+"""generalised settings for the Lax project. 
 
-PRIMARY_JOURNAL = {
-    'name': 'eLife',
-    'inception': datetime(year=2012, month=11, day=13)
-}
+per-instance settings are in /path/to/lax/lax.cfg
+dev settings can be found in /path/to/lax/dev.cfg
+
+./install.sh will create a symlink from dev.cfg -> lax.cfg if lax.cfg not found."""
+
+import os
+from os.path import join
+from datetime import datetime
+import ConfigParser as configparser
 
 PROJECT_NAME = 'lax'
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# Build paths inside the project like this: os.path.join(SRC_DIR, ...)
+SRC_DIR = os.path.dirname(os.path.dirname(__file__)) # ll: /path/to/lax/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR)
+
+CFG_NAME = 'app.cfg'
+DYNCONFIG = configparser.SafeConfigParser(**{
+    'allow_no_value': True,
+    'defaults': {'dir': SRC_DIR, 'project': PROJECT_NAME}})
+DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
+
+def cfg(path, default=0xDEADBEEF):
+    try:
+        return DYNCONFIG.get(*path.split('.'))
+    except configparser.NoOptionError: # given key in section hasn't been defined
+        if default == 0xDEADBEEF:
+            raise ValueError("no value set for setting at %r" % path)
+        return default
+
+PRIMARY_JOURNAL = {
+    'name': cfg('journal.name'),
+    'inception': datetime.strptime(cfg('journal.inception'), "%Y-%m-%d")
+}
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'these-are-dev-settings.DO.NOT.USE.IN.PROD.EVER'
+SECRET_KEY = cfg('general.secret-key')
 
-DEBUG = True
+DEBUG = cfg('general.debug')
+
 DEV, TEST, PROD = 'dev', 'test', 'prod'
-ENV = DEV
+ENV = cfg('general.env', DEV)
 
-
-
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = cfg('general.allowed-hosts', '').split(',')
 
 # Application definition
 
@@ -59,11 +82,11 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(SRC_DIR, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
-            'debug': True,
+            'debug': cfg('general.debug'),
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -85,8 +108,8 @@ TEST_OUTPUT_DIR = 'xml'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': cfg('database.engine'),
+        'NAME': cfg('database.name'),
     }
 }
 
@@ -111,11 +134,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected-static')
+MEDIA_ROOT = os.path.join(SRC_DIR, 'media')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'collected-static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(SRC_DIR, "static"),
 )
 
 REST_FRAMEWORK = {
@@ -130,9 +153,14 @@ REST_FRAMEWORK = {
 
 SWAGGER_SETTINGS = {
     'api_version': '1',
-    'api_path': '/api/v1/', # TODO - useful?
+    #'api_path': '/api/v1/', # TODO - useful?
     'exclude_namespaces': ['proxied'], # swagger docs are broken, but this gives them the right namespace
 }
+
+LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
+LOG_FILE = join(PROJECT_DIR, LOG_NAME) # ll: /path/to/lax/log/lax.log
+if ENV == PROD:
+    LOG_FILE = join('/var/log/', LOG_FILE) # ll: /var/log/lax.log
 
 LOGGING = {
     'version': 1,
@@ -141,7 +169,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, '%s.log' % PROJECT_NAME),
+            'filename': LOG_FILE,
         },
         'debug-console': {
             'level': 'DEBUG',
