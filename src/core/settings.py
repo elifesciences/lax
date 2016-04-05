@@ -39,8 +39,9 @@ PRIMARY_JOURNAL = {
 SECRET_KEY = cfg('general.secret-key')
 
 DEBUG = cfg('general.debug')
+
 DEV, TEST, PROD = 'dev', 'test', 'prod'
-ENV = DEV
+ENV = cfg('general.env', DEV)
 
 ALLOWED_HOSTS = cfg('general.allowed-hosts', '').split(',')
 
@@ -158,9 +159,9 @@ SWAGGER_SETTINGS = {
 
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
 LOG_FILE = join(PROJECT_DIR, LOG_NAME) # ll: /path/to/lax/log/lax.log
-if not DEBUG:
+if ENV == PROD:
     LOG_FILE = join('/var/log/', LOG_FILE) # ll: /var/log/lax.log
-    
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
