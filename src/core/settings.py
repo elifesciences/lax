@@ -164,7 +164,7 @@ SWAGGER_SETTINGS = {
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
 LOG_FILE = join(PROJECT_DIR, LOG_NAME) # ll: /path/to/lax/log/lax.log
 if ENV == PROD:
-    LOG_FILE = join('/var/log/', LOG_FILE) # ll: /var/log/lax.log
+    LOG_FILE = join('/var/log/', LOG_NAME) # ll: /var/log/lax.log
 
 LOGGING = {
     'version': 1,
