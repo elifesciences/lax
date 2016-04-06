@@ -3,8 +3,14 @@ import models
 from simple_history.admin import SimpleHistoryAdmin
 
 class ArticleVersionAdmin(admin.TabularInline):
+    readonly_fields = ('version', 'datetime_published', 'datetime_record_created', 'datetime_record_updated')
+    fields = ('version', 'datetime_published', 'datetime_record_created')
     model = models.ArticleVersion
     extra = 0
+    can_delete = False
+
+    def has_add_permission(self, request):
+        return False
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('doi', 'title')
@@ -13,7 +19,6 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = [
         ArticleVersionAdmin,
     ]
-
 
 class ArticleAttributeAdmin(admin.ModelAdmin):
     pass
