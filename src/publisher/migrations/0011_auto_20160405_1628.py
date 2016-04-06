@@ -5,26 +5,16 @@ from __future__ import unicode_literals
 from django.db import migrations
 from publisher import utils, logic
 
-# stolen from:
-# http://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact
-from django.db.models.fields.related import ManyToManyField
-def to_dict(instance):
-    opts = instance._meta
-    data = {}
-    for f in opts.concrete_fields + opts.many_to_many:
-        if isinstance(f, ManyToManyField):
-            if instance.pk is None:
-                data[f.name] = []
-            else:
-                data[f.name] = list(f.value_from_object(instance).values_list('pk', flat=True))
-        else:
-            data[f.name] = f.value_from_object(instance)
-    return data
+from . import to_dict, turn_off_auto_now, turn_off_auto_now_add
 
 def populate(apps, schema_editor):
     "populate the ArticleVersion table with content"
     Article = apps.get_model("publisher", "Article")
     ArticleVersion = apps.get_model("publisher", "ArticleVersion")
+
+    turn_off_auto_now_add(ArticleVersion, "datetime_record_created")
+    turn_off_auto_now(ArticleVersion, "datetime_record_updated")
+    
     attrs = [
         'doi',
         'version',
@@ -33,15 +23,18 @@ def populate(apps, schema_editor):
         'datetime_record_created',
         'datetime_record_updated'
     ]
-    for art in Article.objects.all():
-        avobj = ArticleVersion(**utils.subdict(to_dict(art), attrs))
-        avobj.save()
+    av_list = map(lambda art: ArticleVersion(**utils.subdict(to_dict(art), attrs)), Article.objects.all())
+    ArticleVersion.objects.bulk_create(av_list)
 
 def depopulate(apps, schema_editor):
     return ArticleVersion.objects.delete()
 
 def prune_articles(apps, schema_editor):
     Article = apps.get_model("publisher", "Article")
+
+    turn_off_auto_now_add(Article, "datetime_record_created")
+    turn_off_auto_now(Article, "datetime_record_updated")
+    
     for rawart in logic.not_latest_articles():
         art = Article.objects.get(pk=rawart.id)
         art.delete()
