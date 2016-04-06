@@ -2,10 +2,18 @@ from django.contrib import admin
 import models
 from simple_history.admin import SimpleHistoryAdmin
 
+class ArticleVersionAdmin(admin.TabularInline):
+    model = models.ArticleVersion
+    extra = 0
+
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('doi', 'version', 'title', 'datetime_published')
-    list_filter = ('datetime_published', 'status', 'volume', 'type', 'version')
+    list_display = ('doi', 'title')
+    list_filter = ('volume', 'type')
     search_fields = ('doi', 'title')
+    inlines = [
+        ArticleVersionAdmin,
+    ]
+
 
 class ArticleAttributeAdmin(admin.ModelAdmin):
     pass
