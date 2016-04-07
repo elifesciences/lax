@@ -24,28 +24,17 @@ class Migration(migrations.Migration):
 
     operations = [
 
-    #
-    # remove Article.version and Article.datetime_published
-    # remove unique-together constraint on Article.version + Article.doi
-    # add unique constraint to just Article.doi
-    #
-    
-        migrations.AlterModelOptions(
-            name='article',
-            options={},
-        ),
-        migrations.RemoveField(
-            model_name='historicalarticle',
-            name='datetime_published',
-        ),
-        migrations.RemoveField(
-            model_name='historicalarticle',
-            name='version',
-        ),
-        migrations.RemoveField(
-            model_name='historicalarticle',
-            name='status',
-        ),
+        #
+        # drop fields from Article that now live in ArticleVersion
+        # remove unique-together constraint on Article.version + Article.doi
+        # add unique constraint to just Article.doi
+        #
+
+        migrations.AlterModelOptions(name='article', options={}),
+        
+        migrations.RemoveField(model_name='historicalarticle', name='datetime_published'),
+        migrations.RemoveField(model_name='historicalarticle', name='version'),
+        migrations.RemoveField(model_name='historicalarticle', name='status'),
         
         migrations.AlterField(
             model_name='article',
@@ -57,34 +46,29 @@ class Migration(migrations.Migration):
             name='doi',
             field=models.CharField(db_index=True, help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255),
         ),
-        migrations.AlterUniqueTogether(
-            name='article',
-            unique_together=set([]),
-        ),
-        migrations.RemoveField(
-            model_name='article',
-            name='datetime_published',
-        ),
-        migrations.RemoveField(
-            model_name='article',
-            name='version',
-        ),
-        migrations.RemoveField(
-            model_name='article',
-            name='status',
-        ),
+        migrations.AlterUniqueTogether(name='article', unique_together=set([])),
+        migrations.RemoveField(model_name='article', name='datetime_published'),
+        migrations.RemoveField(model_name='article', name='version'),
+        migrations.RemoveField(model_name='article', name='status'),
+        migrations.RemoveField(model_name='article', name='title'),
+        migrations.RemoveField(model_name='article', name='slug'),        
 
-    #
-    # add link to Article from ArticleVersion
-    # manually update all links based on doi
-    # drop ArticleVersion.doi
-    #
+        #
+        # add link to Article from ArticleVersion
+        # manually update all links based on doi
+        # finally, drop ArticleVersion.doi
+        #
         
         migrations.AddField(
             model_name='articleversion',
             name='article',
             field=models.ForeignKey(default=1, on_delete=models.deletion.CASCADE, to='publisher.Article'),
             preserve_default=False,
+        ),
+        
+        migrations.AlterUniqueTogether(
+            name='articleversion',
+            unique_together=set([('article', 'version')]),
         ),
 
         migrations.RunPython(link_articles_to_versions),

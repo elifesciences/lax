@@ -9,7 +9,7 @@ from datetime import datetime
 LOG = logging.getLogger(__name__)
 
 def import_article_version(article, article_data, create=True, update=False):
-    expected_keys = ['version', 'pub-date', 'status']
+    expected_keys = ['title', 'version', 'pub-date', 'status']
     try:
         kwargs = subdict(article_data, expected_keys)
         # post process data
@@ -45,7 +45,7 @@ def import_article_version(article, article_data, create=True, update=False):
 def import_article(journal, article_data, create=True, update=False):
     if not article_data or not isinstance(article_data, dict):
         raise ValueError("given data to import is empty/invalid")
-    expected_keys = ['title', 'doi', 'volume', 'path', 'article-type']
+    expected_keys = ['doi', 'volume', 'path', 'article-type']
 
     # data wrangling
     try:
@@ -65,12 +65,12 @@ def import_article(journal, article_data, create=True, update=False):
     article_key = subdict(kwargs, ['doi', 'version'])
     try:
         article_obj = models.Article.objects.get(**article_key)
-        import_article_version(article_obj, article_data, create, update)
+        avobj = import_article_version(article_obj, article_data, create, update)
         LOG.info("article exists, updating")
         for key, val in kwargs.items():
             setattr(article_obj, key, val)
         article_obj.save()
-        return article_obj
+        return article_obj, avobj
 
     except models.Article.DoesNotExist:
         # we've been told not to create new articles.
@@ -79,9 +79,9 @@ def import_article(journal, article_data, create=True, update=False):
             raise
     article_obj = models.Article(**kwargs)
     article_obj.save()
-    import_article_version(article_obj, article_data, create, update)
+    avobj = import_article_version(article_obj, article_data, create, update)
     LOG.info("created new Article %s" % article_obj)
-    return article_obj
+    return article_obj, avobj
 
 def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
     "convenience function. loads the article data from a json file"

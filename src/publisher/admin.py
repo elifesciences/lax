@@ -13,9 +13,9 @@ class ArticleVersionAdmin(admin.TabularInline):
         return False
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('doi', 'title')
+    list_display = ('doi',)
     list_filter = ('volume', 'type')
-    search_fields = ('doi', 'title')
+    search_fields = ('doi',)
     inlines = [
         ArticleVersionAdmin,
     ]

@@ -1,3 +1,4 @@
+import copy
 import pytz
 from dateutil import parser
 from django.utils import timezone
@@ -41,18 +42,19 @@ def todt(val):
         pass
     return dt
 
-def filldictslot(ddict, key, val):
-    if not ddict.has_key(key):
-        ddict[key] = val
-    return ddict
 
 def filldict(ddict, keys, default):
+    def filldictslot(ddict, key, val):
+        if not ddict.has_key(key):
+            ddict[key] = val
+    data = copy.deepcopy(ddict)
     for key in keys:
         if isinstance(key, tuple):
             key, val = key
         else:
             val = default
-        filldictslot(ddict, key, val)
+        filldictslot(data, key, val)
+    return data
     
 
 # stolen from:
@@ -94,3 +96,9 @@ def to_dict(instance):
         else:
             data[f.name] = f.value_from_object(instance)
     return data
+
+def updatedict(ddict, **kwargs):
+    newdata = copy.deepcopy(ddict)
+    for key, val in kwargs.items():
+        newdata[key] = val
+    return newdata

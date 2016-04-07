@@ -49,11 +49,7 @@ def corpus_info(rest_request):
 # API, specific articles
 #
 
-class ArticleVersionSerializer(szr.ModelSerializer):
-    class Meta:
-        model = models.ArticleVersion
-        exclude = ('id', 'article')
-
+'''
 class ArticleSerializer(szr.ModelSerializer):
     version_list = ArticleVersionSerializer(source='articleversion_set', many=True)
     version = szr.SerializerMethodField()
@@ -64,12 +60,22 @@ class ArticleSerializer(szr.ModelSerializer):
     class Meta:
         exclude = ('id', 'journal')
         model = models.Article
+'''
+
+class ArticleVersionSerializer(szr.ModelSerializer):
+    doi = szr.CharField(read_only=True, source="article.doi")
+    
+    class Meta:
+        model = models.ArticleVersion
+        exclude = ('id', 'article')
+
+
 
 @api_view(['GET'])
 def get_article(rest_request, doi, version=None):
     "Returns latest article data for the given doi or for a specific version."
-    article = article_or_404(doi, version)
-    return Response(ArticleSerializer(article).data)
+    article, version = article_or_404(doi, version)
+    return Response(ArticleVersionSerializer(version).data)
 
 @api_view(['GET'])
 def get_article_versions(rest_request, doi):
@@ -80,7 +86,7 @@ def get_article_versions(rest_request, doi):
     article_list = logic.article_versions(doi)
     if not article_list:
         raise Http404()
-    article_list = {obj.version: ArticleSerializer(obj).data for obj in article_list}
+    article_list = {obj.version: ArticleVersionSerializer(obj).data for obj in article_list}
     return Response(article_list)
 
 
@@ -97,7 +103,7 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
     """
     keyval = rest_request.data
     key, val, version = keyval['attribute'], keyval['attribute_value'], keyval.get('version')
-    article = article_or_404(doi, version)
+    article, version = article_or_404(doi, version)
     attribute = logic.add_update_article_attribute(article, key, val, extant_only)
     return Response(attribute)
 
@@ -105,7 +111,7 @@ def add_update_article_attribute(rest_request, doi, extant_only=True):
 def get_article_attribute(rest_request, doi, attribute, extant_only=True):
     """Returns the requested article's attribute value as
     both `attribute:value` and `attribute: attribute, attribute_value: value`."""
-    article = article_or_404(doi)
+    article, version = article_or_404(doi)
     val = logic.get_attribute(article, attribute)
     data = {
         'doi': article.doi,
@@ -127,8 +133,8 @@ def import_article(rest_request, create=True, update=True):
     Returns the doi of the inserted/updated article
     """
     try:
-        article_obj = ingestor.import_article(logic.journal(), rest_request.data, create, update)
-        return Response({'doi': article_obj.doi})
+        article, version = ingestor.import_article(logic.journal(), rest_request.data, create, update)
+        return Response({'doi': article.doi})
     except (ParseError, ValueError), e:
         return Response({"message": "failed to parse given JSON"}, status=400)
     except AssertionError:
@@ -154,8 +160,7 @@ def update_article(rest_request):
 
 @api_view(['POST'])
 def record_correction(rest_request, doi, version):
-    article = article_or_404(doi, version)
-    #print 'rr',rest_request.data
+    article, version = article_or_404(doi, version)
     correction = logic.record_correction(article)
     return Response({
         'doi': article.doi,

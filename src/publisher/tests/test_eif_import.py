@@ -37,39 +37,39 @@ class ImportArticleFromJSON(BaseCase):
     def test_article_data(self):
         "the Article created from the json import has the correct data"
         expected_data = {
-            'title':  "A good life",
+            #'title':  "A good life",
             'doi': "10.7554/eLife.00353",
             'journal': self.journal,
             'type': 'discussion'
         }
-        dirty_article = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
+        dirty_article, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         clean_article = models.Article.objects.get(pk=dirty_article.pk)
         for attr, expected_value in expected_data.items():
             self.assertEqual(getattr(clean_article, attr), expected_value)
 
     def test_article_version_data(self):
-        dirty = ingestor.import_article_from_json_path(self.journal, self.json_fixture)        
+        art, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)        
         expected_data = {
-            'article': dirty,
+            'article': art,
             'datetime_published': utils.todt('2012-12-13'),
             'status': 'vor',
             'version': 1,
         }
-        avobj = models.ArticleVersion.objects.get(article=dirty, version=1)
+        avobj = models.ArticleVersion.objects.get(article=art, version=1)
         for attr, expected in expected_data.items():
             self.assertEqual(getattr(avobj, attr), expected)
 
     def test_article_updated(self):
         "an article is successfully updated when update=True"
         self.assertEqual(0, models.Article.objects.count())
-        art = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
-        self.assertEqual(art.title, "A good life")
+        art, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
+        self.assertEqual(ver.title, "A good life")
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(1, models.Article.history.count())
 
         # attempt the update
-        art = ingestor.import_article_from_json_path(self.journal, self.update_fixture, update=True)
-        self.assertEqual(art.title, "A meh life")
+        art, ver = ingestor.import_article_from_json_path(self.journal, self.update_fixture, update=True)
+        self.assertEqual(ver.title, "A meh life")
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(2, models.Article.history.count())
 
@@ -99,29 +99,33 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         pass
 
     def test_article_create_update_view(self):
-        "an article can be import from JSON via API"
+        "an article can be created and updated via API using EIF"
         self.assertEqual(0, models.Article.objects.count())
+        self.assertEqual(0, models.ArticleVersion.objects.count())
         json_data = open(self.json_fixture, 'r').read()
         data = json.loads(json_data)
         
+        # create the article. 1xEIF == 1xArticle + 1xArticleVersion
         resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(1, models.ArticleVersion.objects.count())
 
-        # change the doi
-        artobj = models.Article.objects.all()[0]
-        artobj.title = 'pants.party'
-        artobj.save()
-
-        models.Article.objects.get(title='pants.party')
+        # change the doi, ensure it's changed in the db
+        updated_data = utils.updatedict(data, title='pants.party')
+        logic.add_or_update_article(**updated_data)
+        models.ArticleVersion.objects.get(title=updated_data['title'])
 
         # update the same article (with the original doi)
         resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
+        
+        # ensure nothing new has been created
         self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(1, models.ArticleVersion.objects.count())
 
-        artobj = models.Article.objects.all()[0]
-        self.assertEqual(artobj.title, data['title'])
+        # ensure the article has been updated
+        models.ArticleVersion.objects.get(title=data['title'])
 
     def test_article_create_update_multiple_versions_view(self):
         "an article can be imported from JSON via API across multiple versions"
@@ -284,9 +288,9 @@ class ImportFromPPPEIF(BaseCase):
         "ppp eif can be used to update existing article without exceptions"
         fixture = join(self.fixture_dir, 'elife00353.xml.json')
         eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', '2d3245f7-46df-4c14-b8c2-0bb2f1731ba4', 'elife-00353-v1.json')
-        art = ingestor.import_article_from_json_path(self.journal, fixture)
-        self.assertEqual(art.title, "A good life")
+        art, ver = ingestor.import_article_from_json_path(self.journal, fixture)
+        self.assertEqual(ver.title, "A good life")
         self.assertEqual(1, art.history.count()) # original art
-        art = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
-        self.assertEqual(art.title, "A meh life")
+        art, ver = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
+        self.assertEqual(ver.title, "A meh life")
         self.assertEqual(2, art.history.count()) # original + updated art

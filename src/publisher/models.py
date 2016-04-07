@@ -34,9 +34,9 @@ class Article(models.Model):
     journal = models.ForeignKey(Journal)
 
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
-    
-    title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
-    slug = AutoSlugField(null=True, blank=True, populate_from='title', always_update=True, help_text='A friendlier version of the title for machines')
+    # may change between versions
+    #title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
+    #slug = AutoSlugField(null=True, blank=True, populate_from='title', always_update=True, help_text='A friendlier version of the title for machines')
 
     # possible custom managers ?
     # research_articles
@@ -57,6 +57,10 @@ class Article(models.Model):
     history = HistoricalRecords()
 
     @property
+    def title(self):
+        return self.articleversion_set.latest('version').title
+    
+    @property
     def version(self):
         return self.articleversion_set.latest('version').version
     
@@ -67,13 +71,16 @@ class Article(models.Model):
         return self.dxdoi_url()
     
     def __unicode__(self):
-        return self.title
+        return self.doi
 
     def __repr__(self):
         return u'<Article %s>' % self.doi
 
 class ArticleVersion(models.Model):
     article = models.ForeignKey(Article)
+
+    title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
+
     # positiveintegerfields allow zeroes
     version = models.PositiveSmallIntegerField(default=None, help_text="The version of the article. Version=None means pre-publication")
     status = models.CharField(max_length=3, choices=[('poa', 'POA'), ('vor', 'VOR')], blank=True, null=True)

@@ -21,10 +21,12 @@ class ArticleLogic(BaseCase):
     def tearDown(self):
         pass
 
-    def test_fetch_article(self):
+    '''
+    def test_fetch_article_lazily(self):
         self.assertEqual(0, models.Article.objects.count())
         dirty_art = logic.article(self.article_data['doi'])
         self.assertEqual(1, models.Article.objects.count())
+    '''
 
     def test_fetch_nonexistant_article(self):
         self.assertEqual(0, models.Article.objects.count())
@@ -51,42 +53,44 @@ class ArticleLogic(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        self.assertEqual(3, models.Article.objects.count())
+        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(3, models.ArticleVersion.objects.count())
         
-        art = logic.article("10.7554/eLife.DUMMY")
-        self.assertEqual(art.version, 3)
-        self.assertEqual(art.title, 'baz')
+        art, ver = logic.article("10.7554/eLife.DUMMY")
+        self.assertEqual(ver.version, 3)
+        self.assertEqual(ver.title, 'baz')
 
     def test_fetch_historical(self):
         "previous versions of an article's changes are available in history"
         self.assertEqual(0, models.Article.objects.count())
         article_data_list = [
-            {'title': 'foo',
-             'version': 1,
+            {'volume': 1,
+             'article-type': 'foo',
              'doi': "10.7554/eLife.DUMMY",
              'journal': self.journal},
              
-            {'title': 'bar',
-             'version': 1,
+            {'volume': 2,
+             'article-type': 'bar',
              'doi': "10.7554/eLife.DUMMY",
              'journal': self.journal},
 
-            {'title': 'baz',
-             'version': 1,
+            {'volume': 3,
+             'article-type': 'baz',
              'doi': "10.7554/eLife.DUMMY",
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(1, models.Article.objects.count())
         
-        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY", version=1)
+        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY")
         self.assertEqual(3, art.history.count())
 
         # check the data inserted vs the data returned
-        for expected, historical_art in zip(article_data_list, art.history.all().order_by('version')):
-            for attr in ['title', 'version']:
-                self.assertEqual(expected[attr], getattr(historical_art, attr))
-
+        iterable = zip(article_data_list, art.history.all().order_by('volume'))
+        for expected, historical_art in iterable:
+            self.assertEqual(getattr(historical_art, 'volume'), expected['volume'])
+            self.assertEqual(getattr(historical_art, 'type'), expected['article-type'])
+            
     def test_fetch_specific_historical(self):
         "a specific previous version of an article's changes can be fetched from history"
         self.assertEqual(0, models.Article.objects.count())
@@ -107,12 +111,13 @@ class ArticleLogic(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        self.assertEqual(3, models.Article.objects.count())
+        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(3, models.ArticleVersion.objects.count())
         
         expected_version = 2
-        art = logic.article("10.7554/eLife.DUMMY", expected_version)
-        self.assertEqual(art.version, expected_version)
-        self.assertEqual(art.title, 'bar')
+        art, ver = logic.article("10.7554/eLife.DUMMY", expected_version)
+        self.assertEqual(ver.version, expected_version)
+        self.assertEqual(ver.title, 'bar')
 
     def test_fetch_specific_historical_when_multiple_of_same_version(self):
         """a specific previous version of an article's changes can be fetched
@@ -146,14 +151,15 @@ class ArticleLogic(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        self.assertEqual(3, models.Article.objects.count())
+        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(3, models.ArticleVersion.objects.count())
         
         expected_version = 1
-        art = logic.article("10.7554/eLife.DUMMY", expected_version)
-        self.assertEqual(art.version, expected_version)
-        self.assertEqual(art.title, 'bar')
-        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 2).title, 'baz')
-        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 3).title, 'boo')
+        art, ver = logic.article("10.7554/eLife.DUMMY", expected_version)
+        self.assertEqual(ver.version, expected_version)
+        self.assertEqual(ver.title, 'bar')
+        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 2)[1].title, 'baz')
+        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 3)[1].title, 'boo')
 
 
 class LatestArticleLogic(BaseCase):
@@ -218,7 +224,9 @@ class ArticleInfoViaApi(BaseCase):
         self.article_data = {
             'title':  "Molecular architecture of human polycomb repressive complex 2",
             'version': 1,
+            'status': 'poa',
             'doi': "10.7554/eLife.00005",
+            'pub-date': '2000-01-01',
             'journal': self.journal,
         }
 
@@ -227,9 +235,11 @@ class ArticleInfoViaApi(BaseCase):
 
     def test_article_info_api(self):
         "article data returned by the api is the same as what is serialize"
-        article = logic.add_or_update_article(**self.article_data)
+        article, version = logic.add_or_update_article(**self.article_data)
         resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
-        self.assertEqual(resp.data, views.ArticleSerializer(article).data)
+        expected = views.ArticleVersionSerializer(version).data
+        actual = resp.data
+        self.assertEqual(actual, expected)
 
     def test_article_info_api_no_article(self):
         "non existant articles raise a 404"
@@ -241,9 +251,9 @@ class ArticleInfoViaApi(BaseCase):
         "article data returned by the api is the same as what is serialize"
         kwargs = self.article_data
         kwargs['doi'] = kwargs['doi'].upper()
-        article = logic.add_or_update_article(**kwargs)
+        article, version = logic.add_or_update_article(**kwargs)
         resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
-        self.assertEqual(resp.data, views.ArticleSerializer(article).data)
+        self.assertEqual(resp.data, views.ArticleVersionSerializer(version).data)
 
     def test_article_info_version_grouping_no_art(self):
         doi = 'paaaaaaaaan/t.s'
@@ -271,7 +281,8 @@ class ArticleInfoViaApi(BaseCase):
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         
-        self.assertEqual(3, models.Article.objects.count())
+        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(3, models.ArticleVersion.objects.count())
         
         resp = self.c.get(reverse("api-article-versions", kwargs={'doi': doi}))
         data = resp.data
@@ -339,275 +350,10 @@ class ArticleInfoViaApi(BaseCase):
         resp = self.c.get(reverse("api-corpus-info"))
         self.assertEqual(resp.data, {'article-count': 0,
                                      'research-article-count': 0})
-        
-        article = models.Article(**self.article_data)
-        article.save()
+        article, version = logic.add_or_update_article(**self.article_data)
         self.assertEqual(1, models.Article.objects.count())
         resp = self.c.get(reverse("api-corpus-info"))
         self.assertEqual(resp.data, {'article-count': 1,
                                      'research-article-count': 0})
         
 
-
-class ArticleAttribute(BaseCase):
-    def setUp(self):
-        self.journal = logic.journal()    
-        article_data = {
-            'title':  "Molecular architecture of human polycomb repressive complex 2",
-            'version': 1,
-            'doi': "10.7554/eLife.00005",
-            'journal': self.journal,
-        }
-        article = models.Article(**article_data)
-        article.save()
-        self.article = article
-
-    def tearDown(self):
-        pass
-
-    def test_create_attribute(self):
-        "attributes can be created"
-        attribute_data = {
-            'name': "Publication Date",
-            'type': 'datetime',
-            'description': "date and time of an article's publication. time component is optional and defaults to 00:00:00"
-        }
-        self.assertEqual(0, models.AttributeType.objects.count())        
-        dirty_attr = logic.create_attribute(**attribute_data)
-        self.assertEqual(1, models.AttributeType.objects.count())
-
-    def test_attribute_correctness(self):
-        "the data of a newly created attribute is what we expect"
-        attribute_data = {
-            'name': "publication_date",
-            'type': 'datetime',
-            'description': "date and time of an article's publication. time component is optional and defaults to 00:00:00"
-        }
-        dirty = logic.create_attribute(**attribute_data)
-        clean = models.AttributeType.objects.get(pk=dirty.id)
-        for key, expected_val in attribute_data.items():
-            self.assertEqual(getattr(clean, key), expected_val)
-
-    def test_add_article_attribute(self):
-        "attributes can be added to an Article. if model already has attribute, an ArticleAttribute is not created"
-        # one article, no attributes exists
-        self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(0, models.ArticleAttribute.objects.count())
-        expected_key, expected_val = "title", "foo"
-        logic.add_update_article_attribute(self.article, expected_key, expected_val, extant_only=False)
-        
-        clean_art = models.Article.objects.all()[0]
-        self.assertEqual(0, models.ArticleAttribute.objects.count())
-        self.assertEqual(expected_val, logic.get_attribute(clean_art, expected_key))
-        
-    def test_update_article_attribute(self):
-        "attributes can be updated. if model already has attribute, an ArticleAttribute is not created"
-        # one article, no attributes exists
-        self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(0, models.ArticleAttribute.objects.count())
-        expected_key, expected_val = "title", "foo"
-        logic.add_update_article_attribute(self.article, expected_key, expected_val, extant_only=False)
-        clean_art = models.Article.objects.all()[0]        
-        self.assertEqual(0, models.ArticleAttribute.objects.count())
-        self.assertEqual(expected_val, logic.get_attribute(clean_art, expected_key))
-
-        expected_val = "bar"
-        logic.add_update_article_attribute(clean_art, expected_key, expected_val, extant_only=False)
-        clean_art = models.Article.objects.all()[0]
-        self.assertEqual(0, models.ArticleAttribute.objects.count())
-        self.assertEqual(expected_val, logic.get_attribute(clean_art, expected_key))
-
-    def test_update_adhoc_attribute(self):
-        "an attribute that isn't in the Article model but in the ArticleAttribute model is successfully updated"
-        self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(0, models.ArticleAttribute.objects.count())
-        expected_key, expected_val = 'foo', 'pants'
-        logic.add_update_article_attribute(self.article, expected_key, expected_val, extant_only=False)
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-
-        new_expected_val = 'pantsPARTY'
-        logic.add_update_article_attribute(self.article, expected_key, new_expected_val, extant_only=False)
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-        models.ArticleAttribute.objects.get(article=self.article, key__name=expected_key, value=new_expected_val)
-
-    def test_add_unknown_article_attribute(self):
-        "unknown/unhandled attributes can be added to an Article"
-        self.assertEqual(0, models.ArticleAttribute.objects.count())
-        logic.add_update_article_attribute(self.article, "foo", "bar", extant_only=False)
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-        
-    def test_unknown_article_attribute_correctness(self):
-        "unknown/unhandled arbitrary attributes can be added to an Article"
-        logic.add_update_article_attribute(self.article, "foo", "bar", extant_only=False)
-        clean_attr = models.ArticleAttribute.objects.all()[0]
-        self.assertEqual(clean_attr.key.name, "foo")
-        self.assertEqual(clean_attr.key.type, models.DEFAULT_ATTR_TYPE)
-        self.assertEqual(clean_attr.value, "bar")
-
-    def test_add_article_attribute_strict(self):
-        "attributes cannot be added to an Article unless attribute type already exists (an update)"
-        self.assertRaises(models.AttributeType.DoesNotExist, logic.add_update_article_attribute, self.article, "foo", "bar", extant_only=True)
-
-
-
-class ArticleAttributeInfoViaAPI(BaseCase):
-    def setUp(self):
-        self.c = Client()
-        doc = 'elife00005.xml.json'
-        article_data = json.load(open(os.path.join(self.this_dir, 'fixtures', doc), 'r'))
-        self.article_obj = ingestor.import_article(logic.journal(), article_data)
-        
-    def tearDown(self):
-        pass
-
-    def test_get_simple_article_attribute(self):
-        kwargs = {'doi': self.article_obj.doi, 'attribute': 'title'}
-        url = reverse('api-get-article-attribute', kwargs=kwargs)
-        expected_data = {
-            'doi': self.article_obj.doi,
-            'attribute': 'title',
-            'attribute_value': self.article_obj.title,
-            'title': self.article_obj.title,
-        }
-        resp = self.c.get(url)
-        self.assertEqual(resp.status_code, 200) # successful response
-        self.assertEqual(resp.data, expected_data) # expected data
-
-    def test_get_simple_article_attribute_case_insensitive(self):
-        "doi can be case insensitive, attribute must be exact"
-        kwargs = {'doi': self.article_obj.doi.upper(), 'attribute': 'title'}
-        url = reverse('api-get-article-attribute', kwargs=kwargs)
-        expected_data = {
-            'doi': self.article_obj.doi,
-            'attribute': 'title',
-            'attribute_value': self.article_obj.title,
-            'title': self.article_obj.title,
-        }
-        resp = self.c.get(url)
-        self.assertEqual(resp.status_code, 200) # successful response
-        self.assertEqual(resp.data, expected_data) # expected data
-
-    def test_get_article_attribute_on_non_article(self):
-        kwargs = {'doi': 'foo.bar/baz', 'attribute': 'title'}
-        url = reverse('api-get-article-attribute', kwargs=kwargs)
-        resp = self.c.get(url)
-        self.assertEqual(resp.status_code, 404)
-
-class CreateUpdateArticleAttributeViaAPI(BaseCase):
-    def setUp(self):
-        self.c = Client()
-        self.journal = logic.journal()
-        self.article_data = [
-            {'title': 'foo',
-             'version': 1,
-             'doi': "10.7554/eLife.DUMMY",
-             'journal': self.journal},
-             
-            {'title': 'bar',
-             'version': 2,
-             'doi': "10.7554/eLife.DUMMY",
-             'journal': self.journal},
-
-            {'title': 'baz',
-             'version': 1,
-             'doi': "10.7554/eLife.DUMMY2",
-             'journal': self.journal},
-        ]
-        self.articles = [logic.add_or_update_article(**article_data) for article_data in self.article_data]
-
-    def tearDown(self):
-        pass
-
-    def test_add_attribute_to_article_view(self):
-        article_data = self.article_data[0]
-        attr, val = 'attribute_type', 'foo'
-
-        # create the expected AttributeType
-        logic.create_attribute(name=attr, type=models.DEFAULT_ATTR_TYPE)
-
-        # craft the url
-        kwargs = {'doi': article_data['doi']}
-        url = reverse('api-add-update-article-attribute', kwargs=kwargs)
-        resp = self.c.post(url, json.dumps({'attribute': attr, 'attribute_value': val}), \
-                           content_type='application/json')
-        
-        self.assertEqual(200, resp.status_code)
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-        self.assertEqual(1, models.AttributeType.objects.count())
-
-        expected_resp_data = {
-            'key': attr,
-            'value': val
-        }
-        # just compare a slice of the response
-        resp_data_slice = utils.subdict(resp.data, expected_resp_data.keys())
-        self.assertEqual(resp_data_slice, expected_resp_data)
-
-    def test_update_attribute(self):
-        "an article's attribute can be updated via the API"
-        article_data = self.article_data[-1] 
-        article = self.articles[-1]
-        attr, val = 'attribute_type', 'pants'
-        # create the attribute
-        resp = logic.add_update_article_attribute(article, attr, val, extant_only=False)
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-        self.assertEqual(1, models.AttributeType.objects.count())
-        self.assertEqual(resp['value'], val)
-
-        # update via the api
-        kwargs = {'doi': article_data['doi']}
-        url = reverse('api-add-update-article-attribute', kwargs=kwargs)
-        updated_val = 'pants-party'
-        payload = json.dumps({'attribute': attr, 'attribute_value': updated_val})
-        resp = self.c.post(url, payload, content_type='application/json')
-        
-        self.assertEqual(200, resp.status_code)
-        self.assertEqual(1, models.AttributeType.objects.count())
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-        expected_resp_data = {
-            'key': attr,
-            'value': updated_val
-        }
-        # just compare a slice of the response
-        resp_data_slice = utils.subdict(resp.data, expected_resp_data.keys())
-        self.assertEqual(resp_data_slice, expected_resp_data)
-        
-    def test_update_attribute_specific_version_of_article(self):
-        "the attribute of a specific version of an article can be updated via the API"
-        article_data = self.article_data[0] # first version of an article with two versions
-        article = self.articles[0]
-        attr, val = 'attribute_type', 'pants'
-        # create the attribute type and a value
-        resp = logic.add_update_article_attribute(article, attr, val, extant_only=False)
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-        self.assertEqual(1, models.AttributeType.objects.count())
-        self.assertEqual(resp['value'], val)
-
-        # update via the api
-        kwargs = {'doi': article_data['doi']}
-        url = reverse('api-add-update-article-attribute', kwargs=kwargs)
-        updated_val = 'pants-party'
-        payload = json.dumps({'version': article_data['version'],
-                              'attribute': attr,
-                              'attribute_value': updated_val})
-        resp = self.c.post(url, payload, content_type='application/json')
-        
-        self.assertEqual(200, resp.status_code)
-        self.assertEqual(1, models.AttributeType.objects.count())
-        self.assertEqual(1, models.ArticleAttribute.objects.count())
-
-        expected_resp_data = {
-            'key': attr,
-            'value': updated_val
-        }
-        # just compare a slice of the response
-        resp_data_slice = utils.subdict(resp.data, expected_resp_data.keys())
-        self.assertEqual(resp_data_slice, expected_resp_data)
-
-    def test_add_attribute_to_article_view_with_bad_payload(self):
-        "the view should raise a 400 error if the payload cannot be deserialized from json"
-        pass
-
-    def test_add_attribute_to_article_view_with_incorrect_payload(self):
-        "the view should raise a 400 error if the payload doesn't contain the values we expect"
-        pass

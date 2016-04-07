@@ -33,6 +33,7 @@ def populate(apps, schema_editor):
     
     attrs = [
         'doi',
+        'title',
         'version',
         'status',
         'datetime_published',

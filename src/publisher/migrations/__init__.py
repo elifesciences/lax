@@ -19,7 +19,7 @@ def to_dict(instance):
 # http://stackoverflow.com/questions/7499767/temporarily-disable-auto-now-auto-now-add
 
 def do_field(Clazz, field_name, func):
-    func(Clazz._meta.get_field_by_name(field_name)[0])
+    func(Clazz._meta.get_field(field_name))
 
 def turn_off_auto_now(Clazz, field_name):
     def auto_now_off(field):

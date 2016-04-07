@@ -26,40 +26,16 @@ def article(doi, version=None, lazy=True):
     doi, or the specific version given.
     Raises DoesNotExist if article not found."""
     try:
-        '''
+        article = models.Article.objects.get(doi__iexact=doi)
         if version:
-            return models.Article.objects.get(doi__iexact=doi, version=version)
-        return models.Article.objects.filter(doi__iexact=doi).order_by('-version')[:1][0]
-    
-    except (IndexError, models.Article.DoesNotExist):
-        # TODO: and doi-looks-like-an-elife-doi
-        # TODO: fetching articles lazily only works when a version is not specified. articles in the github repo have no version currently.
-        if lazy and version == None:
-            try:
-                ingestor.import_article_from_github_repo(journal(), doi, version)
-                return article(doi, version, lazy=False)
-            except ValueError:
-                # bad data, bad doi, etc
-                pass
-        '''
-        if version:
-            # when a specific article version is requested ...
-            avobj = models.ArticleVersion.objects.get(article__doi__iexact=doi, version=version)
-            # we need to find it's historical Article as of it's creation date.
-            print 'found av',utils.to_dict(avobj)
-            print 'found history',avobj.article.history.all()
-            got = avobj.article.history.filter(version=version).most_recent()
-            print 'got',got
-            return got
-
-            #return models.Article.objects.get(doi__iexact=doi, articleversion__version=version)
-        return models.Article.objects.get(doi__iexact=doi)
+            return article, article.articleversion_set.get(version=version)
+        return article, article.articleversion_set.latest('version')
     except ObjectDoesNotExist:
         raise models.Article.DoesNotExist()
 
 def article_versions(doi):
     "returns all versions of the given article"
-    return models.Article.objects.filter(doi__iexact=doi)
+    return models.ArticleVersion.objects.filter(article__doi__iexact=doi)
 
 def create_attribute(**kwargs):
     at = models.AttributeType(**kwargs)
@@ -133,14 +109,16 @@ def add_or_update_article(**article_data):
     any missing keys with dummy data. returns the created article."""
     assert article_data.has_key('doi'), "a value for 'doi' *must* exist"
     filler = [
-        'title', 'doi',
+        'title',
+        'doi',
         ('volume', 1),
-        'path', 'article-type',
+        'path',
+        'article-type',
         ('version', 1),
         ('pub-date', '2012-01-01'),
-        'status'
+        'status',
     ]
-    utils.filldict(article_data, filler, 'pants-party')
+    article_data = utils.filldict(article_data, filler, 'pants-party')
     return ingestor.import_article(journal(), article_data, create=True, update=True)
 
 #
@@ -152,8 +130,6 @@ def latest_articles(where=[], limit=None):
     assert all(map(lambda p: isinstance(p, tuple), where)), "'where' must be a list of tuples"
     if limit:
         assert isinstance(limit, str) or isinstance(limit, int), "'limit' but be a string or an int. got %s" % type(limit)
-
-    
     args, sql = [], ['''
     SELECT a.*
     FROM publisher_article a

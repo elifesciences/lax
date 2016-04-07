@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -16,6 +15,8 @@ class Migration(migrations.Migration):
             name='ArticleVersion',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('title', models.CharField(blank=True, help_text=b'The title of the article', max_length=255, null=True)),
+                # needed temporarily to tie an ArticleVersion to an Article in next migration
                 ('doi', models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255)),
                 ('version', models.PositiveSmallIntegerField(default=None, help_text=b'The version of the article. Version=None means pre-publication')),
                 ('status', models.CharField(blank=True, choices=[(b'poa', b'POA'), (b'vor', b'VOR')], max_length=3, null=True)),
