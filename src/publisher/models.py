@@ -56,6 +56,10 @@ class Article(models.Model):
 
     history = HistoricalRecords()
 
+    @property
+    def version(self):
+        return self.articleversion_set.latest('version').version
+    
     def dxdoi_url(self):
         return 'https://dx.doi.org/' + self.doi
 
@@ -75,10 +79,13 @@ class ArticleVersion(models.Model):
     status = models.CharField(max_length=3, choices=[('poa', 'POA'), ('vor', 'VOR')], blank=True, null=True)
 
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
-    
+
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
+    class Meta:
+        unique_together = ('article', 'version')
+    
     def __unicode__(self):
         return '%s v%s' % (self.article.doi, self.version)
     
