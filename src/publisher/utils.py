@@ -22,7 +22,7 @@ def second(x):
     return nth(1, x)
 
 def delall(ddict, lst):
-    def delkey(key)
+    def delkey(key):
         try:
             del ddict[key]
             return True
@@ -40,6 +40,20 @@ def todt(val):
         # ensure tz is UTC??
         pass
     return dt
+
+def filldictslot(ddict, key, val):
+    if not ddict.has_key(key):
+        ddict[key] = val
+    return ddict
+
+def filldict(ddict, keys, default):
+    for key in keys:
+        if isinstance(key, tuple):
+            key, val = key
+        else:
+            val = default
+        filldictslot(ddict, key, val)
+    
 
 # stolen from:
 # http://stackoverflow.com/questions/10823877/what-is-the-fastest-way-to-flatten-arbitrarily-nested-lists-in-python
@@ -66,3 +80,17 @@ def dictmap(func, data, **funcargs):
 
 def djobj_hasattr(djobj, key):
     return key in map(lambda f: f.name, djobj._meta.get_fields())
+
+from django.db.models.fields.related import ManyToManyField
+def to_dict(instance):
+    opts = instance._meta
+    data = {}
+    for f in opts.concrete_fields + opts.many_to_many:
+        if isinstance(f, ManyToManyField):
+            if instance.pk is None:
+                data[f.name] = []
+            else:
+                data[f.name] = list(f.value_from_object(instance).values_list('pk', flat=True))
+        else:
+            data[f.name] = f.value_from_object(instance)
+    return data
