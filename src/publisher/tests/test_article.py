@@ -226,9 +226,8 @@ class ArticleInfoViaApi(BaseCase):
         pass
 
     def test_article_info_api(self):
-        "article data returned by the api is the same as what is serialize"        
-        article = models.Article(**self.article_data)
-        article.save()        
+        "article data returned by the api is the same as what is serialize"
+        article = logic.add_or_update_article(**self.article_data)
         resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
         self.assertEqual(resp.data, views.ArticleSerializer(article).data)
 
@@ -242,8 +241,7 @@ class ArticleInfoViaApi(BaseCase):
         "article data returned by the api is the same as what is serialize"
         kwargs = self.article_data
         kwargs['doi'] = kwargs['doi'].upper()
-        article = models.Article(**kwargs)
-        article.save()        
+        article = logic.add_or_update_article(**kwargs)
         resp = self.c.get(reverse("api-article", kwargs={'doi': article.doi}))
         self.assertEqual(resp.data, views.ArticleSerializer(article).data)
 
@@ -304,10 +302,15 @@ class ArticleInfoViaApi(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(2, models.ArticleVersion.objects.count())
         
         expected_version = 1
-        resp = self.c.get(reverse("api-article-version", kwargs={'doi': doi, 'version': expected_version}))
-        self.assertEqual(2, models.Article.objects.count())
+        api_args = {'doi': doi, 'version': expected_version}
+        resp = self.c.get(reverse("api-article-version", kwargs=api_args))
+
+        print resp.data
+        
         self.assertEqual(resp.data['version'], expected_version)
         self.assertEqual(resp.data['title'], 'bar')
 
