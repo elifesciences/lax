@@ -12,9 +12,19 @@ def nth(idx, x):
 
 def first(x):
     return nth(0, x)
+
 def second(x):
     return nth(1, x)
 
+def delall(ddict, lst):
+    def delkey(key)
+        try:
+            del ddict[key]
+            return True
+        except KeyError:
+            return False
+    return zip(lst, map(delkey, lst))
+    
 
 # stolen from:
 # http://stackoverflow.com/questions/10823877/what-is-the-fastest-way-to-flatten-arbitrarily-nested-lists-in-python
