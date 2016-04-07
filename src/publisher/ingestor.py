@@ -1,7 +1,7 @@
 
 import json
 import models
-from utils import subdict, todt
+from utils import subdict, todt, delall
 import logging
 import requests
 from datetime import datetime
@@ -45,7 +45,7 @@ def import_article_version(article, article_data, create=True, update=False):
 def import_article(journal, article_data, create=True, update=False):
     if not article_data or not isinstance(article_data, dict):
         raise ValueError("given data to import is empty/invalid")
-    expected_keys = ['title', 'version', 'doi', 'volume', 'pub-date', 'path', 'status', 'article-type']
+    expected_keys = ['title', 'doi', 'volume', 'path', 'article-type']
 
     # data wrangling
     try:
@@ -53,16 +53,11 @@ def import_article(journal, article_data, create=True, update=False):
         # post process data
         kwargs.update({
             'journal':  journal,
-            'version': int(kwargs['version']),
-            'datetime_published': todt(kwargs['pub-date']),
             'volume': int(kwargs['volume']),
-            'status': kwargs['status'].lower(),
             'website_path': kwargs['path'],
             'type': kwargs['article-type'],
         })
-        del kwargs['pub-date']
-        del kwargs['path']
-        del kwargs['article-type']
+        delall(kwargs, ['path', 'article-type'])
     except KeyError:
         raise ValueError("expected keys invalid/not present: %s" % ", ".join(expected_keys))
     
@@ -84,6 +79,7 @@ def import_article(journal, article_data, create=True, update=False):
             raise
     article_obj = models.Article(**kwargs)
     article_obj.save()
+    import_article_version(article_obj, article_data, create, update)
     LOG.info("created new Article %s" % article_obj)
     return article_obj
 
