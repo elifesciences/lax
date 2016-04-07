@@ -23,7 +23,9 @@ class ImportArticleFromJSON(BaseCase):
     def test_article_created(self):
         "an article can be imported from JSON"
         self.assertEqual(0, models.Article.objects.count())
+        self.assertEqual(0, models.ArticleVersion.objects.count())
         ingestor.import_article_from_json_path(self.journal, self.json_fixture)
+        self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(1, models.Article.objects.count())
 
     def test_article_not_created(self):
@@ -33,18 +35,29 @@ class ImportArticleFromJSON(BaseCase):
         self.assertEqual(0, models.Article.objects.count())
 
     def test_article_data(self):
-        "the created Article from json import has the correct data"
+        "the Article created from the json import has the correct data"
         expected_data = {
             'title':  "A good life",
-            'version': 1,
             'doi': "10.7554/eLife.00353",
             'journal': self.journal,
+            'type': 'discussion'
         }
         dirty_article = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         clean_article = models.Article.objects.get(pk=dirty_article.pk)
         for attr, expected_value in expected_data.items():
             self.assertEqual(getattr(clean_article, attr), expected_value)
 
+    def test_article_version_data(self):
+        dirty = ingestor.import_article_from_json_path(self.journal, self.json_fixture)        
+        expected_data = {
+            'article': dirty,
+            'datetime_published': utils.todt('2012-12-13'),
+            'status': 'vor',
+            'version': 1,
+        }
+        avobj = models.ArticleVersion.objects.get(article=dirty, version=1)
+        for attr, expected in expected_data.items():
+            self.assertEqual(getattr(avobj, attr), expected)
 
     def test_article_updated(self):
         "an article is successfully updated when update=True"
@@ -112,24 +125,29 @@ class ImportArticleFromJSONViaAPI(BaseCase):
 
     def test_article_create_update_multiple_versions_view(self):
         "an article can be imported from JSON via API across multiple versions"
+        # setup
         self.assertEqual(0, models.Article.objects.count())
         json_data = open(self.json_fixture, 'r').read()
         data = json.loads(json_data)
+        api_url = reverse('api-create-update-article')
         
         # post the article with a version of 1
-        resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
+        resp = self.c.post(api_url, json_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(1, models.ArticleVersion.objects.count())
 
         # post a new version of same article with a version of 2
         data["version"] = "2"
-        json_data = json.dumps(data)
-        resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
+        resp = self.c.post(api_url, json.dumps(data), content_type="application/json")
         self.assertEqual(200, resp.status_code)
-        q = models.Article.objects.filter(doi=data['doi'])
-        self.assertEqual(2, q.count())
+        articles = models.Article.objects.filter(doi=data['doi'])
+        versions = models.ArticleVersion.objects.filter(article__doi=data['doi'])
+        self.assertEqual(1, articles.count())
+        self.assertEqual(2, versions.count())
 
-        v1, v2 = q.all() # ordering is in models.py
+        # test the data
+        v1, v2 = versions.all() # ordering is in models.py
         self.assertEqual(v1.version, 1)
         self.assertEqual(v2.version, 2)
 
@@ -215,6 +233,7 @@ class ImportArticleFromRepo(BaseCase):
     def tearDown(self):
         pass
 
+    '''
     def test_article_imported_lazily(self):
         self.assertEqual(0, models.Article.objects.count())
         # https://github.com/elifesciences/elife-article-json/blob/master/article-json/elife00654.xml.json
@@ -225,6 +244,7 @@ class ImportArticleFromRepo(BaseCase):
         self.assertEqual(dirty_article_obj.title, expected_title)
         clean_article_obj = models.Article.objects.get(doi=doi)
         self.assertEqual(clean_article_obj.title, expected_title)
+    '''
 
     def test_article_import_bad_doi(self):
         self.assertEqual(0, models.Article.objects.count())
@@ -239,9 +259,6 @@ class ImportArticleFromRepo(BaseCase):
         self.assertRaises(ValueError, ingestor.import_article_from_github_repo, self.journal, doi)
         # nothing created
         self.assertEqual(0, models.Article.objects.count())
-
-
-
 
 class ImportFromPPPEIF(BaseCase):
     """the EIF article json floating around the PPP workflow
@@ -273,32 +290,3 @@ class ImportFromPPPEIF(BaseCase):
         art = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
         self.assertEqual(art.title, "A meh life")
         self.assertEqual(2, art.history.count()) # original + updated art
-
-
-class ImportArticleFromRepoLazilyUsingAPI(BaseCase):
-    def setUp(self):
-        self.c = Client()
-
-    def tearDown(self):
-        pass
-
-    def test_article_info_using_lazily_fetched_article(self):
-        # https://github.com/elifesciences/elife-article-json/blob/master/article-json/elife00654.xml.json
-        doi = "10.7554/eLife.00654"
-        expected_title = "Single molecule imaging reveals a major role for diffusion in the exploration of ciliary space by signaling receptors"
-        
-        self.assertEqual(0, models.Article.objects.count())
-        resp = self.c.get(reverse("api-article", kwargs={'doi': doi}))
-        self.assertEqual(1, models.Article.objects.count())
-        
-        clean_article = models.Article.objects.get(doi=doi)
-        self.assertEqual(resp.data, views.ArticleSerializer(clean_article).data)
-
-    def test_article_bad_doi(self):
-        doi = "10.7554/paaaaaaaaaaaaaants.party"
-        self.assertEqual(0, models.Article.objects.count())        
-        resp = self.c.get(reverse("api-article", kwargs={'doi': doi}))
-        # nothing is imported
-        self.assertEqual(0, models.Article.objects.count())
-        # 'not found' given
-        self.assertEqual(404, resp.status_code)
