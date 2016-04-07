@@ -3,11 +3,15 @@ from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^proxy/lax/api/', include('publisher.api', namespace="proxied")), # integration with upstream api
-    url(r'^api/', include('publisher.api')),
-    url(r'^', include('publisher.urls')),
+    url(r'^admin/', include(admin.site.urls))
 ]
+if 'publisher' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        # integration with upstream api
+        url(r'^proxy/lax/api/', include('publisher.api', namespace="proxied")), 
+        url(r'^api/', include('publisher.api')),
+        url(r'^', include('publisher.urls')),
+    ]
 
 if settings.ENV == settings.DEV:
     from django.conf.urls.static import static
