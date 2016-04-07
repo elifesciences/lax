@@ -53,9 +53,7 @@ class SpecificArticleFeed(AbstractArticleFeed):
 
     def get_object(self, request, aid_list):
         aid_list = aid_list.split(',')
-        print 'aids',aid_list
         doi_list = map(lambda aid: '10.7554/'+aid, aid_list)
-        print 'doi',doi_list
         return {'aid_list': aid_list,
                 'doi_list': doi_list}
 
