@@ -6,6 +6,7 @@ from publisher import ingestor, utils
 from publisher.utils import first, second
 from datetime import datetime
 from django.utils import timezone
+from django.db.models import ObjectDoesNotExist
 
 LOG = logging.getLogger(__name__)
 
@@ -25,6 +26,7 @@ def article(doi, version=None, lazy=True):
     doi, or the specific version given.
     Raises DoesNotExist if article not found."""
     try:
+        '''
         if version:
             return models.Article.objects.get(doi__iexact=doi, version=version)
         return models.Article.objects.filter(doi__iexact=doi).order_by('-version')[:1][0]
@@ -39,6 +41,20 @@ def article(doi, version=None, lazy=True):
             except ValueError:
                 # bad data, bad doi, etc
                 pass
+        '''
+        if version:
+            # when a specific article version is requested ...
+            avobj = models.ArticleVersion.objects.get(article__doi__iexact=doi, version=version)
+            # we need to find it's historical Article as of it's creation date.
+            print 'found av',utils.to_dict(avobj)
+            print 'found history',avobj.article.history.all()
+            got = avobj.article.history.filter(version=version).most_recent()
+            print 'got',got
+            return got
+
+            #return models.Article.objects.get(doi__iexact=doi, articleversion__version=version)
+        return models.Article.objects.get(doi__iexact=doi)
+    except ObjectDoesNotExist:
         raise models.Article.DoesNotExist()
 
 def article_versions(doi):
@@ -62,13 +78,14 @@ def get_attribute(article_obj, attr):
 
 def add_update_article_attribute(article, key, val, extant_only=True):
     if utils.djobj_hasattr(article, key):
+        # key exists, update
         # update the article object itself
         setattr(article, key, val)
         article.save()
         return {'key': key,
                 'value': getattr(article, key),
-                'doi': article.doi,
-                'version': article.version}
+                'doi': article.doi}#,
+                #'version': article.version}
     
     # get/create the attribute type
     try:
@@ -107,41 +124,28 @@ def add_update_article_attribute(article, key, val, extant_only=True):
 
     return {'key': attrtype.name,
             'value': val,
-            'doi': article.doi,
-            'version': article.version}
+            'doi': article.doi}#,
+            #'version': article.version}
 
 def add_or_update_article(**article_data):
-    """given a article data it attempts to find the article and update it,
-    otherwise it will create it. return the created article"""
+    """TESTING ONLY. given article data it attempts to find the 
+    article and update it, otherwise it will create it, filling
+    any missing keys with dummy data. returns the created article."""
     assert article_data.has_key('doi'), "a value for 'doi' *must* exist"
-    try:
-        art = models.Article.objects.get(doi=article_data['doi'], version=article_data['version'])
-        for key, val in article_data.items():
-            setattr(art, key, val)
-        art.save()
-
-    except models.Article.DoesNotExist:
-        art = models.Article(**article_data)
-        art.save()
-
-    return art
+    filler = [
+        'title', 'doi',
+        ('volume', 1),
+        'path', 'article-type',
+        ('version', 1),
+        ('pub-date', '2012-01-01'),
+        'status'
+    ]
+    utils.filldict(article_data, filler, 'pants-party')
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
 
 #
 #
 #
-
-def not_latest_articles():
-    "returns all articles that are NOT the most recent version"
-    sql = '''
-    select a.*
-    from publisher_article a
-    where exists (
-        select * 
-        from publisher_article b
-        where a.doi = b.doi
-        and b.version > a.version)'''
-    return models.Article.objects.raw(sql)
-
 
 def latest_articles(where=[], limit=None):
     assert isinstance(where, list), "'where' must be a list of (clause, param) pairs"
