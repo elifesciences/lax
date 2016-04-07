@@ -18,18 +18,15 @@ def to_dict(instance):
 # very clever! stolen from:
 # http://stackoverflow.com/questions/7499767/temporarily-disable-auto-now-auto-now-add
 
-def iter_fields_and_do(Clazz, field_name, func):
-    field = Clazz._meta.get_field_by_name(field_name)[0]
-    print 'got field!',field
-    func(field)
-    assert field.auto_now == False
+def do_field(Clazz, field_name, func):
+    func(Clazz._meta.get_field_by_name(field_name)[0])
 
 def turn_off_auto_now(Clazz, field_name):
     def auto_now_off(field):
         field.auto_now = False
-    iter_fields_and_do(Clazz, field_name, auto_now_off)
+    do_field(Clazz, field_name, auto_now_off)
 
 def turn_off_auto_now_add(Clazz, field_name):
     def auto_now_add_off(field):
         field.auto_now_add = False
-    iter_fields_and_do(Clazz, field_name, auto_now_add_off)
+    do_field(Clazz, field_name, auto_now_add_off)

@@ -1,6 +1,11 @@
+import pytz
+from dateutil import parser
 from django.utils import timezone
 from functools import partial
 import os, sys
+import logging
+
+LOG = logging.getLogger(__name__)
 
 def nth(idx, x):
     try:
@@ -24,7 +29,17 @@ def delall(ddict, lst):
         except KeyError:
             return False
     return zip(lst, map(delkey, lst))
-    
+
+def todt(val):
+    "turn almost any formatted datetime string into a UTC datetime object"
+    dt = parser.parse(val)
+    if not dt.tzinfo:
+        LOG.warn("encountered naive timestamp %r. UTC assumed.", val)
+        return pytz.utc.localize(dt)
+    else:
+        # ensure tz is UTC??
+        pass
+    return dt
 
 # stolen from:
 # http://stackoverflow.com/questions/10823877/what-is-the-fastest-way-to-flatten-arbitrarily-nested-lists-in-python

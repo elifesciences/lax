@@ -27,6 +27,7 @@ def populate(apps, schema_editor):
     ArticleVersion.objects.bulk_create(av_list)
 
 def depopulate(apps, schema_editor):
+    ArticleVersion = apps.get_model("publisher", "ArticleVersion")
     return ArticleVersion.objects.delete()
 
 def prune_articles(apps, schema_editor):
