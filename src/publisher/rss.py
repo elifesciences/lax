@@ -61,7 +61,10 @@ class SpecificArticleFeed(AbstractArticleFeed):
         return reverse('rss-specific-article-list', kwargs={'aid_list': ','.join(obj['aid_list'])})
 
     def items(self, obj):
-        return models.ArticleVersion.objects.filter(article__doi__in=obj['doi_list']).order_by('-datetime_published', 'version')
+        return models.ArticleVersion.objects \
+          .select_related('article') \
+          .filter(article__doi__in=obj['doi_list']) \
+          .order_by('-datetime_published', 'version')
 
     def item_title(self, item):
         return u'%s (version %s)' % (item.title, item.version)
@@ -89,9 +92,7 @@ class RecentArticleFeed(AbstractArticleFeed):
             'datetime_published__gte': obj['since'], #.strftime('%Y-%m-%d'),
             'status__in': obj['article_status']
         }
-        q = logic.latest_article_versions()
-        q = q.filter(**kwargs)
-        return q
+        return logic.latest_article_versions().filter(**kwargs)
 
 #
 # rss handling

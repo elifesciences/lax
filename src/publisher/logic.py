@@ -133,7 +133,10 @@ def latest_article_versions():
     # http://stackoverflow.com/questions/19923877/django-orm-get-latest-for-each-group
     #Score.objects.annotate(max_date=Max('student__score__date')).filter(date=F('max_date'))
 
-    q = models.ArticleVersion.objects.annotate(max_version=Max('article__articleversion__version')).filter(version=F('max_version'))
+    q = models.ArticleVersion.objects \
+      .select_related('article') \
+      .annotate(max_version=Max('article__articleversion__version')) \
+      .filter(version=F('max_version'))
 
     # order by when article version was published, newest first
     q = q.order_by('-datetime_published')

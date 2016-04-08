@@ -105,7 +105,6 @@ class RSSViews(BaseCase):
         ]
         [logic.add_or_update_article(**article_data) for article_data in self.article_data_list]        
 
-
     def tearDown(self):
         pass
 
@@ -117,7 +116,14 @@ class RSSViews(BaseCase):
         url = reverse('rss-specific-article-list', kwargs={'aid_list': aid})
         resp = self.c.get(url)
         self.assertEqual(1, len(re.findall('<guid', resp.content)))
-    
+
+    def test_specific_feed_single_article_db_performance(self):
+        doi = self.article_data_list[0]['doi']
+        aid = doi[8:]
+        url = reverse('rss-specific-article-list', kwargs={'aid_list': aid})
+        with self.assertNumQueries(1):
+            resp = self.c.get(url)
+        
     def test_specific_feed_many_article(self):
         """a specific article can be targeted in the rss. why? spot fixes
         to ALM and a person may be interested in future versions of a given article"""
@@ -127,7 +133,20 @@ class RSSViews(BaseCase):
         resp = self.c.get(url)
         self.assertEqual(3, len(re.findall('<guid', resp.content)))
 
+    def test_specific_feed_many_article_db_performance(self):
+        "we hit the database once for an rss feed even with 'many' article versions in the system"
+        aid_list = map(lambda a: a['doi'][8:], self.article_data_list)
+        aid_str = ','.join(aid_list)
+        url = reverse('rss-specific-article-list', kwargs={'aid_list': aid_str})
+        with self.assertNumQueries(1):
+            resp = self.c.get(url)
+        
     def test_last_n_articles(self):
         url = reverse('rss-recent-article-list', kwargs={'article_status': 'vor', 'since': '1'})
         resp = self.c.get(url)
         self.assertEqual(1, len(re.findall('<guid', resp.content)))
+
+    def test_last_n_articles_db_performance(self):
+        url = reverse('rss-recent-article-list', kwargs={'article_status': 'vor', 'since': '999'})
+        with self.assertNumQueries(1):
+            resp = self.c.get(url)
