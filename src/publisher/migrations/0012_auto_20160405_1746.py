@@ -5,13 +5,16 @@ from __future__ import unicode_literals
 from django.db import migrations, models
 from . import to_dict, turn_off_auto_now, turn_off_auto_now_add
 
+import logging
+LOG = logging.getLogger(__name__)
+
 def link_articles_to_versions(apps, schema_editor):
     Article = apps.get_model("publisher", "Article")
     ArticleVersion = apps.get_model("publisher", "ArticleVersion")
 
     turn_off_auto_now_add(ArticleVersion, "datetime_record_created")
     turn_off_auto_now(ArticleVersion, "datetime_record_updated")
-    
+
     for av in ArticleVersion.objects.all():
         av.article = Article.objects.get(doi=av.doi)
         av.save()
@@ -51,7 +54,7 @@ class Migration(migrations.Migration):
         migrations.RemoveField(model_name='article', name='version'),
         migrations.RemoveField(model_name='article', name='status'),
         migrations.RemoveField(model_name='article', name='title'),
-        migrations.RemoveField(model_name='article', name='slug'),        
+        migrations.RemoveField(model_name='article', name='slug'),
 
         #
         # add link to Article from ArticleVersion
@@ -66,13 +69,14 @@ class Migration(migrations.Migration):
             preserve_default=False,
         ),
         
+        migrations.RunPython(link_articles_to_versions),
+
         migrations.AlterUniqueTogether(
             name='articleversion',
             unique_together=set([('article', 'version')]),
         ),
 
-        migrations.RunPython(link_articles_to_versions),
         migrations.RemoveField(model_name='ArticleVersion', name='doi'),
-        
+
     ]
 
