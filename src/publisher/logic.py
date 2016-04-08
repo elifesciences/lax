@@ -6,7 +6,7 @@ from publisher import ingestor, utils
 from publisher.utils import first, second
 from datetime import datetime
 from django.utils import timezone
-from django.db.models import ObjectDoesNotExist
+from django.db.models import ObjectDoesNotExist, Max, F, Q
 
 LOG = logging.getLogger(__name__)
 
@@ -125,7 +125,27 @@ def add_or_update_article(**article_data):
 #
 #
 
+def latest_article_versions():
+    # 'distinct on' not supported in sqlite3 :(
+    #return models.ArticleVersion.objects.all().distinct('article__doi')
+
+    # works well across parent-child
+    # http://stackoverflow.com/questions/19923877/django-orm-get-latest-for-each-group
+    #Score.objects.annotate(max_date=Max('student__score__date')).filter(date=F('max_date'))
+
+    q = models.ArticleVersion.objects.annotate(max_version=Max('article__articleversion__version')).filter(version=F('max_version'))
+
+    # order by when article version was published, newest first
+    q = q.order_by('-datetime_published')
+    return q
+
+
 def latest_articles(where=[], limit=None):
+    """returns the most recent article data with NO duplicates.
+
+    for example, if an article has had two revisions, only the most 
+    recent revision will be returned.
+    """
     assert isinstance(where, list), "'where' must be a list of (clause, param) pairs"
     assert all(map(lambda p: isinstance(p, tuple), where)), "'where' must be a list of tuples"
     if limit:
