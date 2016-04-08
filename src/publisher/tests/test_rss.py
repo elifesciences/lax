@@ -53,7 +53,6 @@ class TestLatest(BaseCase):
              }
              
         ]
-
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         
         self.assertEqual(models.Article.objects.count(), 3)
@@ -85,7 +84,7 @@ class RSSViews(BaseCase):
              'version': 1,
              'doi': "10.7554/eLife.00001",
              'journal': self.journal,
-             'datetime_published': an_hour_ago,
+             'pub-date': an_hour_ago.isoformat(),
             },
             
             {'title': 'bar',
@@ -93,7 +92,7 @@ class RSSViews(BaseCase):
              'version': 1,
              'doi': "10.7554/eLife.00002",
              'journal': self.journal,
-             'datetime_published': many_hours_ago, # **
+             'pub-date': many_hours_ago.isoformat(),
             },
 
             {'title': 'baz',
@@ -101,7 +100,7 @@ class RSSViews(BaseCase):
              'status': 'poa', # **
              'doi': "10.7554/eLife.00003",
              'journal': self.journal,
-             'datetime_published': an_hour_ago,
+             'pub-date': an_hour_ago.isoformat(),
              }
         ]
         [logic.add_or_update_article(**article_data) for article_data in self.article_data_list]        
@@ -129,6 +128,6 @@ class RSSViews(BaseCase):
         self.assertEqual(3, len(re.findall('<guid', resp.content)))
 
     def test_last_n_articles(self):
-        url = reverse('rss-recent-article-list', kwargs={'article_types': 'vor', 'since': '1'})
+        url = reverse('rss-recent-article-list', kwargs={'article_status': 'vor', 'since': '1'})
         resp = self.c.get(url)
         self.assertEqual(1, len(re.findall('<guid', resp.content)))

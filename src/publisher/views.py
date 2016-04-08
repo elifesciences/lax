@@ -49,25 +49,24 @@ def corpus_info(rest_request):
 # API, specific articles
 #
 
-'''
 class ArticleSerializer(szr.ModelSerializer):
-    version_list = ArticleVersionSerializer(source='articleversion_set', many=True)
-    version = szr.SerializerMethodField()
-    
-    def get_version(self, obj):
-        return obj.version
     
     class Meta:
         exclude = ('id', 'journal')
         model = models.Article
-'''
 
 class ArticleVersionSerializer(szr.ModelSerializer):
-    doi = szr.CharField(read_only=True, source="article.doi")
+    article = ArticleSerializer()
+
+    def to_representation(self, obj):
+        res = super(ArticleVersionSerializer, self).to_representation(obj)
+        res.update(res['article'])
+        del res['article']
+        return res
     
     class Meta:
         model = models.ArticleVersion
-        exclude = ('id', 'article')
+        exclude = ('id',)
 
 
 

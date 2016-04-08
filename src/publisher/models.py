@@ -92,7 +92,10 @@ class ArticleVersion(models.Model):
 
     class Meta:
         unique_together = ('article', 'version')
-    
+
+    def get_absolute_url(self):
+        return self.article.dxdoi_url()
+
     def __unicode__(self):
         return '%s v%s' % (self.article.doi, self.version)
     
