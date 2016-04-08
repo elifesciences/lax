@@ -38,6 +38,8 @@ class Migration(migrations.Migration):
         migrations.RemoveField(model_name='historicalarticle', name='datetime_published'),
         migrations.RemoveField(model_name='historicalarticle', name='version'),
         migrations.RemoveField(model_name='historicalarticle', name='status'),
+        migrations.RemoveField(model_name='historicalarticle', name='slug'),
+        migrations.RemoveField(model_name='historicalarticle', name='title'),
         
         migrations.AlterField(
             model_name='article',
