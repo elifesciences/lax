@@ -45,7 +45,7 @@ def import_article_version(article, article_data, create=True, update=False):
 def import_article(journal, article_data, create=True, update=False):
     if not article_data or not isinstance(article_data, dict):
         raise ValueError("given data to import is empty/invalid")
-    expected_keys = ['doi', 'volume', 'path', 'article-type']
+    expected_keys = ['doi', 'volume', 'path', 'article-type', 'manuscript_id']
 
     # data wrangling
     try:

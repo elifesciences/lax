@@ -8,6 +8,23 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+def isint(v):
+    try:
+        int(v)
+        return True
+    except (ValueError, TypeError):
+        return False
+
+def doi2msid(doi):
+    "doi to manuscript id used in EJP"
+    prefix = '10.7554/eLife.'
+    return doi[len(prefix):].lstrip('0')
+
+def msid2doi(msid):
+    assert len(str(msid)) <= 5, "given msid is too long: %r" % msid
+    assert isint(msid), "given msid must be an integer: %r" % msid
+    return '10.7554/eLife.%05d' % int(msid)
+
 def nth(idx, x):
     try:
         return x[idx]

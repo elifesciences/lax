@@ -107,10 +107,18 @@ def add_or_update_article(**article_data):
     """TESTING ONLY. given article data it attempts to find the 
     article and update it, otherwise it will create it, filling
     any missing keys with dummy data. returns the created article."""
-    assert article_data.has_key('doi'), "a value for 'doi' *must* exist"
+    assert article_data.has_key('doi') or article_data.has_key('manuscript_id'), \
+      "a value for 'doi' or 'manuscript_id' *must* exist"
+
+    if article_data.has_key('manuscript_id'):
+        article_data['doi'] = utils.msid2doi(article_data['manuscript_id'])
+    elif article_data.has_key('doi'):
+        article_data['manuscript_id'] = utils.doi2msid(article_data['doi'])
+    
     filler = [
         'title',
         'doi',
+        'manuscript_id',
         ('volume', 1),
         'path',
         'article-type',
@@ -153,12 +161,6 @@ def check_doi(doi):
     """ensures that the doi both exists with crossref and that it
     successfully redirects to an article on the website"""
     return requests.get(mk_dxdoi_link(doi))
-
-
-def doi2msid(doi):
-    "manuscript id representation. used in EJP"
-    prefix = '10.7554/eLife.'
-    return doi[len(prefix):].lstrip('0')
 
 
 #
