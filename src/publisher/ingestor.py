@@ -1,7 +1,7 @@
 
 import json
 import models
-from utils import subdict, todt, delall
+from utils import subdict, todt, delall, msid2doi, doi2msid
 import logging
 import requests
 from datetime import datetime
@@ -50,6 +50,14 @@ def import_article(journal, article_data, create=True, update=False):
     # data wrangling
     try:
         kwargs = subdict(article_data, expected_keys)
+
+        # JATS XML doesn't contain the manuscript ID. derive it from doi
+        if not kwargs.has_key('manuscript_id') and kwargs.has_key('doi'):
+            kwargs['manuscript_id'] = doi2msid(kwargs['doi'])
+
+        elif not kwargs.has_key('doi') and kwargs.has_key('manuscript_id'):
+            kwargs['doi'] = msid2doi(kwargs['manuscript_id'])
+        
         # post process data
         kwargs.update({
             'journal':  journal,

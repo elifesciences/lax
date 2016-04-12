@@ -29,53 +29,55 @@ class ArticleLogic(BaseCase):
     def test_fetches_latest_always(self):
         "when version is not specified, `logic.article` returns the latest"
         self.assertEqual(0, models.Article.objects.count())
+        doi = "10.7554/eLife.01234"
         article_data_list = [
             {'title': 'foo',
              'version': 1,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
              
             {'title': 'bar',
              'version': 2,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
 
             {'title': 'baz',
              'version': 3,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(3, models.ArticleVersion.objects.count())
         
-        art, ver = logic.article("10.7554/eLife.DUMMY")
+        art, ver = logic.article(doi)
         self.assertEqual(ver.version, 3)
         self.assertEqual(ver.title, 'baz')
 
     def test_fetch_historical(self):
         "previous versions of an article's changes are available in history"
         self.assertEqual(0, models.Article.objects.count())
+        doi = "10.7554/eLife.01234"
         article_data_list = [
             {'volume': 1,
              'article-type': 'foo',
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
              
             {'volume': 2,
              'article-type': 'bar',
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
 
             {'volume': 3,
              'article-type': 'baz',
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(1, models.Article.objects.count())
         
-        art = models.Article.objects.get(doi="10.7554/eLife.DUMMY")
+        art = models.Article.objects.get(doi=doi)
         self.assertEqual(3, art.history.count())
 
         # check the data inserted vs the data returned
@@ -87,20 +89,21 @@ class ArticleLogic(BaseCase):
     def test_fetch_specific_historical(self):
         "a specific previous version of an article's changes can be fetched from history"
         self.assertEqual(0, models.Article.objects.count())
+        doi = "10.7554/eLife.01234"
         article_data_list = [
             {'title': 'foo',
              'version': 1,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
              
             {'title': 'bar',
              'version': 2,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
 
             {'title': 'baz',
              'version': 3,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
@@ -108,7 +111,7 @@ class ArticleLogic(BaseCase):
         self.assertEqual(3, models.ArticleVersion.objects.count())
         
         expected_version = 2
-        art, ver = logic.article("10.7554/eLife.DUMMY", expected_version)
+        art, ver = logic.article(doi, expected_version)
         self.assertEqual(ver.version, expected_version)
         self.assertEqual(ver.title, 'bar')
 
@@ -117,30 +120,31 @@ class ArticleLogic(BaseCase):
         from history, even when there are multiple articles in history with the
         same version number"""
         self.assertEqual(0, models.Article.objects.count())
+        doi = '10.7554/eLife.01234'
         article_data_list = [
             {'title': 'foo',
              'version': 1,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
              
             {'title': 'bar',
              'version': 1,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
 
             {'title': 'baz',
              'version': 2,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
 
             {'title': 'bup',
              'version': 3,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
 
             {'title': 'boo',
              'version': 3,
-             'doi': "10.7554/eLife.DUMMY",
+             'doi': doi,
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
@@ -148,11 +152,11 @@ class ArticleLogic(BaseCase):
         self.assertEqual(3, models.ArticleVersion.objects.count())
         
         expected_version = 1
-        art, ver = logic.article("10.7554/eLife.DUMMY", expected_version)
+        art, ver = logic.article(doi, expected_version)
         self.assertEqual(ver.version, expected_version)
         self.assertEqual(ver.title, 'bar')
-        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 2)[1].title, 'baz')
-        self.assertEqual(logic.article("10.7554/eLife.DUMMY", 3)[1].title, 'boo')
+        self.assertEqual(logic.article(doi, 2)[1].title, 'baz')
+        self.assertEqual(logic.article(doi, 3)[1].title, 'boo')
 
 class ArticleInfoViaApi(BaseCase):
     def setUp(self):
@@ -199,7 +203,7 @@ class ArticleInfoViaApi(BaseCase):
 
     def test_article_info_version_grouping(self):
         "an article with multiple versions is returned"
-        doi = "10.7554/eLife.DUMMY"
+        doi = "10.7554/eLife.01234"
         article_data_list = [
             {'title': 'foo',
              'version': 1,
@@ -232,7 +236,7 @@ class ArticleInfoViaApi(BaseCase):
 
     def test_article_info_version(self):
         "the correct article version is returned when specified via the api"
-        doi = "10.7554/eLife.DUMMY"
+        doi = "10.7554/eLife.01234"
         article_data_list = [
             {'title': 'foo',
              'version': 1,
@@ -264,7 +268,7 @@ class ArticleInfoViaApi(BaseCase):
 
     def test_article_info_incorrect_version(self):
         "a 404 is returned when the correct article with an incorrect version is specified via the api"
-        doi = "10.7554/eLife.DUMMY"
+        doi = "10.7554/eLife.01234"
         version = 1
         article_data_list = [
             {'title': 'foo',
