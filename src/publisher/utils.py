@@ -26,6 +26,9 @@ def msid2doi(msid):
     return '10.7554/eLife.%05d' % int(msid)
 
 def nth(idx, x):
+    # 'nth' implies a sequential collection
+    if isinstance(x, dict):
+        raise TypeError
     try:
         return x[idx]
     except IndexError:
@@ -40,6 +43,7 @@ def second(x):
     return nth(1, x)
 
 def delall(ddict, lst):
+    "mutator. "
     def delkey(key):
         try:
             del ddict[key]
