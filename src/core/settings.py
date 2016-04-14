@@ -1,7 +1,7 @@
 """generalised settings for the Lax project. 
 
-per-instance settings are in /path/to/lax/lax.cfg
-dev settings can be found in /path/to/lax/dev.cfg
+per-instance settings are in /path/to/app/app.cfg
+example settings can be found in /path/to/lax/elife.cfg
 
 ./install.sh will create a symlink from dev.cfg -> lax.cfg if lax.cfg not found."""
 
@@ -13,7 +13,7 @@ import ConfigParser as configparser
 PROJECT_NAME = 'lax'
 
 # Build paths inside the project like this: os.path.join(SRC_DIR, ...)
-SRC_DIR = os.path.dirname(os.path.dirname(__file__)) # ll: /path/to/lax/src/
+SRC_DIR = os.path.dirname(os.path.dirname(__file__)) # ll: /path/to/app/src/
 PROJECT_DIR = os.path.dirname(SRC_DIR)
 
 CFG_NAME = 'app.cfg'
@@ -59,7 +59,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework_swagger',
     'django_markdown2',
-    
+
     'publisher',
 )
 
@@ -117,7 +117,6 @@ DATABASES = {
     }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -130,10 +129,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
