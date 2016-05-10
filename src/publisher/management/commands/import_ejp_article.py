@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
-    help = 'Imports one or many article JSON files or directories of files'
+    help = ''
     
     def add_arguments(self, parser):
         # where am I to look?
