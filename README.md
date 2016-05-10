@@ -1,5 +1,5 @@
 # Lax
-
+ 
 An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, 
 mostly-structured, data store for articles.
 
