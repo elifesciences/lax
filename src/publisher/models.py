@@ -3,6 +3,8 @@ from django.db import models
 from autoslug import AutoSlugField
 from simple_history.models import HistoricalRecords
 
+POA, VOR = 'poa', 'vor'
+
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
 
@@ -105,6 +107,21 @@ class Article(models.Model):
 
     history = HistoricalRecords()
 
+    def earliest_poa(self):
+        try:
+            return self.articleversion_set.filter(status=POA).earliest('version')
+        except models.ObjectDoesNotExist:
+            return None
+
+    def earliest_vor(self):
+        try:
+            return self.articleversion_set.filter(status=VOR).earliest('version')
+        except models.ObjectDoesNotExist:
+            return None
+
+    def date_published(self):
+        return self.earliest_vor() or self.earliest_poa()
+
     @property
     def title(self):
         return self.articleversion_set.latest('version').title
@@ -135,8 +152,10 @@ class ArticleVersion(models.Model):
 
     # positiveintegerfields allow zeroes
     version = models.PositiveSmallIntegerField(default=None, help_text="The version of the article. Version=None means pre-publication")
-    status = models.CharField(max_length=3, choices=[('poa', 'POA'), ('vor', 'VOR')], blank=True, null=True)
+    status = models.CharField(max_length=3, choices=[(POA, 'POA'), (VOR, 'VOR')], blank=True, null=True)
 
+    # NOTE: this value is currently wrong.
+    # it's only ever correct for the first version of this article
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
