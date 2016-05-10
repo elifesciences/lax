@@ -33,13 +33,10 @@ class Article(models.Model):
     
     journal = models.ForeignKey(Journal)
 
-    doi = models.CharField(max_length=255, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
+    doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
     
     title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
     slug = AutoSlugField(null=True, blank=True, populate_from='title', always_update=True, help_text='A friendlier version of the title for machines')
-
-    # positiveintegerfields allow zeroes
-    version = models.PositiveSmallIntegerField(default=None, help_text="The version of the article. Version=None means pre-publication")
 
     # possible custom managers ?
     # research_articles
@@ -47,23 +44,17 @@ class Article(models.Model):
     # recently_published
 
     volume = models.PositiveSmallIntegerField(blank=True, null=True)
-    status = models.CharField(max_length=3, choices=[('poa', 'POA'), ('vor', 'VOR')], blank=True, null=True)
     website_path = models.CharField(max_length=50)
 
-    type = models.CharField(max_length=50, blank=True, null=True)
+    type = models.CharField(max_length=50, blank=True, null=True) # research, editorial, etc
     
     datetime_submitted = models.DateTimeField(blank=True, null=True, help_text="Date author submitted article")
     datetime_accepted = models.DateTimeField(blank=True, null=True, help_text="Date article accepted for publication")
-    datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
-    
+
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
     history = HistoricalRecords()
-
-    class Meta:
-        unique_together = ('doi', 'version')
-        ordering = ('version',)
 
     def dxdoi_url(self):
         return 'https://dx.doi.org/' + self.doi
@@ -75,8 +66,33 @@ class Article(models.Model):
         return self.title
 
     def __repr__(self):
-        return u'<Article %s v%s>' % (self.doi, self.version)
+        return u'<Article %s>' % self.doi
 
+class ArticleVersion(models.Model):
+    article = models.ForeignKey(Article)
+    # positiveintegerfields allow zeroes
+    version = models.PositiveSmallIntegerField(default=None, help_text="The version of the article. Version=None means pre-publication")
+    status = models.CharField(max_length=3, choices=[('poa', 'POA'), ('vor', 'VOR')], blank=True, null=True)
+
+    datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
+    
+    datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
+    datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
+
+    def __unicode__(self):
+        return '%s v%s' % (self.article.doi, self.version)
+    
+    def __repr__(self):
+        return u'<Article %s>' % self
+
+
+#
+# as of 2016.04.06, ArticleAttributes are not being used.
+# they were introduced for not-great reasons.
+# I would suggest tearing them out.
+#
+    
+    
 def attr_type_choices():
     return [
         ('char', 'String'), # first element is the default

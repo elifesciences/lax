@@ -130,6 +130,19 @@ def add_or_update_article(**article_data):
 #
 #
 
+def not_latest_articles():
+    "returns all articles that are NOT the most recent version"
+    sql = '''
+    select a.*
+    from publisher_article a
+    where exists (
+        select * 
+        from publisher_article b
+        where a.doi = b.doi
+        and b.version > a.version)'''
+    return models.Article.objects.raw(sql)
+
+
 def latest_articles(where=[], limit=None):
     assert isinstance(where, list), "'where' must be a list of (clause, param) pairs"
     assert all(map(lambda p: isinstance(p, tuple), where)), "'where' must be a list of tuples"
@@ -201,6 +214,13 @@ def check_doi(doi):
     """ensures that the doi both exists with crossref and that it
     successfully redirects to an article on the website"""
     return requests.get(mk_dxdoi_link(doi))
+
+
+def doi2msid(doi):
+    "manuscript id representation. used in EJP"
+    prefix = '10.7554/eLife.'
+    return doi[len(prefix):].lstrip('0')
+
 
 #
 #
