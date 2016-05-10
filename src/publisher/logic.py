@@ -6,6 +6,7 @@ from publisher import ingestor, utils
 from publisher.utils import first, second
 from datetime import datetime
 from django.utils import timezone
+from django.db.models import ObjectDoesNotExist, Max, F, Q
 
 LOG = logging.getLogger(__name__)
 
@@ -25,25 +26,16 @@ def article(doi, version=None, lazy=True):
     doi, or the specific version given.
     Raises DoesNotExist if article not found."""
     try:
+        article = models.Article.objects.get(doi__iexact=doi)
         if version:
-            return models.Article.objects.get(doi__iexact=doi, version=version)
-        return models.Article.objects.filter(doi__iexact=doi).order_by('-version')[:1][0]
-    
-    except (IndexError, models.Article.DoesNotExist):
-        # TODO: and doi-looks-like-an-elife-doi
-        # TODO: fetching articles lazily only works when a version is not specified. articles in the github repo have no version currently.
-        if lazy and version == None:
-            try:
-                ingestor.import_article_from_github_repo(journal(), doi, version)
-                return article(doi, version, lazy=False)
-            except ValueError:
-                # bad data, bad doi, etc
-                pass
+            return article, article.articleversion_set.get(version=version)
+        return article, article.articleversion_set.latest('version')
+    except ObjectDoesNotExist:
         raise models.Article.DoesNotExist()
 
 def article_versions(doi):
     "returns all versions of the given article"
-    return models.Article.objects.filter(doi__iexact=doi)
+    return models.ArticleVersion.objects.filter(article__doi__iexact=doi)
 
 def create_attribute(**kwargs):
     at = models.AttributeType(**kwargs)
@@ -62,13 +54,14 @@ def get_attribute(article_obj, attr):
 
 def add_update_article_attribute(article, key, val, extant_only=True):
     if utils.djobj_hasattr(article, key):
+        # key exists, update
         # update the article object itself
         setattr(article, key, val)
         article.save()
         return {'key': key,
                 'value': getattr(article, key),
-                'doi': article.doi,
-                'version': article.version}
+                'doi': article.doi}#,
+                #'version': article.version}
     
     # get/create the attribute type
     try:
@@ -107,88 +100,55 @@ def add_update_article_attribute(article, key, val, extant_only=True):
 
     return {'key': attrtype.name,
             'value': val,
-            'doi': article.doi,
-            'version': article.version}
+            'doi': article.doi}#,
+            #'version': article.version}
 
 def add_or_update_article(**article_data):
-    """given a article data it attempts to find the article and update it,
-    otherwise it will create it. return the created article"""
-    assert article_data.has_key('doi'), "a value for 'doi' *must* exist"
-    try:
-        art = models.Article.objects.get(doi=article_data['doi'], version=article_data['version'])
-        for key, val in article_data.items():
-            setattr(art, key, val)
-        art.save()
+    """TESTING ONLY. given article data it attempts to find the 
+    article and update it, otherwise it will create it, filling
+    any missing keys with dummy data. returns the created article."""
+    assert article_data.has_key('doi') or article_data.has_key('manuscript_id'), \
+      "a value for 'doi' or 'manuscript_id' *must* exist"
 
-    except models.Article.DoesNotExist:
-        art = models.Article(**article_data)
-        art.save()
-
-    return art
-
-#
-#
-#
-
-def latest_articles(where=[], limit=None):
-    assert isinstance(where, list), "'where' must be a list of (clause, param) pairs"
-    assert all(map(lambda p: isinstance(p, tuple), where)), "'where' must be a list of tuples"
-    if limit:
-        assert isinstance(limit, str) or isinstance(limit, int), "'limit' but be a string or an int. got %s" % type(limit)
-
+    if article_data.has_key('manuscript_id'):
+        article_data['doi'] = utils.msid2doi(article_data['manuscript_id'])
+    elif article_data.has_key('doi'):
+        article_data['manuscript_id'] = utils.doi2msid(article_data['doi'])
     
-    args, sql = [], ['''
-    SELECT a.*
-    FROM publisher_article a
-    INNER JOIN (
-      SELECT doi, MAX(version) as max_version
-      FROM publisher_article
-      GROUP BY doi
-    ) AS b
-    ON a.doi = b.doi
-    AND a.version = max_version''']
+    filler = [
+        'title',
+        'doi',
+        'manuscript_id',
+        ('volume', 1),
+        'path',
+        'article-type',
+        ('version', 1),
+        ('pub-date', '2012-01-01'),
+        'status',
+    ]
+    article_data = utils.filldict(article_data, filler, 'pants-party')
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
 
-    '''
-    %(where)s
-    %(order_by)s
-    %(limit)s
-    '''
-    # the where list should be a list of tuples
-    # [(clause, value), (clause, value)]
-    if where:
-        # urgh. so, this is a total hack.
-        # django doesn't support the syntax 'where field in (%s)' and then
-        # you give it a list of values. you need to generate all those param
-        # placeholders yourself. thats what the below is doing when it detects
-        # a tuple of params given for a clause.
-        for idx, pair in enumerate(where):
-            clause, params = pair
-            if isinstance(params, tuple):
-                # update the args
-                args.extend(params)
-                # update the clause
-                clause = clause % ', '.join(['%s'] * len(params))
-                where[idx] = (clause, None)
-            else:
-                args.append(params)
+#
+#
+#
 
-        clause_list, param_list = map(first, where), map(second, where)
-        sql += ['WHERE ' + ' AND '.join(clause_list)]
+def latest_article_versions():
+    # 'distinct on' not supported in sqlite3 :(
+    #return models.ArticleVersion.objects.all().distinct('article__doi')
 
-    sql += ['ORDER BY datetime_published DESC']
+    # works well across parent-child
+    # http://stackoverflow.com/questions/19923877/django-orm-get-latest-for-each-group
+    #Score.objects.annotate(max_date=Max('student__score__date')).filter(date=F('max_date'))
 
-    if limit:
-        args.append(limit)
-        sql += ['LIMIT %s']
+    q = models.ArticleVersion.objects \
+      .select_related('article') \
+      .annotate(max_version=Max('article__articleversion__version')) \
+      .filter(version=F('max_version'))
 
-    sql = ' '.join(sql)
-    args = filter(None, args)
-    LOG.debug("generated raw sql %s and it's args %s", sql, args)
-    res = models.Article.objects.raw(sql, args)
-    LOG.debug("executed raw sql %s", res.query)
-    return res
-
-
+    # order by when article version was published, newest first
+    q = q.order_by('-datetime_published')
+    return q
 
 #
 #
@@ -201,6 +161,7 @@ def check_doi(doi):
     """ensures that the doi both exists with crossref and that it
     successfully redirects to an article on the website"""
     return requests.get(mk_dxdoi_link(doi))
+
 
 #
 #

@@ -16,11 +16,12 @@ class TestCorrections(base.BaseCase):
 
     def test_correction_model(self):
         "a correction object can be created against an article"
+        doi = "10.7554/eLife.01234"
         art = {'title': 'baz',
                'version': 1,
-               'doi': "10.7554/eLife.DUMMY",
+               'doi': doi,
                'journal': self.journal}
-        artobj = logic.add_or_update_article(**art)
+        artobj, version = logic.add_or_update_article(**art)
         correction = models.ArticleCorrection(**{
             'article': artobj,
             'datetime_corrected': datetime.now()})
@@ -35,9 +36,9 @@ class TestCorrectionsLogic(base.BaseCase):
         self.journal = logic.journal()
         art = {'title': 'baz',
                'version': 1,
-               'doi': "10.7554/eLife.DUMMY",
+               'doi': "10.7554/eLife.01234",
                'journal': self.journal}
-        self.art = logic.add_or_update_article(**art)
+        self.art, version = logic.add_or_update_article(**art)
 
     def tearDown(self):
         pass
@@ -72,9 +73,9 @@ class TestCorrectionsAPI(base.BaseCase):
         self.journal = logic.journal()
         art = {'title': 'baz',
                'version': 1,
-               'doi': "10.7554/eLife.DUMMY",
+               'doi': "10.7554/eLife.01234",
                'journal': self.journal}
-        self.art = logic.add_or_update_article(**art)
+        self.art, self.version = logic.add_or_update_article(**art)
         self.c = Client()
 
     def tearDown(self):
@@ -83,8 +84,8 @@ class TestCorrectionsAPI(base.BaseCase):
     def test_record_correction(self):
         "a correction can be made via the api"
         self.assertEqual(0, models.ArticleCorrection.objects.count())
-        resp = self.c.post(reverse('api-record-article-correction', kwargs={'doi': self.art.doi,
-                                                                    'version': self.art.version}))
+        args = {'doi': self.art.doi, 'version': self.version.version}
+        resp = self.c.post(reverse('api-record-article-correction', kwargs=args))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(1, models.ArticleCorrection.objects.count())
     '''

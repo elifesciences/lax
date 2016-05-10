@@ -1,42 +1,71 @@
-from dateutil import parser
+
 import json
 import models
-from utils import subdict
+from utils import subdict, todt, delall, msid2doi, doi2msid
 import logging
 import requests
 from datetime import datetime
-import pytz
 
 LOG = logging.getLogger(__name__)
 
-def todt(val):
-    dt = parser.parse(val)
-    if not dt.tzinfo:
-        LOG.warn("encountered naive timestamp %r. UTC assumed.", val)
-        return pytz.utc.localize(dt)
-    return dt            
-
-def import_article(journal, article_data, create=True, update=False):
-    if not article_data or not isinstance(article_data, dict):
-        raise ValueError("given data to import is empty/invalid")
-    expected_keys = ['title', 'version', 'doi', 'volume', 'pub-date', 'path', 'status', 'article-type']
-
-    # data wrangling
+def import_article_version(article, article_data, create=True, update=False):
+    expected_keys = ['title', 'version', 'pub-date', 'status']
     try:
         kwargs = subdict(article_data, expected_keys)
         # post process data
         kwargs.update({
-            'journal':  journal,
+            'article':  article,
             'version': int(kwargs['version']),
             'datetime_published': todt(kwargs['pub-date']),
-            'volume': int(kwargs['volume']),
             'status': kwargs['status'].lower(),
+        })
+        delall(kwargs, ['pub-date'])
+    except KeyError:
+        raise ValueError("expected keys invalid/not present: %s" % ", ".join(expected_keys))
+    
+    try:
+        avobj = models.ArticleVersion.objects.get(article=article, version=kwargs['version'])
+        if not update:
+            raise AssertionError("article with version exists and I've been told not to update.")
+        LOG.info("ArticleVersion found, updating")
+        for key, val in kwargs.items():
+            setattr(avobj, key, val)
+        avobj.save()
+        return avobj
+    
+    except models.ArticleVersion.DoesNotExist:
+        if not create:
+            raise
+    LOG.info("ArticleVersion NOT found, creating")
+    avobj = models.ArticleVersion(**kwargs)
+    avobj.save()
+    LOG.info("created new ArticleVersion %s" % avobj)
+    return avobj
+
+def import_article(journal, article_data, create=True, update=False):
+    if not article_data or not isinstance(article_data, dict):
+        raise ValueError("given data to import is empty/invalid")
+    expected_keys = ['doi', 'volume', 'path', 'article-type', 'manuscript_id']
+
+    # data wrangling
+    try:
+        kwargs = subdict(article_data, expected_keys)
+
+        # JATS XML doesn't contain the manuscript ID. derive it from doi
+        if not kwargs.has_key('manuscript_id') and kwargs.has_key('doi'):
+            kwargs['manuscript_id'] = doi2msid(kwargs['doi'])
+
+        elif not kwargs.has_key('doi') and kwargs.has_key('manuscript_id'):
+            kwargs['doi'] = msid2doi(kwargs['manuscript_id'])
+        
+        # post process data
+        kwargs.update({
+            'journal':  journal,
+            'volume': int(kwargs['volume']),
             'website_path': kwargs['path'],
             'type': kwargs['article-type'],
         })
-        del kwargs['pub-date']
-        del kwargs['path']
-        del kwargs['article-type']
+        delall(kwargs, ['path', 'article-type'])
     except KeyError:
         raise ValueError("expected keys invalid/not present: %s" % ", ".join(expected_keys))
     
@@ -44,13 +73,12 @@ def import_article(journal, article_data, create=True, update=False):
     article_key = subdict(kwargs, ['doi', 'version'])
     try:
         article_obj = models.Article.objects.get(**article_key)
-        if not update:
-            raise AssertionError("article exists and I've been told not to update.")
+        avobj = import_article_version(article_obj, article_data, create, update)
         LOG.info("article exists, updating")
         for key, val in kwargs.items():
             setattr(article_obj, key, val)
         article_obj.save()
-        return article_obj
+        return article_obj, avobj
 
     except models.Article.DoesNotExist:
         # we've been told not to create new articles.
@@ -59,8 +87,9 @@ def import_article(journal, article_data, create=True, update=False):
             raise
     article_obj = models.Article(**kwargs)
     article_obj.save()
+    avobj = import_article_version(article_obj, article_data, create, update)
     LOG.info("created new Article %s" % article_obj)
-    return article_obj
+    return article_obj, avobj
 
 def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
     "convenience function. loads the article data from a json file"

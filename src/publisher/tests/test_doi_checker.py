@@ -14,7 +14,7 @@ class DOICheck(base.BaseCase):
 
     @skip("unfinished")
     def test_doi(self):
-        art = ingestor.import_article_from_json_path(logic.journal(), self.article_path)
+        art, ver = ingestor.import_article_from_json_path(logic.journal(), self.article_path)
         self.assertEqual(1, models.Article.objects.count())
         print logic.check_doi(art.doi)
         self.assertTrue(False)

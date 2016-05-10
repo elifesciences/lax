@@ -53,9 +53,7 @@ class SpecificArticleFeed(AbstractArticleFeed):
 
     def get_object(self, request, aid_list):
         aid_list = aid_list.split(',')
-        print 'aids',aid_list
         doi_list = map(lambda aid: '10.7554/'+aid, aid_list)
-        print 'doi',doi_list
         return {'aid_list': aid_list,
                 'doi_list': doi_list}
 
@@ -63,7 +61,10 @@ class SpecificArticleFeed(AbstractArticleFeed):
         return reverse('rss-specific-article-list', kwargs={'aid_list': ','.join(obj['aid_list'])})
 
     def items(self, obj):
-        return models.Article.objects.filter(doi__in=obj['doi_list']).order_by('-datetime_record_updated', 'version')
+        return models.ArticleVersion.objects \
+          .select_related('article') \
+          .filter(article__doi__in=obj['doi_list']) \
+          .order_by('-datetime_published', 'version')
 
     def item_title(self, item):
         return u'%s (version %s)' % (item.title, item.version)
@@ -77,19 +78,21 @@ class RecentArticleFeed(AbstractArticleFeed):
     def link(self, obj):
         return reverse('rss-recent-article-list', kwargs=obj['original'])
 
-    def get_object(self, request, article_types, since):
+    def get_object(self, request, article_status, since):
         return {
-            'original': {'article_types': article_types,
+            # used to conveniently generate the reverse url
+            'original': {'article_status': article_status,
                          'since': since},
-            'article_types': tuple(article_types.split('+')),
-            'since': datetime.now() - timedelta(days=int(since))}
+            'article_status': tuple(article_status.split('+')),
+            'since': datetime.now() - timedelta(days=int(since))
+        }
 
     def items(self, obj):
-        where_clauses = [
-            ("datetime_published >= %s", obj['since'].strftime('%Y-%m-%d')), # %H-%M-%S')),
-            ("status in (%s)", obj['article_types']),
-        ]
-        return logic.latest_articles(where=where_clauses)
+        kwargs = {
+            'datetime_published__gte': obj['since'], #.strftime('%Y-%m-%d'),
+            'status__in': obj['article_status']
+        }
+        return logic.latest_article_versions().filter(**kwargs)
 
 #
 # rss handling
@@ -98,5 +101,5 @@ class RecentArticleFeed(AbstractArticleFeed):
 # rooted at /rss/articles/ in urls.py
 urls = [
     url(r"^(?P<aid_list>(eLife\.\d{5}[,]?)+)$", SpecificArticleFeed(), name='rss-specific-article-list'),
-    url(r"^(?P<article_types>(poa\+vor)|(poa|vor))/last-(?P<since>\d{1,3})-days/$", RecentArticleFeed(), name='rss-recent-article-list'),
+    url(r"^(?P<article_status>(poa\+vor)|(poa|vor))/last-(?P<since>\d{1,3})-days/$", RecentArticleFeed(), name='rss-recent-article-list'),
 ]
