@@ -120,7 +120,7 @@ class Article(models.Model):
             return None
 
     def date_published(self):
-        return self.earliest_vor() or self.earliest_poa()
+        return (self.earliest_poa() or self.earliest_vor()).datetime_published
 
     @property
     def title(self):

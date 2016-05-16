@@ -97,6 +97,34 @@ class ImportArticleFromJSON(BaseCase):
         self.assertRaises(models.Article.DoesNotExist, ingestor.import_article_from_json_path, self.journal, self.json_fixture, create=False, update=True)
         self.assertEqual(0, models.Article.history.count())
 
+    def test_article_import_update_of_many_versions(self):
+        "three versions of the same article can be ingested with expected results"
+        path = join(self.fixture_dir, "ppp-09066")
+        v1 = join(path, "elife-09066-v1.json")
+        v2 = join(path, "elife-09066-v2.json")
+        v3 = join(path, "elife-09066-v3.json")
+        
+        ingestor.import_article_from_json_path(self.journal, v1)
+        ingestor.import_article_from_json_path(self.journal, v2)
+        ingestor.import_article_from_json_path(self.journal, v3)
+
+        self.assertEqual(models.Article.objects.count(), 1)
+        self.assertEqual(models.ArticleVersion.objects.count(), 3)
+
+        v1obj = models.ArticleVersion.objects.get(version=1) # POA
+        v2obj = models.ArticleVersion.objects.get(version=2) # POA
+        v3obj = models.ArticleVersion.objects.get(version=3) # VOR
+        
+        self.assertEqual(v1obj.datetime_published, utils.todt("2015-12-19T00:00:00Z"))
+        self.assertEqual(v2obj.datetime_published, utils.todt("2015-12-23T00:00:00Z"))
+        self.assertEqual(v3obj.datetime_published, utils.todt("2016-02-04T00:00:00Z"))
+
+        # all three objects should share the same article and the article's date_published should be the
+        # date of the earliest Article Version
+        self.assertEqual(v1obj.datetime_published, v1obj.article.date_published())
+        self.assertEqual(v1obj.datetime_published, v2obj.article.date_published())
+        self.assertEqual(v1obj.datetime_published, v3obj.article.date_published())
+        
 class ImportArticleFromJSONViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
