@@ -93,7 +93,12 @@ def future_date(date):
     return date > timezone.now()
 
 def subdict(dt, ks):
+    "returns a copy of the given dictionary `dt` with only the keys `ks` included"
     return {k:v for k, v in dt.items() if k in ks}
+
+def exsubdict(dt, ks):
+    "same as subdict, but exclusionary"
+    return {k:v for k, v in dt.items() if k not in ks}
 
 def dictmap(func, data, **funcargs):
     "applies the given function over the values of the given data map. optionally passes any keyword args"

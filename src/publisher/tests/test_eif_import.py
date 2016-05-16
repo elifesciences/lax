@@ -51,8 +51,8 @@ class ImportArticleFromJSON(BaseCase):
         art, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)        
         expected_data = {
             'article': art,
-            'datetime_published': utils.todt('2012-12-13'),
-            'status': 'vor',
+            'datetime_published': utils.todt('2012-12-10'),
+            'status': 'poa',
             'version': 1,
         }
         avobj = models.ArticleVersion.objects.get(article=art, version=1)
@@ -63,13 +63,21 @@ class ImportArticleFromJSON(BaseCase):
         "an article is successfully updated when update=True"
         self.assertEqual(0, models.Article.objects.count())
         art, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
-        self.assertEqual(ver.title, "A good life")
+        for attr, expected in [['title', "A meh life"],
+                               ['status', "poa"],
+                               ["datetime_published", utils.todt("2012-12-10")]]:
+            self.assertEqual(getattr(ver, attr), expected)
+        
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(1, models.Article.history.count())
 
         # attempt the update
+        
         art, ver = ingestor.import_article_from_json_path(self.journal, self.update_fixture, update=True)
-        self.assertEqual(ver.title, "A meh life")
+        for attr, expected in [['title', "A good life"],
+                               ['status', "vor"],
+                               ["datetime_published", utils.todt("2012-12-13")]]:
+            self.assertEqual(getattr(ver, attr), expected)
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(2, models.Article.history.count())
 
@@ -289,8 +297,8 @@ class ImportFromPPPEIF(BaseCase):
         fixture = join(self.fixture_dir, 'elife00353.xml.json')
         eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', '2d3245f7-46df-4c14-b8c2-0bb2f1731ba4', 'elife-00353-v1.json')
         art, ver = ingestor.import_article_from_json_path(self.journal, fixture)
-        self.assertEqual(ver.title, "A good life")
+        self.assertEqual(ver.title, "A meh life")
         self.assertEqual(1, art.history.count()) # original art
         art, ver = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
-        self.assertEqual(ver.title, "A meh life")
+        self.assertEqual(ver.title, "A good life")
         self.assertEqual(2, art.history.count()) # original + updated art

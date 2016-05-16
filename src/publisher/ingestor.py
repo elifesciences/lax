@@ -1,7 +1,7 @@
 
 import json
 import models
-from utils import subdict, todt, delall, msid2doi, doi2msid
+from utils import subdict, exsubdict, todt, delall, msid2doi, doi2msid
 import logging
 import requests
 from datetime import datetime
@@ -9,20 +9,27 @@ from datetime import datetime
 LOG = logging.getLogger(__name__)
 
 def import_article_version(article, article_data, create=True, update=False):
-    expected_keys = ['title', 'version', 'pub-date', 'status']
+    expected_keys = ['title', 'version', 'update', 'pub-date', 'status']
+    kwargs = subdict(article_data, expected_keys)
+
     try:
-        kwargs = subdict(article_data, expected_keys)
+        version_date = kwargs.get('update')
+        if not version_date:
+            LOG.warn("no 'update' date found for this article version, using the article published date instead")
+            version_date = kwargs['pub-date']
+
         # post process data
         kwargs.update({
             'article':  article,
             'version': int(kwargs['version']),
-            'datetime_published': todt(kwargs['pub-date']),
+            'datetime_published': todt(version_date),
             'status': kwargs['status'].lower(),
         })
-        delall(kwargs, ['pub-date'])
+        delall(kwargs, ['pub-date', 'update'])
     except KeyError:
-        raise ValueError("expected keys invalid/not present: %s" % ", ".join(expected_keys))
-    
+        LOG.error("expected keys invalid/not present: %s", expected_keys)
+        raise
+
     try:
         avobj = models.ArticleVersion.objects.get(article=article, version=kwargs['version'])
         if not update:
