@@ -15,7 +15,7 @@ class ImportArticleFromJSON(BaseCase):
         self.journal = logic.journal()
         doc = 'elife00353.xml.json'
         self.json_fixture = os.path.join(self.this_dir, 'fixtures', doc)
-        self.update_fixture = join(self.fixture_dir, 'ppp', '00353.1', '2d3245f7-46df-4c14-b8c2-0bb2f1731ba4', 'elife-00353-v1.json')
+        self.update_fixture = join(self.fixture_dir, 'ppp', '00353.1', 'elife-00353-v1.json')
 
     def tearDown(self):
         pass
@@ -221,7 +221,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         self.assertEqual(1, models.Article.history.count())
         self.assertEqual(200, resp.status_code)
 
-        eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', '2d3245f7-46df-4c14-b8c2-0bb2f1731ba4', 'elife-00353-v1.json')
+        eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', 'elife-00353-v1.json')
         json_update_data = open(eif_update_fixture, 'r').read()
         resp = self.c.post(reverse('api-update-article'), json_update_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
@@ -323,7 +323,7 @@ class ImportFromPPPEIF(BaseCase):
     def test_ppp_update(self):
         "ppp eif can be used to update existing article without exceptions"
         fixture = join(self.fixture_dir, 'elife00353.xml.json')
-        eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', '2d3245f7-46df-4c14-b8c2-0bb2f1731ba4', 'elife-00353-v1.json')
+        eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', 'elife-00353-v1.json')
         art, ver = ingestor.import_article_from_json_path(self.journal, fixture)
         self.assertEqual(ver.title, "A meh life")
         self.assertEqual(1, art.history.count()) # original art
