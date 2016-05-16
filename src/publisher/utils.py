@@ -52,6 +52,9 @@ def delall(ddict, lst):
             return False
     return zip(lst, map(delkey, lst))
 
+def ymd(dt):
+    return dt.strftime("%Y-%m-%d")
+
 def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
     dt = parser.parse(val)

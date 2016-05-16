@@ -165,3 +165,30 @@ def record_correction(rest_request, doi, version):
         'doi': article.doi,
         'corrected': correction.datetime_corrected
     })
+
+#
+# reports
+#
+
+from . import reports
+import csv
+from django.http import StreamingHttpResponse
+# https://docs.djangoproject.com/en/1.9/howto/outputting-csv/
+
+class Echo(object):
+    "An object that implements just the write method of the file-like interface."
+    def write(self, value):
+        """Write the value by returning it, instead of storing in a buffer."""
+        return value
+
+def streaming_csv_response(name, rows):
+    rows = reports.article_poa_vor_pubdates()
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    response = StreamingHttpResponse((writer.writerow(row) for row in rows), \
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="%s.csv"' % name
+    return response
+
+def article_poa_vor_pubdates(request):
+    return streaming_csv_response("published", reports.article_poa_vor_pubdates())
