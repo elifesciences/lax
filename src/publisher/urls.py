@@ -3,6 +3,6 @@ import views, rss
 
 urlpatterns = [
     url(r'^rss/articles/', include(rss.urls)),
-    url(r'^reports/published.csv$', views.article_poa_vor_pubdates),
+    url(r'^reports/published.csv$', views.article_poa_vor_pubdates, name='poa-vor-pubdates'),
     url(r'^$', views.landing, name='pub-landing'),
 ]
