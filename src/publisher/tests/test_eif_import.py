@@ -187,7 +187,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         self.assertEqual(2, versions.count())
 
         # test the data
-        v1, v2 = versions.all() # ordering is in models.py
+        v1, v2 = versions.all().order_by('version') # ordering is in models.py
         self.assertEqual(v1.version, 1)
         self.assertEqual(v2.version, 2)
 
