@@ -60,6 +60,8 @@ INSTALLED_APPS = (
     'rest_framework_swagger',
     'django_markdown2',
 
+    'explorer',
+
     'publisher',
 )
 
