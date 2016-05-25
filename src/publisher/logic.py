@@ -122,9 +122,10 @@ def add_or_update_article(**article_data):
         ('volume', 1),
         'path',
         'article-type',
+        ('ejp_type', 'RA'),
         ('version', 1),
         ('pub-date', '2012-01-01'),
-        'status',
+        ('status', 'vor'),
     ]
     article_data = utils.filldict(article_data, filler, 'pants-party')
     return ingestor.import_article(journal(), article_data, create=True, update=True)
