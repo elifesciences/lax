@@ -121,9 +121,9 @@ class ImportArticleFromJSON(BaseCase):
 
         # all three objects should share the same article and the article's date_published should be the
         # date of the earliest Article Version
-        self.assertEqual(v1obj.datetime_published, v1obj.article.date_published())
-        self.assertEqual(v1obj.datetime_published, v2obj.article.date_published())
-        self.assertEqual(v1obj.datetime_published, v3obj.article.date_published())
+        self.assertEqual(v1obj.datetime_published, v1obj.article.datetime_published)
+        self.assertEqual(v1obj.datetime_published, v2obj.article.datetime_published)
+        self.assertEqual(v1obj.datetime_published, v3obj.article.datetime_published)
         
 class ImportArticleFromJSONViaAPI(BaseCase):
     def setUp(self):

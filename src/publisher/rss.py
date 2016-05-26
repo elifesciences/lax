@@ -39,8 +39,11 @@ class AbstractArticleFeed(Feed):
         return item.title
 
     def item_pubdate(self, item):
-        return item.datetime_published
+        return item.article.datetime_published
 
+    def item_updateddate(self, item):
+        return item.datetime_published
+    
     def copyright(self):
         return 'eLife Sciences Publications Ltd'
 

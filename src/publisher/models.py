@@ -119,8 +119,10 @@ class Article(models.Model):
         except models.ObjectDoesNotExist:
             return None
 
-    def date_published(self):
-        return (self.earliest_poa() or self.earliest_vor()).datetime_published
+    @property
+    def datetime_published(self):
+        return self.articleversion_set.all().earliest('version').datetime_published
+        #return (self.earliest_poa() or self.earliest_vor()).datetime_published
 
     @property
     def title(self):
