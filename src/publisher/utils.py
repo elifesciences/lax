@@ -29,6 +29,8 @@ def nth(idx, x):
     # 'nth' implies a sequential collection
     if isinstance(x, dict):
         raise TypeError
+    if x == None:
+        return x
     try:
         return x[idx]
     except IndexError:
@@ -42,6 +44,10 @@ def first(x):
 def second(x):
     return nth(1, x)
 
+def firstnn(x):
+    "given sequential `x`, returns the first non-nil value"
+    return first(filter(None, x))
+
 def delall(ddict, lst):
     "mutator. "
     def delkey(key):
@@ -53,7 +59,8 @@ def delall(ddict, lst):
     return zip(lst, map(delkey, lst))
 
 def ymd(dt):
-    return dt.strftime("%Y-%m-%d")
+    if dt:
+        return dt.strftime("%Y-%m-%d")
 
 def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"

@@ -44,6 +44,10 @@ class TestUtils(base.BaseCase):
             ([1,2,3], 0, 1),
             ([], 0, None),
             ((1,2,3), 0, 1),
+
+            (None, 0, None),
+            (None, -1, None),
+            (None, 1, None),
         ]
         for val, idx, expected in expected_list:
             print 'testing',val,idx,expected
@@ -53,7 +57,7 @@ class TestUtils(base.BaseCase):
         bad_list = [
             ({}, 0),
             ({'a': 1}, 0),
-            (None, 0),
+            #(None, 0), # attempting to access something in a None now gives you None
         ]
         for val, idx in bad_list:
             self.assertRaises(TypeError, utils.nth, idx, val)
