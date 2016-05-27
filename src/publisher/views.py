@@ -181,14 +181,16 @@ class Echo(object):
         """Write the value by returning it, instead of storing in a buffer."""
         return value
 
-def streaming_csv_response(name, rows):
-    rows = reports.article_poa_vor_pubdates()
+def streaming_csv_response(filename, rows):
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)
     response = StreamingHttpResponse((writer.writerow(row) for row in rows), \
                                      content_type="text/csv")
-    response['Content-Disposition'] = 'attachment; filename="%s.csv"' % name
+    response['Content-Disposition'] = 'attachment; filename="%s.csv"' % filename
     return response
 
 def article_poa_vor_pubdates(request):
     return streaming_csv_response("published", reports.article_poa_vor_pubdates())
+
+def time_to_publication(request):
+    return streaming_csv_response("time-to-publication", reports.time_to_publication())

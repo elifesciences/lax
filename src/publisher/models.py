@@ -2,6 +2,7 @@ import re
 from django.db import models
 from autoslug import AutoSlugField
 from simple_history.models import HistoricalRecords
+from utils import second, firstnn
 
 POA, VOR = 'poa', 'vor'
 
@@ -25,7 +26,6 @@ class Journal(models.Model):
     def __repr__(self):
         return u'<Journal %s>' % self.name
 
-
 def ejp_type_choices():
     return [
         ('RA', 'Research article'),
@@ -35,12 +35,14 @@ def ejp_type_choices():
         ('TR', 'Tools and resources')
     ]
 
+
+AF = 'AF'
 def decision_codes():
     return [
         ('RJI', 'Reject Initial Submission'),
         ('RJF', 'Reject Full Submission'),
         ('RVF', 'Revise Full Submission'),
-        ('AF', 'Accept Full Submission'),
+        (AF, 'Accept Full Submission'),
         ('EF', 'Encourage Full Submission'),
         ('SW', 'Simple Withdraw')
     ]
@@ -107,6 +109,17 @@ class Article(models.Model):
 
     history = HistoricalRecords()
 
+    @property
+    def date_accepted(self):
+        # TODO: this sucks. normalize these into 'event' data or something
+        x = [(self.initial_decision, self.date_initial_decision),
+            (self.decision, self.date_full_decision),
+            (self.rev1_decision, self.date_rev1_decision),
+            (self.rev2_decision, self.date_rev2_decision),
+            (self.rev3_decision, self.date_rev3_decision),
+            (self.rev4_decision, self.date_rev4_decision)]
+        return second(firstnn(filter(lambda p: p[0] == AF, x)))
+    
     def earliest_poa(self):
         try:
             return self.articleversion_set.filter(status=POA).earliest('version')
