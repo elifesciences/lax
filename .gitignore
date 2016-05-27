@@ -6,7 +6,7 @@
 media/**
 collected-static/**
 venv
-xml
+build/
 .elife-json
 .coverage
 .repop*
