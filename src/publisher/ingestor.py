@@ -1,10 +1,10 @@
-
 import json
 import models
 from utils import subdict, exsubdict, todt, delall, msid2doi, doi2msid
 import logging
 import requests
 from datetime import datetime
+from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
@@ -15,7 +15,12 @@ def import_article_version(article, article_data, create=True, update=False):
     try:
         version_date = kwargs.get('update')
         if not version_date:
-            LOG.warn("no 'update' date found for this article version, using the article published date instead")
+            doi = article_data['doi']
+            ver = kwargs['version']
+            msg = "no 'update' date found for article %r version %r, using the article published date instead" % (doi, ver)
+            if settings.FAIL_ON_NO_UPDATE_DATE:
+                raise ValueError(msg)
+            LOG.warn(msg)
             version_date = kwargs['pub-date']
 
         # post process data

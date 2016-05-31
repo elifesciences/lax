@@ -25,9 +25,9 @@ DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
 def cfg(path, default=0xDEADBEEF):
     try:
         return DYNCONFIG.get(*path.split('.'))
-    except configparser.NoOptionError: # given key in section hasn't been defined
+    except (configparser.NoOptionError, configparser.NoSectionError): # given key in section hasn't been defined
         if default == 0xDEADBEEF:
-            raise ValueError("no value set for setting at %r" % path)
+            raise ValueError("no value/section set for setting at %r" % path)
         return default
 
 PRIMARY_JOURNAL = {
@@ -158,6 +158,12 @@ SWAGGER_SETTINGS = {
     'exclude_namespaces': ['proxied'], # swagger docs are broken, but this gives them the right namespace
 }
 
+# Lax settings
+
+# when ingesting an article version and the EIF has no 'update' value,
+# should we fail and raise an error? if not, the article pub-date is used instead.
+FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)
+    
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
 LOG_FILE = join(PROJECT_DIR, LOG_NAME) # ll: /path/to/lax/log/lax.log
 if ENV == PROD:
