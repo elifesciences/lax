@@ -8,50 +8,84 @@ from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
+def striptz(dtstr):
+    "strips the timezone component of a stringified datetime"
+    return dtstr[:dtstr.find('T')]
+
 def import_article_version(article, article_data, create=True, update=False):
     expected_keys = ['title', 'version', 'update', 'pub-date', 'status']
     kwargs = subdict(article_data, expected_keys)
 
     try:
+        doi = article_data['doi']
+        version = int(kwargs['version'])
         version_date = kwargs.get('update')
-        if not version_date:
-            doi = article_data['doi']
-            ver = kwargs['version']
-            msg = "no 'update' date found for article %r version %r, using the article published date instead" % (doi, ver)
+        datetime_published = kwargs['pub-date']
+        
+        context = {'article': doi, 'version': version}
+        LOG.info("importing ArticleVersion", extra=context)
+        
+        if version_date and version == 1:
+            # this is so common it's not even worth a debug
+            #LOG.warn("inconsistency: a v1 has an 'update' date", extra=context)
+
+            d1, d2 = striptz(version_date), striptz(datetime_published)
+            if d1 != d2:
+                c = {}; c.update(context);
+                c.update({'pub-date': datetime_published, 'update': version_date})
+                LOG.warn("double inconsistency: not only do we have an 'update' date for a v1, it doesn't match the date published", extra=c)
+
+                # 'update' date occurred before publish date ...
+                if d1 < d2:
+                    LOG.warn("triple inconsistency: not only do we have an 'update' date for a v1 that doesn't match the date published, it was actually updated *before* it was published", extra=c)
+                
+
+        if not version_date and version > 1:
+            LOG.warn("inconsistency: a version > 1 does not have an 'update' date", extra=context)
             if settings.FAIL_ON_NO_UPDATE_DATE:
+                msg = "no 'update' date found for ArticleVersion"
+                LOG.warn(msg, extra=context)
                 raise ValueError(msg)
-            LOG.warn(msg)
-            version_date = kwargs['pub-date']
+            msg = "no 'update' date found for ArticleVersion, using None instead"
+            LOG.warn(msg, extra=context)
+            version_date = None #kwargs['pub-date'] # this was just confusing
 
         # post process data
         kwargs.update({
             'article':  article,
-            'version': int(kwargs['version']),
+            'version': version,
             'datetime_published': todt(version_date),
             'status': kwargs['status'].lower(),
         })
         delall(kwargs, ['pub-date', 'update'])
     except KeyError:
-        LOG.error("expected keys invalid/not present: %s", expected_keys)
+        LOG.error("expected keys invalid/not present", \
+                      extra={'expected_keys': expected_keys})
         raise
 
     try:
         avobj = models.ArticleVersion.objects.get(article=article, version=kwargs['version'])
         if not update:
-            raise AssertionError("article with version exists and I've been told not to update.")
-        LOG.info("ArticleVersion found, updating")
+            msg = "Article with version does exists but update == False"
+            LOG.warn(msg, extra=context)
+            raise AssertionError(msg)
+        LOG.debug("ArticleVersion found, updating")
         for key, val in kwargs.items():
             setattr(avobj, key, val)
         avobj.save()
+        LOG.info("updated existing ArticleVersion", extra=context)
         return avobj
     
     except models.ArticleVersion.DoesNotExist:
         if not create:
+            msg = "ArticleVersion with version does not exist and create == False"
+            LOG.warn(msg, extra=context)
             raise
-    LOG.info("ArticleVersion NOT found, creating")
+
+    LOG.debug("ArticleVersion NOT found, creating", extra=context)
     avobj = models.ArticleVersion(**kwargs)
     avobj.save()
-    LOG.info("created new ArticleVersion %s" % avobj)
+    LOG.info("created new ArticleVersion", extra=context)
     return avobj
 
 def import_article(journal, article_data, create=True, update=False):
@@ -69,7 +103,11 @@ def import_article(journal, article_data, create=True, update=False):
 
         elif not kwargs.has_key('doi') and kwargs.has_key('manuscript_id'):
             kwargs['doi'] = msid2doi(kwargs['manuscript_id'])
-        
+
+        context = {'article': kwargs['doi']}
+
+        LOG.info("importing Article", extra=context)
+
         # post process data
         kwargs.update({
             'journal':  journal,
@@ -86,7 +124,7 @@ def import_article(journal, article_data, create=True, update=False):
     try:
         article_obj = models.Article.objects.get(**article_key)
         avobj = import_article_version(article_obj, article_data, create, update)
-        LOG.info("article exists, updating")
+        LOG.info("Article exists, updating", extra=context)
         for key, val in kwargs.items():
             setattr(article_obj, key, val)
         article_obj.save()

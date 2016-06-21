@@ -182,7 +182,7 @@ def writable(path):
     assert os.access(path, os.W_OK), "file doesn't exist or isn't writable: %s" % path
 map(writable, [LOG_FILE, INGESTION_LOG_FILE])
 
-ATTRS = ['asctime', 'created', 'filename', 'funcName', 'levelname', 'lineno', 'module', 'message', 'pathname']
+ATTRS = ['asctime', 'created', 'levelname', 'message', 'filename', 'funcName', 'lineno', 'module', 'pathname']
 FORMAT_STR = ' '.join(map(lambda v: '%('+v+')s', ATTRS))
 
 LOGGING = {
