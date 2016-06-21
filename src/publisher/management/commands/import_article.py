@@ -62,9 +62,10 @@ class Command(BaseCommand):
             exit(0)
 
         try:
-            if not create_articles and not update_articles:
-                print 'cannot create or update, stopping here.'
-                exit(0)
+            # this actually turned out to be really useful for dryruns
+            #if not create_articles and not update_articles:
+            #    print 'cannot create or update, stopping here.'
+            #    exit(0)
 
             fn = partial(import_fn, create_articles, update_articles)
             results = map(fn, path_list)
