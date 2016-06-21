@@ -18,3 +18,4 @@ python-dateutil==2.4.2
 pytz==2015.7
 requests==2.9.1
 unittest-xml-reporting==2.1.0
+python-json-logger==0.1.5

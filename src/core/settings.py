@@ -9,6 +9,7 @@ import os
 from os.path import join
 from datetime import datetime
 import ConfigParser as configparser
+from pythonjsonlogger import jsonlogger
 
 PROJECT_NAME = 'lax'
 
@@ -163,20 +164,50 @@ SWAGGER_SETTINGS = {
 # when ingesting an article version and the EIF has no 'update' value,
 # should we fail and raise an error? if not, the article pub-date is used instead.
 FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)
-    
+
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
 LOG_FILE = join(PROJECT_DIR, LOG_NAME) # ll: /path/to/lax/log/lax.log
-if ENV == PROD:
+
+INGESTION_LOG_NAME = 'ingestion-%s.log' % PROJECT_NAME
+INGESTION_LOG_FILE = join(PROJECT_DIR, INGESTION_LOG_NAME)
+
+if ENV != DEV:
     LOG_FILE = join('/var/log/', LOG_NAME) # ll: /var/log/lax.log
+    INGESTION_LOG_FILE = join('/var/log/', INGESTION_LOG_NAME) # ll: /var/log/lax.log
+
+# whereever our log files are, ensure they are writable before we do anything else.
+def writable(path):
+    os.system('touch ' + path)
+    # https://docs.python.org/2/library/os.html
+    assert os.access(path, os.W_OK), "file doesn't exist or isn't writable: %s" % path
+map(writable, [LOG_FILE, INGESTION_LOG_FILE])
+
+ATTRS = ['asctime', 'created', 'filename', 'funcName', 'levelname', 'lineno', 'module', 'message', 'pathname']
+FORMAT_STR = ' '.join(map(lambda v: '%('+v+')s', ATTRS))
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+
+    'formatters': {
+        'json': {
+            '()': jsonlogger.JsonFormatter,
+            'format': FORMAT_STR,
+        },
+    },
+    
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': LOG_FILE,
+            'formatter': 'json',
+        },
+        'ingestion': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': INGESTION_LOG_FILE,
+            'formatter': 'json',
         },
         'debug-console': {
             'level': 'DEBUG',
@@ -190,10 +221,16 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
+        'publisher.ingestor': {
+            'handlers': ['ingestion'],
+        },
+        'publisher.ejp_ingestor': {
+            'handlers': ['ingestion'],
+        },        
         'publisher.management.commands.import_article': {
             'level': 'INFO',
             'handlers': ['debug-console'],
-        },
+        },        
         'django.request': {
             'handlers': ['file'],
             'level': 'DEBUG',
