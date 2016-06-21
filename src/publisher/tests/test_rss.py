@@ -34,11 +34,13 @@ class TestLatest(BaseCase):
              'version': 2,
              'doi': "10.7554/eLife.00002",
              'pub-date': (many_hours_ago - timedelta(hours=1)).isoformat(),
+             'update': (many_hours_ago - timedelta(hours=1)).isoformat(),
             },
             {'title': 'bar',
              'version': 3,
              'doi': "10.7554/eLife.00002",
              'pub-date': (many_hours_ago - timedelta(hours=2)).isoformat(),
+             'update': (many_hours_ago - timedelta(hours=2)).isoformat(),
             },
 
 
@@ -51,6 +53,7 @@ class TestLatest(BaseCase):
              'version': 2,
              'doi': "10.7554/eLife.00003",
              'pub-date': (an_hour_ago + timedelta(minutes=10)).isoformat(),
+             'update': (an_hour_ago + timedelta(minutes=10)).isoformat(),
              }
              
         ]
@@ -67,7 +70,7 @@ class TestLatest(BaseCase):
             ('10.7554/eLife.00001', 1), # created an hour ago
             ('10.7554/eLife.00002', 3), # created many hours ago
         ]
-        
+
         for av, expected in zip(avlist, expected_version_order):
             self.assertEqual(av.article.doi, expected[0])
             self.assertEqual(av.version, expected[1])
