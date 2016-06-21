@@ -64,6 +64,8 @@ def ymd(dt):
 
 def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
+    if val == None:
+        return None
     dt = parser.parse(val)
     if not dt.tzinfo:
         LOG.warn("encountered naive timestamp %r. UTC assumed.", val)
