@@ -65,6 +65,7 @@ class ImportArticleFromJSON(BaseCase):
         art, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         for attr, expected in [['title', "A meh life"],
                                ['status', "poa"],
+                               ['version', 1],
                                ["datetime_published", utils.todt("2012-12-10")]]:
             self.assertEqual(getattr(ver, attr), expected)
         

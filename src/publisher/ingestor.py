@@ -24,7 +24,7 @@ def import_article_version(article, article_data, create=True, update=False):
         
         context = {'article': doi, 'version': version}
         LOG.info("importing ArticleVersion", extra=context)
-        
+
         if version_date and version == 1:
             # this is so common it's not even worth a debug
             #LOG.warn("inconsistency: a v1 has an 'update' date", extra=context)
@@ -38,17 +38,18 @@ def import_article_version(article, article_data, create=True, update=False):
                 # 'update' date occurred before publish date ...
                 if d1 < d2:
                     LOG.warn("triple inconsistency: not only do we have an 'update' date for a v1 that doesn't match the date published, it was actually updated *before* it was published", extra=c)
-                
+
+        if version == 1:
+            version_date = datetime_published
 
         if not version_date and version > 1:
             LOG.warn("inconsistency: a version > 1 does not have an 'update' date", extra=context)
             if settings.FAIL_ON_NO_UPDATE_DATE:
                 msg = "no 'update' date found for ArticleVersion"
-                LOG.warn(msg, extra=context)
                 raise ValueError(msg)
             msg = "no 'update' date found for ArticleVersion, using None instead"
             LOG.warn(msg, extra=context)
-            version_date = None #kwargs['pub-date'] # this was just confusing
+            version_date = None
 
         # post process data
         kwargs.update({
