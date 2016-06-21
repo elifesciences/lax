@@ -18,7 +18,10 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
 
     def add_item_elements(self, handler, item):
         super(RSSArticleFeedGenerator, self).add_item_elements(handler, item)
-        handler.addQuickElement("dc:date", item['pubdate'].isoformat())
+        pubdate = item['pubdate']
+        if pubdate:
+            handler.addQuickElement("dc:date", pubdate.isoformat())
+        LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
 
 class AbstractArticleFeed(Feed):
     feed_type = RSSArticleFeedGenerator
