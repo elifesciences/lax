@@ -3,4 +3,3 @@ set -e
 source install.sh
 source .lint.sh
 source .test.sh
-coverage report
