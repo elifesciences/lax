@@ -5,6 +5,7 @@ from django.utils import timezone
 from functools import partial
 import os, sys
 import logging
+from django.db.models.fields.related import ManyToManyField
 
 LOG = logging.getLogger(__name__)
 
@@ -121,7 +122,6 @@ def dictmap(func, data, **funcargs):
 def djobj_hasattr(djobj, key):
     return key in map(lambda f: f.name, djobj._meta.get_fields())
 
-from django.db.models.fields.related import ManyToManyField
 def to_dict(instance):
     opts = instance._meta
     data = {}
