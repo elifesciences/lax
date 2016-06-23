@@ -10,6 +10,31 @@ from django.core.urlresolvers import reverse
 
 logging.getLogger("").setLevel(logging.WARNING) # suppresses debug, info messages
 
+class PatchArticle(BaseCase):
+    def setUp(self):
+        self.journal = logic.journal()
+        doc = 'elife00353.xml.json'
+        self.json_fixture = os.path.join(self.this_dir, 'fixtures', doc)
+
+    def tearDown(self):
+        pass
+
+    def test_article_patch(self):
+        patch = {
+            'doi': "10.7554/eLife.00353",
+            'versions': {
+                1: {'title': 'replaced title'},
+            }
+        }
+        ingestor.import_article_from_json_path(self.journal, self.json_fixture)
+        av = models.ArticleVersion.objects.all()[0]
+        self.assertEqual(av.title, "A meh life")
+
+        ingestor.patch(patch)
+        av = models.ArticleVersion.objects.all()[0]
+        self.assertEqual(av.title, patch['versions'][1]['title'])
+
+
 class ImportArticleFromJSON(BaseCase):
     def setUp(self):
         self.journal = logic.journal()

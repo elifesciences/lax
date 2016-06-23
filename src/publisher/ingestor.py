@@ -1,10 +1,11 @@
-import json
+import json, copy
 import models
 from utils import subdict, exsubdict, todt, delall, msid2doi, doi2msid
 import logging
 import requests
 from datetime import datetime
 from django.conf import settings
+from django.db import transaction, IntegrityError
 
 LOG = logging.getLogger(__name__)
 
@@ -180,3 +181,40 @@ def import_article_from_github_repo(journal, doi, version=None):
     if not doi or not str(doi).strip():
         raise ValueError("bad doi") # todo - shift into a utility?
     return import_article(journal, fetch_url(github_url(doi, version)))
+
+#
+# 'patch'
+#
+
+def patch(data):
+    "given partial article/articleversion data, updates that article"
+    data = copy.deepcopy(data)
+    
+    doi, version_patches = map(data.pop, ['doi', 'versions'])
+    context = {'article': doi, 'patch_data': data, 'version_patch_data': version_patches}
+    try:
+        art = models.Article.objects.get(doi=doi)
+        with transaction.atomic():
+            # patch article
+            for key, val in data.items():
+                setattr(art, key, val)
+            art.save()
+
+            # patch any versions
+            for version, data in version_patches.items():
+                context['version'] = version
+                av = art.articleversion_set.get(version=version)
+                for key, val in data.items():
+                    setattr(av, key, val)
+                av.save()
+        LOG.info("successfully patched Article", extra=context)
+
+    except models.Article.DoesNotExist:
+        LOG.warn("Article not found, skipping patch", extra=context)
+
+    except models.ArticleVersion.DoesNotExist:
+        LOG.warn("ArticleVersion not found, skipping patch", extra=context)
+        
+    except IntegrityError as err:
+        LOG.error(err)
+        raise
