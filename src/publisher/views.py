@@ -189,6 +189,7 @@ def streaming_csv_response(filename, rows):
     response['Content-Disposition'] = 'attachment; filename="%s.csv"' % filename
     return response
 
+# /reports/published.csv
 def article_poa_vor_pubdates(request):
     return streaming_csv_response("published", reports.article_poa_vor_pubdates())
 
