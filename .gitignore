@@ -12,3 +12,4 @@ build/
 .repop*
 htmlcov/
 app.cfg
+ingestion-lax.log.json
