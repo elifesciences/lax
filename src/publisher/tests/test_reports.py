@@ -8,19 +8,19 @@ class TestReport(base.BaseCase):
     def setUp(self):
         self.journal = logic.journal()
         import_all = [
-            '00353.1',
-            '00385.1',
-            '01328.1',
-            '02619.1',
-            '03401.1',
-            '03401.2',
+            '00353.1', # discussion
+            '00385.1', # commentary
+            '01328.1', # correction
+            '02619.1', # editorial
+            '03401.1', # research
+            '03401.2', 
             '03401.3',
-            '03665.1',
-            '06250.1',
+            '03665.1', # research
+            '06250.1', # research
             '06250.2',
             '06250.3',
-            '07301.1',
-            '08025.1',
+            '07301.1', # research
+            '08025.1', # research
             '08025.2',
         ]
         for subdir in import_all:
@@ -38,7 +38,8 @@ class TestReport(base.BaseCase):
         self.assertEqual(models.ArticleVersion.objects.count(), 14)
         report = reports.article_poa_vor_pubdates()
         report = list(report) # result is lazy, force evaluation here
-        self.assertEqual(len(report), 9)
+        #self.assertEqual(len(report), 9) # most (all?) non-research articles are being excluded
+        self.assertEqual(len(report), 5)
         for row in report:
             self.assertEqual(len(row), 3)
 
