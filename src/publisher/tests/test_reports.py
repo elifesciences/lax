@@ -1,6 +1,7 @@
+import re
 from os.path import join
 from . import base
-from publisher import ingestor, logic, models, reports
+from publisher import ingestor, logic, models, reports, utils
 from django.test import Client
 from django.core.urlresolvers import reverse
 
@@ -32,7 +33,7 @@ class TestReport(base.BaseCase):
     def tearDown(self):
         pass
 
-    def test_poa_vor_pubdates_report(self):
+    def test_poa_vor_pubdates_data(self):
         "the report yields the expected data in the expected format"
         self.assertEqual(models.Article.objects.count(), 9)
         self.assertEqual(models.ArticleVersion.objects.count(), 14)
@@ -43,9 +44,34 @@ class TestReport(base.BaseCase):
         for row in report:
             self.assertEqual(len(row), 3)
 
+    def test_paw_article_data_poa(self):
+        data = list(reports.paw_article_data())
+        expected_keys = [
+            'title', 'link', 'description', 'author', 'category-list',
+            'guid', 'pub-date', 'update-date'
+        ]
+        self.assertEqual(len(data), 9)
+        for row in data:
+            try:
+                self.assertTrue(utils.has_all_keys(row, expected_keys))
+            except AssertionError:
+                print 'expecting',expected_keys
+                print 'got keys',row.keys()
+                raise
+
+    #
+    # views
+    #
+            
     def test_poa_vor_pubdates_report_api(self):
-        c = Client()
         url = reverse('poa-vor-pubdates')
-        resp = c.get(url)
+        resp = Client().get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp['Content-Type'], 'text/csv')
+            
+    def test_paw_article_data_rss_view(self):
+        url = reverse('paw-article-data')
+        resp = Client().get(url)
+        self.assertEqual(resp.status_code, 200)
+        xml = resp.content
+        self.assertEqual(len(re.findall('<item>', xml)), 9)

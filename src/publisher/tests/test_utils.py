@@ -131,3 +131,21 @@ class TestUtils(base.BaseCase):
         jnl_data = utils.to_dict(jnl)
         self.assertTrue(isinstance(jnl_data, dict))
         self.assertEqual(jnl_data['name'], settings.PRIMARY_JOURNAL['name'])
+
+    def test_has_all_keys(self):
+        data = {'a': 1, 'b': 2}
+        cases = [
+            (data, ['a'], True),
+            (data, ['a', 'b'], True),
+            (data, ['a', 'b', 'c'], False),
+            (data, [0], False),
+            (data, [0, 1], False),
+            (data, [self], False),
+        ]
+        for case, args, expected in cases:
+            try:
+                self.assertEqual(utils.has_all_keys(case, args), expected)
+            except AssertionError:
+                print case,args,expected
+                raise
+        

@@ -7,8 +7,8 @@ from annoying.decorators import render_to
 import models, logic
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
-import ingestor
-
+import ingestor, rss
+from django.core.urlresolvers import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import ParseError
@@ -195,3 +195,13 @@ def article_poa_vor_pubdates(request):
 
 def time_to_publication(request):
     return streaming_csv_response("time-to-publication", reports.time_to_publication())
+
+class PAWArticleData(rss.AbstractReportFeed):
+    def get_object(self, request):        
+        return {
+            'title': 'PAW article data',
+            'url': reverse('paw-article-data', kwargs={}),
+            'description': 'asdf',
+            'params': None,
+            'results': reports.paw_article_data()
+        }

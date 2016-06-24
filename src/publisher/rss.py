@@ -21,7 +21,7 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
         pubdate = item['pubdate']
         if pubdate:
             handler.addQuickElement("dc:date", pubdate.isoformat())
-        LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
+            LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
 
 class AbstractArticleFeed(Feed):
     feed_type = RSSArticleFeedGenerator
@@ -100,8 +100,54 @@ class RecentArticleFeed(AbstractArticleFeed):
         }
         return logic.latest_article_versions().filter(**kwargs)
 
+class AbstractReportFeed(AbstractArticleFeed):
+    #feed_type = RSSArticleFeedGenerator
+    
+    def title(self, obj):
+        return obj['title']
+
+    def description(self, obj):
+        return obj['description']
+
+    def link(self, obj):
+        return obj['url']
+
+    def get_object(self, request):
+        raise NotImplementedError("asdf")
+
+    def items(self, obj):
+        return obj['results']
+
+    def item_title(self, item):
+        return item['title']
+    
+    def item_link(self, item):
+        return item['link']
+
+    def item_description(self, item):
+        return item['description']
+
+    def item_author_name(self, item):
+        return item['author']['name']
+
+    def item_author_email(self, item):
+        return item['author']['email']
+    
+    def item_pubdate(self, item):
+        return item['update-date'] if item['update-date'] else item['pub-date']
+
+    def item_updateddate(self, item):
+        return item['update-date']
+
+    def item_guid(self, item):
+        return item['guid']
+
+    def item_categories(self, item):
+        return item['category-list']
+    
+    
 #
-# rss handling
+# rss handling views
 #
 
 # rooted at /rss/articles/ in urls.py

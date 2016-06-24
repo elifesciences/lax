@@ -34,6 +34,35 @@ def article_poa_vor_pubdates():
       .order_by('doi')
     return itertools.imap(row, query)
 
+def paw_article_data():
+    """To keep a good record of turnaround times for production the "updated date" needs to be fed into PublishingAtWork and to the content processor.  Prior to the move away from HW this was done using the dates provided in the RSS feed.
+
+    The production team require an automated way of getting the updated date to PAW and Exeter - preferably as an RSS feed to avoid these third parties having to do any engineering.
+
+    http://jira.elifesciences.org:8080/browse/ELPP-956"""
+    # this report is very similar to the `article_poa_vor_pubdates` report
+    # but we return enough article data to output an RSS feed
+    def dt(av):
+        if av and hasattr(av, 'datetime_published'):
+            return av.datetime_published
+    def row(art):
+        poa = art.earliest_poa()
+        vor = art.earliest_vor()
+        return {
+            'title': art.title,
+            'link': art.get_absolute_url(),
+            'description': 'N/A',
+            'author': {'name': 'N/A', 'email': 'N/A'},
+            'category-list': [],
+            'guid': art.get_absolute_url(),
+            'pub-date': dt(poa), # also the dc-date
+            'update-date': dt(vor)
+        }
+    # is published, limit 10
+    # no discernable ordering from website
+    query = models.Article.objects.all().exclude(volume=None)[:10]
+    return itertools.imap(row, query)
+
 
 @needs_peer_review
 def totals_for_year(year=2015):

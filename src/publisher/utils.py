@@ -119,6 +119,10 @@ def dictmap(func, data, **funcargs):
         func = partial(func, **funcargs)
     return {k:func(v) for k, v in data.items()}
 
+def has_all_keys(data, expected_keys):
+    actual_keys = data.keys()
+    return all(map(lambda key: key in actual_keys, expected_keys))
+
 def djobj_hasattr(djobj, key):
     return key in map(lambda f: f.name, djobj._meta.get_fields())
 
