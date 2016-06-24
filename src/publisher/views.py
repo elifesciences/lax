@@ -205,3 +205,7 @@ class PAWArticleData(rss.AbstractReportFeed):
             'params': None,
             'results': reports.paw_article_data()
         }
+    
+    def item_pubdate(self, item):
+        return item['update-date'] if item['update-date'] else item['pub-date']
+

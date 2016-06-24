@@ -134,7 +134,7 @@ class AbstractReportFeed(AbstractArticleFeed):
         return item['author']['email']
     
     def item_pubdate(self, item):
-        return item['update-date'] if item['update-date'] else item['pub-date']
+        return item['pub-date']
 
     def item_updateddate(self, item):
         return item['update-date']

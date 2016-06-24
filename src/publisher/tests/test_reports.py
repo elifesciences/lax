@@ -75,3 +75,6 @@ class TestReport(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
         xml = resp.content
         self.assertEqual(len(re.findall('<item>', xml)), 9)
+
+        # assert the 'pubdate' is actually the updated date
+        self.assertTrue(False)
