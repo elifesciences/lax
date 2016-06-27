@@ -60,7 +60,7 @@ def paw_article_data():
       .exclude(volume=None)
     return imap(row, query)
 
-def paw_recent_data():
+def paw_recent_data(limit_to=20):
     "'recent' data is VOR only, although the VOR may have been POA'd at some point"
     rows = paw_article_data()
     def recent_row(art):
@@ -68,13 +68,13 @@ def paw_recent_data():
         return art
     # filter out any articles WITHOUT a VOR
     # set the pub-date to the transition-date
-    return imap(recent_row, ifilter(lambda art: art['transition-date'], rows))
+    return take(limit_to, imap(recent_row, ifilter(lambda art: art['transition-date'], rows)))
 
-def paw_ahead_data():
+def paw_ahead_data(limit_to=20):
     "'ahead' data is POA only"
     rows = paw_article_data()
     # filter out any articles WITH a VOR
-    return ifilter(lambda art: not art['transition-date'], rows)
+    return take(limit_to, ifilter(lambda art: not art['transition-date'], rows))
 
 @needs_peer_review
 def totals_for_year(year=2015):
