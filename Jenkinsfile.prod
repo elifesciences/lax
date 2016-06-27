@@ -1,0 +1,12 @@
+elifePipeline {
+    stage 'Checkout approved'
+    checkout scm
+    def commit = elifeGitRevision()
+
+    stage 'Backup'
+    elifeCmd 'elife-lax-master', "cd /srv/lax; ./manage.sh dumpdata --exclude=contenttypes --natural-foreign --natural-primary --indent=4 | gzip -9 - > /tmp/lax-db-${env.BUILD_TAG}.json.gz"
+
+    stage 'Deploy'
+    elifeGitMoveToBranch commit, 'master'
+    elifeSwitchRevision 'elife-lax-master', commit
+}
