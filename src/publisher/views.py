@@ -196,16 +196,22 @@ def article_poa_vor_pubdates(request):
 def time_to_publication(request):
     return streaming_csv_response("time-to-publication", reports.time_to_publication())
 
-class PAWArticleData(rss.AbstractReportFeed):
+class PAWAheadReport(rss.AbstractReportFeed):
     def get_object(self, request):        
         return {
             'title': 'PAW article data',
-            'url': reverse('paw-article-data', kwargs={}),
+            'url': reverse('paw-ahead-report', kwargs={}),
             'description': 'asdf',
             'params': None,
-            'results': reports.paw_article_data()
-        }
-    
-    def item_pubdate(self, item):
-        return item['update-date'] if item['update-date'] else item['pub-date']
+            'results': reports.paw_ahead_data()
+        }    
 
+class PAWRecentReport(rss.AbstractReportFeed):
+    def get_object(self, request):        
+        return {
+            'title': 'PAW article data',
+            'url': reverse('paw-recent-report', kwargs={}),
+            'description': 'asdf',
+            'params': None,
+            'results': reports.paw_recent_data()
+        }

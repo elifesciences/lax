@@ -137,9 +137,12 @@ class Article(models.Model):
         return self.articleversion_set.latest('version')
 
     @property
+    def earliest_version(self):
+        return self.articleversion_set.earliest('version')        
+    
+    @property
     def datetime_published(self):
-        return self.articleversion_set.all().earliest('version').datetime_published
-        #return (self.earliest_poa() or self.earliest_vor()).datetime_published
+        return self.earliest_version.datetime_published
 
     @property
     def title(self):

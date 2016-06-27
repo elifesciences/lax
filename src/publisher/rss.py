@@ -137,7 +137,7 @@ class AbstractReportFeed(AbstractArticleFeed):
         return item['pub-date']
 
     def item_updateddate(self, item):
-        return item['update-date']
+        return item.get('update-date')
 
     def item_guid(self, item):
         return item['guid']

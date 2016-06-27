@@ -3,7 +3,7 @@ from . import models, utils
 from .utils import ymd
 from functools import wraps
 from django.db.models import Count
-from itertools import islice
+from itertools import islice, imap, ifilter
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -32,7 +32,7 @@ def article_poa_vor_pubdates():
       .exclude(type__in=['article-commentary', 'editorial', 'book-review', 'discussion', 'correction']) \
       .exclude(volume=None) \
       .order_by('doi')
-    return itertools.imap(row, query)
+    return imap(row, query)
 
 def paw_article_data():
     """To keep a good record of turnaround times for production the "updated date" needs to be fed into PublishingAtWork and to the content processor.  Prior to the move away from HW this was done using the dates provided in the RSS feed.
@@ -40,14 +40,10 @@ def paw_article_data():
     The production team require an automated way of getting the updated date to PAW and Exeter - preferably as an RSS feed to avoid these third parties having to do any engineering.
 
     http://jira.elifesciences.org:8080/browse/ELPP-956"""
-    # this report is very similar to the `article_poa_vor_pubdates` report
-    # but we return enough article data to output an RSS feed
     def dt(av):
         if av and hasattr(av, 'datetime_published'):
             return av.datetime_published
     def row(art):
-        poa = art.earliest_poa()
-        vor = art.earliest_vor()
         return {
             'title': art.title,
             'link': art.get_absolute_url(),
@@ -55,14 +51,30 @@ def paw_article_data():
             'author': {'name': 'N/A', 'email': 'N/A'},
             'category-list': [],
             'guid': art.get_absolute_url(),
-            'pub-date': dt(poa), # also the dc-date
-            'update-date': dt(vor)
+            'pub-date': dt(art.earliest_poa()),
+            'transition-date': dt(art.earliest_vor()),
         }
     # is published, limit 10
     # no discernable ordering from website
-    query = models.Article.objects.all().exclude(volume=None)[:10]
-    return itertools.imap(row, query)
+    query = models.Article.objects.all() \
+      .exclude(volume=None)
+    return imap(row, query)
 
+def paw_recent_data():
+    "'recent' data is VOR only, although the VOR may have been POA'd at some point"
+    rows = paw_article_data()
+    def recent_row(art):
+        art['pub-date'] = art['transition-date']
+        return art
+    # filter out any articles WITHOUT a VOR
+    # set the pub-date to the transition-date
+    return imap(recent_row, ifilter(lambda art: art['transition-date'], rows))
+
+def paw_ahead_data():
+    "'ahead' data is POA only"
+    rows = paw_article_data()
+    # filter out any articles WITH a VOR
+    return ifilter(lambda art: not art['transition-date'], rows)
 
 @needs_peer_review
 def totals_for_year(year=2015):
@@ -171,4 +183,4 @@ def time_to_publication(year=2015):
             days_to_vor,
             days_to_vor_from_poa,
         ]
-    return itertools.chain([headers], itertools.imap(row, models.Article.objects.filter(**kwargs)))
+    return itertools.chain([headers], imap(row, models.Article.objects.filter(**kwargs)))
