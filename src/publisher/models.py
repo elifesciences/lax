@@ -168,7 +168,7 @@ class Article(models.Model):
         return u'<Article %s>' % self.doi
 
 class ArticleVersion(models.Model):
-    article = models.ForeignKey(Article)
+    article = models.ForeignKey(Article) #, related_name='articleversion_set')
 
     title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
 

@@ -58,6 +58,8 @@ def paw_article_data():
     # no discernable ordering from website
     query = models.Article.objects.all() \
       .exclude(volume=None)
+    #  .order_by('articleversion_set__version') # expensive
+    #print query.query
     return imap(row, query)
 
 def paw_recent_data(limit_to=20):
