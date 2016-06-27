@@ -1,6 +1,6 @@
 elifePipeline {
     stage 'Checkout'
-    git branch: 'develop', url: 'git@github.com:elifesciences/lax.git'
+    checkout scm
     def commit = elifeGitRevision()
  
     stage 'Project tests'
