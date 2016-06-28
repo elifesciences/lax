@@ -3,8 +3,9 @@ from . import models, utils
 from .utils import ymd
 from functools import wraps
 from django.db.models import Count
-from itertools import islice
+from itertools import islice, imap, ifilter
 import logging
+from django.db.models import ObjectDoesNotExist, Min, Max, F, Q
 
 LOG = logging.getLogger(__name__)
 
@@ -32,8 +33,68 @@ def article_poa_vor_pubdates():
       .exclude(type__in=['article-commentary', 'editorial', 'book-review', 'discussion', 'correction']) \
       .exclude(volume=None) \
       .order_by('doi')
-    return itertools.imap(row, query)
+    return imap(row, query)
 
+
+#
+# PAW
+#
+
+def dt(av):
+    if av and hasattr(av, 'datetime_published'):
+        return av.datetime_published
+
+def mkrow(av):
+    return {
+        'title': av.title,
+        'link': av.get_absolute_url(),
+        'description': 'N/A',
+        'author': {'name': 'N/A', 'email': 'N/A'},
+        'category-list': [],
+        'guid': av.get_absolute_url(),
+        'pub-date': dt(av),
+    }
+
+# 'recent' report
+
+def paw_recent_report_raw_data(limit=None):
+    "returns the SQL query used to generate the data for the 'recent' report"
+    q = models.ArticleVersion.objects \
+      .select_related('article') \
+      .annotate(min_vor=Min('article__articleversion__version')) \
+      .filter(status='vor') \
+      .order_by('-datetime_published')
+
+    if limit:
+        # limit by daterange ?
+        pass
+
+    return q
+
+def paw_recent_data(limit=None):
+    "turns the raw SQL results data into rows suitable for a report"
+    return imap(mkrow, paw_recent_report_raw_data(limit))
+
+
+# 'ahead' report
+
+def paw_ahead_report_raw_data(limit=None):
+    # only select max version ArticleVersions where the Article has no POA versions
+    q = models.ArticleVersion.objects \
+      .select_related('article') \
+      .annotate(max_version=Max('article__articleversion__version')) \
+      .filter(version=F('max_version')) \
+      .exclude(status='vor') \
+      .order_by('-datetime_published')
+
+    if limit:
+        pass
+
+    return q
+
+def paw_ahead_data(limit=None):
+    "'ahead' data is POA only"
+    return imap(mkrow, paw_ahead_report_raw_data(limit))
 
 @needs_peer_review
 def totals_for_year(year=2015):
@@ -142,4 +203,4 @@ def time_to_publication(year=2015):
             days_to_vor,
             days_to_vor_from_poa,
         ]
-    return itertools.chain([headers], itertools.imap(row, models.Article.objects.filter(**kwargs)))
+    return itertools.chain([headers], imap(row, models.Article.objects.filter(**kwargs)))

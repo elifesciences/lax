@@ -133,17 +133,24 @@ class Article(models.Model):
             return None
 
     @property
+    def latest_version(self):
+        return self.articleversion_set.latest('version')
+
+    @property
+    def earliest_version(self):
+        return self.articleversion_set.earliest('version')        
+    
+    @property
     def datetime_published(self):
-        return self.articleversion_set.all().earliest('version').datetime_published
-        #return (self.earliest_poa() or self.earliest_vor()).datetime_published
+        return self.earliest_version.datetime_published
 
     @property
     def title(self):
-        return self.articleversion_set.latest('version').title
-    
+        return self.latest_version.title
+
     @property
     def version(self):
-        return self.articleversion_set.latest('version').version
+        return self.latest_version.version
 
     class Meta:
         ordering = ('-date_initial_qc', )
@@ -161,7 +168,7 @@ class Article(models.Model):
         return u'<Article %s>' % self.doi
 
 class ArticleVersion(models.Model):
-    article = models.ForeignKey(Article)
+    article = models.ForeignKey(Article) #, related_name='articleversion_set')
 
     title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
 
