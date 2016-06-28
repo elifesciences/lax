@@ -81,10 +81,6 @@ class TestReport(base.BaseCase):
                 print 'got keys',row.keys()
                 raise
 
-    def test_paw_ahead_report_data(self):
-        data = list(reports.paw_ahead_data())
-        self.assertEqual(len(data), self.poa_art_count)
-
     def test_paw_recent_report_data(self):
         res = reports.paw_recent_report_raw_data(limit=None)
         cases = [
