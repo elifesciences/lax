@@ -5,6 +5,7 @@ from functools import wraps
 from django.db.models import Count
 from itertools import islice, imap, ifilter
 import logging
+from django.db.models import ObjectDoesNotExist, Min, Max, F, Q
 
 LOG = logging.getLogger(__name__)
 
@@ -42,52 +43,58 @@ def article_poa_vor_pubdates():
 def dt(av):
     if av and hasattr(av, 'datetime_published'):
         return av.datetime_published
-def mkrow(art):
+
+def mkrow(av):
     return {
-        'title': art.title,
-        'link': art.get_absolute_url(),
+        'title': av.title,
+        'link': av.get_absolute_url(),
         'description': 'N/A',
         'author': {'name': 'N/A', 'email': 'N/A'},
         'category-list': [],
-        'guid': art.get_absolute_url(),
-        'pub-date': dt(art.earliest_poa()),
-        'transition-date': dt(art.earliest_vor()),
+        'guid': av.get_absolute_url(),
+        'pub-date': dt(av),
     }
 
-def paw_article_data():
-    """To keep a good record of turnaround times for production the "updated date" needs to be fed into PublishingAtWork and to the content processor.  Prior to the move away from HW this was done using the dates provided in the RSS feed.
+# 'recent' report
 
-    The production team require an automated way of getting the updated date to PAW and Exeter - preferably as an RSS feed to avoid these third parties having to do any engineering.
+def paw_recent_report_raw_data(limit=None):
+    "returns the SQL query used to generate the data for the 'recent' report"
+    q = models.ArticleVersion.objects \
+      .select_related('article') \
+      .annotate(min_vor=Min('article__articleversion__version')) \
+      .filter(status='vor') \
+      .order_by('-datetime_published')
 
-    http://jira.elifesciences.org:8080/browse/ELPP-956"""
-    # is published, limit 10
-    # no discernable ordering from website
-    query = models.Article.objects.all() \
-      .exclude(volume=None)
+    if limit:
+        # limit by daterange ?
+        pass
 
-    # annotate with min/max poa/vor version datetime submitted??
-    # then we can do ordering etc..
-    
-    #  .order_by('articleversion_set__version') # expensive
-    #print query.query
-    return query[:100]
+    return q
 
-def paw_recent_data(limit_to=20):
-    "'recent' data is VOR only, although the VOR may have been POA'd at some point"
-    results = paw_article_data()[:limit_to]
-    def recent_row(row):
-        row['pub-date'] = row['transition-date']
-        return row
-    # filter out any articles WITHOUT a VOR
-    rows = imap(lambda art: recent_row(mkrow(art)), results)
-    return take(limit_to, ifilter(lambda art: art['transition-date'], rows))
+def paw_recent_data(limit=None):
+    "turns the raw SQL results data into rows suitable for a report"
+    return imap(mkrow, paw_recent_report_raw_data(limit))
 
-def paw_ahead_data(limit_to=20):
+
+# 'ahead' report
+
+def paw_ahead_report_raw_data(limit=None):
+    # only select max version ArticleVersions where the Article has no POA versions
+    q = models.ArticleVersion.objects \
+      .select_related('article') \
+      .annotate(max_version=Max('article__articleversion__version')) \
+      .filter(version=F('max_version')) \
+      .exclude(status='vor') \
+      .order_by('-datetime_published')
+
+    if limit:
+        pass
+
+    return q
+
+def paw_ahead_data(limit=None):
     "'ahead' data is POA only"
-    results = paw_article_data()[:limit_to]
-    # filter out any articles WITH a VOR
-    rows = imap(mkrow, results)
-    return take(limit_to, ifilter(lambda art: not art['transition-date'], rows))
+    return imap(mkrow, paw_ahead_report_raw_data(limit))
 
 @needs_peer_review
 def totals_for_year(year=2015):

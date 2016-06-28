@@ -3,6 +3,7 @@ from os.path import join
 from . import base
 from publisher import ingestor, logic, models, reports, utils
 from django.test import Client
+from unittest import skip
 from django.core.urlresolvers import reverse
 
 class TestReport(base.BaseCase):
@@ -10,19 +11,28 @@ class TestReport(base.BaseCase):
         self.journal = logic.journal()
         import_all = [
             '00353.1', # discussion, VOR
+            
             '00385.1', # commentary, VOR
+            
             '01328.1', # correction, VOR
+            
             '02619.1', # editorial, VOR
+            
             '03401.1', # research, POA
             '03401.2', # POA
             '03401.3', # VOR
+            
             '03665.1', # research, VOR
+            
             '06250.1', # research, POA
             '06250.2', # POA
             '06250.3', # VOR
+            
             '07301.1', # research, VOR
+            
             '08025.1', # research, POA
             '08025.2', # VOR
+            
             '09571.1', # research, POA
         ]
         for subdir in import_all:
@@ -53,7 +63,9 @@ class TestReport(base.BaseCase):
         for row in report:
             self.assertEqual(len(row), 3)
 
+    @skip("paw_article_data() now returns a queryset not a lazy list of rows")
     def test_paw_report_data(self):
+        "the data is in the structure we expect"
         data = list(reports.paw_article_data())
         expected_keys = [
             'title', 'link', 'description', 'author', 'category-list',
@@ -74,10 +86,29 @@ class TestReport(base.BaseCase):
         self.assertEqual(len(data), self.poa_art_count)
 
     def test_paw_recent_report_data(self):
-        data = list(reports.paw_recent_data())
-        self.assertEqual(len(data), self.vor_art_count)
-        for row in data:
-            self.assertEqual(row['pub-date'], row['transition-date'])
+        res = reports.paw_recent_report_raw_data(limit=None)
+        cases = [
+            ("00353", 1, "2012-12-13"), # v1 'pub-date' dates
+            ("03401", 3, "2014-08-01"), # >v1 'update' dates
+            ("08025", 2, "2015-06-16"),
+        ]
+        for msid, expected_version, expected_pubdate in cases:
+            o = res.get(article__doi='10.7554/eLife.' + msid)
+            self.assertEqual(o.status, 'vor')
+            self.assertEqual(o.version, expected_version)
+            self.assertEqual(utils.ymd(o.datetime_published), expected_pubdate)
+
+    def test_paw_ahead_report_data(self):
+        res = reports.paw_ahead_report_raw_data(limit=None)
+        self.assertEqual(res.count(), 1)
+        cases = [
+            ("09571", 1, "2015-11-09")
+        ]
+        for msid, expected_version, expected_pubdate in cases:
+            o = res.get(article__doi='10.7554/eLife.' + msid)
+            self.assertEqual(o.status, 'poa')
+            self.assertEqual(o.version, expected_version)
+            self.assertEqual(utils.ymd(o.datetime_published), expected_pubdate)
 
     #
     # views
