@@ -83,6 +83,7 @@ class TestReport(base.BaseCase):
 
     def test_paw_recent_report_data(self):
         res = reports.paw_recent_report_raw_data(limit=None)
+        self.assertEqual(res.count(), self.vor_art_count)
         cases = [
             ("00353", 1, "2012-12-13"), # v1 'pub-date' dates
             ("03401", 3, "2014-08-01"), # >v1 'update' dates
@@ -96,7 +97,7 @@ class TestReport(base.BaseCase):
 
     def test_paw_ahead_report_data(self):
         res = reports.paw_ahead_report_raw_data(limit=None)
-        self.assertEqual(res.count(), 1)
+        self.assertEqual(res.count(), self.poa_art_count)
         cases = [
             ("09571", 1, "2015-11-09")
         ]
@@ -117,14 +118,15 @@ class TestReport(base.BaseCase):
         self.assertEqual(resp['Content-Type'], 'text/csv')
 
     def test_paw_recent_report(self):
-        url = reverse('paw-recent-report')
+        url = reverse('paw-recent-report', kwargs={'days_ago': 9999})
         resp = Client().get(url)
         self.assertEqual(resp.status_code, 200)
         xml = resp.content
+        print 'xml:',xml
         self.assertEqual(len(re.findall('<item>', xml)), self.vor_art_count)
         
     def test_paw_ahead_report(self):
-        url = reverse('paw-ahead-report')
+        url = reverse('paw-ahead-report', kwargs={'days_ago': 9999})
         resp = Client().get(url)
         self.assertEqual(resp.status_code, 200)
         xml = resp.content

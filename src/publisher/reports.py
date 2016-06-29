@@ -55,32 +55,33 @@ def mkrow(av):
         'pub-date': dt(av),
     }
 
-# 'recent' report
+# 'recent' report (VOR)
 
 def paw_recent_report_raw_data(limit=None):
     "returns the SQL query used to generate the data for the 'recent' report"
-    q = models.ArticleVersion.objects \
+    query = models.ArticleVersion.objects \
       .select_related('article') \
       .annotate(min_vor=Min('article__articleversion__version')) \
       .filter(status='vor') \
       .order_by('-datetime_published')
 
     if limit:
-        # limit by daterange ?
-        pass
+        assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
+        # may want to .exclude at some point, until then, .filter
+        query = query.filter(limit)
 
-    return q
+    return query
 
 def paw_recent_data(limit=None):
     "turns the raw SQL results data into rows suitable for a report"
     return imap(mkrow, paw_recent_report_raw_data(limit))
 
 
-# 'ahead' report
+# 'ahead' report (POA)
 
 def paw_ahead_report_raw_data(limit=None):
     # only select max version ArticleVersions where the Article has no POA versions
-    q = models.ArticleVersion.objects \
+    query = models.ArticleVersion.objects \
       .select_related('article') \
       .annotate(max_version=Max('article__articleversion__version')) \
       .filter(version=F('max_version')) \
@@ -88,9 +89,11 @@ def paw_ahead_report_raw_data(limit=None):
       .order_by('-datetime_published')
 
     if limit:
-        pass
+        assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
+        # may want to .exclude at some point, until then, .filter
+        query = query.filter(limit)
 
-    return q
+    return query
 
 def paw_ahead_data(limit=None):
     "'ahead' data is POA only"

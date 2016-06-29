@@ -13,6 +13,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import ParseError
 from rest_framework import serializers as szr
+from django.db.models import Q
+from datetime import datetime, timedelta
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -196,22 +198,29 @@ def article_poa_vor_pubdates(request):
 def time_to_publication(request):
     return streaming_csv_response("time-to-publication", reports.time_to_publication())
 
-class PAWAheadReport(rss.AbstractReportFeed):
-    def get_object(self, request):        
-        return {
-            'title': 'PAW article data',
-            'url': reverse('paw-ahead-report', kwargs={}),
-            'description': 'asdf',
-            'params': None,
-            'results': reports.paw_ahead_data()
-        }    
 
 class PAWRecentReport(rss.AbstractReportFeed):
-    def get_object(self, request):        
+    def get_object(self, request, days_ago=None):
+        if not days_ago:
+            days_ago = 28
+        limit = Q(datetime_published__gte=datetime.now() - timedelta(days=int(days_ago)))
         return {
             'title': 'PAW article data',
-            'url': reverse('paw-recent-report', kwargs={}),
+            'url': reverse('paw-recent-report', kwargs={'days_ago': days_ago}),
             'description': 'asdf',
             'params': None,
-            'results': reports.paw_recent_data()
+            'results': reports.paw_recent_data(limit)
+        }
+
+class PAWAheadReport(rss.AbstractReportFeed):
+    def get_object(self, request, days_ago=None):
+        if not days_ago:
+            days_ago = 28
+        limit = Q(datetime_published__gte=datetime.now() - timedelta(days=int(days_ago)))
+        return {
+            'title': 'PAW article data',
+            'url': reverse('paw-ahead-report', kwargs={'days_ago': days_ago}),
+            'description': 'asdf',
+            'params': None,
+            'results': reports.paw_ahead_data(limit)
         }
