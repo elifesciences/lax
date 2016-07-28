@@ -2,8 +2,6 @@ from django.conf.urls import include, url
 import api_v1_views as views
 
 urlpatterns = [
-    url(r'docs/', include('rest_framework_swagger.urls')),
-
     url(r'corpus/info/$', views.corpus_info, name='api-corpus-info'),
     
     url(r'article/create/$', views.create_article, name='api-create-article'),
