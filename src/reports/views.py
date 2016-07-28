@@ -3,11 +3,12 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from datetime import datetime, timedelta
 
-from . import reports, rss
+from publisher import rss
+from . import logic as reports
+
 import csv
 # https://docs.djangoproject.com/en/1.9/howto/outputting-csv/
 from django.http import StreamingHttpResponse
-
 
 #
 # reports

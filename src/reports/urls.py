@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-import reports_views as views
+import views
 
 #
 #

@@ -1,6 +1,6 @@
 import itertools
-from . import models, utils
-from .utils import ymd
+from publisher import utils, models
+from publisher.utils import ymd
 from functools import wraps
 from django.db.models import Count
 from itertools import islice, imap, ifilter
