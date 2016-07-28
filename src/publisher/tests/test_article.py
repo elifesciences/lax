@@ -1,5 +1,6 @@
 import os, json
-from publisher import ingestor, utils, models, logic, views
+from publisher import ingestor, utils, models, logic
+from publisher import api_v1_views as views
 from base import BaseCase
 import logging
 

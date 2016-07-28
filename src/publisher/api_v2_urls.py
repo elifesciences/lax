@@ -3,6 +3,4 @@ import api_v2_views as views
 
 urlpatterns = [
     url(r'article$', views.article),
-    
-
 ]
