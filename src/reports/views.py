@@ -1,4 +1,3 @@
-import rss
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from datetime import datetime, timedelta
