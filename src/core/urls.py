@@ -6,11 +6,11 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^explorer/', include('explorer.urls')),
 ]
+
 if 'publisher' in settings.INSTALLED_APPS:
     urlpatterns += [
         # integration with upstream api
-        url(r'^proxy/lax/api/', include('publisher.api', namespace="proxied")), 
-        url(r'^api/', include('publisher.api')),
+        url(r'^proxy/lax/api/', include('publisher.api_v1_urls', namespace="proxied")),
         url(r'^', include('publisher.urls')),
     ]
 
