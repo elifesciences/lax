@@ -4,10 +4,10 @@ elifePipeline {
     def commit = elifeGitRevision()
  
     stage 'Project tests'
+    builderDeployRevision 'lax--ci', commit
     def testArtifact = "${env.BUILD_TAG}.junit.xml"
-    elifeSwitchRevision 'elife-lax-develop-ci', commit
-    elifeCmd 'elife-lax-develop-ci', 'cd /srv/lax; ./project_tests.sh || echo TESTS FAILED!'
-    elifeTestArtifact testArtifact, 'elife-lax-develop-ci', '/srv/lax/build/junit.xml'
+    builderProjectTests 'lax--ci', '/srv/lax'
+    builderTestArtifact testArtifact, 'lax--ci', '/srv/lax/build/junit.xml'
     elifeVerifyJunitXml testArtifact
     
     stage 'End2end tests'
