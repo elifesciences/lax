@@ -15,7 +15,7 @@ elifePipeline {
     elifeMainlineOnly {
         stage 'End2end tests'
         elifeEnd2EndTest {
-            elifeSwitchRevision 'elife-lax-develop--end2end', commit
+            builderDeployRevision 'lax--end2end', commit
         }
      
         stage 'Approval'
