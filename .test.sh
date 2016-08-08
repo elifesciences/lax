@@ -7,7 +7,10 @@ find src/ -name '*.pyc' -delete
 
 # called by test.sh
 rm -f build/junit.xml
-coverage run --source='src/' --omit='*/tests/*,*/migrations/*' src/manage.py test src/ --no-input
+#coverage run --source='src/' --omit='*/tests/*,*/migrations/*' src/manage.py test src/ --no-input
+
+./src/manage.py test --testrunner=green.djangorunner.DjangoRunner "$@"
+
 echo "* passed tests"
 
 coverage report
