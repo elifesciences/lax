@@ -62,7 +62,7 @@ class Command(BaseCommand):
             exit(0)
 
         try:
-            # this actually turned out to be really useful for dryruns
+            # update: this actually turned out to be really useful for dryruns
             #if not create_articles and not update_articles:
             #    print 'cannot create or update, stopping here.'
             #    exit(0)
