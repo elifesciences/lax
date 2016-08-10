@@ -10,6 +10,6 @@ fi
 set -a; source aws-perms.sh; set +a
 # call the repopulate command
 ./manage.sh repop
-./manage.sh import_article .repop/ --no-update
+./manage.sh import .repop/ --no-update --import-type eif
 tar cvzf repop-import.$(date -I).tar.gz .repop/
 #rm -rf .repop/

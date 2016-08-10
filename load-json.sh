@@ -8,4 +8,4 @@ control_c() {
 
 trap control_c SIGINT
 
-./src/manage.py import_article $1
+./src/manage.py import $1 --import-type eif
