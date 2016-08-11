@@ -10,4 +10,4 @@ control_c() {
 
 trap control_c SIGINT
 
-./manage.sh import $1 --import-type eif
+./manage.sh import $1 --import-type ejp

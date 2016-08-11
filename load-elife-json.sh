@@ -16,4 +16,4 @@ else
     git pull
     cd ..
 fi
-./src/manage.py import_article .elife-json/article-json/
+./src/manage.py import .elife-json/article-json/ --import-type eif
