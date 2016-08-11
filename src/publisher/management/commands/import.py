@@ -93,7 +93,7 @@ class Command(BaseCommand):
             EJP: ejp_ingestor.import_article_list_from_json_path,
             BOT: None
         }
-        fn = partial(ingest(choices[import_type], logic.journal(), create_articles, update_articles, path_list))
+        fn = partial(ingest, choices[import_type], logic.journal(), create_articles, update_articles, path_list)
         if atomic:
             with transaction.atomic():
                 return fn()
