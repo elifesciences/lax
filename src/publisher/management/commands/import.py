@@ -7,7 +7,8 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-EIF, EJP, BOT = 'eif', 'ejp', 'bot'
+IMPORT_TYPES = ['eif', 'ejp', 'bot', 'patch']
+EIF, EJP, BOT, PATCH = IMPORT_TYPES
 
 def resolve_path(p):
     p = os.path.abspath(p)
@@ -60,7 +61,7 @@ class Command(BaseCommand):
         # update articles that already exist?
         parser.add_argument('--no-update', action='store_false', default=True)
         # indicate the type of import we should be doing
-        parser.add_argument('--import-type', type=str, choices=[EIF, EJP, BOT])
+        parser.add_argument('--import-type', type=str, choices=IMPORT_TYPES)
         # don't prompt, don't pretty-print anything, just do it.
         parser.add_argument('--just-do-it', action='store_true', default=False)
         # do the import within a transaction - default. makes sqlite fly
@@ -91,6 +92,7 @@ class Command(BaseCommand):
         choices = {
             EIF: ingestor.import_article_from_json_path,
             EJP: ejp_ingestor.import_article_list_from_json_path,
+            PATCH: ingestor.patch_handler,
             BOT: None
         }
         fn = partial(ingest, choices[import_type], logic.journal(), create_articles, update_articles, path_list)

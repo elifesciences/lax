@@ -6,6 +6,7 @@ import requests
 from datetime import datetime
 from django.conf import settings
 from django.db import transaction, IntegrityError
+from functools import partial
 
 LOG = logging.getLogger(__name__)
 
@@ -186,7 +187,7 @@ def import_article_from_github_repo(journal, doi, version=None):
 # 'patch'
 #
 
-def patch(data):
+def patch(data, update=True):
     "given partial article/articleversion data, updates that article"
     data = copy.deepcopy(data)
     
@@ -194,6 +195,8 @@ def patch(data):
     context = {'article': doi, 'patch_data': data, 'version_patch_data': version_patches}
     try:
         art = models.Article.objects.get(doi=doi)
+        if not update:
+            return True
         with transaction.atomic():
             # patch article
             for key, val in data.items():
@@ -201,20 +204,29 @@ def patch(data):
             art.save()
 
             # patch any versions
-            for version, data in version_patches.items():
+            for data in version_patches:
+                version = data['version']
                 context['version'] = version
                 av = art.articleversion_set.get(version=version)
                 for key, val in data.items():
                     setattr(av, key, val)
                 av.save()
         LOG.info("successfully patched Article", extra=context)
+        return True
 
     except models.Article.DoesNotExist:
         LOG.warn("Article not found, skipping patch", extra=context)
+        return False
 
     except models.ArticleVersion.DoesNotExist:
         LOG.warn("ArticleVersion not found, skipping patch", extra=context)
-        
+        return False
+
     except IntegrityError as err:
         LOG.error(err)
         raise
+
+def patch_handler(journal, path, create, update):
+    json_patches = open(path, 'r').readlines()
+    patch_list = map(json.loads, json_patches)
+    return map(partial(patch, update), patch_list)

@@ -20,19 +20,32 @@ class PatchArticle(BaseCase):
         pass
 
     def test_article_patch(self):
+        # I think this might be the better patch structure,
+        # forcing one patch per version so order isn't ambiguous ...
+        '''
         patch = {
             'doi': "10.7554/eLife.00353",
             'versions': {
                 1: {'title': 'replaced title'},
             }
         }
+        '''
+
+        # but the only thing generating patches is the `updated-date-scraper` tool
+        # and it's output looks like this:
+        patch = {
+            'doi': "10.7554/eLife.00353",
+            'versions': [
+                {'title': 'replaced title', 'version': 1},
+            ]
+        }            
         ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         av = models.ArticleVersion.objects.all()[0]
         self.assertEqual(av.title, "A meh life")
 
         ingestor.patch(patch)
         av = models.ArticleVersion.objects.all()[0]
-        self.assertEqual(av.title, patch['versions'][1]['title'])
+        self.assertEqual(av.title, patch['versions'][0]['title'])
 
 
 class ImportArticleFromJSON(BaseCase):
