@@ -6,10 +6,7 @@ elifePipeline {
     stage 'Project tests'
     lock('lax--ci') {
         builderDeployRevision 'lax--ci', commit
-        def testArtifact = "${env.BUILD_TAG}.junit.xml"
-        builderProjectTests 'lax--ci', '/srv/lax'
-        builderTestArtifact testArtifact, 'lax--ci', '/srv/lax/build/junit.xml'
-        elifeVerifyJunitXml testArtifact
+        builderProjectTests 'lax--ci', '/srv/lax', ['/srv/lax/build/junit.xml']
     }
     
     elifeMainlineOnly {
