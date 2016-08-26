@@ -1,4 +1,4 @@
 #!/bin/bash
 set -ex
 
-[ $(curl --write-out %{http_code} --silent --output /dev/null $(hostname)/) == 200 ]
+[ $(curl --write-out %{http_code} --silent --output /dev/null https://$(hostname)/) == 200 ]
