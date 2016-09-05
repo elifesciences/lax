@@ -1,7 +1,6 @@
 import re
 from django.db import models
 from autoslug import AutoSlugField
-from simple_history.models import HistoricalRecords
 from utils import second, firstnn
 
 POA, VOR = 'poa', 'vor'
@@ -106,8 +105,6 @@ class Article(models.Model):
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
-
-    history = HistoricalRecords()
 
     @property
     def date_accepted(self):
@@ -241,8 +238,6 @@ class ArticleAttribute(models.Model):
     
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this attribute was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this attribute was updated")
-
-    history = HistoricalRecords()
 
     class Meta:
         # there can be many 'Foo' attributes but only one combination of Article+'Foo'
