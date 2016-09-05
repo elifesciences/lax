@@ -9,5 +9,5 @@ elifePipeline {
     stage 'Deploy'
     elifeDeploySlackNotification "lax", "prod"
     elifeGitMoveToBranch commit, 'master'
-    elifeSwitchRevision 'elife-lax-master', commit
+    builderDeployRevision 'lax--prod', commit
 }
