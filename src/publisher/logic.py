@@ -163,19 +163,3 @@ def check_doi(doi):
     successfully redirects to an article on the website"""
     return requests.get(mk_dxdoi_link(doi))
 
-
-#
-#
-#
-
-def record_correction(artobj, when=None):
-    if when:
-        assert timezone.is_aware(when), "refusing a naive datetime."
-        assert timezone.now() > when, "refusing a correction made in the future"
-        if artobj.journal.inception:
-            assert when > artobj.journal.inception, "refusing a correction made before the article's journal started"
-    correction = models.ArticleCorrection(**{
-        'article': artobj,
-        'datetime_corrected': when if when else datetime.now()})
-    correction.save()
-    return correction

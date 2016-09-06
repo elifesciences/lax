@@ -156,19 +156,6 @@ def update_article(rest_request):
     return import_article(rest_request, create=False, update=True)
 
 #
-# API corrections
-#
-
-@api_view(['POST'])
-def record_correction(rest_request, doi, version):
-    article, version = article_or_404(doi, version)
-    correction = logic.record_correction(article)
-    return Response({
-        'doi': article.doi,
-        'corrected': correction.datetime_corrected
-    })
-
-#
 # reports
 #
 

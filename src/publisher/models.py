@@ -61,8 +61,9 @@ class Article(models.Model):
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
-    # this exists but isn't being considered. for reporting reasons, the 'submission date' is the date of the initial quality check
-    datetime_submitted = models.DateTimeField(blank=True, null=True, help_text="Date author submitted article")
+    # data exists but isn't being considered. for reporting reasons, 'submission date' is date of initial quality check
+    # NOTE 2016-09-06: disabled. expectation of data in this field was becoming annoying.
+    #datetime_submitted = models.DateTimeField(blank=True, null=True, help_text="Date author submitted article")
 
     # this field would be the most recent 'full decision accept' event
     #datetime_accepted = models.DateTimeField(blank=True, null=True, help_text="Date article accepted for publication")
@@ -252,13 +253,3 @@ class ArticleAttribute(models.Model):
     def __repr__(self):
         return u'<ArticleAttribute %s>' % self.__unicode__()
 
-class ArticleCorrection(models.Model):
-    article = models.ForeignKey(Article)
-    description = models.TextField(blank=True, null=True, help_text="free text to describe what the correction was. optional.")
-    datetime_corrected = models.DateTimeField(help_text="Date and time a correction was made to this article.")
-
-    def __unicode__(self):
-        return '%s (corrected %s)' % (self.article, self.datetime_article_corrected.strftime("%Y-%m-%d"))
-
-    def __repr__(self):
-        return u'<ArticleCorrection %s>' % self.article
