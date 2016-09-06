@@ -1,6 +1,6 @@
 import os, json
 from pprint import pprint
-from publisher import ingestor
+from publisher import eif_ingestor
 from django.core.management.base import BaseCommand
 from django.core.management import call_command
 
@@ -23,4 +23,4 @@ class Command(BaseCommand):
                 del ver['version']
             d['versions'] = v
             return d
-        map(ingestor.patch, map(mkpatch, data))
+        map(eif_ingestor.patch, map(mkpatch, data))

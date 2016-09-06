@@ -7,7 +7,7 @@ from annoying.decorators import render_to
 import models, logic
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
-import ingestor, rss
+import eif_ingestor, rss
 from django.core.urlresolvers import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -134,7 +134,7 @@ def import_article(rest_request, create=True, update=True):
     Returns the doi of the inserted/updated article
     """
     try:
-        article, version = ingestor.import_article(logic.journal(), rest_request.data, create, update)
+        article, version = eif_ingestor.import_article(logic.journal(), rest_request.data, create, update)
         return Response({'doi': article.doi})
     except (ParseError, ValueError), e:
         return Response({"message": "failed to parse given JSON"}, status=400)

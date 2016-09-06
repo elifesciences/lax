@@ -1,6 +1,6 @@
 import os, json
 from os.path import join
-from publisher import ingestor, utils, models, logic
+from publisher import eif_ingestor as ingestor, utils, models, logic
 from base import BaseCase
 import logging
 from publisher import views

@@ -2,7 +2,7 @@ import os, requests
 import models
 from django.conf import settings
 import logging
-from publisher import ingestor, utils
+from publisher import eif_ingestor, utils
 from publisher.utils import first, second
 from datetime import datetime
 from django.utils import timezone
@@ -128,7 +128,7 @@ def add_or_update_article(**article_data):
         ('status', 'vor'),
     ]
     article_data = utils.filldict(article_data, filler, 'pants-party')
-    return ingestor.import_article(journal(), article_data, create=True, update=True)
+    return eif_ingestor.import_article(journal(), article_data, create=True, update=True)
 
 #
 #
@@ -157,9 +157,3 @@ def latest_article_versions():
 
 def mk_dxdoi_link(doi):
     return "http://dx.doi.org/%s" % doi
-
-def check_doi(doi):
-    """ensures that the doi both exists with crossref and that it
-    successfully redirects to an article on the website"""
-    return requests.get(mk_dxdoi_link(doi))
-

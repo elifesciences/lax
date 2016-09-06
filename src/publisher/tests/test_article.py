@@ -1,5 +1,5 @@
 import os, json
-from publisher import ingestor, utils, models, logic, views
+from publisher import utils, models, logic, views
 from base import BaseCase
 import logging
 

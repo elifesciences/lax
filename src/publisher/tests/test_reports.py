@@ -1,7 +1,7 @@
 import re
 from os.path import join
 from . import base
-from publisher import ingestor, logic, models, reports, utils
+from publisher import eif_ingestor, logic, models, reports, utils
 from django.test import Client
 from unittest import skip
 from django.core.urlresolvers import reverse
@@ -39,7 +39,7 @@ class TestReport(base.BaseCase):
             fname = subdir.replace('.', '-v')
             fname = "elife-%s.json" % fname
             path = join(self.fixture_dir, 'ppp', subdir, fname)
-            ingestor.import_article_from_json_path(self.journal, path)
+            eif_ingestor.import_article_from_json_path(self.journal, path)
 
         self.vor_version_count = 9
         self.poa_version_count = 6

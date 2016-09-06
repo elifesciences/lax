@@ -1,7 +1,7 @@
 import os, glob, pprint
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from publisher import ingestor, logic, ejp_ingestor
+from publisher import eif_ingestor, logic, ejp_ingestor
 from functools import partial
 import logging
 
@@ -90,9 +90,9 @@ class Command(BaseCommand):
                 exit(0)
         
         choices = {
-            EIF: ingestor.import_article_from_json_path,
+            EIF: eif_ingestor.import_article_from_json_path,
             EJP: ejp_ingestor.import_article_list_from_json_path,
-            PATCH: ingestor.patch_handler,
+            PATCH: eif_ingestor.patch_handler,
             BOT: None
         }
         fn = partial(ingest, choices[import_type], logic.journal(), create_articles, update_articles, path_list)
