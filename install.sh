@@ -9,4 +9,4 @@ if [ ! -e app.cfg ]; then
     ln -s elife.cfg app.cfg
 fi
 pip install -r requirements.txt
-python src/manage.py migrate
+python src/manage.py migrate --no-input
