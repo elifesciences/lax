@@ -80,9 +80,9 @@ def ingest(data, create=True, update=True):
         assert isinstance(article_version, models.ArticleVersion)
         
         return journal, article, article_version
-    except:
+    except Exception as err:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=context)
-        raise
+        raise err
 
 def ingest_json(str_json):
     return ingest(json.loads(str_json))
