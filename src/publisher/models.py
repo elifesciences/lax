@@ -1,7 +1,7 @@
 import re
 from django.db import models
 from autoslug import AutoSlugField
-from utils import second, firstnn
+from utils import second, firstnn, msid2doi
 
 POA, VOR = 'poa', 'vor'
 
@@ -61,6 +61,10 @@ class Article(models.Model):
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
+    #@property
+    #def doi(self):
+    #    return msid2doi(self.manuscript_id)
+
     # data exists but isn't being considered. for reporting reasons, 'submission date' is date of initial quality check
     # NOTE 2016-09-06: disabled. expectation of data in this field was becoming annoying.
     #datetime_submitted = models.DateTimeField(blank=True, null=True, help_text="Date author submitted article")
@@ -93,7 +97,6 @@ class Article(models.Model):
     rev4_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes()) 
     
     volume = models.PositiveSmallIntegerField(blank=True, null=True)
-    website_path = models.CharField(max_length=50)
 
     # there is a real mess here with these article types
     # the actual preferred classification isn't being captured in any single place

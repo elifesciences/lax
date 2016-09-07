@@ -115,7 +115,6 @@ def import_article(journal, article_data, create=True, update=False):
         kwargs.update({
             'journal':  journal,
             'volume': int(kwargs['volume']),
-            'website_path': kwargs['path'],
             'type': kwargs['article-type'],
         })
         delall(kwargs, ['path', 'article-type'])
