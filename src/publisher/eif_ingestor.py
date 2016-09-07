@@ -148,41 +148,6 @@ def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
     return import_article(journal, json.load(open(article_json_path, 'r')), *args, **kwargs)
 
 #
-# import article from a github repo
-# this is tied to eLife right now, but there is some code to make this more robust:
-# src/publisher/super_lazy_repo_lookup.py
-#
-
-def github_url(doi, version=None):
-    assert version == None, "fetching specific versions of articles from github is not yet supported!"
-    if '/' in doi:
-        # we have a full doi
-        fname = "%s.xml.json" % doi.lower().split('/')[1].replace('.', '')
-    else:
-        # assume we have a pub-id (doi sans publisher id, the 'eLife.00003' in the '10.7554/eLife.00003'
-        fname = doi.replace('.', '') + ".xml.json"
-    return "https://raw.githubusercontent.com/elifesciences/elife-article-json/master/article-json/" + fname
-
-def fetch_url(url):
-    try:
-        LOG.info("fetching url %r", url)
-        resp = requests.get(url)
-        if resp.status_code == 200:
-            return resp.json()
-        if resp.status_code == 404:
-            logging.warning("given url %r returned a 404", url)
-    except ValueError:
-        logging.warning("got a response but it wasn't json")
-    except:
-        logging.exception("unhandled exception attempting to fetch url %r", url)
-        raise
-
-def import_article_from_github_repo(journal, doi, version=None):
-    if not doi or not str(doi).strip():
-        raise ValueError("bad doi") # todo - shift into a utility?
-    return import_article(journal, fetch_url(github_url(doi, version)))
-
-#
 # 'patch'
 #
 

@@ -297,41 +297,6 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         self.assertEqual(0, models.Article.objects.count())
 
 
-
-class ImportArticleFromRepo(BaseCase):
-    def setUp(self):
-        self.journal = logic.journal()
-
-    def tearDown(self):
-        pass
-
-    '''
-    def test_article_imported_lazily(self):
-        self.assertEqual(0, models.Article.objects.count())
-        # https://github.com/elifesciences/elife-article-json/blob/master/article-json/elife00654.xml.json
-        doi = "10.7554/eLife.00654"
-        expected_title = "Single molecule imaging reveals a major role for diffusion in the exploration of ciliary space by signaling receptors"
-        dirty_article_obj = ingestor.import_article_from_github_repo(self.journal, doi)
-        self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(dirty_article_obj.title, expected_title)
-        clean_article_obj = models.Article.objects.get(doi=doi)
-        self.assertEqual(clean_article_obj.title, expected_title)
-    '''
-
-    def test_article_import_bad_doi(self):
-        self.assertEqual(0, models.Article.objects.count())
-        doi = "10.7554/no.pants"
-        self.assertRaises(ValueError, ingestor.import_article_from_github_repo, self.journal, doi)
-        # nothing created
-        self.assertEqual(0, models.Article.objects.count())
-
-    def test_article_import_no_doi(self):
-        self.assertEqual(0, models.Article.objects.count())
-        doi = None
-        self.assertRaises(ValueError, ingestor.import_article_from_github_repo, self.journal, doi)
-        # nothing created
-        self.assertEqual(0, models.Article.objects.count())
-
 class ImportFromPPPEIF(BaseCase):
     """the EIF article json floating around the PPP workflow
     differs from the more predictable stuff that can be found at
