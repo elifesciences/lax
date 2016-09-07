@@ -1,6 +1,6 @@
-import json
+import json, copy
 from publisher import logic, models, utils
-from publisher.utils import subdict
+from publisher.utils import subdict, exsubdict
 import logging
 from pprint import pprint
 
@@ -8,6 +8,9 @@ from et3 import render
 from et3.extract import path as p, val
 
 LOG = logging.getLogger(__name__)
+
+class StateError(RuntimeError):
+    pass
 
 #
 # make the article-json lax compatible
@@ -35,7 +38,7 @@ ARTICLE_VERSION = {
 #
 #
 
-def create_or_update(Model, data, key_list, create=True, update=True):
+def create_or_update(Model, data, key_list, create=True, update=True, commit=True):
     inst = None
     created = updated = False
     try:
@@ -44,26 +47,38 @@ def create_or_update(Model, data, key_list, create=True, update=True):
         # object exists, otherwise DoesNotExist would have been raised
         if update:
             [setattr(inst, key, val) for key, val in data.items()]
-            inst.save()
             updated = True
     except Model.DoesNotExist:
         if create:
             inst = Model(**data)
-            inst.save()
             created = True
+
+    if (updated or created) and commit:
+        inst.save()
+    
     # it is possible to neither create nor update.
     # in this case if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)
 
-def ingest(data, create=True, update=True):
-    "ingests article-json. returns a triple of (journal obj, article obj, article version obj)"
-    context = {}
+def ingest(data, force=False):
+    """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
+
+    unpublished article-version data can be ingested multiple times UNLESS that article version has been published.
+
+    published article-version data can be ingested only if force=True"""
+
+    data = copy.deepcopy(data) # we don't want to modify the given data
+    
+    create = update = True
+    log_context = {}
+    
     try:
         journal_struct = render.render_item(JOURNAL, data['journal'])
         journal, created, updated = \
           create_or_update(models.Journal, journal_struct, ['name'], create, update)
         
         assert isinstance(journal, models.Journal)
+        log_context['journal'] = journal
 
         data['article']['journal'] = journal
         article_struct = render.render_item(ARTICLE, data['article'])
@@ -71,20 +86,42 @@ def ingest(data, create=True, update=True):
           create_or_update(models.Article, article_struct, ['msid', 'journal'], create, update)
 
         assert isinstance(article, models.Article)
+        log_context['article'] = article
 
+        # this is an INGEST event, not a PUBLISH event. we don't touch the date published. see `publish()`
+        av_ingest_description = exsubdict(ARTICLE_VERSION, ['datetime_published'])
         data['article']['article'] = article
-        article_version_struct = render.render_item(ARTICLE_VERSION, data['article'])
-        article_version, created, update = \
-          create_or_update(models.ArticleVersion, article_version_struct, ['article', 'version'], create, update)
+        av_struct = render.render_item(av_ingest_description, data['article'])
+        av, created, update = \
+          create_or_update(models.ArticleVersion, av_struct, ['article', 'version'], create, update, commit=False)
 
-        assert isinstance(article_version, models.ArticleVersion)
+        assert isinstance(av, models.ArticleVersion)
+        log_context['article-version'] = av
+
+        if created:
+            # brand new (unpublished) article version. nothing to worry about.
+            pass
         
-        return journal, article, article_version
+        elif updated:
+            # this version of the article already exists
+            # this is only a problem if the article version has already been published
+            if av.datetime_published:
+                # uhoh. we've received an INGEST event for a previously published article
+                if not force:
+                    # unless our arm is being twisted, die.
+                    raise StateError("refusing to ingest new article data on an already published article version.")
+
+        # passed all checks, save
+        av.save()
+        return journal, article, av
+    
     except Exception as err:
-        LOG.exception("unhandled exception attempting to ingest article-json", extra=context)
+        LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
         raise err
 
 #
 #
 #
 
+def publish(msid, version, force=False):
+    pass
