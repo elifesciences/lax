@@ -65,7 +65,7 @@ def ingest(data, create=True, update=True):
         
         assert isinstance(journal, models.Journal)
 
-        data['article']['journal'] = journal        
+        data['article']['journal'] = journal
         article_struct = render.render_item(ARTICLE, data['article'])
         article, created, updated = \
           create_or_update(models.Article, article_struct, ['msid', 'journal'], create, update)
@@ -84,5 +84,7 @@ def ingest(data, create=True, update=True):
         LOG.exception("unhandled exception attempting to ingest article-json", extra=context)
         raise err
 
-def ingest_json(str_json):
-    return ingest(json.loads(str_json))
+#
+#
+#
+
