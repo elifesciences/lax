@@ -3,7 +3,6 @@ import pytz
 from dateutil import parser
 from django.utils import timezone
 from functools import partial
-import os, sys
 import logging
 from django.db.models.fields.related import ManyToManyField
 

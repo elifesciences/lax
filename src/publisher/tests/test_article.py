@@ -1,5 +1,4 @@
-import os, json
-from publisher import utils, models, logic, views
+from publisher import models, logic, views
 from base import BaseCase
 import logging
 

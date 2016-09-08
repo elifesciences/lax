@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-from . import to_dict, turn_off_auto_now, turn_off_auto_now_add
+from . import turn_off_auto_now, turn_off_auto_now_add
 
 def link_articles_to_versions(apps, schema_editor):
     Article = apps.get_model("publisher", "Article")

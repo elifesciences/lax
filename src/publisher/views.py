@@ -1,12 +1,9 @@
 from os.path import join
 import os
 from django.conf import settings
-import json
-from django.shortcuts import get_object_or_404, Http404
+from django.shortcuts import Http404
 from annoying.decorators import render_to
 import models, logic
-from django.views.decorators.http import require_POST
-from django.http import HttpResponse
 import eif_ingestor, rss
 from django.core.urlresolvers import reverse
 from rest_framework.decorators import api_view
@@ -136,7 +133,7 @@ def import_article(rest_request, create=True, update=True):
     try:
         article, version = eif_ingestor.import_article(logic.journal(), rest_request.data, create, update)
         return Response({'doi': article.doi})
-    except (ParseError, ValueError), e:
+    except (ParseError, ValueError):
         return Response({"message": "failed to parse given JSON"}, status=400)
     except AssertionError:
         return Response({"message": "failed to create/update article"}, status=400)

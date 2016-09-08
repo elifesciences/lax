@@ -1,9 +1,7 @@
 import json, copy
 import models
-from utils import subdict, exsubdict, todt, delall, msid2doi, doi2msid
+from utils import subdict, todt, delall, msid2doi, doi2msid
 import logging
-import requests
-from datetime import datetime
 from django.conf import settings
 from django.db import transaction, IntegrityError
 from functools import partial

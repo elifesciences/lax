@@ -1,12 +1,9 @@
-import os, requests
 import models
 from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils
-from publisher.utils import first, second
-from datetime import datetime
 from django.utils import timezone
-from django.db.models import ObjectDoesNotExist, Max, F, Q
+from django.db.models import ObjectDoesNotExist, Max, F
 
 LOG = logging.getLogger(__name__)
 

@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-from publisher import utils, logic
+from publisher import utils
 
 from . import to_dict, turn_off_auto_now, turn_off_auto_now_add
 

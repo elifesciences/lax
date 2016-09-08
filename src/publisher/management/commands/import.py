@@ -29,7 +29,7 @@ def ingest(fn, journal, create, update, path_list):
             LOG.exception("failed to import article")
             return False
     try:
-        results = map(_, path_list)
+        map(_, path_list)
     except KeyboardInterrupt:
         print 'caught interrupt'
         exit(1)

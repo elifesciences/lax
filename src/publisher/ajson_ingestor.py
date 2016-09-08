@@ -1,11 +1,10 @@
-import json, copy
-from publisher import logic, models, utils
+import copy
+from publisher import models, utils
 from publisher.utils import subdict, exsubdict
 import logging
-from pprint import pprint
 
 from et3 import render
-from et3.extract import path as p, val
+from et3.extract import path as p
 
 LOG = logging.getLogger(__name__)
 

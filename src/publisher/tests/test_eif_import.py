@@ -3,8 +3,6 @@ from os.path import join
 from publisher import eif_ingestor as ingestor, utils, models, logic
 from base import BaseCase
 import logging
-from publisher import views
-import json
 from django.test import Client
 from django.core.urlresolvers import reverse
 
