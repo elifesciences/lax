@@ -186,6 +186,10 @@ class ArticleVersion(models.Model):
     class Meta:
         unique_together = ('article', 'version')
 
+    def published(self):
+        "returns True if this version of the article has a publication date"
+        return self.datetime_published != None
+
     def get_absolute_url(self):
         return self.article.dxdoi_url()
 

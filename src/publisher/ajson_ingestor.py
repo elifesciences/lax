@@ -2,7 +2,7 @@ import copy
 from publisher import models, utils
 from publisher.utils import subdict, exsubdict
 import logging
-
+from django.db import transaction
 from et3 import render
 from et3.extract import path as p
 
@@ -59,6 +59,7 @@ def create_or_update(Model, data, key_list, create=True, update=True, commit=Tru
     # in this case if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)
 
+@transaction.atomic
 def ingest(data, force=False):
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
 
@@ -122,5 +123,18 @@ def ingest(data, force=False):
 #
 #
 
-def publish(msid, version, force=False):
-    pass
+def publish(msid, version, datetime_published=None, force=False):
+    """attach a `datetime_published` value to an article version. if none provided, use RIGHT NOW.
+    you cannot publish an already published article version unless force==True"""
+    # ensure we have a utc datetime
+    if not datetime_published:
+        datetime_published = utils.utcnow()
+    else:
+        # ensure given datetime is in utc
+        datetime_published = utils.todt(datetime_published)
+    av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
+    if av.published() and not force:
+        raise StateError("refusing to publish an already published article")
+    av.datetime_published = datetime_published
+    av.save()
+    return av
