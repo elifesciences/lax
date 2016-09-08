@@ -1,5 +1,6 @@
 import re
 from django.db import models
+from django.contrib.postgres import fields as psql
 from utils import second, firstnn, msid2doi
 
 POA, VOR = 'poa', 'vor'
@@ -180,6 +181,10 @@ class ArticleVersion(models.Model):
     # it's only ever correct for the first version of this article
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
 
+    article_json_v1_raw = psql.JSONField(null=True, blank=True, help_text="the raw v1 article json we receive from different places")
+    article_json_v1 = psql.JSONField(null=True, blank=True, help_text="Valid v1 article-json for this article version.")
+    article_json_v1_valid = models.BooleanField(default=False, help_text="True if article-json in article_json_v1 field validates")
+    
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
@@ -198,7 +203,6 @@ class ArticleVersion(models.Model):
     
     def __repr__(self):
         return u'<Article %s>' % self
-
 
 #
 # as of 2016.04.06, ArticleAttributes are not being used.
@@ -258,4 +262,3 @@ class ArticleAttribute(models.Model):
 
     def __repr__(self):
         return u'<ArticleAttribute %s>' % self.__unicode__()
-
