@@ -81,7 +81,7 @@ def todt(val):
     else:
         # ensure tz is UTC
         if dt.tzinfo != pytz.utc:
-            LOG.warn("got an aware dt that isn't in utc: %r", dt)
+            LOG.debug("got an aware dt that isn't in utc: %r", dt)
             return dt.astimezone(pytz.utc)
     return dt
 
