@@ -120,7 +120,7 @@ def ingest(data, force=False):
         raise err
 
 #
-#
+# PUBLISH requests
 #
 
 def publish(msid, version, datetime_published=None, force=False):
@@ -138,3 +138,28 @@ def publish(msid, version, datetime_published=None, force=False):
     av.datetime_published = datetime_published
     av.save()
     return av
+
+#
+# INGEST+PUBLISH requests
+#
+
+@transaction.atomic
+def ingest_publish(data, force=False):
+    "convenience. publish an article if it were successfully ingested"
+    _, a, av = ingest(data, force)
+    return publish(a.manuscript_id, av.version)
+
+#
+# article json wrangling
+# https://docs.djangoproject.com/en/1.9/ref/signals/#pre-save
+#
+
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+
+@receiver(pre_save, sender=models.ArticleVersion)
+def merge_validate_article_json(sender, instance, **kwargs):
+    # 1. merge disparate json snippets
+    # 2. validate
+    # 3. if valid, update json field, set valid=True
+    pass
