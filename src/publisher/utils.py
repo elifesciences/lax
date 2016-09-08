@@ -2,6 +2,7 @@ import copy
 import pytz
 from dateutil import parser
 from django.utils import timezone
+from datetime import datetime
 from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
@@ -66,15 +67,26 @@ def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
     if val == None:
         return None
-    dt = parser.parse(val)
-    if not dt.tzinfo:
-        LOG.warn("encountered naive timestamp %r. UTC assumed.", val)
-        return pytz.utc.localize(dt)
+
+    if not isinstance(val, datetime):
+        dt = parser.parse(val, fuzzy=False)
     else:
-        # ensure tz is UTC??
-        pass
+        dt = val # don't attempt to parse, work with what we have
+
+    if not dt.tzinfo:
+        # no timezone (naive), assume UTC and make it explicit
+        LOG.warn("encountered naive timestamp %r from %r. UTC assumed.", dt, val)
+        return pytz.utc.localize(dt)
+
+    else:
+        # ensure tz is UTC
+        if dt.tzinfo != pytz.utc:
+            LOG.warn("got an aware dt that isn't in utc: %r", dt.tzinfo)
+            return dt.astimezone(pytz.utc)
     return dt
 
+def utcnow():
+    return datetime.now(pytz.utc)
 
 def filldict(ddict, keys, default):
     def filldictslot(ddict, key, val):
