@@ -20,6 +20,11 @@ class TestEJPIngest(base.BaseCase):
         ejp_ingestor.import_article_list_from_json_path(self.journal, self.partial_json_path)
         self.assertEqual(models.Article.objects.count(), 748)
 
+    def test_ejp_ingest_with_nocreate(self):
+        "ensure ejp ingest doesn't create articles if we've told it not to"
+        data = {"manuscript_id": 123}
+        self.assertRaises(models.Article.DoesNotExist, ejp_ingestor.import_article, self.journal, data, create=False)
+        
     def test_ejp_ingest_data(self):
         ejp_ingestor.import_article_list_from_json_path(self.journal, self.tiny_json_path)
         self.assertEqual(models.Article.objects.count(), 6)
@@ -50,7 +55,7 @@ class TestEJPIngest(base.BaseCase):
             self.assertEqual(getattr(art, key), val)
 
     def test_ejp_ingest_over_existing_data_with_defaults(self):
-        "by default, importing ejp articles over existing articles causes an error"
+        "importing ejp articles over existing articles causes an error"
         self.assertEqual(models.Article.objects.count(), 0)
         article_data_list = [
             {'manuscript_id': 123,
