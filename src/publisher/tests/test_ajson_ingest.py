@@ -114,10 +114,36 @@ class TestAJSONIngest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
+    def test_out_of_sequence_ingest_fails(self):
+        "attempting to ingest an article with a version greater than 1 when no article versions currently exists fails"
+        # no article exists, attempt to ingest a v2
+        self.assertEqual(models.ArticleVersion.objects.count(), 0)
+        self.valid_ajson['article']['version'] = 2
+        self.assertRaises(StateError, ajson_ingestor.ingest, self.valid_ajson)
+        self.assertEqual(models.Article.objects.count(), 0)
+        self.assertEqual(models.ArticleVersion.objects.count(), 0)
+
+    def test_out_of_sequence_ingest_fails2(self):
+        "attempting to ingest an article with a version greater than another unpublished version fails"
+        _, _, av = ajson_ingestor.ingest(self.valid_ajson) # v1
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+        self.assertEqual(av.version, 1)
+
+        # now attempt to ingest a v3
+        self.valid_ajson['article']['version'] = 3
+        self.assertRaises(StateError, ajson_ingestor.ingest, self.valid_ajson)
+
+        self.assertEqual(models.Article.objects.count(), 1)
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+        av = self.freshen(av)
+        self.assertEqual(av.version, 1) # assert the version hasn't changed
+
 class TestAJSONPublish(BaseCase):
     def setUp(self):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
+        self.msid = self.ajson['article']['id']
+        self.version = self.ajson['article']['version'] # this won't be coming from the json .. will it?
 
     def tearDown(self):
         pass
@@ -157,6 +183,7 @@ class TestAJSONPublish(BaseCase):
         self.assertRaises(StateError, ajson_ingestor.publish, msid, version)
 
     def test_article_publish_succeeds_for_published_article_if_forced(self):
+        "publication of an already published article can occur only if forced"
         _, _, av = ajson_ingestor.ingest(self.ajson)
         msid = self.ajson['article']['id']
         version = self.ajson['article']['version'] # this won't be coming from the json .. will it?
@@ -170,3 +197,58 @@ class TestAJSONPublish(BaseCase):
         av = ajson_ingestor.publish(msid, version, new_publish_date, force=True)
         av = self.freshen(av)
         self.assertEqual(av.datetime_published, new_publish_date)
+
+    def test_out_of_sequence_publish_fails(self):
+        "attempting to ingest an article with a version greater than another *published* version fails"
+        # ingest and publish a v1
+        _, _, av = ajson_ingestor.ingest(self.ajson) # v1
+        ajson_ingestor.publish(self.msid, self.version)
+        
+        # now attempt to ingest a v3
+        self.ajson['article']['version'] = 3
+        self.assertRaises(StateError, ajson_ingestor.ingest, self.ajson)
+        
+        self.assertEqual(models.Article.objects.count(), 1)
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+        av = self.freshen(av)
+        self.assertEqual(av.version, 1) # assert the version hasn't changed
+
+class TestAJSONIngestPublish(BaseCase):
+    def setUp(self):
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson = json.load(open(self.ajson_fixture1, 'r'))
+
+    def tearDown(self):
+        pass
+
+    def test_ingest_publish(self):
+        "ensure the shortcut ingest_publish behaves as expected"
+        self.assertEqual(models.Journal.objects.count(), 0)
+        self.assertEqual(models.Article.objects.count(), 0)
+        self.assertEqual(models.ArticleVersion.objects.count(), 0)
+
+        _, _, av = ajson_ingestor.ingest_publish(self.ajson)
+
+        self.assertEqual(models.Journal.objects.count(), 1)
+        self.assertEqual(models.Article.objects.count(), 1)
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+
+        av = self.freshen(av)
+        self.assertEqual(av.version, 1)
+        self.assertTrue(av.published())
+
+    def test_ingest_publish_force(self):
+        "we can do silent corrections/updates if we force it to"
+        _, _, av = ajson_ingestor.ingest_publish(self.ajson)
+        expected_title = 'pants-party'
+        self.ajson['article']['title'] = expected_title
+        _, _, av = ajson_ingestor.ingest_publish(self.ajson, force=True)
+        av = self.freshen(av)
+        self.assertEqual(av.title, expected_title)
+
+    def test_ingest_publish_no_force(self):
+        "attempting to do an update without force=True fails"
+        # ingest once
+        _, _, av = ajson_ingestor.ingest_publish(self.ajson)
+        # attempt second ingest
+        self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)

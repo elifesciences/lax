@@ -89,6 +89,11 @@ def ingest(data, force=False):
         assert isinstance(article, models.Article)
         log_context['article'] = article
 
+
+        previous_article_versions = None
+        if updated:
+            previous_article_versions = list(article.articleversion_set.all().order_by('version')) # earliest -> latest
+
         # this is an INGEST event, not a PUBLISH event. we don't touch the date published. see `publish()`
         av_ingest_description = exsubdict(ARTICLE_VERSION, ['datetime_published'])
         av_struct = render.render_item(av_ingest_description, data['article'])
@@ -98,19 +103,46 @@ def ingest(data, force=False):
 
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
-
+        
         if created:
-            # brand new (unpublished) article version. nothing to worry about.
-            pass
+            if previous_article_versions:
+                last_version = previous_article_versions[-1]
+                log_context['previous-version'] = last_version
+
+                if not last_version.published():
+                    # uhoh. we're attempting to create an article version before previous version of that article has been published.
+                    msg = "refusing to ingest new article version when previous article version is still unpublished."
+                    LOG.error(msg, extra=log_context)
+                    raise StateError(msg)
+                
+                if not last_version.version + 1 == av.version:
+                    # uhoh. we're attempting to create an article version out of sequence
+                    msg = "refusing to ingest new article version out of sequence."
+                    log_context.update({
+                        'given-version': av.version,
+                        'expected-version': last_version.version +1})
+                    LOG.error(msg, extra=log_context)
+                    raise StateError(msg)
+            else:
+                if not av.version == 1:
+                    # uhoh. we're attempting to create our first article version and it isn't a version 1
+                    msg = "refusing to ingest new article version our of sequence. no other article versions exist, I'm expecting a v1"
+                    log_context.update({
+                        'given-version': av.version,
+                        'expected-version': 1})
+                    LOG.error(msg, extra=log_context)
+                    raise StateError(msg)
         
         elif updated:
             # this version of the article already exists
             # this is only a problem if the article version has already been published
             if av.datetime_published:
-                # uhoh. we've received an INGEST event for a previously published article
+                # uhoh. we've received an INGEST event for a previously published article version
                 if not force:
                     # unless our arm is being twisted, die.
-                    raise StateError("refusing to ingest new article data on an already published article version.")
+                    msg = "refusing to ingest new article data on an already published article version."
+                    LOG.error(msg, extra=log_context)
+                    raise StateError(msg)
 
         # passed all checks, save
         av.save()
@@ -147,8 +179,8 @@ def publish(msid, version, datetime_published=None, force=False):
 @transaction.atomic
 def ingest_publish(data, force=False):
     "convenience. publish an article if it were successfully ingested"
-    _, a, av = ingest(data, force)
-    return publish(a.manuscript_id, av.version)
+    j, a, av = ingest(data, force)
+    return j, a, publish(a.manuscript_id, av.version, force=force)
 
 #
 # article json wrangling
