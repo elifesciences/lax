@@ -107,6 +107,28 @@ class TestReport(base.BaseCase):
             self.assertEqual(o.version, expected_version)
             self.assertEqual(utils.ymd(o.datetime_published), expected_pubdate)
 
+    def test_totals_for_year_report_data_structure(self):
+        "DOES NOT TEST CORRECTNESS OF DATA, only structure", # yes, cop out
+        struct = reports.totals_for_year()
+        expected_keys = ['description', 'params', 'results']
+        self.assertTrue(utils.has_all_keys(struct, expected_keys))
+        expected_keys = [
+            'total-published', 
+            'poa-published',
+            'vor-published',
+            'percent-poa',
+            'percent-vor',
+            'total-jats-types',
+            'total-ejp-types'
+        ]
+        self.assertTrue(utils.has_all_keys(struct['results'], expected_keys))        
+
+
+    def test_time_to_publication_data_structure(self):
+        "DOES NOT TEST CORRECTNESS OF DATA, only structure" # yes, cop out
+        rows = reports.time_to_publication()
+        self.assertTrue(all(map(lambda row: len(row) == 9, rows)))
+
     #
     # views
     #
