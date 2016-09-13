@@ -56,7 +56,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'simple_history',
     'rest_framework',
     'rest_framework_swagger',
     'django_markdown2',
@@ -75,8 +74,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-
-    'simple_history.middleware.HistoryRequestMiddleware',
 )
 
 ROOT_URLCONF = 'core.urls'
@@ -221,16 +218,24 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'publisher.ingestor': {
+        'publisher.eif_ingestor': {
             'handlers': ['ingestion'],
         },
         'publisher.ejp_ingestor': {
             'handlers': ['ingestion'],
-        },        
-        'publisher.management.commands.import_article': {
+        },
+        'publisher.ajson_ingestor': {
+            'handlers': ['ingestion'],
+            #'propagate': False, # prevent propagation to root handler and it's debug-console handler
+        },
+        'publisher.management.commands.import': {
             'level': 'INFO',
             'handlers': ['debug-console'],
-        },        
+        },
+        'publisher.management.commands.ingest': {
+            'level': 'INFO',
+            'handlers': ['debug-console'],
+        },
         'django.request': {
             'handlers': ['file'],
             'level': 'DEBUG',

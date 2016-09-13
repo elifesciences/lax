@@ -3,9 +3,9 @@ from . import models, utils
 from .utils import ymd
 from functools import wraps
 from django.db.models import Count
-from itertools import islice, imap, ifilter
+from itertools import islice, imap
 import logging
-from django.db.models import ObjectDoesNotExist, Min, Max, F, Q
+from django.db.models import Min, Max, F, Q
 
 LOG = logging.getLogger(__name__)
 
@@ -113,8 +113,8 @@ def totals_for_year(year=2015):
     assert total_poa + total_vor == total, "total poa + total vor don't add up to total published? wtf???"
 
     # totals for JATS 'type' (distinct from the EJP 'ejp-type'
-    by_jats_type_count = rs.values('article__type').annotate(Count('article__type'))
-    by_ejp_type_count = rs.values('article__type').annotate(Count('article__type'))
+    #by_jats_type_count = rs.values('article__type').annotate(Count('article__type'))
+    #by_ejp_type_count = rs.values('article__type').annotate(Count('article__type'))
 
     def xcount(key):
         # ll: rs.values('article__type').annotate(Count('article__type'))    

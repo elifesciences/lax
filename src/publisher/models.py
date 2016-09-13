@@ -1,8 +1,7 @@
 import re
 from django.db import models
-from autoslug import AutoSlugField
-from simple_history.models import HistoricalRecords
-from utils import second, firstnn
+from django.contrib.postgres import fields as psql
+from utils import second, firstnn, msid2doi
 
 POA, VOR = 'poa', 'vor'
 
@@ -62,8 +61,13 @@ class Article(models.Model):
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
-    # this exists but isn't being considered. for reporting reasons, the 'submission date' is the date of the initial quality check
-    datetime_submitted = models.DateTimeField(blank=True, null=True, help_text="Date author submitted article")
+    @property
+    def _doi(self):
+        return msid2doi(self.manuscript_id)
+
+    # data exists but isn't being considered. for reporting reasons, 'submission date' is date of initial quality check
+    # NOTE 2016-09-06: disabled. expectation of data in this field was becoming annoying.
+    #datetime_submitted = models.DateTimeField(blank=True, null=True, help_text="Date author submitted article")
 
     # this field would be the most recent 'full decision accept' event
     #datetime_accepted = models.DateTimeField(blank=True, null=True, help_text="Date article accepted for publication")
@@ -93,7 +97,6 @@ class Article(models.Model):
     rev4_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes()) 
     
     volume = models.PositiveSmallIntegerField(blank=True, null=True)
-    website_path = models.CharField(max_length=50)
 
     # there is a real mess here with these article types
     # the actual preferred classification isn't being captured in any single place
@@ -106,8 +109,6 @@ class Article(models.Model):
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
-
-    history = HistoricalRecords()
 
     @property
     def date_accepted(self):
@@ -180,11 +181,19 @@ class ArticleVersion(models.Model):
     # it's only ever correct for the first version of this article
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
 
+    article_json_v1_raw = psql.JSONField(null=True, blank=True, help_text="the raw v1 article json we receive from different places")
+    article_json_v1 = psql.JSONField(null=True, blank=True, help_text="Valid v1 article-json for this article version.")
+    article_json_v1_valid = models.BooleanField(default=False, help_text="True if article-json in article_json_v1 field validates")
+    
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
     class Meta:
         unique_together = ('article', 'version')
+
+    def published(self):
+        "returns True if this version of the article has a publication date"
+        return self.datetime_published != None
 
     def get_absolute_url(self):
         return self.article.dxdoi_url()
@@ -194,7 +203,6 @@ class ArticleVersion(models.Model):
     
     def __repr__(self):
         return u'<Article %s>' % self
-
 
 #
 # as of 2016.04.06, ArticleAttributes are not being used.
@@ -242,8 +250,6 @@ class ArticleAttribute(models.Model):
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this attribute was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this attribute was updated")
 
-    history = HistoricalRecords()
-
     class Meta:
         # there can be many 'Foo' attributes but only one combination of Article+'Foo'
         # for example there can only be one SomeArticleV1.SubmissionDate.
@@ -256,14 +262,3 @@ class ArticleAttribute(models.Model):
 
     def __repr__(self):
         return u'<ArticleAttribute %s>' % self.__unicode__()
-
-class ArticleCorrection(models.Model):
-    article = models.ForeignKey(Article)
-    description = models.TextField(blank=True, null=True, help_text="free text to describe what the correction was. optional.")
-    datetime_corrected = models.DateTimeField(help_text="Date and time a correction was made to this article.")
-
-    def __unicode__(self):
-        return '%s (corrected %s)' % (self.article, self.datetime_article_corrected.strftime("%Y-%m-%d"))
-
-    def __repr__(self):
-        return u'<ArticleCorrection %s>' % self.article

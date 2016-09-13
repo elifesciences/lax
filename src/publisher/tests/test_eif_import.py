@@ -1,10 +1,8 @@
 import os, json
 from os.path import join
-from publisher import ingestor, utils, models, logic
+from publisher import eif_ingestor as ingestor, utils, models, logic
 from base import BaseCase
 import logging
-from publisher import views
-import json
 from django.test import Client
 from django.core.urlresolvers import reverse
 
@@ -108,7 +106,6 @@ class ImportArticleFromJSON(BaseCase):
             self.assertEqual(getattr(ver, attr), expected)
         
         self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(1, models.Article.history.count())
 
         # attempt the update
         
@@ -118,23 +115,19 @@ class ImportArticleFromJSON(BaseCase):
                                ["datetime_published", utils.todt("2012-12-13")]]:
             self.assertEqual(getattr(ver, attr), expected)
         self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(2, models.Article.history.count())
 
     def test_article_not_updated(self):
         "an exception is raised when attempting to import article data for an existing article when update=False"
         self.assertEqual(0, models.Article.objects.count())
         ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(1, models.Article.history.count())
         
         # attempt the update
         self.assertRaises(AssertionError, ingestor.import_article_from_json_path, self.journal, self.json_fixture, update=False)
-        self.assertEqual(1, models.Article.history.count())
 
     def test_article_update_when_doesnt_exist(self):
         # attempt the update
         self.assertRaises(models.Article.DoesNotExist, ingestor.import_article_from_json_path, self.journal, self.json_fixture, create=False, update=True)
-        self.assertEqual(0, models.Article.history.count())
 
     def test_article_import_update_of_many_versions(self):
         "three versions of the same article can be ingested with expected results"
@@ -257,7 +250,6 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         json_data = open(self.json_fixture, 'r').read()
         resp = self.c.post(reverse('api-create-article'), json_data, content_type="application/json")
         self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(1, models.Article.history.count())
         self.assertEqual(200, resp.status_code)
 
         eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', 'elife-00353-v1.json')
@@ -265,7 +257,6 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         resp = self.c.post(reverse('api-update-article'), json_update_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
         self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(2, models.Article.history.count())
 
     def test_article_created_view_with_bad_payload(self):
         "the view raises a 400 error if the given payload cannot be deserialized from json"
@@ -304,41 +295,6 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         self.assertEqual(0, models.Article.objects.count())
 
 
-
-class ImportArticleFromRepo(BaseCase):
-    def setUp(self):
-        self.journal = logic.journal()
-
-    def tearDown(self):
-        pass
-
-    '''
-    def test_article_imported_lazily(self):
-        self.assertEqual(0, models.Article.objects.count())
-        # https://github.com/elifesciences/elife-article-json/blob/master/article-json/elife00654.xml.json
-        doi = "10.7554/eLife.00654"
-        expected_title = "Single molecule imaging reveals a major role for diffusion in the exploration of ciliary space by signaling receptors"
-        dirty_article_obj = ingestor.import_article_from_github_repo(self.journal, doi)
-        self.assertEqual(1, models.Article.objects.count())
-        self.assertEqual(dirty_article_obj.title, expected_title)
-        clean_article_obj = models.Article.objects.get(doi=doi)
-        self.assertEqual(clean_article_obj.title, expected_title)
-    '''
-
-    def test_article_import_bad_doi(self):
-        self.assertEqual(0, models.Article.objects.count())
-        doi = "10.7554/no.pants"
-        self.assertRaises(ValueError, ingestor.import_article_from_github_repo, self.journal, doi)
-        # nothing created
-        self.assertEqual(0, models.Article.objects.count())
-
-    def test_article_import_no_doi(self):
-        self.assertEqual(0, models.Article.objects.count())
-        doi = None
-        self.assertRaises(ValueError, ingestor.import_article_from_github_repo, self.journal, doi)
-        # nothing created
-        self.assertEqual(0, models.Article.objects.count())
-
 class ImportFromPPPEIF(BaseCase):
     """the EIF article json floating around the PPP workflow
     differs from the more predictable stuff that can be found at
@@ -365,7 +321,5 @@ class ImportFromPPPEIF(BaseCase):
         eif_update_fixture = join(self.fixture_dir, 'ppp', '00353.1', 'elife-00353-v1.json')
         art, ver = ingestor.import_article_from_json_path(self.journal, fixture)
         self.assertEqual(ver.title, "A meh life")
-        self.assertEqual(1, art.history.count()) # original art
         art, ver = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
         self.assertEqual(ver.title, "A good life")
-        self.assertEqual(2, art.history.count()) # original + updated art

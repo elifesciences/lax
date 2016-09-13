@@ -1,7 +1,8 @@
 import copy
 from publisher import utils, models, logic
 from publisher.tests import base
-from datetime import timedelta
+import pytz
+from datetime import datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
 
@@ -148,4 +149,22 @@ class TestUtils(base.BaseCase):
             except AssertionError:
                 print case,args,expected
                 raise
-        
+
+    def test_utcnow(self):
+        "utcnow returns a UTC datetime"
+        # TODO: this test could be improved
+        now = utils.utcnow()
+        self.assertEqual(now.tzinfo, pytz.utc)
+            
+    def test_todt(self):
+        cases = [
+            # naive dtstr becomes utc
+            ("2001-01-01", \
+                 datetime(year=2001, month=1, day=1, tzinfo=pytz.utc)),
+
+            # aware but non-utc become utc
+            ("2001-01-01T23:30:30+09:30", \
+                 datetime(year=2001, month=1, day=1, hour=14, minute=0, second=30, tzinfo=pytz.utc)),
+        ]
+        for string, expected in cases:
+            self.assertEqual(utils.todt(string), expected)

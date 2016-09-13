@@ -1,13 +1,10 @@
 from os.path import join
 import os
 from django.conf import settings
-import json
-from django.shortcuts import get_object_or_404, Http404
+from django.shortcuts import Http404
 from annoying.decorators import render_to
 import models, logic
-from django.views.decorators.http import require_POST
-from django.http import HttpResponse
-import ingestor, rss
+import eif_ingestor, rss
 from django.core.urlresolvers import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -134,9 +131,9 @@ def import_article(rest_request, create=True, update=True):
     Returns the doi of the inserted/updated article
     """
     try:
-        article, version = ingestor.import_article(logic.journal(), rest_request.data, create, update)
+        article, version = eif_ingestor.import_article(logic.journal(), rest_request.data, create, update)
         return Response({'doi': article.doi})
-    except (ParseError, ValueError), e:
+    except (ParseError, ValueError):
         return Response({"message": "failed to parse given JSON"}, status=400)
     except AssertionError:
         return Response({"message": "failed to create/update article"}, status=400)
@@ -154,19 +151,6 @@ def create_article(rest_request):
 @api_view(['POST'])
 def update_article(rest_request):
     return import_article(rest_request, create=False, update=True)
-
-#
-# API corrections
-#
-
-@api_view(['POST'])
-def record_correction(rest_request, doi, version):
-    article, version = article_or_404(doi, version)
-    correction = logic.record_correction(article)
-    return Response({
-        'doi': article.doi,
-        'corrected': correction.datetime_corrected
-    })
 
 #
 # reports

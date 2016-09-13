@@ -1,8 +1,6 @@
 from base import BaseCase
 from django.test import Client
 from django.core.urlresolvers import reverse
-from publisher import logic
-from datetime import datetime, timedelta
 
 class TestViews(BaseCase):
     def setUp(self):

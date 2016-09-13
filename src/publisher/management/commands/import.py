@@ -1,14 +1,14 @@
 import os, glob, pprint
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from publisher import ingestor, logic, ejp_ingestor
+from publisher import eif_ingestor, logic, ejp_ingestor
 from functools import partial
 import logging
 
 LOG = logging.getLogger(__name__)
 
-IMPORT_TYPES = ['eif', 'ejp', 'bot', 'patch']
-EIF, EJP, BOT, PATCH = IMPORT_TYPES
+IMPORT_TYPES = ['eif', 'ejp', 'ajson', 'patch']
+EIF, EJP, AJSON, PATCH = IMPORT_TYPES
 
 def resolve_path(p):
     p = os.path.abspath(p)
@@ -29,7 +29,7 @@ def ingest(fn, journal, create, update, path_list):
             LOG.exception("failed to import article")
             return False
     try:
-        results = map(_, path_list)
+        map(_, path_list)
     except KeyboardInterrupt:
         print 'caught interrupt'
         exit(1)
@@ -90,10 +90,10 @@ class Command(BaseCommand):
                 exit(0)
         
         choices = {
-            EIF: ingestor.import_article_from_json_path,
+            EIF: eif_ingestor.import_article_from_json_path,
             EJP: ejp_ingestor.import_article_list_from_json_path,
-            PATCH: ingestor.patch_handler,
-            BOT: None
+            PATCH: eif_ingestor.patch_handler,
+            AJSON: None
         }
         fn = partial(ingest, choices[import_type], logic.journal(), create_articles, update_articles, path_list)
         if atomic:

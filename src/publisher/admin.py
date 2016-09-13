@@ -1,6 +1,5 @@
 from django.contrib import admin
 import models
-from simple_history.admin import SimpleHistoryAdmin
 
 class ArticleVersionAdmin(admin.TabularInline):
     list_select_related = ('article',)

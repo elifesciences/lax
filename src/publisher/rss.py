@@ -1,5 +1,4 @@
-from django.db.models import Q, F, Max
-from django.conf.urls import include, url
+from django.conf.urls import url
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
 import models, logic

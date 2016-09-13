@@ -1,12 +1,9 @@
-import os, requests
 import models
 from django.conf import settings
 import logging
-from publisher import ingestor, utils
-from publisher.utils import first, second
-from datetime import datetime
+from publisher import eif_ingestor, utils
 from django.utils import timezone
-from django.db.models import ObjectDoesNotExist, Max, F, Q
+from django.db.models import ObjectDoesNotExist, Max, F
 
 LOG = logging.getLogger(__name__)
 
@@ -128,7 +125,7 @@ def add_or_update_article(**article_data):
         ('status', 'vor'),
     ]
     article_data = utils.filldict(article_data, filler, 'pants-party')
-    return ingestor.import_article(journal(), article_data, create=True, update=True)
+    return eif_ingestor.import_article(journal(), article_data, create=True, update=True)
 
 #
 #
@@ -157,25 +154,3 @@ def latest_article_versions():
 
 def mk_dxdoi_link(doi):
     return "http://dx.doi.org/%s" % doi
-
-def check_doi(doi):
-    """ensures that the doi both exists with crossref and that it
-    successfully redirects to an article on the website"""
-    return requests.get(mk_dxdoi_link(doi))
-
-
-#
-#
-#
-
-def record_correction(artobj, when=None):
-    if when:
-        assert timezone.is_aware(when), "refusing a naive datetime."
-        assert timezone.now() > when, "refusing a correction made in the future"
-        if artobj.journal.inception:
-            assert when > artobj.journal.inception, "refusing a correction made before the article's journal started"
-    correction = models.ArticleCorrection(**{
-        'article': artobj,
-        'datetime_corrected': when if when else datetime.now()})
-    correction.save()
-    return correction
