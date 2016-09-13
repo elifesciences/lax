@@ -4,6 +4,8 @@ from datetime import datetime
 from base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
+from unittest import skip
+from django.core.management import call_command
 
 class TestAJSONIngest(BaseCase):
     def setUp(self):
@@ -25,7 +27,7 @@ class TestAJSONIngest(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
-
+        
     def test_article_ingest_does_not_publish(self):
         """ingesting article json does not cause an article to become published 
         (gain a published date) even if a published date was supplied"""
@@ -252,3 +254,25 @@ class TestAJSONIngestPublish(BaseCase):
         _, _, av = ajson_ingestor.ingest_publish(self.ajson)
         # attempt second ingest
         self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
+
+
+class TestAJSONCLI(BaseCase):
+    def setUp(self):
+        self.nom = 'ingest'
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        #self.ajson = json.load(open(self.ajson_fixture1, 'r'))
+
+    def tearDown(self):
+        pass
+
+    @skip("getting an error I can't reproduce anywhere else")
+    def test_ingest_from_cli(self):
+        "ingest script requires the --ingest flag and a source of data"
+        result = call_command(self.nom, '--ingest', self.ajson_fixture1)
+        self.assertTrue(isinstance(result, int))
+
+    def test_publish_from_cli(self):
+        pass
+
+    def test_ingest_publish_from_cli(self):
+        pass
