@@ -84,7 +84,7 @@ def ingest(data, force=False):
 
         article_struct = render.render_item(ARTICLE, data['article'])
         article, created, updated = \
-          create_or_update(models.Article, article_struct, ['msid', 'journal'], create, update, journal=journal)
+          create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
 
         assert isinstance(article, models.Article)
         log_context['article'] = article
