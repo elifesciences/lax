@@ -151,7 +151,7 @@ class AbstractReportFeed(AbstractArticleFeed):
 #
 
 # rooted at /rss/articles/ in urls.py
-urls = [
+urlpatterns = [
     url(r"^(?P<aid_list>(eLife\.\d{5}[,]?)+)$", SpecificArticleFeed(), name='rss-specific-article-list'),
     url(r"^(?P<article_status>(poa\+vor)|(poa|vor))/last-(?P<since>\d{1,3})-days/$", RecentArticleFeed(), name='rss-recent-article-list'),
 ]

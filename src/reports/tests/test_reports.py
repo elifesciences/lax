@@ -1,14 +1,16 @@
 import re
 from os.path import join
-from . import base
-from publisher import eif_ingestor, logic, models, reports, utils
+from publisher.tests import base
+from publisher import eif_ingestor, logic as publogic, models, utils
+from reports import logic
+
 from django.test import Client
 from unittest import skip
 from django.core.urlresolvers import reverse
 
 class TestReport(base.BaseCase):
     def setUp(self):
-        self.journal = logic.journal()
+        self.journal = publogic.journal()
         import_all = [
             '00353.1', # discussion, VOR
             
@@ -56,7 +58,7 @@ class TestReport(base.BaseCase):
         "the report yields the expected data in the expected format"
         self.assertEqual(models.Article.objects.count(), 10)
         self.assertEqual(models.ArticleVersion.objects.count(), 15)
-        report = reports.article_poa_vor_pubdates()
+        report = logic.article_poa_vor_pubdates()
         report = list(report) # result is lazy, force evaluation here
         #self.assertEqual(len(report), 9) # most (all?) non-research articles are being excluded
         self.assertEqual(len(report), self.research_art_count)
@@ -66,7 +68,7 @@ class TestReport(base.BaseCase):
     @skip("paw_article_data() now returns a queryset not a lazy list of rows")
     def test_paw_report_data(self):
         "the data is in the structure we expect"
-        data = list(reports.paw_article_data())
+        data = list(logic.paw_article_data())
         expected_keys = [
             'title', 'link', 'description', 'author', 'category-list',
             'guid', 'pub-date', 'transition-date'
@@ -82,7 +84,7 @@ class TestReport(base.BaseCase):
                 raise
 
     def test_paw_recent_report_data(self):
-        res = reports.paw_recent_report_raw_data(limit=None)
+        res = logic.paw_recent_report_raw_data(limit=None)
         self.assertEqual(res.count(), self.vor_art_count)
         cases = [
             ("00353", 1, "2012-12-13"), # v1 'pub-date' dates
@@ -96,7 +98,7 @@ class TestReport(base.BaseCase):
             self.assertEqual(utils.ymd(o.datetime_published), expected_pubdate)
 
     def test_paw_ahead_report_data(self):
-        res = reports.paw_ahead_report_raw_data(limit=None)
+        res = logic.paw_ahead_report_raw_data(limit=None)
         self.assertEqual(res.count(), self.poa_art_count)
         cases = [
             ("09571", 1, "2015-11-09")
@@ -109,7 +111,7 @@ class TestReport(base.BaseCase):
 
     def test_totals_for_year_report_data_structure(self):
         "DOES NOT TEST CORRECTNESS OF DATA, only structure", # yes, cop out
-        struct = reports.totals_for_year()
+        struct = logic.totals_for_year()
         expected_keys = ['description', 'params', 'results']
         self.assertTrue(utils.has_all_keys(struct, expected_keys))
         expected_keys = [
@@ -126,7 +128,7 @@ class TestReport(base.BaseCase):
 
     def test_time_to_publication_data_structure(self):
         "DOES NOT TEST CORRECTNESS OF DATA, only structure" # yes, cop out
-        rows = reports.time_to_publication()
+        rows = logic.time_to_publication()
         self.assertTrue(all(map(lambda row: len(row) == 9, rows)))
 
     #
