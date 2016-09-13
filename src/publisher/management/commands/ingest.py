@@ -7,7 +7,7 @@ The ingest script DOES obey business rules and will not publish things twice,
 
 """
 
-import os, glob, sys, json, argparse
+import sys, json, argparse
 from django.core.management.base import BaseCommand
 from publisher import ajson_ingestor
 import logging
