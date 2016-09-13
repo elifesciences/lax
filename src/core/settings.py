@@ -218,16 +218,24 @@ LOGGING = {
             'level': 'INFO',
             'propagate': True,
         },
-        'publisher.ingestor': {
+        'publisher.eif_ingestor': {
             'handlers': ['ingestion'],
         },
         'publisher.ejp_ingestor': {
             'handlers': ['ingestion'],
-        },        
-        'publisher.management.commands.import_article': {
+        },
+        'publisher.ajson_ingestor': {
+            'handlers': ['ingestion'],
+            #'propagate': False, # prevent propagation to root handler and it's debug-console handler
+        },
+        'publisher.management.commands.import': {
             'level': 'INFO',
             'handlers': ['debug-console'],
-        },        
+        },
+        'publisher.management.commands.ingest': {
+            'level': 'INFO',
+            'handlers': ['debug-console'],
+        },
         'django.request': {
             'handlers': ['file'],
             'level': 'DEBUG',
