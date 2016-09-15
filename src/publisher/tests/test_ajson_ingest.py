@@ -256,6 +256,25 @@ class TestAJSONIngestPublish(BaseCase):
         self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 
 
+class TestAJSONJSON(BaseCase):
+    def setUp(self):
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+
+    def tearDown(self):
+        pass
+
+    def test_article_json_stored_if_valid(self):
+        "valid article json is stored"
+        assert False
+
+    def test_article_json_not_stored_if_invalid(self):
+        "invalid article json is not stored if it fails validation"
+        assert False
+
+    def test_invalid_article_json_prevents_publication(self):
+        "an article can only be published if it contains valid article json"
+        assert False
+        
 class TestAJSONCLI(BaseCase):
     def setUp(self):
         self.nom = 'ingest'
