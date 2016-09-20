@@ -1,10 +1,11 @@
+from StringIO import StringIO
 from os.path import join
 import json
 from datetime import datetime
 from base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
-from unittest import skip
+#from unittest import skip
 from django.core.management import call_command
 
 class TestAJSONIngest(BaseCase):
@@ -265,11 +266,20 @@ class TestAJSONCLI(BaseCase):
     def tearDown(self):
         pass
 
-    @skip("getting an error I can't reproduce anywhere else")
+    def call_command(self, *args, **kwargs):
+        try:
+            call_command(*args, **kwargs)
+        except SystemExit as err:
+            return err.code
+    
     def test_ingest_from_cli(self):
         "ingest script requires the --ingest flag and a source of data"
-        result = call_command(self.nom, '--ingest', self.ajson_fixture1)
-        self.assertTrue(isinstance(result, int))
+        stdout = StringIO()
+        result = self.call_command(self.nom, '--ingest', self.ajson_fixture1, stdout=stdout)
+        self.assertEqual(result, 0)
+        result = json.loads(stdout.getvalue())
+        self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
+        self.assertTrue(result['status'], 'ingested')
 
     def test_publish_from_cli(self):
         pass
