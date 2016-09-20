@@ -9,7 +9,7 @@ The ingest script DOES obey business rules and will not publish things twice,
 
 import sys, json, argparse
 from django.core.management.base import BaseCommand
-from publisher import ajson_ingestor
+from publisher import ajson_ingestor, utils
 from publisher.ajson_ingestor import StateError
 import logging
 
@@ -20,10 +20,52 @@ IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
 INGEST, PUBLISH, BOTH = IMPORT_TYPES
 INGESTED, PUBLISHED = 'ingested', 'published'
 
-class Command(BaseCommand):
-    help = ''    
+import os
+from django.core.management.base import CommandParser
+
+class ModCommand(BaseCommand):
+    def create_parser(self, prog_name, subcommand):
+        """
+        Create and return the ``ArgumentParser`` which will be used to
+        parse the arguments to this command.
+        """
+        parser = CommandParser(
+            self, prog="%s %s" % (os.path.basename(prog_name), subcommand),
+            description=self.help or None,
+        )
+        #parser.add_argument('--version', action='version', version=self.get_version())
+        parser.add_argument(
+            '-v', '--verbosity', action='store', dest='verbosity', default=1,
+            type=int, choices=[0, 1, 2, 3],
+            help='Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output',
+        )
+        parser.add_argument(
+            '--settings',
+            help=(
+                'The Python path to a settings module, e.g. '
+                '"myproject.settings.main". If this isn\'t provided, the '
+                'DJANGO_SETTINGS_MODULE environment variable will be used.'
+            ),
+        )
+        parser.add_argument(
+            '--pythonpath',
+            help='A directory to add to the Python path, e.g. "/home/djangoprojects/myproject".',
+        )
+        parser.add_argument('--traceback', action='store_true', help='Raise on CommandError exceptions')
+        parser.add_argument(
+            '--no-color', action='store_true', dest='no_color', default=False,
+            help="Don't colorize the command output.",
+        )
+        self.add_arguments(parser)
+        return parser
+
+class Command(ModCommand):
+    help = ''
+
     def add_arguments(self, parser):
         # update articles that already exist?
+        parser.add_argument('--id', dest='msid', type=int, required=True)
+        parser.add_argument('--version',  dest='version', type=int, required=True)
         parser.add_argument('--force', action='store_true', default=False)
 
         parser.add_argument('--ingest', dest='action', action='store_const', const=INGEST)
@@ -31,59 +73,72 @@ class Command(BaseCommand):
         parser.add_argument('--ingest+publish', dest='action', action='store_const', const=BOTH)
 
         parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
-        
-        # version
-        # msid
 
     def write(self, out=None):
         if not isinstance(out, basestring):
-            out = json.dumps(out)
+            out = utils.json_dumps(out) # encodes datetime objects
         self.stdout.write(out)
         self.stdout.flush()
 
     def error(self, errtype, message):
-        return self.write({
+        self.write({
             'status': errtype,
             'message': message
         })
 
-    def success(self, action, jaav):
+    def success(self, action, av):
         status = INGESTED if action == INGEST else PUBLISHED
-        j, a, av = jaav
+        attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
         return self.write({
             'status': status,
-            'id': a.manuscript_id,
-            'datetime': av.datetime_published
+            'id': av.article.manuscript_id,
+            'datetime': getattr(av, attr),
         })
 
     def handle(self, *args, **options):
-        force = options['force']
         action = options['action']
-        data = options['infile']
+        msid = options['msid']
+        version = options['version']
+        force = options['force']
+
+        data = None
 
         if not action:
             self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
-
+        
         try:
-            data = json.load(data)
+            if action == INGEST:
+                data = json.load(options['infile'])
+                # vagary of the CLI interface: article id and version are required
+                # these may not match the data given
+                data_version = data['article']['version']
+                if not data_version == version:
+                    raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
+                data_msid = int(data['article']['id'].lstrip('0'))
+                if not data_msid == msid:
+                    raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
         except ValueError as err:
             self.error(INVALID, "could decode the json you gave me: %s" % err.message)
             sys.exit(1)
 
         choices = {
-            INGEST: ajson_ingestor.ingest,
-            PUBLISH: ajson_ingestor.publish,
-            BOTH: ajson_ingestor.ingest_publish,
+            # these all return a models.ArticleVersion object
+            INGEST: lambda msid, ver, force, data: ajson_ingestor.ingest(data, force)[-1],
+            PUBLISH: lambda msid, ver, force, data: ajson_ingestor.publish(msid, ver, force),
+            BOTH: lambda msid, ver, force, data: ajson_ingestor.ingest_publish(data, force)[-1],
         }
-
         try:
-            jaav = choices[action](data, force)
-            self.success(action, jaav)
+            av = choices[action](msid, version, force, data)
+            self.success(action, av)
 
         except StateError as err:
             msg = "failed to call action %r: %s" % (action, err.message)
             self.error(INVALID, msg)
             sys.exit(1)
+
+        except:
+            LOG.exception("unhandled exception attempting to %r article %sv%s", action, msid, version)
+            raise
 
         sys.exit(0)

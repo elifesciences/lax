@@ -199,10 +199,10 @@ class ArticleVersion(models.Model):
         return self.article.dxdoi_url()
 
     def __unicode__(self):
-        return '%s v%s' % (self.article.doi, self.version)
+        return '%s v%s' % (self.article.manuscript_id, self.version)
     
     def __repr__(self):
-        return u'<Article %s>' % self
+        return u'<ArticleVersion %s>' % self
 
 #
 # as of 2016.04.06, ArticleAttributes are not being used.

@@ -8,7 +8,7 @@ from publisher.ajson_ingestor import StateError
 #from unittest import skip
 from django.core.management import call_command
 
-class TestAJSONIngest(BaseCase):
+class Ingest(BaseCase):
     def setUp(self):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
         self.valid_ajson = json.load(open(self.ajson_fixture1, 'r'))
@@ -141,7 +141,7 @@ class TestAJSONIngest(BaseCase):
         av = self.freshen(av)
         self.assertEqual(av.version, 1) # assert the version hasn't changed
 
-class TestAJSONPublish(BaseCase):
+class Publish(BaseCase):
     def setUp(self):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
@@ -216,7 +216,11 @@ class TestAJSONPublish(BaseCase):
         av = self.freshen(av)
         self.assertEqual(av.version, 1) # assert the version hasn't changed
 
-class TestAJSONIngestPublish(BaseCase):
+    def test_publish_fails_if_no_article(self):
+        self.assertEqual(models.ArticleVersion.objects.count(), 0)
+        self.assertRaises(StateError, ajson_ingestor.publish, self.msid, self.version)
+
+class IngestPublish(BaseCase):
     def setUp(self):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
@@ -256,33 +260,57 @@ class TestAJSONIngestPublish(BaseCase):
         # attempt second ingest
         self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 
-
-class TestAJSONCLI(BaseCase):
+class IngestPublishCLI(BaseCase):
     def setUp(self):
         self.nom = 'ingest'
+        self.msid = "15507"
+        self.version = "1"
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
-        #self.ajson = json.load(open(self.ajson_fixture1, 'r'))
 
     def tearDown(self):
         pass
 
     def call_command(self, *args, **kwargs):
+        stdout = StringIO()
         try:
+            kwargs['stdout'] = stdout
             call_command(*args, **kwargs)
         except SystemExit as err:
-            return err.code
+            return err.code, stdout
+        self.fail("ingest script should always throw a systemexit()")
     
     def test_ingest_from_cli(self):
         "ingest script requires the --ingest flag and a source of data"
-        stdout = StringIO()
-        result = self.call_command(self.nom, '--ingest', self.ajson_fixture1, stdout=stdout)
-        self.assertEqual(result, 0)
+        args = [self.nom, '--ingest', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+        # article has been ingested
+        self.assertEqual(models.ArticleVersion.objects.count(), 1) 
+        # message returned is json encoded with all the right keys and values
         result = json.loads(stdout.getvalue())
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
-        self.assertTrue(result['status'], 'ingested')
+        self.assertEqual(result['status'], 'ingested')
+        # the date and time is roughly the same as right now, ignoring microseconds
+        expected_datetime = utils.utcnow().isoformat()
+        self.assertEqual(result['datetime'][:20], expected_datetime[:20])
+        self.assertEqual(result['datetime'][-6:], expected_datetime[-6:])
 
     def test_publish_from_cli(self):
-        pass
+        args = [self.nom, '--ingest', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+        # article has been ingested
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+
+        args = [self.nom, '--publish', '--id', self.msid, '--version', self.version]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+        # ensure response is json
+        result = json.loads(stdout.getvalue())
+        self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
+        self.assertEqual(result['status'], 'published')
+
+        
 
     def test_ingest_publish_from_cli(self):
         pass
