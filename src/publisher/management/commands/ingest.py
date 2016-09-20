@@ -58,7 +58,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         force = options['force']
-        dry_run = options['dry_run']
         action = options['action']
         data = options['infile']
 
@@ -79,7 +78,7 @@ class Command(BaseCommand):
         }
 
         try:
-            jaav = choices[action](data, dry_run, force)
+            jaav = choices[action](data, force)
             self.success(action, jaav)
 
         except StateError as err:
