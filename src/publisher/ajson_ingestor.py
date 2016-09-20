@@ -168,12 +168,16 @@ def publish(msid, version, datetime_published=None, force=False):
     else:
         # ensure given datetime is in utc
         datetime_published = utils.todt(datetime_published)
-    av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
-    if av.published() and not force:
-        raise StateError("refusing to publish an already published article")
-    av.datetime_published = datetime_published
-    av.save()
-    return av
+    try:
+        av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
+        if av.published() and not force:
+            raise StateError("refusing to publish an already published article")
+        av.datetime_published = datetime_published
+        av.save()
+        return av
+    except models.ArticleVersion.DoesNotExist:
+        # attempted to publish an article that doesn't exist ...
+        raise StateError("refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
 
 #
 # INGEST+PUBLISH requests
