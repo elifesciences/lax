@@ -147,6 +147,9 @@ def ingest(data, force=False):
         # passed all checks, save
         av.save()
         return journal, article, av
+
+    except StateError:
+        raise
     
     except Exception:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
