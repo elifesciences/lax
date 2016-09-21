@@ -238,7 +238,7 @@ LOGGING = {
         },
         'publisher.management.commands.ingest': {
             'level': 'INFO',
-            'handlers': ['debug-console'],
+            'handlers': ['ingestion', 'debug-console'],
         },
         'django.request': {
             'handlers': ['file'],
