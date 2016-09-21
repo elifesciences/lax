@@ -310,7 +310,18 @@ class IngestPublishCLI(BaseCase):
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
         self.assertEqual(result['status'], 'published')
 
-        
-
     def test_ingest_publish_from_cli(self):
-        pass
+        args = [self.nom, '--ingest+publish', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+        # article has been ingested
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid, version=self.version)
+        # article has been published
+        self.assertTrue(av.published())
+        # ensure response is json and well-formed
+        result = json.loads(stdout.getvalue())
+        self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
+        # ensure response data is correct
+        self.assertEqual(result['status'], 'published')
+        self.assertEqual(result['datetime'], av.datetime_published.isoformat())
+

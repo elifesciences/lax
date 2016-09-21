@@ -108,7 +108,7 @@ class Command(ModCommand):
             sys.exit(1)
         
         try:
-            if action == INGEST:
+            if action in [INGEST, BOTH]:
                 data = json.load(options['infile'])
                 # vagary of the CLI interface: article id and version are required
                 # these may not match the data given
