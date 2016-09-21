@@ -67,6 +67,7 @@ class Command(ModCommand):
         parser.add_argument('--id', dest='msid', type=int, required=True)
         parser.add_argument('--version',  dest='version', type=int, required=True)
         parser.add_argument('--force', action='store_true', default=False)
+        parser.add_argument('--dry-run', action='store_true', default=False)
 
         parser.add_argument('--ingest', dest='action', action='store_const', const=INGEST)
         parser.add_argument('--publish', dest='action', action='store_const', const=PUBLISH)
@@ -86,13 +87,14 @@ class Command(ModCommand):
             'message': message
         })
 
-    def success(self, action, av):
+    def success(self, action, av, dry_run=False):
         status = INGESTED if action == INGEST else PUBLISHED
         attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
         return self.write({
             'status': status,
-            'id': av.article.manuscript_id,
+            'id': None if dry_run else av.article.manuscript_id,
             'datetime': getattr(av, attr),
+            'message': "(dry-run)" if dry_run else None,
         })
 
     def handle(self, *args, **options):
@@ -100,13 +102,15 @@ class Command(ModCommand):
         msid = options['msid']
         version = options['version']
         force = options['force']
+        dry_run = options['dry_run']
 
         data = None
 
         if not action:
             self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
-        
+
+        # read and check the article-json given, if necessary
         try:
             if action in [INGEST, BOTH]:
                 data = json.load(options['infile'])
@@ -123,14 +127,15 @@ class Command(ModCommand):
             sys.exit(1)
 
         choices = {
-            # these all return a models.ArticleVersion object
-            INGEST: lambda msid, ver, force, data: ajson_ingestor.ingest(data, force)[-1],
-            PUBLISH: lambda msid, ver, force, data: ajson_ingestor.publish(msid, ver, force),
-            BOTH: lambda msid, ver, force, data: ajson_ingestor.ingest_publish(data, force)[-1],
+            # all these return a models.ArticleVersion object
+            INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry)[-1],
+            PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
+            BOTH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry)[-1],
         }
+
         try:
-            av = choices[action](msid, version, force, data)
-            self.success(action, av)
+            av = choices[action](msid, version, force, data, dry_run)
+            self.success(action, av, dry_run)
 
         except StateError as err:
             msg = "failed to call action %r: %s" % (action, err.message)
