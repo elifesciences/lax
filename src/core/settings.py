@@ -191,6 +191,9 @@ LOGGING = {
             '()': jsonlogger.JsonFormatter,
             'format': FORMAT_STR,
         },
+        'brief': {
+            'format': '%(levelname)s - %(message)s'
+        },
     },
     
     'handlers': {
@@ -209,6 +212,7 @@ LOGGING = {
         'debug-console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
+            'formatter': 'brief',
         },
     },
     
@@ -234,7 +238,7 @@ LOGGING = {
         },
         'publisher.management.commands.ingest': {
             'level': 'INFO',
-            'handlers': ['debug-console'],
+            'handlers': ['ingestion', 'debug-console'],
         },
         'django.request': {
             'handlers': ['file'],

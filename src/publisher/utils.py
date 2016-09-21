@@ -1,4 +1,4 @@
-import copy
+import copy, json
 import pytz
 from dateutil import parser
 from django.utils import timezone
@@ -155,3 +155,12 @@ def updatedict(ddict, **kwargs):
     for key, val in kwargs.items():
         newdata[key] = val
     return newdata
+
+def json_dumps(obj):
+    "drop-in for json.dumps that handles datetime objects."
+    def datetime_handler(obj):
+        if hasattr(obj, 'isoformat'):
+            return obj.isoformat()
+        else:
+            raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj))
+    return json.dumps(obj, default=datetime_handler)

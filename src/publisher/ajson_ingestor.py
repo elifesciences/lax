@@ -5,6 +5,7 @@ import logging
 from django.db import transaction
 from et3 import render
 from et3.extract import path as p, val
+from django.db import IntegrityError
 
 LOG = logging.getLogger(__name__)
 
@@ -32,6 +33,26 @@ ARTICLE_VERSION = {
     'article_json_v1_raw': [val],
 }
 
+def atomic(fn):
+    def wrapper(*args, **kwargs):
+        result, rollback_key = None, 'dry run rollback'
+        # NOTE: dry_run must always be passed as keyword parameter (dry_run=True)
+        dry_run = kwargs.pop('dry_run', False)
+        try:
+            with transaction.atomic():
+                result = fn(*args, **kwargs)
+                if dry_run:
+                    # `transaction.rollback()` doesn't work here because the `transaction.atomic()`
+                    # block is expecting to do all the work and only rollback on exceptions
+                    raise IntegrityError(rollback_key)
+                return result
+        except IntegrityError as err:
+            if dry_run and err.message == rollback_key:
+                return result
+            # this was some other IntegrityError
+            raise
+    return wrapper
+    
 #
 #
 #
@@ -61,19 +82,16 @@ def create_or_update(Model, orig_data, key_list, create=True, update=True, commi
     # in this case if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)
 
-@transaction.atomic
-def ingest(data, force=False):
+def _ingest(data, force=False):
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
-
     unpublished article-version data can be ingested multiple times UNLESS that article version has been published.
-
     published article-version data can be ingested only if force=True"""
 
     data = copy.deepcopy(data) # we don't want to modify the given data
     
     create = update = True
     log_context = {}
-    
+
     try:
         journal_struct = render.render_item(JOURNAL, data['journal'])
         journal, created, updated = \
@@ -89,12 +107,11 @@ def ingest(data, force=False):
         assert isinstance(article, models.Article)
         log_context['article'] = article
 
-
         previous_article_versions = None
         if updated:
             previous_article_versions = list(article.articleversion_set.all().order_by('version')) # earliest -> latest
 
-        # this is an INGEST event, not a PUBLISH event. we don't touch the date published. see `publish()`
+        # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
         av_ingest_description = exsubdict(ARTICLE_VERSION, ['datetime_published'])
         av_struct = render.render_item(av_ingest_description, data['article'])
         av, created, update = \
@@ -103,6 +120,8 @@ def ingest(data, force=False):
 
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
+
+        # enforce business rules
         
         if created:
             if previous_article_versions:
@@ -123,20 +142,22 @@ def ingest(data, force=False):
                         'expected-version': last_version.version +1})
                     LOG.error(msg, extra=log_context)
                     raise StateError(msg)
+
+            # no other versions of article exist
             else:
                 if not av.version == 1:
                     # uhoh. we're attempting to create our first article version and it isn't a version 1
-                    msg = "refusing to ingest new article version our of sequence. no other article versions exist, I'm expecting a v1"
+                    msg = "refusing to ingest new article version out of sequence. no other article versions exist so I expect a v1"
                     log_context.update({
                         'given-version': av.version,
                         'expected-version': 1})
                     LOG.error(msg, extra=log_context)
                     raise StateError(msg)
-        
+
         elif updated:
             # this version of the article already exists
             # this is only a problem if the article version has already been published
-            if av.datetime_published:
+            if av.published():
                 # uhoh. we've received an INGEST event for a previously published article version
                 if not force:
                     # unless our arm is being twisted, die.
@@ -146,17 +167,26 @@ def ingest(data, force=False):
 
         # passed all checks, save
         av.save()
+
         return journal, article, av
+
+    except StateError:
+        raise
     
     except Exception:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
         raise
 
+@atomic
+def ingest(*args, **kwargs):
+    return _ingest(*args, **kwargs)
+    
+
 #
 # PUBLISH requests
 #
 
-def publish(msid, version, datetime_published=None, force=False):
+def _publish(msid, version, datetime_published=None, force=False):
     """attach a `datetime_published` value to an article version. if none provided, use RIGHT NOW.
     you cannot publish an already published article version unless force==True"""
     # ensure we have a utc datetime
@@ -165,22 +195,30 @@ def publish(msid, version, datetime_published=None, force=False):
     else:
         # ensure given datetime is in utc
         datetime_published = utils.todt(datetime_published)
-    av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
-    if av.published() and not force:
-        raise StateError("refusing to publish an already published article")
-    av.datetime_published = datetime_published
-    av.save()
-    return av
+    try:
+        av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
+        if av.published() and not force:
+            raise StateError("refusing to publish an already published article")
+        av.datetime_published = datetime_published
+        av.save()
+        return av
+    except models.ArticleVersion.DoesNotExist:
+        # attempted to publish an article that doesn't exist ...
+        raise StateError("refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
 
+@atomic
+def publish(*args, **kwargs):
+    return _publish(*args, **kwargs)
+    
 #
 # INGEST+PUBLISH requests
 #
 
-@transaction.atomic
-def ingest_publish(data, force=False):
+@atomic
+def ingest_publish(data, force=False, dry_run=False):
     "convenience. publish an article if it were successfully ingested"
-    j, a, av = ingest(data, force)
-    return j, a, publish(a.manuscript_id, av.version, force=force)
+    j, a, av = _ingest(data, force=force)
+    return j, a, _publish(a.manuscript_id, av.version, force=force)
 
 #
 # article json wrangling
