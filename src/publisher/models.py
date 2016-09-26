@@ -16,7 +16,7 @@ class Publisher(models.Model):
 
 class Journal(models.Model):
     publisher = models.ForeignKey(Publisher, null=True, help_text="A publisher may have many journals. A journal doesn't necessarily need a Publisher.")
-    name = models.CharField(max_length=255, help_text="Name of the journal.")
+    name = models.CharField(max_length=255, unique=True, help_text="Name of the journal.")
     inception = models.DateTimeField(null=True, blank=True, help_text="Date journal was created.")
 
     def __unicode__(self):
