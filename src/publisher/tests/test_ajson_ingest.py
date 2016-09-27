@@ -13,6 +13,9 @@ class Ingest(BaseCase):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
 
+        self.ajson_fixture2 = join(self.fixture_dir, 'ajson', 'elife.01968-invalid.json')
+        self.invalid_ajson = json.load(open(self.ajson_fixture2, 'r'))
+
     def tearDown(self):
         pass
 
@@ -147,7 +150,17 @@ class Ingest(BaseCase):
         _, _, av = ajson_ingestor.ingest(self.ajson, dry_run=True)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
         self.assertEqual(av.version, 1) # all the data that would have been saved
+
+    # json ingestion has yet to be dealt with properly
         
+    #def test_article_json_stored_if_valid(self):
+    #    "only valid article json is ever stored"
+    #    self.assertRaises(StateError, ajson_ingestor.ingest, self.invalid_ajson)
+    #    self.assertEqual(models.ArticleVersion.objects.count(), 0)
+
+    #def test_article_json_not_stored_if_invalid(self):
+    #    "invalid article json is not stored if it fails validation"
+    #    assert False
 
 
 class Publish(BaseCase):
@@ -296,30 +309,11 @@ class IngestPublish(BaseCase):
         # article version believes itself to be published
         self.assertTrue(av.published())
 
-class TestAJSONJSON(BaseCase):
-    def setUp(self):
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
 
-    def tearDown(self):
-        pass
-
-    def test_article_json_stored_if_valid(self):
-        "valid article json is stored"
-        assert False
-
-    def test_article_json_not_stored_if_invalid(self):
-        "invalid article json is not stored if it fails validation"
-        assert False
-
-    def test_invalid_article_json_prevents_publication(self):
-        "an article can only be published if it contains valid article json"
-        assert False
-
-
-class TestAJSONCLI(BaseCase):
+class CLI(BaseCase):
     def setUp(self):
         self.nom = 'ingest'
-        self.msid = "15507"
+        self.msid = "01968"
         self.version = "1"
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
 

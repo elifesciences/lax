@@ -1,0 +1,40 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "article": {
+        "id": "15507", 
+        "version": 1, 
+
+
+        "type": "INVALID ARTICLE TYPES SHALT NOT PASS", 
+
+
+        "doi": "10.7554/eLife.15507", 
+        "title": "ESCRT-III activation by parallel action of ESCRT-I/II and ESCRT-0/Bro1 during MVB biogenesis", 
+        "published": "2016-04-13T01:00:00", 
+        "volume": 5, 
+        "elocationId": "e15507", 
+        "pdf": null, 
+        "subjects": [
+            "biochemistry", 
+            "cell-biology"
+        ], 
+        "research-organisms": [
+            "S. cerevisiae"
+        ], 
+        "related-articles": [], 
+        "abstract": {
+            "doi": "10.7554/eLife.15507.001", 
+            "content": "<p>The endosomal sorting complexes required for transport (ESCRT) pathway facilitates multiple fundamental membrane remodeling events. Previously, we determined X-ray crystal structures of the ESCRT-III subunit, the yeast CHMP4 ortholog, Snf7, in its active and polymeric state (Tang et al., 2015). However, how ESCRT-III activation is coordinated by the upstream ESCRT components at endosomes remains unclear. Here, we provide a molecular explanation for the functional divergence of structurally similar ESCRT-III subunits. We characterize novel mutations in ESCRT-III Snf7 that trigger activation, and identify a novel role of the yeast ALIX ortholog, Bro1, in Snf7 assembly. We show that upstream ESCRTs regulate Snf7 activation at both its N-terminal core domain and the C-terminus \u03b16 helix through two parallel ubiquitin-dependent pathways: the ESCRT-I-ESCRT-II-Vps20 pathway and the ESCRT-0-Bro1 pathway. We therefore provide an enhanced understanding for the activation of the spatially unique ESCRT-III-mediated membrane remodeling.</p>"
+        }, 
+        "issue": null, 
+        "copyright": {
+            "licence": "This is an open-access article, free of all copyright, and may be freely reproduced, distributed, transmitted, modified, built upon, or otherwise used by anyone for any lawful purpose. The work is made available under the Creative Commons CC0 public domain dedication.", 
+            "holder": null, 
+            "statement": null
+        }
+    }
+}

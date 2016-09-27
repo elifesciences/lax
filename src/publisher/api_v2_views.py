@@ -1,23 +1,63 @@
+from . import models, logic
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from .models import POA
+
+import logging
+LOG = logging.getLogger(__name__)
+
+def ctype(status):
+    poa_ctype = 'application/vnd.elife.article-poa+json;version=1'
+    vor_ctype = 'application/vnd.elife.article-vor+json;version=1'
+    return poa_ctype if status == POA else vor_ctype
+
+#
+#
+#
 
 @api_view(['GET'])
 def article_list(request):
-    return Response([], content_type='application/vnd.elife.articles-list+json;version=1')
+    "returns a list of snippets"
+    authenticated = False
+    qs = logic.latest_article_versions(only_published=not authenticated)
+    # TODO: paginate
+    rs = map(logic.article_snippet_json, qs) # extract the article json
+    return Response(rs, content_type='application/vnd.elife.articles-list+json;version=1')
 
 @api_view(['GET'])
 def article(request, id):
-    if True:
-        return Response([], content_type='application/vnd.elife.article-poa+json;version=1')
-    return Response([], content_type='application/vnd.elife.article-vor+json;version=1')
+    "return the article-json for the most recent version of the given article ID"
+    authenticated = False
+    av = logic.most_recent_article_version(id, only_published=not authenticated)
+    return Response(logic.article_json(av), content_type=ctype(av.status))
 
 @api_view(['GET'])
 def article_version_list(request, id):
-    return Response([], content_type='application/vnd.elife.article-history+json;version=1')
+    "returns a list of versions for the given article ID"    
+    authenticated = False
+    try:
+        avl = logic.article_version_list(id, only_published=not authenticated)
+        def mk(av):
+            return {
+                'status': av.status,
+                'published': av.datetime_published,
+                'version': av.version
+            }
+        article = avl[0].article
+        resp = {
+            'received': article.date_initial_qc,
+            'accepted': article.date_accepted,
+            'versions': map(mk, avl)
+        }
+    except IndexError:
+        # no results
+        raise models.ArticleVersion.DoesNotExist()
+    return Response(resp, content_type='application/vnd.elife.article-history+json;version=1')
 
 @api_view(['GET'])
 def article_version(request, id, version):
-    if True:
-        return Response([], content_type='application/vnd.elife.article-poa+json;version=1')
-    else:
-        return Response([], content_type='application/vnd.elife.article-vor+json;version=1')
+    "returns the article-json for a specific version of the given article ID"
+    av = logic.article_version
+    av = get_object_or_404(models.ArticleVersion, article__manuscript_id=id, version=version)
+    return Response(logic.article_json(av), content_type=ctype(av.status))

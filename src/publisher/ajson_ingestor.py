@@ -12,6 +12,11 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
+def remove(keys):
+    def fn(v):
+        return utils.exsubdict(v, keys)
+    return fn
+
 #
 # make the article-json lax compatible
 # receives a list of article-json
@@ -24,13 +29,15 @@ ARTICLE = {
     'manuscript_id': [p('id'), int],
     'volume': [p('volume')],
     'type': [p('type')],
+    'doi': [p('id'), utils.msid2doi], # remove when apiv1 is turned off
 }
 ARTICLE_VERSION = {
     'title': [p('title')],
     'version': [p('version')],
     'status': [models.POA],
     'datetime_published': [p('published'), utils.todt],
-    'article_json_v1_raw': [val],
+    'article_json_v1_raw': [val], #, remove('snippet')],
+    #'article_json_v1_snippet': [p('snippet')], # urgh, how to do this?
 }
 
 def atomic(fn):

@@ -100,6 +100,8 @@ def add_update_article_attribute(article, key, val, extant_only=True):
             'doi': article.doi}#,
             #'version': article.version}
 
+
+# TODO: move this into `tests/`
 def add_or_update_article(**article_data):
     """TESTING ONLY. given article data it attempts to find the 
     article and update it, otherwise it will create it, filling
@@ -131,22 +133,79 @@ def add_or_update_article(**article_data):
 #
 #
 
-def latest_article_versions():
+def latest_article_versions(only_published=True):
+    "returns a most recent article versions of all articles"
+    
     # 'distinct on' not supported in sqlite3 :(
     #return models.ArticleVersion.objects.all().distinct('article__doi')
-
-    # works well across parent-child
-    # http://stackoverflow.com/questions/19923877/django-orm-get-latest-for-each-group
-    #Score.objects.annotate(max_date=Max('student__score__date')).filter(date=F('max_date'))
 
     q = models.ArticleVersion.objects \
       .select_related('article') \
       .annotate(max_version=Max('article__articleversion__version')) \
       .filter(version=F('max_version'))
 
+    if only_published:
+        q = q.exclude(datetime_published=None)
+
     # order by when article version was published, newest first
     q = q.order_by('-datetime_published')
     return q
+
+def article_version(msid, version, only_published=True):
+    "returns the specified article version for the given article id"
+    try:
+        qs = models.ArticleVersion.objects \
+            .select_related('article') \
+            .filter(version=version) \
+            .filter(article__manuscript_id=msid)
+        if only_published:
+            qs = qs.exclude(datetime_published=None)
+        return qs[0]
+    except IndexError:
+        # raise an AV DNE because they asked for a version specifically
+        raise models.ArticleVersion.DoesNotExist()
+
+def article_version_list(msid, only_published=True):
+    "returns a list of article versions for the given article id"
+    qs = models.ArticleVersion.objects \
+        .select_related('article') \
+        .filter(article__manuscript_id=msid) \
+        .order_by('version')
+    if only_published:
+        qs = qs.exclude(datetime_published=None)
+    if not qs.count():
+        raise models.Article.DoesNotExist()
+    return qs
+
+def most_recent_article_version(msid, only_published=True):
+    "returns the most recent article version for the given article id"
+    try:
+        query = models.ArticleVersion.objects \
+          .filter(article__manuscript_id=msid) \
+          .select_related('article') \
+          .annotate(max_ver=Max('article__articleversion__version')) \
+          .filter(version=F('max_ver'))
+        if only_published:
+            query = query.exclude(datetime_published=None)
+        return query[0]
+    except IndexError:
+        raise models.Article.DoesNotExist()
+
+#
+#
+#
+    
+def article_json(av):
+    "returns the *valid* article json for the given article version."
+    # TODO: obviously this is just a placeholder.
+    # this function is expected to:
+    # merge any snippets of models.Article json over the top of the models.ArticleVersion raw json
+    # save the result in the models.ArticleVersion actual json field (?)
+    return av.article_json_v1_raw or {"no": "json"}
+
+def article_snippet_json(av):
+    "return the *valid* article snippet json for the given article version"
+    return ""
 
 #
 #
