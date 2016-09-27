@@ -1,7 +1,7 @@
 from . import models, logic
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
+from django.shortcuts import Http404
 from .models import POA
 
 import logging
@@ -29,8 +29,11 @@ def article_list(request):
 def article(request, id):
     "return the article-json for the most recent version of the given article ID"
     authenticated = False
-    av = logic.most_recent_article_version(id, only_published=not authenticated)
-    return Response(logic.article_json(av), content_type=ctype(av.status))
+    try:
+        av = logic.most_recent_article_version(id, only_published=not authenticated)
+        return Response(logic.article_json(av), content_type=ctype(av.status))
+    except models.Article.DoesNotExist:
+        raise Http404()
 
 @api_view(['GET'])
 def article_version_list(request, id):
@@ -50,14 +53,15 @@ def article_version_list(request, id):
             'accepted': article.date_accepted,
             'versions': map(mk, avl)
         }
-    except IndexError:
-        # no results
-        raise models.ArticleVersion.DoesNotExist()
-    return Response(resp, content_type='application/vnd.elife.article-history+json;version=1')
+        return Response(resp, content_type='application/vnd.elife.article-history+json;version=1')
+    except models.Article.DoesNotExist:
+        raise Http404()
 
 @api_view(['GET'])
 def article_version(request, id, version):
     "returns the article-json for a specific version of the given article ID"
-    av = logic.article_version
-    av = get_object_or_404(models.ArticleVersion, article__manuscript_id=id, version=version)
-    return Response(logic.article_json(av), content_type=ctype(av.status))
+    try:
+        av = logic.article_version(id, version)
+        return Response(logic.article_json(av), content_type=ctype(av.status))
+    except models.ArticleVersion.DoesNotExist:
+        raise Http404()

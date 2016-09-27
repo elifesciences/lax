@@ -14,8 +14,8 @@ from pythonjsonlogger import jsonlogger
 PROJECT_NAME = 'lax'
 
 # Build paths inside the project like this: os.path.join(SRC_DIR, ...)
-SRC_DIR = os.path.dirname(os.path.dirname(__file__)) # ll: /path/to/app/src/
-PROJECT_DIR = os.path.dirname(SRC_DIR)
+SRC_DIR = os.path.dirname(os.path.dirname(__file__)) # ll: /path/to/lax/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR) # ll: /path/to/lax/
 
 CFG_NAME = 'app.cfg'
 DYNCONFIG = configparser.SafeConfigParser(**{
@@ -156,6 +156,12 @@ SWAGGER_SETTINGS = {
     'exclude_namespaces': ['proxied'], # swagger docs are broken, but this gives them the right namespace
 }
 
+#
+
+SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
+ART_HISTORY_SCHEMA = join(SCHEMA_PATH, 'model/article-history.v1.json')
+
+    
 # Lax settings
 
 # when ingesting an article version and the EIF has no 'update' value,

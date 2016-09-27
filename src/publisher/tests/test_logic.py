@@ -32,10 +32,6 @@ class TestLogic(BaseCase):
         # see `test_rss.py`
         pass
     
-    def test_most_recent_article_version(self):
-        # see `test_rss.py`
-        pass
-            
     def test_article_version_list(self):
         "all versions of an article are returned"
         expected_published_versions = 3
@@ -44,11 +40,7 @@ class TestLogic(BaseCase):
 
     def test_article_version_list_only_published(self):
         "all PUBLISHED versions of an article are returned"
-        # 'unpublish' an article
-        av3 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2, version=3)
-        av3.datetime_published = None
-        av3.save()
-
+        self.unpublish(self.msid2, version=3)
         expected_published_versions = 2
         avl = logic.article_version_list(self.msid2)
         self.assertEqual(avl.count(), expected_published_versions)
@@ -73,17 +65,25 @@ class TestLogic(BaseCase):
 
     def test_article_version_only_published(self):
         "the specific PUBLISHED article version is returned"
-        # 'unpublish' an article
-        av3 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2, version=3)
-        av3.datetime_published = None
-        av3.save()
+        self.unpublish(self.msid2, version=3)
         self.assertRaises(models.ArticleVersion.DoesNotExist, logic.article_version, self.msid2, version=3)
             
     def test_article_version_not_found(self):
         "the right exception is thrown because they asked for a version specifically"
         fake_msid, version = 123, 1
         self.assertRaises(models.ArticleVersion.DoesNotExist, logic.article_version, fake_msid, version)
-    
+
+    def test_most_recent_article_version(self):
+        "an article with three versions returns the highest version of the three"
+        av = logic.most_recent_article_version(self.msid2)
+        expected_version = 3
+        self.assertEqual(av.version, expected_version)
+
+    def test_most_recent_article_version_not_found(self):
+        "a DNE exception is raised for a missing article"
+        fake_msid = 123
+        self.assertRaises(models.Article.DoesNotExist, logic.most_recent_article_version, fake_msid)
+
     def test_article_json(self):
         pass
 
