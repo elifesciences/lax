@@ -10,7 +10,6 @@
         "version": 1, 
         "type": "insight", 
         "doi": "10.7554/eLife.01968", 
-        "authorLine": "eLife et al", 
         "title": "Probing the phenomics of noncoding RNA", 
         "published": "2013-12-31T00:00:00", 
         "volume": 2, 
@@ -23,24 +22,19 @@
         "research-organisms": [
             "Mouse"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "text": "Abstract", 
-                    "type": "paragraph"
-                }
-            ], 
-            "doi": "10.7554/eLife.09560.001"
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Mattick", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "impactStatement": ""
     }, 
     "article": {
         "status": "vor", 
         "id": "01968", 
-        "version": 1, 
         "type": "insight", 
+        "version": 1,
         "doi": "10.7554/eLife.01968", 
-        "authorLine": "eLife et al", 
         "title": "Probing the phenomics of noncoding RNA", 
         "published": "2013-12-31T00:00:00", 
         "volume": 2, 
@@ -53,14 +47,10 @@
         "research-organisms": [
             "Mouse"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "text": "Abstract", 
-                    "type": "paragraph"
-                }
-            ], 
-            "doi": "10.7554/eLife.09560.001"
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Mattick", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "keywords": [
             "long noncoding RNA", 
@@ -73,15 +63,6 @@
         "relatedArticles": [
             "01749"
         ], 
-        "digest": {
-            "content": [
-                {
-                    "text": "Digest", 
-                    "type": "paragraph"
-                }
-            ], 
-            "doi": "10.7554/eLife.09560.002"
-        }, 
         "body": [
             {
                 "type": "paragraph", 
