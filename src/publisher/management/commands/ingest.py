@@ -15,7 +15,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-INVALID = 'invalid'
+INVALID, ERROR = 'invalid', 'error'
 IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
 INGEST, PUBLISH, BOTH = IMPORT_TYPES
 INGESTED, PUBLISHED = 'ingested', 'published'
@@ -116,11 +116,13 @@ class Command(ModCommand):
         self.log_context = {
             'action': action, 'msid': msid, 'version': version, 'force?': force, 'dry_run?': dry_run
         }
-
+        
         if not action:
             self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
 
+        LOG.info('attempting to ingest article', extra=self.log_context)
+            
         # read and check the article-json given, if necessary
         try:
             if action in [INGEST, BOTH]:
@@ -129,12 +131,17 @@ class Command(ModCommand):
                 data = json.loads(raw_data)
                 # vagary of the CLI interface: article id and version are required
                 # these may not match the data given
-                data_version = data['article']['version']
+                data_version = data['article'].get('version')
                 if not data_version == version:
                     raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
                 data_msid = int(data['article']['id'].lstrip('0'))
                 if not data_msid == msid:
                     raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
+        
+        except StateError as err:
+            self.error(INVALID, err.message)
+            sys.exit(1)
+        
         except ValueError as err:
             self.error(INVALID, "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data))
             sys.exit(1)
@@ -154,8 +161,10 @@ class Command(ModCommand):
             self.error(INVALID, "failed to call action %r: %s" % (action, err.message))
             sys.exit(1)
 
-        except:
-            LOG.exception("unhandled exception attempting to %r article", action, extra=self.log_context)
-            raise
+        except Exception as err:
+            msg = "unhandled exception attempting to %r article: %s" % (action, err)
+            LOG.exception(msg, extra=self.log_context)
+            self.error(ERROR, msg)
+            sys.exit(1)
 
         sys.exit(0)
