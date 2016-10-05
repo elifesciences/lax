@@ -16,3 +16,5 @@ uwsgi.ini
 ingestion-lax.log.json
 /src/core/prod_settings.py
 aws-perms.sh
+schema/
+article-xml
