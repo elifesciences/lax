@@ -1,7 +1,7 @@
 import base
 from os.path import join
 import json
-from publisher import ajson_ingestor
+from publisher import ajson_ingestor, models
 from django.test import Client
 from django.core.urlresolvers import reverse
 #from jsonschema import validate
@@ -97,5 +97,26 @@ class V2Content(base.BaseCase):
         #schema = json.load(open(settings.ART_HISTORY_SCHEMA, 'r'))
         #validate(json_resp, schema) # can't clone my PR for some reason ...
 
+    def test_article_versions_list_does_not_exist(self):
+        models.Article.objects.all().delete()
+        self.assertEqual(models.Article.objects.count(), 0)
+        resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 404)
+
     def test_article_version(self):
-        pass
+        versions = [1,2,3]
+        for ver in versions:
+            resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': ver}))
+            self.assertEqual(resp.status_code, 200)
+
+    def test_article_version_art_does_not_exist(self):
+        "returns 404 when an article doesn't exist for the article-version endpoint"
+        models.Article.objects.all().delete()
+        self.assertEqual(models.Article.objects.count(), 0)
+        resp = self.c.get(reverse('v2:article-version', kwargs={'id': '123', 'version': 1}))
+        self.assertEqual(resp.status_code, 404)
+    
+    def test_article_version_artver_does_not_exist(self):
+        "returns 404 when a version of the article doesn't exist for the article-version endpoint"
+        resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 9}))
+        self.assertEqual(resp.status_code, 404)
