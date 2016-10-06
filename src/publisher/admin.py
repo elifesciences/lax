@@ -21,14 +21,10 @@ class ArticleAdmin(admin.ModelAdmin):
         ArticleVersionAdmin,
     ]
 
-class ArticleAttributeAdmin(admin.ModelAdmin):
-    pass
-
 admin_list = [
     (models.Publisher,),
     (models.Journal, ),
     (models.Article, ArticleAdmin),
-    (models.ArticleAttribute, ArticleAttributeAdmin),
 ]
 
 [admin.site.register(*t) for t in admin_list]

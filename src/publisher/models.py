@@ -1,4 +1,3 @@
-import re
 from django.db import models
 from django.contrib.postgres import fields as psql
 from utils import second, firstnn, msid2doi
@@ -47,17 +46,8 @@ def decision_codes():
     ]
 
 class Article(models.Model):
-    """The Article object represents what we know about an article right now.
-    For things we don't know about an article but that are being sent to us,
-    those go in to the ArticleAttribute key=val store. From there we can transition
-    them into this table.
-
-    THE ONLY REQUIRED FIELDS IN THIS MODEL ARE THE 'doi' and 'journal' FIELDS."""
-    
     journal = models.ForeignKey(Journal)
-
     manuscript_id = models.PositiveIntegerField(unique=True, help_text="article identifier from beginning of submission process right through to end of publication.")
-
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
@@ -204,62 +194,3 @@ class ArticleVersion(models.Model):
     
     def __repr__(self):
         return u'<ArticleVersion %s>' % self
-
-#
-# as of 2016.04.06, ArticleAttributes are not being used.
-# they were introduced for not-great reasons.
-# I would suggest tearing them out.
-#
-    
-    
-def attr_type_choices():
-    return [
-        ('char', 'String'), # first element is the default
-
-        ('int', 'Integer'),
-        ('float', 'Float'),
-        ('date', 'Date'),
-
-        # this also allows us to put in custom types ...
-        #('td', 'TimeDelta'),
-        #('ref', 'ACME Identifing Service'),
-    ]
-
-DEFAULT_ATTR_TYPE = attr_type_choices()[0][0]
-SUPERSLUG = re.compile('[\d\-]+')
-
-class AttributeType(models.Model):
-    name = models.SlugField(max_length=50)
-    type = models.CharField(max_length=10, choices=attr_type_choices(), default=DEFAULT_ATTR_TYPE)
-    description = models.TextField(blank=True, null=True)
-
-    def save(self):
-        self.name = re.sub(SUPERSLUG, '', self.name).lower()
-        super(AttributeType, self).save()
-
-    def __unicode__(self):
-        return self.name
-
-    def __repr__(self):
-        return u'<AttributeType %s (%s)>' % (self.name, self.type)
-
-class ArticleAttribute(models.Model):
-    article = models.ForeignKey(Article)
-    key = models.ForeignKey(AttributeType)
-    value = models.CharField(max_length=255)
-    
-    datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this attribute was created")
-    datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this attribute was updated")
-
-    class Meta:
-        # there can be many 'Foo' attributes but only one combination of Article+'Foo'
-        # for example there can only be one SomeArticleV1.SubmissionDate.
-        # SomeArticleV1 cannot have multiple SubmissionDate.
-        # This cardinality might be tied to AttributeType if necessary
-        unique_together = ('article', 'key')
-
-    def __unicode__(self):
-        return '%s=%s' % (self.key.name, self.value)
-
-    def __repr__(self):
-        return u'<ArticleAttribute %s>' % self.__unicode__()

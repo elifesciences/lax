@@ -67,39 +67,8 @@ def get_article_versions(rest_request, doi):
     article_list = {obj.version: ArticleVersionSerializer(obj).data for obj in article_list}
     return Response(article_list)
 
-
-class ArticleAttributeValueSerializer(szr.Serializer):
-    attribute = szr.CharField(max_length=50)
-    attribute_value = szr.CharField(max_length=255)
-    version = szr.IntegerField(required=False)
-
-@api_view(['POST'])
-def add_update_article_attribute(rest_request, doi, extant_only=True):
-    """Update article attributes with new values.
-    ---
-    request_serializer: ArticleAttributeValueSerializer
-    """
-    keyval = rest_request.data
-    key, val, version = keyval['attribute'], keyval['attribute_value'], keyval.get('version')
-    article, version = article_or_404(doi, version)
-    attribute = logic.add_update_article_attribute(article, key, val, extant_only)
-    return Response(attribute)
-
-@api_view(['GET'])
-def get_article_attribute(rest_request, doi, attribute, extant_only=True):
-    """Returns the requested article's attribute value as
-    both `attribute:value` and `attribute: attribute, attribute_value: value`."""
-    article, version = article_or_404(doi)
-    val = logic.get_attribute(article, attribute)
-    data = {
-        'doi': article.doi,
-        'attribute': attribute,
-        'attribute_value': val,
-        attribute: val}
-    return Response(data)
-
 #
-# API, importing
+# importing
 #
 
 @api_view(['POST'])
