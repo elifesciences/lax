@@ -12,10 +12,12 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
+'''
 def remove(keys):
     def fn(v):
         return utils.exsubdict(v, keys)
     return fn
+'''
 
 #
 # make the article-json lax compatible
