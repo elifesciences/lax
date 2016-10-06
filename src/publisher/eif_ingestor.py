@@ -21,7 +21,7 @@ def import_article_version(article, article_data, create=True, update=False):
         version = int(kwargs['version'])
         version_date = kwargs.get('update')
         datetime_published = kwargs['pub-date']
-        
+
         context = {'article': doi, 'version': version}
         LOG.info("importing ArticleVersion", extra=context)
 
@@ -31,7 +31,8 @@ def import_article_version(article, article_data, create=True, update=False):
 
             d1, d2 = striptz(version_date), striptz(datetime_published)
             if d1 != d2:
-                c = {}; c.update(context);
+                c = {}
+                c.update(context)
                 c.update({'pub-date': datetime_published, 'update': version_date})
                 LOG.warn("double inconsistency: not only do we have an 'update' date for a v1, it doesn't match the date published", extra=c)
 
@@ -53,15 +54,15 @@ def import_article_version(article, article_data, create=True, update=False):
 
         # post process data
         kwargs.update({
-            'article':  article,
+            'article': article,
             'version': version,
             'datetime_published': todt(version_date),
             'status': kwargs['status'].lower(),
         })
         delall(kwargs, ['pub-date', 'update'])
     except KeyError:
-        LOG.error("expected keys invalid/not present", \
-                      extra={'expected_keys': expected_keys})
+        LOG.error("expected keys invalid/not present",
+                  extra={'expected_keys': expected_keys})
         raise
 
     try:
@@ -76,7 +77,7 @@ def import_article_version(article, article_data, create=True, update=False):
         avobj.save()
         LOG.info("updated existing ArticleVersion", extra=context)
         return avobj
-    
+
     except models.ArticleVersion.DoesNotExist:
         if not create:
             msg = "ArticleVersion with version does not exist and create == False"
@@ -99,10 +100,10 @@ def import_article(journal, article_data, create=True, update=False):
         kwargs = subdict(article_data, expected_keys)
 
         # JATS XML doesn't contain the manuscript ID. derive it from doi
-        if not kwargs.has_key('manuscript_id') and kwargs.has_key('doi'):
+        if 'manuscript_id' not in kwargs and 'doi' in kwargs:
             kwargs['manuscript_id'] = doi2msid(kwargs['doi'])
 
-        elif not kwargs.has_key('doi') and kwargs.has_key('manuscript_id'):
+        elif 'doi' not in kwargs and 'manuscript_id' in kwargs:
             kwargs['doi'] = msid2doi(kwargs['manuscript_id'])
 
         context = {'article': kwargs['doi']}
@@ -111,14 +112,14 @@ def import_article(journal, article_data, create=True, update=False):
 
         # post process data
         kwargs.update({
-            'journal':  journal,
+            'journal': journal,
             'volume': int(kwargs['volume']),
             'type': kwargs['article-type'],
         })
         delall(kwargs, ['path', 'article-type'])
     except KeyError:
         raise ValueError("expected keys invalid/not present: %s" % ", ".join(expected_keys))
-    
+
     # attempt to insert
     article_key = subdict(kwargs, ['doi', 'version'])
     try:
@@ -152,7 +153,7 @@ def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
 def patch(data, update=True):
     "given partial article/articleversion data, updates that article"
     data = copy.deepcopy(data)
-    
+
     doi, version_patches = map(data.pop, ['doi', 'versions'])
     context = {'article': doi, 'patch_data': data, 'version_patch_data': version_patches}
     try:

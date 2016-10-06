@@ -16,7 +16,7 @@ def conn():
 
 @receiver(post_save, sender=models.ArticleVersion)
 @receiver(pre_delete, sender=models.ArticleVersion)
-def notify_event_bus(sender, instance, **rest):    
+def notify_event_bus(sender, instance, **rest):
     msg = {"type": "article", "id": instance.article.manuscript_id}
     msg_json = json.dumps(msg)
     if settings.DEBUG:

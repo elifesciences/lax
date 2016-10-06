@@ -46,11 +46,11 @@ class AbstractArticleFeed(Feed):
 
     def item_updateddate(self, item):
         return item.datetime_published
-    
+
     def copyright(self):
         return 'eLife Sciences Publications Ltd'
 
-    #def licence(self):
+    # def licence(self):
     #    # http://www.rssboard.org/creative-commons
     #    return 'Creative Commons Attribution 4.0'
 
@@ -59,7 +59,7 @@ class SpecificArticleFeed(AbstractArticleFeed):
 
     def get_object(self, request, aid_list):
         aid_list = aid_list.split(',')
-        doi_list = map(lambda aid: '10.7554/'+aid, aid_list)
+        doi_list = map(lambda aid: '10.7554/' + aid, aid_list)
         return {'aid_list': aid_list,
                 'doi_list': doi_list}
 
@@ -68,9 +68,9 @@ class SpecificArticleFeed(AbstractArticleFeed):
 
     def items(self, obj):
         return models.ArticleVersion.objects \
-          .select_related('article') \
-          .filter(article__doi__in=obj['doi_list']) \
-          .order_by('-datetime_published', 'version')
+            .select_related('article') \
+            .filter(article__doi__in=obj['doi_list']) \
+            .order_by('-datetime_published', 'version')
 
     def item_title(self, item):
         return u'%s (version %s)' % (item.title, item.version)
@@ -95,14 +95,14 @@ class RecentArticleFeed(AbstractArticleFeed):
 
     def items(self, obj):
         kwargs = {
-            'datetime_published__gte': obj['since'], #.strftime('%Y-%m-%d'),
+            'datetime_published__gte': obj['since'],  # .strftime('%Y-%m-%d'),
             'status__in': obj['article_status']
         }
         return logic.latest_article_versions().filter(**kwargs)
 
 class AbstractReportFeed(AbstractArticleFeed):
     #feed_type = RSSArticleFeedGenerator
-    
+
     def title(self, obj):
         return obj['title']
 
@@ -120,7 +120,7 @@ class AbstractReportFeed(AbstractArticleFeed):
 
     def item_title(self, item):
         return item['title']
-    
+
     def item_link(self, item):
         return item['link']
 
@@ -132,7 +132,7 @@ class AbstractReportFeed(AbstractArticleFeed):
 
     def item_author_email(self, item):
         return item['author']['email']
-    
+
     def item_pubdate(self, item):
         return item['pub-date']
 
@@ -144,8 +144,8 @@ class AbstractReportFeed(AbstractArticleFeed):
 
     def item_categories(self, item):
         return item['category-list']
-    
-    
+
+
 #
 # rss handling views
 #

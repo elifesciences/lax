@@ -31,7 +31,7 @@ def corpus_info(rest_request):
 #
 
 class ArticleSerializer(szr.ModelSerializer):
-    
+
     class Meta:
         exclude = ('id', 'journal')
         model = models.Article
@@ -44,7 +44,7 @@ class ArticleVersionSerializer(szr.ModelSerializer):
         res.update(res['article'])
         del res['article']
         return res
-    
+
     class Meta:
         model = models.ArticleVersion
         exclude = ('id',)
@@ -59,7 +59,7 @@ def get_article(rest_request, doi, version=None):
 def get_article_versions(rest_request, doi):
     """
     Returns all versions of the requested article, grouped by version number.
-    
+
     """
     article_list = logic.article_versions(doi)
     if not article_list:
@@ -76,7 +76,7 @@ def import_article(rest_request, create=True, update=True):
     """
     Imports (creates or updates) an article in eLife's EIF format:
     https://github.com/elifesciences/elife-eif-schema
-    
+
     Returns the doi of the inserted/updated article
     """
     try:
@@ -88,7 +88,7 @@ def import_article(rest_request, create=True, update=True):
         return Response({"message": "failed to create/update article"}, status=400)
     except models.Article.DoesNotExist:
         return Response({"message": "failed to find article to update it"}, status=404)
-    
+
     except Exception:
         LOG.exception("unhandled exception attempting to import EIF json")
         return Response(None, status=500)
@@ -100,4 +100,3 @@ def create_article(rest_request):
 @api_view(['POST'])
 def update_article(rest_request):
     return import_article(rest_request, create=False, update=True)
-

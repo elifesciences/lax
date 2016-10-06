@@ -25,14 +25,15 @@ def article_poa_vor_pubdates():
     def ymd_dt(av):
         if av and hasattr(av, 'datetime_published'):
             return ymd(av.datetime_published)
+
     def row(art):
         poa = art.earliest_poa()
         vor = art.earliest_vor()
         return (utils.doi2msid(art.doi), ymd_dt(poa), ymd_dt(vor))
     query = models.Article.objects.all() \
-      .exclude(type__in=['article-commentary', 'editorial', 'book-review', 'discussion', 'correction']) \
-      .exclude(volume=None) \
-      .order_by('doi')
+        .exclude(type__in=['article-commentary', 'editorial', 'book-review', 'discussion', 'correction']) \
+        .exclude(volume=None) \
+        .order_by('doi')
     return imap(row, query)
 
 
@@ -60,10 +61,10 @@ def mkrow(av):
 def paw_recent_report_raw_data(limit=None):
     "returns the SQL query used to generate the data for the 'recent' report"
     query = models.ArticleVersion.objects \
-      .select_related('article') \
-      .annotate(min_vor=Min('article__articleversion__version')) \
-      .filter(status='vor') \
-      .order_by('-datetime_published')
+        .select_related('article') \
+        .annotate(min_vor=Min('article__articleversion__version')) \
+        .filter(status='vor') \
+        .order_by('-datetime_published')
 
     if limit:
         assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
@@ -82,11 +83,11 @@ def paw_recent_data(limit=None):
 def paw_ahead_report_raw_data(limit=None):
     # only select max version ArticleVersions where the Article has no POA versions
     query = models.ArticleVersion.objects \
-      .select_related('article') \
-      .annotate(max_version=Max('article__articleversion__version')) \
-      .filter(version=F('max_version')) \
-      .exclude(status='vor') \
-      .order_by('-datetime_published')
+        .select_related('article') \
+        .annotate(max_version=Max('article__articleversion__version')) \
+        .filter(version=F('max_version')) \
+        .exclude(status='vor') \
+        .order_by('-datetime_published')
 
     if limit:
         assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
@@ -105,7 +106,7 @@ def totals_for_year(year=2015):
         'version': 1,
         'datetime_published__year': year}
     rs = models.ArticleVersion.objects.filter(**kwargs)
-    
+
     total = rs.count()
     total_poa = rs.filter(status='poa').count()
     total_vor = rs.filter(status='vor').count()
@@ -117,17 +118,18 @@ def totals_for_year(year=2015):
     #by_ejp_type_count = rs.values('article__type').annotate(Count('article__type'))
 
     def xcount(key):
-        # ll: rs.values('article__type').annotate(Count('article__type'))    
+        # ll: rs.values('article__type').annotate(Count('article__type'))
         vals = rs.values(key).annotate(Count(key))
+
         def counts(row):
             count = row[key + '__count'] # 36
             article_type = row[key] # 'correction'
             return (article_type, count) # ll: (correction, 36)
         return map(counts, vals)
-    
+
     jats_type_counts = xcount('article__type')
     ejp_type_counts = xcount('article__ejp_type')
-    
+
     return {
         'description': 'totals for *articles* published',
         'params': {
@@ -153,7 +155,7 @@ def version_totals_for_year(year=2015):
     total = rs.count()
     total_poa = rs.filter(status='poa').count()
     total_vor = rs.filter(status='vor').count()
-    
+
     return {
         'title': 'article versions report',
         'description': 'totals for article *versions* published',
@@ -174,14 +176,15 @@ def time_to_publication(year=2015):
     kwargs = {
         'articleversion__version': 1, # article is published
         # WARN: this should probably be date_accepted, but that isn't easily accessed yet
-        'articleversion__datetime_published__year': year, # article was published in year. 
+        'articleversion__datetime_published__year': year, # article was published in year.
     }
     headers = ['doi', 'jats type', 'ejp type', 'date accepted', 'date poa published', 'date vor published', 'days to poa', 'days to vor', 'days to vor from poa']
+
     def row(art):
         accepted = art.date_accepted
         poa = getattr(art.earliest_poa(), 'datetime_published', None)
         vor = getattr(art.earliest_vor(), 'datetime_published', None)
-        
+
         days_to_poa = None
         if poa and accepted:
             days_to_poa = (poa.date() - accepted).days
@@ -193,7 +196,7 @@ def time_to_publication(year=2015):
         days_to_vor_from_poa = None
         if poa and vor:
             days_to_vor_from_poa = (vor - poa).days
-            
+
         return [
             art.doi,
             art.type,

@@ -1,4 +1,4 @@
-"""generalised settings for the Lax project. 
+"""generalised settings for the Lax project.
 
 per-instance settings are in /path/to/app/app.cfg
 example settings can be found in /path/to/lax/elife.cfg
@@ -161,7 +161,7 @@ SWAGGER_SETTINGS = {
 SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 ART_HISTORY_SCHEMA = join(SCHEMA_PATH, 'model/article-history.v1.json')
 
-    
+
 # Lax settings
 
 # when ingesting an article version and the EIF has no 'update' value,
@@ -186,7 +186,7 @@ def writable(path):
 map(writable, [LOG_FILE, INGESTION_LOG_FILE])
 
 ATTRS = ['asctime', 'created', 'levelname', 'message', 'filename', 'funcName', 'lineno', 'module', 'pathname']
-FORMAT_STR = ' '.join(map(lambda v: '%('+v+')s', ATTRS))
+FORMAT_STR = ' '.join(map(lambda v: '%(' + v + ')s', ATTRS))
 
 LOGGING = {
     'version': 1,
@@ -201,7 +201,7 @@ LOGGING = {
             'format': '%(levelname)s - %(message)s'
         },
     },
-    
+
     'handlers': {
         'file': {
             'level': 'DEBUG',
@@ -221,7 +221,7 @@ LOGGING = {
             'formatter': 'brief',
         },
     },
-    
+
     'loggers': {
         '': {
             'handlers': ['debug-console', 'file'],

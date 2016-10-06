@@ -11,7 +11,7 @@ def journal(name=None):
     journal = {'name': name}
     if not name:
         journal = settings.PRIMARY_JOURNAL
-    if journal.has_key('inception') and timezone.is_naive(journal['inception']):
+    if 'inception' in journal and timezone.is_naive(journal['inception']):
         journal['inception'] = timezone.make_aware(journal['inception'])
     obj, new = models.Journal.objects.get_or_create(**journal)
     if new:
@@ -37,17 +37,17 @@ def article_versions(doi):
 
 # TODO: move this into `tests/`
 def add_or_update_article(**article_data):
-    """TESTING ONLY. given article data it attempts to find the 
+    """TESTING ONLY. given article data it attempts to find the
     article and update it, otherwise it will create it, filling
     any missing keys with dummy data. returns the created article."""
-    assert article_data.has_key('doi') or article_data.has_key('manuscript_id'), \
-      "a value for 'doi' or 'manuscript_id' *must* exist"
+    assert 'doi' in article_data or 'manuscript_id' in article_data, \
+        "a value for 'doi' or 'manuscript_id' *must* exist"
 
-    if article_data.has_key('manuscript_id'):
+    if 'manuscript_id' in article_data:
         article_data['doi'] = utils.msid2doi(article_data['manuscript_id'])
-    elif article_data.has_key('doi'):
+    elif 'doi' in article_data:
         article_data['manuscript_id'] = utils.doi2msid(article_data['doi'])
-    
+
     filler = [
         'title',
         'doi',
@@ -69,14 +69,14 @@ def add_or_update_article(**article_data):
 
 def latest_article_versions(only_published=True):
     "returns a most recent article versions of all articles"
-    
+
     # 'distinct on' not supported in sqlite3 :(
-    #return models.ArticleVersion.objects.all().distinct('article__doi')
+    # return models.ArticleVersion.objects.all().distinct('article__doi')
 
     q = models.ArticleVersion.objects \
-      .select_related('article') \
-      .annotate(max_version=Max('article__articleversion__version')) \
-      .filter(version=F('max_version'))
+        .select_related('article') \
+        .annotate(max_version=Max('article__articleversion__version')) \
+        .filter(version=F('max_version'))
 
     if only_published:
         q = q.exclude(datetime_published=None)
@@ -115,10 +115,10 @@ def most_recent_article_version(msid, only_published=True):
     "returns the most recent article version for the given article id"
     try:
         query = models.ArticleVersion.objects \
-          .filter(article__manuscript_id=msid) \
-          .select_related('article') \
-          .annotate(max_ver=Max('article__articleversion__version')) \
-          .filter(version=F('max_ver'))
+            .filter(article__manuscript_id=msid) \
+            .select_related('article') \
+            .annotate(max_ver=Max('article__articleversion__version')) \
+            .filter(version=F('max_ver'))
         if only_published:
             query = query.exclude(datetime_published=None)
         return query[0]
@@ -128,7 +128,7 @@ def most_recent_article_version(msid, only_published=True):
 #
 #
 #
-    
+
 def article_json(av):
     "returns the *valid* article json for the given article version."
     # TODO: obviously this is just a placeholder.

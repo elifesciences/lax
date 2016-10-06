@@ -37,10 +37,11 @@ def article(request, id):
 
 @api_view(['GET'])
 def article_version_list(request, id):
-    "returns a list of versions for the given article ID"    
+    "returns a list of versions for the given article ID"
     authenticated = False
     try:
         avl = logic.article_version_list(id, only_published=not authenticated)
+
         def mk(av):
             return {
                 'status': av.status,

@@ -38,7 +38,7 @@ ARTICLE_VERSION = {
     'version': [p('version')],
     'status': [models.POA],
     'datetime_published': [p('published'), utils.todt],
-    'article_json_v1_raw': [val], #, remove('snippet')],
+    'article_json_v1_raw': [val],  # , remove('snippet')],
     #'article_json_v1_snippet': [p('snippet')], # urgh, how to do this?
 }
 
@@ -61,7 +61,7 @@ def atomic(fn):
             # this was some other IntegrityError
             raise
     return wrapper
-    
+
 #
 #
 #
@@ -86,7 +86,7 @@ def create_or_update(Model, orig_data, key_list, create=True, update=True, commi
 
     if (updated or created) and commit:
         inst.save()
-    
+
     # it is possible to neither create nor update.
     # in this case if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)
@@ -97,21 +97,21 @@ def _ingest(data, force=False):
     published article-version data can be ingested only if force=True"""
 
     data = copy.deepcopy(data) # we don't want to modify the given data
-    
+
     create = update = True
     log_context = {}
 
     try:
         journal_struct = render.render_item(JOURNAL, data['journal'])
         journal, created, updated = \
-          create_or_update(models.Journal, journal_struct, ['name'], create, update)
-        
+            create_or_update(models.Journal, journal_struct, ['name'], create, update)
+
         assert isinstance(journal, models.Journal)
         log_context['journal'] = journal
 
         article_struct = render.render_item(ARTICLE, data['article'])
         article, created, updated = \
-          create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
+            create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
 
         assert isinstance(article, models.Article)
         log_context['article'] = article
@@ -124,14 +124,14 @@ def _ingest(data, force=False):
         av_ingest_description = exsubdict(ARTICLE_VERSION, ['datetime_published'])
         av_struct = render.render_item(av_ingest_description, data['article'])
         av, created, update = \
-          create_or_update(models.ArticleVersion, av_struct, ['article', 'version'], \
-          create, update, commit=False, article=article)
+            create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
+                             create, update, commit=False, article=article)
 
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
 
         # enforce business rules
-        
+
         if created:
             if previous_article_versions:
                 last_version = previous_article_versions[-1]
@@ -142,13 +142,13 @@ def _ingest(data, force=False):
                     msg = "refusing to ingest new article version when previous article version is still unpublished."
                     LOG.error(msg, extra=log_context)
                     raise StateError(msg)
-                
+
                 if not last_version.version + 1 == av.version:
                     # uhoh. we're attempting to create an article version out of sequence
                     msg = "refusing to ingest new article version out of sequence."
                     log_context.update({
                         'given-version': av.version,
-                        'expected-version': last_version.version +1})
+                        'expected-version': last_version.version + 1})
                     LOG.error(msg, extra=log_context)
                     raise StateError(msg)
 
@@ -181,7 +181,7 @@ def _ingest(data, force=False):
 
     except StateError:
         raise
-    
+
     except Exception:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
         raise
@@ -189,7 +189,7 @@ def _ingest(data, force=False):
 @atomic
 def ingest(*args, **kwargs):
     return _ingest(*args, **kwargs)
-    
+
 
 #
 # PUBLISH requests
@@ -218,7 +218,7 @@ def _publish(msid, version, datetime_published=None, force=False):
 @atomic
 def publish(*args, **kwargs):
     return _publish(*args, **kwargs)
-    
+
 #
 # INGEST+PUBLISH requests
 #

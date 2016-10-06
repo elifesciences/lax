@@ -15,6 +15,7 @@ from django.http import StreamingHttpResponse
 
 class Echo(object):
     "An object that implements just the write method of the file-like interface."
+
     def write(self, value):
         """Write the value by returning it, instead of storing in a buffer."""
         return value
@@ -22,7 +23,7 @@ class Echo(object):
 def streaming_csv_response(filename, rows):
     pseudo_buffer = Echo()
     writer = csv.writer(pseudo_buffer)
-    response = StreamingHttpResponse((writer.writerow(row) for row in rows), \
+    response = StreamingHttpResponse((writer.writerow(row) for row in rows),
                                      content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="%s.csv"' % filename
     return response

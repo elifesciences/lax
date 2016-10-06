@@ -3,7 +3,7 @@ import api_v1_views as views
 
 urlpatterns = [
     url(r'corpus/info/$', views.corpus_info, name='api-corpus-info'),
-    
+
     url(r'article/create/$', views.create_article, name='api-create-article'),
     url(r'article/update/$', views.update_article, name='api-update-article'),
     url(r'article/create-update/$', views.import_article, name='api-create-update-article'),

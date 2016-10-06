@@ -68,24 +68,24 @@ class Article(models.Model):
 
     date_full_qc = models.DateField(blank=True, null=True)
     date_full_decision = models.DateField(blank=True, null=True)
-    decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes()) 
+    decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
 
-    date_rev1_qc = models.DateField(blank=True, null=True) 
-    date_rev1_decision = models.DateField(blank=True, null=True) 
-    rev1_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes()) 
+    date_rev1_qc = models.DateField(blank=True, null=True)
+    date_rev1_decision = models.DateField(blank=True, null=True)
+    rev1_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
 
-    date_rev2_qc = models.DateField(blank=True, null=True) 
-    date_rev2_decision = models.DateField(blank=True, null=True) 
-    rev2_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes()) 
+    date_rev2_qc = models.DateField(blank=True, null=True)
+    date_rev2_decision = models.DateField(blank=True, null=True)
+    rev2_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
 
-    date_rev3_qc = models.DateField(blank=True, null=True) 
-    date_rev3_decision = models.DateField(blank=True, null=True) 
-    rev3_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes()) 
+    date_rev3_qc = models.DateField(blank=True, null=True)
+    date_rev3_decision = models.DateField(blank=True, null=True)
+    rev3_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
 
-    date_rev4_qc = models.DateField(blank=True, null=True) 
+    date_rev4_qc = models.DateField(blank=True, null=True)
     date_rev4_decision = models.DateField(blank=True, null=True)
-    rev4_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes()) 
-    
+    rev4_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
+
     volume = models.PositiveSmallIntegerField(blank=True, null=True)
 
     # there is a real mess here with these article types
@@ -94,8 +94,8 @@ class Article(models.Model):
     # "NLM article type" then "sub display channel (published)"
     # https://docs.google.com/spreadsheets/d/1FpqQovdxt_VnR70SVVk7k3tjZnQnTAeURnc1PEtkz0k/edit#gid=0
     type = models.CharField(max_length=50, blank=True, null=True, help_text="xml article-type.") # research, editorial, etc
-    ejp_type = models.CharField(max_length=3, choices=ejp_type_choices(), blank=True, null=True, \
-                                    help_text="article as exported from EJP submission system") # RA, SR, etc
+    ejp_type = models.CharField(max_length=3, choices=ejp_type_choices(), blank=True, null=True,
+                                help_text="article as exported from EJP submission system") # RA, SR, etc
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
@@ -104,13 +104,13 @@ class Article(models.Model):
     def date_accepted(self):
         # TODO: this sucks. normalize these into 'event' data or something
         x = [(self.initial_decision, self.date_initial_decision),
-            (self.decision, self.date_full_decision),
-            (self.rev1_decision, self.date_rev1_decision),
-            (self.rev2_decision, self.date_rev2_decision),
-            (self.rev3_decision, self.date_rev3_decision),
-            (self.rev4_decision, self.date_rev4_decision)]
+             (self.decision, self.date_full_decision),
+             (self.rev1_decision, self.date_rev1_decision),
+             (self.rev2_decision, self.date_rev2_decision),
+             (self.rev3_decision, self.date_rev3_decision),
+             (self.rev4_decision, self.date_rev4_decision)]
         return second(firstnn(filter(lambda p: p[0] == AF, x)))
-    
+
     def earliest_poa(self):
         try:
             return self.articleversion_set.filter(status=POA).earliest('version')
@@ -129,8 +129,8 @@ class Article(models.Model):
 
     @property
     def earliest_version(self):
-        return self.articleversion_set.earliest('version')        
-    
+        return self.articleversion_set.earliest('version')
+
     @property
     def datetime_published(self):
         return self.earliest_version.datetime_published
@@ -151,7 +151,7 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return self.dxdoi_url()
-    
+
     def __unicode__(self):
         return self.doi
 
@@ -159,7 +159,7 @@ class Article(models.Model):
         return u'<Article %s>' % self.doi
 
 class ArticleVersion(models.Model):
-    article = models.ForeignKey(Article) #, related_name='articleversion_set')
+    article = models.ForeignKey(Article)  # , related_name='articleversion_set')
 
     title = models.CharField(max_length=255, null=True, blank=True, help_text='The title of the article')
 
@@ -172,10 +172,10 @@ class ArticleVersion(models.Model):
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
 
     article_json_v1_raw = psql.JSONField(null=True, blank=True, help_text="raw input article json we receive from different places")
-    
+
     article_json_v1 = psql.JSONField(null=True, blank=True, help_text="Valid article-json.")
     article_json_v1_snippet = psql.JSONField(null=True, blank=True, help_text="Valid article-json snippet.")
-    
+
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
@@ -184,13 +184,13 @@ class ArticleVersion(models.Model):
 
     def published(self):
         "returns True if this version of the article has a publication date"
-        return self.datetime_published != None
+        return self.datetime_published is not None
 
     def get_absolute_url(self):
         return self.article.dxdoi_url()
 
     def __unicode__(self):
         return '%s v%s' % (self.article.manuscript_id, self.version)
-    
+
     def __repr__(self):
         return u'<ArticleVersion %s>' % self
