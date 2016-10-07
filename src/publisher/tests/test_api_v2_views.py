@@ -13,7 +13,7 @@ class V2ContentTypes(base.BaseCase):
         self.msid = 16695
         self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.json') # poa
         self.ajson_fixture_v2 = join(self.fixture_dir, 'ajson', 'elife-16695-v2.json') # vor
-        
+
     def test_response_types(self):
         # ingest the poa and vor versions
         for path in [self.ajson_fixture_v1, self.ajson_fixture_v2]:
@@ -24,7 +24,7 @@ class V2ContentTypes(base.BaseCase):
         art_poa_type = 'application/vnd.elife.article-poa+json;version=1'
         art_vor_type = 'application/vnd.elife.article-poa+json;version=1'
         art_history_type = 'application/vnd.elife.article-history+json;version=1'
-        
+
         case_list = {
             reverse('v2:article-list'): art_list_type,
             reverse('v2:article', kwargs={'id': self.msid}): art_vor_type,
@@ -36,10 +36,10 @@ class V2ContentTypes(base.BaseCase):
         # test
         for url, expected_type in case_list.items():
             resp = self.c.get(url)
-            self.assertEqual(resp.status_code, 200, \
-                "url %r failed to complete: %s" % (url, resp.status_code))
-            self.assertEqual(resp.content_type, expected_type, \
-                "%r failed to return %r: %s" % (url, expected_type, resp.content_type))
+            self.assertEqual(resp.status_code, 200,
+                             "url %r failed to complete: %s" % (url, resp.status_code))
+            self.assertEqual(resp.content_type, expected_type,
+                             "%r failed to return %r: %s" % (url, expected_type, resp.content_type))
 
 class V2Content(base.BaseCase):
     def setUp(self):
@@ -53,7 +53,7 @@ class V2Content(base.BaseCase):
         for ingestable in ingest_these:
             path = join(ajson_dir, ingestable)
             ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
-        
+
         self.msid1 = 1968
         self.msid2 = 16695
 
@@ -82,8 +82,8 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
         # TODO: assert content is valid
         #json_resp = json.loads(resp.content)
-        #json_resp['version'] == 2        
-        
+        #json_resp['version'] == 2
+
     def test_article_does_not_exist(self):
         fake_msid = 123
         resp = self.c.get(reverse('v2:article', kwargs={'id': fake_msid}))
@@ -95,7 +95,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
         #json_resp = json.loads(resp.content)
         #schema = json.load(open(settings.ART_HISTORY_SCHEMA, 'r'))
-        #validate(json_resp, schema) # can't clone my PR for some reason ...
+        # validate(json_resp, schema) # can't clone my PR for some reason ...
 
     def test_article_versions_list_does_not_exist(self):
         models.Article.objects.all().delete()
@@ -104,7 +104,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 404)
 
     def test_article_version(self):
-        versions = [1,2,3]
+        versions = [1, 2, 3]
         for ver in versions:
             resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': ver}))
             self.assertEqual(resp.status_code, 200)
@@ -115,7 +115,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         resp = self.c.get(reverse('v2:article-version', kwargs={'id': '123', 'version': 1}))
         self.assertEqual(resp.status_code, 404)
-    
+
     def test_article_version_artver_does_not_exist(self):
         "returns 404 when a version of the article doesn't exist for the article-version endpoint"
         resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 9}))

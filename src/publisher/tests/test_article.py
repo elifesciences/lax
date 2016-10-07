@@ -12,7 +12,7 @@ class ArticleLogic(BaseCase):
     def setUp(self):
         self.journal = logic.journal()
         self.article_data = {
-            'title':  "Molecular architecture of human polycomb repressive complex 2",
+            'title': "Molecular architecture of human polycomb repressive complex 2",
             'version': 1,
             'doi': "10.7554/eLife.00005",
             'journal': self.journal,
@@ -35,7 +35,7 @@ class ArticleLogic(BaseCase):
              'version': 1,
              'doi': doi,
              'journal': self.journal},
-             
+
             {'title': 'bar',
              'version': 2,
              'doi': doi,
@@ -49,7 +49,7 @@ class ArticleLogic(BaseCase):
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(3, models.ArticleVersion.objects.count())
-        
+
         art, ver = logic.article(doi)
         self.assertEqual(ver.version, 3)
         self.assertEqual(ver.title, 'baz')
@@ -59,7 +59,7 @@ class ArticleInfoViaApi(BaseCase):
         self.c = Client()
         self.journal = logic.journal()
         self.article_data = {
-            'title':  "Molecular architecture of human polycomb repressive complex 2",
+            'title': "Molecular architecture of human polycomb repressive complex 2",
             'version': 1,
             'status': 'poa',
             'doi': "10.7554/eLife.00005",
@@ -105,10 +105,10 @@ class ArticleInfoViaApi(BaseCase):
              'version': 1,
              'doi': doi,
              'journal': self.journal},
-             
+
             {'title': 'bar',
              'version': 2,
-             'doi': doi, 
+             'doi': doi,
              'journal': self.journal},
 
             {'title': 'baz',
@@ -117,10 +117,10 @@ class ArticleInfoViaApi(BaseCase):
              'journal': self.journal},
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        
+
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(3, models.ArticleVersion.objects.count())
-        
+
         resp = self.c.get(reverse("api-article-versions", kwargs={'doi': doi}))
         data = resp.data
         self.assertEqual([1, 2, 3], data.keys())
@@ -138,10 +138,10 @@ class ArticleInfoViaApi(BaseCase):
              'version': 1,
              'doi': doi,
              'journal': self.journal},
-             
+
             {'title': 'bar',
              'version': 1,
-             'doi': doi, 
+             'doi': doi,
              'journal': self.journal},
 
             {'title': 'baz',
@@ -152,13 +152,13 @@ class ArticleInfoViaApi(BaseCase):
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(2, models.ArticleVersion.objects.count())
-        
+
         expected_version = 1
         api_args = {'doi': doi, 'version': expected_version}
         resp = self.c.get(reverse("api-article-version", kwargs=api_args))
 
         print resp.data
-        
+
         self.assertEqual(resp.data['version'], expected_version)
         self.assertEqual(resp.data['title'], 'bar')
 
@@ -177,7 +177,6 @@ class ArticleInfoViaApi(BaseCase):
         resp = self.c.get(url)
         self.assertEqual(404, resp.status_code)
 
-
     #
     # corpus
     #
@@ -192,5 +191,3 @@ class ArticleInfoViaApi(BaseCase):
         resp = self.c.get(reverse("api-corpus-info"))
         self.assertEqual(resp.data, {'article-count': 1,
                                      'research-article-count': 0})
-        
-

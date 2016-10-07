@@ -24,31 +24,31 @@ class TestEJPIngest(base.BaseCase):
         "ensure ejp ingest doesn't create articles if we've told it not to"
         data = {"manuscript_id": 123}
         self.assertRaises(models.Article.DoesNotExist, ejp_ingestor.import_article, self.journal, data, create=False)
-        
+
     def test_ejp_ingest_data(self):
         ejp_ingestor.import_article_list_from_json_path(self.journal, self.tiny_json_path)
         self.assertEqual(models.Article.objects.count(), 6)
         art = models.Article.objects.get(manuscript_id=11835)
         expected_data = {
-            "manuscript_id": 11835, 
+            "manuscript_id": 11835,
             "ejp_type": "RA",
-            "date_initial_qc": parse("2015-09-24T00:00:00"), 
-            "date_initial_decision": parse("2015-10-05T00:00:00"), 
-            "initial_decision": "EF", 
-            "date_full_qc": parse("2015-10-23T00:00:00"), 
-            "date_full_decision": parse("2015-11-16T00:00:00"), 
-            "decision": "RVF", 
-            "date_rev1_qc": parse("2016-02-23T00:00:00"), 
-            "date_rev1_decision": parse("2016-02-24T00:00:00"), 
-            "rev1_decision": "RVF", 
-            "date_rev2_qc": parse("2016-03-08T00:00:00"), 
-            "date_rev2_decision": parse("2016-03-14T00:00:00"), 
-            "rev2_decision": "AF", 
-            "date_rev3_qc": None, 
-            "date_rev3_decision": None, 
-            "rev3_decision": None, 
-            "date_rev4_qc": None, 
-            "date_rev4_decision": None, 
+            "date_initial_qc": parse("2015-09-24T00:00:00"),
+            "date_initial_decision": parse("2015-10-05T00:00:00"),
+            "initial_decision": "EF",
+            "date_full_qc": parse("2015-10-23T00:00:00"),
+            "date_full_decision": parse("2015-11-16T00:00:00"),
+            "decision": "RVF",
+            "date_rev1_qc": parse("2016-02-23T00:00:00"),
+            "date_rev1_decision": parse("2016-02-24T00:00:00"),
+            "rev1_decision": "RVF",
+            "date_rev2_qc": parse("2016-03-08T00:00:00"),
+            "date_rev2_decision": parse("2016-03-14T00:00:00"),
+            "rev2_decision": "AF",
+            "date_rev3_qc": None,
+            "date_rev3_decision": None,
+            "rev3_decision": None,
+            "date_rev4_qc": None,
+            "date_rev4_decision": None,
             "rev4_decision": None
         }
         for key, val in expected_data.items():
@@ -60,7 +60,7 @@ class TestEJPIngest(base.BaseCase):
         article_data_list = [
             {'manuscript_id': 123,
              'journal': self.journal},
-             
+
             {'manuscript_id': 11835,
              'journal': self.journal},
 
@@ -71,14 +71,14 @@ class TestEJPIngest(base.BaseCase):
         self.assertEqual(models.Article.objects.count(), 3)
         self.assertRaises(AssertionError, ejp_ingestor.import_article_list_from_json_path, self.journal, self.tiny_json_path)
         self.assertEqual(models.Article.objects.count(), 3) # import is atomic, all or nothing.
-        
+
     def test_ejp_ingest_over_existing_data(self):
         "importing ejp articles and updating existing articles is possible but only if we explicitly say so"
         self.assertEqual(models.Article.objects.count(), 0)
         article_data_list = [
             {'manuscript_id': 123,
              'journal': self.journal},
-             
+
             {'manuscript_id': 11835,
              'journal': self.journal},
 

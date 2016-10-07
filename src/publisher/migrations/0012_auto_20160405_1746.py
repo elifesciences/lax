@@ -31,13 +31,13 @@ class Migration(migrations.Migration):
         #
 
         migrations.AlterModelOptions(name='article', options={}),
-        
+
         migrations.RemoveField(model_name='historicalarticle', name='datetime_published'),
         migrations.RemoveField(model_name='historicalarticle', name='version'),
         migrations.RemoveField(model_name='historicalarticle', name='status'),
         migrations.RemoveField(model_name='historicalarticle', name='slug'),
         migrations.RemoveField(model_name='historicalarticle', name='title'),
-        
+
         migrations.AlterField(
             model_name='article',
             name='doi',
@@ -60,14 +60,14 @@ class Migration(migrations.Migration):
         # manually update all links based on doi
         # finally, drop ArticleVersion.doi
         #
-        
+
         migrations.AddField(
             model_name='articleversion',
             name='article',
             field=models.ForeignKey(default=1, on_delete=models.deletion.CASCADE, to='publisher.Article'),
             preserve_default=False,
         ),
-        
+
         migrations.RunPython(link_articles_to_versions),
 
         migrations.AlterUniqueTogether(
@@ -78,4 +78,3 @@ class Migration(migrations.Migration):
         migrations.RemoveField(model_name='ArticleVersion', name='doi'),
 
     ]
-
