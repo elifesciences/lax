@@ -1,13 +1,12 @@
-{% extends "base.html" % }
-{% load staticfiles % }
-{% block html-head % }
-<meta charset = "utf-8" / >
-<meta name = "viewport" content = "width=device-width, initial-scale=1.0" / >
-<title > { % block html-title % }Lax. A mostly-structured article store.{ % endblock html-title % } < /title >
-<!-- http:
-    //jasonm23.github.io / markdown - css - themes / markdown7.css - - >
-<link href = "{% static "css / markdown7.css" %}" rel = "stylesheet" type = "text/css" / >
-{% endblock html-head % }
-{% block html-body % }
-{% block page-body % }{ % endblock % }
-{% endblock html-body % }
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block html-head %}
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>{% block html-title %}Lax. A mostly-structured article store.{% endblock html-title %}</title>
+<!-- http://jasonm23.github.io/markdown-css-themes/markdown7.css -->
+<link href="{% static "css/markdown7.css" %}" rel="stylesheet" type="text/css" />
+{% endblock html-head %}
+{% block html-body %}
+{% block page-body %}{% endblock %}
+{% endblock html-body %}
