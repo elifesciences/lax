@@ -6,6 +6,12 @@ from django.db import transaction
 from et3 import render
 from et3.extract import path as p, val
 from django.db import IntegrityError
+import json
+import boto3
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+from django.conf import settings
+from functools import partial
 
 LOG = logging.getLogger(__name__)
 
@@ -61,6 +67,32 @@ def atomic(fn):
             # this was some other IntegrityError
             raise
     return wrapper
+
+#
+#
+#
+
+#@cache # ?
+def event_bus_conn():
+    sns = boto3.resource('sns')
+    topic = sns.Topic(settings.SNS_TOPIC_ARN)
+    return topic
+
+def notify_event_bus(art):
+    "notify the event bus when this article or one of it's versions has been changed in some way"
+    if settings.DEBUG:
+        return
+    try:
+        msg = {"type": "article", "id": art.manuscript_id}
+        msg_json = json.dumps({'default': msg})
+        LOG.debug("writing message to event bus", extra={'bus-message': msg_json})
+        event_bus_conn().publish(Message=msg_json, MessageStructure='json')
+    except ValueError as err:
+        # probably serializing value
+        LOG.error("failed to serialize event bus payload %s", err, extra={'bus-message': msg_json})
+
+    except Exception as err:
+        LOG.error("unhandled error attempting to notify event bus of article change: %s", err)
 
 #
 #
@@ -174,6 +206,8 @@ def _ingest(data, force=False):
                     LOG.error(msg, extra=log_context)
                     raise StateError(msg)
 
+        transaction.on_commit(partial(notify_event_bus, article))
+
         # passed all checks, save
         av.save()
 
@@ -233,9 +267,6 @@ def ingest_publish(data, force=False, dry_run=False):
 # article json wrangling
 # https://docs.djangoproject.com/en/1.9/ref/signals/#pre-save
 #
-
-from django.dispatch import receiver
-from django.db.models.signals import pre_save
 
 @receiver(pre_save, sender=models.ArticleVersion)
 def merge_validate_article_json(sender, instance, **kwargs):

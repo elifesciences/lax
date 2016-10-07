@@ -161,6 +161,15 @@ SWAGGER_SETTINGS = {
 SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 ART_HISTORY_SCHEMA = join(SCHEMA_PATH, 'model/article-history.v1.json')
 
+EVENT_BUS = {
+    'region': cfg('bus.region'),
+    'subscriber': cfg('bus.subscriber'),
+    'name': cfg('bus.name'),
+    'env': cfg('bus.env')
+}
+
+# ll: arn:aws:sns:us-east-1:112634557572:bus-articles--ci
+TOPIC_ARN = "arn:aws:sns:{region}:{subscriber}:{name}--{env}".format(**EVENT_BUS)
 
 # Lax settings
 
