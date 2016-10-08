@@ -8,6 +8,7 @@ from publisher import utils
 def mkdoi(apps, schema_editor):
     Article = apps.get_model('publisher', 'Article')
     #HistoricalArticle = apps.get_model('publisher', 'HistoricalArticle')
+
     def update(art):
         msid = utils.doi2msid(art.doi)
         assert msid, "msid cannot be null. got %r for %r" % (msid, art)
@@ -19,9 +20,9 @@ def mkdoi(apps, schema_editor):
 def unmkdoi(apps, schema_editor):
     Article = apps.get_model('publisher', 'Article')
     Article.objects.update(manuscript_id=None)
-    
+
 class Migration(migrations.Migration):
-    
+
     dependencies = [
         ('publisher', '0013_auto_20160411_1143'),
     ]

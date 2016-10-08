@@ -30,9 +30,9 @@ def bucket_listing(bucket, limit=None):
 
 class Command(BaseCommand):
     help = '''Repopulates the lax database using the contents of the elife-publishing-eif bucket. If article has multiple attempts, use the most recent attempt. Matching PUBLISHED articles will be downloaded and imported using the `import_articles` command. Published status is determined by an entry in the elife-publishing-archive bucket'''
-    
+
     def handle(self, *args, **options):
-        pub_eif_bucket, dataset = bucket_listing('elife-publishing-eif') #, limit=10)
+        pub_eif_bucket, dataset = bucket_listing('elife-publishing-eif')  # , limit=10)
         # turn those objects into something we can deal with
         dataset = map(pub_eif_struct, dataset)
         # order everything by when they were modified, from earliest to oldest
@@ -42,29 +42,30 @@ class Command(BaseCommand):
         run_replacements = {}
         for struct in dataset:
             key = struct['fname']
-            if struct_map.has_key(key):
+            if key in struct_map:
                 old_run = struct_map[key]['last_modified']
                 new_run = struct['last_modified']
                 print '%s: replacing run %s with %s' % (key, old_run, new_run)
-                if not run_replacements.has_key(key):
+                if key not in run_replacements:
                     run_replacements[key] = []
                 run_replacements[key].append((old_run, new_run))
             struct_map[key] = struct
 
-        pub_archive_bucket, published_dataset = bucket_listing('elife-publishing-archive') #, limit=10)
+        pub_archive_bucket, published_dataset = bucket_listing('elife-publishing-archive')  # , limit=10)
         idx = set(map(pub_archive_struct, published_dataset))
-        
+
         # download everything
         os.system('mkdir -p .repop')
+
         def download(s):
             path = '.repop/%s' % s['fname']
             if s['fname'] not in idx:
-                print 'file not published yet, NOT downloading',s['key']
+                print 'file not published yet, NOT downloading', s['key']
             elif os.path.exists(path):
-                #print 'file exists, NOT downloading',s['key']
+                # print 'file exists, NOT downloading',s['key']
                 pass
             else:
-                print 'downloading',s['key']
+                print 'downloading', s['key']
                 pub_eif_bucket.download_file(s['key'], path)
             return key
 

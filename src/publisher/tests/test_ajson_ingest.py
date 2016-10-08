@@ -20,7 +20,7 @@ class Ingest(BaseCase):
         pass
 
     def test_article_ingest(self):
-        """valid article-json is successfully ingested, creating an article, 
+        """valid article-json is successfully ingested, creating an article,
         an article version and storing the ingestion request"""
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
@@ -31,9 +31,9 @@ class Ingest(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
-        
+
     def test_article_ingest_does_not_publish(self):
-        """ingesting article json does not cause an article to become published 
+        """ingesting article json does not cause an article to become published
         (gain a published date) even if a published date was supplied"""
         expected = "2016-04-13T01:00:00"
         self.ajson['article']['published'] = expected
@@ -152,13 +152,13 @@ class Ingest(BaseCase):
         self.assertEqual(av.version, 1) # all the data that would have been saved
 
     # json ingestion has yet to be dealt with properly
-        
-    #def test_article_json_stored_if_valid(self):
+
+    # def test_article_json_stored_if_valid(self):
     #    "only valid article json is ever stored"
     #    self.assertRaises(StateError, ajson_ingestor.ingest, self.invalid_ajson)
     #    self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
-    #def test_article_json_not_stored_if_invalid(self):
+    # def test_article_json_not_stored_if_invalid(self):
     #    "invalid article json is not stored if it fails validation"
     #    assert False
 
@@ -190,11 +190,11 @@ class Publish(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
-        
+
         self.assertTrue(av.published())
         self.assertTrue(isinstance(av.datetime_published, datetime))
         self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av.datetime_published))
-        
+
     def test_article_publish_fails_if_already_published(self):
         "a published article cannot be published again"
         _, _, av = ajson_ingestor.ingest(self.ajson)
@@ -228,11 +228,11 @@ class Publish(BaseCase):
         # ingest and publish a v1
         _, _, av = ajson_ingestor.ingest(self.ajson) # v1
         ajson_ingestor.publish(self.msid, self.version)
-        
+
         # now attempt to ingest a v3
         self.ajson['article']['version'] = 3
         self.assertRaises(StateError, ajson_ingestor.ingest, self.ajson)
-        
+
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
         av = self.freshen(av)
@@ -250,7 +250,7 @@ class Publish(BaseCase):
         # ensure the article version stored has no published date
         models.ArticleVersion.objects.get(pk=saved_av.pk, datetime_published=None)
         # and that the object returned *does* have a datetime published
-        self.assertTrue(unsaved_av.published()) 
+        self.assertTrue(unsaved_av.published())
 
 
 class IngestPublish(BaseCase):
@@ -298,13 +298,13 @@ class IngestPublish(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
-        
+
         j, a, av = ajson_ingestor.ingest_publish(self.ajson, dry_run=True)
 
         # all counts are still zero
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
-        self.assertEqual(models.ArticleVersion.objects.count(), 0) 
+        self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
         # article version believes itself to be published
         self.assertTrue(av.published())
@@ -328,14 +328,14 @@ class CLI(BaseCase):
         except SystemExit as err:
             return err.code, stdout
         self.fail("ingest script should always throw a systemexit()")
-    
+
     def test_ingest_from_cli(self):
         "ingest script requires the --ingest flag and a source of data"
         args = [self.nom, '--ingest', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
         # article has been ingested
-        self.assertEqual(models.ArticleVersion.objects.count(), 1) 
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
         # message returned is json encoded with all the right keys and values
         result = json.loads(stdout.getvalue())
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
@@ -380,8 +380,8 @@ class CLI(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
-        
-        args = [self.nom, '--ingest+publish', '--id', self.msid, '--version', self.version, \
+
+        args = [self.nom, '--ingest+publish', '--id', self.msid, '--version', self.version,
                 self.ajson_fixture1, '--dry-run']
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
@@ -390,7 +390,7 @@ class CLI(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
-        
+
         # ensure response is json and well-formed
         result = json.loads(stdout.getvalue())
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime', 'message']))

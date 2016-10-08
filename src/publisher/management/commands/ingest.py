@@ -1,9 +1,9 @@
 """
-the `ingest` script is distinct from the `import` script. 
+the `ingest` script is distinct from the `import` script.
 
 The import script does not obey business rules and merrily update published dates and so on without concern. It is good for bulk imports, development and once-off patching of article data.
 
-The ingest script DOES obey business rules and will not publish things twice, 
+The ingest script DOES obey business rules and will not publish things twice,
 
 """
 
@@ -65,7 +65,7 @@ class Command(ModCommand):
     def add_arguments(self, parser):
         # update articles that already exist?
         parser.add_argument('--id', dest='msid', type=int, required=True)
-        parser.add_argument('--version',  dest='version', type=int, required=True)
+        parser.add_argument('--version', dest='version', type=int, required=True)
         parser.add_argument('--force', action='store_true', default=False)
         parser.add_argument('--dry-run', action='store_true', default=False)
 
@@ -116,13 +116,13 @@ class Command(ModCommand):
         self.log_context = {
             'action': action, 'msid': msid, 'version': version, 'force?': force, 'dry_run?': dry_run
         }
-        
+
         if not action:
             self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
 
         LOG.info('attempting to ingest article', extra=self.log_context)
-            
+
         # read and check the article-json given, if necessary
         try:
             if action in [INGEST, BOTH]:
@@ -137,11 +137,11 @@ class Command(ModCommand):
                 data_msid = int(data['article']['id'].lstrip('0'))
                 if not data_msid == msid:
                     raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
-        
+
         except StateError as err:
             self.error(INVALID, err.message)
             sys.exit(1)
-        
+
         except ValueError as err:
             self.error(INVALID, "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data))
             sys.exit(1)

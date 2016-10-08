@@ -29,7 +29,7 @@ class TestUtils(base.BaseCase):
     def test_isnotint(self):
         not_int_list = ['one', 'a', utils]
         for not_int in not_int_list:
-            print 'testing',not_int
+            print 'testing', not_int
             self.assertFalse(utils.isint(not_int))
 
     def test_nth(self):
@@ -42,16 +42,16 @@ class TestUtils(base.BaseCase):
             ('abc', -3, 'a'),
             ('abc', -4, None),
 
-            ([1,2,3], 0, 1),
+            ([1, 2, 3], 0, 1),
             ([], 0, None),
-            ((1,2,3), 0, 1),
+            ((1, 2, 3), 0, 1),
 
             (None, 0, None),
             (None, -1, None),
             (None, 1, None),
         ]
         for val, idx, expected in expected_list:
-            print 'testing',val,idx,expected
+            print 'testing', val, idx, expected
             self.assertEqual(utils.nth(idx, val), expected)
 
     def test_bad_nths(self):
@@ -65,11 +65,11 @@ class TestUtils(base.BaseCase):
 
     def test_first_second(self):
         expected_list = [
-            (utils.first, [1,2,3], 1),
-            (utils.first, (1,2,3), 1),
+            (utils.first, [1, 2, 3], 1),
+            (utils.first, (1, 2, 3), 1),
             (utils.first, 'abc', 'a'),
-            (utils.second, [1,2,3], 2),
-            (utils.second, (1,2,3), 2),
+            (utils.second, [1, 2, 3], 2),
+            (utils.second, (1, 2, 3), 2),
             (utils.second, 'abc', 'b'),
         ]
         for fn, val, expected in expected_list:
@@ -78,8 +78,8 @@ class TestUtils(base.BaseCase):
     def test_delall(self):
         x = {'a': 1, 'b': 2, 'c': 3}
         expected_list = [
-            (['a','b','c'], {}),
-            (['a','b'], {'c': 3}),
+            (['a', 'b', 'c'], {}),
+            (['a', 'b'], {'c': 3}),
             (['a'], {'b': 2, 'c': 3}),
             ([], x),
         ]
@@ -93,7 +93,7 @@ class TestUtils(base.BaseCase):
         y = copy.deepcopy(x)
         utils.delall(x, ['foo', 'bar', 'baz'])
         self.assertEqual(x, y)
-            
+
     def test_future_date(self):
         all_future_dates = [
             timedelta(seconds=1),
@@ -115,7 +115,7 @@ class TestUtils(base.BaseCase):
     def test_dictmap_nofuncargs(self):
         test = {'a': 1, 'b': 2, 'c': 3}
         expected = {'a': 2, 'b': 3, 'c': 4}
-        self.assertEqual(expected, utils.dictmap(lambda v: v+1, test))
+        self.assertEqual(expected, utils.dictmap(lambda v: v + 1, test))
 
     def test_dictmap_funcargs(self):
         test = {'a': 1, 'b': 2, 'c': 3}
@@ -147,7 +147,7 @@ class TestUtils(base.BaseCase):
             try:
                 self.assertEqual(utils.has_all_keys(case, args), expected)
             except AssertionError:
-                print case,args,expected
+                print case, args, expected
                 raise
 
     def test_utcnow(self):
@@ -155,16 +155,16 @@ class TestUtils(base.BaseCase):
         # TODO: this test could be improved
         now = utils.utcnow()
         self.assertEqual(now.tzinfo, pytz.utc)
-            
+
     def test_todt(self):
         cases = [
             # naive dtstr becomes utc
             ("2001-01-01", \
-                 datetime(year=2001, month=1, day=1, tzinfo=pytz.utc)),
+             datetime(year=2001, month=1, day=1, tzinfo=pytz.utc)),
 
             # aware but non-utc become utc
             ("2001-01-01T23:30:30+09:30", \
-                 datetime(year=2001, month=1, day=1, hour=14, minute=0, second=30, tzinfo=pytz.utc)),
+             datetime(year=2001, month=1, day=1, hour=14, minute=0, second=30, tzinfo=pytz.utc)),
         ]
         for string, expected in cases:
             self.assertEqual(utils.todt(string), expected)

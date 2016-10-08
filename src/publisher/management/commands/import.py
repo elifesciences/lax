@@ -40,11 +40,11 @@ class Command(BaseCommand):
 
     This command supercedes the `import_article` and `import_ejp_article` commands.
 
-    Lax requires all data sources to be JSON encoded. 
+    Lax requires all data sources to be JSON encoded.
 
     To specify the type of import to be performed, use the `--import-type` parameter.
 
-    A single JSON file or a directory of JSON may be passed in as the `--path` paramater. 
+    A single JSON file or a directory of JSON may be passed in as the `--path` paramater.
     Directories of files will have their contents expanded and only JSON files will be used.
 
     To only create articles and never update an article, use the `--no-update` parameter.
@@ -52,7 +52,7 @@ class Command(BaseCommand):
     To only update articles and never create articles, use the `--no-create` parameter.
 
     To neither create nor update (a dry run), use both `--no-create` and `--no-update` parameters.'''
-    
+
     def add_arguments(self, parser):
         # where am I to look?
         parser.add_argument('path', type=str)
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         parser.add_argument('--just-do-it', action='store_true', default=False)
         # do the import within a transaction - default. makes sqlite fly
         parser.add_argument('--no-atomic', action='store_false', default=True)
-    
+
     def handle(self, *args, **options):
         path = options['path']
         create_articles = options['no_create']
@@ -80,15 +80,15 @@ class Command(BaseCommand):
             try:
                 pprint.pprint(path_list)
                 print
-                print import_type.upper(),'import of',len(path_list),'files'
-                print 'create?',create_articles
-                print 'update?',update_articles
+                print import_type.upper(), 'import of', len(path_list), 'files'
+                print 'create?', create_articles
+                print 'update?', update_articles
                 print
                 raw_input('continue? (ctrl-c to exit)')
             except KeyboardInterrupt:
                 print
                 exit(0)
-        
+
         choices = {
             EIF: eif_ingestor.import_article_from_json_path,
             EJP: ejp_ingestor.import_article_list_from_json_path,

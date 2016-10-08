@@ -31,7 +31,7 @@ class TestLogic(BaseCase):
     def test_latest_article_versions(self):
         # see `test_rss.py`
         pass
-    
+
     def test_article_version_list(self):
         "all versions of an article are returned"
         expected_published_versions = 3
@@ -44,7 +44,7 @@ class TestLogic(BaseCase):
         expected_published_versions = 2
         avl = logic.article_version_list(self.msid2)
         self.assertEqual(avl.count(), expected_published_versions)
-    
+
     def test_article_version_list_not_found(self):
         "an article doesn't exist if it has no article versions"
         fake_msid = 123
@@ -67,7 +67,7 @@ class TestLogic(BaseCase):
         "the specific PUBLISHED article version is returned"
         self.unpublish(self.msid2, version=3)
         self.assertRaises(models.ArticleVersion.DoesNotExist, logic.article_version, self.msid2, version=3)
-            
+
     def test_article_version_not_found(self):
         "the right exception is thrown because they asked for a version specifically"
         fake_msid, version = 123, 1
@@ -89,7 +89,7 @@ class TestLogic(BaseCase):
 
     def test_article_json_not_found(self):
         pass
-    
+
     def test_article_snippet_json(self):
         pass
 

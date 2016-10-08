@@ -10,7 +10,7 @@ class TestLatest(BaseCase):
 
     def setUp(self):
         pass
-    
+
     def tearDown(self):
         pass
 
@@ -22,43 +22,43 @@ class TestLatest(BaseCase):
              'version': 1,
              'doi': "10.7554/eLife.00001",
              'pub-date': an_hour_ago.isoformat(),
-            },
-            
+             },
+
 
             {'title': 'bar',
              'version': 1,
              'doi': "10.7554/eLife.00002",
              'pub-date': many_hours_ago.isoformat(),
-            },
+             },
             {'title': 'bar',
              'version': 2,
              'doi': "10.7554/eLife.00002",
              'pub-date': (many_hours_ago - timedelta(hours=1)).isoformat(),
              'update': (many_hours_ago - timedelta(hours=1)).isoformat(),
-            },
+             },
             {'title': 'bar',
              'version': 3,
              'doi': "10.7554/eLife.00002",
              'pub-date': (many_hours_ago - timedelta(hours=2)).isoformat(),
              'update': (many_hours_ago - timedelta(hours=2)).isoformat(),
-            },
+             },
 
 
             {'title': 'baz',
              'version': 1,
              'doi': "10.7554/eLife.00003",
              'pub-date': (an_hour_ago + timedelta(minutes=5)).isoformat(),
-            },
+             },
             {'title': 'baz',
              'version': 2,
              'doi': "10.7554/eLife.00003",
              'pub-date': (an_hour_ago + timedelta(minutes=10)).isoformat(),
              'update': (an_hour_ago + timedelta(minutes=10)).isoformat(),
              }
-             
+
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
-        
+
         self.assertEqual(models.Article.objects.count(), 3)
         self.assertEqual(models.ArticleVersion.objects.count(), 6)
 
@@ -74,7 +74,7 @@ class TestLatest(BaseCase):
         for av, expected in zip(avlist, expected_version_order):
             self.assertEqual(av.article.doi, expected[0])
             self.assertEqual(av.version, expected[1])
-        
+
 
 class RSSViews(BaseCase):
     def setUp(self):
@@ -89,15 +89,15 @@ class RSSViews(BaseCase):
              'doi': "10.7554/eLife.00001",
              'journal': self.journal,
              'pub-date': an_hour_ago.isoformat(),
-            },
-            
+             },
+
             {'title': 'bar',
              'status': 'vor',
              'version': 1,
              'doi': "10.7554/eLife.00002",
              'journal': self.journal,
              'pub-date': many_hours_ago.isoformat(),
-            },
+             },
 
             {'title': 'baz',
              'version': 1,
@@ -107,7 +107,7 @@ class RSSViews(BaseCase):
              'pub-date': an_hour_ago.isoformat(),
              }
         ]
-        [logic.add_or_update_article(**article_data) for article_data in self.article_data_list]        
+        [logic.add_or_update_article(**article_data) for article_data in self.article_data_list]
 
     def tearDown(self):
         pass
@@ -147,7 +147,7 @@ class RSSViews(BaseCase):
         url = reverse('rss-specific-article-list', kwargs={'aid_list': aid_str})
         with self.assertNumQueries(1):
             self.c.get(url)
-        
+
     def test_last_n_articles(self):
         url = reverse('rss-recent-article-list', kwargs={'article_status': 'vor', 'since': '1'})
         resp = self.c.get(url)

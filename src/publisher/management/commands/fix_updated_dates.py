@@ -7,11 +7,11 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     help = """'Patches' articles using json corresponding to model attributes """
-    
+
     def handle(self, *args, **options):
         fname = './updated-dates/output.json'
         data = map(json.loads, open(fname, 'r').readlines())
-        
+
         def mkpatch(d):
             v = {}
             for ver in d['versions']:

@@ -13,28 +13,28 @@ class TestReport(base.BaseCase):
         self.journal = publogic.journal()
         import_all = [
             '00353.1', # discussion, VOR
-            
+
             '00385.1', # commentary, VOR
-            
+
             '01328.1', # correction, VOR
-            
+
             '02619.1', # editorial, VOR
-            
+
             '03401.1', # research, POA
             '03401.2', # POA
             '03401.3', # VOR
-            
+
             '03665.1', # research, VOR
-            
+
             '06250.1', # research, POA
             '06250.2', # POA
             '06250.3', # VOR
-            
+
             '07301.1', # research, VOR
-            
+
             '08025.1', # research, POA
             '08025.2', # VOR
-            
+
             '09571.1', # research, POA
         ]
         for subdir in import_all:
@@ -45,10 +45,10 @@ class TestReport(base.BaseCase):
 
         self.vor_version_count = 9
         self.poa_version_count = 6
-        
+
         self.poa_art_count = 1
         self.vor_art_count = 9
-        
+
         self.research_art_count = 6
 
     def tearDown(self):
@@ -60,7 +60,7 @@ class TestReport(base.BaseCase):
         self.assertEqual(models.ArticleVersion.objects.count(), 15)
         report = logic.article_poa_vor_pubdates()
         report = list(report) # result is lazy, force evaluation here
-        #self.assertEqual(len(report), 9) # most (all?) non-research articles are being excluded
+        # self.assertEqual(len(report), 9) # most (all?) non-research articles are being excluded
         self.assertEqual(len(report), self.research_art_count)
         for row in report:
             self.assertEqual(len(row), 3)
@@ -79,8 +79,8 @@ class TestReport(base.BaseCase):
             try:
                 self.assertTrue(utils.has_all_keys(row, expected_keys))
             except AssertionError:
-                print 'expecting',expected_keys
-                print 'got keys',row.keys()
+                print 'expecting', expected_keys
+                print 'got keys', row.keys()
                 raise
 
     def test_paw_recent_report_data(self):
@@ -115,7 +115,7 @@ class TestReport(base.BaseCase):
         expected_keys = ['description', 'params', 'results']
         self.assertTrue(utils.has_all_keys(struct, expected_keys))
         expected_keys = [
-            'total-published', 
+            'total-published',
             'poa-published',
             'vor-published',
             'percent-poa',
@@ -123,8 +123,7 @@ class TestReport(base.BaseCase):
             'total-jats-types',
             'total-ejp-types'
         ]
-        self.assertTrue(utils.has_all_keys(struct['results'], expected_keys))        
-
+        self.assertTrue(utils.has_all_keys(struct['results'], expected_keys))
 
     def test_time_to_publication_data_structure(self):
         "DOES NOT TEST CORRECTNESS OF DATA, only structure" # yes, cop out
@@ -134,7 +133,7 @@ class TestReport(base.BaseCase):
     #
     # views
     #
-            
+
     def test_poa_vor_pubdates_report_api(self):
         url = reverse('poa-vor-pubdates')
         resp = Client().get(url)
@@ -146,9 +145,9 @@ class TestReport(base.BaseCase):
         resp = Client().get(url)
         self.assertEqual(resp.status_code, 200)
         xml = resp.content
-        print 'xml:',xml
+        print 'xml:', xml
         self.assertEqual(len(re.findall('<item>', xml)), self.vor_art_count)
-        
+
     def test_paw_ahead_report(self):
         url = reverse('paw-ahead-report', kwargs={'days_ago': 9999})
         resp = Client().get(url)
