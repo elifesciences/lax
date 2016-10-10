@@ -40,20 +40,7 @@ def article_version_list(request, id):
     "returns a list of versions for the given article ID"
     authenticated = False
     try:
-        avl = logic.article_version_list(id, only_published=not authenticated)
-
-        def mk(av):
-            return {
-                'status': av.status,
-                'published': av.datetime_published,
-                'version': av.version
-            }
-        article = avl[0].article
-        resp = {
-            'received': article.date_initial_qc,
-            'accepted': article.date_accepted,
-            'versions': map(mk, avl)
-        }
+        resp = logic.article_version_history(id, only_published=not authenticated)
         return Response(resp, content_type='application/vnd.elife.article-history+json;version=1')
     except models.Article.DoesNotExist:
         raise Http404()

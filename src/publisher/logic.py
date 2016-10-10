@@ -129,6 +129,35 @@ def most_recent_article_version(msid, only_published=True):
 #
 #
 
+def article_version_history(msid, only_published=True):
+    "returns a struct for the history of the given article"
+    article = models.Article.objects.get(manuscript_id=msid)
+    avl = article.articleversion_set.all()
+    if only_published:
+        avl = avl.exclude(datetime_published=None)
+
+    def version_row(av):
+        return {
+            'status': av.status,
+            'published': av.datetime_published,
+            'version': av.version
+        }
+    return {
+        'received': article.date_initial_qc,
+        'accepted': article.date_accepted,
+        'versions': map(version_row, avl)
+    }
+
+def bulk_article_version_history(only_published=True):
+    for art in models.Article.objects.all():
+        result = article_version_history(art.manuscript_id, only_published)
+        result['msid'] = art.manuscript_id
+        yield result
+
+#
+#
+#
+
 def article_json(av):
     "returns the *valid* article json for the given article version."
     # TODO: obviously this is just a placeholder.
