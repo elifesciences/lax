@@ -1,7 +1,5 @@
-from datetime import datetime
 import itertools
 from publisher import utils, models
-from publisher.models import AF
 from publisher.utils import ymd
 from functools import wraps
 from django.db.models import Count
@@ -215,6 +213,8 @@ def time_to_publication(year=2015):
 
 '''
 # once off
+from datetime import datetime
+from publisher.models import AF
 def arb1():
     nov_2015 = datetime(year=2015, month=11, day=1)
 
@@ -227,7 +227,7 @@ def arb1():
         Q(rev4_decision=AF),
     ]
     aq = reduce(lambda q1,q2: q1 | q2, accepted)
-    
+
     al = models.Article.objects \
       .filter(date_initial_decision__gte=nov_2015) \
       .filter(ejp_type='RA') \
@@ -248,7 +248,7 @@ def arb1():
             ('first-vor', vor.datetime_published.isoformat() if vor else None,),
             ('has-digest?', digest['digest?'] if isinstance(digest, dict) else digest),
         ])
-    
+
     results = filter(lambda row: row['first-vor'], map(mkrow, al))
 
     import csv
