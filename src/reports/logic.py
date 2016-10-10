@@ -1,5 +1,7 @@
+from datetime import datetime
 import itertools
 from publisher import utils, models
+from publisher.models import AF
 from publisher.utils import ymd
 from functools import wraps
 from django.db.models import Count
@@ -210,3 +212,49 @@ def time_to_publication(year=2015):
             days_to_vor_from_poa,
         ]
     return itertools.chain([headers], imap(row, models.Article.objects.filter(**kwargs)))
+
+'''
+# once off
+def arb1():
+    nov_2015 = datetime(year=2015, month=11, day=1)
+
+    accepted = [
+        Q(initial_decision=AF),
+        Q(decision=AF),
+        Q(rev1_decision=AF),
+        Q(rev2_decision=AF),
+        Q(rev3_decision=AF),
+        Q(rev4_decision=AF),
+    ]
+    aq = reduce(lambda q1,q2: q1 | q2, accepted)
+    
+    al = models.Article.objects \
+      .filter(date_initial_decision__gte=nov_2015) \
+      .filter(ejp_type='RA') \
+      .filter(aq)
+
+    import json
+    from os.path import join
+    from django.conf import settings
+    has_digest_results = json.load(open(join(settings.PROJECT_DIR, 'has_digest.json'), 'r'))
+    from collections import OrderedDict
+    def mkrow(art):
+        vor = art.earliest_vor()
+        key = "%05d" % art.manuscript_id
+        digest = has_digest_results.get(key, "UNKNOWN (no xml)")
+        return OrderedDict([
+            ('id', art.manuscript_id),
+            ('date-accepted', art.date_accepted.isoformat()),
+            ('first-vor', vor.datetime_published.isoformat() if vor else None,),
+            ('has-digest?', digest['digest?'] if isinstance(digest, dict) else digest),
+        ])
+    
+    results = filter(lambda row: row['first-vor'], map(mkrow, al))
+
+    import csv
+    keys = results[0].keys()
+    with open(join(settings.PROJECT_DIR, 'has_digest.csv'), 'w') as fh:
+        dict_writer = csv.DictWriter(fh, keys)
+        dict_writer.writeheader()
+        dict_writer.writerows(results)
+'''
