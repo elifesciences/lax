@@ -1,6 +1,6 @@
 import copy
 from publisher import models, utils
-from publisher.utils import subdict, exsubdict
+from publisher.utils import subdict
 import logging
 from django.db import transaction
 from et3 import render
@@ -43,7 +43,8 @@ ARTICLE_VERSION = {
     'title': [p('title')],
     'version': [p('version')],
     'status': [models.POA],
-    'datetime_published': [p('published'), utils.todt],
+    # only v1 article-json has a published date. v2 article-json does not
+    'datetime_published': [p('published', None), utils.todt],
     'article_json_v1_raw': [val],  # , remove('snippet')],
     #'article_json_v1_snippet': [p('snippet')], # urgh, how to do this?
 }
@@ -153,8 +154,9 @@ def _ingest(data, force=False):
             previous_article_versions = list(article.articleversion_set.all().order_by('version')) # earliest -> latest
 
         # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
-        av_ingest_description = exsubdict(ARTICLE_VERSION, ['datetime_published'])
-        av_struct = render.render_item(av_ingest_description, data['article'])
+        av_struct = render.render_item(ARTICLE_VERSION, data['article'])
+        del av_struct['datetime_published']
+
         av, created, update = \
             create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
                              create, update, commit=False, article=article)
@@ -229,19 +231,30 @@ def ingest(*args, **kwargs):
 # PUBLISH requests
 #
 
-def _publish(msid, version, datetime_published=None, force=False):
+def _publish(msid, version, force=False):
     """attach a `datetime_published` value to an article version. if none provided, use RIGHT NOW.
     you cannot publish an already published article version unless force==True"""
-    # ensure we have a utc datetime
-    if not datetime_published:
-        datetime_published = utils.utcnow()
-    else:
-        # ensure given datetime is in utc
-        datetime_published = utils.todt(datetime_published)
     try:
         av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
-        if av.published() and not force:
-            raise StateError("refusing to publish an already published article")
+        if av.published():
+            if not force:
+                raise StateError("refusing to publish an already published article version")
+
+        # the json *will* have a pub date if it's a v1 ...
+        if version == 1:
+            datetime_published = utils.todt(av.article_json_v1_raw.get('published'))
+            if not datetime_published:
+                raise StateError("failed to pull pubdate from from ingested article json")
+
+        else:
+            # but *not* if it's > v1. in this case, we generate one.
+            if av.published() and force:
+                # this article version is already published and a force publish request has been sent
+                # what is the expected action? a new pubdate of `now`?
+                # because the pub date isn't passed in the article json, we can't set an arbitrary one
+                pass
+            datetime_published = utils.utcnow()
+
         av.datetime_published = datetime_published
         av.save()
         return av

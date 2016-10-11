@@ -168,13 +168,13 @@ class Publish(BaseCase):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
         self.msid = self.ajson['article']['id']
-        self.version = self.ajson['article']['version'] # this won't be coming from the json .. will it?
+        self.version = self.ajson['article']['version'] # v1
 
     def tearDown(self):
         pass
 
-    def test_article_publish(self):
-        "an unpublished article can be successfully published"
+    def test_article_publish_v1(self):
+        "an unpublished v1 article can be successfully published"
         _, _, av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
@@ -182,9 +182,7 @@ class Publish(BaseCase):
         self.assertFalse(av.published())
 
         # publish
-        msid = self.ajson['article']['id']
-        version = self.ajson['article']['version'] # this won't be coming from the json .. will it?
-        av = ajson_ingestor.publish(msid, version)
+        av = ajson_ingestor.publish(self.msid, self.version)
 
         # aaand just make sure we still have the expected number of objects
         self.assertEqual(models.Journal.objects.count(), 1)
@@ -193,35 +191,64 @@ class Publish(BaseCase):
 
         self.assertTrue(av.published())
         self.assertTrue(isinstance(av.datetime_published, datetime))
-        self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av.datetime_published))
+
+        # the pubdate of an unpublished v1 article is the same as that found in the
+        # given json.
+        av = self.freshen(av)
+        expected_pubdate = utils.ymd(utils.todt(self.ajson['article']['published']))
+        self.assertEqual(expected_pubdate, utils.ymd(av.datetime_published))
+
+    def test_article_publish_v2(self):
+        "an unpublished vs article can be successfully published"
+        _, _, av = ajson_ingestor.ingest(self.ajson)
+        self.assertEqual(models.Journal.objects.count(), 1)
+        self.assertEqual(models.Article.objects.count(), 1)
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+        self.assertFalse(av.published())
+
+        ajson_ingestor.publish(self.msid, self.version)
+        av = self.freshen(av)
+        self.assertTrue(av.published())
+
+        # modify to a v2 and publish
+        self.ajson['article']['version'] = 2
+        del self.ajson['article']['published']
+        _, _, av2 = ajson_ingestor.ingest_publish(self.ajson)
+
+        av2 = self.freshen(av2)
+        self.assertTrue(av2.published())
+        self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av2.datetime_published))
+        
 
     def test_article_publish_fails_if_already_published(self):
         "a published article cannot be published again"
         _, _, av = ajson_ingestor.ingest(self.ajson)
-        msid = self.ajson['article']['id']
-        version = self.ajson['article']['version'] # this won't be coming from the json .. will it?
-        av = ajson_ingestor.publish(msid, version)
+        av = ajson_ingestor.publish(self.msid, self.version)
         av = self.freshen(av)
         self.assertTrue(av.published())
 
         # publish again
-        self.assertRaises(StateError, ajson_ingestor.publish, msid, version)
+        self.assertRaises(StateError, ajson_ingestor.publish, self.msid, self.version)
 
     def test_article_publish_succeeds_for_published_article_if_forced(self):
         "publication of an already published article can occur only if forced"
         _, _, av = ajson_ingestor.ingest(self.ajson)
-        msid = self.ajson['article']['id']
-        version = self.ajson['article']['version'] # this won't be coming from the json .. will it?
-        old_publish_date = utils.todt('2001-01-01')
-        av = ajson_ingestor.publish(msid, version, old_publish_date)
+        av = ajson_ingestor.publish(self.msid, self.version)
         av = self.freshen(av)
-        self.assertEqual(av.datetime_published, old_publish_date)
+        expected_pubdate = utils.ymd(utils.todt(self.ajson['article']['published']))
+        self.assertEqual(expected_pubdate, utils.ymd(av.datetime_published))
 
-        # publish again
-        new_publish_date = utils.todt('2011-01-01')
-        av = ajson_ingestor.publish(msid, version, new_publish_date, force=True)
+        # publish again, no changes to pubdate expected
+        av = ajson_ingestor.publish(self.msid, self.version, force=True)
         av = self.freshen(av)
-        self.assertEqual(av.datetime_published, new_publish_date)
+        self.assertEqual(expected_pubdate, utils.ymd(av.datetime_published))
+
+        # ingest new pubdate, force publication
+        new_pubdate = utils.todt('2016-01-01')
+        self.ajson['article']['published'] = new_pubdate
+        ajson_ingestor.ingest_publish(self.ajson, force=True)
+        av = self.freshen(av)
+        self.assertEqual(utils.ymd(new_pubdate), utils.ymd(av.datetime_published))
 
     def test_out_of_sequence_publish_fails(self):
         "attempting to ingest an article with a version greater than another *published* version fails"
@@ -396,6 +423,7 @@ class CLI(BaseCase):
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime', 'message']))
         # ensure response data is correct
         self.assertEqual(result['status'], 'published')
-        nowish = utils.utcnow().isoformat()[:20]
-        self.assertEqual(result['datetime'][:20], nowish)
+
+        ajson = json.load(open(self.ajson_fixture1, 'r'))
+        self.assertEqual(result['datetime'][:19], ajson['article']['published'])
         self.assertEqual(result['message'], "(dry-run)")
