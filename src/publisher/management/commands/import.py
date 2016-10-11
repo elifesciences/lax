@@ -56,14 +56,19 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         # where am I to look?
         parser.add_argument('path', type=str)
+
         # create articles that don't exist?
         parser.add_argument('--no-create', action='store_false', default=True)
+
         # update articles that already exist?
         parser.add_argument('--no-update', action='store_false', default=True)
+
         # indicate the type of import we should be doing
         parser.add_argument('--import-type', type=str, choices=IMPORT_TYPES)
+
         # don't prompt, don't pretty-print anything, just do it.
         parser.add_argument('--just-do-it', action='store_true', default=False)
+
         # do the import within a transaction - default. makes sqlite fly
         parser.add_argument('--no-atomic', action='store_false', default=True)
 
@@ -98,5 +103,7 @@ class Command(BaseCommand):
         fn = partial(ingest, choices[import_type], logic.journal(), create_articles, update_articles, path_list)
         if atomic:
             with transaction.atomic():
-                return fn()
-        return fn()
+                fn()
+        else:
+            fn()
+        exit(0)

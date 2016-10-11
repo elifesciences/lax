@@ -1,3 +1,5 @@
+from StringIO import StringIO
+from django.core.management import call_command
 import os, json
 from os.path import join
 from publisher import eif_ingestor as ingestor, utils, models, logic
@@ -324,3 +326,34 @@ class ImportFromPPPEIF(BaseCase):
         self.assertEqual(ver.title, "A meh life")
         art, ver = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
         self.assertEqual(ver.title, "A good life")
+
+class ImportFromCLI(BaseCase):
+    def setUp(self):
+        self.nom = 'import'
+        self.msid = "01968"
+        self.version = "1"
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+
+    def tearDown(self):
+        pass
+
+    def call_command(self, *args, **kwargs):
+        stdout = StringIO()
+        try:
+            kwargs['stdout'] = stdout
+            call_command(*args, **kwargs)
+        except SystemExit as err:
+            return err.code, stdout
+        self.fail("import script should always throw a systemexit()")
+
+    def test_import_from_cli(self):
+        "ensure the command is at least callable. NOTE: this command is scheduled to be removed."
+        args = [
+            self.nom,
+            self.ajson_fixture1, # order matters!
+            '--import-type', 'eif',
+
+            '--just-do-it',
+        ]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
