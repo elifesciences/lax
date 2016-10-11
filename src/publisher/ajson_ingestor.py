@@ -1,10 +1,10 @@
 import copy
-from publisher import models, utils
-from publisher.utils import subdict
+from publisher import models, utils, fragment_logic as fragments
+from publisher.utils import create_or_update
 import logging
 from django.db import transaction
 from et3 import render
-from et3.extract import path as p, val
+from et3.extract import path as p
 from django.db import IntegrityError
 import json
 import boto3
@@ -45,8 +45,7 @@ ARTICLE_VERSION = {
     'status': [models.POA],
     # only v1 article-json has a published date. v2 article-json does not
     'datetime_published': [p('published', None), utils.todt],
-    'article_json_v1_raw': [val],  # , remove('snippet')],
-    #'article_json_v1_snippet': [p('snippet')], # urgh, how to do this?
+    #'article_json_v1_raw': [val],
 }
 
 def atomic(fn):
@@ -99,30 +98,6 @@ def notify_event_bus(art):
 #
 #
 
-def create_or_update(Model, orig_data, key_list, create=True, update=True, commit=True, **overrides):
-    inst = None
-    created = updated = False
-    data = {}
-    data.update(orig_data)
-    data.update(overrides)
-    try:
-        # try and find an entry of Model using the key fields in the given data
-        inst = Model.objects.get(**subdict(data, key_list))
-        # object exists, otherwise DoesNotExist would have been raised
-        if update:
-            [setattr(inst, key, val) for key, val in data.items()]
-            updated = True
-    except Model.DoesNotExist:
-        if create:
-            inst = Model(**data)
-            created = True
-
-    if (updated or created) and commit:
-        inst.save()
-
-    # it is possible to neither create nor update.
-    # in this case if the model cannot be found then None is returned: (None, False, False)
-    return (inst, created, updated)
 
 def _ingest(data, force=False):
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
@@ -163,6 +138,8 @@ def _ingest(data, force=False):
 
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
+
+        fragments.add(av, 'xml->json', data, pos=0)
 
         # enforce business rules
 
@@ -242,7 +219,8 @@ def _publish(msid, version, force=False):
 
         # the json *will* have a pub date if it's a v1 ...
         if version == 1:
-            datetime_published = utils.todt(av.article_json_v1_raw.get('published'))
+            raw_data = fragments.get(av, 'xml->json')
+            datetime_published = utils.todt(raw_data['article']['published'])
             if not datetime_published:
                 raise StateError("failed to pull pubdate from from ingested article json")
 
