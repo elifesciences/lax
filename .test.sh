@@ -2,6 +2,8 @@
 
 set -e # everything must pass
 
+pyflakes src/
+
 args="$@"
 module="src"
 print_coverage=1
