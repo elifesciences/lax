@@ -30,7 +30,7 @@ def nth(idx, x):
     # 'nth' implies a sequential collection
     if isinstance(x, dict):
         raise TypeError
-    if x == None:
+    if x is None:
         return x
     try:
         return x[idx]
@@ -65,7 +65,7 @@ def ymd(dt):
 
 def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
-    if val == None:
+    if val is None:
         return None
 
     if not isinstance(val, datetime):
@@ -90,7 +90,7 @@ def utcnow():
 
 def filldict(ddict, keys, default):
     def filldictslot(ddict, key, val):
-        if not ddict.has_key(key):
+        if key not in ddict:
             ddict[key] = val
     data = copy.deepcopy(ddict)
     for key in keys:
@@ -100,7 +100,7 @@ def filldict(ddict, keys, default):
             val = default
         filldictslot(data, key, val)
     return data
-    
+
 
 # stolen from:
 # http://stackoverflow.com/questions/10823877/what-is-the-fastest-way-to-flatten-arbitrarily-nested-lists-in-python
@@ -118,17 +118,17 @@ def future_date(date):
 
 def subdict(dt, ks):
     "returns a copy of the given dictionary `dt` with only the keys `ks` included"
-    return {k:v for k, v in dt.items() if k in ks}
+    return {k: v for k, v in dt.items() if k in ks}
 
 def exsubdict(dt, ks):
     "same as subdict, but exclusionary"
-    return {k:v for k, v in dt.items() if k not in ks}
+    return {k: v for k, v in dt.items() if k not in ks}
 
 def dictmap(func, data, **funcargs):
     "applies the given function over the values of the given data map. optionally passes any keyword args"
     if funcargs:
         func = partial(func, **funcargs)
-    return {k:func(v) for k, v in data.items()}
+    return {k: func(v) for k, v in data.items()}
 
 def has_all_keys(data, expected_keys):
     actual_keys = data.keys()
@@ -162,5 +162,5 @@ def json_dumps(obj):
         if hasattr(obj, 'isoformat'):
             return obj.isoformat()
         else:
-            raise TypeError, 'Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj))
+            raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=datetime_handler)

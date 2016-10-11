@@ -39,7 +39,7 @@ def import_article(journal, article_data, create=True, update=False):
     return art
 
 #
-# 
+#
 #
 
 # http://stackoverflow.com/questions/14995743/how-to-deserialize-the-datetime-in-a-json-object-in-python
@@ -60,7 +60,7 @@ def import_article_list_from_json_path(journal, json_path, *args, **kwargs):
         def fn(ad):
             try:
                 return import_article(journal, ad, *args, **kwargs)
-            except AssertionError, e:
+            except AssertionError as e:
                 LOG.error("failed to import article with msid %r: %s", ad['manuscript_id'], e)
                 LOG.error("full data %s", ad)
                 raise

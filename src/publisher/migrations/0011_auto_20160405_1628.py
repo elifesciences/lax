@@ -13,7 +13,7 @@ def not_latest_articles(Article):
     select a.*
     from publisher_article a
     where exists (
-        select * 
+        select *
         from publisher_article b
         where a.doi = b.doi
         and b.version > a.version)'''
@@ -30,7 +30,7 @@ def populate(apps, schema_editor):
 
     turn_off_auto_now_add(ArticleVersion, "datetime_record_created")
     turn_off_auto_now(ArticleVersion, "datetime_record_updated")
-    
+
     attrs = [
         'doi',
         'title',

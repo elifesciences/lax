@@ -1,3 +1,5 @@
+from StringIO import StringIO
+from django.core.management import call_command
 import os, json
 from os.path import join
 from publisher import eif_ingestor as ingestor, utils, models, logic
@@ -36,7 +38,7 @@ class PatchArticle(BaseCase):
             'versions': [
                 {'title': 'replaced title', 'version': 1},
             ]
-        }            
+        }
         ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         av = models.ArticleVersion.objects.all()[0]
         self.assertEqual(av.title, "A meh life")
@@ -84,7 +86,7 @@ class ImportArticleFromJSON(BaseCase):
             self.assertEqual(getattr(clean_article, attr), expected_value)
 
     def test_article_version_data(self):
-        art, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)        
+        art, ver = ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         expected_data = {
             'article': art,
             'datetime_published': utils.todt('2012-12-10'),
@@ -104,11 +106,11 @@ class ImportArticleFromJSON(BaseCase):
                                ['version', 1],
                                ["datetime_published", utils.todt("2012-12-10")]]:
             self.assertEqual(getattr(ver, attr), expected)
-        
+
         self.assertEqual(1, models.Article.objects.count())
 
         # attempt the update
-        
+
         art, ver = ingestor.import_article_from_json_path(self.journal, self.update_fixture, update=True)
         for attr, expected in [['title', "A good life"],
                                ['status', "vor"],
@@ -121,7 +123,7 @@ class ImportArticleFromJSON(BaseCase):
         self.assertEqual(0, models.Article.objects.count())
         ingestor.import_article_from_json_path(self.journal, self.json_fixture)
         self.assertEqual(1, models.Article.objects.count())
-        
+
         # attempt the update
         self.assertRaises(AssertionError, ingestor.import_article_from_json_path, self.journal, self.json_fixture, update=False)
 
@@ -135,7 +137,7 @@ class ImportArticleFromJSON(BaseCase):
         v1 = join(path, "elife-09066-v1.json")
         v2 = join(path, "elife-09066-v2.json")
         v3 = join(path, "elife-09066-v3.json")
-        
+
         ingestor.import_article_from_json_path(self.journal, v1)
         ingestor.import_article_from_json_path(self.journal, v2)
         ingestor.import_article_from_json_path(self.journal, v3)
@@ -146,7 +148,7 @@ class ImportArticleFromJSON(BaseCase):
         v1obj = models.ArticleVersion.objects.get(version=1) # POA
         v2obj = models.ArticleVersion.objects.get(version=2) # POA
         v3obj = models.ArticleVersion.objects.get(version=3) # VOR
-        
+
         self.assertEqual(v1obj.datetime_published, utils.todt("2015-12-19T00:00:00Z"))
         self.assertEqual(v2obj.datetime_published, utils.todt("2015-12-23T00:00:00Z"))
         self.assertEqual(v3obj.datetime_published, utils.todt("2016-02-04T00:00:00Z"))
@@ -156,7 +158,7 @@ class ImportArticleFromJSON(BaseCase):
         self.assertEqual(v1obj.datetime_published, v1obj.article.datetime_published)
         self.assertEqual(v1obj.datetime_published, v2obj.article.datetime_published)
         self.assertEqual(v1obj.datetime_published, v3obj.article.datetime_published)
-        
+
 class ImportArticleFromJSONViaAPI(BaseCase):
     def setUp(self):
         self.c = Client()
@@ -172,7 +174,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         self.assertEqual(0, models.ArticleVersion.objects.count())
         json_data = open(self.json_fixture, 'r').read()
         data = json.loads(json_data)
-        
+
         # create the article. 1xEIF == 1xArticle + 1xArticleVersion
         resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
@@ -187,7 +189,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         # update the same article (with the original doi)
         resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
-        
+
         # ensure nothing new has been created
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(1, models.ArticleVersion.objects.count())
@@ -202,7 +204,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
         json_data = open(self.json_fixture, 'r').read()
         data = json.loads(json_data)
         api_url = reverse('api-create-update-article')
-        
+
         # post the article with a version of 1
         resp = self.c.post(api_url, json_data, content_type="application/json")
         self.assertEqual(200, resp.status_code)
@@ -271,7 +273,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
             # empty
             "{}",
             "[]",
-             # missing actual data
+            # missing actual data
             '["pants"]',
             '{"pants": "party"}',
             # partial data
@@ -282,7 +284,7 @@ class ImportArticleFromJSONViaAPI(BaseCase):
                 resp = self.c.post(reverse('api-create-article'), bad_data, content_type="application/json")
                 self.assertEqual(400, resp.status_code)
                 self.assertEqual(0, models.Article.objects.count())
-            except AssertionError, e:
+            except AssertionError as e:
                 print '>>> ', bad_data
                 print e
                 raise
@@ -299,12 +301,13 @@ class ImportFromPPPEIF(BaseCase):
     """the EIF article json floating around the PPP workflow
     differs from the more predictable stuff that can be found at
     github.com/elifesciences/elife-article-json"""
-    
+
     def setUp(self):
         self.fixture_list = []
         self.journal = logic.journal()
         for dirpath, _, files in os.walk(join(self.fixture_dir, 'ppp')):
-            if not files: continue
+            if not files:
+                continue
             self.fixture_list.extend(map(lambda f: os.path.join(dirpath, f), files))
 
     def tearDown(self):
@@ -323,3 +326,34 @@ class ImportFromPPPEIF(BaseCase):
         self.assertEqual(ver.title, "A meh life")
         art, ver = ingestor.import_article_from_json_path(self.journal, eif_update_fixture, update=True)
         self.assertEqual(ver.title, "A good life")
+
+class ImportFromCLI(BaseCase):
+    def setUp(self):
+        self.nom = 'import'
+        self.msid = "01968"
+        self.version = "1"
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+
+    def tearDown(self):
+        pass
+
+    def call_command(self, *args, **kwargs):
+        stdout = StringIO()
+        try:
+            kwargs['stdout'] = stdout
+            call_command(*args, **kwargs)
+        except SystemExit as err:
+            return err.code, stdout
+        self.fail("import script should always throw a systemexit()")
+
+    def test_import_from_cli(self):
+        "ensure the command is at least callable. NOTE: this command is scheduled to be removed."
+        args = [
+            self.nom,
+            self.ajson_fixture1, # order matters!
+            '--import-type', 'eif',
+
+            '--just-do-it',
+        ]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)

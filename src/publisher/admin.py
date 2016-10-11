@@ -14,21 +14,17 @@ class ArticleVersionAdmin(admin.TabularInline):
 
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('manuscript_id', 'ejp_type', 'date_initial_qc', 'initial_decision', 'doi')
-    list_filter = ('ejp_type', 'date_initial_qc', 'initial_decision', 'decision') #('is_published', admin.BooleanFieldListFilter))
+    list_filter = ('ejp_type', 'date_initial_qc', 'initial_decision', 'decision')  # ('is_published', admin.BooleanFieldListFilter))
     show_full_result_count = True
     search_fields = ('manuscript_id', 'doi',)
     inlines = [
         ArticleVersionAdmin,
     ]
 
-class ArticleAttributeAdmin(admin.ModelAdmin):
-    pass
-
 admin_list = [
     (models.Publisher,),
     (models.Journal, ),
     (models.Article, ArticleAdmin),
-    (models.ArticleAttribute, ArticleAttributeAdmin),
 ]
 
 [admin.site.register(*t) for t in admin_list]

@@ -1,4 +1,4 @@
-"""generalised settings for the Lax project. 
+"""generalised settings for the Lax project.
 
 per-instance settings are in /path/to/app/app.cfg
 example settings can be found in /path/to/lax/elife.cfg
@@ -14,8 +14,8 @@ from pythonjsonlogger import jsonlogger
 PROJECT_NAME = 'lax'
 
 # Build paths inside the project like this: os.path.join(SRC_DIR, ...)
-SRC_DIR = os.path.dirname(os.path.dirname(__file__)) # ll: /path/to/app/src/
-PROJECT_DIR = os.path.dirname(SRC_DIR)
+SRC_DIR = os.path.dirname(os.path.dirname(__file__)) # ll: /path/to/lax/src/
+PROJECT_DIR = os.path.dirname(SRC_DIR) # ll: /path/to/lax/
 
 CFG_NAME = 'app.cfg'
 DYNCONFIG = configparser.SafeConfigParser(**{
@@ -156,6 +156,21 @@ SWAGGER_SETTINGS = {
     'exclude_namespaces': ['proxied'], # swagger docs are broken, but this gives them the right namespace
 }
 
+#
+
+SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
+ART_HISTORY_SCHEMA = join(SCHEMA_PATH, 'model/article-history.v1.json')
+
+EVENT_BUS = {
+    'region': cfg('bus.region'),
+    'subscriber': cfg('bus.subscriber'),
+    'name': cfg('bus.name'),
+    'env': cfg('bus.env')
+}
+
+# ll: arn:aws:sns:us-east-1:112634557572:bus-articles--ci
+TOPIC_ARN = "arn:aws:sns:{region}:{subscriber}:{name}--{env}".format(**EVENT_BUS)
+
 # Lax settings
 
 # when ingesting an article version and the EIF has no 'update' value,
@@ -180,7 +195,7 @@ def writable(path):
 map(writable, [LOG_FILE, INGESTION_LOG_FILE])
 
 ATTRS = ['asctime', 'created', 'levelname', 'message', 'filename', 'funcName', 'lineno', 'module', 'pathname']
-FORMAT_STR = ' '.join(map(lambda v: '%('+v+')s', ATTRS))
+FORMAT_STR = ' '.join(map(lambda v: '%(' + v + ')s', ATTRS))
 
 LOGGING = {
     'version': 1,
@@ -195,7 +210,7 @@ LOGGING = {
             'format': '%(levelname)s - %(message)s'
         },
     },
-    
+
     'handlers': {
         'file': {
             'level': 'DEBUG',
@@ -215,7 +230,7 @@ LOGGING = {
             'formatter': 'brief',
         },
     },
-    
+
     'loggers': {
         '': {
             'handlers': ['debug-console', 'file'],
@@ -238,7 +253,7 @@ LOGGING = {
         },
         'publisher.management.commands.ingest': {
             'level': 'INFO',
-            'handlers': ['debug-console'],
+            'handlers': ['ingestion', 'debug-console'],
         },
         'django.request': {
             'handlers': ['file'],

@@ -1,9 +1,9 @@
 """
-the `ingest` script is distinct from the `import` script. 
+the `ingest` script is distinct from the `import` script.
 
 The import script does not obey business rules and merrily update published dates and so on without concern. It is good for bulk imports, development and once-off patching of article data.
 
-The ingest script DOES obey business rules and will not publish things twice, 
+The ingest script DOES obey business rules and will not publish things twice,
 
 """
 
@@ -15,7 +15,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-INVALID = 'invalid'
+INVALID, ERROR = 'invalid', 'error'
 IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
 INGEST, PUBLISH, BOTH = IMPORT_TYPES
 INGESTED, PUBLISHED = 'ingested', 'published'
@@ -65,7 +65,7 @@ class Command(ModCommand):
     def add_arguments(self, parser):
         # update articles that already exist?
         parser.add_argument('--id', dest='msid', type=int, required=True)
-        parser.add_argument('--version',  dest='version', type=int, required=True)
+        parser.add_argument('--version', dest='version', type=int, required=True)
         parser.add_argument('--force', action='store_true', default=False)
         parser.add_argument('--dry-run', action='store_true', default=False)
 
@@ -82,20 +82,27 @@ class Command(ModCommand):
         self.stdout.flush()
 
     def error(self, errtype, message):
-        self.write({
+        struct = {
             'status': errtype,
             'message': message
-        })
+        }
+        self.log_context['status'] = errtype
+        LOG.error(message, extra=self.log_context)
+        self.write(struct)
 
     def success(self, action, av, dry_run=False):
         status = INGESTED if action == INGEST else PUBLISHED
         attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
-        return self.write({
+        struct = {
             'status': status,
             'id': None if dry_run else av.article.manuscript_id,
             'datetime': getattr(av, attr),
             'message': "(dry-run)" if dry_run else None,
-        })
+        }
+        self.log_context.update(struct)
+        self.log_context.pop('message')
+        LOG.info("successfully %s article", status, extra=self.log_context)
+        self.write(struct)
 
     def handle(self, *args, **options):
         action = options['action']
@@ -106,24 +113,37 @@ class Command(ModCommand):
 
         data = None
 
+        self.log_context = {
+            'action': action, 'msid': msid, 'version': version, 'force?': force, 'dry_run?': dry_run
+        }
+
         if not action:
             self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
 
+        LOG.info('attempting to ingest article', extra=self.log_context)
+
         # read and check the article-json given, if necessary
         try:
             if action in [INGEST, BOTH]:
-                data = json.load(options['infile'])
+                raw_data = options['infile'].read()
+                self.log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
+                data = json.loads(raw_data)
                 # vagary of the CLI interface: article id and version are required
                 # these may not match the data given
-                data_version = data['article']['version']
+                data_version = data['article'].get('version')
                 if not data_version == version:
                     raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
                 data_msid = int(data['article']['id'].lstrip('0'))
                 if not data_msid == msid:
                     raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
+
+        except StateError as err:
+            self.error(INVALID, err.message)
+            sys.exit(1)
+
         except ValueError as err:
-            self.error(INVALID, "could decode the json you gave me: %s" % err.message)
+            self.error(INVALID, "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data))
             sys.exit(1)
 
         choices = {
@@ -138,12 +158,13 @@ class Command(ModCommand):
             self.success(action, av, dry_run)
 
         except StateError as err:
-            msg = "failed to call action %r: %s" % (action, err.message)
-            self.error(INVALID, msg)
+            self.error(INVALID, "failed to call action %r: %s" % (action, err.message))
             sys.exit(1)
 
-        except:
-            LOG.exception("unhandled exception attempting to %r article %sv%s", action, msid, version)
-            raise
+        except Exception as err:
+            msg = "unhandled exception attempting to %r article: %s" % (action, err)
+            LOG.exception(msg, extra=self.log_context)
+            self.error(ERROR, msg)
+            sys.exit(1)
 
         sys.exit(0)

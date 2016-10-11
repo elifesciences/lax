@@ -1,0 +1,1199 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "status": "vor", 
+        "id": "16695", 
+        "version": 3, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.16695", 
+        "authorLine": "eLife et al", 
+        "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
+        "published": "2016-08-16T00:00:00", 
+        "volume": 5, 
+        "elocationId": "e16695", 
+        "pdf": "elife-16695-v3.pdf", 
+        "subjects": [
+            "human-biology-medicine", 
+            "neuroscience"
+        ], 
+        "research-organisms": [
+            "Human", 
+            "Mouse"
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "text": "Abstract", 
+                    "type": "paragraph"
+                }
+            ], 
+            "doi": "10.7554/eLife.09560.001"
+        }, 
+        "impactStatement": "A missense mutation in the human Cryptochrome 2 (CRY2) gene leads to the condition of familial advanced sleep phase."
+    }, 
+    "article": {
+        "status": "vor", 
+        "id": "16695", 
+        "version": 3, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.16695", 
+        "authorLine": "eLife et al", 
+        "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
+        "published": "2016-08-16T00:00:00", 
+        "volume": 5, 
+        "elocationId": "e16695", 
+        "pdf": "elife-16695-v3.pdf", 
+        "subjects": [
+            "human-biology-medicine", 
+            "neuroscience"
+        ], 
+        "research-organisms": [
+            "Human", 
+            "Mouse"
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "text": "Abstract", 
+                    "type": "paragraph"
+                }
+            ], 
+            "doi": "10.7554/eLife.09560.001"
+        }, 
+        "impactStatement": "A missense mutation in the human Cryptochrome 2 (CRY2) gene leads to the condition of familial advanced sleep phase.", 
+        "keywords": [
+            "circadian clock", 
+            "cryptochrome2", 
+            "circadian rhythm", 
+            "FBXL3", 
+            "Familial Advanced Sleep Phase"
+        ], 
+        "digest": {
+            "content": [
+                {
+                    "text": "Digest", 
+                    "type": "paragraph"
+                }
+            ], 
+            "doi": "10.7554/eLife.09560.002"
+        }, 
+        "body": [
+            {
+                "type": "section", 
+                "id": "s1", 
+                "title": "Introduction", 
+                "content": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Sleep is vital for all animals. Sleep-wake timing is regulated by the internal biological clock driving physiological rhythms with a period of approximately 24\u2009hr (<xref ref-type=\"bibr\" rid=\"bib40\">Takahashi, 1995</xref>). The circadian clock is composed of interlocked transcriptional and translational negative feedback loops (<xref ref-type=\"bibr\" rid=\"bib22\">Lowrey and Takahashi, 2004</xref>; <xref ref-type=\"bibr\" rid=\"bib31\">Reppert and Weaver, 2001</xref>). In mammals, a CLOCK-BMAL1 heterodimer binds to E-boxes and activates gene expression of the <italic>Period (Per</italic>) and <italic>Cryptochrome (Cry</italic>) genes. Translated PERs and CRYs proteins form a complex that enters the nucleus to inhibit their own transcription through direct interaction with CLOCK-BMAL1 heterodimers. PER and CRY proteins accumulating in the nucleus are then degraded over time. As protein levels fall (depending on rate of degradation), the transcription-translation feedback loop begins anew."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "<italic>CRY2</italic> is a principal component in mammalian circadian clocks (<xref ref-type=\"bibr\" rid=\"bib34\">Shearman et al., 2000</xref>; <xref ref-type=\"bibr\" rid=\"bib42\">van der Horst et al., 1999</xref>; <xref ref-type=\"bibr\" rid=\"bib43\">Vitaterna et al., 1999</xref>). While Drosophila and plant CRY proteins act as photoreceptors contributing to photoentrainment of the circadian clock and other biological processes by binding to flavin adenine dinucleotide (FAD) (<xref ref-type=\"bibr\" rid=\"bib26\">Partch and Sancar, 2005</xref>), mammalian CRY2 has light-independent transcriptional repressor activity and strongly inhibits E-box-regulated gene expression (<xref ref-type=\"bibr\" rid=\"bib6\">Griffin et al., 1999</xref>; <xref ref-type=\"bibr\" rid=\"bib17\">Kume et al., 1999</xref>; <xref ref-type=\"bibr\" rid=\"bib34\">Shearman et al., 2000</xref>). The protein stability of CRY2 is fine-tuned by post-translational modification including phosphorylation and ubiquitylation. In addition, various enzyme modifications play a role in CRY2 regulation (<xref ref-type=\"bibr\" rid=\"bib30\">Reischl and Kramer, 2011</xref>; <xref ref-type=\"bibr\" rid=\"bib39\">Stojkovic et al., 2014</xref>). Among them, FBXL3 is an F-box type E3 ubiquitin ligase which promotes CRY1 and CRY2 ubiquitylation thus leading to proteasome-mediated degradation (<xref ref-type=\"bibr\" rid=\"bib2\">Busino et al., 2007</xref>). Mutations in mouse <italic>Fbxl3</italic> or knockout of the <italic>Fbxl3</italic> gene dramatically lengthens the period of mouse behavioral rhythms in constant darkness (<xref ref-type=\"bibr\" rid=\"bib5\">Godinho et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib10\">Hirano et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib35\">Shi et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib36\">Siepka et al., 2007</xref>), indicating that the protein stability of CRY1 and CRY2 is a critical determinant of circadian period in mice. However, direct evidence supporting the significance of <italic>CRY2</italic> and the post-translational regulation of CRY2 protein in the human circadian clock regulating the sleep-wake cycle has been lacking."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Familial Advanced Sleep Phase (FASP) is a heritable sleep phenotype characterized by stable early sleep and wake times (<xref ref-type=\"bibr\" rid=\"bib14\">Jones et al., 1999</xref>; <xref ref-type=\"bibr\" rid=\"bib28\">Reid and Burgess, 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib29\">Reid et al., 2001</xref>). The FASP phenotype can segregate as a highly penetrant, autosomal dominant trait in human kindreds. Previously, we have identified mutations in clock genes, including <italic>Period2, Period3, casein kinase I\u03b4</italic>, and <italic>Dec2</italic> causing circadian and sleep homeostasis phenotypes in humans (<xref ref-type=\"bibr\" rid=\"bib8\">He et al., 2009</xref>; <xref ref-type=\"bibr\" rid=\"bib41\">Toh et al., 2001</xref>; <xref ref-type=\"bibr\" rid=\"bib45\">Xu et al., 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib50\">Zhang et al., 2016</xref>). A mutation at the phosphorylation priming site of PER2 attenuates sequential phosphorylation and consequently destabilizes PER2 proteins. The mouse model expressing mutant PER2 exhibits a shortened circadian period accompanied with large phase-advance in sleep-wake rhythms (<xref ref-type=\"bibr\" rid=\"bib46\">Xu et al., 2007</xref>). This sequential phosphorylation region of PER2 was later found to be modulated by another post-translational regulation, <italic>O</italic>-GlcNAcylation, demonstrating an interplay and competition between phosphorylation and <italic>O</italic>-GlcNAcylation of serine residues in this region (<xref ref-type=\"bibr\" rid=\"bib15\">Kaasik et al., 2013</xref>). These studies highlighted the important role of post-translational regulation of clock proteins\u00a0in vivo\u00a0in humans and also revealed mechanistic insight into the regulation of PER2. Thus, human genetic studies have provided valuable and unique opportunities to elucidate novel molecular mechanisms of circadian/sleep regulation."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Here we report the identification of a novel variant in the human h<italic>CRY2</italic> gene that leads to FASP. Generation of a mouse model carrying the mutation revealed that the mutation causes a FASP-like phenotype in mice with altered circadian period and photic entrainment. We found that the mutation in the CRY2 FAD-binding-domain enhances its affinity for FBXL3, thus destabilizing CRY2 via increased ubiquitylation and targeting for degradation by the proteasome. We conclude that regulation of CRY2 stability by a proper balance of FAD and FBXL3 is essential for the sleep-wake cycle in humans."
+                    }
+                ]
+            }, 
+            {
+                "type": "section", 
+                "id": "s2", 
+                "title": "Results", 
+                "content": [
+                    {
+                        "type": "section", 
+                        "id": "s2-1", 
+                        "title": "Identification of a novel mutation in the h<italic>CRY2</italic> gene associated with FASP", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "Through candidate gene screening in FASP families, we identified a missense mutation in the human <italic>CRY2</italic> gene, which causes an amino acid conversion from Ala\u2192Thr at position 260 (A260T) (<xref ref-type=\"fig\" rid=\"fig1\">Figure 1A</xref>). No other novel mutations were found in ~25 candidate circadian genes that were sequenced. The A260T mutation is associated with the circadian phenotype in this FASP family (<xref ref-type=\"fig\" rid=\"fig1\">Figure 1A</xref>) (<xref ref-type=\"bibr\" rid=\"bib14\">Jones et al., 1999</xref>; <xref ref-type=\"bibr\" rid=\"bib41\">Toh et al., 2001</xref>; <xref ref-type=\"bibr\" rid=\"bib45\">Xu et al., 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib50\">Zhang et al., 2016</xref>). The fraternal twin sisters inherited the mutation from their mother and both reported a strong morning preference (Horne-Ostberg scores of 84 and 72) (<xref ref-type=\"supplementary-material\" rid=\"SD1-data\">Figure 1\u2014source data 1</xref>). The proband also had a very early melatonin onset (4:41 P.M.), while the averaged melatonin onset of normative samples is 8:50 P.M. (<xref ref-type=\"bibr\" rid=\"bib1\">Burgess and Fogg, 2008</xref>). Her melatonin onset time is 3.35 standard deviations earlier than expected and among the earliest 0.05% of normative samples (<xref ref-type=\"bibr\" rid=\"bib1\">Burgess and Fogg, 2008</xref>). Ala260 is located in the FAD binding domain of CRY2 and it is highly conserved in CRY1 and CRY2 proteins of various species (<xref ref-type=\"fig\" rid=\"fig1\">Figure 1B</xref>)."
+                            }, 
+                            {
+                                "type": "image", 
+                                "doi": "10.7554/eLife.16695.003", 
+                                "id": "fig1", 
+                                "label": "Figure 1.", 
+                                "title": "A <italic>CRY2</italic> mutation in FASP kindred 50035.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<bold>A</bold>) Pedigree of the family (kindred 50035) segregating the <italic>CRY2</italic> mutation (A260T). Circles and squares represent women and men, respectively. An asterisk marks the proband. A missense mutation from G to A causes an amino acid conversion from Alanine to Threonine at position 260. (<bold>B</bold>) Amino acid alignment around the mutation site. The A260T mutation is located in the N-terminal portion of the FAD binding domain in CRY2. This residue is highly conserved among vertebrate species. CC denotes a Coiled-Coil sequence."
+                                    }, 
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.003\">http://dx.doi.org/10.7554/eLife.16695.003</ext-link>"
+                                    }
+                                ], 
+                                "alt": "", 
+                                "uri": "https://example.org/elife-16695-fig1-v3", 
+                                "sourceData": [
+                                    {
+                                        "doi": "10.7554/eLife.16695.004", 
+                                        "id": "SD1-data", 
+                                        "label": "Figure 1\u2014source data 1.", 
+                                        "title": "Summary of sleep phenotype of human subjects.", 
+                                        "mediaType": "application/docx", 
+                                        "uri": "https://example.org/elife-16695-fig1-data1-v3.docx"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s2-2", 
+                        "title": "FASP in mouse model carrying A260T mutation", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "To test whether the A260T mutation causes FASP and has a dominant effect on the circadian sleep-wake cycle, we generated wild-type h<italic>CRY2</italic> (h<italic>CRY2-WT</italic>) and mutant h<italic>CRY2</italic> (h<italic>CRY2-A260T)</italic> human BAC transgenic (Tg) mice (<xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure\u00a0supplement 1A</xref>). Transgenic mice were subjected to locomotor behavioral analysis using a video camera tracking system. Under conditions of 12\u2009hr light and 12\u2009hr dark (LD 12:12), both h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T</italic> mice entrained stably to the LD cycle (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2A</xref>). However, the peak time of resting behavior, as determined by quadratic-function fitting, was significantly advanced in h<italic>CRY2-A260T</italic> mutant mice (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2B</xref>). The activity offset and onset times were also advanced in h<italic>CRY2-A260T</italic> mutant mice vs. h<italic>CRY2-WT</italic> mice (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2C</xref> and <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure\u00a0supplement 1B</xref>). Similarly, h<italic>CRY2-A260T</italic> mutant mice on a <italic>Cry2</italic> null background demonstrated advanced activity onset and offset, especially around the LD transition (ZT12-13) (<xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2-\u2014figure\u00a0supplement 1C</xref>). These results demonstrate that h<italic>CRY2-A260T</italic> mice recapitulate the advanced sleep phase seen in the human FASP subjects harboring the <italic>CRY2</italic> mutation."
+                            }, 
+                            {
+                                "type": "image", 
+                                "doi": "10.7554/eLife.16695.005", 
+                                "id": "fig2", 
+                                "label": "Figure 2.", 
+                                "title": "h<italic>CRY2-A260T</italic> mice have advanced phase of sleep-wake behavior in a light-dark cycle and a shortened circadian period in constant darkness.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<bold>A</bold>) Mouse movement was tracked by an infrared video camera in LD. The ratio of immobilization time to total daily immobilization time (upper panel) and the ratio of walking distance to total daily distance (bottom panel) were plotted every 10 min. Data are shown as means with SEM (n\u00a0=\u00a08 for h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T</italic>). (<bold>B</bold>) Peak time of immobility was measured by fitting a quadratic function to data from ZT0 to 13. Representative examples of curve fitting for h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T</italic> are shown here. Data are shown as means with SEM (n\u00a0=\u00a08 for h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T,</italic> *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>C</bold>) Onset and offset of locomotor activity. Data are shown as means with SEM (n\u00a0=\u00a08 for h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T</italic>). (<bold>D</bold>) Actograms of wheel-running activity for <italic>hCRY2-WT</italic>, h<italic>CRY2-A260T,</italic> and littermate transgene-negative mice. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. (<bold>E</bold>) Phase-shifts in response to a 30-min light exposure at ZT14 indicated by red arrows in (<bold>D</bold>). *p<0.05 by Tukey\u2019s test (n\u00a0=\u00a07 for h<italic>CRY2-WT,</italic> n\u00a0=\u00a011 for h<italic>CRY2-A260T,</italic> n\u00a0=\u00a010 for WT). (<bold>F</bold>) The distribution of period measurements for BAC transgenic mice and transgene negative controls. Period was determined by line fitting of activity onset and chi-square periodogram from day 7 to day 19 in DD. *p<0.05 (n\u00a0=\u00a015 for h<italic>CRY2-WT</italic>, n\u00a0=\u00a014 for h<italic>CRY2-A260T</italic> and n\u00a0=\u00a07 for WT)"
+                                    }, 
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.005\">http://dx.doi.org/10.7554/eLife.16695.005</ext-link>"
+                                    }
+                                ], 
+                                "alt": "", 
+                                "uri": "https://example.org/elife-16695-fig2-v3", 
+                                "supplements": [
+                                    {
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.006", 
+                                        "id": "fig2s1", 
+                                        "label": "Figure 2\u2014figure supplement 1.", 
+                                        "title": "Locomoter activity of h <italic>CRY2</italic> BAC Tg mice.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<bold>A</bold>) CRY2 expression in total liver lysate at ZT18. CRY2 protein was detected by human CRY2 antibody (Santa Cruz) and mouse CRY2 antibody (<xref ref-type=\"bibr\" rid=\"bib10\">Hirano et al., 2013</xref>). Copy number was determined by real-time PCR using common sequences in mouse and human <italic>Cry2</italic> genes. (<bold>B</bold>) Representative profiles of locomotor activity measured by video recording. Activity onset (black) and offset (red) are indicated by arrows in the figures. The time of onset and offset for all animals of respective genotypes are averaged and plotted in <xref ref-type=\"fig\" rid=\"fig2\">Figure 2C</xref>. (<bold>C</bold>) Locomotor activity and resting behavior of transgenic mice on a m<italic>Cry2</italic> knockout background. Mouse movement was tracked by an infrared video camera in LD. The ratio of immobilization time to total daily immobilization time (upper panel) and the ratio of walking distance to total daily distance (bottom panel) were plotted every 10 min. Data are shown as means with SEM (n\u00a0=\u00a06 for h<italic>CRY2-WT/Cry2</italic> KO, n\u00a0=\u00a06 for h<italic>CRY2-A260T/Cry2</italic> KO). The average of activity offset and onset in LD 12:12 are shown (n\u00a0=\u00a06 for h<italic>CRY2-WT/Cry2</italic> KO, n\u00a0=\u00a06 for h<italic>CRY2-A260T/Cry2</italic> KO)."
+                                            }, 
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.006\">http://dx.doi.org/10.7554/eLife.16695.006</ext-link>"
+                                            }
+                                        ], 
+                                        "alt": "", 
+                                        "uri": "https://example.org/elife-16695-fig2-figsupp1-v3"
+                                    }, 
+                                    {
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.007", 
+                                        "id": "fig2s2", 
+                                        "label": "Figure 2\u2014figure supplement 2.", 
+                                        "title": "Wheel-running activity of h<italic>CRY2</italic> BAC Tg mice.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<bold>A</bold>) Activity profiles of transgenic mice in LD 12:12. Ratio of wheel-running counts to total daily counts are plotted every 20 min (n\u00a0=\u00a018 for h<italic>CRY2-WT</italic>, n\u00a0=\u00a014 for h<italic>CRY2-A260T</italic>). The average of activity offset in LD 12:12 are shown in the right graph. *p<0.05 by Tukey\u2019s test (n\u00a0=\u00a019 for h<italic>CRY2-WT</italic>, n\u00a0=\u00a019 for h<italic>CRY2-A260T</italic> and n\u00a0=\u00a07 for WT). (<bold>B</bold>) Actograms and activity profiles of transgenic mice on a m<italic>Cry2</italic> knockout background in LD 12:12. Ratio of wheel-running counts to total daily counts are plotted every 5 min (n\u00a0=\u00a05 for h<italic>CRY2-WT</italic>, n\u00a0=\u00a05 for h<italic>CRY2-A260T</italic>). The average of activity offset in LD 12:12 are shown in the right graph. *p<0.05 by Tukey\u2019s test (n\u00a0=\u00a05 for h<italic>CRY2-WT</italic>/m<italic>Cry2</italic> KO, n\u00a0=\u00a05 for h<italic>CRY2-A260T</italic>/m<italic>Cry2</italic> KO and n\u00a0=\u00a06 for m<italic>Cry2</italic> KO)."
+                                            }, 
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.007\">http://dx.doi.org/10.7554/eLife.16695.007</ext-link>"
+                                            }
+                                        ], 
+                                        "alt": "", 
+                                        "uri": "https://example.org/elife-16695-fig2-figsupp2-v3"
+                                    }, 
+                                    {
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.008", 
+                                        "id": "fig2s3", 
+                                        "label": "Figure 2\u2014figure supplement 3.", 
+                                        "title": "Light phase-shift of h<italic>CRY2</italic> BAC Tg mice at ZT22.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<bold>A</bold>) Phase-shift in response to 30-min light exposure at ZT22. Mice were exposed to a 30-min light pulse at ZT22 (indicated by red arrows) and released into DD after the light pulse. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. Phase-shift was determined by line-fitting to activity onset (n\u00a0=\u00a06 for h<italic>CRY2-WT</italic>, n\u00a0=\u00a07 for h<italic>CRY2-A260T</italic> and WT)."
+                                            }, 
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.008\">http://dx.doi.org/10.7554/eLife.16695.008</ext-link>"
+                                            }
+                                        ], 
+                                        "alt": "", 
+                                        "uri": "https://example.org/elife-16695-fig2-figsupp3-v3"
+                                    }, 
+                                    {
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.009", 
+                                        "id": "fig2s4", 
+                                        "label": "Figure 2\u2014figure supplement 4.", 
+                                        "title": "Wheel-running activity of h<italic>CRY2Cry2</italic> BAC Tg mice on a m KO background and another BAC Tg mice line.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<bold>A</bold>) Circadian period of the transgenic mice on a m<italic>Cry2</italic> knockout background. Period was determined by chi-square periodgram from day 7 to day 14 in DD. *p<0.05 by Welch\u2019s test (n\u00a0=\u00a06 for h<italic>CRY2-WT</italic>/m<italic>Cry2</italic>KO and n\u00a0=\u00a05 for h<italic>CRY2-A260T</italic>/m<italic>Cry2</italic>KO). (<bold>B</bold>) Circadian period and phase-shift of h<italic>CRY2-A260T</italic> mice line#2. Representative actograms of wheel-running activity of h<italic>CRY2-A260T</italic> line#2 and littermate controls (<italic>WT</italic>) are shown. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. Phase-shifts shown here are by 30-min light exposure at ZT14 (left panel, n\u00a0=\u00a07 for h<italic>CRY2-A260T</italic> line#2, n\u00a0=\u00a03 for <italic>WT</italic>). Period was determined by line fitting of activity onset from day 7 to day 19 in DD. *p<0.05 by Student\u2019s <italic>t</italic>-test (right panel, n\u00a0=\u00a07 for h<italic>CRY2-A260T</italic> line#2, n\u00a0=\u00a03 for <italic>WT</italic>)."
+                                            }, 
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.009\">http://dx.doi.org/10.7554/eLife.16695.009</ext-link>"
+                                            }
+                                        ], 
+                                        "alt": "", 
+                                        "uri": "https://example.org/elife-16695-fig2-figsupp4-v3"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s2-3", 
+                        "title": "Shortened period and reduced phase-shift in h<italic>CRY2-A260T</italic> mice", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "We next analyzed voluntary wheel-running activity to evaluate phase-shift and free-running period of the circadian clock for the Tg mouse models. Similar to locomotor activity measured by video tracking (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2A</xref>), wheel-running activity offset times were advanced in h<italic>CRY2-A260T</italic> vs. h<italic>CRY2-WT</italic> in LD on both m<italic>Cry2</italic> WT and null backgrounds (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2D</xref>; <xref ref-type=\"fig\" rid=\"fig2s2\">Figure\u00a02\u2014figure\u00a0supplement 2</xref>), while there are no significant differences in activity onset time and acrophase. Interestingly, h<italic>CRY2-A260T</italic> showed reduced phase-delay when mice were subjected to a 30-min light pulse at ZT14 (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2D,E</xref>), whereas phase-advance was normal in response to a light pulse at ZT22 (<xref ref-type=\"fig\" rid=\"fig2s3\">Figure 2\u2014figure\u00a0supplement 3</xref>). Thus, mutant mice have reduced sensitivity to entrainment by light at early night compared to control mice. The mice were subsequently released into constant darkness (DD) to determine circadian period. The free-running period of h<italic>CRY2-A260T</italic> (23.52\u00b10.04\u2009hr) was significantly shorter than that of h<italic>CRY2-WT</italic> (23.70\u00b10.03\u2009hr) and <italic>WT</italic> mice (23.74\u00b10.02\u2009hr) (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2F</xref>). The period shortening phenotype was further enhanced by crossing Tg mice onto the m<italic>Cry2</italic> null background (<xref ref-type=\"fig\" rid=\"fig2s4\">Figure 2\u2014figure\u00a0supplement 4A</xref>). The shorter circadian period and reduced phase-delay were also observed in another mutant line (23.51\u00b10.06\u2009hr) with a higher mutant transgene copy number (<xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure supplements 1A</xref>, <xref ref-type=\"fig\" rid=\"fig2s4\">4B</xref>), thus excluding the possibility that the phenotype was due to positional effects of the transgene insertion site in the genome. Of note, there is no significant difference in the periods and phase-shifting of h<italic>CRY2-WT</italic> transgenic vs. transgene negative mice (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2E,F</xref>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of h<italic>CRY2</italic>. Taken together, these data demonstrate that the phase-advances in mice and humans results from the <italic>CRY2</italic> mutation. Data from the transgenic mice suggests that the phase advance may be due to a combination of shortened period and altered sensitivity to photic entrainment."
+                            }, 
+                            {
+                                "type": "image", 
+                                "doi": "10.7554/eLife.16695.010", 
+                                "id": "fig3", 
+                                "label": "Figure 3.", 
+                                "title": "Bioluminescence rhythms in tissue cultures from h<italic>CRY2-A260T</italic> mice and <italic>CRY2-A260T</italic> stable cell lines.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<bold>A</bold>) Representative rhythms of PER2::LUC bioluminescence in the liver and lung. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. (<bold>B</bold>) Period measurements of the bioluminescence rhythms in liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver and h<italic>CRY2-WT</italic> lung, n\u00a0=\u00a03 for h<italic>CRY2-A260T</italic> lung, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>C</bold>) Peak and trough time of PER2::LUC bioluminescence rhythms of mouse liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver). Data are shown as means \u00b1 SD (n\u00a0=\u00a02 to 4 for lung, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>D</bold>) Representative rhythms of PER2::LUC bioluminescence in MEFs from h<italic>CRY2</italic> transgenic mice. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p<0.05 by Tukey\u2019s test). (<bold>E</bold>)\u00a0Representative examples of bioluminescence rhythms of m<italic>Bmal1-luc</italic> in MEFs from transgenic mice on a m<italic>Cry2</italic> knockout background. Cells were transfected with m<italic>Bmal1</italic>-luc vector 24\u2009hr before the recording. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p<0.05 by Games-Howell test). (<bold>F</bold>)\u00a0Representative examples of bioluminescence rhythms of <italic>Bmal1-luc</italic> in NIH3T3 cells stably expressing FLAG-CRY2-WT or FLAG-CRY2-A260T. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p<0.05 by Student\u2019s <italic>t-</italic>test)."
+                                    }, 
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.010\">http://dx.doi.org/10.7554/eLife.16695.010</ext-link>"
+                                    }
+                                ], 
+                                "alt": "", 
+                                "uri": "https://example.org/elife-16695-fig3-v3"
+                            }, 
+                            {
+                                "type": "image", 
+                                "doi": "10.7554/eLife.16695.011", 
+                                "id": "fig4", 
+                                "label": "Figure 4.", 
+                                "title": "CRY2-A260T is less stable, particularly in nuclei.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<bold>A</bold>) Luciferase activity driven by mouse <italic>Per1</italic> E-box in HEK293 cells. 2, 5, 10 and 20 ng of hCRY2 expression vector (WT or A260T) was transfected into cells cultured in a 24-well plate. Luciferase activity was normalized to Renilla luciferase activity. Data are shown as means with SEM (n\u00a0=\u00a04, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>B</bold>) Protein levels of CRY2-WT and CRY2-A260T in the nuclear and cytosolic fractions of HEK293 cells. Data are shown as means with SEM (n\u00a0=\u00a03, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>C</bold>) Degradation assay of CRY2 protein in HEK293 cells. Forty-eight hours after transfection, cells were treated with 100 \u03bcg/ml CHX and fractionated into the nuclear and cytosolic fractions. CRY2 protein levels at the starting point (t\u00a0=\u00a00\u2009hr) were normalized to 1. Data are shown as means with SEM (n\u00a0=\u00a03*, p<0.05 by Student\u2019s <italic>t-</italic>test)."
+                                    }, 
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.011\">http://dx.doi.org/10.7554/eLife.16695.011</ext-link>"
+                                    }
+                                ], 
+                                "alt": "", 
+                                "uri": "https://example.org/elife-16695-fig4-v3", 
+                                "supplements": [
+                                    {
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.012", 
+                                        "id": "fig4s1", 
+                                        "label": "Figure 4\u2014figure supplement 1.", 
+                                        "title": "The effects of mutations at A260 on protein stability, repressor activity.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<bold>A</bold>) Twenty-four hours after transfection, the culture media was changed to recording media containing 100 \u00b5g/ml CHX, and bioluminescence of CRY2-LUC (WT, A260T or A260D) was recorded continuously. Bioluminescence normalized to the start point was fitted to an exponential curve to determine half-life of CRY2-LUC (right panel). Data are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p<0.05 by Tukey\u2019s test). Left panel shows representative bioluminescence decay of CRY2-LUC. (<bold>B</bold>) Luciferase activity driven by mouse <italic>Per1</italic> E-box. 10 or 25 ng of <italic>CRY2</italic> construct was transfected to HEK293 cells cultured in 24-well plate. Luciferase activity was normalized to Renilla luciferase activity. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p<0.05 by Tukey\u2019s test). (<bold>C</bold>) Degradation assay of CRY1 protein in HEK293 cells. Sixty hours after transfection, cells were treated with 100 \u03bcg/ml CHX and fractionated into the nuclear and cytosolic fractions. CRY1 protein levels at the starting point (t\u00a0=\u00a00\u2009hr) were normalized to 1. Data are shown as means with SEM (n\u00a0=\u00a03*, p<0.05 by Student\u2019s <italic>t-</italic>test)."
+                                            }, 
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.012\">http://dx.doi.org/10.7554/eLife.16695.012</ext-link>"
+                                            }
+                                        ], 
+                                        "alt": "", 
+                                        "uri": "https://example.org/elife-16695-fig4-figsupp1-v3"
+                                    }
+                                ]
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s2-4", 
+                        "title": "Shortened circadian period in peripheral clocks of h<italic>CRY2-A260T</italic>", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "The effect of the mutation on the circadian period and phase angle in the peripheral clock was examined by crossing BAC transgenic mice with m<italic>Per2<sup>LUC</sup></italic>knock-in mice (<xref ref-type=\"bibr\" rid=\"bib48\">Yoo et al., 2004</xref>). Consistent with the behavioral rhythms, shortened clock period was observed in PER2::LUC bioluminescence rhythms of liver and lung cultures from h<italic>CRY2-A260T</italic> vs. WT mice (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3A,B</xref>). The peak and trough time of the bioluminescence rhythms were advanced in both tissues of h<italic>CRY2-A260T</italic> mice, suggesting that phase of the peripheral clock is also advanced by the mutation in vivo (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3C</xref>). Circadian period shortening by the A260T mutation was also found using mouse embryonic fibroblasts (MEFs) derived from mice with a mutant vs. WT transgene on both WT and m<italic>Cry2</italic> knockout backgrounds (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3D,E</xref>). In addition, NIH3T3 cells stably expressing CRY2-A260T also displayed a shorter circadian period than CRY2-WT expressing cells (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3F</xref>), emphasizing the dominant effect of CRY2-A260T on the circadian period. Our results indicate that CRY2-A260T shortens the circadian period in both central and peripheral clocks, consistent with current understanding that core clock genes such as <italic>Cry2</italic> influence physiologies in multiple mammalian organ systems."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s2-5", 
+                        "title": "Destabilization of CRY2 protein by the A260T mutation", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "The CRY2 Ala260 residue resides in the \u2018phosphate loop\u2019 responsible for binding to the phosphate of FAD (<xref ref-type=\"bibr\" rid=\"bib12\">Hitomi et al., 2009</xref>) (<xref ref-type=\"fig\" rid=\"fig1\">Figure 1B</xref>). Mutations at amino acid residues critical for FAD binding affect CRY2 repressor activity of E-box-mediated transcriptional activation (<xref ref-type=\"bibr\" rid=\"bib3\">Czarna et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib12\">Hitomi et al., 2009</xref>; <xref ref-type=\"bibr\" rid=\"bib33\">Sanada et al., 2004</xref>). Furthermore, Ser265 of mouse CRY2 (homologous residue of Ser266 in human CRY2) is a phosphorylation site, and the S265D mutation, mimicking a phosphorylated serine 265, reduces CRY2 repressor activity (<xref ref-type=\"bibr\" rid=\"bib33\">Sanada et al., 2004</xref>). Using a Luciferase assay, we found that the A260T mutation weakened CRY2 repressor activity on <italic>Per1</italic> E-box-mediated transcriptional activation by CLOCK-BMAL1 (<xref ref-type=\"fig\" rid=\"fig4\">Figure 4A</xref>). However, the nuclear CRY2 protein levels in culture cells were decreased by the mutation (<xref ref-type=\"fig\" rid=\"fig4\">Figure 4B</xref>), which could potentially account for the reduction of CRY2 repressor activity (<xref ref-type=\"fig\" rid=\"fig4\">Figure 4A</xref>). We then examined the degradation of CRY2 proteins by cycloheximide (CHX) chase experiments. Consistent with the cellular distribution of CRY2 (<xref ref-type=\"fig\" rid=\"fig4\">Figure 4B</xref>), CRY2-A260T was less stable than CRY2-WT in HEK293 cells, especially in the nucleus (<xref ref-type=\"fig\" rid=\"fig4\">Figure 4C</xref>). Destabilization of CRY2 by the mutation was further verified in a CRY2-LUC based bioluminescence degradation assay, where the protein decay rate can be determined by recording CRY2-LUC bioluminescence in culture (<xref ref-type=\"bibr\" rid=\"bib10\">Hirano et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib11\">Hirota et al., 2012</xref>) (<xref ref-type=\"fig\" rid=\"fig4s1\">Figure 4\u2014figure\u00a0supplement 1A</xref>). Although Ala260 does not directly bind to FAD (<xref ref-type=\"bibr\" rid=\"bib12\">Hitomi et al., 2009</xref>), amino acid conversion from the hydrophobic and small amino acid, alanine, to threonine could alter the conformation of the phosphate loop. This idea is supported by an observation that a mutation from alanine to aspartic acid (A260D) caused a more severe effect on CRY2 repressor activity and protein stability than the A260T mutation (<xref ref-type=\"fig\" rid=\"fig4s1\">Figure 4\u2014figure\u00a0supplement 1A,B</xref>). We found that human CRY1 harboring the corresponding mutation at position 241 is less stable than CRY1-WT, suggesting a common regulatory mechanism for CRY1 and CRY2 by FAD binding (<xref ref-type=\"fig\" rid=\"fig4s1\">Figure 4\u2014figure\u00a0supplement 1C</xref>). These results indicate that the conformation of the phosphate loop may play critical roles in regulating CRY2 stability and repressor activity."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s2-6", 
+                        "title": "A260T mutation affects FBXL3-CRY2 interaction", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "FBXL3 primarily localizes in the nucleus and promotes proteasomal degradation of CRY2, consequently having a strong impact on the circadian period of mice (<xref ref-type=\"bibr\" rid=\"bib2\">Busino et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib5\">Godinho et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib36\">Siepka et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib39\">Stojkovic et al., 2014</xref>). A previous structural study demonstrated that C-terminal region of FBXL3 interacts with CRY2 through the FAD binding pocket and mutations in the FAD binding domain alter CRY2-FBXL3 interaction (<xref ref-type=\"bibr\" rid=\"bib44\">Xing et al., 2013</xref>). We therefore speculated that the A260T mutation affects the FBXL3-CRY2 interaction, thus altering CRY2 protein stability. We first examined WT and mutant CRY2 stability in the absence of FBXL3. As anticipated, h<italic>FBXL3</italic> knockdown in HEK293 cells increased the stability of both CRY2-WT and CRY2-A260T. Interestingly, the destabilizing effect of the A260T mutation was abrogated by h<italic>FBXL3</italic> knockdown (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5A</xref>), suggesting the effect of the mutation requires FBXL3."
+                            }, 
+                            {
+                                "type": "image", 
+                                "doi": "10.7554/eLife.16695.013", 
+                                "id": "fig5", 
+                                "label": "Figure 5.", 
+                                "title": "CRY2-A260T binds more strongly to FBXL3 leading to faster degradation of mutant CRY2.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<bold>A</bold>) Effect of human <italic>FBXL3</italic> knockdown on CRY2 protein stability in HEK293 cells. Forty-eight hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX, and bioluminescence of CRY2-LUC was recorded continuously. Bioluminescence normalized to the value at time 0 was fitted to an exponential curve to determine half-life of CRY2-LUC. Data are shown as means with SEM (n\u00a0=\u00a04, *p<0.05 by Welch\u2019s <italic>t-</italic>test). (<bold>B</bold>) Effect of FAD on CRY2 protein levels. Forty-two hours after transfection, HEK293 cells were treated with 100 \u03bcM FAD for 6\u2009hr. Data are shown as means with SEM (n\u00a0=\u00a03, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>C</bold>)\u00a0FAD and FBXL3 competition assay. CRY2-FBXL3 complex expressed in HEK293 cells was purified using FLAG antibody. FAD was added to CRY2-FBXL3 complex and incubated at 4\u00b0C for 2\u2009hr\u00a0in vitro. (<bold>D</bold>) CRY2 protein stability in the cells treated with KL001. Twenty-four hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX and KL001. Recording of bioluminescence and calculation of half-life was performed as described above. *p<0.05 by Student\u2019s <italic>t-</italic>test (n\u00a0=\u00a03). (<bold>E</bold>) Interaction of CRY2 with FBXL3 in HEK293 cells treated with MG132 for 6\u2009hr prior to harvesting. (<bold>F</bold>) Ubiquitylation of CRY2. HEK293 cells expressing FLAG-CRY2 were treated with MG132 for 6\u2009hr before harvesting. FLAG-CRY2 was then purified and blotted with anti-Ubiquitin antibody. Quantitative data are shown as means with SEM (n\u00a0=\u00a03, *p<0.05 by Student\u2019s <italic>t-</italic>test)."
+                                    }, 
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.013\">http://dx.doi.org/10.7554/eLife.16695.013</ext-link>"
+                                    }
+                                ], 
+                                "alt": "", 
+                                "uri": "https://example.org/elife-16695-fig5-v3", 
+                                "supplements": [
+                                    {
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.014", 
+                                        "id": "fig5s1", 
+                                        "label": "Figure 5\u2014figure supplement 1.", 
+                                        "title": "Structural modeling of A260T CRY2.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<bold>A</bold>) CRY2 protein stability in the cells treated with KL001. Twenty-four hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX and KL001 at the indicated concentration. *p<0.05 by Student\u2019s <italic>t-</italic>test (n\u00a0=\u00a03). (<bold>B</bold>) Structure of mouse CRY2 bound to FAD (PDB code 4I6G) (orange) or FBXL3 (4I6J) (red). Green represents FBXL3. Short dashed lines indicate the side chain of A259 (A260 of human CRY2). CRY2 bound to FBXL3 is in a more open conformation compared to the FAD-bound CRY2. (<bold>C</bold>) Structure of mouse CRY2-WT (top) or mouse CRY2-A259T (corresponded to human CRY2-A260T, bottom) bound to FBXL3. The Ala to Thr mutation increases the molecular density and likely changes the conformation of CRY2 from the FAD-bound form to the FBXL3-bound form, in which main chain around A259 moved to left side in this image."
+                                            }, 
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.014\">http://dx.doi.org/10.7554/eLife.16695.014</ext-link>"
+                                            }
+                                        ], 
+                                        "alt": "", 
+                                        "uri": "https://example.org/elife-16695-fig5-figsupp1-v3"
+                                    }
+                                ]
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "FAD stabilizes CRY2 by structurally interfering with the interaction between FBXL3 and CRY2 (<xref ref-type=\"bibr\" rid=\"bib44\">Xing et al., 2013</xref>). We found that treatment of HEK293 cells with FAD increased CRY2-WT protein levels much more than CRY2-A260T (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5B</xref>), suggesting that stabilization of CRY2 by FAD was reduced by the mutation. This result supports the hypothesis that the A260T mutation alters the FBXL3-CRY2 interaction. We thus carried out a competitive assay by adding FAD to complexed CRY2-FBXL3 to examine the effect of the mutation on the release of CRY2 from purified CRY2-FBXL3 complexes in vitro. Free CRY2-WT protein levels increased with addition of FAD in a dose-dependent manner (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5C</xref>). In contrast, mutant CRY2 was released less readily than CRY2-WT from the complexes even though both forms of CRY2 were bound to FBXL3 at the same level (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5C</xref>). In addition, we tested FBXL3-mediated CRY2 degradation using KL001, a small synthetic molecule known to stabilize CRY1 and CRY2 (<xref ref-type=\"bibr\" rid=\"bib11\">Hirota et al., 2012</xref>) due to its structural similarity to FAD (<xref ref-type=\"bibr\" rid=\"bib23\">Nangle et al., 2013</xref>). KL001 stabilizes CRY2-WT in a dose-dependent manner as was previously reported (<xref ref-type=\"bibr\" rid=\"bib11\">Hirota et al., 2012</xref>). However, KL001 failed to stabilize CRY2-A260T to the same extent it did for CRY2-WT (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5D</xref>, <xref ref-type=\"fig\" rid=\"fig5s1\">Figure 5\u2014figure\u00a0supplement 1A</xref>). These results indicate that the A260T mutation weakened the function of FAD and KL001 as inhibitors of FBXL3-mediated degradation of CRY2 and that CRY2-A260T is less stable than CRY-WT, likely due to strengthened interaction with FBXL3. To determine whether the A260T mutation indeed modifies the interaction of CRY2 and FBXL3, we performed co-immunoprecipitation analysis. As expected, CRY2-A260T binds more strongly to FBXL3 than CRY2-WT in HEK293 cells (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5E</xref>), consequently leading to more ubiquitylation of the mutant protein (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5F</xref>). The effect of the mutation on the binding affinity under in vivo conditions will need to be further evaluated when better human CRY2 antibodies (for immunoprecipitation) become available."
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "We next performed structural modeling of mutant CRY2 to address how the A260T mutation modulates conformation of the phosphate loop. For modeling, we used the mouse CRY2 structure as the crystal structure of mouse CRY2-FBXL3 complex is available (<xref ref-type=\"bibr\" rid=\"bib44\">Xing et al., 2013</xref>) and amino acid sequence in the phosphate loop perfectly conserved (<xref ref-type=\"fig\" rid=\"fig1\">Figure 1B</xref>). The published CRY2-FBXL3 structure (<xref ref-type=\"bibr\" rid=\"bib44\">Xing et al., 2013</xref>) revealed that space between Ala260 (corresponding to A259T in mouse) and Asp442 (mouse Asp441) in FBXL3-binding form (red) is more opened vs. the FAD-binding form (orange, <xref ref-type=\"fig\" rid=\"fig5s1\">Figure\u00a05\u2014figure\u00a0supplement 1B</xref>). The amino acid change from Ala260 to Thr increases molecular density in this space and may alter electrostatic interactions between Ala260Thr and Asp442. As a result, the mutation likely renders the CRY2-A260T more accessible to FBXL3 binding (<xref ref-type=\"fig\" rid=\"fig5s1\">Figure 5\u2014figure\u00a0supplement 1C</xref>). This model is consistent with the results from CRY2-A260D mutation (<xref ref-type=\"fig\" rid=\"fig4s1\">Figure 4\u2014figure\u00a0supplement 1</xref>). Taken together, we demonstrated that the A260T mutation in the FAD binding pocket endows mutant CRY2 with a higher accessibility and affinity for FBXL3, therefore leading to faster proteasomal degradation of mutant vs. wild-type CRY2."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s2-7", 
+                        "title": "Decreased endogenous CRY2 protein levels in h<italic>CRY2-A260T</italic> mice", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "Our in vitro studies demonstrate that CRY2-A260T is less stable than CRY2-WT (<xref ref-type=\"fig\" rid=\"fig4\">Figure 4</xref>). To examine the protein levels of mutant vs. wild-type CRY2 under physiological conditions, we used MEFs prepared from transgenic mice. Total protein levels of endogenous CRY2 were significantly lower in synchronized cells derived from h<italic>CRY2-A260T</italic> vs. h<italic>CRY2-WT</italic> mice at two different time points (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6A</xref>), even though <italic>Cry2</italic> transcript levels in h<italic>CRY2-A260T</italic> mice was higher than in h<italic>CRY2-WT</italic> mice (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6B</xref>). Similarly, CRY2 protein levels from liver nuclear extracts were lower in h<italic>CRY2-A260T</italic> vs. h<italic>CRY2-WT</italic> mice (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6C,D</xref>), while h<italic>CRY2</italic> mRNA levels were higher in mutant mice (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6E</xref>). CRY1 protein levels were also decreased by the mutation in nuclear extracts from liver (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6C,D</xref>), suggesting that CRY1 is destabilized in h<italic>CRY2-A260T</italic> mice. At the same time, we found that nuclear expression of PER1 and PER2 were up-regulated in liver extracts from mutant mice, particularly at ZT14 (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6C,D</xref>), suggesting that the timing of nuclear accumulation of PER proteins is advanced in h<italic>CRY2-A260T</italic> mice. Although PER1 and PER2 protein levels were significantly altered, their mRNA levels were not different (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6E</xref>). A similar alteration of PER1 and PER2 protein levels in the absence of noticeable changes in mRNA levels was previously reported for <italic>Psttm</italic> mutant mouse liver (<xref ref-type=\"bibr\" rid=\"bib47\">Yoo et al., 2013</xref>). <italic>Psttm</italic> mice have a mutation in the <italic>Fbxl21</italic> gene and this mutation decreases the protein level of FBXL21, which functionally competes with FBXL3. The <italic>Psttm</italic> mutation resulted in CRY1 and CRY2 protein destabilization and a shorter circadian period in mice (<xref ref-type=\"bibr\" rid=\"bib47\">Yoo et al., 2013</xref>), which parallels the phenotype of our h<italic>CRY2-A260T</italic> mice (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2E</xref>). We found that the expression of clock genes in liver was not significantly altered by the mutation, while the effect was obvious in MEFs (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6B,E</xref>, and <xref ref-type=\"fig\" rid=\"fig6s1\">Figure 6\u2014figure\u00a0supplement 1</xref>). This is congruent with a previous suggestion that the effect of the CRY2 destabilization has diverged among different tissues (<xref ref-type=\"bibr\" rid=\"bib10\">Hirano et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib47\">Yoo et al., 2013</xref>). Collectively, we demonstrated that the A260T mutation destabilizes CRY2 proteins in vivo likely through alteration of FBXL3-mediated CRY2 degradation, leading to perturbation of the circadian clock."
+                            }, 
+                            {
+                                "type": "image", 
+                                "doi": "10.7554/eLife.16695.015", 
+                                "id": "fig6", 
+                                "label": "Figure 6.", 
+                                "title": "CRY2-A260T expression is down-regulated in h<italic>CRY2-A260T</italic> mice.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<bold>A</bold>) CRY2 protein levels in synchronized MEFs. Cells were treated with 100 nM Dex for 2\u2009hr to synchronize the cellular rhythms. Media was change and MEFs were cultured for 24 or 36\u2009hr before harvesting. Quantified band intensities of CRY2 (mouse CRY2 and human CRY2) are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>B</bold>) mRNA levels of clock genes in synchronized MEFs. Cellular rhythms of MEFs were synchronized with 100 nM Dex for 2\u2009hr. mRNA levels were quantified by real-time PCR. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>C</bold>)\u00a0Temporal expression profiles of PER1, PER2, CRY1 and CRY2 in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. Asterisks mark non-specific bands. (<bold>D</bold>) Quantification of protein levels in (<bold>C</bold>). Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<bold>E</bold>) mRNA levels of indicated clock genes in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. mRNA levels of indicated genes were quantified by real-time PCR using gene specific primers. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<bold>F</bold>) Model of CRY2 protein regulation. In wild-type, FAD binding to CRY2 acts to stabilize by competing with FBXL3. In h<italic>CRY2-A260T</italic> transgenic mice or FASP human subjects with CRY2 mutations, FAD does not protect CRY2 from FBXL3-mediated degradation. Destabilization of CRY2 results in shortened period, leading to advanced sleep phase. In <italic>Fbxl3</italic> knockout mice or mutant mice (<italic>Overtime</italic>and <italic>After-hours</italic>)\u00a0(<xref ref-type=\"bibr\" rid=\"bib5\">Godinho et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib36\">Siepka et al., 2007</xref>), CRY2 is stabilized in the nucleus, thus lengthening the circadian period."
+                                    }, 
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.015\">http://dx.doi.org/10.7554/eLife.16695.015</ext-link>"
+                                    }
+                                ], 
+                                "alt": "", 
+                                "uri": "https://example.org/elife-16695-fig6-v3", 
+                                "supplements": [
+                                    {
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.016", 
+                                        "id": "fig6s1", 
+                                        "label": "Figure 6\u2014figure supplement 1.", 
+                                        "title": "mRNA levels of clock genes in MEF and liver of h<italic>CRY2</italic> BAC Tg mice.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<bold>A</bold>) mRNA levels of indicated genes in synchronized MEFs. Cellular rhythms of MEFs were synchronized with 100 nM Dex for 2\u2009hr. mRNA levels were quantified by real-time PCR. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p<0.05 by Student\u2019s <italic>t-</italic>test). (<bold>B</bold>) Expression patterns of indicated clock genes in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. mRNA levels of indicated genes were quantified by real-time PCR using gene specific primers. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03)."
+                                            }, 
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.016\">http://dx.doi.org/10.7554/eLife.16695.016</ext-link>"
+                                            }
+                                        ], 
+                                        "alt": "", 
+                                        "uri": "https://example.org/elife-16695-fig6-figsupp1-v3"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "type": "section", 
+                "id": "s3", 
+                "title": "Discussion", 
+                "content": [
+                    {
+                        "type": "paragraph", 
+                        "text": "We report here a mutation in h<italic>CRY2</italic> that causes FASP in humans. We initially identified this as a novel variant. Since that time, it has been recognized as a rare variant in the SNP database (rs201220841). The frequency of the A260T allele (0.00008 in the ExAc database) is much lower than that of FASP (0.5%, our unpublished data) in the general population. This is consistent with the A260T variant found in one of our FASP families being responsible for a small portion of FASP in the general population."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Among the mutation carriers of this family (<xref ref-type=\"fig\" rid=\"fig1\">Figure 1A</xref>), the proband, her twin sister, and her mother have clear advanced sleep phase. In contrast, the nephew of the proband (101374) did not have early sleep onset and offset although his genotype is A/G (<xref ref-type=\"supplementary-material\" rid=\"SD1-data\">Figure\u00a01\u2014source data 1</xref>). Considering his age, we classified him as \u2018unknown\u2019, since adolescents and young adults are typically more difficult to categorize as having a definite circadian phenotype due to normal phase delays seen in many people beginning in adolescence and persisting into young adult life (boys/men > than girls/women) (<xref ref-type=\"bibr\" rid=\"bib32\">Roenneberg et al., 2004</xref>). When phenotyped at age 21, subject 101374 was at the statistical peak age of maximum phase delay due to these developmental effects and was prone to be even more phase-delayed by his male sex. Therefore, he may become progressively more phase advanced as he grows older as a result of the <italic>CRY2</italic> FASP allele as it is unmasked by these developmental changes. It is also possible that the mutation may not have 100% penetrance and therefore the nephew will never manifest the FASP trait."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "In order to confirm that the A260T mutation is causative of FASP, we generated mice carrying the mutation and subjected them to detailed behavioral analysis (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2</xref>). Consistent with the other FASP mutations previously reported in h<italic>CK1\u03b4</italic> and h<italic>PER3,</italic> the effects of the human mutation observed in mouse models and in vitro are subtle compared to those found in forward mutagenesis screens. This is expected since the mutations that we identified are found in extant humans in the \u2018real world\u2019. The circadian body clock plays crucial roles in maintaining normal physiological functions. Thus, any mutation manifesting the strong phenotypes seen in mutagenesis screens would almost certainly have been a selective disadvantage if they arose spontaneously in humans. Furthermore, while the phase advance in mice carrying the human <italic>PER2</italic> mutation appears to be due largely to a shortening of circadian period, the published <italic>PER3</italic> mice and the <italic>CRY2</italic> mice reported here both have altered entrainment. We speculate that some of FASP in humans is caused by altered entrainment properties that would not have been detected in forward mutagenesis screens because they have focused almost entirely on measuring period (not phase) as the target phenotype."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Previously, we have used wheel-running behavior analysis to characterize mouse models carrying human FASP mutations (<xref ref-type=\"bibr\" rid=\"bib46\">Xu et al., 2007</xref>, <xref ref-type=\"bibr\" rid=\"bib45\">2005</xref>). Here, we investigated an additional behavior analysis method. For the h<italic>CRY2-A260T</italic> mouse model, we also employed continuous video recording (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2A</xref> and <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure\u00a0supplement 1</xref>). We found that video recording was quite sensitive to detect advanced sleep phase (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2A\u2013C</xref> and <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure\u00a0supplement 1</xref>). Although wheel-running also displays the phase advance of activity offset in the h<italic>CRY2-A260T</italic> mice (<xref ref-type=\"fig\" rid=\"fig2s2\">Figure 2\u2014figure supplement 2</xref>), the data from wheel-running is less robust for detecting a phase advance of activity onset. This is likely due to a strong light-masking effect for mouse at the light-to-dark transition for activity onset. Thus, when the lights are on, mice are less likely to run on a wheel. However, smaller amplitude movements like grooming behavior and moving in the cage were detected by video recording. Wheel running was quite sensitive to detect phase advance of activity offset as this is seen during the dark phase of LD 12:12."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "In this study, we found that the circadian period was significantly shortened by the A260T mutation in the central and peripheral clocks (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2F</xref>, <xref ref-type=\"fig\" rid=\"fig3\">3A\u2013E</xref>). Growing evidence indicates that stability of CRY proteins dominantly determines the circadian period length (<xref ref-type=\"bibr\" rid=\"bib5\">Godinho et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib9\">Hirano et al., 2014</xref>; <xref ref-type=\"bibr\" rid=\"bib35\">Shi et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib36\">Siepka et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib38\">St John et al., 2014</xref>): stabilization of CRY lengthens circadian period in mice whereas destabilization of CRY shortens the period. Consistent with this model, our human mutation destabilizes CRY2 and leads to a short circadian period of mouse behavioral rhythms (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6F</xref>). Shortened circadian periods have been measured in one FASP human subject\u00a0(<xref ref-type=\"bibr\" rid=\"bib14\">Jones et al., 1999</xref>), and in mouse models of human FASP mutations (<xref ref-type=\"bibr\" rid=\"bib46\">Xu et al., 2007</xref>, <xref ref-type=\"bibr\" rid=\"bib45\">2005</xref>). Mutant animals having a shorter free-running period such as <italic>tau</italic> mutant hamster also tend to exhibit advanced phase of behavioral rhythms in LD (<xref ref-type=\"bibr\" rid=\"bib21\">Lowrey et al., 2000</xref>). Thus, it is likely that the <italic>CRY2</italic> mutation results in FASP, at least in part, through shortening of the free-running period."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Interestingly, our data also indicates that another circadian clock feature, phase resetting by light, is dysregulated in the h<italic>CRY2</italic> mutant mouse model. h<italic>CRY2-A260T</italic> mice have a smaller phase-shift in response to a light pulse in early subjective night compared to h<italic>CRY2-WT</italic> mice (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2E</xref>; <xref ref-type=\"fig\" rid=\"fig2s3\">Figure 2\u2014figure\u00a0supplement 3</xref>). In order to live on a 24\u2009hr day in LD 12:12, wild-type mice need to phase delay a small amount each day because the endogenous circadian period is slightly shorter than 24\u2009hr. A reduced ability to phase-delay observed in the h<italic>CRY2-A260T</italic> mouse model could contribute to advanced sleep phase, though the mechanism for the altered phase-shift remains to be elucidated. Although the difference in the free-running period of the transgenic mice was subtle as compared to the degree of phase-advance manifested in human mutation carriers or mice carrying the mutant h<italic>PER2</italic> transgene (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2B,F</xref>), it is reasonable to expect that the alteration of both circadian period and light-induced phase-shifting together will strongly influence the phase angle of entrainment. The <italic>after-hours</italic> mutation in the mouse <italic>Fbxl3</italic> gene causes stabilization of CRY leading to an extremely long circadian period (<xref ref-type=\"bibr\" rid=\"bib5\">Godinho et al., 2007</xref>). These mutant mice also exhibit large phase-shifts in response to light (<xref ref-type=\"bibr\" rid=\"bib7\">Guilding et al., 2013</xref>). The authors speculated that reduced amplitude of the circadian clock in <italic>after-hours</italic> mutant mice leads to the abnormal enhancement of phase-resetting. In this study, the A260T mutation elevated PER1 and PER2 levels, especially at ZT14, and the amplitude of PER1 protein rhythm was greater in h<italic>CRY2-A260T</italic> vs. h<italic>CRY2-WT</italic> mice (<xref ref-type=\"fig\" rid=\"fig6\">Figure 6D</xref>). Thus, the effect of light pulses in the early night may be decreased by the perturbed protein profiles (increased amplitude) of PER1 and PER2 in h<italic>CRY2-A260T</italic> mice."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "FAD is a chromophore binding to flavo proteins regulating various biological processes and it is required for the light-sensing activity of CRY in various species (<xref ref-type=\"bibr\" rid=\"bib20\">Lin and Todo, 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib26\">Partch and Sancar, 2005</xref>). <italic>Drosophila</italic> CRY is degraded by the proteasome in response to light signals, which is a trigger for phase-resetting of the circadian clock in flies. However, the ability of mammalian CRYs as a photoreceptor remains controversial as double knockout mice of <italic>Cry1</italic> and <italic>Cry2</italic> are still able to entrain to light and show <italic>Per1</italic> gene induction in SCN in response to light pulses (<xref ref-type=\"bibr\" rid=\"bib24\">Okamura et al., 1999</xref>). These double knockout mice completely lack behavioral rhythms in constant darkness (<xref ref-type=\"bibr\" rid=\"bib42\">van der Horst et al., 1999</xref>). Furthermore, the repressor activity of CRY on E-boxes and its interaction with other clock proteins are independent of light (<xref ref-type=\"bibr\" rid=\"bib6\">Griffin et al., 1999</xref>). These findings emphasize the light-independent role of CRY proteins in mammals. Thus, the physiological role of FAD binding in the mammalian clock has been totally unknown, while a previous study implied that FAD can structurally compete with FBXL3. Our findings provide the first evidence that FAD functions as a stabilizer of CRY2 protein by modulating FBXL3-CRY2 interaction (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5</xref>). The results presented here demonstrate that the protein stability of CRY2 regulated by the balance of FBXL3 and FAD controls clock speed and sleep/wake timing in mice and humans."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Several genetic studies reported that the human <italic>CRY2</italic> gene is associated with mood regulation, cancer and glucose homeostasis (<xref ref-type=\"bibr\" rid=\"bib4\">Dupuis et al., 2010</xref>; <xref ref-type=\"bibr\" rid=\"bib13\">Hoffman et al., 2010</xref>; <xref ref-type=\"bibr\" rid=\"bib16\">Kovanen et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib18\">Lavebratt et al., 2010</xref>; <xref ref-type=\"bibr\" rid=\"bib37\">Sj\u00f6holm et al., 2010</xref>; <xref ref-type=\"bibr\" rid=\"bib51\">Zhang et al., 2013</xref>). Although psychiatric disorders, cancer, and metabolic disorders are tightly connected with dysfunction of the biological clock, associations of <italic>CRY2</italic> polymorphisms with morning/evening preference or other circadian phenotypes have not been described. One polymorphism in the <italic>FBXL3</italic> gene was reported to be associated with diurnal preference (<xref ref-type=\"bibr\" rid=\"bib25\">Parsons et al., 2014</xref>), implying the conserved role of FBXL3 in the human circadian clock. However, it remains to be elucidated whether that variant in <italic>FBXL3</italic> is causative (vs. merely be associated with) the human circadian phenotype and whether it acts through CRY regulation. Here, we demonstrate that regulatory mechanisms for CRY2 protein are well conserved between mice and humans and that control of CRY2 stability is critical for appropriate phase angle and period of the circadian clock in humans."
+                    }
+                ]
+            }, 
+            {
+                "type": "section", 
+                "id": "s4", 
+                "title": "Material and methods", 
+                "content": [
+                    {
+                        "type": "section", 
+                        "id": "s4-1", 
+                        "title": "Method summary", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "All human subjects signed a consent form approved by the Institutional Review Boards at the University of Utah and the University of California, San Francisco (IRB# 10\u201303952). The consent form includes all confidentiality and ethic guidelines and also indicates not revealing subject information in the publication. All experimental protocols (Protocol no. AN111686-02) were conducted according to US National Institutes of Health guidelines for animal research and were approved by the Institutional Animal Care and Use Committee at the University of California, San Francisco."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-2", 
+                        "title": "Human data and mutation screening", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "Subjects were characterized by a previously published procedure established by one of the authors (CRJ, <xref ref-type=\"bibr\" rid=\"bib14\">Jones et al., 1999</xref>). The data were interpreted by one of the authors (CRJ) as possible, probable, definite, or severe advanced sleep phase syndrome by at least age 30. Though ancillary features of ASP (earlier spontaneous wake time if an earlier bed time is selected) and potential confounding or masking influences were considered, most participants categorized as \u2018definite ASP\u2019 reported spontaneous vacation sleep onset and offset time no later than 21:30 and 05:30, respectively and had H-O score (or numerically equivalent childhood MEQ score) of at least 72. We considered children and adolescents more difficult to categorize as having a definite, life-long circadian phenotype unless it was severe by all measures including DLMO phase. DNAs purified from blood samples were used to screen for mutations."
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "The salivary dim light melatonin onset (DLMO) of the proband was obtained on the last night of the home recordings. DLMO phase was assessed from serial saliva samples (~1\u2009mL) collected at 30 min intervals using \u2018Salivette\u2019 saliva collection tubes (Sarstedt, Inc., Newton, NC) in dim light (</=10 lux) confirmed by recording the ambient light level before each sample using a luxmeter (Sinometer, ShenZhen, China). Samples were collected, beginning 6\u2009hr before the subject\u2019s typical bedtime. Saliva samples were frozen overnight and then shipped the next day in an insulated box with frozen coolant to another laboratory (SolidPhase\u00a0Inc., Portland, ME) for radioimmunoassay by test kit (ALPCO Diagnostics, Windham, NH). The lower limit of detection of this assay is 0.2 pg/mL. The salivary dim light melatonin onset (DLMO) in adults was calculated and compared with a population sample not purposely selected for morning or evening preference by the method and data of Burgess and Fogg (<xref ref-type=\"bibr\" rid=\"bib1\">Burgess and Fogg, 2008</xref>). Concurrent sleep logs and Zeo (Zeo Incorporated, Boston, MA) EEG recordings were obtained for ten consecutive nights of sleep at home. DNAs purified from blood samples were used to screen for mutations. For this particular family, a list of candidate genes including <italic>CLOCK, BMAL1, PER1-3, CRY1-2, DEC1-2, CSNK1D, CSNK1E, PRKAA2, NPAS2, CSNK2A2, CSNK2B, FBXL3, GSK3B, PKCA, PRKAA1, PRKAA2, RAB3A, RORA, TIMELESS, NR1D1, and PRKCG</italic> were screened. CRY2 (Accession number; EAW68030) A260T was identified as a novel variant specific for mutation carriers of this family (at the time of identification in 2008). The prevalence of the A260T allele (rs201220841) is 0.008% and 0.1% in the two sets of public genome databases, of which sample sizes are 121,412 and 1323, respectively."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-3", 
+                        "title": "Engineering of BAC constructs for generating transgenic mice", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "A human BAC RP11-1084E2 containing the entire CRY2 gene on a 189 kb genomic insert was obtained from CHORI (Children\u2019s Hospital Oakland Research Institute). The BAC clone was modified by homologous recombination using the Counter-Selection BAC Modification Kit (Gene Bridges GmbH,\u00a0Heidelberg,\u00a0Germany) as previously described (<xref ref-type=\"bibr\" rid=\"bib19\">Lee et al., 2012</xref>). Briefly, a linear PCR fragment containing a streptomycin/kanamycin counter selection gene was amplified. The primers for this reaction were designed so that 20 nucleotides would anneal to the streptomycin/kanamycin gene and an additional 40 nucleotides homologous to sequences flanking the mutation site. This PCR product was transferred into the RP11-1084E2 BAC to initiate homologous recombination in the DH10B <italic>Escherichia coli</italic> strain that already contained the plasmid pSC101- BAD-gbaA<sup>tet</sup>. The counter selection gene was then removed by a second recombination event using an oligonucleotide carrying the mutation (G-to-A) in the center. All relevant segments generated by PCR and recombination were sequence confirmed. Detailed mapping was carried out for the modified BACs to ensure that correct constructs were obtained. Transgenic mice were generated using standard microinjection procedures. The transgenic founders were on a C57BL/6 \u00d7 SJL F<sub>1</sub> background and were backcrossed to C57BL/6 mice in successive generations. The copy number for each transgenic line was calculated by quantitative real-time PCR using common sequences for mouse <italic>Cry2</italic> (reference) and human <italic>CRY2</italic> genes."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-4", 
+                        "title": "Purchased mouse lines", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "m<italic>Per2<sup>Luc</sup></italic> knockin mice (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/IMSR_006852\">IMSR_006852</ext-link>) and m<italic>Cry2</italic> knockout mouse (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/IMSR_016185\">IMSR_016185</ext-link>) were purchased from The Jackson Laboratory and crossed with h<italic>CRY2</italic> transgenic mice."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-5", 
+                        "title": "Wheel-running analysis of transgenic mice", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "All mice tested were ~8 week-old males maintained on a C57BL/6J background. Mice were kept in individual wheel running cages with free access to food and water. First, mice were entrained to LD 12:12. Activity profiles, offset time and acrophase were analyzed using data from day 10 to day 14 in LD. After entrainment to LD for approximately 3 weeks, mice were released into constant darkness (DD) for measurement of free-running period. Circadian periods were calculated by line fitting of activity onsets from day 7 to day 19 in DD. To analyze for phase-shifts, mice were given a 30\u2009min-light pulse (200 lux) beginning at ZT14 (2\u2009hr after lights-off) or at ZT22 (2\u2009hr before lights-on), and then released into DD. Phase-shifts were determined by line fitting of activity onsets from day1 to day7 in DD. All data collection and analysis was done using ClockLab software (Actimetrics, Wilmette, IL; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_014309\">SCR_014309</ext-link>). Activity onset and offset were defined using the ClockLab software algorithm. The default template is 6\u2009hr of inactivity followed by 6\u2009hr activity for onset (or vice versa for offset)."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-6", 
+                        "title": "ANY-maze analysis of transgenic mice", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "All mice tested were ~16 week-old males maintained on a C57BL/6J background. Mice were kept in individual cages with free access to food and water. Mice were monitored by infrared camera and tracked by an automatic video tracking system (Stoelting\u00a0Co., Wood Dale, IL; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_014289\">SCR_014289</ext-link>). Mice were entrained to LD 12:12 for 1 week and then locomotor activity was recorded for 3 or 4 days. Walking distance and immobility times were calculated using ANY-maze software and data were averaged. Samples with over 500-meter walking distance or below 10,000-s immobility time each day were excluded from the statistical analysis due to the failure of automatic tracking."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-7", 
+                        "title": "Cell culture and constructs", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "HEK293 cells (ATCC CRL-1573; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/CVCL_0045\">CVCL_0045</ext-link>) and NIH 3T3 cells (ATCC CRL-1658; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/CVCL_0594\">CVCL_0594</ext-link>) were purchased from ATTC. Authentication of the cell lines was performed using STR profiling by ATCC. Mycoplasma contamination was checked every 6 months and mycoplasma-free cell lines were used for all experiments in this study. Cells were cultured in DMEM (Sigma Aldrich,\u00a0St.\u00a0Louis,\u00a0MO) containing 10% FBS and 100\u2009U/ml Penicillin-Streptomycin (Thermo Fisher Scientific, South San Francisco, CA) and maintained by standard methods. Mouse embryonic fibroblasts (MEFs) were prepared from E12.5 embryos of h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T</italic> transgenic mice. After removing the head, paws and internal organs, embryos were chopped and incubated in 0.25% trypsin in PBS for 24\u2009hr at 4\u00b0C. After incubation for 20\u2009min at 37\u00b0C in 0.25% trypsin in PBS, cells were dissociated by pipetting in DMEM. Supernatant was cultured in a cell culture dish with DMEM and maintained by standard methods. Cells were transfected with Lipofectamine 3000 transfection reagent (Thermo\u00a0Fisher\u00a0Scientific) according to manufacturer\u2019s protocol. DNA constructs used for transfections are as follows: hCRY2-WT-Myc-His/pcDNA3.1, hCRY2-A260T-Myc-His/pcDNA3.1, hCRY2-A260D-Myc-His/pcDNA3.1, hCRY2-WT-HA/pCMV-tag2B, hCRY2-A260T-HA/pCMV-tag2B, FLAG-hCRY2-WT/p3\u00d7FLAG-CMV-10, FLAG-hCRY2-A260T/p3\u00d7FLAG-CMV-10, FLAG-hCRY1-WT/p3\u00d7FLAG-CMV-10, FLAG-hCRY1-A241T/p3\u00d7FLAG-CMV-10, FLAG-hFBXL3/p3\u00d7FLAG-CMV-10, FLAG-hBMAL1/p3\u00d7FLAG-CMV-10, FLAG-hCLOCK/p3\u00d7FLAG-CMV-10, hCRY2-WT-LUC/p3\u00d7FLAG-CMV-10, hCRY2-A260T-LUC/p3\u00d7FLAG-CMV-10, hCRY2-A260D-LUC/p3\u00d7FLAG-CMV-10, m<italic>Per1-luc</italic>/pGL3, pRL-TK (Renilla luc expression for internal control in luciferase assay, Promega,\u00a0Fitchburg,\u00a0WI). 0.3kb-m<italic>Bmal1</italic>-luc/pGL3 is a gift by Dr.Yoshitaka Fukada (University of Tokyo). Mutant hCRY2 and hCRY1 expression vectors were generated by PCR-based site-directed mutagenesis, and the mutation was verified by sequencing. For knockdown of human <italic>FBXL3</italic>, Hs_FBXL3_1, Hs_FBXL3_2 FlexiTube siRNA (QIAGEN,\u00a0Hilden,\u00a0Germany) and control siRNA (QIAGEN) were purchased."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-8", 
+                        "title": "Bioluminescence rhythms in tissue culture", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "h<italic>CRY2</italic> transgenic mice were crossed with <italic>mPer2<sup>Luc</sup></italic> knock-in mice (<xref ref-type=\"bibr\" rid=\"bib48\">Yoo et al., 2004</xref>; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/IMSR_JAX006852\">IMSR_JAX006852</ext-link>). Mice were sacrificed between ZT11 and ZT12. Dissected liver tissues were cultured on Millcell culture membrane (PICMORG50, EMD Millpore,\u00a0Billerica, MA) in 35\u2009mm dishes. For recording of lung rhythms, dissected lung tissue was placed in 35\u2009mm dishes without Millcell culture membrane. Recording medium was phenol-red free DMEM (Sigma Aldrich) containing 10\u00a0mM HEPES-pH7.0, 3.5\u00a0g/L D-glucose, 0.2\u2009mM luciferin potassium salt, 0.35\u2009g/L sodium bicarbonate, 2% B-27 supplement (Thermo Fisher Scientific), 50\u2009U/ml penicillin-streptomycin (Thermo Fisher Scientific). Bioluminescence was continuously recorded in a LumiCycle 32 instrument (Actimetrics, Wilmette, IL). Bioluminescence was detrended by subtracting 24\u2009hr average of bioluminescence using the LumiCycle analysis software. The periods were determined by dampened sine-curve fitting using LumiCycle analysis."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-9", 
+                        "title": "Bioluminescence rhythms in cell culture", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "For h<italic>CRY2</italic> transgenic/m<italic>Cry2</italic> knockout MEFs and NIH3T3 stable cells, cells were transfected with 500 ng 0.3kbp-m<italic>Bmal1</italic>-luc/pGL3 by Lipofectamine3000 before recordings. Cellular rhythms were synchronized by treatment with 100 nM dexamethasone (DEX) for 2\u2009hr. Medium was changed to the recording medium: phenol-red free DMEM (Sigma Aldrich) containing 10\u00a0mM HEPES-pH7.0, 3.5\u00a0g/L D-glucose, 0.1\u2009mM luciferin potassium salt and 50\u2009U/ml penicillin-streptomycin (Thermo Fisher Scientific). Bioluminescence recording and data analysis were as described in the methods for \u201cBioluminescence rhythms in tissue culture\u201d."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-10", 
+                        "title": "Luciferase assay", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "HEK293 cells were transfected with 50 ng <italic>Per1</italic>-luc expression vector, 25 ng Renilla luc control vector and 2, 5, 10 or 20 ng hCRY2 expression vectors. The luciferase assay was performed with Dual-Luciferase Reporter Assay System (Promega, Fitchburg, WI) according to the manufacturer\u2019s protocol. Bioluminescence was detected by Synergy H4 Hybrid Multi-Mode Microplate Reader (BioTek, Winooski, VT). Bioluminescence of Firefly LUC was normalized to bioluminescence of Renilla LUC."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-11", 
+                        "title": "Luciferase-based degradation assay", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "The hCRY2-LUC fusion protein expressing vector was created by inserting a <italic>CRY2-Luc</italic> cDNA between EcoRI and BamHI sites in the p3\u00d7FLAG-CMV-10 vector. HEK293 cells were transfected with 50 ng hCRY2-LUC vectors and cultured for 24\u2009hr. The culture medium was replaced with recording medium [phenol-red free DMEM (Sigma Aldrich) supplemented with 10% fetal bovine serum, 3.5 mg/ml glucose, 50\u2009U/ml penicillin-streptomycin (Thermo Fisher Scientific), 0.05\u2009mM luciferin, and 10\u2009mM HEPES-NaOH; pH 7.0] containing 100\u2009\u03bcg/ml cycloheximide (CHX; Santa Cruz Biotechnology Inc., Santa Cruz, CA). Luciferase activity of hCRY2-LUC was recorded at 10-min intervals at 37\u00b0C with a LumiCycle 32 instrument (Actimetrics). The luminescence signals were fitted to an exponential function to quantify the half-life of CRY2-LUC. KL001 (Cayman Chemical,\u00a0Ann Arbor, MI) was diluted in DMSO to a final concentration of 20\u2009mM."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-12", 
+                        "title": "Expression profiles of proteins and genes", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "Mice were entrained to LD 12:12 for at least 10 days. Mice were transferred to DD, and mice were sacrificed in dim red light on the 2nd day of DD. Liver tissues were collected, followed by nuclear extraction (<xref ref-type=\"bibr\" rid=\"bib49\">Yoshitane et al., 2009</xref>) and mRNA extraction. Protein levels and mRNA levels were normalized to LaminB levels and <italic>Gapdh</italic> levels, respectively."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-13", 
+                        "title": "Western blotting", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "For whole-cell extracts, HEK293 cells were lysed in SDS sample buffer [62.5\u00a0mM Tris-HCl (pH 6.8), 50\u00a0mM DTT, 2% SDS, 10% glycerol]. Preparation of the cytosolic and the nuclear fractions of mouse liver was performed as previously described (<xref ref-type=\"bibr\" rid=\"bib49\">Yoshitane et al., 2009</xref>). Protein samples were separated by SDS-PAGE. Tissues were transfered to PVDF membranes (EMD\u00a0Millipore) with blocking in T-TBS [50\u00a0mM Tris-HCl (pH 7.4), 137\u00a0mM NaCl, 0.1% Tween 20] containing 1% Skim milk. Primary antibodies were reacted in the blocking solution at 4\u00b0C overnight. Then, secondary antibodies were reacted in the blocking solution at RT for 2\u2009hr. Proteins were detected with the Western Lightning Plus ECL (PerkinElmer, Waltham, MA). Band intensities were determined using Image J software. \u03b2-actin and Vinculin were used as loading controls for total cell lysates, and LaminB and TBP were used as nuclear markers. Proteins were detected with the following antibodies: anti-cMyc 9E10 (Santa Cruz, sc-40), anti-FLAG M2 (Sigma Aldrich, F1804), anti-HA Y11 (Santa Cruz, sc-805-G), anti-\u03b2-actin (Abcam, AC-15,\u00a0Cambridge, UK), anti-Vinculin (Abcam, ab18058), anti-TBP (Santa Cruz, sc-273), anti-Ub (Santa Cruz, sc-8017), anti-hPER1 (Thermo Fisher Scientific, PA1-524), anti-LaminB1 (Abcam, ab16048 and Santa Cruz, C20), anti-mPER2 (Alpha Diagnostic International, PER-21A, San Antonio, TX), anti-hCRY2 (Santa Cruz, sc-130731) and anti-mCRY1 (MBL, PM081, Woburn, MA). Rabbit polyclonal anti-mCRY2 antibody was provide by Dr.Yoshitaka Fukada (University of Tokyo)\u00a0(<xref ref-type=\"bibr\" rid=\"bib10\">Hirano et al., 2013</xref>). Secondary antibodies used were goat anti-mouse IgG-HRP (Santa Cruz, sc-2005), goat anti-rabbit IgG-HRP (Santa Cruz, sc-2006) and goat anti-guinea pig IgG-HRP (Santa Cruz, sc2438)."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-14", 
+                        "title": "FAD competition assay", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "Flavin adenine dinucleotide disodium salt hydrate (FAD, Sigma Aldrich) was diluted in PBS to a final concentration of 100\u2009mM. HEK293 cells were transfected with plasmid vectors for 10\u2009\u03bcg hCRY2-His-Myc (WT or A260T) and 10\u2009\u03bcg FLAG-hFBXL3. Forty-two hours after transfection, the cells were treated with 10\u2009\u03bcM MG132 (EMD Millipore) for 6\u2009hr. CRY2-FBXL3 complex was purified with anti-FLAG M2 affinity gel (Sigma Aldrich). FAD was incubated with CRY2-FBXL3 complex binding to anti-FLAG M2 affinity gel in 40\u2009\u03bcl PBS for 2\u2009hr on ice. After centrifugation, the supernatant was collected as the \u2018released CRY2\u2019 sample. CRY2 still binding to FLAG-FBXL3 was eluted by adding SDS sample buffer to FLAG-M2 affinity gel."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-15", 
+                        "title": "Immunoprecipitation", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "HEK293 cells were transfected with plasmid vectors for hCRY2-His-Myc (WT or A260T) and FLAG-hFBXL3. Forty-two hours after transfection, the cells were treated with 10\u2009\u03bcM MG132 (EMD Millipore) for 6\u2009hr. CRY2-FBXL3 complex was purified with anti-FLAG M2 affinity gel (Sigma Aldrich) and eluted by 300\u2009\u03bcg/ml 3\u00d7FLAG peptide (Sigma Aldrich)."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-16", 
+                        "title": "Real-time qPCR", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "Total RNA was extracted by TRIzol reagent (Thermo Fisher Scientific) from MEFs or liver samples of transgenic animals. cDNA was synthesized by Superscript III (Thermo Fisher Scientific) for MEFs or GoScript (Promega) for liver samples. Quantification of mRNA was performed with GoTaq Real-Time qPCR Kits (Promega) using gene specific primers. mRNA levels were normalized to mouse <italic>Gapdh</italic> levels."
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "Primers: mouse <italic>Per1</italic>-fw; CAGGCTAACCAGGAATATTACCAGC,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Per1</italic>-rv; CACAGCCACAGAGAAGGTGTCCTGG,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Per2</italic>-fw; ATGCTCGCCATCCACAAGA,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Per2</italic>-rv; GCGGAATCGAATGGGAGAAT,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Gapdh</italic>-fw; ACGGGAAGCTCACTGGCATGGCCTT,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Gapdh</italic>-rv; CATGAGGTCCACCACCCTGTTGCTG,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Cry2</italic>-fw; GGGACTCTGTCTATTGGCATCTG,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Cry2</italic>-rv; GTCACTCTAGCCCGCTTGGT,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Cry1</italic>-fw:CCCAGGCTTTTCAAGGAATGGAACA"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Cry1</italic>-rv:TCTCATCATGGTCATCAGACAGAGG"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "human <italic>CRY2</italic>-fw; CCAAGAGGGAAGGGCAGGGTAGAG,"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "human <italic>CRY2</italic>-rv; AGGATTTGAGGCACTGTTCCGAGG"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Dbp</italic> FW,AATGACCTTTGAACCTGATCCCGCT"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Dbp</italic> RV,GCTCCAGTACTTCTCATCCTTCTGT"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Bmal1</italic> FW,GCAGTGCCACTGACTACCAAGA"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Bmal1</italic> RV,TCCTGGACATTGCATTGCAT"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Rev-erb\u03b1</italic> FW,GGGCACAAGCAACATTACCA"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Rev-erb\u03b1</italic> RV,CACGTCCCCACACACCTTAC"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>REV-erb\u03b2</italic> FW,TGGGACTTTTGAGGTTTTAATGG"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>REV-erb\u03b2</italic> RV,GTGACAGTCCGTTCCTTTGC"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Dec1</italic> FW,ATCAGCCTCCTTTTTGCCTTC"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Dec1</italic> RV,AGCATTTCTCCAGCATAGGCAG"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Dec2</italic> FW,ATTGCTTTACAGAATGGGGAGCG"
+                            }, 
+                            {
+                                "type": "paragraph", 
+                                "text": "mouse <italic>Dec2</italic> RV,AAAGCGCGCGAGGTATTGCAAGAC"
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-17", 
+                        "title": "Structural modeling", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "Structural modeling was based on the structure of mouse CRY2 bound to FAD (PDB code 4I6G) and mouse FBXL3 (PDB code 4I6J) (<xref ref-type=\"bibr\" rid=\"bib44\">Xing et al., 2013</xref>). Modeling of mutant CRY2 was performed using Molecular graphics and analyses were performed with the UCSF Chimera package (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_004097\">SCR_004097</ext-link>). Chimera was developed by the Resource for Biocomputing, Visualization, and Informatics at the University of California, San Francisco (supported by NIGMS P41-GM103311) (<xref ref-type=\"bibr\" rid=\"bib27\">Pettersen et al., 2004</xref>)."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "section", 
+                        "id": "s4-18", 
+                        "title": "Statistics analysis", 
+                        "content": [
+                            {
+                                "type": "paragraph", 
+                                "text": "All error bars in the figures represent SEM except for <xref ref-type=\"fig\" rid=\"fig3\">Figure 3C</xref>. In <xref ref-type=\"fig\" rid=\"fig3\">Figure 3C</xref>, the error bars represent SD. No statistical analysis was used to predetermine the sample sizes. Experiments were not randomized and not analyzed blindly. In <xref ref-type=\"fig\" rid=\"fig2\">Figure 2A</xref> and <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure\u00a0supplement 1</xref>, the sample with extremely abnormal walking distance (>500 meter walking distance, due to a failure of automatic video tracking) was excluded as an outlier according to the Smirnov-Grubbs test. Data was statistically analyzed using R software (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_001905\">SCR_001905</ext-link>). To assess statistical significance, data was obtained from three or more independent experiments. All data sets were assumed to follow normal distributions by the Kolmogorov-Smirnov test, and homogeneity of variance between compared groups was tested by F-test (comparison of 2 groups) or Bartlett test (comparison of multiple groups). Two-tailed paired Student\u2019s <italic>t</italic>-test or Welch\u2019s <italic>t</italic>-test was used for the comparison of 2 groups with or without homogeneity of variance. Tukey\u2019s test or Games-Howell test were used for multiple comparisons with or without of homogeneity of variance. Differences with a p value <0.05 were considered statistically significant."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "decisionLetter": {
+            "doi": "10.7554/eLife.16695.017", 
+            "description": [
+                {
+                    "type": "paragraph", 
+                    "text": "In the interests of transparency, eLife includes the editorial decision letter and accompanying author responses. A lightly edited version of the letter sent to the authors after peer review is shown, indicating the most substantive concerns; minor comments are not usually included."
+                }
+            ], 
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Thank you for submitting your article \"A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human\" for consideration by <italic>eLife</italic>. Your article has been reviewed by three peer reviewers, including Chris S Colwell, and the evaluation has been overseen by a Senior Editor and Joseph Gleeson as the Reviewing Editor."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The reviewers have discussed the reviews with one another and the Reviewing Editor has drafted this decision to help you prepare a revised submission."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Summary:"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The authors identify a rare mutation in the circadian clock gene Cry2, which they find to segregate with advanced sleep phase in a small pedigree. A mouse model carrying the candidate variant exhibits modest shortening of the circadian period as well as altered phase delay, but not phase advance. At the molecular level, the authors provide evidence for altered protein stability of Cry2 due to the mutation. At the molecular level, the authors demonstrate shorter PER2-driven bioluminescence rhythms in the peripheral oscillators. Importantly, the authors examine the impact of the CRY2 mutation on the normally repressing function of the protein, and demonstrate a possible mechanism through altered interaction with a known binding partner, FBXL3. The results provide insight into the regulation of human sleep timing. However, several of the authors' claims are compromised somewhat by an inconsistent quality in the data. Some revisions are required before a conclusion can be reached on whether all of the authors' claims can be supported."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Essential revisions:"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "1) The characterization of the sleep and circadian phenotypes for the subjects is scarce. This section should be expanded to include e.g. typical bed- and wake times, midsleep on free days, H-O scores, etc. Currently there are only gives H-O scores for the sibling pair and DLMO for a single individual. Please provide basis for classification into categories on left of <xref ref-type=\"fig\" rid=\"fig1\">Figure 1A</xref> for all subjects. Also, legend on left includes a symbol for 'probably affected', yet all subjects in pedigree are colored as either 'affected', 'unaffected' or 'unknown'. Who is 'probably affected'? Also provide genotypes for all subjects. Depending on how many subjects in this fairly small kindred can be definitively classified, segregation of the allele with FASPS phenotype may or may not be consistent. Similarly, dim light melatonin onset for normal subjects at should be reported so that a lay reader can assess the degree of phase advance shown by the proband."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "2) The tissue/cell rhythms presented in <xref ref-type=\"fig\" rid=\"fig3\">Figure 3A-C</xref> show a pronounced difference in cycling amplitude between genotypes. This applies especially to lung, which seems to only be borderline rhythmic in the mutant transgenic. Period and amplitude should be determined by appropriate curve-fitting methods rather than selected peak-trough distance and a measure of reliability for both parameters needs to be provided. Similarly, poor rhythms in NIH3T3 cells (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3D</xref>) make these results hard to interpret. This experiment should be repeated with primary MEFs from the respective transgenic lines as well as Cry2-deficient MEFs (previously published), which have been reconstituted with the respective wild type and mutant Cry2 form."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "3) Interaction with Fbxl3: The Fbxl3-FAD competition assay (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5B</xref>) is impossible to interpret because the amount of Fbxl3 and Cry2 in the purified complex is either not shown or the gel is vastly overexposed. In 5D, it remains unclear whether KL001-mediated Cry2 stabilization is indeed reduced, because of the reduction in Cry2 half-life in the absence of the drug. To assess the effect of KL001, the data should be presented as difference in half-life compared to the no-drug control for each construct. Interaction of Cry2 with Fbxl3 (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5E</xref>) should be confirmed in a physiologically relevant setting (co-immunoprecipitation from transgenic cells/tissues and/or Cry2-deficient cells reconstituted with either Cry2 form, see previous comment)."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "4) The CRY2-A260T mice have normal activity onset, which does not recapitulate the phenotype shown by FASP subjects. The degree of phase advance in activity offset is also nowhere near that of the human subjects, and the slight change in period (15-20 min decrease) is also unlikely to cause the same degree of advanced sleep phase."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "[Editors' note: further revisions were requested prior to acceptance, as described below.]"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Thank you for resubmitting your work entitled \"A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human\" for further consideration at <italic>eLife</italic>. Your revised article has been favorably evaluated by a Senior editor, a Reviewing editor (Joseph Gleeson), and two reviewers."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The manuscript has been improved but there are some remaining issues that need to be addressed before acceptance, as outlined below. The two reviewers have provided specific areas for improvement of the text that <italic>eLife</italic> thinks will improve and further clarify your findings."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Please address these comments in a rebuttal letter and submit a revised manuscript for further consideration."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>Reviewer #1:</italic>"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Although parts of the manuscript are much improved over the previous version, some issues would still benefit from further clarification as follows:"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "1) Second paragraph of Introduction section: \"Mutations in mouse Fbxl3 or knockout of the Fbxl3 gene dramatically lengthens the period of mouse behavioral rhythms in constant darkness (Godinho et al., 2007; Hirano et al., 2013; Shi et al., 2013; Siepka et al., 2007), indicating that the protein stability of CRY2 is a critical determinant of circadian period in mice.\""
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "This is a misleading statement \u00e2\u20ac\u201c all of the references cited studied the combined effects on CRY1 and CRY2 of Fbxl3. The authors should therefore say: \"the protein stability of CRY1 and CRY2 is a critical determinant\u00e2\u20ac\u00a6\"."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "2) Results section: \"No other novel mutations were found in ~25 candidate circadian genes that were sequenced.\""
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "This statement is unclear. The Cry2 mutation studied is present in public databases (rs201220841), albeit at low frequency. Are there coding variations in the other sequenced circadian genes? If so, were these discounted based on their presence at a higher frequency in public databases, or by other criteria?"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "3) <xref ref-type=\"supplementary-material\" rid=\"SD1-data\">Figure 1\u00e2\u20ac\u201dsource data 1</xref> and <xref ref-type=\"fig\" rid=\"fig1\">Figure 1A</xref>:"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Although the subject IDs are not given in the pedigree, it seems based on the ages that subject 101374 would have to be the pro-band's nephew. In that case, he appears to be a carrier of the allele, although he has very late sleep times and a low H-O score. So, does the allele fail to segregate with the FASP phenotype in this case? At 21 years old, it seems doubtful that age is a sufficient explanation for this discrepancy. Penetrance and age of onset should be discussed."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "4) <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u00e2\u20ac\u201dfigure supplement 1C</xref>:"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The authors describe a 'larger amplitude advance' on a Cry2-null background, but this is not clear from the figure. Have the results in the histograms been tested for statistical significance (as in <xref ref-type=\"fig\" rid=\"fig2\">Figure 2C</xref>)?"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "5) <xref ref-type=\"fig\" rid=\"fig2\">Figure 2D</xref>; <xref ref-type=\"fig\" rid=\"fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2</xref>:"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Results on WT background are not quantified, so, the authors' claims on activity onset and offset times are hard to follow based on actograms from a single animal. In the supplementary figure, there appears to be a difference in activity offset in hCRY2-A260T-Tg compared to the hCry2-WT-Tg, but not the wildtype control?"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "6) <xref ref-type=\"fig\" rid=\"fig2s4\">Figure 2\u00e2\u20ac\u201dfigure supplement 4A</xref>:"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Did the authors confirm whether the transgenes in fact rescues the Cry2 phenotype in the KO strain? The WT-Tg still seems to have a long period, is this actually different from the Cry2 KO background strain?"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "7) Results section, \u00e2\u20ac\u0153Shortened period and reduced phase-shift in <italic>hCRY2-A260T</italic> mice\u00e2\u20ac\u009d: \"Of note, there is no significant difference in the periods and phase-shifting of hCRY2-WT transgenic vs. transgene negative mice (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2E,F</xref>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of hCRY2.\""
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "This is not the case for the activity offset in <xref ref-type=\"fig\" rid=\"fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2A</xref>, though?"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "8) <xref ref-type=\"fig\" rid=\"fig4s1\">Figure 4\u00e2\u20ac\u201dfigure supplement 1C</xref>: The quantification does not seem to match the shown WB at all. Rather, in the WB, the WT and mutant results seem essentially indistinguishable."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>Reviewer #2:</italic>"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Overall, I feel that the authors have done a good job addressing the reviewer's concerns and that the manuscript has been significantly strengthened. I agree with the issue that that this is a small kindred with the sleep and circadian phenotypes for the subjects relatively weak. But the mouse work is extensive. Also, I remain concerned that the CRY2-A260T mice have normal activity onset that does not recapitulate the phenotype shown by FASP subjects. Nevertheless, I feel that the video analysis of activity and sleep is a perfectly reasonable way to measure behavioral rhythms. Overall, I continue to feel that this work will make a meaningful contribution to the literature and is appropriate to publish in <italic>eLife</italic>."
+                }
+            ]
+        }, 
+        "authorResponse": {
+            "doi": "10.7554/eLife.16695.018", 
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>Essential revisions:</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>1) The characterization of the sleep and circadian phenotypes for the subjects is scarce. This section should be expanded to include e.g. typical bed- and wake times, midsleep on free days, H-O scores, etc. Currently there are only gives H-O scores for the sibling pair and DLMO for a single individual.</italic>"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We have added a table summarizing human sleep phenotype in this submission (Figure 1\u00e2\u20ac\u201dfigure supplement Table. 1). We have interviewed the proband\u00e2\u20ac\u2122s mother who also has the A260T mutation. She is not included in the Supplement Table 1. We could not perform sleep log recording or questionnaire diagnosis because she was 91 years old when phenotyped. However, in the interview, she described that she habitually woke up at 5:00 in the morning without alarm clock at least since she was 31 years old when she gave birth to her first child. It was hard to categorize the proband\u00e2\u20ac\u2122s nephew because of his young age."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>Please provide basis for classification into categories on left of <xref ref-type=\"fig\" rid=\"fig1\">Figure 1A</xref> for all subjects. Also, legend on left includes a symbol for 'probably affected', yet all subjects in pedigree are colored as either 'affected', 'unaffected' or 'unknown'. Who is 'probably affected'? Also provide genotypes for all subjects.</italic>"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The information is included in the Methods section. The figure has been corrected, and genotypes been added accordingly."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>Depending on how many subjects in this fairly small kindred can be definitively classified, segregation of the allele with FASPS phenotype may or may not be consistent.</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We understand the family in this study is not big enough to conclude that A260T mutation is causative for FASP base on human genetics data alone (i.e. by linkage analysis). That\u00e2\u20ac\u2122s why we generated the mouse model and characterized their behavior to see how A260T mutation affects behavioral and cellular rhythms on a homogeneous genetic background. One thing that we\u00e2\u20ac\u2122ve learned from study of familial human behavioral traits is the challenge of recruiting additional family members. Sleep is NOT a disease phenotype, so people are not as motivated to participate with all the questionnaires, interviews, and tests that we would like them to do, especially when they are not getting paid for any of these. In order to overcome this challenge, our approach has been trying our best to recruit as many subjects as possible in each family followed by mutation screening. Proving that a mutation is causal requires demonstration of the behavioral phenotype in a mouse model and the altered molecular functions in vitro/in vivo. If the family has many mutation carriers who have the sleep trait but the mouse model does not demonstrate the phenotype, then we cannot follow up with the mutation even if the number of mutation carriers is higher."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>Similarly, dim light melatonin onset for normal subjects at should be reported so that a lay reader can assess the degree of phase advance shown by the proband.</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We added this information as suggested in the Results of the main text."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>2) The tissue/cell rhythms presented in <xref ref-type=\"fig\" rid=\"fig3\">Figure 3A-C</xref> show a pronounced difference in cycling amplitude between genotypes. This applies especially to lung, which seems to only be borderline rhythmic in the mutant transgenic. Period and amplitude should be determined by appropriate curve-fitting methods rather than selected peak-trough distance and a measure of reliability for both parameters needs to be provided. Similarly, poor rhythms in NIH3T3 cells (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3D</xref>) make these results hard to interpret. This experiment should be repeated with primary MEFs from the respective transgenic lines as well as Cry2-deficient MEFs (previously published), which have been reconstituted with the respective wild type and mutant Cry2 form.</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We repeated the experiment and analyzed the circadian period by sine-curve fitting for all PER2::LUC data and include this in the revised manuscript. The period was almost the same as those calculated by times of peaks and troughs. There were no significant differences in the amplitudes in lung, liver, and a stable cell line. We replaced with new dataset having similar amplitudes in <xref ref-type=\"fig\" rid=\"fig3\">Figure 3A</xref>."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We have added data showing the cellular rhythms of Tg mouse MEFs on a WT background (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3D</xref>) and the Cry2 KO background (<xref ref-type=\"fig\" rid=\"fig3\">Figure 3E</xref>). The period of MEFs from CRY2-A260T mice was significantly shorter than that of WT Tg mice on both backgrounds."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "A measure of reliability (goodness of sine-fitting in Lumicycle Analysis):"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<xref ref-type=\"fig\" rid=\"fig3\">Figure 3B</xref>, Liver"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The averaged goodness of sine-fitting was 91.9 \u00c2\u00b1 3.4% for CRY2-WT and 86.5 \u00c2\u00b1 3.7% for A260T, respectively."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<xref ref-type=\"fig\" rid=\"fig3\">Figure 3B</xref>, Lung"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The averaged goodness of sine-fitting was 98.2 \u00c2\u00b1 0.32% for CRY2-WT and 84.8 \u00c2\u00b1 4.5% for A260T, respectively."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<xref ref-type=\"fig\" rid=\"fig3\">Figure 3D</xref>, MEF WT background"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The averaged goodness of sine-fitting was 89.9 \u00c2\u00b1 0.43% for CRY2-WT, 93 \u00c2\u00b1 0.18% for A260T line #1 and 94.2 \u00c2\u00b1 0.19% for A260T line #2 respectively."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<xref ref-type=\"fig\" rid=\"fig3\">Figure 3E</xref>, MEF Cry2 KO background"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The averaged goodness of sine-fitting was 80.4 \u00c2\u00b1 1.04% for CRY2-WT Cell line#1, 82.1 \u00c2\u00b1 2.78% for CRY2-WT Cell line#2, 81.0 \u00c2\u00b1 0.82%for CRY2-A260T Cell line #1, 78.0 \u00c2\u00b1 1.63%for CRY2-A260T Cell line #2 and 78.3 \u00c2\u00b1 1.45%for Cry2 KO, respectively."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<xref ref-type=\"fig\" rid=\"fig3\">Figure 3F</xref>, Stable cell line, 3T3 cells"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The averaged goodness of sine-fitting was 93.4% for CRY2-WT and 96.8% for A260T, respectively."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>3) Interaction with Fbxl3: The Fbxl3-FAD competition assay (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5B</xref>) is impossible to interpret because the amount of Fbxl3 and Cry2 in the purified complex is either not shown or the gel is vastly overexposed.</italic>"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We replaced <xref ref-type=\"fig\" rid=\"fig5\">Figure 5B</xref> (current 5C) with a new dataset, showing proper controls (CRY2-FBXL3 complex before adding FAD as well as CRY2 still binding FBXL3 after incubation with FAD) as suggested."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>In 5D, it remains unclear whether KL001-mediated Cry2 stabilization is indeed reduced, because of the reduction in Cry2 half-life in the absence of the drug. To assess the effect of KL001, the data should be presented as difference in half-life compared to the no-drug control for each construct.</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "In the initial submission, data was shown for both WT and Mutant without KL001, and WT and Mutant with KL001. We\u00e2\u20ac\u2122ve added a new panel to <xref ref-type=\"fig\" rid=\"fig5\">Figure 5D</xref> and in <xref ref-type=\"fig\" rid=\"fig5s1\">Figure 5\u00e2\u20ac\u201dfigure supplement 1A</xref>. The new panel shows differences in half-life compared to the no-drug control as this reviewer recommended."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>Interaction of Cry2 with Fbxl3 (<xref ref-type=\"fig\" rid=\"fig5\">Figure 5E</xref>) should be confirmed in a physiologically relevant setting (co-immunoprecipitation from transgenic cells/tissues and/or Cry2-deficient cells reconstituted with either Cry2 form, see previous comment).</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We agree that the change in CRY2 interaction with FBXL3 will need to be confirmed in a physiological condition (i.e. in vivo). However, there is currently no specific antibody for human CRY2 that is good enough to perform co-immunoprecipitation (We in fact have tested all available antibodies for this). This set of experiments will need to be carried out when that reagent becomes available."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>4) The CRY2-A260T mice have normal activity onset, which does not recapitulate the phenotype shown by FASP subjects. The degree of phase advance in activity offset is also nowhere near that of the human subjects, and the slight change in period (15-20 min decrease) is also unlikely to cause the same degree of advanced sleep phase.</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "It is well known that mice have strong masking effect by light. Here, it appears that activity onset around the LD transition is masked by light signal in wheel-running analysis, although we detected advanced activity offset. However, <xref ref-type=\"fig\" rid=\"fig2\">Figure 2A-C</xref> shows the advanced \u00e2\u20ac\u0153locomotor\u00e2\u20ac\u009d activity onset by video recording. Thus, we think that while CRY2-A260T Tg mice wake earlier than WT mice, they are not running on the wheel, likely due to masking to light. In addition, the inconsistency among the analysis tools can be explained by the fact that wheel-running exercise alters mouse behavioral rhythms (Webb et al., Behavioral Neuroscience, 2014) (especially shortens the free-running period). Thus, wheel-running does not reflect the \u00e2\u20ac\u0153sleep-wake\u00e2\u20ac\u009d pattern perfectly. We also need to remember that humans do not run on wheels all day long, so wheel-running behavior is likely not the best reflection of human sleep wake behavior. We discussed these points and also the differences in the phenotype of our mice in the Discussion section. Also, we understand so little about the relationship between period length and phase angle of entrainment to speak with too much certainty about what is expected in terms of phase advance for any given endogenous period. We accept that there are differences between mouse and human physiology. The conditions under which we measure such things is also different in mice than in humans (see above). Finally, it is also possible that the phase advance in the humans is due to a combination of effects of period shortening and altered entrainment. We have attempted to enroll these subjects in studies in temporal isolation by our collaborator, Jeanne Duffy. Unfortunately, these subjects did not want to do such an intensive study. We did observed abnormal phase-shifting in the mice, which also is likely to contribute to the phenotype."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "[Editors' note: further revisions were requested prior to acceptance, as described below.]"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>Reviewer #1:</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>Although parts of the manuscript are much improved over the previous version, some issues would still benefit from further clarification as follows:</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>1) Second paragraph of Introduction section: \"Mutations in mouse Fbxl3 or knockout of the Fbxl3 gene dramatically lengthens the period of mouse behavioral rhythms in constant darkness (Godinho et al., 2007; Hirano et al., 2013; Shi et al., 2013; Siepka et al., 2007), indicating that the protein stability of CRY2 is a critical determinant of circadian period in mice.\"</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>This is a misleading statement \u00e2\u20ac\u201c all of the references cited studied the combined effects on CRY1 and CRY2 of Fbxl3. The authors should therefore say: \"the protein stability of CRY1 and CRY2 is a critical determinant\u00e2\u20ac\u00a6\".</italic>"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We have modified the description as suggested."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>2) Results section: \"No other novel mutations were found in ~25 candidate circadian genes that were sequenced.\"</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>This statement is unclear. The Cry2 mutation studied is present in public databases (rs201220841), albeit at low frequency. Are there coding variations in the other sequenced circadian genes? If so, were these discounted based on their presence at a higher frequency in public databases, or by other criteria?</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "This variant (rs201220841) was registered in May 2012 and March 2015 by two sequencing studies. Since we found this mutation before the registration of the database (2008) in a strong physiological candidate, we categorized the mutation as a novel variant and proceeded to generate the mutant mouse line. We looked through several hundreds of normal control subjects plus public genome sequences to confirm novelty in 2008. The recapitulation of a circadian phenotype led to us to the more detailed molecular analysis showing functional consequences in vitro. Since the reported variant in public databases is rare (0.008% in the ExAc database), and FASP is not uncommon (0.5% in general population, our unpublished data), it is not surprising that this variant exists at a low frequency in the general population (~120,000 in the ExAc database). This variant, therefore, explains a small but measurable proportion of FASP in the population. We have discussed this in the modified manuscript."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Regarding other candidate circadian genes, we did not find any other rare polymorphism co-segregating with the phenotype. Ultimately, the behavioral phenotype in the mouse model is what we rely on to confirm the causal relationship of the variant and behavioral trait."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>3) <xref ref-type=\"supplementary-material\" rid=\"SD1-data\">Figure 1\u00e2\u20ac\u201dsource data 1</xref> and <xref ref-type=\"fig\" rid=\"fig1\">Figure 1A</xref>:</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>Although the subject IDs are not given in the pedigree, it seems based on the ages that subject 101374 would have to be the pro-band's nephew. In that case, he appears to be a carrier of the allele, although he has very late sleep times and a low H-O score. So, does the allele fail to segregate with the FASP phenotype in this case? At 21 years old, it seems doubtful that age is a sufficient explanation for this discrepancy. Penetrance and age of onset should be discussed.</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "As pointed out by this reviewer, this subject\u00e2\u20ac\u2122s phenotype cannot be categorized as FASP. However, in adolescence and young adult life, there is a well recognized tendency to be more phase delayed. When phenotyped at age 21, subject 101374 was at the statistical peak age of maximum phase delay and was prone to be even more phase-delayed by his male sex (Roenneberg T et al. A marker for the end of adolescence. Curr Biol 2004;14(24):R1038-9.)."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "In the recent authoritative review of advanced sleep phase in the International Classification of Sleep Disorders (American Academy of Sleep Medicine. International classification of sleep disorders, 3<sup>rd</sup> ed. Darien, IL: American Academy of Sleep Medicine, 2014) there was insufficient peer-reviewed data on age-of-onset in Advanced Sleep Phase to even be mentioned, other than the trend toward higher prevalence in \u00e2\u20ac\u0153older age.\u00e2\u20ac\u009d"
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Thus, we have always considered individuals under age 30 who do not meet our strict diagnostic criteria to be \u00e2\u20ac\u0153unknown\u00e2\u20ac\u009d. It is likely that he will become more phase advanced as he approaches age 30 (still young enough so as not to be confused with the ASPS of aging). Because non-penetrance does occur, it is also possible that this individual will never manifest FASP. We have modified the discussion to reflect this important issue."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>4) <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u00e2\u20ac\u201dfigure supplement 1C</xref>:</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>The authors describe a 'larger amplitude advance' on a Cry2-null background, but this is not clear from the figure. Have the results in the histograms been tested for statistical significance (as in <xref ref-type=\"fig\" rid=\"fig2\">Figure 2C</xref>)?</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We did not detect significant differences in activity onset time and offset time due to the large variations, while there is a trend of advanced activity phase in hCRY2-A260T/Cry2 KO. However, we observed a significantly different activity and resting pattern (<xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u00e2\u20ac\u201dfigure supplement 1C</xref>, left) around ZT12-13 and ZT 22-0 to support the advanced sleep/wake phase. We didn\u00e2\u20ac\u2122t have enough mice to do similar statistical analysis and agree that it is not clear how early the activity onset (immobility offset) is advanced in hCRY2-A260T/Cry2 KO mice from the profile data. We have modified the description in the main text accordingly."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>5) <xref ref-type=\"fig\" rid=\"fig2\">Figure 2D</xref>; <xref ref-type=\"fig\" rid=\"fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplements 2</xref>:</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>Results on WT background are not quantified, so, the authors' claims on activity onset and offset times are hard to follow based on actograms from a single animal. In the supplementary figure, there appears to be a difference in activity offset in hCRY2-A260T-Tg compared to the hCry2-WT-Tg, but not the wildtype control?</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "The activity offset was quantified and shown in <xref ref-type=\"fig\" rid=\"fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2A</xref>, middle panel. The activity onset was also quantified, but there was no significant phenotype (data not shown). We also show the activity profile in <xref ref-type=\"fig\" rid=\"fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2A</xref> (left panel, average of 19 mice for each Tg line, and 7 mice for WT) as it is hard to interpret from actogram of a single animal."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "As pointed out by this reviewer, mice carrying the hCry2-WT transgene showed delayed activity offset vs. WT littermates. We also found that a hCRY2 transgene (both WT and A260T) lengthened the active period (\u00ce\u00b1) in DD (data not shown) and increased total wake time in LD (EEG data, data not shown), suggesting that hCRY2 overexpression affects sleep homeostasis. This leads to delayed activity offset in hCry2-WT-Tg mice vs. WT littermates. Thus, it is ideal that hCry2-A260T-Tg should be compared with hCry2-WT-Tg mice. See also comment 7 below."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>6) <xref ref-type=\"fig\" rid=\"fig2s4\">Figure 2\u00e2\u20ac\u201dfigure supplement 4A</xref>:</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>Did the authors confirm whether the transgenes in fact rescues the Cry2 phenotype in the KO strain? The WT-Tg still seems to have a long period, is this actually different from the Cry2 KO background strain?</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "In <xref ref-type=\"fig\" rid=\"fig3\">Figure 3E</xref>, the circadian period of Cry2 KO (24.28 \u00c2\u00b1 0.28 hr) was shortened by hCRY2-WT transgene (#1 24.1 \u00c2\u00b1 0.00 hr; #2 23.65 \u00c2\u00b1 0.18 hr). The circadian period of wheel-running activity of Cry2 KO (24.41 \u00c2\u00b1 0.06 hr) was longer than that of hCRY2-WT/Cry2 KO mice (24.34 hr \u00c2\u00b1 0.14 hr). We predicted that the expression of the human CRY2 transgene is much lower than that of mouse endogenous CRY2 and that the human wild-type CRY2 transgene partially rescued the Cry2 KO phenotype."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>7) Results section, \u00e2\u20ac\u0153Shortened period and reduced phase-shift in hCRY2-A260T mice\u00e2\u20ac\u009d: \"Of note, there is no significant difference in the periods and phase-shifting of hCRY2-WT transgenic vs. transgene negative mice (<xref ref-type=\"fig\" rid=\"fig2\">Figure 2E,F</xref>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of hCRY2.\"</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<italic>This is not the case for the activity offset in <xref ref-type=\"fig\" rid=\"fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplements 2</xref>, though?</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "As pointed out by this reviewer, mice carrying the hCry2-WT transgene showed delayed activity offset vs. WT littermate. As described above (comment 5), we also found that a hCRY2 transgene (both WT and A260T) lengthened the active period (\u00ce\u00b1) in DD (data not shown) and increased total wake time in LD (EEG data, data not shown), suggesting that hCRY2 overexpression affects sleep homeostasis. This leads to delayed activity offset in hCry2-WT-Tg mice vs. WT littermates. In the manuscript, we intended to mention that the circadian behavior (not sleep homeostasis) was not affected by the transgene."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": " <italic>8) <xref ref-type=\"fig\" rid=\"fig4s1\">Figure 4\u00e2\u20ac\u201dfigure supplement 1C</xref>: The quantification does not seem to match the shown WB at all. Rather, in the WB, the WT and mutant results seem essentially indistinguishable.</italic> "
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "We have repeated this experiment and inserted better quality figures more clearly demonstrating this point."
+                }
+            ]
+        }
+    }
+}
