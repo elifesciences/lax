@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.postgres import fields as psql
+#from django.contrib.postgres import fields as psql
+from .fields import JSONField
 from utils import second, firstnn, msid2doi
 
 POA, VOR = 'poa', 'vor'
@@ -171,10 +172,13 @@ class ArticleVersion(models.Model):
     # it's only ever correct for the first version of this article
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
 
-    article_json_v1_raw = psql.JSONField(null=True, blank=True, help_text="raw input article json we receive from different places")
+    #article_json_v1_raw = psql.JSONField(null=True, blank=True, help_text="raw input article json we receive from different places")
+    article_json_v1_raw = JSONField(null=True, blank=True, help_text="raw input article json we receive from different places")
 
-    article_json_v1 = psql.JSONField(null=True, blank=True, help_text="Valid article-json.")
-    article_json_v1_snippet = psql.JSONField(null=True, blank=True, help_text="Valid article-json snippet.")
+    #article_json_v1 = psql.JSONField(null=True, blank=True, help_text="Valid article-json.")
+    article_json_v1 = JSONField(null=True, blank=True, help_text="Valid article-json.")
+    #article_json_v1_snippet = psql.JSONField(null=True, blank=True, help_text="Valid article-json snippet.")
+    article_json_v1_snippet = JSONField(null=True, blank=True, help_text="Valid article-json snippet.")
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
