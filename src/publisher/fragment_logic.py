@@ -1,3 +1,4 @@
+from django.db.models import Q
 from . import utils, models
 from .utils import create_or_update
 
@@ -35,3 +36,23 @@ def get(x, ftype):
     }
     kwargs.update(_getids(x))
     return models.ArticleFragment.objects.get(**kwargs).fragment
+
+def merge(av):
+    """returns the merged result for a particlar article version"""
+
+    # all fragments belonging to this specific article version or
+    # to this article in general
+    fragments = models.ArticleFragment.objects \
+      .filter(article=av.article) \
+      .filter(Q(version=av.version) | Q(version=None)) \
+      .order_by('position')
+
+    raw = dict(fragments[0].fragment)
+
+    raw = raw['article'] # desirable??
+    rows = [raw] + map(lambda f: f.fragment, fragments[1:])
+
+    print 'rows',rows
+    
+    return reduce(utils.deepmerge, rows)
+      

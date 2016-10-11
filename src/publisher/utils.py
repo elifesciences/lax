@@ -165,6 +165,23 @@ def json_dumps(obj):
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=datetime_handler)
 
+# http://stackoverflow.com/questions/7204805/dictionaries-of-dictionaries-merge
+def deepmerge(a, b, path=None):
+    "merges b into a"
+    if path is None: path = []
+    for key in b:
+        if key in a:
+            if isinstance(a[key], dict) and isinstance(b[key], dict):
+                deepmerge(a[key], b[key], path + [str(key)])
+            elif a[key] == b[key]:
+                pass # same leaf value
+            else:
+                # can't merge, replace
+                a[key] = b
+        else:
+            a[key] = b[key]
+    return a
+
 #
 #
 #

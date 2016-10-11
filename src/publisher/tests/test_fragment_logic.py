@@ -33,7 +33,7 @@ class FragmentLogic(BaseCase):
         self.version = self.ajson['article']['version'] # v1
 
         # populate with an article. CREATES A FRAGMENT
-        ajson_ingestor.ingest_publish(self.ajson)
+        _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
 
     def tearDown(self):
         pass
@@ -48,6 +48,22 @@ class FragmentLogic(BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 2)
         self.assertEqual(fragment, fragobj.fragment)
 
+    def test_update_fragment(self):
+        "a fragment of article data can be updated by adding it again with different content"
+
+        # ensure we have something that resembles the ingest data
+        self.assertEqual(models.ArticleFragment.objects.count(), 1)
+        frag = logic.get(self.av, 'xml->json')
+        self.assertTrue('article' in frag)
+
+        # now update it with some garbage
+        data = {'article': {'title': 'pants-party'}}
+        logic.add(self.av, 'xml->json', data, pos=0)
+
+        # ensure we've just destroyed our very important data
+        frag = logic.get(self.av, 'xml->json')
+        self.assertEqual(frag, data)
+
     def test_delete_fragment(self):
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
         fragment = {'title': 'pants. party'}
@@ -55,3 +71,22 @@ class FragmentLogic(BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 2)
         logic.rm(self.msid, 'foo')
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
+
+class FragmentMerge(BaseCase):
+    def setUp(self):
+        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson = json.load(open(self.ajson_fixture, 'r'))
+        self.msid = self.ajson['article']['id']
+        self.version = self.ajson['article']['version'] # v1
+        _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
+    
+    def test_merge_fragments(self):
+        logic.add(self.av, 'xml->json', {'article': {'title': 'foo'}}) # override
+
+        logic.add(self.msid, 'frag1', {'body': 'bar'})
+        logic.add(self.msid, 'frag2', {'foot': 'baz'})
+
+        expected = {'title': 'foo', 'body': 'bar', 'foot': 'baz'}
+        self.assertEqual(expected, logic.merge(self.av))
+
+        
