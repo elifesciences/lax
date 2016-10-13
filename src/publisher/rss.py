@@ -23,12 +23,15 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
             handler.addQuickElement("dc:date", pubdate.isoformat())
         else:
             LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
-        # adds a <subj-group><subject>foo</subject></subj-group>
-        handler.startElement('jats:subj-group', {'subj-group-type': 'display-channel'})
-        handler.startElement('jats:subject', {})
-        handler.characters(str(item['obj'].article.ejp_rev_type()))
-        handler.endElement('jats:subject')
-        handler.endElement('jats:subj-group')
+
+        if item.get('obj') and isinstance(item['obj'], models.ArticleVersion):
+            # adds a <subj-group><subject>foo</subject></subj-group>
+            handler.startElement('jats:subj-group', {'subj-group-type': 'display-channel'})
+            handler.startElement('jats:subject', {})
+
+            handler.characters(str(item['obj'].article.ejp_rev_type()))
+            handler.endElement('jats:subject')
+            handler.endElement('jats:subj-group')
 
 class AbstractArticleFeed(Feed):
     feed_type = RSSArticleFeedGenerator

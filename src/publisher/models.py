@@ -33,8 +33,6 @@ def ejp_type_choices():
         ('AV', 'Research advance'),
         ('RR', 'Registered report'),
         ('TR', 'Tools and resources'),
-
-        (None, 'Unknown'),
     ]
 
 EJP_TYPE_IDX = dict(ejp_type_choices())
@@ -104,7 +102,7 @@ class Article(models.Model):
                                 help_text="article as exported from EJP submission system") # RA, SR, etc
 
     def ejp_rev_type(self):
-        return EJP_TYPE_IDX[self.ejp_type]
+        return EJP_TYPE_IDX.get(self.ejp_type, 'unknown')
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
