@@ -139,7 +139,7 @@ def _ingest(data, force=False):
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
 
-        fragments.add(av, 'xml->json', data, pos=0)
+        fragments.add(av, 'xml->json', data, pos=0, update=force)
 
         # enforce business rules
 

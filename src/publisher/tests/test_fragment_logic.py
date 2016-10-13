@@ -58,7 +58,7 @@ class FragmentLogic(BaseCase):
 
         # now update it with some garbage
         data = {'article': {'title': 'pants-party'}}
-        logic.add(self.av, 'xml->json', data, pos=0)
+        logic.add(self.av, 'xml->json', data, pos=0, update=True)
 
         # ensure we've just destroyed our very important data
         frag = logic.get(self.av, 'xml->json')
@@ -79,14 +79,12 @@ class FragmentMerge(BaseCase):
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1
         _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
-    
+
     def test_merge_fragments(self):
-        logic.add(self.av, 'xml->json', {'article': {'title': 'foo'}}) # override
+        logic.add(self.av, 'xml->json', {'article': {'title': 'foo'}}, update=True)
 
         logic.add(self.msid, 'frag1', {'body': 'bar'})
         logic.add(self.msid, 'frag2', {'foot': 'baz'})
 
         expected = {'title': 'foo', 'body': 'bar', 'foot': 'baz'}
         self.assertEqual(expected, logic.merge(self.av))
-
-        

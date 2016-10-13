@@ -1,6 +1,7 @@
 from django.db.models import Q
 from . import utils, models
 from .utils import create_or_update
+from functools import reduce
 
 def _getids(x):
     if utils.isint(x):
@@ -13,7 +14,7 @@ def _getids(x):
     else:
         raise TypeError("failed to add article fragment, unhandled type %r" % type(x))
 
-def add(x, ftype, fragment, pos=1):
+def add(x, ftype, fragment, pos=1, update=False):
     "adds given fragment to database. if fragment at this article+type+version exists, it will be overwritten"
     data = {
         'version': None,
@@ -23,7 +24,7 @@ def add(x, ftype, fragment, pos=1):
     }
     data.update(_getids(x))
     key = ['article', 'type', 'version']
-    frag, created, updated = create_or_update(models.ArticleFragment, data, key)
+    frag, created, updated = create_or_update(models.ArticleFragment, data, key, update=update)
     return frag
 
 def rm(msid, ftype):
@@ -43,16 +44,13 @@ def merge(av):
     # all fragments belonging to this specific article version or
     # to this article in general
     fragments = models.ArticleFragment.objects \
-      .filter(article=av.article) \
-      .filter(Q(version=av.version) | Q(version=None)) \
-      .order_by('position')
+        .filter(article=av.article) \
+        .filter(Q(version=av.version) | Q(version=None)) \
+        .order_by('position')
 
     raw = dict(fragments[0].fragment)
 
     raw = raw['article'] # desirable??
     rows = [raw] + map(lambda f: f.fragment, fragments[1:])
 
-    print 'rows',rows
-    
     return reduce(utils.deepmerge, rows)
-      
