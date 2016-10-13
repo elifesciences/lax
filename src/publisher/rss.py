@@ -12,6 +12,7 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
     def rss_attributes(self):
         parent_attr_dict = super(RSSArticleFeedGenerator, self).rss_attributes()
         parent_attr_dict.update({
+            'xmlns:jats': "http://jats.nlm.nih.gov",
             'xmlns:dc': "http://purl.org/dc/elements/1.1/"})
         return parent_attr_dict
 
@@ -22,6 +23,12 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
             handler.addQuickElement("dc:date", pubdate.isoformat())
         else:
             LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
+        # adds a <subj-group><subject>foo</subject></subj-group>
+        handler.startElement('jats:subj-group', {'subj-group-type': 'display-channel'})
+        handler.startElement('jats:subject', {})
+        handler.characters(str(item['obj'].article.ejp_rev_type()))
+        handler.endElement('jats:subject')
+        handler.endElement('jats:subj-group')
 
 class AbstractArticleFeed(Feed):
     feed_type = RSSArticleFeedGenerator
@@ -37,6 +44,9 @@ class AbstractArticleFeed(Feed):
     def items(self, obj):
         "returns a list of models.Article-list objects"
         raise NotImplementedError()
+
+    def item_extra_kwargs(self, obj):
+        return {'obj': obj}
 
     def item_title(self, item):
         return item.title
@@ -90,7 +100,7 @@ class RecentArticleFeed(AbstractArticleFeed):
             'original': {'article_status': article_status,
                          'since': since},
             'article_status': tuple(article_status.split('+')),
-            'since': datetime.now() - timedelta(days=int(since))
+            'since': datetime.now() - timedelta(days=int(since)),
         }
 
     def items(self, obj):
