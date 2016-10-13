@@ -38,6 +38,7 @@ ARTICLE = {
     'volume': [p('volume')],
     'type': [p('type')],
     'doi': [p('id'), utils.msid2doi], # remove when apiv1 is turned off
+    #'ejp_type': [p('type'), models.EJP_TYPE_REV_SLUG_IDX.get]
 }
 ARTICLE_VERSION = {
     'title': [p('title')],

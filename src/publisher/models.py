@@ -1,3 +1,4 @@
+from slugify import slugify
 from django.db import models
 #from django.contrib.postgres import fields as psql
 from .fields import JSONField
@@ -31,9 +32,11 @@ def ejp_type_choices():
         ('SR', 'Short report'),
         ('AV', 'Research advance'),
         ('RR', 'Registered report'),
-        ('TR', 'Tools and resources')
+        ('TR', 'Tools and resources'),
     ]
 
+EJP_TYPE_IDX = dict(ejp_type_choices())
+EJP_TYPE_REV_SLUG_IDX = {slugify(unicode(val), stopwords=['and']): key for key, val in ejp_type_choices()}
 
 AF = 'AF'
 def decision_codes():
@@ -97,6 +100,9 @@ class Article(models.Model):
     type = models.CharField(max_length=50, blank=True, null=True, help_text="xml article-type.") # research, editorial, etc
     ejp_type = models.CharField(max_length=3, choices=ejp_type_choices(), blank=True, null=True,
                                 help_text="article as exported from EJP submission system") # RA, SR, etc
+
+    def ejp_rev_type(self):
+        return EJP_TYPE_IDX.get(self.ejp_type, 'unknown')
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")

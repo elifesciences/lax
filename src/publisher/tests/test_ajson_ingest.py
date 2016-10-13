@@ -218,7 +218,6 @@ class Publish(BaseCase):
         av2 = self.freshen(av2)
         self.assertTrue(av2.published())
         self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av2.datetime_published))
-        
 
     def test_article_publish_fails_if_already_published(self):
         "a published article cannot be published again"
