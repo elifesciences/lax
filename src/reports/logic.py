@@ -63,6 +63,7 @@ def paw_recent_report_raw_data(limit=None):
     query = models.ArticleVersion.objects \
         .select_related('article') \
         .annotate(min_vor=Min('article__articleversion__version')) \
+        .filter(version=F('min_vor')) \
         .filter(status='vor') \
         .order_by('-datetime_published')
 
