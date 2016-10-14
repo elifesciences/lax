@@ -1,3 +1,5 @@
+from jsonschema import validate as validator
+from jsonschema import ValidationError
 import copy, json
 import pytz
 from dateutil import parser
@@ -8,6 +10,12 @@ import logging
 from django.db.models.fields.related import ManyToManyField
 
 LOG = logging.getLogger(__name__)
+
+def ensure(assertion, msg, *args):
+    """intended as a convenient replacement for `assert` statements that
+    get compiled away with -O flags"""
+    if not assertion:
+        raise AssertionError(msg % args)
 
 def isint(v):
     try:
@@ -158,12 +166,12 @@ def updatedict(ddict, **kwargs):
 
 def json_dumps(obj):
     "drop-in for json.dumps that handles datetime objects."
-    def datetime_handler(obj):
+    def _handler(obj):
         if hasattr(obj, 'isoformat'):
             return obj.isoformat()
         else:
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
-    return json.dumps(obj, default=datetime_handler)
+    return json.dumps(obj, default=_handler)
 
 # http://stackoverflow.com/questions/7204805/dictionaries-of-dictionaries-merge
 def deepmerge(a, b, path=None):
@@ -182,6 +190,33 @@ def deepmerge(a, b, path=None):
         else:
             a[key] = b[key]
     return a
+
+#
+#
+#
+
+def validate(struct, schema_path):
+    # if given a string, assume it's json and try to load it
+    # if given a data, assume it's serializable, dump it and load it
+    try:
+        struct = json.loads(json_dumps(struct))
+    except ValueError as err:
+        LOG.error("struct is not serializable: %s", err.message)
+        raise
+
+    try:
+        schema = json.load(open(schema_path, 'r'))
+        validator(struct, schema)
+        return struct
+
+    except ValueError as err:
+        # your json schema is broken
+        raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
+
+    except ValidationError as err:
+        # your json is incorrect
+        LOG.error("struct failed to validate against schema: %s" % err.message)
+        raise
 
 #
 #

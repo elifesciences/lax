@@ -45,7 +45,6 @@ ARTICLE_VERSION = {
     'status': [models.POA],
     # only v1 article-json has a published date. v2 article-json does not
     'datetime_published': [p('published', None), utils.todt],
-    #'article_json_v1_raw': [val],
 }
 
 def atomic(fn):
@@ -139,7 +138,8 @@ def _ingest(data, force=False):
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
 
-        fragments.add(av, 'xml->json', data, pos=0, update=force)
+        fragments.add(av, 'xml->json', data['article'], pos=0, update=force)
+        fragments.merge_if_valid(av)
 
         # enforce business rules
 
@@ -220,7 +220,7 @@ def _publish(msid, version, force=False):
         # the json *will* have a pub date if it's a v1 ...
         if version == 1:
             raw_data = fragments.get(av, 'xml->json')
-            datetime_published = utils.todt(raw_data['article']['published'])
+            datetime_published = utils.todt(raw_data['published'])
             if not datetime_published:
                 raise StateError("failed to pull pubdate from from ingested article json")
 

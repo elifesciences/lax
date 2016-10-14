@@ -160,6 +160,12 @@ SWAGGER_SETTINGS = {
 
 SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 ART_HISTORY_SCHEMA = join(SCHEMA_PATH, 'model/article-history.v1.json')
+SCHEMA_IDX = {
+    'poa': join(SCHEMA_PATH, 'model/article-poa.v1.json'),
+    'vor': join(SCHEMA_PATH, 'model/article-vor.v1.json'),
+    'history': join(SCHEMA_PATH, 'model/article-history.v1.json'),
+    'list': join(SCHEMA_PATH, 'model/article-list.v1.json')
+}
 
 EVENT_BUS = {
     'region': cfg('bus.region'),

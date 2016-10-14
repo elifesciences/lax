@@ -1,6 +1,6 @@
 from django.db import models
-#from django.contrib.postgres import fields as psql
-from .fields import JSONField
+#from .fields import JSONField
+from annoying.fields import JSONField
 from utils import second, firstnn, msid2doi
 
 POA, VOR = 'poa', 'vor'
@@ -172,13 +172,8 @@ class ArticleVersion(models.Model):
     # it's only ever correct for the first version of this article
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
 
-    #article_json_v1_raw = psql.JSONField(null=True, blank=True, help_text="raw input article json we receive from different places")
-    article_json_v1_raw = JSONField(null=True, blank=True, help_text="raw input article json we receive from different places")
-
-    #article_json_v1 = psql.JSONField(null=True, blank=True, help_text="Valid article-json.")
     article_json_v1 = JSONField(null=True, blank=True, help_text="Valid article-json.")
-    #article_json_v1_snippet = psql.JSONField(null=True, blank=True, help_text="Valid article-json snippet.")
-    #article_json_v1_snippet = JSONField(null=True, blank=True, help_text="Valid article-json snippet.")
+    article_json_v1_snippet = JSONField(null=True, blank=True, help_text="Valid article-json snippet, extracted from the valid article-json")
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
@@ -200,8 +195,8 @@ class ArticleVersion(models.Model):
         return u'<ArticleVersion %s>' % self
 
 class ArticleFragment(models.Model):
-    article = models.ForeignKey(Article)
-    version = models.PositiveSmallIntegerField(null=True, help_text="does the fragment apply to all articles or a specific version?")
+    article = models.ForeignKey(Article, help_text="all fragments belong to an article, only some fragments belong to an article version")
+    version = models.PositiveSmallIntegerField(null=True, help_text="if null, fragment applies only to a specific version of article")
     type = models.CharField(max_length=25, help_text='the type of fragment, eg "xml", "content-header", etc')
     fragment = JSONField(help_text="partial piece of article data to be merged in")
     position = models.PositiveSmallIntegerField(default=1, help_text="position in the merge order with lower fragments merged first")
