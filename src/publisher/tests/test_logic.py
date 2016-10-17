@@ -7,9 +7,9 @@ class TestLogic(BaseCase):
     def setUp(self):
         ingest_these = [
             "elife.01968.json",
-            "elife-16695-v1.json",
-            "elife-16695-v2.json",
-            "elife-16695-v3.json"
+            "elife-16695-v1.xml.json",
+            "elife-16695-v2.xml.json",
+            "elife-16695-v3.xml.json"
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:

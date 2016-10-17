@@ -11,8 +11,8 @@ class V2ContentTypes(base.BaseCase):
     def setUp(self):
         self.c = Client()
         self.msid = 16695
-        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.json') # poa
-        self.ajson_fixture_v2 = join(self.fixture_dir, 'ajson', 'elife-16695-v2.json') # vor
+        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json') # poa
+        self.ajson_fixture_v2 = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json') # vor
 
     def test_response_types(self):
         # ingest the poa and vor versions
@@ -45,9 +45,9 @@ class V2Content(base.BaseCase):
     def setUp(self):
         ingest_these = [
             "elife.01968.json",
-            "elife-16695-v1.json",
-            "elife-16695-v2.json",
-            "elife-16695-v3.json"
+            "elife-16695-v1.xml.json",
+            "elife-16695-v2.xml.json",
+            "elife-16695-v3.xml.json"
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
@@ -120,3 +120,35 @@ class V2Content(base.BaseCase):
         "returns 404 when a version of the article doesn't exist for the article-version endpoint"
         resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 9}))
         self.assertEqual(resp.status_code, 404)
+
+
+
+'''
+class V2PostContent(base.BaseCase):
+    def setUp(self):
+        ingest_these = [
+            "elife.01968.json",
+            "elife-16695-v1.xml.json",
+            "elife-16695-v2.xml.json",
+            "elife-16695-v3.xml.json"
+        ]
+        ajson_dir = join(self.fixture_dir, 'ajson')
+        for ingestable in ingest_these:
+            path = join(ajson_dir, ingestable)
+            ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+
+        self.msid1 = 1968
+        self.msid2 = 16695
+
+        self.c = Client()
+
+    def test_add_fragment(self):
+        url = reverse('v2:article-version-fragment')
+        json_fragment = json.dumps({'id': self.msid1, 'pants?': 'party!'})
+        q = models.ArticleFragment.get(article__manuscript_id=self.msid1)
+        self.assertEqual(q.objects.count(), 1)
+        # resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
+        self.c.post(url, json_fragment, content_type="application/type")
+        
+        self.assertEqual(q.objects.count(), 2)
+'''

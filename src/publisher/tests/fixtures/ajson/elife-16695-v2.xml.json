@@ -7,10 +7,11 @@
     "snippet": {
         "status": "vor", 
         "id": "16695", 
+        "version": 2, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
+        "authorLine": "Arisa Hirano et al", 
         "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
-        "published": "2016-08-16T00:00:00", 
         "volume": 5, 
         "elocationId": "e16695", 
         "pdf": "elife-16695-v2.pdf", 
@@ -22,6 +23,19 @@
             "Human", 
             "Mouse"
         ], 
+        "abstract": {
+            "doi": "10.7554/eLife.16695.001", 
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (<italic>CRY2</italic>) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the <italic>CRY2</italic> mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.001\">http://dx.doi.org/10.7554/eLife.16695.001</ext-link>"
+                }
+            ]
+        }, 
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Hirano et al", 
@@ -32,10 +46,11 @@
     "article": {
         "status": "vor", 
         "id": "16695", 
+        "version": 2, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
+        "authorLine": "Arisa Hirano et al", 
         "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
-        "published": "2016-08-16T00:00:00", 
         "volume": 5, 
         "elocationId": "e16695", 
         "pdf": "elife-16695-v2.pdf", 
@@ -47,6 +62,19 @@
             "Human", 
             "Mouse"
         ], 
+        "abstract": {
+            "doi": "10.7554/eLife.16695.001", 
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (<italic>CRY2</italic>) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the <italic>CRY2</italic> mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.001\">http://dx.doi.org/10.7554/eLife.16695.001</ext-link>"
+                }
+            ]
+        }, 
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Hirano et al", 
@@ -60,6 +88,31 @@
             "FBXL3", 
             "Familial Advanced Sleep Phase"
         ], 
+        "digest": {
+            "doi": "10.7554/eLife.16695.002", 
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Sleep is an essential process in animals. In humans, the disturbance of normal sleep-wake cycles through shift-work or long-term sleep disorders increases the risk of developing conditions including mental illness, cancer and metabolic syndromes. Understanding how sleep-wake behavior is controlled within cells may help researchers to develop effective therapies to reduce the ill effects of disturbed sleep-wake cycles on health."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "To understand how our sleep-wake cycles are regulated in cells, researchers have been looking for genetic mutations that affect human sleep schedules. For example, some people have a \u00e2\u20ac\u02dcmorning lark\u00e2\u20ac\u2122 schedule that makes them prone to go to sleep early and rise early the next day. Others are prone to be \u00e2\u20ac\u02dcnight owls\u00e2\u20ac\u2122, staying up later at night and waking up later in the morning. By studying the mutations that underlie these behaviors, researchers hope to understand precisely how these genes regulate sleep schedules."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Now, Hirano et al. have identified a particular mutation in a gene called Cryptochrome 2 (<italic>CRY2</italic>) that causes people to have shorter sleep-wake cycles so that they wake up very early in the morning and struggle to stay awake in the evening. For the experiments, mice were genetically engineered to carry the mutant human <italic>CRY2</italic> gene, which shortened the sleep-wake cycles of the mice and their responses to light so that they both woke up earlier and went to sleep earlier."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "Further experiments examined what effect the mutation has on the protein that is produced by <italic>CRY2.</italic> The mutation changes the shape of the protein, which allows an enzyme called FBXL3 to bind to the mutant protein more easily and rapidly break it down. The length of sleep cycles may be determined by how long it takes FBXL3 to break down the protein produced by <italic>CRY2</italic>. The findings of Hirano et al. may help researchers to develop treatments for people with sleep problems."
+                }, 
+                {
+                    "type": "paragraph", 
+                    "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.002\">http://dx.doi.org/10.7554/eLife.16695.002</ext-link>"
+                }
+            ]
+        }, 
         "body": [
             {
                 "type": "section", 
@@ -111,7 +164,7 @@
                                     }, 
                                     {
                                         "type": "paragraph", 
-                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.003\">http://dx.doi.org/10.7554/eLife.16695.003</ext-link>"
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.003\">http://dx.doi.org/10.7554/eLife.16695.003</ext-link>"
                                     }
                                 ], 
                                 "alt": "", 
@@ -151,7 +204,7 @@
                                     }, 
                                     {
                                         "type": "paragraph", 
-                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.005\">http://dx.doi.org/10.7554/eLife.16695.005</ext-link>"
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.005\">http://dx.doi.org/10.7554/eLife.16695.005</ext-link>"
                                     }
                                 ], 
                                 "alt": "", 
@@ -170,7 +223,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.006\">http://dx.doi.org/10.7554/eLife.16695.006</ext-link>"
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.006\">http://dx.doi.org/10.7554/eLife.16695.006</ext-link>"
                                             }
                                         ], 
                                         "alt": "", 
@@ -189,7 +242,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.007\">http://dx.doi.org/10.7554/eLife.16695.007</ext-link>"
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.007\">http://dx.doi.org/10.7554/eLife.16695.007</ext-link>"
                                             }
                                         ], 
                                         "alt": "", 
@@ -208,7 +261,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.008\">http://dx.doi.org/10.7554/eLife.16695.008</ext-link>"
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.008\">http://dx.doi.org/10.7554/eLife.16695.008</ext-link>"
                                             }
                                         ], 
                                         "alt": "", 
@@ -227,7 +280,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.009\">http://dx.doi.org/10.7554/eLife.16695.009</ext-link>"
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.009\">http://dx.doi.org/10.7554/eLife.16695.009</ext-link>"
                                             }
                                         ], 
                                         "alt": "", 
@@ -259,7 +312,7 @@
                                     }, 
                                     {
                                         "type": "paragraph", 
-                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.010\">http://dx.doi.org/10.7554/eLife.16695.010</ext-link>"
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.010\">http://dx.doi.org/10.7554/eLife.16695.010</ext-link>"
                                     }
                                 ], 
                                 "alt": "", 
@@ -278,7 +331,7 @@
                                     }, 
                                     {
                                         "type": "paragraph", 
-                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.011\">http://dx.doi.org/10.7554/eLife.16695.011</ext-link>"
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.011\">http://dx.doi.org/10.7554/eLife.16695.011</ext-link>"
                                     }
                                 ], 
                                 "alt": "", 
@@ -297,7 +350,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.012\">http://dx.doi.org/10.7554/eLife.16695.012</ext-link>"
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.012\">http://dx.doi.org/10.7554/eLife.16695.012</ext-link>"
                                             }
                                         ], 
                                         "alt": "", 
@@ -351,7 +404,7 @@
                                     }, 
                                     {
                                         "type": "paragraph", 
-                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.013\">http://dx.doi.org/10.7554/eLife.16695.013</ext-link>"
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.013\">http://dx.doi.org/10.7554/eLife.16695.013</ext-link>"
                                     }
                                 ], 
                                 "alt": "", 
@@ -370,7 +423,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.014\">http://dx.doi.org/10.7554/eLife.16695.014</ext-link>"
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.014\">http://dx.doi.org/10.7554/eLife.16695.014</ext-link>"
                                             }
                                         ], 
                                         "alt": "", 
@@ -410,7 +463,7 @@
                                     }, 
                                     {
                                         "type": "paragraph", 
-                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.015\">http://dx.doi.org/10.7554/eLife.16695.015</ext-link>"
+                                        "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.015\">http://dx.doi.org/10.7554/eLife.16695.015</ext-link>"
                                     }
                                 ], 
                                 "alt": "", 
@@ -429,7 +482,7 @@
                                             }, 
                                             {
                                                 "type": "paragraph", 
-                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" href=\"10.7554/eLife.16695.016\">http://dx.doi.org/10.7554/eLife.16695.016</ext-link>"
+                                                "text": "<bold>DOI:</bold> <ext-link ext-link-type=\"doi\" xlink:href=\"10.7554/eLife.16695.016\">http://dx.doi.org/10.7554/eLife.16695.016</ext-link>"
                                             }
                                         ], 
                                         "alt": "", 
@@ -529,7 +582,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "m<italic>Per2<sup>Luc</sup></italic> knockin mice (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/IMSR_006852\">IMSR_006852</ext-link>) and m<italic>Cry2</italic> knockout mouse (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/IMSR_016185\">IMSR_016185</ext-link>) were purchased from The Jackson Laboratory and crossed with h<italic>CRY2</italic> transgenic mice."
+                                "text": "m<italic>Per2<sup>Luc</sup></italic> knockin mice (RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/IMSR_006852\">IMSR_006852</ext-link>) and m<italic>Cry2</italic> knockout mouse (RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/IMSR_016185\">IMSR_016185</ext-link>) were purchased from The Jackson Laboratory and crossed with h<italic>CRY2</italic> transgenic mice."
                             }
                         ]
                     }, 
@@ -540,7 +593,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "All mice tested were ~8 week-old males maintained on a C57BL/6J background. Mice were kept in individual wheel running cages with free access to food and water. First, mice were entrained to LD 12:12. Activity profiles, offset time and acrophase were analyzed using data from day 10 to day 14 in LD. After entrainment to LD for approximately 3 weeks, mice were released into constant darkness (DD) for measurement of free-running period. Circadian periods were calculated by line fitting of activity onsets from day 7 to day 19 in DD. To analyze for phase-shifts, mice were given a 30\u2009min-light pulse (200 lux) beginning at ZT14 (2\u2009hr after lights-off) or at ZT22 (2\u2009hr before lights-on), and then released into DD. Phase-shifts were determined by line fitting of activity onsets from day1 to day7 in DD. All data collection and analysis was done using ClockLab software (Actimetrics, Wilmette, IL; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_014309\">SCR_014309</ext-link>). Activity onset and offset were defined using the ClockLab software algorithm. The default template is 6\u2009hr of inactivity followed by 6\u2009hr activity for onset (or vice versa for offset)."
+                                "text": "All mice tested were ~8 week-old males maintained on a C57BL/6J background. Mice were kept in individual wheel running cages with free access to food and water. First, mice were entrained to LD 12:12. Activity profiles, offset time and acrophase were analyzed using data from day 10 to day 14 in LD. After entrainment to LD for approximately 3 weeks, mice were released into constant darkness (DD) for measurement of free-running period. Circadian periods were calculated by line fitting of activity onsets from day 7 to day 19 in DD. To analyze for phase-shifts, mice were given a 30\u2009min-light pulse (200 lux) beginning at ZT14 (2\u2009hr after lights-off) or at ZT22 (2\u2009hr before lights-on), and then released into DD. Phase-shifts were determined by line fitting of activity onsets from day1 to day7 in DD. All data collection and analysis was done using ClockLab software (Actimetrics, Wilmette, IL; RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/SCR_014309\">SCR_014309</ext-link>). Activity onset and offset were defined using the ClockLab software algorithm. The default template is 6\u2009hr of inactivity followed by 6\u2009hr activity for onset (or vice versa for offset)."
                             }
                         ]
                     }, 
@@ -551,7 +604,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "All mice tested were ~16 week-old males maintained on a C57BL/6J background. Mice were kept in individual cages with free access to food and water. Mice were monitored by infrared camera and tracked by an automatic video tracking system (Stoelting\u00a0Co., Wood Dale, IL; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_014289\">SCR_014289</ext-link>). Mice were entrained to LD 12:12 for 1 week and then locomotor activity was recorded for 3 or 4 days. Walking distance and immobility times were calculated using ANY-maze software and data were averaged. Samples with over 500-meter walking distance or below 10,000-s immobility time each day were excluded from the statistical analysis due to the failure of automatic tracking."
+                                "text": "All mice tested were ~16 week-old males maintained on a C57BL/6J background. Mice were kept in individual cages with free access to food and water. Mice were monitored by infrared camera and tracked by an automatic video tracking system (Stoelting\u00a0Co., Wood Dale, IL; RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/SCR_014289\">SCR_014289</ext-link>). Mice were entrained to LD 12:12 for 1 week and then locomotor activity was recorded for 3 or 4 days. Walking distance and immobility times were calculated using ANY-maze software and data were averaged. Samples with over 500-meter walking distance or below 10,000-s immobility time each day were excluded from the statistical analysis due to the failure of automatic tracking."
                             }
                         ]
                     }, 
@@ -562,7 +615,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "HEK293 cells (ATCC CRL-1573; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/CVCL_0045\">CVCL_0045</ext-link>) and NIH 3T3 cells (ATCC CRL-1658; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/CVCL_0594\">CVCL_0594</ext-link>) were purchased from ATTC. Authentication of the cell lines was performed using STR profiling by ATCC. Mycoplasma contamination was checked every 6 months and mycoplasma-free cell lines were used for all experiments in this study. Cells were cultured in DMEM (Sigma Aldrich,\u00a0St.\u00a0Louis,\u00a0MO) containing 10% FBS and 100\u2009U/ml Penicillin-Streptomycin (Thermo Fisher Scientific, South San Francisco, CA) and maintained by standard methods. Mouse embryonic fibroblasts (MEFs) were prepared from E12.5 embryos of h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T</italic> transgenic mice. After removing the head, paws and internal organs, embryos were chopped and incubated in 0.25% trypsin in PBS for 24\u2009hr at 4\u00b0C. After incubation for 20\u2009min at 37\u00b0C in 0.25% trypsin in PBS, cells were dissociated by pipetting in DMEM. Supernatant was cultured in a cell culture dish with DMEM and maintained by standard methods. Cells were transfected with Lipofectamine 3000 transfection reagent (Thermo\u00a0Fisher\u00a0Scientific) according to manufacturer\u2019s protocol. DNA constructs used for transfections are as follows: hCRY2-WT-Myc-His/pcDNA3.1, hCRY2-A260T-Myc-His/pcDNA3.1, hCRY2-A260D-Myc-His/pcDNA3.1, hCRY2-WT-HA/pCMV-tag2B, hCRY2-A260T-HA/pCMV-tag2B, FLAG-hCRY2-WT/p3\u00d7FLAG-CMV-10, FLAG-hCRY2-A260T/p3\u00d7FLAG-CMV-10, FLAG-hCRY1-WT/p3\u00d7FLAG-CMV-10, FLAG-hCRY1-A241T/p3\u00d7FLAG-CMV-10, FLAG-hFBXL3/p3\u00d7FLAG-CMV-10, FLAG-hBMAL1/p3\u00d7FLAG-CMV-10, FLAG-hCLOCK/p3\u00d7FLAG-CMV-10, hCRY2-WT-LUC/p3\u00d7FLAG-CMV-10, hCRY2-A260T-LUC/p3\u00d7FLAG-CMV-10, hCRY2-A260D-LUC/p3\u00d7FLAG-CMV-10, m<italic>Per1-luc</italic>/pGL3, pRL-TK (Renilla luc expression for internal control in luciferase assay, Promega,\u00a0Fitchburg,\u00a0WI). 0.3kb-m<italic>Bmal1</italic>-luc/pGL3 is a gift by Dr.Yoshitaka Fukada (University of Tokyo). Mutant hCRY2 and hCRY1 expression vectors were generated by PCR-based site-directed mutagenesis, and the mutation was verified by sequencing. For knockdown of human <italic>FBXL3</italic>, Hs_FBXL3_1, Hs_FBXL3_2 FlexiTube siRNA (QIAGEN,\u00a0Hilden,\u00a0Germany) and control siRNA (QIAGEN) were purchased."
+                                "text": "HEK293 cells (ATCC CRL-1573; RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/CVCL_0045\">CVCL_0045</ext-link>) and NIH 3T3 cells (ATCC CRL-1658; RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/CVCL_0594\">CVCL_0594</ext-link>) were purchased from ATTC. Authentication of the cell lines was performed using STR profiling by ATCC. Mycoplasma contamination was checked every 6 months and mycoplasma-free cell lines were used for all experiments in this study. Cells were cultured in DMEM (Sigma Aldrich,\u00a0St.\u00a0Louis,\u00a0MO) containing 10% FBS and 100\u2009U/ml Penicillin-Streptomycin (Thermo Fisher Scientific, South San Francisco, CA) and maintained by standard methods. Mouse embryonic fibroblasts (MEFs) were prepared from E12.5 embryos of h<italic>CRY2-WT</italic> and h<italic>CRY2-A260T</italic> transgenic mice. After removing the head, paws and internal organs, embryos were chopped and incubated in 0.25% trypsin in PBS for 24\u2009hr at 4\u00b0C. After incubation for 20\u2009min at 37\u00b0C in 0.25% trypsin in PBS, cells were dissociated by pipetting in DMEM. Supernatant was cultured in a cell culture dish with DMEM and maintained by standard methods. Cells were transfected with Lipofectamine 3000 transfection reagent (Thermo\u00a0Fisher\u00a0Scientific) according to manufacturer\u2019s protocol. DNA constructs used for transfections are as follows: hCRY2-WT-Myc-His/pcDNA3.1, hCRY2-A260T-Myc-His/pcDNA3.1, hCRY2-A260D-Myc-His/pcDNA3.1, hCRY2-WT-HA/pCMV-tag2B, hCRY2-A260T-HA/pCMV-tag2B, FLAG-hCRY2-WT/p3\u00d7FLAG-CMV-10, FLAG-hCRY2-A260T/p3\u00d7FLAG-CMV-10, FLAG-hCRY1-WT/p3\u00d7FLAG-CMV-10, FLAG-hCRY1-A241T/p3\u00d7FLAG-CMV-10, FLAG-hFBXL3/p3\u00d7FLAG-CMV-10, FLAG-hBMAL1/p3\u00d7FLAG-CMV-10, FLAG-hCLOCK/p3\u00d7FLAG-CMV-10, hCRY2-WT-LUC/p3\u00d7FLAG-CMV-10, hCRY2-A260T-LUC/p3\u00d7FLAG-CMV-10, hCRY2-A260D-LUC/p3\u00d7FLAG-CMV-10, m<italic>Per1-luc</italic>/pGL3, pRL-TK (Renilla luc expression for internal control in luciferase assay, Promega,\u00a0Fitchburg,\u00a0WI). 0.3kb-m<italic>Bmal1</italic>-luc/pGL3 is a gift by Dr.Yoshitaka Fukada (University of Tokyo). Mutant hCRY2 and hCRY1 expression vectors were generated by PCR-based site-directed mutagenesis, and the mutation was verified by sequencing. For knockdown of human <italic>FBXL3</italic>, Hs_FBXL3_1, Hs_FBXL3_2 FlexiTube siRNA (QIAGEN,\u00a0Hilden,\u00a0Germany) and control siRNA (QIAGEN) were purchased."
                             }
                         ]
                     }, 
@@ -573,7 +626,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "h<italic>CRY2</italic> transgenic mice were crossed with <italic>mPer2<sup>Luc</sup></italic> knock-in mice (<xref ref-type=\"bibr\" rid=\"bib48\">Yoo et al., 2004</xref>; RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/IMSR_JAX006852\">IMSR_JAX006852</ext-link>). Mice were sacrificed between ZT11 and ZT12. Dissected liver tissues were cultured on Millcell culture membrane (PICMORG50, EMD Millpore,\u00a0Billerica, MA) in 35\u2009mm dishes. For recording of lung rhythms, dissected lung tissue was placed in 35\u2009mm dishes without Millcell culture membrane. Recording medium was phenol-red free DMEM (Sigma Aldrich) containing 10\u00a0mM HEPES-pH7.0, 3.5\u00a0g/L D-glucose, 0.2\u2009mM luciferin potassium salt, 0.35\u2009g/L sodium bicarbonate, 2% B-27 supplement (Thermo Fisher Scientific), 50\u2009U/ml penicillin-streptomycin (Thermo Fisher Scientific). Bioluminescence was continuously recorded in a LumiCycle 32 instrument (Actimetrics, Wilmette, IL). Bioluminescence was detrended by subtracting 24\u2009hr average of bioluminescence using the LumiCycle analysis software. The periods were determined by dampened sine-curve fitting using LumiCycle analysis."
+                                "text": "h<italic>CRY2</italic> transgenic mice were crossed with <italic>mPer2<sup>Luc</sup></italic> knock-in mice (<xref ref-type=\"bibr\" rid=\"bib48\">Yoo et al., 2004</xref>; RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/IMSR_JAX006852\">IMSR_JAX006852</ext-link>). Mice were sacrificed between ZT11 and ZT12. Dissected liver tissues were cultured on Millcell culture membrane (PICMORG50, EMD Millpore,\u00a0Billerica, MA) in 35\u2009mm dishes. For recording of lung rhythms, dissected lung tissue was placed in 35\u2009mm dishes without Millcell culture membrane. Recording medium was phenol-red free DMEM (Sigma Aldrich) containing 10\u00a0mM HEPES-pH7.0, 3.5\u00a0g/L D-glucose, 0.2\u2009mM luciferin potassium salt, 0.35\u2009g/L sodium bicarbonate, 2% B-27 supplement (Thermo Fisher Scientific), 50\u2009U/ml penicillin-streptomycin (Thermo Fisher Scientific). Bioluminescence was continuously recorded in a LumiCycle 32 instrument (Actimetrics, Wilmette, IL). Bioluminescence was detrended by subtracting 24\u2009hr average of bioluminescence using the LumiCycle analysis software. The periods were determined by dampened sine-curve fitting using LumiCycle analysis."
                             }
                         ]
                     }, 
@@ -768,7 +821,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "Structural modeling was based on the structure of mouse CRY2 bound to FAD (PDB code 4I6G) and mouse FBXL3 (PDB code 4I6J) (<xref ref-type=\"bibr\" rid=\"bib44\">Xing et al., 2013</xref>). Modeling of mutant CRY2 was performed using Molecular graphics and analyses were performed with the UCSF Chimera package (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_004097\">SCR_004097</ext-link>). Chimera was developed by the Resource for Biocomputing, Visualization, and Informatics at the University of California, San Francisco (supported by NIGMS P41-GM103311) (<xref ref-type=\"bibr\" rid=\"bib27\">Pettersen et al., 2004</xref>)."
+                                "text": "Structural modeling was based on the structure of mouse CRY2 bound to FAD (PDB code 4I6G) and mouse FBXL3 (PDB code 4I6J) (<xref ref-type=\"bibr\" rid=\"bib44\">Xing et al., 2013</xref>). Modeling of mutant CRY2 was performed using Molecular graphics and analyses were performed with the UCSF Chimera package (RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/SCR_004097\">SCR_004097</ext-link>). Chimera was developed by the Resource for Biocomputing, Visualization, and Informatics at the University of California, San Francisco (supported by NIGMS P41-GM103311) (<xref ref-type=\"bibr\" rid=\"bib27\">Pettersen et al., 2004</xref>)."
                             }
                         ]
                     }, 
@@ -779,7 +832,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "All error bars in the figures represent SEM except for <xref ref-type=\"fig\" rid=\"fig3\">Figure 3C</xref>. In <xref ref-type=\"fig\" rid=\"fig3\">Figure 3C</xref>, the error bars represent SD. No statistical analysis was used to predetermine the sample sizes. Experiments were not randomized and not analyzed blindly. In <xref ref-type=\"fig\" rid=\"fig2\">Figure 2A</xref> and <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure\u00a0supplement 1</xref>, the sample with extremely abnormal walking distance (>500 meter walking distance, due to a failure of automatic video tracking) was excluded as an outlier according to the Smirnov-Grubbs test. Data was statistically analyzed using R software (RRID <ext-link ext-link-type=\"uri\" href=\"https://scicrunch.org/resolver/SCR_001905\">SCR_001905</ext-link>). To assess statistical significance, data was obtained from three or more independent experiments. All data sets were assumed to follow normal distributions by the Kolmogorov-Smirnov test, and homogeneity of variance between compared groups was tested by F-test (comparison of 2 groups) or Bartlett test (comparison of multiple groups). Two-tailed paired Student\u2019s <italic>t</italic>-test or Welch\u2019s <italic>t</italic>-test was used for the comparison of 2 groups with or without homogeneity of variance. Tukey\u2019s test or Games-Howell test were used for multiple comparisons with or without of homogeneity of variance. Differences with a p value <0.05 were considered statistically significant."
+                                "text": "All error bars in the figures represent SEM except for <xref ref-type=\"fig\" rid=\"fig3\">Figure 3C</xref>. In <xref ref-type=\"fig\" rid=\"fig3\">Figure 3C</xref>, the error bars represent SD. No statistical analysis was used to predetermine the sample sizes. Experiments were not randomized and not analyzed blindly. In <xref ref-type=\"fig\" rid=\"fig2\">Figure 2A</xref> and <xref ref-type=\"fig\" rid=\"fig2s1\">Figure 2\u2014figure\u00a0supplement 1</xref>, the sample with extremely abnormal walking distance (>500 meter walking distance, due to a failure of automatic video tracking) was excluded as an outlier according to the Smirnov-Grubbs test. Data was statistically analyzed using R software (RRID <ext-link ext-link-type=\"uri\" xlink:href=\"https://scicrunch.org/resolver/SCR_001905\">SCR_001905</ext-link>). To assess statistical significance, data was obtained from three or more independent experiments. All data sets were assumed to follow normal distributions by the Kolmogorov-Smirnov test, and homogeneity of variance between compared groups was tested by F-test (comparison of 2 groups) or Bartlett test (comparison of multiple groups). Two-tailed paired Student\u2019s <italic>t</italic>-test or Welch\u2019s <italic>t</italic>-test was used for the comparison of 2 groups with or without homogeneity of variance. Tukey\u2019s test or Games-Howell test were used for multiple comparisons with or without of homogeneity of variance. Differences with a p value <0.05 were considered statistically significant."
                             }
                         ]
                     }
