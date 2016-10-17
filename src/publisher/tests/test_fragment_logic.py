@@ -25,6 +25,7 @@ class ArticleIngestFragmentLogic(BaseCase):
         ajson_ingestor.ingest(self.ajson)
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
 
+
 class FragmentLogic(BaseCase):
     def setUp(self):
         self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife.01968.json')
@@ -54,10 +55,10 @@ class FragmentLogic(BaseCase):
         # ensure we have something that resembles the ingest data
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
         frag = logic.get(self.av, 'xml->json')
-        self.assertTrue('article' in frag)
+        self.assertTrue('title' in frag)
 
         # now update it with some garbage
-        data = {'article': {'title': 'pants-party'}}
+        data = {'title': 'pants-party'}
         logic.add(self.av, 'xml->json', data, pos=0, update=True)
 
         # ensure we've just destroyed our very important data
@@ -74,17 +75,33 @@ class FragmentLogic(BaseCase):
 
 class FragmentMerge(BaseCase):
     def setUp(self):
-        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture, 'r'))
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1
         _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
 
     def test_merge_fragments(self):
-        logic.add(self.av, 'xml->json', {'article': {'title': 'foo'}}, update=True)
-
+        logic.add(self.av, 'xml->json', {'title': 'foo'}, update=True)
         logic.add(self.msid, 'frag1', {'body': 'bar'})
         logic.add(self.msid, 'frag2', {'foot': 'baz'})
 
         expected = {'title': 'foo', 'body': 'bar', 'foot': 'baz'}
         self.assertEqual(expected, logic.merge(self.av))
+
+    def test_valid_merge_updates_article_version_fields(self):
+        "when a fragment is added, if the merge results in valid article-json, the results of the merge are stored"
+        # setUp inserts article snippet that should be valid
+        av = self.freshen(self.av)
+
+        # TODO: remove this once xml validates
+        # layer in enough to make it validate
+        placeholders = {
+            'statusDate': '2001-01-01T00:00:00Z',
+        }
+        logic.add(self.msid, 'foo', placeholders)
+
+        self.assertTrue(logic.merge_if_valid(self.av))
+        av = self.freshen(self.av)
+        self.assertTrue(av.article_json_v1)
+        self.assertTrue(av.article_json_v1_snippet)

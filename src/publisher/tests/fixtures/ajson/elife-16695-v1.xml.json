@@ -65,6 +65,325 @@
             "license": "CC-BY-4.0", 
             "holder": "Hirano et al", 
             "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
-        }
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Arisa Hirano", 
+                    "index": "Hirano, Arisa"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Guangsen Shi", 
+                    "index": "Shi, Guangsen"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Christopher R Jones", 
+                    "index": "Jones, Christopher R"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of Utah"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Salt Lake City", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Salt Lake City"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Anna Lipzen", 
+                    "index": "Lipzen, Anna"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Energy Joint Genome Institute", 
+                            "Lawrence Berkeley National Laboratory"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Walnut Creek", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Walnut Creek"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Len A Pennacchio", 
+                    "index": "Pennacchio, Len A"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "DOE Joint Genome Institute", 
+                            "Lawrence Berkeley National Laboratory"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Walnut Creek", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Walnut Creek"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ying Xu", 
+                    "index": "Xu, Ying"
+                }, 
+                "orcid": "0000-0002-6689-7768", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Center for System Biology", 
+                            "Soochow University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Suzhou", 
+                                "China"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Suzhou"
+                                ], 
+                                "country": "China"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "William C Hallows", 
+                    "index": "Hallows, William C"
+                }, 
+                "orcid": "0000-0001-8306-8438", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Thomas McMahon", 
+                    "index": "McMahon, Thomas"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Maya Yamazaki", 
+                    "index": "Yamazaki, Maya"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Louis J Pt\u00e1\u010dek", 
+                    "index": "Pt\u00e1\u010dek, Louis J"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "ljp@ucsf.edu"
+                ], 
+                "competingInterests": "Louis J Pt\u00e1\u010dek, Reviewing editor, eLife."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ying-Hui Fu", 
+                    "index": "Fu, Ying-Hui"
+                }, 
+                "orcid": "0000-0002-6628-0266", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "ying-hui.fu@ucsf.edu"
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }
+        ]
     }
 }

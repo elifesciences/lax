@@ -82,10 +82,12 @@ def extract_snippet(merged_result):
     return subdict(merged_result, snippet_keys)
 
 def merge_if_valid(av):
+    ensure(isinstance(av, models.ArticleVersion), "I need an ArticleVersion object")
     result = merge(av)
     if valid(result, schema_key=av.status):
         av.article_json_v1 = result
         av.article_json_v1_snippet = extract_snippet(result)
         av.save()
-        return result
+        return True
     LOG.warn("merge result failed to validate, not updating article version")
+    return False
