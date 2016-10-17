@@ -8,8 +8,6 @@ from et3.extract import path as p
 from django.db import IntegrityError
 import json
 import boto3
-from django.dispatch import receiver
-from django.db.models.signals import pre_save
 from django.conf import settings
 from functools import partial
 
@@ -253,15 +251,3 @@ def ingest_publish(data, force=False, dry_run=False):
     "convenience. publish an article if it were successfully ingested"
     j, a, av = _ingest(data, force=force)
     return j, a, _publish(a.manuscript_id, av.version, force=force)
-
-#
-# article json wrangling
-# https://docs.djangoproject.com/en/1.9/ref/signals/#pre-save
-#
-
-@receiver(pre_save, sender=models.ArticleVersion)
-def merge_validate_article_json(sender, instance, **kwargs):
-    # 1. merge disparate json snippets
-    # 2. validate
-    # 3. if valid, update json field, set valid=True
-    pass
