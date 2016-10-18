@@ -64,7 +64,7 @@ def article_version(request, id, version):
 
 @api_view(['POST'])
 def article_fragment(rest_request, art_id, fragment_id):
-    only_published = True
+    only_published = False
     try:
         ensure(fragment_id != 'xml->json', "that key is taken")
         with transaction.atomic():
@@ -78,11 +78,11 @@ def article_fragment(rest_request, art_id, fragment_id):
     except ValidationError as err:
         # client submitted json that would generate invalid article-json
         return Response("that fragment creates invalid article-json. refused: %s" % err.message, status=400)
-        
+
     except AssertionError as err:
         # client broke business rules somehow
         return Response(err.message, status=status.HTTP_400_BAD_REQUEST)
-        
+
     except (models.Article.DoesNotExist, models.ArticleVersion.DoesNotExist):
         # article with given ID doesn't exist
         raise Http404()

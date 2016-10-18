@@ -128,7 +128,8 @@ class V2PostContent(base.BaseCase):
         ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         self.msid = 16695
-        
+        self.version = 1
+
         # layer in enough to make it validate ...
         placeholders = {
             'statusDate': '2001-01-01T00:00:00Z',
@@ -141,11 +142,11 @@ class V2PostContent(base.BaseCase):
 
     def test_add_fragment(self):
         "a POST request can be sent that adds an article fragment"
-        key='test-frag'
+        key = 'test-frag'
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
         fragment = {'title': 'pants-party'}
         q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid)
-                
+
         # POST fragment into lax
         self.assertEqual(q.count(), 2) # 'xml->json', placeholder
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
@@ -157,9 +158,9 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(frag.fragment, fragment)
 
     def test_add_fragment_twice(self):
-        key='test-frag'
+        key = 'test-frag'
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
-                
+
         # POST fragment into lax
         fragment1 = {'title': 'pants-party'}
         resp = self.c.post(url, json.dumps(fragment1), content_type="application/json")
@@ -186,15 +187,24 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 2) # xml->json, placeholder
 
     def test_add_fragment_for_unpublished_article(self):
-        self.assertTrue(False)
-        
+        # unpublish our article
+        self.unpublish(self.msid, self.version)
+        av = self.freshen(self.av)
+        self.assertFalse(av.published())
+
+        # post to unpublished article
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        fragment = {'more-article-content': 'pants'}
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
     def test_add_fragment_fails_unknown_content_type(self):
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
         resp = self.c.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss")
         self.assertEqual(resp.status_code, 415) # unsupported media type
 
     def test_add_bad_fragment(self):
-        """request with fragment that would cause otherwise validating article json 
+        """request with fragment that would cause otherwise validating article json
         to become invalid is refused"""
         self.assertEqual(models.ArticleFragment.objects.count(), 2) # xml->json, placeholder
         fragment = {'doi': 'this is no doi!'}
