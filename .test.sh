@@ -27,9 +27,9 @@ if [ $print_coverage -eq 1 ]; then
     coverage report
     # is only run if tests pass
     covered=$(coverage report | grep TOTAL | awk '{print $4}' | sed 's/%//')
-    if [ $covered -lt 78 ]; then
+    if [ $covered -lt 80 ]; then
         echo
-        echo "FAILED this project requires at least 78% coverage, got $covered"
+        echo "FAILED this project requires at least 80% coverage, got $covered"
         echo
         exit 1
     fi
