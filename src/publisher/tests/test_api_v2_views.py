@@ -1,7 +1,7 @@
 import base
 from os.path import join
 import json
-from publisher import ajson_ingestor, models
+from publisher import ajson_ingestor, models, fragment_logic as logic
 from django.test import Client
 from django.core.urlresolvers import reverse
 #from jsonschema import validate
@@ -122,33 +122,92 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 404)
 
 
-
-'''
 class V2PostContent(base.BaseCase):
     def setUp(self):
         ingest_these = [
-            "elife.01968.json",
+            #"elife.01968.json",
             "elife-16695-v1.xml.json",
-            "elife-16695-v2.xml.json",
-            "elife-16695-v3.xml.json"
+            #"elife-16695-v2.xml.json",
+            #"elife-16695-v3.xml.json"
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
             path = join(ajson_dir, ingestable)
             ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
-        self.msid1 = 1968
+        #self.msid1 = 1968
         self.msid2 = 16695
+        
+        # layer in enough to make it validate ...
+        placeholders = {
+            'statusDate': '2001-01-01T00:00:00Z',
+        }
+        logic.add(self.msid2, 'foo', placeholders)
+        self.av = models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2)[0]
+        #self.assertTrue(logic.merge_if_valid(self.av))
 
         self.c = Client()
 
     def test_add_fragment(self):
-        url = reverse('v2:article-version-fragment')
-        json_fragment = json.dumps({'id': self.msid1, 'pants?': 'party!'})
-        q = models.ArticleFragment.get(article__manuscript_id=self.msid1)
-        self.assertEqual(q.objects.count(), 1)
-        # resp = self.c.post(reverse('api-create-update-article'), json_data, content_type="application/json")
-        self.c.post(url, json_fragment, content_type="application/type")
+        "a POST request can be sent that adds an article fragment"
+        key='test-frag'
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': key})
+        fragment = {'title': 'pants-party'}
+        q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid2)
+                
+        # POST fragment into lax
+        self.assertEqual(q.count(), 2) # 'xml->json', placeholder
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        print resp.content
+        self.assertEqual(resp.status_code, 200)
+
+        # fragment has been added
+        frag = models.ArticleFragment.objects.get(type=key)
+        self.assertEqual(frag.fragment, fragment)
+
+    def test_add_fragment_twice(self):
+        key='test-frag'
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': key})
+                
+        # POST fragment into lax
+        fragment1 = {'title': 'pants-party'}
+        resp = self.c.post(url, json.dumps(fragment1), content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
+        # fragment has been added
+        frag = models.ArticleFragment.objects.get(type=key)
+        self.assertEqual(frag.fragment, fragment1)
+
+        # do it again
+        fragment2 = {'title': 'party-pants'}
+        resp = self.c.post(url, json.dumps(fragment2), content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
+        # fragment has been added
+        frag = models.ArticleFragment.objects.get(type=key)
+        self.assertEqual(frag.fragment, fragment2)
+
+    def test_add_fragment_for_non_article(self):
+        # POST fragment into lax
+        url = reverse('v2:article-fragment', kwargs={'art_id': 99999, 'fragment_id': 'test-frag'})
+        resp = self.c.post(url, json.dumps({}), content_type="application/json")
+        self.assertEqual(resp.status_code, 404)
+        self.assertEqual(models.ArticleFragment.objects.count(), 2) # xml->json, placeholder
+
+    def test_add_fragment_for_unpublished_article(self):
+        self.assertTrue(False)
         
-        self.assertEqual(q.objects.count(), 2)
-'''
+    def test_add_fragment_fails_unknown_content_type(self):
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': 'test-frag'})
+        resp = self.c.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss")
+        self.assertEqual(resp.status_code, 415) # unsupported media type
+
+    def test_add_bad_fragment(self):
+        """request with fragment that would cause otherwise validating article json 
+        to become invalid is refused"""
+        self.assertEqual(models.ArticleFragment.objects.count(), 2) # xml->json, placeholder
+        fragment = {'doi': 'this is no doi!'}
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': 'test-frag'})
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(models.ArticleFragment.objects.count(), 2) # nothing was created
+        self.assertEqual(resp.status_code, 400) # bad client request

@@ -45,7 +45,7 @@ class FragmentLogic(BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
 
         fragment = {'title': 'pants. party'}
-        fragobj = logic.add(self.msid, 'foo', fragment)
+        fragobj, created, updated = logic.add(self.msid, 'foo', fragment)
         self.assertEqual(models.ArticleFragment.objects.count(), 2)
         self.assertEqual(fragment, fragobj.fragment)
 
@@ -87,6 +87,14 @@ class FragmentMerge(BaseCase):
         logic.add(self.msid, 'frag2', {'foot': 'baz'})
 
         expected = {'title': 'foo', 'body': 'bar', 'foot': 'baz'}
+        self.assertEqual(expected, logic.merge(self.av))
+
+    def test_merge_overwrite_fragments(self):
+        logic.add(self.av, 'xml->json', {'title': 'foo'}, update=True) # destroys original article json
+        logic.add(self.msid, 'frag1', {'title': 'bar'})
+        logic.add(self.msid, 'frag2', {'title': 'baz'})
+
+        expected = {'title': 'baz'}
         self.assertEqual(expected, logic.merge(self.av))
 
     def test_valid_merge_updates_article_version_fields(self):

@@ -3,7 +3,6 @@ from django.db.models import Q
 from django.conf import settings
 from . import utils, models
 from .utils import create_or_update, ensure, subdict
-from functools import reduce
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -12,7 +11,7 @@ def _getids(x):
     if utils.isint(x):
         # id is a msid
         return {'article': models.Article.objects.get(manuscript_id=x)}
-    elif isinstance(id, models.Article):
+    elif isinstance(x, models.Article):
         return {'article': x}
     elif isinstance(x, models.ArticleVersion):
         return {'article': x.article, 'version': x.version}
@@ -31,7 +30,7 @@ def add(x, ftype, fragment, pos=1, update=False):
     data.update(_getids(x))
     key = ['article', 'type', 'version']
     frag, created, updated = create_or_update(models.ArticleFragment, data, key, update=update)
-    return frag
+    return frag, created, updated
 
 def rm(msid, ftype):
     fragment = models.ArticleFragment.objects.get(article__manuscript_id=msid, type=ftype)
@@ -46,17 +45,15 @@ def get(x, ftype):
 
 def merge(av):
     """returns the merged result for a particlar article version"""
-
     # all fragments belonging to this specific article version or
     # to this article in general
     fragments = models.ArticleFragment.objects \
         .filter(article=av.article) \
         .filter(Q(version=av.version) | Q(version=None)) \
         .order_by('position')
-    rows = map(lambda f: f.fragment, fragments)
-    return reduce(utils.deepmerge, rows)
+    return utils.merge_all(map(lambda f: f.fragment, fragments))
 
-def valid(merge_result, schema_key):
+def valid(merge_result, schema_key, quiet=True):
     "returns True if the merged result is valid article-json"
     try:
         schema = settings.SCHEMA_IDX[schema_key]
@@ -65,12 +62,13 @@ def valid(merge_result, schema_key):
     except ValueError:
         # either the schema is bad or the struct is bad
         # either way, the error has been logged
-        pass
+        if not quiet:
+            raise
     except ValidationError as err:
         # definitely not valid ;)
-        LOG.info(err)
-        pass
-    return False
+        LOG.exception(err)
+        if not quiet:
+            raise
 
 def extract_snippet(merged_result):
     # TODO: derive these from the schema automatically somehow please
@@ -81,10 +79,10 @@ def extract_snippet(merged_result):
     ]
     return subdict(merged_result, snippet_keys)
 
-def merge_if_valid(av):
+def merge_if_valid(av, quiet=True):
     ensure(isinstance(av, models.ArticleVersion), "I need an ArticleVersion object")
     result = merge(av)
-    if valid(result, schema_key=av.status):
+    if valid(result, schema_key=av.status, quiet=quiet):
         av.article_json_v1 = result
         av.article_json_v1_snippet = extract_snippet(result)
         av.save()
