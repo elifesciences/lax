@@ -1,3 +1,4 @@
+import copy
 from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
@@ -53,20 +54,24 @@ def merge(av):
         .order_by('position')
     return utils.merge_all(map(lambda f: f.fragment, fragments))
 
-def valid(merge_result, schema_key, quiet=True):
+def valid(merge_result, quiet=True):
     "returns True if the merged result is valid article-json"
+    msid = merge_result.get('id', '[no id]')
+    schema_key = merge_result['status']
+    schema = settings.SCHEMA_IDX[schema_key]
+    #print 'status >>>>>>>>', msid, merge_result['status'], schema
     try:
-        schema = settings.SCHEMA_IDX[schema_key]
         utils.validate(merge_result, schema)
         return merge_result
-    except ValueError:
+    except ValueError as err:
         # either the schema is bad or the struct is bad
-        # either way, the error has been logged
+        LOG.error("validating %s with %s, failed to load json file: %s", msid, schema, err.message)
         if not quiet:
             raise
     except ValidationError as err:
         # definitely not valid ;)
-        LOG.exception(err)
+        LOG.error("validating %s with %s, failed to valid: %s", msid, schema, err)
+
         if not quiet:
             raise
 
@@ -74,15 +79,43 @@ def extract_snippet(merged_result):
     # TODO: derive these from the schema automatically somehow please
     snippet_keys = [
         'copyright', 'doi', 'elocationId', 'id', 'impactStatement',
-        'pdf', 'published', 'research-organisms', 'status', 'subjects',
-        'title', 'type', 'version', 'volume'
+        'pdf', 'published', 'researchOrganisms', 'status', 'statusDate', 'subjects',
+        'title', 'titlePrefix', 'type', 'version', 'volume', 'authorLine'
     ]
     return subdict(merged_result, snippet_keys)
+
+def post_process(av, result):
+
+    result = copy.deepcopy(result)
+
+    # version date
+    result['versionDate'] = av.datetime_published
+
+    # status date
+    if result['version'] == 1:
+        result['statusDate'] = av.datetime_published
+    else:
+        v1vor = av.article.earliest_vor()
+        if v1vor:
+            result['statusDate'] = v1vor.datetime_published
+        else:
+            result['statusDate'] = result['published']
+
+    if not result['statusDate']:
+        LOG.error("somethign gucaksdlfasdf")
+        result['statusDate'] = result['published']
+
+    utils.delall(result, ['relatedArticles', 'digest', 'references'])
+
+    return result
 
 def merge_if_valid(av, quiet=True):
     ensure(isinstance(av, models.ArticleVersion), "I need an ArticleVersion object")
     result = merge(av)
-    if valid(result, schema_key=av.status, quiet=quiet):
+
+    result = post_process(av, result)
+
+    if valid(result, quiet=quiet):
         av.article_json_v1 = result
         av.article_json_v1_snippet = extract_snippet(result)
         av.save()

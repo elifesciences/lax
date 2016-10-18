@@ -15,7 +15,7 @@ the result is valid article json
 
 class ArticleIngestFragmentLogic(BaseCase):
     def setUp(self):
-        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture, 'r'))
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1
@@ -28,7 +28,7 @@ class ArticleIngestFragmentLogic(BaseCase):
 
 class FragmentLogic(BaseCase):
     def setUp(self):
-        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture, 'r'))
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1

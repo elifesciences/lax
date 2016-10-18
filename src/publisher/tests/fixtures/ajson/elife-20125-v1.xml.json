@@ -1,0 +1,747 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "status": "poa", 
+        "id": "20125", 
+        "version": 1, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.20125", 
+        "authorLine": "Andrew T Timberlake et al", 
+        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare SMAD6 and common BMP2 alleles", 
+        "published": "2016-09-08T00:00:00", 
+        "versionDate": "2016-09-08T00:00:00", 
+        "volume": 5, 
+        "elocationId": "e20125", 
+        "pdf": "elife-20125-v1.pdf", 
+        "subjects": [
+            "genes-chromosomes", 
+            "genomics-evolutionary-biology"
+        ], 
+        "research-organisms": [
+            "Human"
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <italic>de novo</italic> or rare transmitted mutations in <italic>SMAD6</italic>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <italic>SMAD6</italic> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <italic>BMP2</italic> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
+                }
+            ]
+        }
+    }, 
+    "article": {
+        "status": "poa", 
+        "id": "20125", 
+        "version": 1, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.20125", 
+        "authorLine": "Andrew T Timberlake et al", 
+        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare SMAD6 and common BMP2 alleles", 
+        "published": "2016-09-08T00:00:00", 
+        "versionDate": "2016-09-08T00:00:00", 
+        "volume": 5, 
+        "elocationId": "e20125", 
+        "pdf": "elife-20125-v1.pdf", 
+        "subjects": [
+            "genes-chromosomes", 
+            "genomics-evolutionary-biology"
+        ], 
+        "research-organisms": [
+            "Human"
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <italic>de novo</italic> or rare transmitted mutations in <italic>SMAD6</italic>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <italic>SMAD6</italic> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <italic>BMP2</italic> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Timberlake et al", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Andrew T Timberlake", 
+                    "index": "Timberlake, Andrew T"
+                }, 
+                "orcid": "0000-0002-8926-9692", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Howard Hughes Medical Institute, Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jungmin Choi", 
+                    "index": "Choi, Jungmin"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Howard Hughes Medical Institute, Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Samir Zaidi", 
+                    "index": "Zaidi, Samir"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Howard Hughes Medical Institute, Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Qiongshi Lu", 
+                    "index": "Lu, Qiongshi"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Biostatistics", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Carol Nelson-Williams", 
+                    "index": "Nelson-Williams, Carol"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Howard Hughes Medical Institute, Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Eric D Brooks", 
+                    "index": "Brooks, Eric D"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Kaya Bilguvar", 
+                    "index": "Bilguvar, Kaya"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Irina Tikhonova", 
+                    "index": "Tikhonova, Irina"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Yale Center for Genome Analysis", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Shrikant Mane", 
+                    "index": "Mane, Shrikant"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jenny F Yang", 
+                    "index": "Yang, Jenny F"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Rajendra Sawh-Martinez", 
+                    "index": "Sawh-Martinez, Rajendra"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Sarah Persing", 
+                    "index": "Persing, Sarah"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Elizabeth G Zellner", 
+                    "index": "Zellner, Elizabeth G"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Erin Loring", 
+                    "index": "Loring, Erin"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Howard Hughes Medical Institute, Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Carolyn Chuang", 
+                    "index": "Chuang, Carolyn"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Amy Galm", 
+                    "index": "Galm, Amy"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Craniosynostosis and Positional Plagiocephaly Support"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New York", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New York"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Peter W Hashim", 
+                    "index": "Hashim, Peter W"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Derek M Steinbacher", 
+                    "index": "Steinbacher, Derek M"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Michael L DiLuna", 
+                    "index": "DiLuna, Michael L"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurosurgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Charles C Duncan", 
+                    "index": "Duncan, Charles C"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurosurgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Kevin A Pelphrey", 
+                    "index": "Pelphrey, Kevin A"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Child Study Center", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Hongyu Zhao", 
+                    "index": "Zhao, Hongyu"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Biostatistics", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "John A Persing", 
+                    "index": "Persing, John A"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Section of Plastic and Reconstructive Surgery, Department of Surgery", 
+                            "Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Richard P Lifton", 
+                    "index": "Lifton, Richard P"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Genetics", 
+                            "Howard Hughes Medical Institute, Yale University School of Medicine"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New Haven", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New Haven"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "richard.lifton@yale.edu"
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ]
+    }
+}

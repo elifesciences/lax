@@ -1,11 +1,12 @@
 import base
 from os.path import join
 import json
-from publisher import ajson_ingestor, models, fragment_logic as logic
+from publisher import ajson_ingestor, models, fragment_logic as logic, utils
 from django.test import Client
 from django.core.urlresolvers import reverse
-#from jsonschema import validate
-#from django.conf import settings
+from django.conf import settings
+
+SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
 class V2ContentTypes(base.BaseCase):
     def setUp(self):
@@ -44,10 +45,14 @@ class V2ContentTypes(base.BaseCase):
 class V2Content(base.BaseCase):
     def setUp(self):
         ingest_these = [
-            "elife.01968.json",
+            #"elife-01968-v1.xml.json",
+            "elife-20125-v1.xml.json", # poa
+            #"elife-20125-v2.xml.json",
+            #"elife-20125-v3.xml.json",
+
             "elife-16695-v1.xml.json",
             "elife-16695-v2.xml.json",
-            "elife-16695-v3.xml.json"
+            "elife-16695-v3.xml.json" # vor
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
@@ -63,9 +68,11 @@ class V2Content(base.BaseCase):
         "a list of articles are returned"
         resp = self.c.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
-        json_resp = json.loads(resp.content)
-        self.assertEqual(len(json_resp), 2) # two results, 01968v1, 16695v3
+        data = json.loads(resp.content)
+        self.assertEqual(len(data), 2) # two results, 01968v1, 16695v3
         # TODO: assert content is valid
+        #print 'got', json.dumps(data, indent=4)
+        utils.validate(data, SCHEMA_IDX['list'])
 
     def test_article(self):
         "the latest version of the requested article is returned"

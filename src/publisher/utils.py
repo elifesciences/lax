@@ -208,11 +208,12 @@ def validate(struct, schema_path):
 
     except ValueError as err:
         # your json schema is broken
-        raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
+        #raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
+        raise
 
     except ValidationError as err:
         # your json is incorrect
-        LOG.error("struct failed to validate against schema: %s" % err.message)
+        #LOG.error("struct failed to validate against schema: %s" % err.message)
         raise
 
 #

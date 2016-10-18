@@ -6,7 +6,7 @@ from publisher import logic, ajson_ingestor, models
 class TestLogic(BaseCase):
     def setUp(self):
         ingest_these = [
-            "elife.01968.json",
+            "elife-01968-v1.xml.json",
             "elife-16695-v1.xml.json",
             "elife-16695-v2.xml.json",
             "elife-16695-v3.xml.json"

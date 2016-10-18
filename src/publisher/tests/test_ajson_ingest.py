@@ -10,7 +10,7 @@ from django.core.management import call_command
 
 class Ingest(BaseCase):
     def setUp(self):
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
 
         self.ajson_fixture2 = join(self.fixture_dir, 'ajson', 'elife.01968-invalid.json')
@@ -165,7 +165,7 @@ class Ingest(BaseCase):
 
 class Publish(BaseCase):
     def setUp(self):
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1
@@ -281,7 +281,7 @@ class Publish(BaseCase):
 
 class IngestPublish(BaseCase):
     def setUp(self):
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
 
     def tearDown(self):
@@ -341,7 +341,7 @@ class CLI(BaseCase):
         self.nom = 'ingest'
         self.msid = "01968"
         self.version = "1"
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
 
     def tearDown(self):
         pass

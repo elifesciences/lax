@@ -26,8 +26,11 @@ def article_list(request):
     authenticated = False
     qs = logic.latest_article_versions(only_published=not authenticated)
     # TODO: paginate
-    rs = map(logic.article_snippet_json, qs) # extract the article json
-    return Response(rs, content_type='application/vnd.elife.articles-list+json;version=1')
+    resultset = map(logic.article_snippet_json, qs) # extract the article json
+    struct = {
+        'total': qs.count(), # pagination may f with us
+        'items': resultset}
+    return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
 
 @api_view(['GET'])
 def article(request, id):

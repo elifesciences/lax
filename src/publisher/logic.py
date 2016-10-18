@@ -167,11 +167,11 @@ def article_json(av):
     # this function is expected to:
     # merge any snippets of models.Article json over the top of the models.ArticleVersion raw json
     # save the result in the models.ArticleVersion actual json field (?)
-    return av.article_json_v1 or {"no": "json"}
+    return av.article_json_v1
 
 def article_snippet_json(av):
     "return the *valid* article snippet json for the given article version"
-    return ""
+    return av.article_json_v1_snippet
 
 #
 #
