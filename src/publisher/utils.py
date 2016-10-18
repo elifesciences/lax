@@ -1,3 +1,4 @@
+from functools import reduce
 from jsonschema import validate as validator
 from jsonschema import ValidationError
 import copy, json
@@ -173,23 +174,19 @@ def json_dumps(obj):
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=_handler)
 
-# http://stackoverflow.com/questions/7204805/dictionaries-of-dictionaries-merge
-def deepmerge(a, b, path=None):
-    "merges b into a"
-    if path is None:
-        path = []
-    for key in b:
-        if key in a:
-            if isinstance(a[key], dict) and isinstance(b[key], dict):
-                deepmerge(a[key], b[key], path + [str(key)])
-            elif a[key] == b[key]:
-                pass # same leaf value
-            else:
-                # can't merge, replace
-                a[key] = b
+# http://stackoverflow.com/questions/29847098/the-best-way-to-merge-multi-nested-dictionaries-in-python-2-7
+def deepmerge(d1, d2):
+    d1 = copy.deepcopy(d1)
+    for k in d2:
+        if k in d1 and isinstance(d1[k], dict) and isinstance(d2[k], dict):
+            deepmerge(d1[k], d2[k])
         else:
-            a[key] = b[key]
-    return a
+            d1[k] = d2[k]
+    return d1
+
+def merge_all(dict_list):
+    ensure(all(map(lambda r: isinstance(r, dict), dict_list)), "not all given values are dictionaries!")
+    return reduce(deepmerge, dict_list)
 
 #
 #
