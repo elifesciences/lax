@@ -124,36 +124,27 @@ class V2Content(base.BaseCase):
 
 class V2PostContent(base.BaseCase):
     def setUp(self):
-        ingest_these = [
-            #"elife.01968.json",
-            "elife-16695-v1.xml.json",
-            #"elife-16695-v2.xml.json",
-            #"elife-16695-v3.xml.json"
-        ]
-        ajson_dir = join(self.fixture_dir, 'ajson')
-        for ingestable in ingest_these:
-            path = join(ajson_dir, ingestable)
-            ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+        path = join(self.fixture_dir, 'ajson', "elife-16695-v1.xml.json")
+        ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
-        #self.msid1 = 1968
-        self.msid2 = 16695
+        self.msid = 16695
         
         # layer in enough to make it validate ...
         placeholders = {
             'statusDate': '2001-01-01T00:00:00Z',
         }
-        logic.add(self.msid2, 'foo', placeholders)
-        self.av = models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2)[0]
-        #self.assertTrue(logic.merge_if_valid(self.av))
+        logic.add(self.msid, 'placeholders', placeholders)
+        self.av = models.ArticleVersion.objects.filter(article__manuscript_id=self.msid)[0]
+        self.assertTrue(logic.merge_if_valid(self.av))
 
         self.c = Client()
 
     def test_add_fragment(self):
         "a POST request can be sent that adds an article fragment"
         key='test-frag'
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': key})
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
         fragment = {'title': 'pants-party'}
-        q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid2)
+        q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid)
                 
         # POST fragment into lax
         self.assertEqual(q.count(), 2) # 'xml->json', placeholder
@@ -167,7 +158,7 @@ class V2PostContent(base.BaseCase):
 
     def test_add_fragment_twice(self):
         key='test-frag'
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': key})
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
                 
         # POST fragment into lax
         fragment1 = {'title': 'pants-party'}
@@ -198,7 +189,7 @@ class V2PostContent(base.BaseCase):
         self.assertTrue(False)
         
     def test_add_fragment_fails_unknown_content_type(self):
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
         resp = self.c.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss")
         self.assertEqual(resp.status_code, 415) # unsupported media type
 
@@ -207,7 +198,7 @@ class V2PostContent(base.BaseCase):
         to become invalid is refused"""
         self.assertEqual(models.ArticleFragment.objects.count(), 2) # xml->json, placeholder
         fragment = {'doi': 'this is no doi!'}
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid2, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(models.ArticleFragment.objects.count(), 2) # nothing was created
         self.assertEqual(resp.status_code, 400) # bad client request
