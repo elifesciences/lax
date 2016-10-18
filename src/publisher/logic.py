@@ -18,7 +18,7 @@ def journal(name=None):
         LOG.info("created new Journal %s", obj)
     return obj
 
-def article(doi, version=None, lazy=True):
+def article(doi, version=None):
     """returns the latest version of the article identified by the
     doi, or the specific version given.
     Raises DoesNotExist if article not found."""
@@ -67,6 +67,7 @@ def add_or_update_article(**article_data):
 #
 #
 
+# TODO: rename `latest_article_version_list`
 def latest_article_versions(only_published=True):
     "returns a most recent article versions of all articles"
 
@@ -111,6 +112,8 @@ def article_version_list(msid, only_published=True):
         raise models.Article.DoesNotExist()
     return qs
 
+
+# TODO: rename `latest_article_version`
 def most_recent_article_version(msid, only_published=True):
     "returns the most recent article version for the given article id"
     try:
