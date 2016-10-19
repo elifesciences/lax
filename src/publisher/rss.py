@@ -114,7 +114,7 @@ class RecentArticleFeed(AbstractArticleFeed):
         return logic.latest_article_versions().filter(**kwargs)
 
 class AbstractReportFeed(AbstractArticleFeed):
-    #feed_type = RSSArticleFeedGenerator
+    feed_type = RSSArticleFeedGenerator
 
     def title(self, obj):
         return obj['title']
@@ -131,6 +131,9 @@ class AbstractReportFeed(AbstractArticleFeed):
     def items(self, obj):
         return obj['results']
 
+    def item_extra_kwargs(self, item):
+        return {'obj': item['obj']}
+    
     def item_title(self, item):
         return item['title']
 
