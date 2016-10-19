@@ -54,6 +54,8 @@ def mkrow(av):
         'category-list': [],
         'guid': av.get_absolute_url(),
         'pub-date': dt(av),
+
+        'obj': av
     }
 
 # 'recent' report (VOR)
