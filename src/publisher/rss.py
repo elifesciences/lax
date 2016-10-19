@@ -133,7 +133,7 @@ class AbstractReportFeed(AbstractArticleFeed):
 
     def item_extra_kwargs(self, item):
         return {'obj': item['obj']}
-    
+
     def item_title(self, item):
         return item['title']
 

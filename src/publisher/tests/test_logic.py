@@ -41,11 +41,11 @@ class TestLogic0(BaseCase):
         self.vor_version_count = 9
         self.poa_version_count = 6
         self.total_version_count = self.vor_version_count + self.poa_version_count
-        
+
         self.poa_art_count = 1
         self.vor_art_count = 9
         self.total_art_count = self.poa_art_count + self.vor_art_count
-        
+
         self.research_art_count = 6
 
     def test_latest_article_versions(self):
