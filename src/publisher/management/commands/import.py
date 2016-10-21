@@ -13,7 +13,9 @@ EIF, EJP, AJSON, PATCH = IMPORT_TYPES
 def resolve_path(p):
     p = os.path.abspath(p)
     if os.path.isdir(p):
-        return glob.glob("%s/*.json" % p.rstrip('/'))
+        paths = glob.glob("%s/*.json" % p.rstrip('/'))
+        paths.sort(reverse=True)
+        return paths
     return [p]
 
 def ingest(fn, journal, create, update, path_list):
@@ -64,7 +66,7 @@ class Command(BaseCommand):
         parser.add_argument('--no-update', action='store_false', default=True)
 
         # indicate the type of import we should be doing
-        parser.add_argument('--import-type', type=str, choices=IMPORT_TYPES)
+        parser.add_argument('--import-type', required=True, type=str, choices=IMPORT_TYPES)
 
         # don't prompt, don't pretty-print anything, just do it.
         parser.add_argument('--just-do-it', action='store_true', default=False)

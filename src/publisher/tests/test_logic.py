@@ -1,7 +1,75 @@
 import json
 from os.path import join
 from base import BaseCase
-from publisher import logic, ajson_ingestor, models
+from publisher import logic, ajson_ingestor, models, eif_ingestor
+
+class TestLogic0(BaseCase):
+    def setUp(self):
+        self.journal = logic.journal()
+        import_all = [
+            '00353.1', # discussion, VOR
+
+            '00385.1', # commentary, VOR
+
+            '01328.1', # correction, VOR
+
+            '02619.1', # editorial, VOR
+
+            '03401.1', # research, POA
+            '03401.2', # POA
+            '03401.3', # VOR
+
+            '03665.1', # research, VOR
+
+            '06250.1', # research, POA
+            '06250.2', # POA
+            '06250.3', # VOR
+
+            '07301.1', # research, VOR
+
+            '08025.1', # research, POA
+            '08025.2', # VOR
+
+            '09571.1', # research, POA
+        ]
+        for subdir in import_all:
+            fname = subdir.replace('.', '-v')
+            fname = "elife-%s.json" % fname
+            path = join(self.fixture_dir, 'ppp', subdir, fname)
+            eif_ingestor.import_article_from_json_path(self.journal, path)
+
+        self.vor_version_count = 9
+        self.poa_version_count = 6
+        self.total_version_count = self.vor_version_count + self.poa_version_count
+
+        self.poa_art_count = 1
+        self.vor_art_count = 9
+        self.total_art_count = self.poa_art_count + self.vor_art_count
+
+        self.research_art_count = 6
+
+    def test_latest_article_versions(self):
+        self.assertEqual(self.total_version_count, models.ArticleVersion.objects.count())
+
+        latest = logic.latest_article_versions()
+        self.assertEqual(latest.count(), self.total_art_count)
+        self.assertEqual(latest.count(), models.Article.objects.count())
+
+        expected_latest = [
+            (353, 1),
+            (385, 1),
+            (1328, 1),
+            (2619, 1),
+            (3401, 3),
+            (3665, 1),
+            (6250, 3),
+            (7301, 1),
+            (8025, 2),
+            (9571, 1)
+        ]
+        for msid, v in expected_latest:
+            # throws a DoesNotExist if expected not in latest resultset
+            latest.get(article__manuscript_id=msid, version=v)
 
 class TestLogic(BaseCase):
     def setUp(self):
@@ -29,7 +97,7 @@ class TestLogic(BaseCase):
             self.assertEqual(logic.mk_dxdoi_link(given), expected)
 
     def test_latest_article_versions(self):
-        # see `test_rss.py`
+        # see class `TestLogic0` (above) and `test_rss.py`
         pass
 
     def test_article_version_list(self):

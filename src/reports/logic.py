@@ -54,6 +54,8 @@ def mkrow(av):
         'category-list': [],
         'guid': av.get_absolute_url(),
         'pub-date': dt(av),
+
+        'obj': av
     }
 
 # 'recent' report (VOR)
@@ -63,6 +65,7 @@ def paw_recent_report_raw_data(limit=None):
     query = models.ArticleVersion.objects \
         .select_related('article') \
         .annotate(min_vor=Min('article__articleversion__version')) \
+        .filter(article__articleversion__version=F('min_vor')) \
         .filter(status='vor') \
         .order_by('-datetime_published')
 

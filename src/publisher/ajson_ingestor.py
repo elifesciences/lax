@@ -36,6 +36,7 @@ ARTICLE = {
     'volume': [p('volume')],
     'type': [p('type')],
     'doi': [p('id'), utils.msid2doi], # remove when apiv1 is turned off
+    #'ejp_type': [p('type'), models.EJP_TYPE_REV_SLUG_IDX.get]
 }
 ARTICLE_VERSION = {
     'title': [p('title')],
@@ -129,7 +130,7 @@ def _ingest(data, force=False):
         av_struct = render.render_item(ARTICLE_VERSION, data['article'])
         del av_struct['datetime_published']
 
-        av, created, update = \
+        av, created, updated = \
             create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
                              create, update, commit=False, article=article)
 

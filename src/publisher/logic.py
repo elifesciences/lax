@@ -86,6 +86,14 @@ def latest_article_versions(only_published=True):
     q = q.order_by('-datetime_published')
     return q
 
+def most_recent_article_version(msid, only_published=True):
+    "returns the most recent article version for the given article id"
+    try:
+        latest = latest_article_versions(only_published)
+        return latest.filter(article__manuscript_id=msid)[0]
+    except IndexError:
+        raise models.Article.DoesNotExist()
+
 def article_version(msid, version, only_published=True):
     "returns the specified article version for the given article id"
     try:
@@ -111,22 +119,6 @@ def article_version_list(msid, only_published=True):
     if not qs.count():
         raise models.Article.DoesNotExist()
     return qs
-
-
-# TODO: rename `latest_article_version`
-def most_recent_article_version(msid, only_published=True):
-    "returns the most recent article version for the given article id"
-    try:
-        query = models.ArticleVersion.objects \
-            .filter(article__manuscript_id=msid) \
-            .select_related('article') \
-            .annotate(max_ver=Max('article__articleversion__version')) \
-            .filter(version=F('max_ver'))
-        if only_published:
-            query = query.exclude(datetime_published=None)
-        return query[0]
-    except IndexError:
-        raise models.Article.DoesNotExist()
 
 #
 #

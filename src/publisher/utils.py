@@ -31,7 +31,6 @@ def doi2msid(doi):
     return doi[len(prefix):].lstrip('0')
 
 def msid2doi(msid):
-    assert len(str(msid)) <= 5, "given msid is too long: %r" % msid
     assert isint(msid), "given msid must be an integer: %r" % msid
     return '10.7554/eLife.%05d' % int(msid)
 
