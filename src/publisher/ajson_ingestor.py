@@ -158,7 +158,7 @@ def _ingest(data, force=False):
         av_struct = render.render_item(ARTICLE_VERSION, data['article'])
         del av_struct['datetime_published']
 
-        av, created, update = \
+        av, created, updated = \
             create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
                              create, update, commit=False, article=article)
 
