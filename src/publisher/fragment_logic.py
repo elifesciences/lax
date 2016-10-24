@@ -59,7 +59,7 @@ def valid(merge_result, quiet=True):
     msid = merge_result.get('id', '[no id]')
     schema_key = merge_result['status']
     schema = settings.SCHEMA_IDX[schema_key]
-    #print 'status >>>>>>>>', msid, merge_result['status'], schema
+    # print 'status >>>>>>>>', msid, merge_result['status'], schema
     try:
         utils.validate(merge_result, schema)
         return merge_result

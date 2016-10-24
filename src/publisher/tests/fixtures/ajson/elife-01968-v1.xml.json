@@ -12,26 +12,25 @@
         "doi": "10.7554/eLife.01968", 
         "authorLine": "John S Mattick", 
         "title": "Probing the phenomics of noncoding RNA", 
+        "titlePrefix": "Genetics", 
         "published": "2013-12-31T00:00:00", 
         "versionDate": "2013-12-31T00:00:00", 
         "volume": 2, 
         "elocationId": "e01968", 
         "pdf": "elife-01968-v1.pdf", 
         "subjects": [
-            "developmental-biology-stem-cells", 
-            "genes-chromosomes"
+            {
+                "id": "developmental-biology-stem-cells", 
+                "name": "Developmental Biology and Stem Cells"
+            }, 
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Mouse"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "type": "paragraph", 
-                    "text": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
-                }
-            ]
-        }, 
         "copyright": {
             "license": "CC-BY-3.0", 
             "holder": "Mattick", 
@@ -70,7 +69,7 @@
                 "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
             }
         ], 
-        "impactStatement": ""
+        "impactStatement": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
     }, 
     "article": {
         "status": "vor", 
@@ -80,26 +79,25 @@
         "doi": "10.7554/eLife.01968", 
         "authorLine": "John S Mattick", 
         "title": "Probing the phenomics of noncoding RNA", 
+        "titlePrefix": "Genetics", 
         "published": "2013-12-31T00:00:00", 
         "versionDate": "2013-12-31T00:00:00", 
         "volume": 2, 
         "elocationId": "e01968", 
         "pdf": "elife-01968-v1.pdf", 
         "subjects": [
-            "developmental-biology-stem-cells", 
-            "genes-chromosomes"
+            {
+                "id": "developmental-biology-stem-cells", 
+                "name": "Developmental Biology and Stem Cells"
+            }, 
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Mouse"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "type": "paragraph", 
-                    "text": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
-                }
-            ]
-        }, 
         "copyright": {
             "license": "CC-BY-3.0", 
             "holder": "Mattick", 
@@ -149,7 +147,6 @@
         "relatedArticles": [
             "01749"
         ], 
-        "digest": null, 
         "body": [
             {
                 "type": "paragraph", 
@@ -4203,6 +4200,7 @@
                 "ref": "SmithMAGesellTStadlerPFMattickJS2013Widespread purifying selection on RNA structure in mammalsNucleic Acids Research418220823610.1093/nar/gkt596", 
                 "id": "bib23"
             }
-        ]
+        ], 
+        "impactStatement": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
     }
 }

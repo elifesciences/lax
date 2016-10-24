@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import Http404
-from .models import POA
+from .models import POA, XML2JSON
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -69,7 +69,8 @@ def article_version(request, id, version):
 def article_fragment(rest_request, art_id, fragment_id):
     only_published = False
     try:
-        ensure(fragment_id != 'xml->json', "that key is taken")
+        reserved_keys = [XML2JSON]
+        ensure(fragment_id not in reserved_keys, "that key is taken")
         with transaction.atomic():
             av = logic.most_recent_article_version(art_id, only_published)
             data = rest_request.data

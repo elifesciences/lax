@@ -17,10 +17,16 @@
         "elocationId": "e20125", 
         "pdf": "elife-20125-v3.pdf", 
         "subjects": [
-            "genes-chromosomes", 
-            "genomics-evolutionary-biology"
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }, 
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human"
         ], 
         "abstract": {
@@ -961,10 +967,16 @@
         "elocationId": "e20125", 
         "pdf": "elife-20125-v3.pdf", 
         "subjects": [
-            "genes-chromosomes", 
-            "genomics-evolutionary-biology"
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }, 
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human"
         ], 
         "abstract": {
@@ -1963,7 +1975,7 @@
                             }
                         ], 
                         "alt": "", 
-                        "uri": "https://example.org/elife-20125-fig1-v3"
+                        "uri": "elife-20125-fig1-v3"
                     }, 
                     {
                         "type": "paragraph", 
@@ -2008,10 +2020,25 @@
                                 "tables": [
                                     "<table><thead><tr><th/><th colspan=\"2\">Observed</th><th colspan=\"2\">Expected</th><th>Enrichment</th><th>p-value</th></tr><tr><th>Class</th><th>#</th><th>#/subject</th><th>#</th><th>#/subject</th><th/><th/></tr></thead><tbody><tr><td>All mutations</td><td>144</td><td>1.09</td><td>142.8</td><td>1.08</td><td>1.01</td><td>0.47</td></tr><tr><td>Synonymous</td><td>21</td><td>0.16</td><td>40.4</td><td>0.31</td><td>0.52</td><td>3.0 \u00d7 10<sup>\u22124</sup></td></tr><tr><td>Protein altering</td><td>123</td><td>0.93</td><td>102.4</td><td>0.78</td><td>1.17</td><td>0.03</td></tr><tr><td>Total missense</td><td>110</td><td>0.83</td><td>89.7</td><td>0.68</td><td>1.23</td><td>0.02</td></tr><tr><td>T-mis</td><td>82</td><td>0.62</td><td>75.2</td><td>0.57</td><td>1.09</td><td>0.23</td></tr><tr><td>D-mis</td><td>28</td><td>0.21</td><td>14.5</td><td>0.11</td><td>1.93</td><td>1.0 \u00d7 10<sup>\u22123</sup></td></tr><tr><td>Loss of function (LOF)</td><td>13</td><td>0.10</td><td>12.7</td><td>0.10</td><td>1.03</td><td>0.50</td></tr><tr><td>LOF + D-mis</td><td>41</td><td>0.31</td><td>27.1</td><td>0.21</td><td>1.51</td><td>7.8 \u00d7 10<sup>\u22123</sup></td></tr></tbody></table>"
                                 ], 
-                                "footer": [
+                                "footnotes": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "#, number of de novo mutations in 132 subjects; #/subject, number of de novo mutations per subject; Damaging and tolerated missense called by MetaSVM (D-mis, T-mis respectively); Loss of function denotes premature termination, frameshift, or splice site mutation. For mutation classes with enrichment compared to expectation, p-values represent the upper tail of the Poisson probability density function. For mutation classes in which we observed a paucity of mutations compared to expectation, p-values represent the lower tail."
+                                        "id": "tblfn1", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "#, number of de novo mutations in 132 subjects; #/subject, number of de novo mutations per subject; Damaging and tolerated missense called by MetaSVM (D-mis, T-mis respectively); Loss of function denotes premature termination, frameshift, or splice site mutation. For mutation classes with enrichment compared to expectation, p-values represent the upper tail of the Poisson probability density function. For mutation classes in which we observed a paucity of mutations compared to expectation, p-values represent the lower tail."
+                                            }
+                                        ]
+                                    }
+                                ], 
+                                "sourceData": [
+                                    {
+                                        "doi": "10.7554/eLife.20125.005", 
+                                        "id": "SD1-data", 
+                                        "label": "Table 1\u2014source data 1.", 
+                                        "title": "De novo mutations in 132 trios with sagittal and/or metopic craniosynostosis.", 
+                                        "mediaType": "application/xlsx", 
+                                        "uri": "elife-20125-table1-data1-v3.xlsx"
                                     }
                                 ]
                             }
@@ -2043,7 +2070,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-20125-fig2-v3", 
+                                "uri": "elife-20125-fig2-v3", 
                                 "sourceData": [
                                     {
                                         "doi": "10.7554/eLife.20125.007", 
@@ -2051,7 +2078,7 @@
                                         "label": "Figure 2\u2014source data 1.", 
                                         "title": "Variants identified in <italic>SMAD6</italic>.", 
                                         "mediaType": "application/docx", 
-                                        "uri": "https://example.org/elife-20125-fig2-data1-v3.docx"
+                                        "uri": "elife-20125-fig2-data1-v3.docx"
                                     }, 
                                     {
                                         "doi": "10.7554/eLife.20125.008", 
@@ -2059,7 +2086,7 @@
                                         "label": "Figure 2\u2014source data 2.", 
                                         "title": "PCR primer sequences for Sanger sequencing of reported variants.", 
                                         "mediaType": "application/docx", 
-                                        "uri": "https://example.org/elife-20125-fig2-data2-v3.docx"
+                                        "uri": "elife-20125-fig2-data2-v3.docx"
                                     }
                                 ], 
                                 "supplements": [
@@ -2080,7 +2107,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-20125-fig2-figsupp1-v3"
+                                        "uri": "elife-20125-fig2-figsupp1-v3"
                                     }, 
                                     {
                                         "type": "image", 
@@ -2099,7 +2126,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-20125-fig2-figsupp2-v3"
+                                        "uri": "elife-20125-fig2-figsupp2-v3"
                                     }
                                 ]
                             }, 
@@ -2122,10 +2149,15 @@
                                 "tables": [
                                     "<table><thead><tr><th valign=\"top\">Gene(s)</th><th valign=\"top\">Mutations</th><th valign=\"top\">Number of observed mutations</th><th valign=\"top\">Number of expected mutations</th><th valign=\"top\">p value</th></tr></thead><tbody><tr><td valign=\"top\"><italic>SMAD6</italic></td><td valign=\"top\">Loss of function</td><td valign=\"top\">2</td><td valign=\"top\">0.00026</td><td valign=\"top\">3.31 \u00d7 10<sup>\u22128</sup></td></tr><tr><td valign=\"top\"><italic>SMAD6</italic></td><td valign=\"top\">Missense</td><td valign=\"top\">1</td><td valign=\"top\">0.0046</td><td valign=\"top\">4.67 \u00d7 10<sup>\u22123</sup></td></tr><tr><td valign=\"top\"><italic>SPRY1, SPRY2, SPRY3, SPRY4</italic></td><td valign=\"top\">Nonsense, splice site, frameshift</td><td valign=\"top\">2</td><td valign=\"top\">0.001193</td><td valign=\"top\">7.11 \u00d7 10<sup>\u22127</sup></td></tr></tbody></table>"
                                 ], 
-                                "footer": [
+                                "footnotes": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Probabilities calculated from the Poisson distribution using DenovolyzeR. The probability of observing at least 2 LOF and 1 missense mutation in <italic>SMAD6</italic> was 3.6 10<sup>\u22129</sup> via Fisher\u2019s method."
+                                        "id": "tblfn2", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Probabilities calculated from the Poisson distribution using DenovolyzeR. The probability of observing at least 2 LOF and 1 missense mutation in <italic>SMAD6</italic> was 3.6 10<sup>\u22129</sup> via Fisher\u2019s method."
+                                            }
+                                        ]
                                     }
                                 ]
                             }, 
@@ -2150,7 +2182,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-20125-fig3-v3", 
+                                "uri": "elife-20125-fig3-v3", 
                                 "sourceData": [
                                     {
                                         "doi": "10.7554/eLife.20125.013", 
@@ -2158,7 +2190,7 @@
                                         "label": "Figure 3\u2014source data 1.", 
                                         "title": "Source data for <xref ref-type=\"fig\" rid=\"fig3s3\">Figure 3\u2014figure supplement 3</xref>.", 
                                         "mediaType": "application/docx", 
-                                        "uri": "https://example.org/elife-20125-fig3-data1-v3.docx"
+                                        "uri": "elife-20125-fig3-data1-v3.docx"
                                     }
                                 ], 
                                 "supplements": [
@@ -2179,7 +2211,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-20125-fig3-figsupp1-v3"
+                                        "uri": "elife-20125-fig3-figsupp1-v3"
                                     }, 
                                     {
                                         "type": "image", 
@@ -2198,7 +2230,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-20125-fig3-figsupp2-v3"
+                                        "uri": "elife-20125-fig3-figsupp2-v3"
                                     }, 
                                     {
                                         "type": "image", 
@@ -2217,7 +2249,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-20125-fig3-figsupp3-v3"
+                                        "uri": "elife-20125-fig3-figsupp3-v3"
                                     }
                                 ]
                             }, 
@@ -2240,10 +2272,15 @@
                                 "tables": [
                                     "<table><thead><tr><th valign=\"top\"/><th valign=\"top\">Observed</th><th valign=\"top\">Expected</th><th valign=\"top\">Enrichment</th><th valign=\"top\">p-value</th></tr></thead><tbody><tr><td valign=\"top\">De novo LOF and D-mis</td><td valign=\"top\">3</td><td valign=\"top\">0.0049</td><td valign=\"top\">612</td><td valign=\"top\">3.6 \u00d7 10<sup>\u22129</sup></td></tr><tr><td valign=\"top\">Transmitted LOF and D-mis</td><td valign=\"top\">10</td><td valign=\"top\">0.1404</td><td valign=\"top\">71.2</td><td valign=\"top\">7.0 \u00d7 10<sup>\u221216</sup></td></tr><tr><td valign=\"top\">Total</td><td valign=\"top\">13</td><td valign=\"top\">0.1453</td><td valign=\"top\">89.5</td><td valign=\"top\">1.4 \u00d7 10<sup>\u221222</sup></td></tr></tbody></table>"
                                 ], 
-                                "footer": [
+                                "footnotes": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "LOF, loss of function; D-mis, damaging missense variants per MetaSVM; The total number of <italic>SMAD6</italic> variants expected in this cohort was calculated by summing the expected number of de novo and transmitted variants. P-value combining probabilities from de novo and transmitted protein damaging <italic>SMAD6</italic> variants was determined by Fisher\u2019s method."
+                                        "id": "tblfn3", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "LOF, loss of function; D-mis, damaging missense variants per MetaSVM; The total number of <italic>SMAD6</italic> variants expected in this cohort was calculated by summing the expected number of de novo and transmitted variants. P-value combining probabilities from de novo and transmitted protein damaging <italic>SMAD6</italic> variants was determined by Fisher\u2019s method."
+                                            }
+                                        ]
                                     }
                                 ]
                             }, 
@@ -2308,7 +2345,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-20125-fig4-v3"
+                                "uri": "elife-20125-fig4-v3"
                             }, 
                             {
                                 "type": "paragraph", 
@@ -2331,7 +2368,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-20125-fig5-v3"
+                                "uri": "elife-20125-fig5-v3"
                             }
                         ]
                     }, 
@@ -2367,10 +2404,15 @@
                                 "tables": [
                                     "<table><thead><tr><th><italic>SMAD6/BMP2</italic> Genotypes</th><th>Craniosynostosis (+)</th><th>Craniosynostosis (\u2212)</th></tr></thead><tbody><tr><td><italic>SMAD6</italic> (+) <italic>/ BMP2</italic> risk allele (+)</td><td>14</td><td>0</td></tr><tr><td><italic>SMAD6</italic> (+) <italic>/ BMP2</italic> risk allele (\u2212)</td><td>3</td><td>13</td></tr><tr><td><italic>SMAD6</italic> (\u2212) <italic>/ BMP2</italic> risk allele (+)</td><td>0</td><td>18</td></tr></tbody></table>"
                                 ], 
-                                "footer": [
+                                "footnotes": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "All members of kindreds found to have a mutation in <italic>SMAD6</italic> were included. <italic>SMAD6</italic>(+) indicates the presence of a heterozygous LOF or D-mis allele. The reported <italic>BMP2</italic> risk allele is \u2018C\u2019 at risk locus rs1884302, found within a gene desert ~345kb downstream of <italic>BMP2</italic>. p=1.4 \u00d7 10<sup>\u221210</sup> by the Freeman-Halton extension of Fisher\u2019s exact test. Odds ratio in favor of disease was incalculable due to the absence of craniosynostosis in <italic>SMAD6</italic> (\u2212) individuals in these kindreds."
+                                        "id": "tblfn4", 
+                                        "text": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "All members of kindreds found to have a mutation in <italic>SMAD6</italic> were included. <italic>SMAD6</italic>(+) indicates the presence of a heterozygous LOF or D-mis allele. The reported <italic>BMP2</italic> risk allele is \u2018C\u2019 at risk locus rs1884302, found within a gene desert ~345kb downstream of <italic>BMP2</italic>. p=1.4 \u00d7 10<sup>\u221210</sup> by the Freeman-Halton extension of Fisher\u2019s exact test. Odds ratio in favor of disease was incalculable due to the absence of craniosynostosis in <italic>SMAD6</italic> (\u2212) individuals in these kindreds."
+                                            }
+                                        ]
                                     }
                                 ]
                             }, 
@@ -2414,7 +2456,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-20125-fig6-v3"
+                                "uri": "elife-20125-fig6-v3"
                             }
                         ]
                     }

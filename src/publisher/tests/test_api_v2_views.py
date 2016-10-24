@@ -1,7 +1,7 @@
 import base
 from os.path import join
 import json
-from publisher import ajson_ingestor, models, fragment_logic as logic, utils
+from publisher import ajson_ingestor, models, fragment_logic as fragments, utils
 from django.test import Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -46,21 +46,27 @@ class V2Content(base.BaseCase):
     def setUp(self):
         ingest_these = [
             #"elife-01968-v1.xml.json",
-            "elife-20125-v1.xml.json", # poa
-            #"elife-20125-v2.xml.json",
-            #"elife-20125-v3.xml.json",
+            
+            "dummyelife-20125-v1.xml.json", # poa
+            "dummyelife-20125-v2.xml.json", # poa
+            "dummyelife-20125-v3.xml.json", # vor
 
-            "elife-16695-v1.xml.json",
-            "elife-16695-v2.xml.json",
-            "elife-16695-v3.xml.json" # vor
+            # NOT VALID, doesn't ingest
+            #"elife-16695-v1.xml.json",
+            #"elife-16695-v2.xml.json",
+            #"elife-16695-v3.xml.json", # vor
+
+            "dummyelife-20105-v1.xml.json", # poa
+            "dummyelife-20105-v2.xml.json", # poa
+            "dummyelife-20105-v3.xml.json" # poa
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
             path = join(ajson_dir, ingestable)
             ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
-        self.msid1 = 1968
-        self.msid2 = 16695
+        self.msid1 = 20125
+        self.msid2 = 20105
 
         self.c = Client()
 
@@ -68,28 +74,60 @@ class V2Content(base.BaseCase):
         "a list of articles are returned"
         resp = self.c.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')        
         data = json.loads(resp.content)
-        self.assertEqual(len(data), 2) # two results, 01968v1, 16695v3
-        # TODO: assert content is valid
-        #print 'got', json.dumps(data, indent=4)
+
+        # valid data
         utils.validate(data, SCHEMA_IDX['list'])
 
-    def test_article(self):
+        # correct data
+        self.assertEqual(len(data), 2) # two results, [msid1, msid2]
+
+    def test_article_list_published_only(self):
+        "a list of PUBLISHED articles only are returned"
+        # `logic.latest_article_versions` is currently broken so this won't work
+        pass
+
+    def test_article_poa(self):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        # TODO: assert content is valid
-        #json_resp = json.loads(resp.content)
-        #json_resp['version'] == 3
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")        
+        data = json.loads(resp.content)
+        
+        # valid data
+        utils.validate(data, SCHEMA_IDX['poa'])
+
+        # correct data
+        self.assertEqual(data['version'], 3)
+    
+    def test_article_vor(self):
+        "the latest version of the requested article is returned"
+        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid1}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-vor+json;version=1")
+        
+        data = json.loads(resp.content)
+        
+        # valid data
+        utils.validate(data, SCHEMA_IDX['vor'])
+
+        # correct data
+        self.assertEqual(data['version'], 3)
 
     def test_article_unpublished_ver_not_returned(self):
         "unpublished article versions are not returned"
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
         self.unpublish(self.msid2, version=3)
+        self.assertEqual(models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).exclude(datetime_published=None).count(), 2)
+        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        # TODO: assert content is valid
-        #json_resp = json.loads(resp.content)
-        #json_resp['version'] == 2
+        data = json.loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX['poa'])
+
+        # correct data
+        self.assertEqual(data['version'], 2) # third version was unpublished
 
     def test_article_does_not_exist(self):
         fake_msid = 123
@@ -97,12 +135,17 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 404)
 
     def test_article_versions_list(self):
-        "valid json content is returned "
+        "valid json content is returned"
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        #json_resp = json.loads(resp.content)
-        #schema = json.load(open(settings.ART_HISTORY_SCHEMA, 'r'))
-        # validate(json_resp, schema) # can't clone my PR for some reason ...
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
+        data = json.loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX['history'])
+
+        # correct data
+        self.assertEqual(len(data['versions']), 3)
 
     def test_article_versions_list_does_not_exist(self):
         models.Article.objects.all().delete()
@@ -141,9 +184,9 @@ class V2PostContent(base.BaseCase):
         placeholders = {
             'statusDate': '2001-01-01T00:00:00Z',
         }
-        logic.add(self.msid, 'placeholders', placeholders)
+        fragments.add(self.msid, 'placeholders', placeholders)
         self.av = models.ArticleVersion.objects.filter(article__manuscript_id=self.msid)[0]
-        self.assertTrue(logic.merge_if_valid(self.av))
+        self.assertTrue(fragments.merge_if_valid(self.av))
 
         self.c = Client()
 

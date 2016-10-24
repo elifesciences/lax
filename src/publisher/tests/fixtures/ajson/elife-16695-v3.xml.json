@@ -17,10 +17,16 @@
         "elocationId": "e16695", 
         "pdf": "elife-16695-v3.pdf", 
         "subjects": [
-            "human-biology-medicine", 
-            "neuroscience"
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human", 
             "Mouse"
         ], 
@@ -436,10 +442,16 @@
         "elocationId": "e16695", 
         "pdf": "elife-16695-v3.pdf", 
         "subjects": [
-            "human-biology-medicine", 
-            "neuroscience"
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human", 
             "Mouse"
         ], 
@@ -928,7 +940,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-16695-fig1-v3", 
+                                "uri": "elife-16695-fig1-v3", 
                                 "sourceData": [
                                     {
                                         "doi": "10.7554/eLife.16695.004", 
@@ -936,7 +948,7 @@
                                         "label": "Figure 1\u2014source data 1.", 
                                         "title": "Summary of sleep phenotype of human subjects.", 
                                         "mediaType": "application/docx", 
-                                        "uri": "https://example.org/elife-16695-fig1-data1-v3.docx"
+                                        "uri": "elife-16695-fig1-data1-v3.docx"
                                     }
                                 ]
                             }
@@ -968,7 +980,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-16695-fig2-v3", 
+                                "uri": "elife-16695-fig2-v3", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -987,7 +999,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-16695-fig2-figsupp1-v3"
+                                        "uri": "elife-16695-fig2-figsupp1-v3"
                                     }, 
                                     {
                                         "type": "image", 
@@ -1006,7 +1018,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-16695-fig2-figsupp2-v3"
+                                        "uri": "elife-16695-fig2-figsupp2-v3"
                                     }, 
                                     {
                                         "type": "image", 
@@ -1025,7 +1037,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-16695-fig2-figsupp3-v3"
+                                        "uri": "elife-16695-fig2-figsupp3-v3"
                                     }, 
                                     {
                                         "type": "image", 
@@ -1044,7 +1056,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-16695-fig2-figsupp4-v3"
+                                        "uri": "elife-16695-fig2-figsupp4-v3"
                                     }
                                 ]
                             }
@@ -1076,7 +1088,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-16695-fig3-v3"
+                                "uri": "elife-16695-fig3-v3"
                             }, 
                             {
                                 "type": "image", 
@@ -1095,7 +1107,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-16695-fig4-v3", 
+                                "uri": "elife-16695-fig4-v3", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1114,7 +1126,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-16695-fig4-figsupp1-v3"
+                                        "uri": "elife-16695-fig4-figsupp1-v3"
                                     }
                                 ]
                             }
@@ -1168,7 +1180,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-16695-fig5-v3", 
+                                "uri": "elife-16695-fig5-v3", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1187,7 +1199,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-16695-fig5-figsupp1-v3"
+                                        "uri": "elife-16695-fig5-figsupp1-v3"
                                     }
                                 ]
                             }, 
@@ -1227,7 +1239,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://example.org/elife-16695-fig6-v3", 
+                                "uri": "elife-16695-fig6-v3", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1246,7 +1258,7 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://example.org/elife-16695-fig6-figsupp1-v3"
+                                        "uri": "elife-16695-fig6-figsupp1-v3"
                                     }
                                 ]
                             }

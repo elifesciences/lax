@@ -18,20 +18,19 @@
         "elocationId": "e20125", 
         "pdf": "elife-20125-v1.pdf", 
         "subjects": [
-            "genes-chromosomes", 
-            "genomics-evolutionary-biology"
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }, 
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "type": "paragraph", 
-                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <italic>de novo</italic> or rare transmitted mutations in <italic>SMAD6</italic>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <italic>SMAD6</italic> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <italic>BMP2</italic> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
-                }
-            ]
-        }
+        "impactStatement": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <italic>de novo</italic> or rare transmitted mutations in <italic>SMAD6</italic>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <italic>SMAD6</italic> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <italic>BMP2</italic> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
     }, 
     "article": {
         "status": "poa", 
@@ -47,20 +46,18 @@
         "elocationId": "e20125", 
         "pdf": "elife-20125-v1.pdf", 
         "subjects": [
-            "genes-chromosomes", 
-            "genomics-evolutionary-biology"
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }, 
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "type": "paragraph", 
-                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <italic>de novo</italic> or rare transmitted mutations in <italic>SMAD6</italic>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <italic>SMAD6</italic> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <italic>BMP2</italic> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
-                }
-            ]
-        }, 
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Timberlake et al", 
@@ -742,6 +739,7 @@
                 ], 
                 "competingInterests": "The authors declare that no competing interests exist."
             }
-        ]
+        ], 
+        "impactStatement": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <italic>de novo</italic> or rare transmitted mutations in <italic>SMAD6</italic>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <italic>SMAD6</italic> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <italic>BMP2</italic> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
     }
 }

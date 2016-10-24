@@ -18,21 +18,20 @@
         "elocationId": "e16695", 
         "pdf": "elife-16695-v1.pdf", 
         "subjects": [
-            "human-biology-medicine", 
-            "neuroscience"
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human", 
             "Mouse"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "type": "paragraph", 
-                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
-                }
-            ]
-        }
+        "impactStatement": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
     }, 
     "article": {
         "status": "poa", 
@@ -48,21 +47,19 @@
         "elocationId": "e16695", 
         "pdf": "elife-16695-v1.pdf", 
         "subjects": [
-            "human-biology-medicine", 
-            "neuroscience"
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human", 
             "Mouse"
         ], 
-        "abstract": {
-            "content": [
-                {
-                    "type": "paragraph", 
-                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
-                }
-            ]
-        }, 
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Hirano et al", 
@@ -386,6 +383,7 @@
                 ], 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }
-        ]
+        ], 
+        "impactStatement": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
     }
 }
