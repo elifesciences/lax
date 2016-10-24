@@ -1,5 +1,6 @@
 import copy
 from publisher import models, utils, fragment_logic as fragments
+from publisher.models import XML2JSON
 from publisher.utils import create_or_update
 import logging
 from django.db import transaction
@@ -137,7 +138,7 @@ def _ingest(data, force=False):
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
 
-        fragments.add(av, 'xml->json', data['article'], pos=0, update=force)
+        fragments.add(av, XML2JSON, data['article'], pos=0, update=force)
         fragments.merge_if_valid(av)
 
         # enforce business rules
@@ -216,25 +217,40 @@ def _publish(msid, version, force=False):
             if not force:
                 raise StateError("refusing to publish an already published article version")
 
-        # the json *will* have a pub date if it's a v1 ...
+        # NOTE: we don't use any other article fragments for determining the publication date
+        # except the xml->json fragment.
+        raw_data = fragments.get(av, XML2JSON)
+
+        # the json *will always* have a published date if v1 ...
         if version == 1:
-            raw_data = fragments.get(av, 'xml->json')
-            datetime_published = utils.todt(raw_data['published'])
+            # pull that published date from the stored (but unpublished) article-json
+            # and set the pub-date on the ArticleVersion object
+            datetime_published = utils.todt(raw_data.get('published'))
             if not datetime_published:
-                raise StateError("failed to pull pubdate from from ingested article json")
+                raise StateError("found 'published' value in article-json, but it's either null or unparsable as a datetime")
 
         else:
             # but *not* if it's > v1. in this case, we generate one.
             if av.published() and force:
                 # this article version is already published and a force publish request has been sent
-                # what is the expected action? a new pubdate of `now`?
-                # because the pub date isn't passed in the article json, we can't set an arbitrary one
-                pass
-            datetime_published = utils.utcnow()
+                # if a 'versionDate' value is present in the article-json, use that.
+                # as of 2016-10-21 version history isn't captured in the xml, it won't be parsed by the bot-lax-adaptor and
+                # won't find it's way here
+                if 'versionDate' in raw_data:
+                    datetime_published = utils.todt(raw_data['versionDate'])
+                    if not datetime_published:
+                        raise StateError("found 'versionDate' value in article-json, but it's either null or unparseable as a datetime")
+            else:
+                # this article version hasn't been published yet. use a value of RIGHT NOW as the published date.
+                datetime_published = utils.utcnow()
 
         av.datetime_published = datetime_published
         av.save()
         return av
+
+    except models.ArticleFragment.DoesNotExist:
+        raise StateError("could not find ingested article-json!")
+
     except models.ArticleVersion.DoesNotExist:
         # attempted to publish an article that doesn't exist ...
         raise StateError("refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))

@@ -200,6 +200,9 @@ class ArticleVersion(models.Model):
     def __repr__(self):
         return u'<ArticleVersion %s>' % self
 
+# the bulk of the article data, derived from the xml via the bot-lax adaptor
+XML2JSON = 'xml->json'
+
 class ArticleFragment(models.Model):
     article = models.ForeignKey(Article, help_text="all fragments belong to an article, only some fragments belong to an article version")
     version = models.PositiveSmallIntegerField(null=True, help_text="if null, fragment applies only to a specific version of article")
