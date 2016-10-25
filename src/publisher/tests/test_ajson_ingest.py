@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
-#from unittest import skip
+from unittest import skip
 from django.core.management import call_command
 
 class Ingest(BaseCase):
