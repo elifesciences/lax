@@ -1,5 +1,5 @@
 import copy
-from publisher import models, utils, fragment_logic as fragments
+from publisher import models, utils, fragment_logic as fragments, logic
 from publisher.models import XML2JSON
 from publisher.utils import create_or_update
 import logging
@@ -29,9 +29,6 @@ def remove(keys):
 # receives a list of article-json
 #
 
-JOURNAL = {
-    'name': [p('title')],
-}
 ARTICLE = {
     'manuscript_id': [p('id'), int],
     'volume': [p('volume')],
@@ -42,7 +39,7 @@ ARTICLE = {
 ARTICLE_VERSION = {
     'title': [p('title')],
     'version': [p('version')],
-    'status': [models.POA],
+    'status': [p('status')],
     # only v1 article-json has a published date. v2 article-json does not
     'datetime_published': [p('published', None), utils.todt],
 }
@@ -109,12 +106,10 @@ def _ingest(data, force=False):
     log_context = {}
 
     try:
-        journal_struct = render.render_item(JOURNAL, data['journal'])
-        journal, created, updated = \
-            create_or_update(models.Journal, journal_struct, ['name'], create, update)
-
-        assert isinstance(journal, models.Journal)
-        log_context['journal'] = journal
+        # this *could* be scraped from the provided data, but we have no time to 
+        # normalize journal names so we sometimes get duplicate journals in the db. 
+        # safer to disable until needed.
+        journal = logic.journal()
 
         article_struct = render.render_item(ARTICLE, data['article'])
         article, created, updated = \

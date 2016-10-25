@@ -84,9 +84,9 @@ class TestLogic0(BaseCase):
         ]
         for msid, version in unpublish_these:
             self.unpublish(msid, version)
-            
+
         latest = logic.latest_article_versions(only_published=False) # THIS IS THE IMPORTANT BIT
-        
+
         self.assertEqual(latest.count(), self.total_art_count)
         self.assertEqual(latest.count(), models.Article.objects.count())
 
@@ -118,10 +118,10 @@ class TestLogic0(BaseCase):
         ]
         for msid, version in unpublish_these:
             self.unpublish(msid, version)
-            
+
         latest = logic.latest_article_versions(only_published=True) # THIS IS THE IMPORTANT BIT
 
-        self.assertEqual(latest.count(), self.total_art_count - 1) # we remove 9571 
+        self.assertEqual(latest.count(), self.total_art_count - 1) # we remove 9571
 
         expected_latest = [
             (353, 1),
@@ -140,11 +140,10 @@ class TestLogic0(BaseCase):
             try:
                 latest.get(article__manuscript_id=msid, version=v)
             except:
-                print 'failed on',msid,'version',v
+                print 'failed on', msid, 'version', v
                 raise
-        
-            
-            
+
+
 class TestLogic(BaseCase):
     def setUp(self):
         ingest_these = [
@@ -229,9 +228,9 @@ class TestLogic(BaseCase):
     def test_most_recent_article_version_unpublished(self):
         self.unpublish(self.msid2, version=3)
         self.assertEqual(models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).exclude(datetime_published=None).count(), 2)
-        av = logic.most_recent_article_version(self.msid2) #, only_published=False)
+        av = logic.most_recent_article_version(self.msid2)  # , only_published=False)
         self.assertEqual(av.version, 2)
-        
+
     def test_article_json(self):
         pass
 

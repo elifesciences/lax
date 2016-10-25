@@ -6,7 +6,7 @@ from dateutil import parser
 def parse(v):
     return parser.parse(v).date()
 
-class TestEJPIngest(base.BaseCase):
+class EJPIngest(base.BaseCase):
     def setUp(self):
         self.journal = logic.journal()
         self.partial_json_path = join(self.fixture_dir, 'partial-ejp-to-lax-report.json')
@@ -23,7 +23,10 @@ class TestEJPIngest(base.BaseCase):
     def test_ejp_ingest_with_nocreate(self):
         "ensure ejp ingest doesn't create articles if we've told it not to"
         data = {"manuscript_id": 123}
-        self.assertRaises(models.Article.DoesNotExist, ejp_ingestor.import_article, self.journal, data, create=False)
+        #self.assertRaises(models.Article.DoesNotExist, ejp_ingestor.import_article, self.journal, data, create=False)
+        self.assertEqual(models.Article.objects.count(), 0)
+        ejp_ingestor.import_article(self.journal, data, create=False)
+        self.assertEqual(models.Article.objects.count(), 0)
 
     def test_ejp_ingest_data(self):
         ejp_ingestor.import_article_list_from_json_path(self.journal, self.tiny_json_path)

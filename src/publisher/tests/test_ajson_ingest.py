@@ -93,6 +93,7 @@ class Ingest(BaseCase):
         _, _, av = ajson_ingestor.ingest(self.ajson, force=True)
         self.assertEqual(av.title, expected_title)
 
+    @skip("we don't scrape journal data any more. we may in future")
     def test_article_ingest_bad_journal(self):
         "bad journal data will fail an ingest of article json"
         self.assertEqual(models.Journal.objects.count(), 0)

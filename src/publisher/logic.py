@@ -3,7 +3,7 @@ from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils
 from django.utils import timezone
-from django.db.models import ObjectDoesNotExist, Max, F #, Q, When
+from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
 
 LOG = logging.getLogger(__name__)
 
@@ -11,8 +11,11 @@ def journal(name=None):
     journal = {'name': name}
     if not name:
         journal = settings.PRIMARY_JOURNAL
-    if 'inception' in journal and timezone.is_naive(journal['inception']):
-        journal['inception'] = timezone.make_aware(journal['inception'])
+    if 'inception' in journal:
+        inception = journal['inception']
+        if timezone.is_naive(journal['inception']):
+            inception = timezone.make_aware(journal['inception'])
+        journal['inception'] = inception
     obj, new = models.Journal.objects.get_or_create(**journal)
     if new:
         LOG.info("created new Journal %s", obj)
@@ -78,7 +81,7 @@ def latest_article_versions(only_published=True):
     # THIS FUNCTION ISN'T WORKING AS EXPECTED
     # the max() function is not taking into account excluded unpublished articles being
     #
-    
+
     q = models.ArticleVersion.objects \
         .select_related('article')
 
@@ -87,26 +90,26 @@ def latest_article_versions(only_published=True):
         q = q.exclude(datetime_published=None)
         #q = q.annotate(max_version=When(~Q(article__articleversion__datetime_published=None), then=F('article__articleversion__version')))
         pass
-        
+
     q = q.annotate(max_version=Max('article__articleversion__version'))
     q = q.filter(version=F('max_version')) \
         .order_by('-datetime_published')
-    
-    #print str(q.query)
-    
+
+    # print str(q.query)
+
     return q
 
 def most_recent_article_version(msid, only_published=True):
     "returns the most recent article version for the given article id"
     try:
         latest = models.ArticleVersion.objects \
-          .select_related('article') \
-          .filter(article__manuscript_id=msid) \
-          .order_by('-version')
+            .select_related('article') \
+            .filter(article__manuscript_id=msid) \
+            .order_by('-version')
 
         if only_published:
             latest = latest.exclude(datetime_published=None)
-        
+
         return latest[0]
     except IndexError:
         raise models.Article.DoesNotExist()
