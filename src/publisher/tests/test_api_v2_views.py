@@ -5,7 +5,7 @@ from publisher import ajson_ingestor, models, fragment_logic as fragments, utils
 from django.test import Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
-
+from unittest import skip
 SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
 class V2ContentTypes(base.BaseCase):
@@ -15,6 +15,36 @@ class V2ContentTypes(base.BaseCase):
         self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json') # poa
         self.ajson_fixture_v2 = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json') # vor
 
+    def test_accept_types(self):
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+        cases = [
+            "*/*",
+            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
+            "application/vnd.elife.article-poa+json; version=1",
+            "application/vnd.elife.article-vor+json; version=1" # 406 or 200?
+        ]
+        for header in cases:
+            resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
+            self.assertEqual(resp.status_code, 200)
+
+    @skip("expected behaviour needs clarifying")
+    def test_unacceptable_types(self):
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+        cases = [
+            # vor v1 (this is a poa article)
+            "application/vnd.elife.article-vor+json; version=1", # 406 or 200?
+            # vor v1 or v2
+            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+            # poa v2
+            "application/vnd.elife.article-poa+json; version=2",
+            # ??
+            "application/foo.bar.baz; version=1"
+        ]
+        for header in cases:
+            resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
+            print 'ctype',resp.content_type
+            self.assertEqual(resp.status_code, 406, "failed on case %r, got: %s" % (header, resp.status_code))
+            
     def test_response_types(self):
         # ingest the poa and vor versions
         for path in [self.ajson_fixture_v1, self.ajson_fixture_v2]:
@@ -204,7 +234,6 @@ class V2PostContent(base.BaseCase):
         # POST fragment into lax
         self.assertEqual(q.count(), 2) # 'xml->json', placeholder
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
-        print resp.content
         self.assertEqual(resp.status_code, 200)
 
         # fragment has been added
