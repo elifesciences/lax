@@ -82,21 +82,15 @@ def latest_article_versions(only_published=True):
     # the max() function is not taking into account excluded unpublished articles being
     #
 
-    q = models.ArticleVersion.objects \
-        .select_related('article')
-
     if only_published:
-        #q = q.exclude(article__articleversion__datetime_published=None)
-        q = q.exclude(datetime_published=None)
-        #q = q.annotate(max_version=When(~Q(article__articleversion__datetime_published=None), then=F('article__articleversion__version')))
-        pass
-
-    q = q.annotate(max_version=Max('article__articleversion__version'))
-    q = q.filter(version=F('max_version')) \
+        raise NotImplementedError("this function returns incorrect results when excluding unpublished content")
+    
+    q = models.ArticleVersion.objects \
+        .select_related('article') \
+        .annotate(max_version=Max('article__articleversion__version')) \
+        .filter(version=F('max_version')) \
         .order_by('-datetime_published')
-
     # print str(q.query)
-
     return q
 
 def most_recent_article_version(msid, only_published=True):
