@@ -2,7 +2,7 @@ import re
 from base import BaseCase
 from django.test import Client
 from django.core.urlresolvers import reverse
-from publisher import logic, models
+from publisher import logic, models, utils
 from datetime import datetime, timedelta
 from unittest import skip
 
@@ -15,7 +15,7 @@ class TestLatest(BaseCase):
         pass
 
     def test_only_most_recent_article_versions_returned(self):
-        an_hour_ago = datetime.now() - timedelta(hours=1)
+        an_hour_ago = utils.utcnow() - timedelta(hours=1)
         many_hours_ago = an_hour_ago - timedelta(hours=999)
         article_data_list = [
             {'title': 'foo',
@@ -66,9 +66,9 @@ class TestLatest(BaseCase):
         self.assertEqual(len(avlist), 3)
 
         expected_version_order = [
-            ('10.7554/eLife.00003', 2), # created less than an hour ago
-            ('10.7554/eLife.00001', 1), # created an hour ago
-            ('10.7554/eLife.00002', 3), # created many hours ago
+            ('10.7554/eLife.00003', 2), # published less than an hour ago
+            ('10.7554/eLife.00001', 1), # published an hour ago
+            ('10.7554/eLife.00002', 3), # published many hours ago
         ]
 
         for av, expected in zip(avlist, expected_version_order):

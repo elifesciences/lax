@@ -49,12 +49,14 @@ class TestLogic0(BaseCase):
         self.research_art_count = 6
 
     def test_latest_article_versions(self):
+        "ensure only the latest versions of the articles are returned"
         self.assertEqual(self.total_version_count, models.ArticleVersion.objects.count())
 
         latest = logic.latest_article_versions()
-        self.assertEqual(latest.count(), self.total_art_count)
-        self.assertEqual(latest.count(), models.Article.objects.count())
+        self.assertEqual(len(latest), self.total_art_count)
+        self.assertEqual(len(latest), models.Article.objects.count())
 
+        latest_idx = {obj.article.manuscript_id: obj for obj in latest}
         expected_latest = [
             (353, 1),
             (385, 1),
@@ -69,15 +71,89 @@ class TestLogic0(BaseCase):
         ]
         for msid, v in expected_latest:
             # throws a DoesNotExist if expected not in latest resultset
-            latest.get(article__manuscript_id=msid, version=v)
+            self.assertEqual(latest_idx[msid].version, v)
+
+    def test_latest_article_versions_only_published(self):
+        "ensure only the latest versions of the articles are returned when unpublished versions exist"
+        self.assertEqual(self.total_version_count, models.ArticleVersion.objects.count())
+
+        unpublish_these = [
+            (3401, 3),
+            (6250, 3),
+            (8025, 2),
+            (9571, 1)
+        ]
+        for msid, version in unpublish_these:
+            self.unpublish(msid, version)
+
+        latest = logic.latest_article_versions(only_published=False) # THIS IS THE IMPORTANT BIT
+
+        self.assertEqual(len(latest), self.total_art_count)
+        self.assertEqual(len(latest), models.Article.objects.count())
+
+        latest_idx = {obj.article.manuscript_id: obj for obj in latest}
+        expected_latest = [
+            (353, 1),
+            (385, 1),
+            (1328, 1),
+            (2619, 1),
+            (3401, 3),
+            (3665, 1),
+            (6250, 3),
+            (7301, 1),
+            (8025, 2),
+            (9571, 1)
+        ]
+        for msid, v in expected_latest:
+            # throws a DoesNotExist if expected not in latest resultset
+            self.assertEqual(latest_idx[msid].version, v)
+
+    def test_latest_article_versions_with_unpublished(self):
+        "ensure only the latest versions of the articles are returned when unpublished versions exist"
+        self.assertEqual(self.total_version_count, models.ArticleVersion.objects.count())
+
+        unpublish_these = [
+            (3401, 3),
+            (6250, 3),
+            (8025, 2),
+            (9571, 1)
+        ]
+        for msid, version in unpublish_these:
+            self.unpublish(msid, version)
+
+        latest = logic.latest_article_versions(only_published=True) # THIS IS THE IMPORTANT BIT
+        latest_idx = {obj.article.manuscript_id: obj for obj in latest}
+
+        self.assertEqual(len(latest), self.total_art_count - 1) # we remove 9571
+
+        expected_latest = [
+            (353, 1),
+            (385, 1),
+            (1328, 1),
+            (2619, 1),
+            (3401, 2), # from 3 to 2
+            (3665, 1),
+            (6250, 2), # from 3 to 2
+            (7301, 1),
+            (8025, 1), # from 2 to 1
+            #(9571, 1) # from 1 to None
+        ]
+        for msid, expected_version in expected_latest:
+            try:
+                av = latest_idx[msid]
+                self.assertEqual(av.version, expected_version)
+            except:
+                print 'failed on', msid, 'version', expected_version
+                raise
+
 
 class TestLogic(BaseCase):
     def setUp(self):
         ingest_these = [
-            "elife.01968.json",
-            "elife-16695-v1.json",
-            "elife-16695-v2.json",
-            "elife-16695-v3.json"
+            "elife-01968-v1.xml.json",
+            "elife-16695-v1.xml.json",
+            "elife-16695-v2.xml.json",
+            "elife-16695-v3.xml.json"
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
@@ -151,6 +227,12 @@ class TestLogic(BaseCase):
         "a DNE exception is raised for a missing article"
         fake_msid = 123
         self.assertRaises(models.Article.DoesNotExist, logic.most_recent_article_version, fake_msid)
+
+    def test_most_recent_article_version_unpublished(self):
+        self.unpublish(self.msid2, version=3)
+        self.assertEqual(models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).exclude(datetime_published=None).count(), 2)
+        av = logic.most_recent_article_version(self.msid2)  # , only_published=False)
+        self.assertEqual(av.version, 2)
 
     def test_article_json(self):
         pass

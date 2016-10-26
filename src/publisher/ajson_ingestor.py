@@ -1,15 +1,14 @@
 import copy
-from publisher import models, utils
-from publisher.utils import subdict
+from publisher import models, utils, fragment_logic as fragments, logic
+from publisher.models import XML2JSON
+from publisher.utils import create_or_update
 import logging
 from django.db import transaction
 from et3 import render
-from et3.extract import path as p, val
+from et3.extract import path as p
 from django.db import IntegrityError
 import json
 import boto3
-from django.dispatch import receiver
-from django.db.models.signals import pre_save
 from django.conf import settings
 from functools import partial
 
@@ -18,21 +17,11 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
-'''
-def remove(keys):
-    def fn(v):
-        return utils.exsubdict(v, keys)
-    return fn
-'''
-
 #
 # make the article-json lax compatible
 # receives a list of article-json
 #
 
-JOURNAL = {
-    'name': [p('title')],
-}
 ARTICLE = {
     'manuscript_id': [p('id'), int],
     'volume': [p('volume')],
@@ -43,11 +32,9 @@ ARTICLE = {
 ARTICLE_VERSION = {
     'title': [p('title')],
     'version': [p('version')],
-    'status': [models.POA],
+    'status': [p('status')],
     # only v1 article-json has a published date. v2 article-json does not
     'datetime_published': [p('published', None), utils.todt],
-    'article_json_v1_raw': [val],  # , remove('snippet')],
-    #'article_json_v1_snippet': [p('snippet')], # urgh, how to do this?
 }
 
 def atomic(fn):
@@ -100,30 +87,6 @@ def notify_event_bus(art):
 #
 #
 
-def create_or_update(Model, orig_data, key_list, create=True, update=True, commit=True, **overrides):
-    inst = None
-    created = updated = False
-    data = {}
-    data.update(orig_data)
-    data.update(overrides)
-    try:
-        # try and find an entry of Model using the key fields in the given data
-        inst = Model.objects.get(**subdict(data, key_list))
-        # object exists, otherwise DoesNotExist would have been raised
-        if update:
-            [setattr(inst, key, val) for key, val in data.items()]
-            updated = True
-    except Model.DoesNotExist:
-        if create:
-            inst = Model(**data)
-            created = True
-
-    if (updated or created) and commit:
-        inst.save()
-
-    # it is possible to neither create nor update.
-    # in this case if the model cannot be found then None is returned: (None, False, False)
-    return (inst, created, updated)
 
 def _ingest(data, force=False):
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
@@ -136,12 +99,10 @@ def _ingest(data, force=False):
     log_context = {}
 
     try:
-        journal_struct = render.render_item(JOURNAL, data['journal'])
-        journal, created, updated = \
-            create_or_update(models.Journal, journal_struct, ['name'], create, update)
-
-        assert isinstance(journal, models.Journal)
-        log_context['journal'] = journal
+        # this *could* be scraped from the provided data, but we have no time to
+        # normalize journal names so we sometimes get duplicate journals in the db.
+        # safer to disable until needed.
+        journal = logic.journal()
 
         article_struct = render.render_item(ARTICLE, data['article'])
         article, created, updated = \
@@ -164,6 +125,9 @@ def _ingest(data, force=False):
 
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
+
+        fragments.add(av, XML2JSON, data['article'], pos=0, update=force)
+        fragments.merge_if_valid(av)
 
         # enforce business rules
 
@@ -241,24 +205,40 @@ def _publish(msid, version, force=False):
             if not force:
                 raise StateError("refusing to publish an already published article version")
 
-        # the json *will* have a pub date if it's a v1 ...
+        # NOTE: we don't use any other article fragments for determining the publication date
+        # except the xml->json fragment.
+        raw_data = fragments.get(av, XML2JSON)
+
+        # the json *will always* have a published date if v1 ...
         if version == 1:
-            datetime_published = utils.todt(av.article_json_v1_raw.get('published'))
+            # pull that published date from the stored (but unpublished) article-json
+            # and set the pub-date on the ArticleVersion object
+            datetime_published = utils.todt(raw_data.get('published'))
             if not datetime_published:
-                raise StateError("failed to pull pubdate from from ingested article json")
+                raise StateError("found 'published' value in article-json, but it's either null or unparsable as a datetime")
 
         else:
             # but *not* if it's > v1. in this case, we generate one.
             if av.published() and force:
                 # this article version is already published and a force publish request has been sent
-                # what is the expected action? a new pubdate of `now`?
-                # because the pub date isn't passed in the article json, we can't set an arbitrary one
-                pass
-            datetime_published = utils.utcnow()
+                # if a 'versionDate' value is present in the article-json, use that.
+                # as of 2016-10-21 version history isn't captured in the xml, it won't be parsed by the bot-lax-adaptor and
+                # won't find it's way here
+                if 'versionDate' in raw_data:
+                    datetime_published = utils.todt(raw_data['versionDate'])
+                    if not datetime_published:
+                        raise StateError("found 'versionDate' value in article-json, but it's either null or unparseable as a datetime")
+            else:
+                # this article version hasn't been published yet. use a value of RIGHT NOW as the published date.
+                datetime_published = utils.utcnow()
 
         av.datetime_published = datetime_published
         av.save()
         return av
+
+    except models.ArticleFragment.DoesNotExist:
+        raise StateError("could not find ingested article-json!")
+
     except models.ArticleVersion.DoesNotExist:
         # attempted to publish an article that doesn't exist ...
         raise StateError("refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
@@ -276,15 +256,3 @@ def ingest_publish(data, force=False, dry_run=False):
     "convenience. publish an article if it were successfully ingested"
     j, a, av = _ingest(data, force=force)
     return j, a, _publish(a.manuscript_id, av.version, force=force)
-
-#
-# article json wrangling
-# https://docs.djangoproject.com/en/1.9/ref/signals/#pre-save
-#
-
-@receiver(pre_save, sender=models.ArticleVersion)
-def merge_validate_article_json(sender, instance, **kwargs):
-    # 1. merge disparate json snippets
-    # 2. validate
-    # 3. if valid, update json field, set valid=True
-    pass

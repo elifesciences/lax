@@ -1,16 +1,16 @@
 from StringIO import StringIO
 from os.path import join
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
-#from unittest import skip
+from unittest import skip
 from django.core.management import call_command
 
 class Ingest(BaseCase):
     def setUp(self):
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
 
         self.ajson_fixture2 = join(self.fixture_dir, 'ajson', 'elife.01968-invalid.json')
@@ -93,6 +93,7 @@ class Ingest(BaseCase):
         _, _, av = ajson_ingestor.ingest(self.ajson, force=True)
         self.assertEqual(av.title, expected_title)
 
+    @skip("we don't scrape journal data any more. we may in future")
     def test_article_ingest_bad_journal(self):
         "bad journal data will fail an ingest of article json"
         self.assertEqual(models.Journal.objects.count(), 0)
@@ -165,7 +166,7 @@ class Ingest(BaseCase):
 
 class Publish(BaseCase):
     def setUp(self):
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1
@@ -199,7 +200,7 @@ class Publish(BaseCase):
         self.assertEqual(expected_pubdate, utils.ymd(av.datetime_published))
 
     def test_article_publish_v2(self):
-        "an unpublished vs article can be successfully published"
+        "an unpublished v2 article can be successfully published"
         _, _, av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
@@ -212,12 +213,39 @@ class Publish(BaseCase):
 
         # modify to a v2 and publish
         self.ajson['article']['version'] = 2
-        del self.ajson['article']['published']
         _, _, av2 = ajson_ingestor.ingest_publish(self.ajson)
 
         av2 = self.freshen(av2)
+        self.assertEqual(models.ArticleVersion.objects.count(), 2)
         self.assertTrue(av2.published())
         self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av2.datetime_published))
+
+    def test_article_publish_v2_forced(self):
+        "an unpublished v2 article can be successfully published again, if forced"
+        # ingest and publish the v1
+        _, _, av = ajson_ingestor.ingest(self.ajson)
+        ajson_ingestor.publish(self.msid, self.version)
+        av = self.freshen(av)
+        self.assertTrue(av.published())
+
+        # modify and ingest+publish a v2
+        self.ajson['article']['version'] = 2
+        _, _, av2 = ajson_ingestor.ingest_publish(self.ajson)
+        av2 = self.freshen(av2)
+        self.assertTrue(av2.published())
+
+        # the v2 should have been published normally.
+        self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av2.datetime_published))
+
+        # give the article-json a 'versionDate' - this won't ordinarily happen until further down the line
+        # but lets embed this logic while it's still fresh in everybody's heads.
+
+        # modify the versionDate of the v2 and ingest+publish again
+        yesterday = datetime.now() - timedelta(days=1)
+        self.ajson['article']['versionDate'] = yesterday
+        _, _, av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
+        av2v2 = self.freshen(av2v2)
+        self.assertEqual(utils.ymd(yesterday), utils.ymd(av2v2.datetime_published))
 
     def test_article_publish_fails_if_already_published(self):
         "a published article cannot be published again"
@@ -281,7 +309,7 @@ class Publish(BaseCase):
 
 class IngestPublish(BaseCase):
     def setUp(self):
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture1, 'r'))
 
     def tearDown(self):
@@ -341,7 +369,7 @@ class CLI(BaseCase):
         self.nom = 'ingest'
         self.msid = "01968"
         self.version = "1"
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
 
     def tearDown(self):
         pass

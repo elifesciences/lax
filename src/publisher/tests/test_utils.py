@@ -168,3 +168,12 @@ class TestUtils(base.BaseCase):
         ]
         for string, expected in cases:
             self.assertEqual(utils.todt(string), expected)
+
+    def test_deepmerge(self):
+        cases = [
+            ({'a': 'a'}, {'a': 'b'}, {'a': 'b'}),
+            ({'a': 'a'}, {'b': 'b', 'c': 'c'}, {'a': 'a', 'b': 'b', 'c': 'c'})
+        ]
+        for row in cases:
+            dict_list, expected = row[:-1], row[-1]
+            self.assertEqual(utils.merge_all(dict_list), expected)

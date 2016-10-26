@@ -19,7 +19,7 @@ def import_article(journal, article_data, create=True, update=False):
         # doesn't exist, we can happily create a new article
         if not create:
             LOG.error("article with manuscript id %r does *not* exist and I've been told *not* to create new articles.", msid)
-            raise
+            # raise
 
     if not art and create:
         try:
@@ -31,11 +31,12 @@ def import_article(journal, article_data, create=True, update=False):
             LOG.exception("unhandled error attempting to import article from EJP: %s", article_data)
             raise
 
-    # update article
-    for key, val in article_data.items():
-        setattr(art, key, val)
+    # update article, but only if we have an article
+    if update and art:
+        for key, val in article_data.items():
+            setattr(art, key, val)
         art.save()
-    LOG.info("updated Article %r", art)
+        LOG.info("updated Article %r", art)
     return art
 
 #

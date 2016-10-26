@@ -1,0 +1,4206 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "status": "vor", 
+        "id": "01968", 
+        "version": 1, 
+        "type": "insight", 
+        "doi": "10.7554/eLife.01968", 
+        "authorLine": "John S Mattick", 
+        "title": "Probing the phenomics of noncoding RNA", 
+        "titlePrefix": "Genetics", 
+        "published": "2013-12-31T00:00:00", 
+        "versionDate": "2013-12-31T00:00:00", 
+        "volume": 2, 
+        "elocationId": "e01968", 
+        "pdf": "elife-01968-v1.pdf", 
+        "subjects": [
+            {
+                "id": "developmental-biology-stem-cells", 
+                "name": "Developmental Biology and Stem Cells"
+            }, 
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }
+        ], 
+        "researchOrganisms": [
+            "Mouse"
+        ], 
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Mattick", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "John S Mattick", 
+                    "index": "Mattick, John S"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "St Vincent\u2019s Clinical School and the School of Biotechnology and Biomolecular Sciences", 
+                            "Garvan Institute of Medical Research"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Sydney", 
+                                "Australia"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Sydney"
+                                ], 
+                                "country": "Australia"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "j.mattick@garvan.org.au"
+                ], 
+                "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
+            }
+        ], 
+        "impactStatement": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
+    }, 
+    "article": {
+        "status": "vor", 
+        "id": "01968", 
+        "version": 1, 
+        "type": "insight", 
+        "doi": "10.7554/eLife.01968", 
+        "authorLine": "John S Mattick", 
+        "title": "Probing the phenomics of noncoding RNA", 
+        "titlePrefix": "Genetics", 
+        "published": "2013-12-31T00:00:00", 
+        "versionDate": "2013-12-31T00:00:00", 
+        "volume": 2, 
+        "elocationId": "e01968", 
+        "pdf": "elife-01968-v1.pdf", 
+        "subjects": [
+            {
+                "id": "developmental-biology-stem-cells", 
+                "name": "Developmental Biology and Stem Cells"
+            }, 
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }
+        ], 
+        "researchOrganisms": [
+            "Mouse"
+        ], 
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Mattick", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "John S Mattick", 
+                    "index": "Mattick, John S"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "St Vincent\u2019s Clinical School and the School of Biotechnology and Biomolecular Sciences", 
+                            "Garvan Institute of Medical Research"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Sydney", 
+                                "Australia"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Sydney"
+                                ], 
+                                "country": "Australia"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "j.mattick@garvan.org.au"
+                ], 
+                "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
+            }
+        ], 
+        "keywords": [
+            "long noncoding RNA", 
+            "knockout mouse model", 
+            "lethality", 
+            "developmental defect", 
+            "brain development", 
+            "genetic"
+        ], 
+        "relatedArticles": [
+            "01749"
+        ], 
+        "body": [
+            {
+                "type": "paragraph", 
+                "text": "<bold>Related research article</bold> Sauvageau M, Goff LA, Lodato S, Bonev B, Groff AF, Gerhardinger C, Sanchez-Gomez DB, Hacisuleyman E, Li E, Spence M, Liapis SC, Mallard W, Morse M, Swerdel MR, D\u2019Ecclessis MF, Moore JC, Lai V, Gong G, Yancopoulos GD, Frendewey D, Kellis M, Hart RP, Valenzuela DM, Arlotta P, Rinn JL. 2013. Multiple knockout mouse models reveal lincRNAs are required for life and brain development. <italic>eLife</italic> <bold>2</bold>:01749. doi: <ext-link ext-link-type=\"uri\" xlink:href=\"http://dx.doi.org/10.7554/eLife.01749\">10.7554/eLife.01749</ext-link>"
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "<bold>Image</bold> A wild-type (left) and mutant (right) mouse seven days after birth; this particular mutation (Mdgt<sup>\u2212/\u2212</sup>) is partially lethal with growth defects in survivors"
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "<inline-graphic xlink:href=\"elife-01968-inf1-v1\"/>"
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "It has been known since the late 1970s that many DNA sequences are transcribed but not translated. Moreover, most protein-coding genes in mammals are fragmented, with only a small fraction of the primary RNA transcript being spliced together to form messenger RNA. For many years it was assumed that untranslated RNA molecules served no useful purpose but, starting in the mid-1990s, a small body of researchers, including the present author (<xref ref-type=\"bibr\" rid=\"bib14\">Mattick, 1994</xref>), have been arguing that these RNAs transmit regulatory information, possibly associated with the emergence of multicellular organisms. This is supported by the observation that the proportion of noncoding genomic sequences broadly correlates with developmental complexity, reaching over 98% in mammals (<xref ref-type=\"bibr\" rid=\"bib12\">Liu et al., 2013</xref>), although others have argued that the increase in genome size is due to the inefficiency of selection against non-functional elements as body size goes up and population size goes down (<xref ref-type=\"bibr\" rid=\"bib13\">Lynch, 2007</xref>)."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "High-throughput sequencing analyses over the past decade have shown that the majority of mammalian genome is transcribed, often from both strands, and have revealed an extraordinarily complex landscape of overlapping and interlacing sense and antisense, alternatively spliced, protein-coding and non-protein-coding RNAs, the latter generally referred to as long noncoding RNAs (lncRNAs). Moreover, the repertoire of these lncRNAs is different in different cells (<xref ref-type=\"bibr\" rid=\"bib3\">Carninci et al., 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib4\">Cheng et al., 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib2\">Birney et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib17\">Mercer et al., 2012</xref>). While some transcripts may encode previously unrecognized small proteins, the function or otherwise of the vast majority of lncRNAs remains to be determined."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Because many lncRNAs appear to be expressed at low levels, and many have lower sequence conservation than messenger RNAs, one interpretation has been that these RNAs represent transcriptional noise from complex genomes cluttered with evolutionary debris. However, assessments of sequence conservation rely on assumptions about the non-functionality and representative distribution of reference sequences, which are not verified and cannot be directly tested (<xref ref-type=\"bibr\" rid=\"bib20\">Pheasant and Mattick, 2007</xref>). Nonetheless, many lncRNAs show patches of relative sequence conservation (<xref ref-type=\"bibr\" rid=\"bib5\">Derrien et al., 2012</xref>), and even more do so at the secondary structural level (<xref ref-type=\"bibr\" rid=\"bib23\">Smith et al., 2013</xref>)."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Expression analyses have shown that lncRNAs originate from all over the genome and are expressed at different times during differentiation and development (<xref ref-type=\"bibr\" rid=\"bib6\">Dinger et al., 2008</xref>), often exhibiting highly cell-specific patterns (<xref ref-type=\"bibr\" rid=\"bib16\">Mercer et al., 2008</xref>). The precision of lncRNA expression is consistent with evidence suggesting that many are associated with chromatin-modifying complexes, thereby acting as regulators of the epigenetic control of differentiation and development (<xref ref-type=\"bibr\" rid=\"bib18\">Mercer and Mattick, 2013</xref>)."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "A number of lncRNAs have also been linked to complex diseases like cancer (<xref ref-type=\"bibr\" rid=\"bib15\">Mattick, 2009</xref>) and other complex physiological processes (see, for example, <xref ref-type=\"bibr\" rid=\"bib21\">Rapicavoli et al., 2013</xref>). However, these results seem at odds with the fact that few lncRNAs have been identified in traditional genetic screens. The reason for this is likely a combination of phenotypic, technical and expectational bias: mutations in protein-coding regions of the genome generally have phenotypes that are more severe, and are easier to identify, than those in non-coding regions. By contrast, in this context, it is worth noting that \u223c95% of all variants associated with complex (as opposed to monogenic) diseases in humans map to non-coding, presumably regulatory, sequences (<xref ref-type=\"bibr\" rid=\"bib7\">Freedman et al., 2011</xref>)."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Still, the gold standard in this field is the targeted in vivo silencing or deletion of specific genes, and since few of these have been conducted to date, some researchers have remained sceptical about the biological significance of lncRNAs. Now, in <italic>eLife</italic>, John Rinn, Paolo Arlotta and co-workers at Harvard, MIT, the Broad Institute, Rutgers and Regeneron Pharmaceuticals\u2014including Martin Sauvageau, Loyal Goff and Simona Lodata as joint first authors\u2014report the results of the first large-scale attack on the question (<xref ref-type=\"bibr\" rid=\"bib22\">Sauvageau et al., 2013</xref>). They selected 18 lncRNA genes in the mouse genome that had been stringently assessed for lack of protein-coding capacity and that did not overlap with known protein-coding genes or other known gene annotations\u2014hence the name long intergenic noncoding RNAs (lincRNAs)\u2014and generated knockout mouse mutants by replacing the lncRNA gene with a <italic>lacZ</italic> reporter cassette."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Sauvageau, Goff, Lodata et al. report discernable developmental problems in five of the 18 mutants, with three exhibiting embryonic or post-natal lethality, two of which exhibited growth defects in the survivors. The phenotypes of two of the mutants were analyzed in detail: one of the mutants that died showed defects in multiple organs (including the lung, heart and gastrointestinal tract), and one of the mutants that survived with growth defects also showed defects in the cerebral cortex. Other mutants that did not exhibit overt developmental defects showed brain-specific expression patterns and may be associated with cognitive defects that are not grossly apparent at the developmental level."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Another group (<xref ref-type=\"bibr\" rid=\"bib8\">Grote et al., 2013</xref>) recently generated a different knockout allele for one of the 18 lincRNAs interrogated by Sauvageau et al., and also reported an embryonic lethal phenotype, albeit with some differences. Importantly, the approach used by Grote et al. also provided strong evidence that the mutant defects were not caused by an indirect effect on an overlapping genomic element, such as an enhancer for a nearby gene."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "The work of Sauvageau, Goff, Lodata et al. is a mini tour-de-force that shows that there are lncRNAs with important developmental functions in vivo, and it joins a small number of studies from other pioneering groups that show the same thing (<xref ref-type=\"bibr\" rid=\"bib10\">Lewejohann et al., 2004</xref>; <xref ref-type=\"bibr\" rid=\"bib9\">Gutschner et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib11\">Li et al., 2013</xref>), although not all of the targeted lncRNAs showed a phenotype. Similarly, other knockout experiments of widely expressed lncRNAs, as well as some of the most highly conserved elements in the mammalian genome, also did not yield discernable phenotypes (<xref ref-type=\"bibr\" rid=\"bib1\">Ahituv et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib19\">Nakagawa et al., 2011</xref>), which should sound a note of caution about the interpretation of negative results."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Indeed, since most lncRNAs are expressed in the brain (<xref ref-type=\"bibr\" rid=\"bib16\">Mercer et al., 2008</xref>) and many are primate-specific (<xref ref-type=\"bibr\" rid=\"bib5\">Derrien et al., 2012</xref>), it may be that much of the lncRNA-mediated genetic information in humans (and in mammals generally) is devoted to brain function, and therefore not easily detectable in developmental, as opposed to cognitive, screens. A good example is a noncoding RNA called BC1 that is widely expressed in the brain: knockout of BC1 causes no visible anatomical consequences, but it leads to a behavioural phenotype that would be lethal in the wild (<xref ref-type=\"bibr\" rid=\"bib10\">Lewejohann et al., 2004</xref>)."
+            }, 
+            {
+                "type": "paragraph", 
+                "text": "Although evidence for the hypothesis that lncRNAs have a role in mammalian development, brain function and physiology is growing, there is also a clear need for more sophisticated and comprehensive phenotypic screens, especially with respect to cognitive function."
+            }
+        ], 
+        "references": [
+            {
+                "article_title": "Deletion of ultraconserved elements yields viable mice", 
+                "doi": "10.1371/journal.pbio.0050234", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Ahituv", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhu", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Visel", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Holt", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Afzal", 
+                        "given-names": "V", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pennacchio", 
+                        "given-names": "LA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rubin", 
+                        "given-names": "EM", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Deletion of ultraconserved elements yields viable mice", 
+                "publication-type": "journal", 
+                "volume": "5", 
+                "source": "PLOS Biology", 
+                "reference_id": "10.1371/journal.pbio.0050234", 
+                "fpage": "e234", 
+                "year": "2007", 
+                "position": 1, 
+                "ref": "AhituvNZhuYViselAHoltAAfzalVPennacchioLARubinEM2007Deletion of ultraconserved elements yields viable micePLOS Biology5e23410.1371/journal.pbio.0050234", 
+                "id": "bib1"
+            }, 
+            {
+                "article_title": "Identification and analysis of functional elements in 1% of the human genome by the ENCODE pilot project", 
+                "lpage": "816", 
+                "doi": "10.1038/nature05874", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Birney", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stamatoyannopoulos", 
+                        "given-names": "JA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dutta", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Guigo", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gingeras", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Margulies", 
+                        "given-names": "EH", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Birney", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stamatoyannopoulos", 
+                        "given-names": "JA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dutta", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Guig\u00f3", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gingeras", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Margulies", 
+                        "given-names": "EH", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Weng", 
+                        "given-names": "Z", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Snyder", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dermitzakis", 
+                        "given-names": "ET", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Thurman", 
+                        "given-names": "RE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kuehn", 
+                        "given-names": "MS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Taylor", 
+                        "given-names": "CM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Neph", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Koch", 
+                        "given-names": "CM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Asthana", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Malhotra", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Adzhubei", 
+                        "given-names": "I", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Greenbaum", 
+                        "given-names": "JA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Andrews", 
+                        "given-names": "RM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Flicek", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Boyle", 
+                        "given-names": "PJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Cao", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Carter", 
+                        "given-names": "NP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Clelland", 
+                        "given-names": "GK", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Davis", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Day", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dhami", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dillon", 
+                        "given-names": "SC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dorschner", 
+                        "given-names": "MO", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fiegler", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Giresi", 
+                        "given-names": "PG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Goldy", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hawrylycz", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Haydock", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Humbert", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "James", 
+                        "given-names": "KD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Johnson", 
+                        "given-names": "BE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Johnson", 
+                        "given-names": "EM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Frum", 
+                        "given-names": "TT", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rosenzweig", 
+                        "given-names": "ER", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Karnani", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lee", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lefebvre", 
+                        "given-names": "GC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Navas", 
+                        "given-names": "PA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Neri", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Parker", 
+                        "given-names": "SC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sabo", 
+                        "given-names": "PJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sandstrom", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shafer", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Vetrie", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Weaver", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wilcox", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yu", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Collins", 
+                        "given-names": "FS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dekker", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lieb", 
+                        "given-names": "JD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tullius", 
+                        "given-names": "TD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Crawford", 
+                        "given-names": "GE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sunyaev", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Noble", 
+                        "given-names": "WS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dunham", 
+                        "given-names": "I", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Denoeud", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Reymond", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kapranov", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rozowsky", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zheng", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Castelo", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Frankish", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Harrow", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ghosh", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sandelin", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hofacker", 
+                        "given-names": "IL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Baertsch", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Keefe", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dike", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Cheng", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hirsch", 
+                        "given-names": "HA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sekinger", 
+                        "given-names": "EA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lagarde", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Abril", 
+                        "given-names": "JF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shahab", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Flamm", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fried", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hackerm\u00fcller", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hertel", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lindemeyer", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Missal", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tanzer", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Washietl", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Korbel", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Emanuelsson", 
+                        "given-names": "O", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pedersen", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Holroyd", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Taylor", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Swarbreck", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Matthews", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dickson", 
+                        "given-names": "MC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Thomas", 
+                        "given-names": "DJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Weirauch", 
+                        "given-names": "MT", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gilbert", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Drenkow", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bell", 
+                        "given-names": "I", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhao", 
+                        "given-names": "X", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Srinivasan", 
+                        "given-names": "KG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sung", 
+                        "given-names": "WK", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ooi", 
+                        "given-names": "HS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Chiu", 
+                        "given-names": "KP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Foissac", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Alioto", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Brent", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pachter", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tress", 
+                        "given-names": "ML", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Valencia", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Choo", 
+                        "given-names": "SW", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Choo", 
+                        "given-names": "CY", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ucla", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Manzano", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wyss", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Cheung", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Clark", 
+                        "given-names": "TG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Brown", 
+                        "given-names": "JB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ganesh", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Patel", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tammana", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Chrast", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Henrichsen", 
+                        "given-names": "CN", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kai", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kawai", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nagalakshmi", 
+                        "given-names": "U", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wu", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lian", 
+                        "given-names": "Z", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lian", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Newburger", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhang", 
+                        "given-names": "X", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bickel", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Carninci", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hayashizaki", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Weissman", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hubbard", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Myers", 
+                        "given-names": "RM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rogers", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stadler", 
+                        "given-names": "PF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lowe", 
+                        "given-names": "TM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wei", 
+                        "given-names": "CL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ruan", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Struhl", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gerstein", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Antonarakis", 
+                        "given-names": "SE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fu", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Green", 
+                        "given-names": "ED", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kara\u00f6z", 
+                        "given-names": "U", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Siepel", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Taylor", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liefer", 
+                        "given-names": "LA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wetterstrand", 
+                        "given-names": "KA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Good", 
+                        "given-names": "PJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Feingold", 
+                        "given-names": "EA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Guyer", 
+                        "given-names": "MS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Cooper", 
+                        "given-names": "GM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Asimenos", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dewey", 
+                        "given-names": "CN", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hou", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nikolaev", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Montoya-Burgos", 
+                        "given-names": "JI", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "L\u00f6ytynoja", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Whelan", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pardi", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Massingham", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Huang", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhang", 
+                        "given-names": "NR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Holmes", 
+                        "given-names": "I", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mullikin", 
+                        "given-names": "JC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ureta-Vidal", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Paten", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Seringhaus", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Church", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rosenbloom", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kent", 
+                        "given-names": "WJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stone", 
+                        "given-names": "EA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Batzoglou", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Goldman", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hardison", 
+                        "given-names": "RC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Haussler", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Miller", 
+                        "given-names": "W", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sidow", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Trinklein", 
+                        "given-names": "ND", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhang", 
+                        "given-names": "ZD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Barrera", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stuart", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "King", 
+                        "given-names": "DC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ameur", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Enroth", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bieda", 
+                        "given-names": "MC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kim", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bhinge", 
+                        "given-names": "AA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Jiang", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liu", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yao", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Vega", 
+                        "given-names": "VB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lee", 
+                        "given-names": "CW", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ng", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shahab", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yang", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Moqtaderi", 
+                        "given-names": "Z", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhu", 
+                        "given-names": "Z", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Xu", 
+                        "given-names": "X", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Squazzo", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Oberley", 
+                        "given-names": "MJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Inman", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Singer", 
+                        "given-names": "MA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Richmond", 
+                        "given-names": "TA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Munn", 
+                        "given-names": "KJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rada-Iglesias", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wallerman", 
+                        "given-names": "O", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Komorowski", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fowler", 
+                        "given-names": "JC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Couttet", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bruce", 
+                        "given-names": "AW", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dovey", 
+                        "given-names": "OM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ellis", 
+                        "given-names": "PD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Langford", 
+                        "given-names": "CF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nix", 
+                        "given-names": "DA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Euskirchen", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hartman", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Urban", 
+                        "given-names": "AE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kraus", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Van Calcar", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Heintzman", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kim", 
+                        "given-names": "TH", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wang", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Qu", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hon", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Luna", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Glass", 
+                        "given-names": "CK", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rosenfeld", 
+                        "given-names": "MG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Aldred", 
+                        "given-names": "SF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Cooper", 
+                        "given-names": "SJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Halees", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lin", 
+                        "given-names": "JM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shulha", 
+                        "given-names": "HP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhang", 
+                        "given-names": "X", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Xu", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Haidar", 
+                        "given-names": "JN", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yu", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ruan", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Iyer", 
+                        "given-names": "VR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Green", 
+                        "given-names": "RD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wadelius", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Farnham", 
+                        "given-names": "PJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ren", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Harte", 
+                        "given-names": "RA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hinrichs", 
+                        "given-names": "AS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Trumbower", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Clawson", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hillman-Jackson", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zweig", 
+                        "given-names": "AS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Smith", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Thakkapallayil", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Barber", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kuhn", 
+                        "given-names": "RM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Karolchik", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Armengol", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bird", 
+                        "given-names": "CP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "de Bakker", 
+                        "given-names": "PI", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kern", 
+                        "given-names": "AD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lopez-Bigas", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Martin", 
+                        "given-names": "JD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stranger", 
+                        "given-names": "BE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Woodroffe", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Davydov", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dimas", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Eyras", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hallgr\u00edmsd\u00f3ttir", 
+                        "given-names": "IB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Huppert", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zody", 
+                        "given-names": "MC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Abecasis", 
+                        "given-names": "GR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Estivill", 
+                        "given-names": "X", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bouffard", 
+                        "given-names": "GG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Guan", 
+                        "given-names": "X", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hansen", 
+                        "given-names": "NF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Idol", 
+                        "given-names": "JR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Maduro", 
+                        "given-names": "VV", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Maskeri", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "McDowell", 
+                        "given-names": "JC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Park", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Thomas", 
+                        "given-names": "PJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Young", 
+                        "given-names": "AC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Blakesley", 
+                        "given-names": "RW", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Muzny", 
+                        "given-names": "DM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sodergren", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wheeler", 
+                        "given-names": "DA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Worley", 
+                        "given-names": "KC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Jiang", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Weinstock", 
+                        "given-names": "GM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gibbs", 
+                        "given-names": "RA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Graves", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fulton", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mardis", 
+                        "given-names": "ER", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wilson", 
+                        "given-names": "RK", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Clamp", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Cuff", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gnerre", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Jaffe", 
+                        "given-names": "DB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Chang", 
+                        "given-names": "JL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lindblad-Toh", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lander", 
+                        "given-names": "ES", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Koriabine", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nefedov", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Osoegawa", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yoshinaga", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhu", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "de Jong", 
+                        "given-names": "PJ", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Identification and analysis of functional elements in 1% of the human genome by the ENCODE pilot project", 
+                "publication-type": "journal", 
+                "volume": "447", 
+                "source": "Nature", 
+                "reference_id": "10.1038/nature05874", 
+                "fpage": "799", 
+                "year": "2007", 
+                "position": 2, 
+                "ref": "BirneyEStamatoyannopoulosJADuttaAGuigoRGingerasTRMarguliesEHBirneyEStamatoyannopoulosJADuttaAGuig\u00f3RGingerasTRMarguliesEHWengZSnyderMDermitzakisETThurmanREKuehnMSTaylorCMNephSKochCMAsthanaSMalhotraAAdzhubeiIGreenbaumJAAndrewsRMFlicekPBoylePJCaoHCarterNPClellandGKDavisSDayNDhamiPDillonSCDorschnerMOFieglerHGiresiPGGoldyJHawrylyczMHaydockAHumbertRJamesKDJohnsonBEJohnsonEMFrumTTRosenzweigERKarnaniNLeeKLefebvreGCNavasPANeriFParkerSCSaboPJSandstromRShaferAVetrieDWeaverMWilcoxSYuMCollinsFSDekkerJLiebJDTulliusTDCrawfordGESunyaevSNobleWSDunhamIDenoeudFReymondAKapranovPRozowskyJZhengDCasteloRFrankishAHarrowJGhoshSSandelinAHofackerILBaertschRKeefeDDikeSChengJHirschHASekingerEALagardeJAbrilJFShahabAFlammCFriedCHackerm\u00fcllerJHertelJLindemeyerMMissalKTanzerAWashietlSKorbelJEmanuelssonOPedersenJSHolroydNTaylorRSwarbreckDMatthewsNDicksonMCThomasDJWeirauchMTGilbertJDrenkowJBellIZhaoXSrinivasanKGSungWKOoiHSChiuKPFoissacSAliotoTBrentMPachterLTressMLValenciaAChooSWChooCYUclaCManzanoCWyssCCheungEClarkTGBrownJBGaneshMPatelSTammanaHChrastJHenrichsenCNKaiCKawaiJNagalakshmiUWuJLianZLianJNewburgerPZhangXBickelPMattickJSCarninciPHayashizakiYWeissmanSHubbardTMyersRMRogersJStadlerPFLoweTMWeiCLRuanYStruhlKGersteinMAntonarakisSEFuYGreenEDKara\u00f6zUSiepelATaylorJLieferLAWetterstrandKAGoodPJFeingoldEAGuyerMSCooperGMAsimenosGDeweyCNHouMNikolaevSMontoya-BurgosJIL\u00f6ytynojaAWhelanSPardiFMassinghamTHuangHZhangNRHolmesIMullikinJCUreta-VidalAPatenBSeringhausMChurchDRosenbloomKKentWJStoneEABatzoglouSGoldmanNHardisonRCHausslerDMillerWSidowATrinkleinNDZhangZDBarreraLStuartRKingDCAmeurAEnrothSBiedaMCKimJBhingeAAJiangNLiuJYaoFVegaVBLeeCWNgPShahabAYangAMoqtaderiZZhuZXuXSquazzoSOberleyMJInmanDSingerMARichmondTAMunnKJRada-IglesiasAWallermanOKomorowskiJFowlerJCCouttetPBruceAWDoveyOMEllisPDLangfordCFNixDAEuskirchenGHartmanSUrbanAEKrausPVan CalcarSHeintzmanNKimTHWangKQuCHonGLunaRGlassCKRosenfeldMGAldredSFCooperSJHaleesALinJMShulhaHPZhangXXuMHaidarJNYuYRuanYIyerVRGreenRDWadeliusCFarnhamPJRenBHarteRAHinrichsASTrumbowerHClawsonHHillman-JacksonJZweigASSmithKThakkapallayilABarberGKuhnRMKarolchikDArmengolLBirdCPde BakkerPIKernADLopez-BigasNMartinJDStrangerBEWoodroffeADavydovEDimasAEyrasEHallgr\u00edmsd\u00f3ttirIBHuppertJZodyMCAbecasisGREstivillXBouffardGGGuanXHansenNFIdolJRMaduroVVMaskeriBMcDowellJCParkMThomasPJYoungACBlakesleyRWMuznyDMSodergrenEWheelerDAWorleyKCJiangHWeinstockGMGibbsRAGravesTFultonRMardisERWilsonRKClampMCuffJGnerreSJaffeDBChangJLLindblad-TohKLanderESKoriabineMNefedovMOsoegawaKYoshinagaYZhuBde JongPJ2007Identification and analysis of functional elements in 1% of the human genome by the ENCODE pilot projectNature44779981610.1038/nature05874", 
+                "id": "bib2"
+            }, 
+            {
+                "article_title": "The transcriptional landscape of the mammalian genome", 
+                "lpage": "1563", 
+                "doi": "10.1126/science.1112014", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Carninci", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kasukawa", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Katayama", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gough", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Frith", 
+                        "given-names": "MC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Maeda", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Carninci", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kasukawa", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Katayama", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gough", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Frith", 
+                        "given-names": "MC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Maeda", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Oyama", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ravasi", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lenhard", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wells", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kodzius", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shimokawa", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bajic", 
+                        "given-names": "VB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Brenner", 
+                        "given-names": "SE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Batalov", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Forrest", 
+                        "given-names": "AR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zavolan", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Davis", 
+                        "given-names": "MJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wilming", 
+                        "given-names": "LG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Aidinis", 
+                        "given-names": "V", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Allen", 
+                        "given-names": "JE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ambesi-Impiombato", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Apweiler", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Aturaliya", 
+                        "given-names": "RN", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bailey", 
+                        "given-names": "TL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bansal", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Baxter", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Beisel", 
+                        "given-names": "KW", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bersano", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bono", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Chalk", 
+                        "given-names": "AM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Chiu", 
+                        "given-names": "KP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Choudhary", 
+                        "given-names": "V", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Christoffels", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Clutterbuck", 
+                        "given-names": "DR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Crowe", 
+                        "given-names": "ML", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dalla", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dalrymple", 
+                        "given-names": "BP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "de Bono", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Della Gatta", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "di Bernardo", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Down", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Engstrom", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fagiolini", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Faulkner", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fletcher", 
+                        "given-names": "CF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fukushima", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Furuno", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Futaki", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gariboldi", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Georgii-Hemming", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gingeras", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gojobori", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Green", 
+                        "given-names": "RE", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gustincich", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Harbers", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hayashi", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hensch", 
+                        "given-names": "TK", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hirokawa", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hill", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Huminiecki", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Iacono", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ikeo", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Iwama", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ishikawa", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Jakt", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kanapin", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Katoh", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kawasawa", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kelso", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kitamura", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kitano", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kollias", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Krishnan", 
+                        "given-names": "SP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kruger", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kummerfeld", 
+                        "given-names": "SK", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kurochkin", 
+                        "given-names": "IV", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lareau", 
+                        "given-names": "LF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lazarevic", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lipovich", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liu", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liuni", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "McWilliam", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Madan Babu", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Madera", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Marchionni", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Matsuda", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Matsuzawa", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Miki", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mignone", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Miyake", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Morris", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mottagui-Tabar", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mulder", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nakano", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nakauchi", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ng", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nilsson", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nishiguchi", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nishikawa", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nori", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ohara", 
+                        "given-names": "O", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Okazaki", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Orlando", 
+                        "given-names": "V", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pang", 
+                        "given-names": "KC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pavan", 
+                        "given-names": "WJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pavesi", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pesole", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Petrovsky", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Piazza", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Reed", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Reid", 
+                        "given-names": "JF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ring", 
+                        "given-names": "BZ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ringwald", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rost", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ruan", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Salzberg", 
+                        "given-names": "SL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sandelin", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Schneider", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sch\u00f6nbach", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sekiguchi", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Semple", 
+                        "given-names": "CA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Seno", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sessa", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sheng", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shibata", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shimada", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shimada", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Silva", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sinclair", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sperling", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stupka", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sugiura", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sultana", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Takenaka", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Taki", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tammoja", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tan", 
+                        "given-names": "SL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tang", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Taylor", 
+                        "given-names": "MS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tegner", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Teichmann", 
+                        "given-names": "SA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ueda", 
+                        "given-names": "HR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "van Nimwegen", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Verardo", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wei", 
+                        "given-names": "CL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yagi", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yamanishi", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zabarovsky", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhu", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zimmer", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hide", 
+                        "given-names": "W", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bult", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Grimmond", 
+                        "given-names": "SM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Teasdale", 
+                        "given-names": "RD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liu", 
+                        "given-names": "ET", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Brusic", 
+                        "given-names": "V", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Quackenbush", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wahlestedt", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hume", 
+                        "given-names": "DA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kai", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sasaki", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tomaru", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fukuda", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kanamori-Katayama", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Suzuki", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Aoki", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Arakawa", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Iida", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Imamura", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Itoh", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kato", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kawaji", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kawagashira", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kawashima", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kojima", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kondo", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Konno", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nakano", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ninomiya", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Nishio", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Okada", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Plessy", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shibata", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shiraki", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Suzuki", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tagami", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Waki", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Watahiki", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Okamura-Oho", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Suzuki", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kawai", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hayashizaki", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "group-type": "author", 
+                        "collab": "FANTOM Consortium"
+                    }, 
+                    {
+                        "group-type": "author", 
+                        "collab": "Genome Network Project Core Group"
+                    }
+                ], 
+                "full_article_title": "The transcriptional landscape of the mammalian genome", 
+                "publication-type": "journal", 
+                "volume": "309", 
+                "source": "Science", 
+                "reference_id": "10.1126/science.1112014", 
+                "fpage": "1559", 
+                "year": "2005", 
+                "position": 3, 
+                "collab": "FANTOM Consortium", 
+                "ref": "CarninciPKasukawaTKatayamaSGoughJFrithMCMaedaNCarninciPKasukawaTKatayamaSGoughJFrithMCMaedaNOyamaRRavasiTLenhardBWellsCKodziusRShimokawaKBajicVBBrennerSEBatalovSForrestARZavolanMDavisMJWilmingLGAidinisVAllenJEAmbesi-ImpiombatoAApweilerRAturaliyaRNBaileyTLBansalMBaxterLBeiselKWBersanoTBonoHChalkAMChiuKPChoudharyVChristoffelsAClutterbuckDRCroweMLDallaEDalrympleBPde BonoBDella GattaGdi BernardoDDownTEngstromPFagioliniMFaulknerGFletcherCFFukushimaTFurunoMFutakiSGariboldiMGeorgii-HemmingPGingerasTRGojoboriTGreenREGustincichSHarbersMHayashiYHenschTKHirokawaNHillDHuminieckiLIaconoMIkeoKIwamaAIshikawaTJaktMKanapinAKatohMKawasawaYKelsoJKitamuraHKitanoHKolliasGKrishnanSPKrugerAKummerfeldSKKurochkinIVLareauLFLazarevicDLipovichLLiuJLiuniSMcWilliamSMadan BabuMMaderaMMarchionniLMatsudaHMatsuzawaSMikiHMignoneFMiyakeSMorrisKMottagui-TabarSMulderNNakanoNNakauchiHNgPNilssonRNishiguchiSNishikawaSNoriFOharaOOkazakiYOrlandoVPangKCPavanWJPavesiGPesoleGPetrovskyNPiazzaSReedJReidJFRingBZRingwaldMRostBRuanYSalzbergSLSandelinASchneiderCSch\u00f6nbachCSekiguchiKSempleCASenoSSessaLShengYShibataYShimadaHShimadaKSilvaDSinclairBSperlingSStupkaESugiuraKSultanaRTakenakaYTakiKTammojaKTanSLTangSTaylorMSTegnerJTeichmannSAUedaHRvan NimwegenEVerardoRWeiCLYagiKYamanishiHZabarovskyEZhuSZimmerAHideWBultCGrimmondSMTeasdaleRDLiuETBrusicVQuackenbushJWahlestedtCMattickJSHumeDAKaiCSasakiDTomaruYFukudaSKanamori-KatayamaMSuzukiMAokiJArakawaTIidaJImamuraKItohMKatoTKawajiHKawagashiraNKawashimaTKojimaMKondoSKonnoHNakanoKNinomiyaNNishioTOkadaMPlessyCShibataKShirakiTSuzukiSTagamiMWakiKWatahikiAOkamura-OhoYSuzukiHKawaiJHayashizakiYFANTOM ConsortiumGenome Network Project Core Group2005The transcriptional landscape of the mammalian genomeScience3091559156310.1126/science.1112014", 
+                "id": "bib3"
+            }, 
+            {
+                "article_title": "Transcriptional maps of 10 human chromosomes at 5-nucleotide resolution", 
+                "lpage": "1154", 
+                "doi": "10.1126/science.1108625", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Cheng", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kapranov", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Drenkow", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dike", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Brubaker", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Patel", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Long", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stern", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tammana", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Helt", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sementchenko", 
+                        "given-names": "V", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Piccolboni", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bekiranov", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bailey", 
+                        "given-names": "DK", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ganesh", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ghosh", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bell", 
+                        "given-names": "I", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gerhard", 
+                        "given-names": "DS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gingeras", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Transcriptional maps of 10 human chromosomes at 5-nucleotide resolution", 
+                "publication-type": "journal", 
+                "volume": "308", 
+                "source": "Science", 
+                "reference_id": "10.1126/science.1108625", 
+                "fpage": "1149", 
+                "year": "2005", 
+                "position": 4, 
+                "ref": "ChengJKapranovPDrenkowJDikeSBrubakerSPatelSLongJSternDTammanaHHeltGSementchenkoVPiccolboniABekiranovSBaileyDKGaneshMGhoshSBellIGerhardDSGingerasTR2005Transcriptional maps of 10 human chromosomes at 5-nucleotide resolutionScience3081149115410.1126/science.1108625", 
+                "id": "bib4"
+            }, 
+            {
+                "article_title": "The GENCODE v7 catalog of human long noncoding RNAs: analysis of their gene structure, evolution, and expression", 
+                "lpage": "1789", 
+                "doi": "10.1101/gr.132159.111", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Derrien", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Johnson", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bussotti", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tanzer", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Djebali", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tilgner", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Guernec", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Martin", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Merkel", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Knowles", 
+                        "given-names": "DG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lagarde", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Veeravalli", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ruan", 
+                        "given-names": "X", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ruan", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lassmann", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Carninci", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Brown", 
+                        "given-names": "JB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lipovich", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gonzalez", 
+                        "given-names": "JM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Thomas", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Davis", 
+                        "given-names": "CA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shiekhattar", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gingeras", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hubbard", 
+                        "given-names": "TJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Notredame", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Harrow", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Guig\u00f3", 
+                        "given-names": "R", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "The GENCODE v7 catalog of human long noncoding RNAs: analysis of their gene structure, evolution, and expression", 
+                "publication-type": "journal", 
+                "volume": "22", 
+                "source": "Genome Research", 
+                "reference_id": "10.1101/gr.132159.111", 
+                "fpage": "1775", 
+                "year": "2012", 
+                "position": 5, 
+                "ref": "DerrienTJohnsonRBussottiGTanzerADjebaliSTilgnerHGuernecGMartinDMerkelAKnowlesDGLagardeJVeeravalliLRuanXRuanYLassmannTCarninciPBrownJBLipovichLGonzalezJMThomasMDavisCAShiekhattarRGingerasTRHubbardTJNotredameCHarrowJGuig\u00f3R2012The GENCODE v7 catalog of human long noncoding RNAs: analysis of their gene structure, evolution, and expressionGenome Research221775178910.1101/gr.132159.111", 
+                "id": "bib5"
+            }, 
+            {
+                "article_title": "Long noncoding RNAs in mouse embryonic stem cell pluripotency and differentiation", 
+                "lpage": "1445", 
+                "doi": "10.1101/gr.078378.108", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Dinger", 
+                        "given-names": "ME", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Amaral", 
+                        "given-names": "PP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mercer", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pang", 
+                        "given-names": "KC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bruce", 
+                        "given-names": "SJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gardiner", 
+                        "given-names": "BB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Askarian-Amiri", 
+                        "given-names": "ME", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Ru", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sold\u00e0", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Simons", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sunkin", 
+                        "given-names": "SM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Crowe", 
+                        "given-names": "ML", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Grimmond", 
+                        "given-names": "SM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Perkins", 
+                        "given-names": "AC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Long noncoding RNAs in mouse embryonic stem cell pluripotency and differentiation", 
+                "publication-type": "journal", 
+                "volume": "18", 
+                "source": "Genome Research", 
+                "reference_id": "10.1101/gr.078378.108", 
+                "fpage": "1433", 
+                "year": "2008", 
+                "position": 6, 
+                "ref": "DingerMEAmaralPPMercerTRPangKCBruceSJGardinerBBAskarian-AmiriMERuKSold\u00e0GSimonsCSunkinSMCroweMLGrimmondSMPerkinsACMattickJS2008Long noncoding RNAs in mouse embryonic stem cell pluripotency and differentiationGenome Research181433144510.1101/gr.078378.108", 
+                "id": "bib6"
+            }, 
+            {
+                "article_title": "Principles for the post-GWAS functional characterization of cancer risk loci", 
+                "lpage": "518", 
+                "doi": "10.1038/ng.840", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Freedman", 
+                        "given-names": "ML", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Monteiro", 
+                        "given-names": "AN", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gayther", 
+                        "given-names": "SA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Coetzee", 
+                        "given-names": "GA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Risch", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Plass", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Casey", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "De Biasi", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Carlson", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Duggan", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "James", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liu", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tichelaar", 
+                        "given-names": "JW", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Vikis", 
+                        "given-names": "HG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "You", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mills", 
+                        "given-names": "IG", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Principles for the post-GWAS functional characterization of cancer risk loci", 
+                "publication-type": "journal", 
+                "volume": "43", 
+                "source": "Nature Genetics", 
+                "reference_id": "10.1038/ng.840", 
+                "fpage": "513", 
+                "year": "2011", 
+                "position": 7, 
+                "ref": "FreedmanMLMonteiroANGaytherSACoetzeeGARischAPlassCCaseyGDe BiasiMCarlsonCDugganDJamesMLiuPTichelaarJWVikisHGYouMMillsIG2011Principles for the post-GWAS functional characterization of cancer risk lociNature Genetics4351351810.1038/ng.840", 
+                "id": "bib7"
+            }, 
+            {
+                "article_title": "The tissue-specific lncRNA Fendrr is an essential regulator of heart and body wall development in the mouse", 
+                "lpage": "214", 
+                "doi": "10.1016/j.devcel.2012.12.012", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Grote", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wittler", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hendrix", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Koch", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wahrisch", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Beisaw", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Macura", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Blass", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kellis", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Werber", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Herrmann", 
+                        "given-names": "BG", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "The tissue-specific lncRNA Fendrr is an essential regulator of heart and body wall development in the mouse", 
+                "publication-type": "journal", 
+                "volume": "24", 
+                "source": "Developmental Cell", 
+                "reference_id": "10.1016/j.devcel.2012.12.012", 
+                "fpage": "206", 
+                "year": "2013", 
+                "position": 8, 
+                "ref": "GrotePWittlerLHendrixDKochFWahrischSBeisawAMacuraKBlassGKellisMWerberMHerrmannBG2013The tissue-specific lncRNA Fendrr is an essential regulator of heart and body wall development in the mouseDevelopmental Cell2420621410.1016/j.devcel.2012.12.012", 
+                "id": "bib8"
+            }, 
+            {
+                "article_title": "The noncoding RNA MALAT1 is a critical regulator of the metastasis phenotype of lung cancer cells", 
+                "lpage": "1189", 
+                "doi": "10.1158/0008-5472.CAN-12-2850", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Gutschner", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hammerle", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Eissmann", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hsu", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kim", 
+                        "given-names": "Y", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hung", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Revenko", 
+                        "given-names": "A", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Arun", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stentrup", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gross", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Z\u00f6rnig", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "MacLeod", 
+                        "given-names": "AR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Spector", 
+                        "given-names": "DL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Diederichs", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "The noncoding RNA MALAT1 is a critical regulator of the metastasis phenotype of lung cancer cells", 
+                "publication-type": "journal", 
+                "volume": "73", 
+                "source": "Cancer Research", 
+                "reference_id": "10.1158/0008-5472.CAN-12-2850", 
+                "fpage": "1180", 
+                "year": "2013", 
+                "position": 9, 
+                "ref": "GutschnerTHammerleMEissmannMHsuJKimYHungGRevenkoAArunGStentrupMGrossMZ\u00f6rnigMMacLeodARSpectorDLDiederichsS2013The noncoding RNA MALAT1 is a critical regulator of the metastasis phenotype of lung cancer cellsCancer Research731180118910.1158/0008-5472.CAN-12-2850", 
+                "id": "bib9"
+            }, 
+            {
+                "article_title": "Role of a neuronal small non-messenger RNA: behavioural alterations in BC1 RNA-deleted mice", 
+                "lpage": "289", 
+                "doi": "10.1016/j.bbr.2004.02.015", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Lewejohann", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Skryabin", 
+                        "given-names": "BV", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sachser", 
+                        "given-names": "N", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Prehn", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Heiduschka", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Thanos", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Jordan", 
+                        "given-names": "U", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dell\u2019Omo", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Vyssotski", 
+                        "given-names": "AL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Pleskacheva", 
+                        "given-names": "MG", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lipp", 
+                        "given-names": "HP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tiedge", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Brosius", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Prior", 
+                        "given-names": "H", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Role of a neuronal small non-messenger RNA: behavioural alterations in BC1 RNA-deleted mice", 
+                "publication-type": "journal", 
+                "volume": "154", 
+                "source": "Behavioural Brain Research", 
+                "reference_id": "10.1016/j.bbr.2004.02.015", 
+                "fpage": "273", 
+                "year": "2004", 
+                "position": 10, 
+                "ref": "LewejohannLSkryabinBVSachserNPrehnCHeiduschkaPThanosSJordanUDell\u2019OmoGVyssotskiALPleskachevaMGLippHPTiedgeHBrosiusJPriorH2004Role of a neuronal small non-messenger RNA: behavioural alterations in BC1 RNA-deleted miceBehavioural Brain Research15427328910.1016/j.bbr.2004.02.015", 
+                "id": "bib10"
+            }, 
+            {
+                "article_title": "Targeted disruption of Hotair leads to homeotic transformation and gene derepression", 
+                "lpage": "12", 
+                "doi": "10.1016/j.celrep.2013.09.003", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Li", 
+                        "given-names": "L", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liu", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Wapinski", 
+                        "given-names": "OL", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Tsai", 
+                        "given-names": "MC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Qu", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhang", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Carlson", 
+                        "given-names": "JC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lin", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Fang", 
+                        "given-names": "F", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gupta", 
+                        "given-names": "RA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Helms", 
+                        "given-names": "JA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Chang", 
+                        "given-names": "HY", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Targeted disruption of Hotair leads to homeotic transformation and gene derepression", 
+                "publication-type": "journal", 
+                "volume": "5", 
+                "source": "Cell Reports", 
+                "reference_id": "10.1016/j.celrep.2013.09.003", 
+                "fpage": "3", 
+                "year": "2013", 
+                "position": 11, 
+                "ref": "LiLLiuBWapinskiOLTsaiMCQuKZhangJCarlsonJCLinMFangFGuptaRAHelmsJAChangHY2013Targeted disruption of Hotair leads to homeotic transformation and gene derepressionCell Reports531210.1016/j.celrep.2013.09.003", 
+                "id": "bib11"
+            }, 
+            {
+                "article_title": "A meta-analysis of the genomic and transcriptomic composition of complex life", 
+                "lpage": "2072", 
+                "doi": "10.4161/cc.25134", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Liu", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Taft", 
+                        "given-names": "RJ", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "A meta-analysis of the genomic and transcriptomic composition of complex life", 
+                "publication-type": "journal", 
+                "volume": "12", 
+                "source": "Cell Cycle", 
+                "reference_id": "10.4161/cc.25134", 
+                "fpage": "2061", 
+                "year": "2013", 
+                "position": 12, 
+                "ref": "LiuGMattickJSTaftRJ2013A meta-analysis of the genomic and transcriptomic composition of complex lifeCell Cycle122061207210.4161/cc.25134", 
+                "id": "bib12"
+            }, 
+            {
+                "publisher_loc": "Sunderland, MA", 
+                "article_doi": "10.7554/eLife.01968", 
+                "publisher_name": "Sinauer Associates", 
+                "year": "2007", 
+                "publication-type": "book", 
+                "source": "The origins of genome architecture", 
+                "authors": [
+                    {
+                        "surname": "Lynch", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }
+                ], 
+                "position": 13, 
+                "ref": "LynchM2007The origins of genome architectureSunderland, MASinauer Associates", 
+                "id": "bib13"
+            }, 
+            {
+                "article_title": "Introns: evolution and function", 
+                "lpage": "831", 
+                "doi": "10.1016/0959-437X(94)90066-3", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Introns: evolution and function", 
+                "publication-type": "journal", 
+                "volume": "4", 
+                "source": "Current Opinion in Genetics & Development", 
+                "reference_id": "10.1016/0959-437X(94)90066-3", 
+                "fpage": "823", 
+                "year": "1994", 
+                "position": 14, 
+                "ref": "MattickJS1994Introns: evolution and functionCurrent Opinion in Genetics & Development482383110.1016/0959-437X(94)90066-3", 
+                "id": "bib14"
+            }, 
+            {
+                "article_title": "The genetic signatures of noncoding RNAs", 
+                "doi": "10.1371/journal.pgen.1000459", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "The genetic signatures of noncoding RNAs", 
+                "publication-type": "journal", 
+                "volume": "5", 
+                "source": "PLOS Genetics", 
+                "reference_id": "10.1371/journal.pgen.1000459", 
+                "fpage": "e1000459", 
+                "year": "2009", 
+                "position": 15, 
+                "ref": "MattickJS2009The genetic signatures of noncoding RNAsPLOS Genetics5e100045910.1371/journal.pgen.1000459", 
+                "id": "bib15"
+            }, 
+            {
+                "article_title": "Specific expression of long noncoding RNAs in the mouse brain", 
+                "lpage": "721", 
+                "doi": "10.1073/pnas.0706729105", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Mercer", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dinger", 
+                        "given-names": "ME", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sunkin", 
+                        "given-names": "SM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mehler", 
+                        "given-names": "MF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Specific expression of long noncoding RNAs in the mouse brain", 
+                "publication-type": "journal", 
+                "volume": "105", 
+                "source": "Proceedings of the National Academy of Sciences of the United States of America", 
+                "reference_id": "10.1073/pnas.0706729105", 
+                "fpage": "716", 
+                "year": "2008", 
+                "position": 16, 
+                "ref": "MercerTRDingerMESunkinSMMehlerMFMattickJS2008Specific expression of long noncoding RNAs in the mouse brainProceedings of the National Academy of Sciences of the United States of America10571672110.1073/pnas.0706729105", 
+                "id": "bib16"
+            }, 
+            {
+                "article_title": "Targeted RNA sequencing reveals the deep complexity of the human transcriptome", 
+                "lpage": "104", 
+                "doi": "10.1038/nbt.2024", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Mercer", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gerhardt", 
+                        "given-names": "DJ", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Dinger", 
+                        "given-names": "ME", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Crawford", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Trapnell", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Jeddeloh", 
+                        "given-names": "JA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rinn", 
+                        "given-names": "JL", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Targeted RNA sequencing reveals the deep complexity of the human transcriptome", 
+                "publication-type": "journal", 
+                "volume": "30", 
+                "source": "Nature Biotechnology", 
+                "reference_id": "10.1038/nbt.2024", 
+                "fpage": "99", 
+                "year": "2012", 
+                "position": 17, 
+                "ref": "MercerTRGerhardtDJDingerMECrawfordJTrapnellCJeddelohJAMattickJSRinnJL2012Targeted RNA sequencing reveals the deep complexity of the human transcriptomeNature Biotechnology309910410.1038/nbt.2024", 
+                "id": "bib17"
+            }, 
+            {
+                "article_title": "Structure and function of long noncoding RNAs in epigenetic regulation", 
+                "lpage": "307", 
+                "doi": "10.1038/nsmb.2480", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Mercer", 
+                        "given-names": "TR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Structure and function of long noncoding RNAs in epigenetic regulation", 
+                "publication-type": "journal", 
+                "volume": "20", 
+                "source": "Nature Structural and Molecular Biology", 
+                "reference_id": "10.1038/nsmb.2480", 
+                "fpage": "300", 
+                "year": "2013", 
+                "position": 18, 
+                "ref": "MercerTRMattickJS2013Structure and function of long noncoding RNAs in epigenetic regulationNature Structural and Molecular Biology2030030710.1038/nsmb.2480", 
+                "id": "bib18"
+            }, 
+            {
+                "article_title": "Paraspeckles are subpopulation-specific nuclear bodies that are not essential in mice", 
+                "lpage": "39", 
+                "doi": "10.1083/jcb.201011110", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Nakagawa", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Naganuma", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Shioi", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hirose", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Paraspeckles are subpopulation-specific nuclear bodies that are not essential in mice", 
+                "publication-type": "journal", 
+                "volume": "193", 
+                "source": "Journal of Cell Biology", 
+                "reference_id": "10.1083/jcb.201011110", 
+                "fpage": "31", 
+                "year": "2011", 
+                "position": 19, 
+                "ref": "NakagawaSNaganumaTShioiGHiroseT2011Paraspeckles are subpopulation-specific nuclear bodies that are not essential in miceJournal of Cell Biology193313910.1083/jcb.201011110", 
+                "id": "bib19"
+            }, 
+            {
+                "article_title": "Raising the estimate of functional human sequences", 
+                "lpage": "1253", 
+                "doi": "10.1101/gr.6406307", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Pheasant", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Raising the estimate of functional human sequences", 
+                "publication-type": "journal", 
+                "volume": "17", 
+                "source": "Genome Research", 
+                "reference_id": "10.1101/gr.6406307", 
+                "fpage": "1245", 
+                "year": "2007", 
+                "position": 20, 
+                "ref": "PheasantMMattickJS2007Raising the estimate of functional human sequencesGenome Research171245125310.1101/gr.6406307", 
+                "id": "bib20"
+            }, 
+            {
+                "article_title": "A mammalian pseudogene lncRNA at the interface of inflammation and anti-inflammatory therapeutics", 
+                "doi": "10.7554/eLife.00762", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Rapicavoli", 
+                        "given-names": "NA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Qu", 
+                        "given-names": "K", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Zhang", 
+                        "given-names": "J", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mikhail", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Laberge", 
+                        "given-names": "RM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Chang", 
+                        "given-names": "HY", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "A mammalian pseudogene lncRNA at the interface of inflammation and anti-inflammatory therapeutics", 
+                "publication-type": "journal", 
+                "volume": "2", 
+                "source": "eLife", 
+                "reference_id": "10.7554/eLife.00762", 
+                "fpage": "e00762", 
+                "year": "2013", 
+                "position": 21, 
+                "ref": "RapicavoliNAQuKZhangJMikhailMLabergeRMChangHY2013A mammalian pseudogene lncRNA at the interface of inflammation and anti-inflammatory therapeuticseLife2e0076210.7554/eLife.00762", 
+                "id": "bib21"
+            }, 
+            {
+                "article_title": "Multiple knockout mouse models reveal lincRNAs are required for life and brain development", 
+                "doi": "10.7554/eLife.01749", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Sauvageau", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Goff", 
+                        "given-names": "LA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lodato", 
+                        "given-names": "S", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Bonev", 
+                        "given-names": "B", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Groff", 
+                        "given-names": "AF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gerhardinger", 
+                        "given-names": "C", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Sanchez-Gomez", 
+                        "given-names": "DB", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hacisuleyman", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Li", 
+                        "given-names": "E", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Spence", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Liapis", 
+                        "given-names": "SC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mallard", 
+                        "given-names": "W", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Morse", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Swerdel", 
+                        "given-names": "MR", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "D'Ecclessis", 
+                        "given-names": "MF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Moore", 
+                        "given-names": "JC", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Lai", 
+                        "given-names": "V", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gong", 
+                        "given-names": "G", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Yancopoulos", 
+                        "given-names": "GD", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Frendewey", 
+                        "given-names": "D", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Kellis", 
+                        "given-names": "M", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Hart", 
+                        "given-names": "RP", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Valenzuela", 
+                        "given-names": "DM", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Arlotta", 
+                        "given-names": "P", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Rinn", 
+                        "given-names": "JL", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Multiple knockout mouse models reveal lincRNAs are required for life and brain development", 
+                "publication-type": "journal", 
+                "volume": "2", 
+                "source": "eLife", 
+                "reference_id": "10.7554/eLife.01749", 
+                "fpage": "01749", 
+                "year": "2013", 
+                "position": 22, 
+                "ref": "SauvageauMGoffLALodatoSBonevBGroffAFGerhardingerCSanchez-GomezDBHacisuleymanELiESpenceMLiapisSCMallardWMorseMSwerdelMRD'EcclessisMFMooreJCLaiVGongGYancopoulosGDFrendeweyDKellisMHartRPValenzuelaDMArlottaPRinnJL2013Multiple knockout mouse models reveal lincRNAs are required for life and brain developmenteLife20174910.7554/eLife.01749", 
+                "id": "bib22"
+            }, 
+            {
+                "article_title": "Widespread purifying selection on RNA structure in mammals", 
+                "lpage": "8236", 
+                "doi": "10.1093/nar/gkt596", 
+                "article_doi": "10.7554/eLife.01968", 
+                "authors": [
+                    {
+                        "surname": "Smith", 
+                        "given-names": "MA", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Gesell", 
+                        "given-names": "T", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Stadler", 
+                        "given-names": "PF", 
+                        "group-type": "author"
+                    }, 
+                    {
+                        "surname": "Mattick", 
+                        "given-names": "JS", 
+                        "group-type": "author"
+                    }
+                ], 
+                "full_article_title": "Widespread purifying selection on RNA structure in mammals", 
+                "publication-type": "journal", 
+                "volume": "41", 
+                "source": "Nucleic Acids Research", 
+                "reference_id": "10.1093/nar/gkt596", 
+                "fpage": "8220", 
+                "year": "2013", 
+                "position": 23, 
+                "ref": "SmithMAGesellTStadlerPFMattickJS2013Widespread purifying selection on RNA structure in mammalsNucleic Acids Research418220823610.1093/nar/gkt596", 
+                "id": "bib23"
+            }
+        ], 
+        "impactStatement": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
+    }
+}

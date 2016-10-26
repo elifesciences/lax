@@ -3,7 +3,7 @@ from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils
 from django.utils import timezone
-from django.db.models import ObjectDoesNotExist, Max, F
+from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
 
 LOG = logging.getLogger(__name__)
 
@@ -11,14 +11,17 @@ def journal(name=None):
     journal = {'name': name}
     if not name:
         journal = settings.PRIMARY_JOURNAL
-    if 'inception' in journal and timezone.is_naive(journal['inception']):
-        journal['inception'] = timezone.make_aware(journal['inception'])
+    if 'inception' in journal:
+        inception = journal['inception']
+        if timezone.is_naive(journal['inception']):
+            inception = timezone.make_aware(journal['inception'])
+        journal['inception'] = inception
     obj, new = models.Journal.objects.get_or_create(**journal)
     if new:
         LOG.info("created new Journal %s", obj)
     return obj
 
-def article(doi, version=None, lazy=True):
+def article(doi, version=None):
     """returns the latest version of the article identified by the
     doi, or the specific version given.
     Raises DoesNotExist if article not found."""
@@ -67,29 +70,58 @@ def add_or_update_article(**article_data):
 #
 #
 
-def latest_article_versions(only_published=True):
-    "returns a most recent article versions of all articles"
+# TODO: rename `latest_article_version_list`
+def latest_article_versions(only_published=True, order_by='datetime_published DESC'):
+    "returns a list of the most recent article versions for all articles."
 
     # 'distinct on' not supported in sqlite3 :(
     # return models.ArticleVersion.objects.all().distinct('article__doi')
 
+    if only_published:
+        # this is roughly the logic I want:
+        sql = """SELECT pav1.*
+
+        FROM publisher_articleversion pav1,
+
+          (SELECT pav2.article_id,
+                  max(version) AS max_ver
+           FROM publisher_articleversion pav2
+           WHERE datetime_published IS NOT NULL
+           GROUP BY pav2.article_id) as pav2
+
+        WHERE
+           pav1.article_id = pav2.article_id AND pav1.version = pav2.max_ver
+
+        ORDER BY %s"""
+
+        # quotes parameters :(
+        #rq = models.ArticleVersion.objects.raw(sql, [order_by])
+        return list(models.ArticleVersion.objects.raw(sql % order_by))
+
+    #
+    # this query only works if we're not excluding unpublished articles.
+    # the max() function doesn't obey the filtering rules
+    #
+
     q = models.ArticleVersion.objects \
         .select_related('article') \
         .annotate(max_version=Max('article__articleversion__version')) \
-        .filter(version=F('max_version'))
-
-    if only_published:
-        q = q.exclude(datetime_published=None)
-
-    # order by when article version was published, newest first
-    q = q.order_by('-datetime_published')
-    return q
+        .filter(version=F('max_version')) \
+        .order_by('-datetime_published')
+    return list(q)
 
 def most_recent_article_version(msid, only_published=True):
     "returns the most recent article version for the given article id"
     try:
-        latest = latest_article_versions(only_published)
-        return latest.filter(article__manuscript_id=msid)[0]
+        latest = models.ArticleVersion.objects \
+            .select_related('article') \
+            .filter(article__manuscript_id=msid) \
+            .order_by('-version')
+
+        if only_published:
+            latest = latest.exclude(datetime_published=None)
+
+        return latest[0]
     except IndexError:
         raise models.Article.DoesNotExist()
 
@@ -158,11 +190,11 @@ def article_json(av):
     # this function is expected to:
     # merge any snippets of models.Article json over the top of the models.ArticleVersion raw json
     # save the result in the models.ArticleVersion actual json field (?)
-    return av.article_json_v1_raw or {"no": "json"}
+    return av.article_json_v1
 
 def article_snippet_json(av):
     "return the *valid* article snippet json for the given article version"
-    return ""
+    return av.article_json_v1_snippet
 
 #
 #

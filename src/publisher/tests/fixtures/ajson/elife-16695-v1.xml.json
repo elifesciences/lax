@@ -7,37 +7,56 @@
     "snippet": {
         "status": "poa", 
         "id": "16695", 
+        "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
+        "authorLine": "Arisa Hirano et al", 
         "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
         "published": "2016-08-16T00:00:00", 
+        "versionDate": "2016-08-16T00:00:00", 
         "volume": 5, 
         "elocationId": "e16695", 
         "pdf": "elife-16695-v1.pdf", 
         "subjects": [
-            "human-biology-medicine", 
-            "neuroscience"
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human", 
             "Mouse"
-        ]
+        ], 
+        "impactStatement": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
     }, 
     "article": {
         "status": "poa", 
         "id": "16695", 
+        "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
+        "authorLine": "Arisa Hirano et al", 
         "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
         "published": "2016-08-16T00:00:00", 
+        "versionDate": "2016-08-16T00:00:00", 
         "volume": 5, 
         "elocationId": "e16695", 
         "pdf": "elife-16695-v1.pdf", 
         "subjects": [
-            "human-biology-medicine", 
-            "neuroscience"
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }, 
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
         ], 
-        "research-organisms": [
+        "researchOrganisms": [
             "Human", 
             "Mouse"
         ], 
@@ -45,6 +64,326 @@
             "license": "CC-BY-4.0", 
             "holder": "Hirano et al", 
             "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
-        }
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Arisa Hirano", 
+                    "index": "Hirano, Arisa"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Guangsen Shi", 
+                    "index": "Shi, Guangsen"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Christopher R Jones", 
+                    "index": "Jones, Christopher R"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of Utah"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Salt Lake City", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Salt Lake City"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Anna Lipzen", 
+                    "index": "Lipzen, Anna"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Energy Joint Genome Institute", 
+                            "Lawrence Berkeley National Laboratory"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Walnut Creek", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Walnut Creek"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Len A Pennacchio", 
+                    "index": "Pennacchio, Len A"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "DOE Joint Genome Institute", 
+                            "Lawrence Berkeley National Laboratory"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Walnut Creek", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Walnut Creek"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ying Xu", 
+                    "index": "Xu, Ying"
+                }, 
+                "orcid": "0000-0002-6689-7768", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Center for System Biology", 
+                            "Soochow University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Suzhou", 
+                                "China"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Suzhou"
+                                ], 
+                                "country": "China"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "William C Hallows", 
+                    "index": "Hallows, William C"
+                }, 
+                "orcid": "0000-0001-8306-8438", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Thomas McMahon", 
+                    "index": "McMahon, Thomas"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Maya Yamazaki", 
+                    "index": "Yamazaki, Maya"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Louis J Pt\u00e1\u010dek", 
+                    "index": "Pt\u00e1\u010dek, Louis J"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "ljp@ucsf.edu"
+                ], 
+                "competingInterests": "Louis J Pt\u00e1\u010dek, Reviewing editor, eLife."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ying-Hui Fu", 
+                    "index": "Fu, Ying-Hui"
+                }, 
+                "orcid": "0000-0002-6628-0266", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Neurology", 
+                            "University of California, San Francisco"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "San Francisco", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "San Francisco"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "ying-hui.fu@ucsf.edu"
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }
+        ], 
+        "impactStatement": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
     }
 }

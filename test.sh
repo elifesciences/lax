@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
-source install.sh
-source .lint.sh
-source .test.sh
+. install.sh
+. download-api-raml.sh
+. .lint.sh
+. .test.sh

@@ -1,3 +1,6 @@
+from functools import reduce
+from jsonschema import validate as validator
+from jsonschema import ValidationError
 import copy, json
 import pytz
 from dateutil import parser
@@ -8,6 +11,12 @@ import logging
 from django.db.models.fields.related import ManyToManyField
 
 LOG = logging.getLogger(__name__)
+
+def ensure(assertion, msg, *args):
+    """intended as a convenient replacement for `assert` statements that
+    get compiled away with -O flags"""
+    if not assertion:
+        raise AssertionError(msg % args)
 
 def isint(v):
     try:
@@ -24,6 +33,12 @@ def doi2msid(doi):
 def msid2doi(msid):
     assert isint(msid), "given msid must be an integer: %r" % msid
     return '10.7554/eLife.%05d' % int(msid)
+
+def compfilter(fnlist):
+    "returns true if given val "
+    def fn(val):
+        return all([fn(val) for fn in fnlist])
+    return fn
 
 def nth(idx, x):
     # 'nth' implies a sequential collection
@@ -157,9 +172,80 @@ def updatedict(ddict, **kwargs):
 
 def json_dumps(obj):
     "drop-in for json.dumps that handles datetime objects."
-    def datetime_handler(obj):
+    def _handler(obj):
         if hasattr(obj, 'isoformat'):
             return obj.isoformat()
         else:
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
-    return json.dumps(obj, default=datetime_handler)
+    return json.dumps(obj, default=_handler)
+
+# http://stackoverflow.com/questions/29847098/the-best-way-to-merge-multi-nested-dictionaries-in-python-2-7
+def deepmerge(d1, d2):
+    d1 = copy.deepcopy(d1)
+    for k in d2:
+        if k in d1 and isinstance(d1[k], dict) and isinstance(d2[k], dict):
+            deepmerge(d1[k], d2[k])
+        else:
+            d1[k] = d2[k]
+    return d1
+
+def merge_all(dict_list):
+    ensure(all(map(lambda r: isinstance(r, dict), dict_list)), "not all given values are dictionaries!")
+    return reduce(deepmerge, dict_list)
+
+#
+#
+#
+
+def validate(struct, schema_path):
+    # if given a string, assume it's json and try to load it
+    # if given a data, assume it's serializable, dump it and load it
+    try:
+        struct = json.loads(json_dumps(struct))
+    except ValueError as err:
+        LOG.error("struct is not serializable: %s", err.message)
+        raise
+
+    try:
+        schema = json.load(open(schema_path, 'r'))
+        validator(struct, schema)
+        return struct
+
+    except ValueError as err:
+        # your json schema is broken
+        #raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
+        raise
+
+    except ValidationError as err:
+        # your json is incorrect
+        #LOG.error("struct failed to validate against schema: %s" % err.message)
+        raise
+
+#
+#
+#
+
+def create_or_update(Model, orig_data, key_list, create=True, update=True, commit=True, **overrides):
+    inst = None
+    created = updated = False
+    data = {}
+    data.update(orig_data)
+    data.update(overrides)
+    try:
+        # try and find an entry of Model using the key fields in the given data
+        inst = Model.objects.get(**subdict(data, key_list))
+        # object exists, otherwise DoesNotExist would have been raised
+        if update:
+            [setattr(inst, key, val) for key, val in data.items()]
+            updated = True
+    except Model.DoesNotExist:
+        if create:
+            inst = Model(**data)
+            created = True
+
+    if (updated or created) and commit:
+        inst.save()
+
+    # it is possible to neither create nor update.
+    # in this case if the model cannot be found then None is returned: (None, False, False)
+    return (inst, created, updated)

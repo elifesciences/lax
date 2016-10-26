@@ -2,7 +2,7 @@ autopep8==1.2.4
 boto3==1.2.3
 coverage==4.1
 Django==1.9
-django-annoying==0.8.5
+django-annoying==0.10.3
 django-autoslug==1.9.3
 django-filter==0.11.0
 django-markdown2==0.2.1

@@ -5,6 +5,7 @@ from publisher import models
 class BaseCase(TestCase):
     this_dir = os.path.dirname(os.path.realpath(__file__))
     fixture_dir = os.path.join(this_dir, 'fixtures')
+    maxDiff = None
 
     def freshen(self, obj):
         return type(obj).objects.get(pk=obj.pk)

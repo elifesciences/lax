@@ -47,7 +47,7 @@ class ArticleVersionSerializer(szr.ModelSerializer):
 
     class Meta:
         model = models.ArticleVersion
-        exclude = ('id',)
+        exclude = ('id', 'article_json_v1', 'article_json_v1_snippet')
 
 @api_view(['GET'])
 def get_article(rest_request, doi, version=None):

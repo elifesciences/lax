@@ -1,8 +1,12 @@
-from . import models, logic
+from jsonschema import ValidationError
+from django.db import transaction
+from . import models, logic, fragment_logic
+from .utils import ensure
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import Http404
-from .models import POA
+from .models import POA, XML2JSON
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -22,8 +26,11 @@ def article_list(request):
     authenticated = False
     qs = logic.latest_article_versions(only_published=not authenticated)
     # TODO: paginate
-    rs = map(logic.article_snippet_json, qs) # extract the article json
-    return Response(rs, content_type='application/vnd.elife.articles-list+json;version=1')
+    resultset = map(logic.article_snippet_json, qs) # extract the article json
+    struct = {
+        'total': len(qs), # pagination may f with us
+        'items': resultset}
+    return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
 
 @api_view(['GET'])
 def article(request, id):
@@ -52,4 +59,34 @@ def article_version(request, id, version):
         av = logic.article_version(id, version)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.ArticleVersion.DoesNotExist:
+        raise Http404()
+
+#
+# not part of public api
+#
+
+@api_view(['POST'])
+def article_fragment(rest_request, art_id, fragment_id):
+    only_published = False
+    try:
+        reserved_keys = [XML2JSON]
+        ensure(fragment_id not in reserved_keys, "that key is taken")
+        with transaction.atomic():
+            av = logic.most_recent_article_version(art_id, only_published)
+            data = rest_request.data
+            frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
+            ensure(created or updated, "fragment was not created/updated")
+            fragment_logic.merge_if_valid(av, quiet=False)
+            return Response(frag.fragment) # return the data they gave us
+
+    except ValidationError as err:
+        # client submitted json that would generate invalid article-json
+        return Response("that fragment creates invalid article-json. refused: %s" % err.message, status=400)
+
+    except AssertionError as err:
+        # client broke business rules somehow
+        return Response(err.message, status=status.HTTP_400_BAD_REQUEST)
+
+    except (models.Article.DoesNotExist, models.ArticleVersion.DoesNotExist):
+        # article with given ID doesn't exist
         raise Http404()

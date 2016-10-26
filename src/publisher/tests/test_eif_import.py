@@ -332,7 +332,7 @@ class ImportFromCLI(BaseCase):
         self.nom = 'import'
         self.msid = "01968"
         self.version = "1"
-        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife.01968.json')
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
 
     def tearDown(self):
         pass

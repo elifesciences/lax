@@ -149,6 +149,15 @@ REST_FRAMEWORK = {
     #],
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
+    #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'publisher.negotiation.ArticleListVersion1',
+        'publisher.negotiation.POAArticleVersion1',
+        'publisher.negotiation.VORArticleVersion1',
+        'publisher.negotiation.ArticleHistoryVersion1',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 }
 
 SWAGGER_SETTINGS = {
@@ -160,6 +169,12 @@ SWAGGER_SETTINGS = {
 
 SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 ART_HISTORY_SCHEMA = join(SCHEMA_PATH, 'model/article-history.v1.json')
+SCHEMA_IDX = {
+    'poa': join(SCHEMA_PATH, 'model/article-poa.v1.json'),
+    'vor': join(SCHEMA_PATH, 'model/article-vor.v1.json'),
+    'history': join(SCHEMA_PATH, 'model/article-history.v1.json'),
+    'list': join(SCHEMA_PATH, 'model/article-list.v1.json')
+}
 
 EVENT_BUS = {
     'region': cfg('bus.region'),
