@@ -71,27 +71,44 @@ def add_or_update_article(**article_data):
 #
 
 # TODO: rename `latest_article_version_list`
-def latest_article_versions(only_published=True):
-    "returns a most recent article versions of all articles"
+def latest_article_versions(only_published=True, order_by='datetime_published DESC'):
+    "returns a list of the most recent article versions for all articles."
 
     # 'distinct on' not supported in sqlite3 :(
     # return models.ArticleVersion.objects.all().distinct('article__doi')
 
+    if only_published:
+        # this is roughly the logic I want:
+        sql = """SELECT pav1.*
+
+        FROM publisher_articleversion pav1,
+
+          (SELECT pav2.article_id,
+                  max(version) AS max_ver
+           FROM publisher_articleversion pav2
+           WHERE datetime_published IS NOT NULL
+           GROUP BY pav2.article_id) as pav2
+
+        WHERE
+           pav1.article_id = pav2.article_id AND pav1.version = pav2.max_ver
+
+        ORDER BY %s"""
+
+        # quotes parameters :(
+        #rq = models.ArticleVersion.objects.raw(sql, [order_by])
+        return list(models.ArticleVersion.objects.raw(sql % order_by))
+
     #
-    # THIS FUNCTION ISN'T WORKING AS EXPECTED
-    # the max() function is not taking into account excluded unpublished articles being
+    # this query only works if we're not excluding unpublished articles.
+    # the max() function doesn't obey the filtering rules
     #
 
-    if only_published:
-        raise NotImplementedError("this function returns incorrect results when excluding unpublished content")
-    
     q = models.ArticleVersion.objects \
         .select_related('article') \
         .annotate(max_version=Max('article__articleversion__version')) \
         .filter(version=F('max_version')) \
         .order_by('-datetime_published')
-    # print str(q.query)
-    return q
+    return list(q)
 
 def most_recent_article_version(msid, only_published=True):
     "returns the most recent article version for the given article id"

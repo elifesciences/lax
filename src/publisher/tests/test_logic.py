@@ -53,9 +53,10 @@ class TestLogic0(BaseCase):
         self.assertEqual(self.total_version_count, models.ArticleVersion.objects.count())
 
         latest = logic.latest_article_versions()
-        self.assertEqual(latest.count(), self.total_art_count)
-        self.assertEqual(latest.count(), models.Article.objects.count())
+        self.assertEqual(len(latest), self.total_art_count)
+        self.assertEqual(len(latest), models.Article.objects.count())
 
+        latest_idx = {obj.article.manuscript_id: obj for obj in latest}
         expected_latest = [
             (353, 1),
             (385, 1),
@@ -70,7 +71,7 @@ class TestLogic0(BaseCase):
         ]
         for msid, v in expected_latest:
             # throws a DoesNotExist if expected not in latest resultset
-            latest.get(article__manuscript_id=msid, version=v)
+            self.assertEqual(latest_idx[msid].version, v)
 
     def test_latest_article_versions_only_published(self):
         "ensure only the latest versions of the articles are returned when unpublished versions exist"
@@ -87,9 +88,10 @@ class TestLogic0(BaseCase):
 
         latest = logic.latest_article_versions(only_published=False) # THIS IS THE IMPORTANT BIT
 
-        self.assertEqual(latest.count(), self.total_art_count)
-        self.assertEqual(latest.count(), models.Article.objects.count())
+        self.assertEqual(len(latest), self.total_art_count)
+        self.assertEqual(len(latest), models.Article.objects.count())
 
+        latest_idx = {obj.article.manuscript_id: obj for obj in latest}
         expected_latest = [
             (353, 1),
             (385, 1),
@@ -104,7 +106,7 @@ class TestLogic0(BaseCase):
         ]
         for msid, v in expected_latest:
             # throws a DoesNotExist if expected not in latest resultset
-            latest.get(article__manuscript_id=msid, version=v)
+            self.assertEqual(latest_idx[msid].version, v)
 
     def test_latest_article_versions_with_unpublished(self):
         "ensure only the latest versions of the articles are returned when unpublished versions exist"
@@ -120,8 +122,9 @@ class TestLogic0(BaseCase):
             self.unpublish(msid, version)
 
         latest = logic.latest_article_versions(only_published=True) # THIS IS THE IMPORTANT BIT
+        latest_idx = {obj.article.manuscript_id: obj for obj in latest}
 
-        self.assertEqual(latest.count(), self.total_art_count - 1) # we remove 9571
+        self.assertEqual(len(latest), self.total_art_count - 1) # we remove 9571
 
         expected_latest = [
             (353, 1),
@@ -135,12 +138,12 @@ class TestLogic0(BaseCase):
             (8025, 1), # from 2 to 1
             #(9571, 1) # from 1 to None
         ]
-        for msid, v in expected_latest:
-            # throws a DoesNotExist if expected not in latest resultset
+        for msid, expected_version in expected_latest:
             try:
-                latest.get(article__manuscript_id=msid, version=v)
+                av = latest_idx[msid]
+                self.assertEqual(av.version, expected_version)
             except:
-                print 'failed on', msid, 'version', v
+                print 'failed on', msid, 'version', expected_version
                 raise
 
 

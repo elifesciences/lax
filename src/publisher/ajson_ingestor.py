@@ -99,8 +99,8 @@ def _ingest(data, force=False):
     log_context = {}
 
     try:
-        # this *could* be scraped from the provided data, but we have no time to 
-        # normalize journal names so we sometimes get duplicate journals in the db. 
+        # this *could* be scraped from the provided data, but we have no time to
+        # normalize journal names so we sometimes get duplicate journals in the db.
         # safer to disable until needed.
         journal = logic.journal()
 

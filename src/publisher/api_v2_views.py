@@ -28,7 +28,7 @@ def article_list(request):
     # TODO: paginate
     resultset = map(logic.article_snippet_json, qs) # extract the article json
     struct = {
-        'total': qs.count(), # pagination may f with us
+        'total': len(qs), # pagination may f with us
         'items': resultset}
     return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
 

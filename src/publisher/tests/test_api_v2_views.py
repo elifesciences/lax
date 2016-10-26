@@ -42,9 +42,8 @@ class V2ContentTypes(base.BaseCase):
         ]
         for header in cases:
             resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
-            print 'ctype',resp.content_type
             self.assertEqual(resp.status_code, 406, "failed on case %r, got: %s" % (header, resp.status_code))
-            
+
     def test_response_types(self):
         # ingest the poa and vor versions
         for path in [self.ajson_fixture_v1, self.ajson_fixture_v2]:

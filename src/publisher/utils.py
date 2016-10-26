@@ -34,6 +34,12 @@ def msid2doi(msid):
     assert isint(msid), "given msid must be an integer: %r" % msid
     return '10.7554/eLife.%05d' % int(msid)
 
+def compfilter(fnlist):
+    "returns true if given val "
+    def fn(val):
+        return all([fn(val) for fn in fnlist])
+    return fn
+
 def nth(idx, x):
     # 'nth' implies a sequential collection
     if isinstance(x, dict):

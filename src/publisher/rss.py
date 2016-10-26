@@ -1,8 +1,9 @@
+from utils import compfilter
 from django.conf.urls import url
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
-import models, logic
-from datetime import datetime, timedelta
+import models, logic, utils
+from datetime import timedelta
 from django.utils.feedgenerator import Rss201rev2Feed
 
 import logging
@@ -103,15 +104,24 @@ class RecentArticleFeed(AbstractArticleFeed):
             'original': {'article_status': article_status,
                          'since': since},
             'article_status': tuple(article_status.split('+')),
-            'since': datetime.now() - timedelta(days=int(since)),
+            'since': utils.utcnow() - timedelta(days=int(since)),
         }
 
     def items(self, obj):
-        kwargs = {
-            'datetime_published__gte': obj['since'],  # .strftime('%Y-%m-%d'),
-            'status__in': obj['article_status']
-        }
-        return logic.latest_article_versions().filter(**kwargs)
+        # kwargs = {
+        #    'datetime_published__gte': obj['since'],  # .strftime('%Y-%m-%d'),
+        #    'status__in': obj['article_status']
+        #}
+        # return logic.latest_article_versions().filter(**kwargs)
+
+        def status_in(row):
+            return row.status in obj['article_status']
+
+        def published_since(row):
+            return row.datetime_published >= obj['since']
+
+        results = logic.latest_article_versions()
+        return filter(compfilter([status_in, published_since]), results)
 
 class AbstractReportFeed(AbstractArticleFeed):
     feed_type = RSSArticleFeedGenerator

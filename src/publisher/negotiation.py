@@ -5,6 +5,7 @@ def mktype(row):
     nom, mime, version_list = row
     klass_list = map(lambda ver: ("%sVersion%s" % (nom, ver), "%s; version=1" % mime), version_list)
     global_scope = globals()
+
     def gen_klass(klass_row):
         nom, mime = klass_row
         global_scope[nom] = type(nom, (JSONRenderer,), {'media_type': mime})
