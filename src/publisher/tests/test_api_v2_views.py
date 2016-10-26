@@ -5,7 +5,7 @@ from publisher import ajson_ingestor, models, fragment_logic as fragments, utils
 from django.test import Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from unittest import skip
+#from unittest import skip
 SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
 class V2ContentTypes(base.BaseCase):
@@ -16,25 +16,25 @@ class V2ContentTypes(base.BaseCase):
         self.ajson_fixture_v2 = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json') # vor
 
     def test_accept_types(self):
+        "various accept headers return expected response"
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
         cases = [
             "*/*",
             "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
             "application/vnd.elife.article-poa+json; version=1",
-            "application/vnd.elife.article-vor+json; version=1" # 406 or 200?
+            "application/vnd.elife.article-vor+json; version=1", # yes, even though the returned result is a poa
+            # vor v1 or v2
+            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
         ]
         for header in cases:
             resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
             self.assertEqual(resp.status_code, 200)
 
-    @skip("expected behaviour needs clarifying")
     def test_unacceptable_types(self):
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
         cases = [
-            # vor v1 (this is a poa article)
-            "application/vnd.elife.article-vor+json; version=1", # 406 or 200?
-            # vor v1 or v2
-            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+            # vor v2 or v3
+            "application/vnd.elife.article-vor+json; version=2, application/vnd.elife.article-vor+json; version=3",
             # poa v2
             "application/vnd.elife.article-poa+json; version=2",
             # ??
