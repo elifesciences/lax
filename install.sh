@@ -10,3 +10,5 @@ if [ ! -e app.cfg ]; then
 fi
 pip install -r requirements.txt
 python src/manage.py migrate --no-input
+
+. download-api-raml.sh
