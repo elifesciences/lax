@@ -110,12 +110,24 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX['list'])
 
         # correct data
-        self.assertEqual(len(data), 2) # two results, [msid1, msid2]
+        self.assertEqual(len(data['items']), 2) # two results, [msid1, msid2]
+        self.assertEqual(data['total'], 2)
 
     def test_article_list_published_only(self):
         "a list of PUBLISHED articles only are returned"
-        # `logic.latest_article_versions` is currently broken so this won't work
-        pass
+        # unpublish all of 20105
+        self.unpublish(self.msid2)
+        resp = self.c.get(reverse('v2:article-list'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        data = json.loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX['list'])
+        
+        # correct data
+        self.assertEqual(len(data['items']), 1) # one result, [msid1]
+        self.assertEqual(data['total'], 1)
 
     def test_article_poa(self):
         "the latest version of the requested article is returned"

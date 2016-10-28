@@ -10,9 +10,15 @@ class BaseCase(TestCase):
     def freshen(self, obj):
         return type(obj).objects.get(pk=obj.pk)
 
-    def unpublish(self, msid, version):
+    def unpublish(self, msid, version=None):
         "'unpublishes' an article"
-        av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
-        av.datetime_published = None
-        av.save()
-        return av
+        if not version:
+            # unpublish *all* versions of an article
+            for av in models.Article.objects.get(manuscript_id=msid).articleversion_set.all():
+                av.datetime_published = None
+                av.save()
+        else:
+            av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
+            av.datetime_published = None
+            av.save()
+        #return av
