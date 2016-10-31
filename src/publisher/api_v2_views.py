@@ -1,12 +1,14 @@
 from jsonschema import ValidationError
 from django.db import transaction
 from . import models, logic, fragment_logic
-from .utils import ensure
+from .utils import ensure, isint
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import Http404
 from .models import POA, XML2JSON
+from et3.extract import path as p
+from et3.render import render_item
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -16,6 +18,34 @@ def ctype(status):
     vor_ctype = 'application/vnd.elife.article-vor+json;version=1'
     return poa_ctype if status == POA else vor_ctype
 
+def request_args(request):
+    "returns the "
+    # TODO: pull these from api-raml
+    default_page_num = 1
+    default_per_page = 20 
+    default_order_direction = 'desc'
+
+    # django has pagination but we only have one endpoint at time of writing
+    # that requires pagination
+
+    def ispositiveint(v):
+        if isint(v) and v > 0:
+            return int(v)
+        raise ValidationError("expecting positive integer")
+
+    def asc_or_desc(val):
+        v = val.strip().upper()
+        if v in ['ASC', 'DESC']:
+            return v
+        raise ValidationError("expecting either 'asc' or 'desc' for 'order' parameter, got: %s" % val)
+    
+    desc = {
+        'page': [p('page', default_page_num), ispositiveint], 
+        'per_page': [p('per-page', default_per_page), ispositiveint],
+        'order': [p('order', default_order_direction), str, asc_or_desc]
+    }
+    return render_item(desc, request.GET)
+
 #
 #
 #
@@ -24,19 +54,23 @@ def ctype(status):
 def article_list(request):
     "returns a list of snippets"
     authenticated = False
-    qs = logic.latest_article_versions(only_published=not authenticated)
-    # TODO: paginate
-    resultset = map(logic.article_snippet_json, qs) # extract the article json
+
+    kwargs = request_args(request)
+    kwargs['only_published'] = not authenticated
+    results = logic.latest_article_versions(**kwargs)
+    
     struct = {
-        'total': len(qs), # pagination may f with us
-        'items': resultset}
+        'total': len(results),
+        'items': map(logic.article_snippet_json, results),
+    }
     return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
 
 @api_view(['GET'])
 def article(request, id):
     "return the article-json for the most recent version of the given article ID"
-    authenticated = False
+    authenticated = False    
     try:
+        # TODO: add ordering
         av = logic.most_recent_article_version(id, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.Article.DoesNotExist:
