@@ -82,8 +82,8 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
     ensure(all(map(utils.isint, [page, per_page])), "'page' and 'per-page' must be integers")
     limit = per_page
     offset = per_page * (page - 1)
-    
-    if only_published:        
+
+    if only_published:
         sql = """
         SELECT pav1.*
 
@@ -106,11 +106,12 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
         LIMIT %s
 
         OFFSET %s""" % (limit, offset)
-        
+
         # quotes parameters :(
         #rq = models.ArticleVersion.objects.raw(sql, [order_by])
         q = models.ArticleVersion.objects.raw(sql)
-        #print q.query
+        # print q.query
+        # print [(v.article.manuscript_id, v.datetime_published) for v in q]
         return list(q)
 
     # this query only works if we're not excluding unpublished articles.
@@ -118,7 +119,7 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
 
     if order is 'DESC':
         order_by = '-' + order_by
-    
+
     q = models.ArticleVersion.objects \
         .select_related('article') \
         .annotate(max_version=Max('article__articleversion__version')) \

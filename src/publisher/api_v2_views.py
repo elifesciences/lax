@@ -22,11 +22,11 @@ def request_args(request):
     "returns the "
     # TODO: pull these from api-raml
     default_page_num = 1
-    default_per_page = 20 
+    default_per_page = 20
     min_per_page = 1
     max_per_page = 100
     default_order_direction = 'desc'
-    
+
     # django has pagination but we only have one endpoint at time of writing
     # that requires pagination
 
@@ -39,12 +39,12 @@ def request_args(request):
             ensure(v >= minpp and v <= maxpp, "value must be between %s and %s" % (minpp, maxpp))
             return v
         return fn
-    
+
     def asc_or_desc(val):
         v = val.strip().upper()
         ensure(v in ['ASC', 'DESC'], "expecting either 'asc' or 'desc' for 'order' parameter, got: %s" % val)
         return v
-    
+
     desc = {
         'page': [p('page', default_page_num), ispositiveint],
         'per_page': [p('per-page', default_per_page), ispositiveint, inrange(min_per_page, max_per_page)],
@@ -60,7 +60,6 @@ def request_args(request):
 def article_list(request):
     "returns a list of snippets"
     authenticated = False
-
     try:
         kwargs = request_args(request)
         kwargs['only_published'] = not authenticated
@@ -76,9 +75,8 @@ def article_list(request):
 @api_view(['GET'])
 def article(request, id):
     "return the article-json for the most recent version of the given article ID"
-    authenticated = False    
+    authenticated = False
     try:
-        # TODO: add ordering
         av = logic.most_recent_article_version(id, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.Article.DoesNotExist:
