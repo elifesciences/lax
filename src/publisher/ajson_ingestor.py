@@ -143,10 +143,11 @@ def _ingest(data, force=False):
                     LOG.error(msg, extra=log_context)
                     raise StateError(msg)
 
-        transaction.on_commit(partial(events.notify, article))
-
         # passed all checks, save
         av.save()
+
+        # notify event bus that article change has occurred
+        transaction.on_commit(partial(events.notify, article))
 
         return journal, article, av
 
@@ -204,6 +205,10 @@ def _publish(msid, version, force=False):
 
         av.datetime_published = datetime_published
         av.save()
+
+        # notify event bus that article change has occurred
+        transaction.on_commit(partial(events.notify, av.article))
+
         return av
 
     except models.ArticleFragment.DoesNotExist:
