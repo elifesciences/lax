@@ -21,4 +21,4 @@ class BaseCase(TestCase):
             av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
             av.datetime_published = None
             av.save()
-        #return av
+        # return av
