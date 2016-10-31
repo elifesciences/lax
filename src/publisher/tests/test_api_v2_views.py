@@ -368,3 +368,21 @@ class Pagination(base.BaseCase):
         self.assertEqual(len(data['items']), 1) # ONE result, [msid2]
         self.assertEqual(data['total'], 1)
         self.assertEqual(data['items'][0]['id'], str(self.msid1))
+
+    # bad requests
+
+    def test_article_list_bad_min_max_perpage(self):
+        "per-page value must be between known min and max values"
+        resp = self.c.get(reverse('v2:article-list') + "?per-page=-1")
+        self.assertEqual(resp.status_code, 400) # bad request
+        
+        resp = self.c.get(reverse('v2:article-list') + "?per-page=999")
+        self.assertEqual(resp.status_code, 400) # bad request
+
+    def test_article_list_negative_page(self):
+        "page value cannot be zero or negative"
+        resp = self.c.get(reverse('v2:article-list') + "?page=0")
+        self.assertEqual(resp.status_code, 400) # bad request
+        
+        resp = self.c.get(reverse('v2:article-list') + "?page=-1")
+        self.assertEqual(resp.status_code, 400) # bad request

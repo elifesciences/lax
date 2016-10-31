@@ -23,25 +23,31 @@ def request_args(request):
     # TODO: pull these from api-raml
     default_page_num = 1
     default_per_page = 20 
+    min_per_page = 1
+    max_per_page = 100
     default_order_direction = 'desc'
-
+    
     # django has pagination but we only have one endpoint at time of writing
     # that requires pagination
 
     def ispositiveint(v):
-        if isint(v) and v > 0:
-            return int(v)
-        raise ValidationError("expecting positive integer")
+        ensure(isint(v) and int(v) > 0, "expecting positive integer, got: %s" % v)
+        return int(v)
 
+    def inrange(minpp, maxpp):
+        def fn(v):
+            ensure(v >= minpp and v <= maxpp, "value must be between %s and %s" % (minpp, maxpp))
+            return v
+        return fn
+    
     def asc_or_desc(val):
         v = val.strip().upper()
-        if v in ['ASC', 'DESC']:
-            return v
-        raise ValidationError("expecting either 'asc' or 'desc' for 'order' parameter, got: %s" % val)
+        ensure(v in ['ASC', 'DESC'], "expecting either 'asc' or 'desc' for 'order' parameter, got: %s" % val)
+        return v
     
     desc = {
-        'page': [p('page', default_page_num), ispositiveint], 
-        'per_page': [p('per-page', default_per_page), ispositiveint],
+        'page': [p('page', default_page_num), ispositiveint],
+        'per_page': [p('per-page', default_per_page), ispositiveint, inrange(min_per_page, max_per_page)],
         'order': [p('order', default_order_direction), str, asc_or_desc]
     }
     return render_item(desc, request.GET)
@@ -55,15 +61,17 @@ def article_list(request):
     "returns a list of snippets"
     authenticated = False
 
-    kwargs = request_args(request)
-    kwargs['only_published'] = not authenticated
-    results = logic.latest_article_versions(**kwargs)
-    
-    struct = {
-        'total': len(results),
-        'items': map(logic.article_snippet_json, results),
-    }
-    return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
+    try:
+        kwargs = request_args(request)
+        kwargs['only_published'] = not authenticated
+        results = logic.latest_article_versions(**kwargs)
+        struct = {
+            'total': len(results),
+            'items': map(logic.article_snippet_json, results),
+        }
+        return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
+    except AssertionError as err:
+        return Response(err.message, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def article(request, id):
