@@ -1,5 +1,8 @@
-from rest_framework.renderers import JSONRenderer
+"""Adds a list of supported media types to Django REST so it
+doesn't spaz out when you ask for a custom media article in the
+Accept header."""
 
+from rest_framework.renderers import JSONRenderer
 
 def mktype(row):
     nom, mime, version_list = row
@@ -12,6 +15,7 @@ def mktype(row):
     map(gen_klass, klass_list)
 
 _dynamic_types = [
+    # class name, media type, known version list
     ('ArticleList', 'application/vnd.elife.articles-list+json', [1]),
     ('POAArticle', 'application/vnd.elife.article-poa+json', [1]),
     ('VORArticle', 'application/vnd.elife.article-vor+json', [1]),

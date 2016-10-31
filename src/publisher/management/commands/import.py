@@ -1,7 +1,7 @@
-import os, glob, pprint
+import pprint
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from publisher import eif_ingestor, logic, ejp_ingestor
+from publisher import eif_ingestor, logic, ejp_ingestor, utils
 from functools import partial
 import logging
 
@@ -9,14 +9,6 @@ LOG = logging.getLogger(__name__)
 
 IMPORT_TYPES = ['eif', 'ejp', 'ajson', 'patch']
 EIF, EJP, AJSON, PATCH = IMPORT_TYPES
-
-def resolve_path(p):
-    p = os.path.abspath(p)
-    if os.path.isdir(p):
-        paths = glob.glob("%s/*.json" % p.rstrip('/'))
-        paths.sort(reverse=True)
-        return paths
-    return [p]
 
 def ingest(fn, journal, create, update, path_list):
     "wrapper around the import function with friendlier handling of problems"
@@ -81,7 +73,7 @@ class Command(BaseCommand):
         import_type = options['import_type']
         atomic = options['no_atomic']
 
-        path_list = resolve_path(path)
+        path_list = utils.resolve_path(path)
 
         if not options['just_do_it']:
             try:

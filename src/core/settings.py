@@ -24,12 +24,16 @@ DYNCONFIG = configparser.SafeConfigParser(**{
 DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME)) # ll: /path/to/lax/app.cfg
 
 def cfg(path, default=0xDEADBEEF):
+    lu = {'True': True, 'true': True, 'False': False, 'false': False} # cast any obvious booleans
     try:
-        return DYNCONFIG.get(*path.split('.'))
+        val = DYNCONFIG.get(*path.split('.'))
+        return lu.get(val, val)
     except (configparser.NoOptionError, configparser.NoSectionError): # given key in section hasn't been defined
         if default == 0xDEADBEEF:
             raise ValueError("no value/section set for setting at %r" % path)
         return default
+    except Exception as err:
+        print 'error on %r: %s' % (path, err)
 
 PRIMARY_JOURNAL = {
     'name': cfg('journal.name'),
@@ -40,6 +44,7 @@ PRIMARY_JOURNAL = {
 SECRET_KEY = cfg('general.secret-key')
 
 DEBUG = cfg('general.debug')
+assert isinstance(DEBUG, bool), "'debug' must be either True or False as a boolean, not %r" % (DEBUG, )
 
 DEV, TEST, PROD = 'dev', 'test', 'prod'
 ENV = cfg('general.env', DEV)
@@ -182,9 +187,6 @@ EVENT_BUS = {
     'name': cfg('bus.name'),
     'env': cfg('bus.env')
 }
-
-# ll: arn:aws:sns:us-east-1:112634557572:bus-articles--ci
-TOPIC_ARN = "arn:aws:sns:{region}:{subscriber}:{name}--{env}".format(**EVENT_BUS)
 
 # Lax settings
 

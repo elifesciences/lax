@@ -124,7 +124,7 @@ class V2Content(base.BaseCase):
 
         # valid data
         utils.validate(data, SCHEMA_IDX['list'])
-        
+
         # correct data
         self.assertEqual(len(data['items']), 1) # one result, [msid1]
         self.assertEqual(data['total'], 1)

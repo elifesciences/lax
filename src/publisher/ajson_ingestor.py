@@ -1,5 +1,5 @@
 import copy
-from publisher import models, utils, fragment_logic as fragments, logic
+from publisher import models, utils, fragment_logic as fragments, logic, events
 from publisher.models import XML2JSON
 from publisher.utils import create_or_update
 import logging
@@ -7,9 +7,6 @@ from django.db import transaction
 from et3 import render
 from et3.extract import path as p
 from django.db import IntegrityError
-import json
-import boto3
-from django.conf import settings
 from functools import partial
 
 LOG = logging.getLogger(__name__)
@@ -60,33 +57,6 @@ def atomic(fn):
 #
 #
 #
-
-#@cache # ?
-def event_bus_conn():
-    sns = boto3.resource('sns')
-    topic = sns.Topic(settings.SNS_TOPIC_ARN)
-    return topic
-
-def notify_event_bus(art):
-    "notify the event bus when this article or one of it's versions has been changed in some way"
-    if settings.DEBUG:
-        return
-    try:
-        msg = {"type": "article", "id": art.manuscript_id}
-        msg_json = json.dumps({'default': msg})
-        LOG.debug("writing message to event bus", extra={'bus-message': msg_json})
-        event_bus_conn().publish(Message=msg_json, MessageStructure='json')
-    except ValueError as err:
-        # probably serializing value
-        LOG.error("failed to serialize event bus payload %s", err, extra={'bus-message': msg_json})
-
-    except Exception as err:
-        LOG.error("unhandled error attempting to notify event bus of article change: %s", err)
-
-#
-#
-#
-
 
 def _ingest(data, force=False):
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
@@ -173,10 +143,11 @@ def _ingest(data, force=False):
                     LOG.error(msg, extra=log_context)
                     raise StateError(msg)
 
-        transaction.on_commit(partial(notify_event_bus, article))
-
         # passed all checks, save
         av.save()
+
+        # notify event bus that article change has occurred
+        transaction.on_commit(partial(events.notify, article))
 
         return journal, article, av
 
@@ -234,6 +205,10 @@ def _publish(msid, version, force=False):
 
         av.datetime_published = datetime_published
         av.save()
+
+        # notify event bus that article change has occurred
+        transaction.on_commit(partial(events.notify, av.article))
+
         return av
 
     except models.ArticleFragment.DoesNotExist:
