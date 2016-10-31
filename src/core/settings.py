@@ -151,12 +151,12 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [],
     #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
         'publisher.negotiation.ArticleListVersion1',
         'publisher.negotiation.POAArticleVersion1',
         'publisher.negotiation.VORArticleVersion1',
         'publisher.negotiation.ArticleHistoryVersion1',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        #'rest_framework.renderers.BrowsableAPIRenderer',
     )
 }
 
