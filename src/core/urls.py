@@ -12,8 +12,6 @@ urlpatterns = [
 if 'publisher' in settings.INSTALLED_APPS:
     urlpatterns += [
         url(r'^reports/', include(reports.urls)),
-        # integration with upstream api
-        url(r'^proxy/lax/api/', include('publisher.api_v1_urls', namespace="proxied")),
         url(r'^', include('publisher.urls')),
     ]
 
