@@ -1,7 +1,7 @@
 from functools import reduce
 from jsonschema import validate as validator
 from jsonschema import ValidationError
-import copy, json
+import os, copy, json, glob
 import pytz
 from dateutil import parser
 from django.utils import timezone
@@ -17,6 +17,15 @@ def ensure(assertion, msg, *args):
     get compiled away with -O flags"""
     if not assertion:
         raise AssertionError(msg % args)
+
+def resolve_path(p, ext='.json'):
+    "returns a list of absolute paths given a file or a directory"
+    p = os.path.abspath(p)
+    if os.path.isdir(p):
+        paths = glob.glob("%s/*%s" % (p.rstrip('/'), ext))
+        paths.sort(reverse=True)
+        return paths
+    return [p]
 
 def isint(v):
     try:

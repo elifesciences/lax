@@ -1,3 +1,4 @@
+from os.path import join
 import copy
 from publisher import utils, models, logic
 from publisher.tests import base
@@ -12,6 +13,31 @@ class TestUtils(base.BaseCase):
 
     def tearDown(self):
         pass
+
+    def test_resolve_paths(self):
+        tests_dir = join(settings.SRC_DIR, 'publisher', 'tests', 'fixtures')
+        cases = [
+            (join(self.fixture_dir, 'ajson', 'elife.01968-invalid.json'), [
+                join(tests_dir, 'ajson', 'elife.01968-invalid.json')
+            ]),
+            (join(self.fixture_dir, 'almost-empty-dir'), [
+                join(tests_dir, 'almost-empty-dir', 'two.json'),
+                join(tests_dir, 'almost-empty-dir', 'one.json'),
+            ])
+        ]
+        for path, expected in cases:
+            self.assertEqual(utils.resolve_path(path), expected)
+
+    def test_resolve_paths_custom_ext(self):
+        tests_dir = join(settings.SRC_DIR, 'publisher', 'tests', 'fixtures')
+        cases = [
+            (join(self.fixture_dir, 'almost-empty-dir'), [
+                join(tests_dir, 'almost-empty-dir', 'two.empty'),
+                join(tests_dir, 'almost-empty-dir', 'one.empty'),
+            ])
+        ]
+        for path, expected in cases:
+            self.assertEqual(utils.resolve_path(path, ext='.empty'), expected)
 
     def test_isint(self):
         int_list = [
