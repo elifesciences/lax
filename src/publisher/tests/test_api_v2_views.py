@@ -369,6 +369,18 @@ class Pagination(base.BaseCase):
         self.assertEqual(data['total'], 1)
         self.assertEqual(data['items'][0]['id'], str(self.msid1))
 
+    def test_article_list_page_no_per_page(self):
+        "defaults for per-page and page parameters kick in when not specified"
+        resp = self.c.get(reverse('v2:article-list') + "?page=2")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        data = json.loads(resp.content)
+
+        # correct data (too few to hit next page)
+        self.assertEqual(len(data['items']), 0)
+        self.assertEqual(data['total'], 0)
+        
+        
     # bad requests
 
     def test_article_list_bad_min_max_perpage(self):
