@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import Http404
+from django.conf import settings
 from .models import POA, XML2JSON
 from et3.extract import path as p
 from et3.render import render_item
@@ -18,14 +19,10 @@ def ctype(status):
     vor_ctype = 'application/vnd.elife.article-vor+json;version=1'
     return poa_ctype if status == POA else vor_ctype
 
-def request_args(request):
-    "returns the "
-    # TODO: pull these from api-raml
-    default_page_num = 1
-    default_per_page = 20
-    min_per_page = 1
-    max_per_page = 100
-    default_order_direction = 'desc'
+def request_args(request, **overrides):
+    opts = {}
+    opts.update(settings.API_OPTS)
+    opts.update(overrides)
 
     # django has pagination but we only have one endpoint at time of writing
     # that requires pagination
@@ -46,9 +43,9 @@ def request_args(request):
         return v
 
     desc = {
-        'page': [p('page', default_page_num), ispositiveint],
-        'per_page': [p('per-page', default_per_page), ispositiveint, inrange(min_per_page, max_per_page)],
-        'order': [p('order', default_order_direction), str, asc_or_desc]
+        'page': [p('page', opts['page_num']), ispositiveint],
+        'per_page': [p('per-page', opts['per_page']), ispositiveint, inrange(opts['min_per_page'], opts['max_per_page'])],
+        'order': [p('order', opts['order_direction']), str, asc_or_desc]
     }
     return render_item(desc, request.GET)
 
