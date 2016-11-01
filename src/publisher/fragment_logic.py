@@ -102,7 +102,6 @@ def post_process(av, result):
             result['statusDate'] = result['published']
 
     if not result['statusDate']:
-        LOG.error("somethign gucaksdlfasdf")
         result['statusDate'] = result['published']
 
     utils.delall(result, ['relatedArticles', 'digest', 'references'])

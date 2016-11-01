@@ -1,3 +1,4 @@
+from datetime import timedelta
 import base
 from os.path import join
 import json
@@ -306,3 +307,126 @@ class V2PostContent(base.BaseCase):
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(models.ArticleFragment.objects.count(), 2) # nothing was created
         self.assertEqual(resp.status_code, 400) # bad client request
+
+class RequestArgs(base.BaseCase):
+    def setUp(self):
+        ingest_these = [
+            #"elife-01968-v1.xml.json",
+
+            "dummyelife-20125-v1.xml.json", # poa
+            "dummyelife-20125-v2.xml.json", # poa
+            "dummyelife-20125-v3.xml.json", # vor
+
+            # NOT VALID, doesn't ingest
+            #"elife-16695-v1.xml.json",
+            #"elife-16695-v2.xml.json",
+            #"elife-16695-v3.xml.json", # vor
+
+            "dummyelife-20105-v1.xml.json", # poa
+            "dummyelife-20105-v2.xml.json", # poa
+            "dummyelife-20105-v3.xml.json" # poa
+        ]
+        ajson_dir = join(self.fixture_dir, 'ajson')
+        for ingestable in ingest_these:
+            path = join(ajson_dir, ingestable)
+            ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+
+        self.msid1 = 20125
+        self.msid2 = 20105
+
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid1, version=3)
+        av.datetime_published = av.datetime_published + timedelta(days=1) # helps debug ordering
+        av.save()
+
+        self.c = Client()
+
+    #
+    # Pagination
+    #
+
+    def test_article_list_paginated_page1(self):
+        "a list of articles are returned, paginated by 1"
+        resp = self.c.get(reverse('v2:article-list') + "?per-page=1")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        data = json.loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX['list'])
+
+        # correct data
+        self.assertEqual(len(data['items']), 1) # ONE result, [msid1]
+        self.assertEqual(data['total'], 1)
+        self.assertEqual(data['items'][0]['id'], str(self.msid1))
+
+    def test_article_list_paginated_page2(self):
+        "a list of articles are returned, paginated by 1"
+        resp = self.c.get(reverse('v2:article-list') + "?per-page=1&page=2")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        data = json.loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX['list'])
+
+        # correct data
+        self.assertEqual(len(data['items']), 1) # ONE result, [msid2]
+        self.assertEqual(data['total'], 1)
+        self.assertEqual(data['items'][0]['id'], str(self.msid2))
+
+    def test_article_list_page_no_per_page(self):
+        "defaults for per-page and page parameters kick in when not specified"
+        resp = self.c.get(reverse('v2:article-list') + "?page=2")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        data = json.loads(resp.content)
+
+        # correct data (too few to hit next page)
+        self.assertEqual(len(data['items']), 0)
+        self.assertEqual(data['total'], 0)
+
+    def test_article_list_ordering_asc(self):
+        resp = self.c.get(reverse('v2:article-list') + "?order=asc")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        data = json.loads(resp.content)
+
+        # correct data (too few to hit next page)
+        self.assertEqual(len(data['items']), 2)
+        self.assertEqual(data['total'], 2)
+
+        id_list = map(lambda row: int(row['id']), data['items'])
+        self.assertEqual(id_list, [self.msid2, self.msid1]) # numbers ascend -> 20105, 20125
+
+    def test_article_list_ordering_desc(self):
+        resp = self.c.get(reverse('v2:article-list') + "?order=desc")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        data = json.loads(resp.content)
+
+        # correct data (too few to hit next page)
+        self.assertEqual(len(data['items']), 2)
+        self.assertEqual(data['total'], 2)
+
+        id_list = map(lambda row: int(row['id']), data['items'])
+        self.assertEqual(id_list, [self.msid1, self.msid2]) # numbers descend 20125, 20105 <-
+
+    #
+    # bad requests
+    #
+
+    def test_article_list_bad_min_max_perpage(self):
+        "per-page value must be between known min and max values"
+        resp = self.c.get(reverse('v2:article-list') + "?per-page=-1")
+        self.assertEqual(resp.status_code, 400) # bad request
+
+        resp = self.c.get(reverse('v2:article-list') + "?per-page=999")
+        self.assertEqual(resp.status_code, 400) # bad request
+
+    def test_article_list_negative_page(self):
+        "page value cannot be zero or negative"
+        resp = self.c.get(reverse('v2:article-list') + "?page=0")
+        self.assertEqual(resp.status_code, 400) # bad request
+
+        resp = self.c.get(reverse('v2:article-list') + "?page=-1")
+        self.assertEqual(resp.status_code, 400) # bad request

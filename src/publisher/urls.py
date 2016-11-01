@@ -1,8 +1,9 @@
 from django.conf.urls import include, url
 import views, rss
+from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [
-    url(r'^api/docs/', include('rest_framework_swagger.urls')),
+    url(r'^api/docs/', get_swagger_view(title='Article Store API')),
     url(r'^api/v2/', include('publisher.api_v2_urls', namespace='v2')),
     url(r'^api/v1/', include('publisher.api_v1_urls')),
     url(r'^rss/articles/', include(rss.urlpatterns)),

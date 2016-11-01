@@ -1,12 +1,15 @@
 from jsonschema import ValidationError
 from django.db import transaction
 from . import models, logic, fragment_logic
-from .utils import ensure
+from .utils import ensure, isint
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import Http404
+from django.conf import settings
 from .models import POA, XML2JSON
+from et3.extract import path as p
+from et3.render import render_item
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -16,6 +19,33 @@ def ctype(status):
     vor_ctype = 'application/vnd.elife.article-vor+json;version=1'
     return poa_ctype if status == POA else vor_ctype
 
+def request_args(request, **overrides):
+    opts = {}
+    opts.update(settings.API_OPTS)
+    opts.update(overrides)
+
+    def ispositiveint(v):
+        ensure(isint(v) and int(v) > 0, "expecting positive integer, got: %s" % v)
+        return int(v)
+
+    def inrange(minpp, maxpp):
+        def fn(v):
+            ensure(v >= minpp and v <= maxpp, "value must be between %s and %s" % (minpp, maxpp))
+            return v
+        return fn
+
+    def asc_or_desc(val):
+        v = val.strip().upper()
+        ensure(v in ['ASC', 'DESC'], "expecting either 'asc' or 'desc' for 'order' parameter, got: %s" % val)
+        return v
+
+    desc = {
+        'page': [p('page', opts['page_num']), ispositiveint],
+        'per_page': [p('per-page', opts['per_page']), ispositiveint, inrange(opts['min_per_page'], opts['max_per_page'])],
+        'order': [p('order', opts['order_direction']), str, asc_or_desc]
+    }
+    return render_item(desc, request.GET)
+
 #
 #
 #
@@ -24,13 +54,17 @@ def ctype(status):
 def article_list(request):
     "returns a list of snippets"
     authenticated = False
-    qs = logic.latest_article_versions(only_published=not authenticated)
-    # TODO: paginate
-    resultset = map(logic.article_snippet_json, qs) # extract the article json
-    struct = {
-        'total': len(qs), # pagination may f with us
-        'items': resultset}
-    return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
+    try:
+        kwargs = request_args(request)
+        kwargs['only_published'] = not authenticated
+        results = logic.latest_article_versions(**kwargs)
+        struct = {
+            'total': len(results), # TODO: probably wrong now.
+            'items': map(logic.article_snippet_json, results),
+        }
+        return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
+    except AssertionError as err:
+        return Response(err.message, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def article(request, id):

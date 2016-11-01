@@ -2,6 +2,7 @@ import models
 from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils
+from publisher.utils import ensure
 from django.utils import timezone
 from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
 
@@ -71,15 +72,20 @@ def add_or_update_article(**article_data):
 #
 
 # TODO: rename `latest_article_version_list`
-def latest_article_versions(only_published=True, order_by='datetime_published DESC'):
+def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=True):
     "returns a list of the most recent article versions for all articles."
 
-    # 'distinct on' not supported in sqlite3 :(
-    # return models.ArticleVersion.objects.all().distinct('article__doi')
+    order = str(order).strip().upper()
+    ensure(str(order).upper() in ['ASC', 'DESC'], "unknown ordering %r" % order)
+    order_by = 'datetime_published'
+
+    ensure(all(map(utils.isint, [page, per_page])), "'page' and 'per-page' must be integers")
+    limit = per_page
+    offset = per_page * (page - 1)
 
     if only_published:
-        # this is roughly the logic I want:
-        sql = """SELECT pav1.*
+        sql = """
+        SELECT pav1.*
 
         FROM publisher_articleversion pav1,
 
@@ -92,22 +98,38 @@ def latest_article_versions(only_published=True, order_by='datetime_published DE
         WHERE
            pav1.article_id = pav2.article_id AND pav1.version = pav2.max_ver
 
-        ORDER BY %s"""
+        ORDER BY %s %s""" % (order_by, order)
+
+        if per_page > 0:
+            sql += """
+
+        LIMIT %s
+
+        OFFSET %s""" % (limit, offset)
 
         # quotes parameters :(
         #rq = models.ArticleVersion.objects.raw(sql, [order_by])
-        return list(models.ArticleVersion.objects.raw(sql % order_by))
+        q = models.ArticleVersion.objects.raw(sql)
+        # print q.query
+        # print [(v.article.manuscript_id, v.datetime_published) for v in q]
+        return list(q)
 
-    #
     # this query only works if we're not excluding unpublished articles.
     # the max() function doesn't obey the filtering rules
-    #
+
+    if order is 'DESC':
+        order_by = '-' + order_by
 
     q = models.ArticleVersion.objects \
         .select_related('article') \
         .annotate(max_version=Max('article__articleversion__version')) \
         .filter(version=F('max_version')) \
-        .order_by('-datetime_published')
+        .order_by(order_by)
+
+    if per_page > 0:
+        start, end = offset, offset + page
+        q = q[start:end]
+
     return list(q)
 
 def most_recent_article_version(msid, only_published=True):
