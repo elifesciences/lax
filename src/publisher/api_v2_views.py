@@ -24,9 +24,6 @@ def request_args(request, **overrides):
     opts.update(settings.API_OPTS)
     opts.update(overrides)
 
-    # django has pagination but we only have one endpoint at time of writing
-    # that requires pagination
-
     def ispositiveint(v):
         ensure(isint(v) and int(v) > 0, "expecting positive integer, got: %s" % v)
         return int(v)
@@ -62,7 +59,7 @@ def article_list(request):
         kwargs['only_published'] = not authenticated
         results = logic.latest_article_versions(**kwargs)
         struct = {
-            'total': len(results),
+            'total': len(results), # TODO: probably wrong now.
             'items': map(logic.article_snippet_json, results),
         }
         return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')

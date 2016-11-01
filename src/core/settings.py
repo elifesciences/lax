@@ -182,6 +182,7 @@ SCHEMA_IDX = {
 API_PATH = join(SCHEMA_PATH, 'api.raml')
 
 def _load_api_raml(path):
+    # load the api.raml file, ignoring any "!include" commands
     yaml.add_multi_constructor('', lambda *args: '[disabled]')
     return yaml.load(open(path, 'r'))['traits']['paged']['queryParameters']
 
