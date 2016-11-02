@@ -215,6 +215,8 @@ EVENT_BUS = {
 
 # Lax settings
 
+ALLOW_INVALID_AJSON = cfg('journal.allow-invalid-ajson', False)
+
 # when ingesting an article version and the EIF has no 'update' value,
 # should we fail and raise an error? if not, the article pub-date is used instead.
 FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)

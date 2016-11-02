@@ -1,3 +1,4 @@
+#from datetime import datetime
 import copy
 from jsonschema import ValidationError
 from django.db.models import Q
@@ -59,7 +60,6 @@ def valid(merge_result, quiet=True):
     msid = merge_result.get('id', '[no id]')
     schema_key = merge_result['status']
     schema = settings.SCHEMA_IDX[schema_key]
-    # print 'status >>>>>>>>', msid, merge_result['status'], schema
     try:
         utils.validate(merge_result, schema)
         return merge_result
@@ -70,8 +70,7 @@ def valid(merge_result, quiet=True):
             raise
     except ValidationError as err:
         # definitely not valid ;)
-        LOG.error("validating %s with %s, failed to valid: %s", msid, schema, err)
-
+        LOG.error("while validating %s with %s, failed to valid with error: %s", msid, schema, err)
         if not quiet:
             raise
 
@@ -85,39 +84,46 @@ def extract_snippet(merged_result):
     return subdict(merged_result, snippet_keys)
 
 def post_process(av, result):
+    """called after `merge()` to add/remove/tweak the merged result.
+    especially useful during development, this should be absolutely minimal
+    once dev is complete"""
 
     result = copy.deepcopy(result)
 
-    # version date
+    # set the version date
     result['versionDate'] = av.datetime_published
 
-    # status date
-    if result['version'] == 1:
-        result['statusDate'] = av.datetime_published
-    else:
-        v1vor = av.article.earliest_vor()
-        if v1vor:
-            result['statusDate'] = v1vor.datetime_published
-        else:
-            result['statusDate'] = result['published']
+    # calculate the status date
+    # it's when the av.status changed to what it is
+    result['statusDate'] = result['published'] # 'published' is the v1 pubdate remember
+    v1vor = av.article.earliest_vor()
+    if v1vor:
+        # article has a vor in it's version history! use it's version date
+        result['statusDate'] = v1vor.datetime_published.isoformat()
 
-    if not result['statusDate']:
-        result['statusDate'] = result['published']
-
+    # at time of writing these, fixtures with these were failing to validate
     utils.delall(result, ['relatedArticles', 'digest', 'references'])
 
     return result
 
-def merge_if_valid(av, quiet=True):
+def merge_if_valid(av, allow_invalid=False, quiet=True):
     ensure(isinstance(av, models.ArticleVersion), "I need an ArticleVersion object")
-    result = merge(av)
 
+    log_context = {'article-version': av, 'allow_invalid': allow_invalid, 'quiet': quiet}
+
+    result = merge(av)
     result = post_process(av, result)
 
-    if valid(result, quiet=quiet):
+    is_valid = valid(result, quiet=quiet)
+    if is_valid or allow_invalid:
+        if not is_valid:
+            absolutely_required_keys = ['published']
+            ensure(all(map(result.has_key, absolutely_required_keys)), "an invalid merge is being forced but I absolutely require the following keys that are not present: %s" % ', '.join(absolutely_required_keys))
+            LOG.warn("article-json failed to validate but the 'allow_invalid' flag is set. storing invalid article-json.",
+                     extra=log_context)
         av.article_json_v1 = result
         av.article_json_v1_snippet = extract_snippet(result)
         av.save()
         return True
-    LOG.warn("merge result failed to validate, not updating article version")
+    LOG.warn("merge result failed to validate, not updating article version", extra=log_context)
     return False
