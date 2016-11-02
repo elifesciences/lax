@@ -73,7 +73,8 @@ INSTALLED_APPS = (
     'publisher',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,8 +82,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-)
+
+    'core.middleware.KongAuthentication',
+]
 
 ROOT_URLCONF = 'core.urls'
 
@@ -201,6 +203,11 @@ API_OPTS = render_item({
     'order_direction': [p('order.default')],
 
 }, _load_api_raml(API_PATH))
+
+# KONG gateway options
+
+KONG_AUTH_HEADER = 'X-KONG-Authenticated'
+INTERNAL_NETWORK = '10.0.2.0/24'
 
 #
 # notification events

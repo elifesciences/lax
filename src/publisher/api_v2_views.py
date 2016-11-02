@@ -50,10 +50,13 @@ def request_args(request, **overrides):
 #
 #
 
+def is_authenticated(request):
+    return request.META.get(settings.KONG_AUTH_HEADER)
+
 @api_view(['GET'])
 def article_list(request):
     "returns a list of snippets"
-    authenticated = False
+    authenticated = is_authenticated(request)
     try:
         kwargs = request_args(request)
         kwargs['only_published'] = not authenticated
@@ -69,7 +72,7 @@ def article_list(request):
 @api_view(['GET'])
 def article(request, id):
     "return the article-json for the most recent version of the given article ID"
-    authenticated = False
+    authenticated = is_authenticated(request)
     try:
         av = logic.most_recent_article_version(id, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
@@ -79,7 +82,7 @@ def article(request, id):
 @api_view(['GET'])
 def article_version_list(request, id):
     "returns a list of versions for the given article ID"
-    authenticated = False
+    authenticated = is_authenticated(request)
     try:
         resp = logic.article_version_history(id, only_published=not authenticated)
         return Response(resp, content_type='application/vnd.elife.article-history+json;version=1')
@@ -89,8 +92,9 @@ def article_version_list(request, id):
 @api_view(['GET'])
 def article_version(request, id, version):
     "returns the article-json for a specific version of the given article ID"
+    authenticated = is_authenticated(request)
     try:
-        av = logic.article_version(id, version)
+        av = logic.article_version(id, version, only_published=authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.ArticleVersion.DoesNotExist:
         raise Http404()
@@ -100,14 +104,14 @@ def article_version(request, id, version):
 #
 
 @api_view(['POST'])
-def article_fragment(rest_request, art_id, fragment_id):
-    only_published = False
+def article_fragment(request, art_id, fragment_id):
+    only_published = is_authenticated(request)
     try:
         reserved_keys = [XML2JSON]
         ensure(fragment_id not in reserved_keys, "that key is taken")
         with transaction.atomic():
             av = logic.most_recent_article_version(art_id, only_published)
-            data = rest_request.data
+            data = request.data
             frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
             ensure(created or updated, "fragment was not created/updated")
             fragment_logic.merge_if_valid(av, quiet=False)
