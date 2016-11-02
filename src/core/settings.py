@@ -206,7 +206,7 @@ API_OPTS = render_item({
 
 # KONG gateway options
 
-KONG_AUTH_HEADER = 'X-KONG-Authenticated'
+KONG_AUTH_HEADER = 'KONG-Authenticated'
 INTERNAL_NETWORK = '10.0.2.0/24'
 
 #

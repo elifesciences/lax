@@ -10,7 +10,7 @@ def set_authenticated(request, state=False):
     request.META[settings.KONG_AUTH_HEADER] = state
 
 def strip_auth_headers(request, authenticated=False):
-    "strips the KONG auth headers for whatever reason. mutator"
+    "strips the KONG auth headers, set authentication status"
     for header in EXPECTED_HEADERS:
         if header in request.META:
             del request.META[header]

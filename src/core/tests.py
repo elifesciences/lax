@@ -18,10 +18,10 @@ class KongAuthMiddleware(TestCase):
         "ensure an unauthenticated request is marked as such"
         resp = self.c.get('/')
         self.assertEqual(resp.status_code, 200)
-        self.assertFalse(getattr(resp, settings.KONG_AUTH_HEADER))
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
 
     def test_authenticated_request(self):
         "ensure an authenticated request is marked as such"
         resp = self.c.get('/', **self.extra)
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(getattr(resp, settings.KONG_AUTH_HEADER))
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
