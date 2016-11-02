@@ -136,7 +136,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
         data = json.loads(resp.content)
-        idx = {int(item['id']):item for item in data['items']}
+        idx = {int(item['id']): item for item in data['items']}
 
         # valid data
         utils.validate(data, SCHEMA_IDX['list'])
@@ -171,7 +171,7 @@ class V2Content(base.BaseCase):
 
         # correct data
         self.assertEqual(data['version'], 3)
-        
+
     def test_article_vor(self):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid1}))
@@ -240,7 +240,6 @@ class V2Content(base.BaseCase):
 
         # correct data
         self.assertEqual(len(data['versions']), 3)  # this article has two *published*, one *unpublished*
-
 
     def test_article_versions_list_does_not_exist(self):
         models.Article.objects.all().delete()
