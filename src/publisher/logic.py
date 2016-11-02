@@ -80,8 +80,14 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
     order_by = 'datetime_published'
 
     ensure(all(map(utils.isint, [page, per_page])), "'page' and 'per-page' must be integers")
+
+    # sql limit+offset rules
     limit = per_page
     offset = per_page * (page - 1)
+
+    # python slicing rules
+    start = (page - 1) * per_page
+    end = start + per_page
 
     if only_published:
         sql = """
@@ -127,7 +133,6 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
         .order_by(order_by)
 
     if per_page > 0:
-        start, end = offset, offset + page
         q = q[start:end]
 
     return list(q)

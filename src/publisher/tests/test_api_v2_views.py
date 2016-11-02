@@ -1,3 +1,5 @@
+from core import middleware as mware
+import uuid
 from datetime import timedelta
 import base
 from os.path import join
@@ -88,7 +90,7 @@ class V2Content(base.BaseCase):
 
             "dummyelife-20105-v1.xml.json", # poa
             "dummyelife-20105-v2.xml.json", # poa
-            "dummyelife-20105-v3.xml.json" # poa
+            "dummyelife-20105-v3.xml.json" # poa, UNPUBLISHED
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
@@ -98,10 +100,21 @@ class V2Content(base.BaseCase):
         self.msid1 = 20125
         self.msid2 = 20105
 
+        # 2 article, 6 versions, 5 published, 1 unpublished
+        self.unpublish(self.msid2, version=3)
+
+        # an unauthenticated client
         self.c = Client()
+        # an authenticated client
+        self.ac = Client(**{
+            'REMOTE_ADDR': '10.0.2.6',
+            mware.CGROUPS: 'user',
+            mware.CID: str(uuid.uuid4()),
+            mware.CUSER: 'pants'
+        })
 
     def test_article_list(self):
-        "a list of articles are returned"
+        "a list of published articles are returned to an unauthenticated response"
         resp = self.c.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
@@ -111,24 +124,27 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX['list'])
 
         # correct data
-        self.assertEqual(len(data['items']), 2) # two results, [msid1, msid2]
-        self.assertEqual(data['total'], 2)
+        self.assertEqual(data['total'], 2) # two results, [msid1, msid2]
+        av1, av2 = data['items']
+        self.assertEqual(av1['version'], 2)
+        self.assertEqual(av2['version'], 3)
 
-    def test_article_list_published_only(self):
-        "a list of PUBLISHED articles only are returned"
-        # unpublish all of 20105
-        self.unpublish(self.msid2)
-        resp = self.c.get(reverse('v2:article-list'))
+    def test_article_list_including_unpublished(self):
+        "a list of published and unpublished articles are returned to an authorized response"
+        resp = self.ac.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.articles-list+json;version=1')
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
         data = json.loads(resp.content)
+        idx = {int(item['id']):item for item in data['items']}
 
         # valid data
         utils.validate(data, SCHEMA_IDX['list'])
 
         # correct data
-        self.assertEqual(len(data['items']), 1) # one result, [msid1]
-        self.assertEqual(data['total'], 1)
+        self.assertEqual(data['total'], 2) # two results, [msid1, msid2]
+        self.assertEqual(idx[self.msid1]['version'], 3) # we get the unpublished v3 back
+        self.assertEqual(idx[self.msid2]['version'], 3)
 
     def test_article_poa(self):
         "the latest version of the requested article is returned"
@@ -141,8 +157,21 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX['poa'])
 
         # correct data
-        self.assertEqual(data['version'], 3)
+        self.assertEqual(data['version'], 2) # v3 is unpublished
 
+    def test_article_poa_unpublished(self):
+        "the latest version of the requested article is returned"
+        resp = self.ac.get(reverse('v2:article', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
+        data = json.loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX['poa'])
+
+        # correct data
+        self.assertEqual(data['version'], 3)
+        
     def test_article_vor(self):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid1}))
@@ -191,7 +220,27 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX['history'])
 
         # correct data
-        self.assertEqual(len(data['versions']), 3)
+        self.assertEqual(len(data['versions']), 2) # this article only has two *published*
+
+    def test_unpublished_article_versions_list(self):
+        "valid json content is returned"
+        # we need some data that can only come from ejp for this
+        ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
+        ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
+
+        resp = self.ac.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
+        data = json.loads(resp.content)
+
+        # valid data
+        # TODO: my unpublished PR on the api-raml isn't merged in yet
+        # the null values for the 'published' value are still invalid
+        #utils.validate(data, SCHEMA_IDX['history'])
+
+        # correct data
+        self.assertEqual(len(data['versions']), 3)  # this article has two *published*, one *unpublished*
+
 
     def test_article_versions_list_does_not_exist(self):
         models.Article.objects.all().delete()

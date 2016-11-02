@@ -51,7 +51,9 @@ def request_args(request, **overrides):
 #
 
 def is_authenticated(request):
-    return request.META.get(settings.KONG_AUTH_HEADER)
+    val = request.META.get(settings.KONG_AUTH_HEADER)
+    #LOG.info("authenticated? %s type %s" % (val, type(val)))
+    return val or False
 
 @api_view(['GET'])
 def article_list(request):
