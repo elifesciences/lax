@@ -171,6 +171,7 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
 
+    @override_settings(ALLOW_INVALID_AJSON=False)
     def test_article_json_not_stored_if_invalid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored but
         only if valid. ensure nothing is stored if result of merge is invalid"""
@@ -189,7 +190,6 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
 
-        
 
 class Publish(BaseCase):
     def setUp(self):
