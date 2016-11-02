@@ -1,3 +1,4 @@
+from django.conf import settings
 import copy
 from publisher import models, utils, fragment_logic as fragments, logic, events
 from publisher.models import XML2JSON
@@ -14,10 +15,8 @@ LOG = logging.getLogger(__name__)
 class StateError(RuntimeError):
     pass
 
-#
 # make the article-json lax compatible
 # receives a list of article-json
-#
 
 ARTICLE = {
     'manuscript_id': [p('id'), int],
@@ -26,6 +25,7 @@ ARTICLE = {
     'doi': [p('id'), utils.msid2doi], # remove when apiv1 is turned off
     #'ejp_type': [p('type'), models.EJP_TYPE_REV_SLUG_IDX.get]
 }
+
 ARTICLE_VERSION = {
     'title': [p('title')],
     'version': [p('version')],
@@ -74,30 +74,33 @@ def _ingest(data, force=False):
         # safer to disable until needed.
         journal = logic.journal()
 
-        article_struct = render.render_item(ARTICLE, data['article'])
-        article, created, updated = \
-            create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
+        try:
+            article_struct = render.render_item(ARTICLE, data['article'])
+            article, created, updated = \
+                create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
 
-        assert isinstance(article, models.Article)
-        log_context['article'] = article
+            assert isinstance(article, models.Article)
+            log_context['article'] = article
 
-        previous_article_versions = None
-        if updated:
-            previous_article_versions = list(article.articleversion_set.all().order_by('version')) # earliest -> latest
+            previous_article_versions = None
+            if updated:
+                previous_article_versions = list(article.articleversion_set.all().order_by('version')) # earliest -> latest
 
-        # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
-        av_struct = render.render_item(ARTICLE_VERSION, data['article'])
-        del av_struct['datetime_published']
+            av_struct = render.render_item(ARTICLE_VERSION, data['article'])
+            # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
+            del av_struct['datetime_published']
 
-        av, created, updated = \
-            create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
-                             create, update, commit=False, article=article)
+            av, created, updated = \
+                create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
+                                 create, update, commit=False, article=article)
+        except KeyError as err:
+            raise ValueError("failed to scrape article data, couldn't find key %s" % err)
 
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
 
         fragments.add(av, XML2JSON, data['article'], pos=0, update=force)
-        fragments.merge_if_valid(av)
+        fragments.merge_if_valid(av, allow_invalid=settings.ALLOW_INVALID_AJSON)
 
         # enforce business rules
 
@@ -151,6 +154,10 @@ def _ingest(data, force=False):
 
         return journal, article, av
 
+    except KeyError as err:
+        # *probably* an error while scraping ...
+        raise StateError("failed to scrape given article data: %s" % err)
+
     except StateError:
         raise
 
@@ -167,7 +174,7 @@ def ingest(*args, **kwargs):
 # PUBLISH requests
 #
 
-def _publish(msid, version, force=False):
+def _publish(msid, version, force=False, allow_invalid=False):
     """attach a `datetime_published` value to an article version. if none provided, use RIGHT NOW.
     you cannot publish an already published article version unless force==True"""
     try:
@@ -205,6 +212,9 @@ def _publish(msid, version, force=False):
 
         av.datetime_published = datetime_published
         av.save()
+
+        # merge the fragments we have available and make them available for serving
+        fragments.merge_if_valid(av, allow_invalid=settings.ALLOW_INVALID_AJSON)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(events.notify, av.article))
