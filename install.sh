@@ -1,5 +1,8 @@
 #!/bin/bash
 set -e # everything must succeed.
+
+. download-api-raml.sh
+
 if [ ! -d venv ]; then
     virtualenv --python=`which python2` venv
 fi
@@ -10,5 +13,3 @@ if [ ! -e app.cfg ]; then
 fi
 pip install -r requirements.txt
 python src/manage.py migrate --no-input
-
-. download-api-raml.sh

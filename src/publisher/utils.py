@@ -91,10 +91,9 @@ def todt(val):
     if val is None:
         return None
 
-    if not isinstance(val, datetime):
+    dt = val
+    if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
-    else:
-        dt = val # don't attempt to parse, work with what we have
 
     if not dt.tzinfo:
         # no timezone (naive), assume UTC and make it explicit
@@ -104,7 +103,7 @@ def todt(val):
     else:
         # ensure tz is UTC
         if dt.tzinfo != pytz.utc:
-            LOG.debug("got an aware dt that isn't in utc: %r", dt)
+            LOG.debug("converting an aware dt that isn't in utc TO utc: %r", dt)
             return dt.astimezone(pytz.utc)
     return dt
 
