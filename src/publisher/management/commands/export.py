@@ -37,6 +37,6 @@ class Command(BaseCommand):
         if qid:
             qid_list = [qid]
         else:
-            qid_list = [models.Query.objects.all().values('id')]
+            qid_list = models.Query.objects.all().values('id')
 
         map(snapshot_query, qid_list)
