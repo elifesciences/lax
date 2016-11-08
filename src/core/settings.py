@@ -180,7 +180,7 @@ SWAGGER_SETTINGS = {
 #
 
 EXPLORER_S3_BUCKET = 'elife-lax-temp'
-#ENABLE_TASKS = True # we're bypassing theirs
+# ENABLE_TASKS = True # we're bypassing theirs
 
 
 #
