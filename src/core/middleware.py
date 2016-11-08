@@ -24,6 +24,8 @@ class KongAuthentication(object):
 
     def process_request(self, request):
         headers = {}
+
+        # if request doesn't have all expected headers, strip auth
         for header in EXPECTED_HEADERS:
             if header not in request.META:
                 # no auth or invalid auth request, return immediately
@@ -37,12 +39,6 @@ class KongAuthentication(object):
         if not client_ip in internal_network:
             strip_auth_headers(request)
             LOG.warn("your IP doesn't originate within internal network, refusing auth")
-            return
-
-        # if request doesn't have all expected headers, strip auth
-        if len(headers.keys()) != len(EXPECTED_HEADERS):
-            strip_auth_headers(request)
-            LOG.warn("incorrect number of headers (%s) expecting (%s), refusing auth", len(headers.keys()), len(EXPECTED_HEADERS))
             return
 
         # if request has expected headers, but their values are invalid, strip auth

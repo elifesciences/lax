@@ -84,23 +84,23 @@ def extract_snippet(merged_result):
     return subdict(merged_result, snippet_keys)
 
 def pre_process(av, result):
-    """this is the 'pre_process' step in: 
+    """this is the 'pre_process' step in:
     merge -> pre_process -> valid? -> post_process -> store
 
     pre_process is called after `merge()` to add/remove/tweak the merged result
-    prior to validation. especially useful during development, this should be 
+    prior to validation. especially useful during development, this should be
     minimal once dev is complete"""
-    
+
     result = copy.deepcopy(result)
 
     # at time of writing these, fixtures with these were failing to validate
-    # TODO: these need to be removed 
+    # TODO: these need to be removed
     utils.delall(result, ['relatedArticles', 'digest', 'references'])
 
     return result
 
 def post_process(av, result):
-    """this is the 'post_process' step in: 
+    """this is the 'post_process' step in:
     merge -> pre_process -> valid? -> post_process -> store
 
     post_process is called after valid? to tweak the valid result.
@@ -112,7 +112,7 @@ def post_process(av, result):
     # if unpublished, this value will be None
     # NOTE: null published values are currently verboten. once allowed, shift back into pre_process
     result['published'] = av.datetime_published
-    
+
     # set the version date
     # if unpublished, this value will be None
     result['versionDate'] = av.datetime_published
@@ -137,13 +137,13 @@ def merge_if_valid(av, allow_invalid=False, quiet=True):
     result = pre_process(av, result)
     is_valid = valid(result, quiet=quiet)
     result = post_process(av, result)
-    
+
     if is_valid or allow_invalid:
         if not is_valid:
             absolutely_required_keys = ['published']
-            ensure(all(map(result.has_key, absolutely_required_keys)), \
-                       "an invalid merge is being forced but I absolutely require the following keys that are not present: %s" % \
-                       ', '.join(absolutely_required_keys))
+            ensure(all(map(result.has_key, absolutely_required_keys)),
+                   "an invalid merge is being forced but I absolutely require the following keys that are not present: %s" %
+                   ', '.join(absolutely_required_keys))
             LOG.warn("article-json failed to validate but the 'allow_invalid' flag is set. storing invalid article-json.",
                      extra=log_context)
         av.article_json_v1 = result

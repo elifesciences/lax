@@ -20,8 +20,29 @@ class KongAuthMiddleware(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
 
+    def test_anonymous_request(self):
+        "client is trying to authenticate but the user is 'anonymous'"
+        self.extra[mware.CUSER] = 'anonymous'
+        resp = self.c.get('/', **self.extra)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
+
     def test_authenticated_request(self):
         "ensure an authenticated request is marked as such"
         resp = self.c.get('/', **self.extra)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
+
+    def test_bad_authentication_request1(self):
+        "client is trying to authenticate but IP doesn't originate within subnet"
+        self.extra['REMOTE_ADDR'] = '192.168.0.1' # internal, but not *our* internal
+        resp = self.c.get('/', **self.extra)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
+
+    def test_bad_authentication_request2(self):
+        "client is trying to authenticate but the user is unknown"
+        self.extra[mware.CGROUPS] = 'party'
+        resp = self.c.get('/', **self.extra)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')

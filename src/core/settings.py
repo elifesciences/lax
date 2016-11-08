@@ -176,6 +176,14 @@ SWAGGER_SETTINGS = {
 }
 
 #
+# sql explorer
+#
+
+EXPLORER_S3_BUCKET = 'elife-lax-temp'
+# ENABLE_TASKS = True # we're bypassing theirs
+
+
+#
 # API opts
 #
 
