@@ -39,4 +39,7 @@ class Command(BaseCommand):
         else:
             qid_list = models.Query.objects.all().values('id')
 
+        if not qid_list:
+            LOG.info("no query objects found, nothing to upload")
+
         map(snapshot_query, qid_list)
