@@ -35,7 +35,7 @@ class Command(BaseCommand):
         if timestamp_fname:
             # ll: query1--dummy-query--20160131-23:59:59
             fname = 'query%s--%s--%s.csv' % (q.id, safe_title, date.today().strftime('%Y%m%d-%H:%M:%S'))
-        if upload:
+        if upload and settings.EXPLORER_S3_BUCKET:
             LOG.info("uploading snapshot: %s", fname)
             self._upload(fname, exporter.get_file_output())
             LOG.info("completed upload of snapshot: %s", fname)
