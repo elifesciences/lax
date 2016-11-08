@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from datetime import date
-from explorer import tasks, exporters, models
+from explorer import exporters, models
 import logging
 import botocore.session
 import tinys3
