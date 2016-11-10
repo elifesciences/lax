@@ -121,8 +121,8 @@ def post_process(av, result):
     # it's when the av.status changed to what it is
     result['statusDate'] = result['published'] # 'published' is the v1 pubdate remember
     v1vor = av.article.earliest_vor()
-    if v1vor:
-        # article has a vor in it's version history! use it's version date
+    if v1vor and v1vor.datetime_published:
+        # article has a published vor in it's version history! use it's version date
         result['statusDate'] = v1vor.datetime_published.isoformat()
 
     return result

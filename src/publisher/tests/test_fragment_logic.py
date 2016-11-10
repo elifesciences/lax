@@ -113,3 +113,9 @@ class FragmentMerge(BaseCase):
         av = self.freshen(self.av)
         self.assertTrue(av.article_json_v1)
         self.assertTrue(av.article_json_v1_snippet)
+
+    def test_merge_sets_status_date_correctly(self):
+        pass
+        
+    def test_merge_ignores_unpublished_vor_when_setting_status_date(self):
+        pass
