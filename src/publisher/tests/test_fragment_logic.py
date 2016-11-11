@@ -116,6 +116,6 @@ class FragmentMerge(BaseCase):
 
     def test_merge_sets_status_date_correctly(self):
         pass
-        
+
     def test_merge_ignores_unpublished_vor_when_setting_status_date(self):
         pass
