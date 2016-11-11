@@ -29,14 +29,14 @@ def article(doi, version=None):
     try:
         article = models.Article.objects.get(doi__iexact=doi)
         if version:
-            return article, article.articleversion_set.get(version=version)
-        return article, article.articleversion_set.latest('version')
+            return article, article.articleversion_set.exclude(datetime_published=None).get(version=version)
+        return article, article.articleversion_set.exclude(datetime_published=None).latest('version')
     except ObjectDoesNotExist:
         raise models.Article.DoesNotExist()
 
 def article_versions(doi):
     "returns all versions of the given article"
-    return models.ArticleVersion.objects.filter(article__doi__iexact=doi)
+    return models.ArticleVersion.objects.filter(article__doi__iexact=doi).exclude(datetime_published=None)
 
 
 # TODO: move this into `tests/`

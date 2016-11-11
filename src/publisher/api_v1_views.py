@@ -20,18 +20,19 @@ def article_or_404(doi, version=None):
 # API, collections of articles
 #
 
+'''
 @api_view(['GET'])
 def corpus_info(rest_request):
     articles = models.Article.objects.all()
     return Response({'article-count': articles.count(),
                      'research-article-count': articles.filter(type='research-article').count()})
+'''
 
 #
 # API, specific articles
 #
 
 class ArticleSerializer(szr.ModelSerializer):
-
     class Meta:
         exclude = ('id', 'journal')
         model = models.Article
@@ -57,10 +58,7 @@ def get_article(rest_request, doi, version=None):
 
 @api_view(['GET'])
 def get_article_versions(rest_request, doi):
-    """
-    Returns all versions of the requested article, grouped by version number.
-
-    """
+    "Returns all versions of the requested article, grouped by version number."
     article_list = logic.article_versions(doi)
     if not article_list:
         raise Http404()
