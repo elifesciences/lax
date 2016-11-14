@@ -199,13 +199,17 @@ def _publish(msid, version, force=False, allow_invalid=False):
             # but *not* if it's > v1. in this case, we generate one.
             if av.published() and force:
                 # this article version is already published and a force publish request has been sent
-                # if a 'versionDate' value is present in the article-json, use that.
-                # as of 2016-10-21 version history isn't captured in the xml, it won't be parsed by the bot-lax-adaptor and
-                # won't find it's way here
                 if 'versionDate' in raw_data:
+                    # when a 'versionDate' value is present in the article-json, use that.
+                    # as of 2016-10-21 version history isn't captured in the xml, it won't be parsed by the bot-lax-adaptor and
+                    # won't find it's way here. this is a future-case only.
                     datetime_published = utils.todt(raw_data['versionDate'])
                     if not datetime_published:
                         raise StateError("found 'versionDate' value in article-json, but it's either null or unparseable as a datetime")
+                else:
+                    # preserve the existing pubdate set by lax.
+                    # if the pubdate for an article is to change, it must come from the xml (see above case)
+                    datetime_published = av.datetime_published
             else:
                 # this article version hasn't been published yet. use a value of RIGHT NOW as the published date.
                 datetime_published = utils.utcnow()
