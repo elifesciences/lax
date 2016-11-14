@@ -274,6 +274,31 @@ class Publish(BaseCase):
         av2v2 = self.freshen(av2v2)
         self.assertEqual(utils.ymd(yesterday), utils.ymd(av2v2.datetime_published))
 
+    def test_article_publish_v2_forced2(self):
+        "a PUBLISHED v2 article can be successfully published (again), if forced"
+        _, _, av = ajson_ingestor.ingest(self.ajson)
+        ajson_ingestor.publish(self.msid, self.version)
+        av = self.freshen(av)
+        self.assertTrue(av.published())
+
+        # modify and ingest+publish a v2
+        self.ajson['article']['version'] = 2
+        # there is a versionDate here, but because we're not forcing it, it doesn't get looked for
+        # lax is the distributor of non-v1 pub dates. this may find their way into xml later, but
+        # they will always come from lax.
+        _, _, av2 = ajson_ingestor.ingest_publish(self.ajson)
+        av2 = self.freshen(av2)
+        self.assertTrue(av2.published())
+        self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av2.datetime_published))
+
+        # don't set a versionDate, just force a publish
+        # we expect the v2.datetime_publish to remain unchanged
+        del self.ajson['article']['versionDate'] # remember, this was copied from a v1 that had a versionDate!
+        _, _, av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
+        av2v2 = self.freshen(av2v2)
+
+        self.assertEqual(av2.datetime_published, av2v2.datetime_published)
+
     def test_article_publish_fails_if_already_published(self):
         "a published article cannot be published again"
         _, _, av = ajson_ingestor.ingest(self.ajson)
