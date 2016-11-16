@@ -67,7 +67,7 @@ def article_list(request):
             'total': len(results), # TODO: probably wrong now.
             'items': map(logic.article_snippet_json, results),
         }
-        return Response(struct, content_type='application/vnd.elife.articles-list+json;version=1')
+        return Response(struct, content_type='application/vnd.elife.article-list+json;version=1')
     except AssertionError as err:
         return Response(err.message, status=status.HTTP_400_BAD_REQUEST)
 

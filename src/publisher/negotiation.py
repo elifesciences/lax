@@ -16,7 +16,7 @@ def mktype(row):
 
 _dynamic_types = [
     # class name, media type, known version list
-    ('ArticleList', 'application/vnd.elife.articles-list+json', [1]),
+    ('ArticleList', 'application/vnd.elife.article-list+json', [1]),
     ('POAArticle', 'application/vnd.elife.article-poa+json', [1]),
     ('VORArticle', 'application/vnd.elife.article-vor+json', [1]),
     ('ArticleHistory', 'application/vnd.elife.article-history+json', [1])
