@@ -64,11 +64,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
-    'rest_framework_swagger',
-    'django_markdown2',
+    'django_markdown2', # landing page is rendered markdown
+    'explorer', # sql creation
+    #'django_db_logger', # logs certain entries to the database
 
-    'explorer',
+    'rest_framework',
+    'rest_framework_swagger', # gui for api
 
     'publisher',
 )
@@ -83,7 +84,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'core.middleware.KongAuthentication',
+    'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -269,53 +270,62 @@ LOGGING = {
     },
 
     'handlers': {
-        'file': {
+        # entries go to standard lax.log file
+        'lax.log': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': LOG_FILE,
             'formatter': 'json',
         },
-        'ingestion': {
+
+        # entries go to stderr
+        'stderr': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'brief',
+        },
+
+        # entries go to the lax-ingestion.log file
+        'ingestion.log': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': INGESTION_LOG_FILE,
             'formatter': 'json',
         },
-        'debug-console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'brief',
-        },
+
+        # entries go to the database
+        #'database': {
+        #    'level': 'DEBUG',
+        #    'class': 'django_db_logger.db_log_handler.DatabaseLogHandler',
+        #    'formatter': 'json',
+        #},
     },
 
     'loggers': {
         '': {
-            'handlers': ['debug-console', 'file'],
+            'handlers': ['stderr', 'lax.log'],
             'level': 'INFO',
             'propagate': True,
         },
-        'publisher.eif_ingestor': {
-            'handlers': ['ingestion'],
-        },
-        'publisher.ejp_ingestor': {
-            'handlers': ['ingestion'],
-        },
-        'publisher.ajson_ingestor': {
-            'handlers': ['ingestion'],
-            #'propagate': False, # prevent propagation to root handler and it's debug-console handler
-        },
-        'publisher.management.commands.import': {
-            'level': 'INFO',
-            'handlers': ['debug-console'],
-        },
-        'publisher.management.commands.ingest': {
-            'level': 'INFO',
-            'handlers': ['ingestion', 'debug-console'],
-        },
         'django.request': {
-            'handlers': ['file'],
+            'handlers': ['lax.log'],
             'level': 'DEBUG',
             'propagate': True,
         },
     },
 }
+
+x = [
+    'publisher.eif_ingestor',
+    'publisher.ejp_ingestor',
+    'publisher.ajson_ingestor',
+    'publisher.management.commands.import',
+    'publisher.management.commands.ingest',
+]
+logger = {
+    'level': 'INFO',
+    #'handlers': ['database', 'ingestion.log', 'lax.log', 'stderr'],
+    'handlers': ['ingestion.log', 'lax.log', 'stderr'],
+    'propagate': False, # don't propagate up to root logger
+}
+LOGGING['loggers'].update(dict(zip(x, [logger] * len(x))))

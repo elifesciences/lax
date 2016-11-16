@@ -1,6 +1,8 @@
+from StringIO import StringIO
 import os
 from django.test import TestCase
 from publisher import models
+from django.core.management import call_command
 
 class BaseCase(TestCase):
     this_dir = os.path.dirname(os.path.realpath(__file__))
@@ -21,4 +23,12 @@ class BaseCase(TestCase):
             av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
             av.datetime_published = None
             av.save()
-        # return av
+
+    def call_command(self, *args, **kwargs):
+        stdout = StringIO()
+        try:
+            kwargs['stdout'] = stdout
+            call_command(*args, **kwargs)
+        except SystemExit as err:
+            return err.code, stdout
+        self.fail("ingest script should always throw a systemexit()")
