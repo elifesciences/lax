@@ -1,3 +1,11 @@
+"""
+temporary command to check one or more articles inside lax match the website.
+this command will be removed or replaced when we switch to the new infrastructure.
+
+usage: ./manage.sh check_article --msid 12345 01234 00123 00012 00001
+
+"""
+
 from functools import wraps
 from django.core.management.base import BaseCommand
 from publisher.utils import ensure, json_dumps

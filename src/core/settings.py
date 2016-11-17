@@ -294,6 +294,7 @@ LOGGING = {
         },
 
         # entries go to the database
+        # incomplete. I need the django-db-logger a little bit cleverer first
         #'database': {
         #    'level': 'DEBUG',
         #    'class': 'django_db_logger.db_log_handler.DatabaseLogHandler',
@@ -315,7 +316,7 @@ LOGGING = {
     },
 }
 
-x = [
+module_loggers = [
     'publisher.eif_ingestor',
     'publisher.ejp_ingestor',
     'publisher.ajson_ingestor',
@@ -328,4 +329,4 @@ logger = {
     'handlers': ['ingestion.log', 'lax.log', 'stderr'],
     'propagate': False, # don't propagate up to root logger
 }
-LOGGING['loggers'].update(dict(zip(x, [logger] * len(x))))
+LOGGING['loggers'].update(dict(zip(module_loggers, [logger] * len(module_loggers))))
