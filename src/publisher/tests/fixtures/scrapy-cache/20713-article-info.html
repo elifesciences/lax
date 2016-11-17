@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html>
+<html lang="en" dir="ltr" version="HTML+RDFa+MathML 1.1"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:dc="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:og="http://ogp.me/ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:sioc="http://rdfs.org/sioc/ns#"
+  xmlns:sioct="http://rdfs.org/sioc/types#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML">
+  <head prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# book: http://ogp.me/ns/book#" >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><script type="text/javascript">(window.NREUM||(NREUM={})).loader_config={xpid:"VQICUFJWCRACU1BSAAcGVg=="};window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o||e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({1:[function(t,e,n){function r(t){try{c.console&&console.log(t)}catch(e){}}var o,i=t("ee"),a=t(15),c={};try{o=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(c.console=!0,o.indexOf("dev")!==-1&&(c.dev=!0),o.indexOf("nr_dev")!==-1&&(c.nrDev=!0))}catch(s){}c.nrDev&&i.on("internal-error",function(t){r(t.stack)}),c.dev&&i.on("fn-err",function(t,e,n){r(n.stack)}),c.dev&&(r("NR AGENT IN DEVELOPMENT MODE"),r("flags: "+a(c,function(t,e){return t}).join(", ")))},{}],2:[function(t,e,n){function r(t,e,n,r,o){try{d?d-=1:i("err",[o||new UncaughtException(t,e,n)])}catch(c){try{i("ierr",[c,(new Date).getTime(),!0])}catch(s){}}return"function"==typeof f&&f.apply(this,a(arguments))}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function o(t){i("err",[t,(new Date).getTime()])}var i=t("handle"),a=t(16),c=t("ee"),s=t("loader"),f=window.onerror,u=!1,d=0;s.features.err=!0,t(1),window.onerror=r;try{throw new Error}catch(l){"stack"in l&&(t(8),t(7),"addEventListener"in window&&t(5),s.xhrWrappable&&t(9),u=!0)}c.on("fn-start",function(t,e,n){u&&(d+=1)}),c.on("fn-err",function(t,e,n){u&&(this.thrown=!0,o(n))}),c.on("fn-end",function(){u&&!this.thrown&&d>0&&(d-=1)}),c.on("internal-error",function(t){i("ierr",[t,(new Date).getTime(),!0])})},{}],3:[function(t,e,n){t("loader").features.ins=!0},{}],4:[function(t,e,n){function r(t){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var o=t("ee"),i=t("handle"),a=t(8),c=t(7),s="learResourceTimings",f="addEventListener",u="resourcetimingbufferfull",d="bstResource",l="resource",p="-start",h="-end",m="fn"+p,w="fn"+h,v="bstTimer",y="pushState";t("loader").features.stn=!0,t(6);var g=NREUM.o.EV;o.on(m,function(t,e){var n=t[0];n instanceof g&&(this.bstStart=Date.now())}),o.on(w,function(t,e){var n=t[0];n instanceof g&&i("bst",[n,e,this.bstStart,Date.now()])}),a.on(m,function(t,e,n){this.bstStart=Date.now(),this.bstType=n}),a.on(w,function(t,e){i(v,[e,this.bstStart,Date.now(),this.bstType])}),c.on(m,function(){this.bstStart=Date.now()}),c.on(w,function(t,e){i(v,[e,this.bstStart,Date.now(),"requestAnimationFrame"])}),o.on(y+p,function(t){this.time=Date.now(),this.startPath=location.pathname+location.hash}),o.on(y+h,function(t){i("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),f in window.performance&&(window.performance["c"+s]?window.performance[f](u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["c"+s]()},!1):window.performance[f]("webkit"+u,function(t){i(d,[window.performance.getEntriesByType(l)]),window.performance["webkitC"+s]()},!1)),document[f]("scroll",r,!1),document[f]("keypress",r,!1),document[f]("click",r,!1)}},{}],5:[function(t,e,n){function r(t){for(var e=t;e&&!e.hasOwnProperty(u);)e=Object.getPrototypeOf(e);e&&o(e)}function o(t){c.inPlace(t,[u,d],"-",i)}function i(t,e){return t[1]}var a=t("ee").get("events"),c=t(17)(a,!0),s=t("gos"),f=XMLHttpRequest,u="addEventListener",d="removeEventListener";e.exports=a,"getPrototypeOf"in Object?(r(document),r(window),r(f.prototype)):f.prototype.hasOwnProperty(u)&&(o(window),o(f.prototype)),a.on(u+"-start",function(t,e){var n=t[1],r=s(n,"nr@wrapped",function(){function t(){if("function"==typeof n.handleEvent)return n.handleEvent.apply(n,arguments)}var e={object:t,"function":n}[typeof n];return e?c(e,"fn-",null,e.name||"anonymous"):n});this.wrapped=t[1]=r}),a.on(d+"-start",function(t){t[1]=this.wrapped||t[1]})},{}],6:[function(t,e,n){var r=t("ee").get("history"),o=t(17)(r);e.exports=r,o.inPlace(window.history,["pushState","replaceState"],"-")},{}],7:[function(t,e,n){var r=t("ee").get("raf"),o=t(17)(r),i="equestAnimationFrame";e.exports=r,o.inPlace(window,["r"+i,"mozR"+i,"webkitR"+i,"msR"+i],"raf-"),r.on("raf-start",function(t){t[0]=o(t[0],"fn-")})},{}],8:[function(t,e,n){function r(t,e,n){t[0]=a(t[0],"fn-",null,n)}function o(t,e,n){this.method=n,this.timerDuration="number"==typeof t[1]?t[1]:0,t[0]=a(t[0],"fn-",this,n)}var i=t("ee").get("timer"),a=t(17)(i),c="setTimeout",s="setInterval",f="clearTimeout",u="-start",d="-";e.exports=i,a.inPlace(window,[c,"setImmediate"],c+d),a.inPlace(window,[s],s+d),a.inPlace(window,[f,"clearImmediate"],f+d),i.on(s+u,r),i.on(c+u,o)},{}],9:[function(t,e,n){function r(t,e){d.inPlace(e,["onreadystatechange"],"fn-",c)}function o(){var t=this,e=u.context(t);t.readyState>3&&!e.resolved&&(e.resolved=!0,u.emit("xhr-resolved",[],t)),d.inPlace(t,w,"fn-",c)}function i(t){v.push(t),h&&(g=-g,b.data=g)}function a(){for(var t=0;t<v.length;t++)r([],v[t]);v.length&&(v=[])}function c(t,e){return e}function s(t,e){for(var n in t)e[n]=t[n];return e}t(5);var f=t("ee"),u=f.get("xhr"),d=t(17)(u),l=NREUM.o,p=l.XHR,h=l.MO,m="readystatechange",w=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"],v=[];e.exports=u;var y=window.XMLHttpRequest=function(t){var e=new p(t);try{u.emit("new-xhr",[e],e),e.addEventListener(m,o,!1)}catch(n){try{u.emit("internal-error",[n])}catch(r){}}return e};if(s(p,y),y.prototype=p.prototype,d.inPlace(y.prototype,["open","send"],"-xhr-",c),u.on("send-xhr-start",function(t,e){r(t,e),i(e)}),u.on("open-xhr-start",r),h){var g=1,b=document.createTextNode(g);new h(a).observe(b,{characterData:!0})}else f.on("fn-end",function(t){t[0]&&t[0].type===m||a()})},{}],10:[function(t,e,n){function r(t){var e=this.params,n=this.metrics;if(!this.ended){this.ended=!0;for(var r=0;r<d;r++)t.removeEventListener(u[r],this.listener,!1);if(!e.aborted){if(n.duration=(new Date).getTime()-this.startTime,4===t.readyState){e.status=t.status;var i=o(t,this.lastSize);if(i&&(n.rxSize=i),this.sameOrigin){var a=t.getResponseHeader("X-NewRelic-App-Data");a&&(e.cat=a.split(", ").pop())}}else e.status=0;n.cbTime=this.cbTime,f.emit("xhr-done",[t],t),c("xhr",[e,n,this.startTime])}}}function o(t,e){var n=t.responseType;if("json"===n&&null!==e)return e;var r="arraybuffer"===n||"blob"===n||"json"===n?t.response:t.responseText;return h(r)}function i(t,e){var n=s(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}var a=t("loader");if(a.xhrWrappable){var c=t("handle"),s=t(11),f=t("ee"),u=["load","error","abort","timeout"],d=u.length,l=t("id"),p=t(14),h=t(13),m=window.XMLHttpRequest;a.features.xhr=!0,t(9),f.on("new-xhr",function(t){var e=this;e.totalCbs=0,e.called=0,e.cbTime=0,e.end=r,e.ended=!1,e.xhrGuids={},e.lastSize=null,p&&(p>34||p<10)||window.opera||t.addEventListener("progress",function(t){e.lastSize=t.loaded},!1)}),f.on("open-xhr-start",function(t){this.params={method:t[0]},i(this,t[1]),this.metrics={}}),f.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),f.on("send-xhr-start",function(t,e){var n=this.metrics,r=t[0],o=this;if(n&&r){var i=h(r);i&&(n.txSize=i)}this.startTime=(new Date).getTime(),this.listener=function(t){try{"abort"===t.type&&(o.params.aborted=!0),("load"!==t.type||o.called===o.totalCbs&&(o.onloadCalled||"function"!=typeof e.onload))&&o.end(e)}catch(n){try{f.emit("internal-error",[n])}catch(r){}}};for(var a=0;a<d;a++)e.addEventListener(u[a],this.listener,!1)}),f.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),f.on("xhr-load-added",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),f.on("xhr-load-removed",function(t,e){var n=""+l(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),f.on("addEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-added",[t[1],t[2]],e)}),f.on("removeEventListener-end",function(t,e){e instanceof m&&"load"===t[0]&&f.emit("xhr-load-removed",[t[1],t[2]],e)}),f.on("fn-start",function(t,e,n){e instanceof m&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=(new Date).getTime()))}),f.on("fn-end",function(t,e){this.xhrCbStart&&f.emit("xhr-cb-time",[(new Date).getTime()-this.xhrCbStart,this.onload,e],e)})}},{}],11:[function(t,e,n){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname);var i=!e.protocol||":"===e.protocol||e.protocol===n.protocol,a=e.hostname===document.domain&&e.port===n.port;return r.sameOrigin=i&&(!e.hostname||a),r}},{}],12:[function(t,e,n){function r(){}function o(t,e,n){return function(){return i(t,[(new Date).getTime()].concat(c(arguments)),e?null:this,n),e?void 0:this}}var i=t("handle"),a=t(15),c=t(16),s=t("ee").get("tracer"),f=NREUM;"undefined"==typeof window.newrelic&&(newrelic=f);var u=["setPageViewName","setCustomAttribute","setErrorHandler","finished","addToTrace","inlineHit"],d="api-",l=d+"ixn-";a(u,function(t,e){f[e]=o(d+e,!0,"api")}),f.addPageAction=o(d+"addPageAction",!0),f.setCurrentRouteName=o(d+"routeName",!0),e.exports=newrelic,f.interaction=function(){return(new r).get()};var p=r.prototype={createTracer:function(t,e){var n={},r=this,o="function"==typeof e;return i(l+"tracer",[Date.now(),t,n],r),function(){if(s.emit((o?"":"no-")+"fn-start",[Date.now(),r,o],n),o)try{return e.apply(this,arguments)}finally{s.emit("fn-end",[Date.now()],n)}}}};a("setName,setAttribute,save,ignore,onEnd,getContext,end,get".split(","),function(t,e){p[e]=o(l+e)}),newrelic.noticeError=function(t){"string"==typeof t&&(t=new Error(t)),i("err",[t,(new Date).getTime()])}},{}],13:[function(t,e,n){e.exports=function(t){if("string"==typeof t&&t.length)return t.length;if("object"==typeof t){if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if(!("undefined"!=typeof FormData&&t instanceof FormData))try{return JSON.stringify(t).length}catch(e){return}}}},{}],14:[function(t,e,n){var r=0,o=navigator.userAgent.match(/Firefox[\/\s](\d+\.\d+)/);o&&(r=+o[1]),e.exports=r},{}],15:[function(t,e,n){function r(t,e){var n=[],r="",i=0;for(r in t)o.call(t,r)&&(n[i]=e(r,t[r]),i+=1);return n}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],16:[function(t,e,n){function r(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(o<0?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=r},{}],17:[function(t,e,n){function r(t){return!(t&&t instanceof Function&&t.apply&&!t[a])}var o=t("ee"),i=t(16),a="nr@original",c=Object.prototype.hasOwnProperty,s=!1;e.exports=function(t,e){function n(t,e,n,o){function nrWrapper(){var r,a,c,s;try{a=this,r=i(arguments),c="function"==typeof n?n(r,a):n||{}}catch(f){l([f,"",[r,a,o],c])}u(e+"start",[r,a,o],c);try{return s=t.apply(a,r)}catch(d){throw u(e+"err",[r,a,d],c),d}finally{u(e+"end",[r,a,s],c)}}return r(t)?t:(e||(e=""),nrWrapper[a]=t,d(t,nrWrapper),nrWrapper)}function f(t,e,o,i){o||(o="");var a,c,s,f="-"===o.charAt(0);for(s=0;s<e.length;s++)c=e[s],a=t[c],r(a)||(t[c]=n(a,f?c+o:o,i,c))}function u(n,r,o){if(!s||e){var i=s;s=!0;try{t.emit(n,r,o)}catch(a){l([a,n,r,o])}s=i}}function d(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){l([r])}for(var o in t)c.call(t,o)&&(e[o]=t[o]);return e}function l(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=o),n.inPlace=f,n.flag=a,n}},{}],ee:[function(t,e,n){function r(){}function o(t){function e(t){return t&&t instanceof r?t:t?s(t,c,i):i()}function n(n,r,o){if(!l.aborted){t&&t(n,r,o);for(var i=e(o),a=h(n),c=a.length,s=0;s<c;s++)a[s].apply(i,r);var f=u[y[n]];return f&&f.push([g,n,r,i]),i}}function p(t,e){v[t]=h(t).concat(e)}function h(t){return v[t]||[]}function m(t){return d[t]=d[t]||o(n)}function w(t,e){f(t,function(t,n){e=e||"feature",y[n]=e,e in u||(u[e]=[])})}var v={},y={},g={on:p,emit:n,get:m,listeners:h,context:e,buffer:w,abort:a,aborted:!1};return g}function i(){return new r}function a(){(u.api||u.feature)&&(l.aborted=!0,u=l.backlog={})}var c="nr@context",s=t("gos"),f=t(15),u={},d={},l=e.exports=o();l.backlog=u},{}],gos:[function(t,e,n){function r(t,e,n){if(o.call(t,e))return t[e];var r=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:r,writable:!0,enumerable:!1}),r}catch(i){}return t[e]=r,r}var o=Object.prototype.hasOwnProperty;e.exports=r},{}],handle:[function(t,e,n){function r(t,e,n,r){o.buffer([t],r),o.emit(t,e,n)}var o=t("ee").get("handle");e.exports=r,r.ee=o},{}],id:[function(t,e,n){function r(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:a(t,i,function(){return o++})}var o=1,i="nr@id",a=t("gos");e.exports=r},{}],loader:[function(t,e,n){function r(){if(!b++){var t=g.info=NREUM.info,e=d.getElementsByTagName("script")[0];if(setTimeout(f.abort,3e4),!(t&&t.licenseKey&&t.applicationID&&e))return f.abort();s(v,function(e,n){t[e]||(t[e]=n)}),c("mark",["onload",a()],null,"api");var n=d.createElement("script");n.src="https://"+t.agent,e.parentNode.insertBefore(n,e)}}function o(){"complete"===d.readyState&&i()}function i(){c("mark",["domContent",a()],null,"api")}function a(){return(new Date).getTime()}var c=t("handle"),s=t(15),f=t("ee"),u=window,d=u.document,l="addEventListener",p="attachEvent",h=u.XMLHttpRequest,m=h&&h.prototype;NREUM.o={ST:setTimeout,CT:clearTimeout,XHR:h,REQ:u.Request,EV:u.Event,PR:u.Promise,MO:u.MutationObserver},t(12);var w=""+location,v={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-998.min.js"},y=h&&m&&m[l]&&!/CriOS/.test(navigator.userAgent),g=e.exports={offset:a(),origin:w,features:{},xhrWrappable:y};d[l]?(d[l]("DOMContentLoaded",i,!1),u[l]("load",r,!1)):(d[p]("onreadystatechange",o),u[p]("onload",r)),c("mark",["firstbyte",a()],null,"api");var b=0},{}]},{},["loader",2,10,4,3]);</script>
+<meta name="citation_keywords" content="sexual behavior, sexual-dimorphism, copulation, doublesex, &amp;lt;italic&amp;gt;D. melanogaster&amp;lt;/italic&amp;gt;" />
+<meta name="citation_section" content="Neuroscience" />
+<meta name="citation_volume" content="5" />
+<meta name="citation_xml_url" content="https://elife-publishing-cdn.s3.amazonaws.com/20713/elife-20713-v1.xml" />
+<meta name="citation_abstract_url" content="https://elifesciences.org/content/5/e20713v1/abstract" />
+<meta name="citation_public_url" content="https://elifesciences.org/content/5/e20713v1" />
+<meta name="citation_id" content="5/0/e20713" />
+<link rel="shortcut icon" href="https://elifesciences.org/profiles/elife_profile/themes/custom/elife/favicon.ico" type="image/vnd.microsoft.icon" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=10, minimum-scale=1, user-scalable=yes" />
+<meta name="DC.Description" content="Idioms and love songs often euphemistically refer to “the birds and the bees”. Yet for neurobiologists interested in uncovering basic facts about sex and reproduction, the fruit fly has proven much more informative. Male fruit flies court females with a series of “hard-wired” or genetically programmed behaviors. One gene called doublesex generates differences in the anatomy and behavior of males and females in many animal species. In male fruit flies, the doublesex gene is active in roughly 650 neurons, with specific groups of cells controlling distinct steps of the courtship ritual. However, it was not understood how the different steps involved in copulation were coordinated to ensure a successful mating. Pavlou et al. have now identified a circuit of doublesex-expressing neurons that controls copulation itself. The circuit, which is in the fruit fly’s equivalent of the spinal cord, is made up of three types of neurons: motor neurons, inhibitory interneurons and mechanosensory neurons. The motor neurons coordinate the joining of the male’s genitals with those of the female. The inhibitory interneurons promote the release of the male’s genitals by opposing the motor neurons, while the mechanosensory neurons possibly coordinate the activity of the other neurons to generate the correct sequence of events needed for copulation. Pavlou et al. also showed that the mechanism that controls how the male attaches to and detaches from the female is independent of ejaculation, indicating that the mechanics of copulation are separate from those of reproduction. A future challenge will be to understand how command centres in the brain combine these signals with sensory feedback to enable males to execute and modify their copulation-related behaviors. Identifying neural circuits that drive behaviors in fruit flies provide insights into the universal principles by which a nervous system can coordinate complex motor behaviors such as walking and flying." />
+<meta name="DC.Relation" content="10.7554/eLife.22215" />
+<meta name="citation_pdf_url" content="https://elifesciences.org/content/5/e20713.pdf" />
+<meta name="DC.Rights" content=". This is an open-access article, free of all copyright, and may be freely reproduced, distributed, transmitted, modified, built upon, or otherwise used by anyone for any lawful purpose. The work is made available under the Creative Commons CC0 public domain dedication."/>
+<meta name="DC.Contributor" content="Hania J Pavlou"/>
+<meta name="DC.Contributor" content="Andrew C Lin"/>
+<meta name="DC.Contributor" content="Megan C Neville"/>
+<meta name="DC.Contributor" content="Tetsuya Nojima"/>
+<meta name="DC.Contributor" content="Fengqiu Diao"/>
+<meta name="DC.Contributor" content="Brian E Chen"/>
+<meta name="DC.Contributor" content="Benjamin H White"/>
+<meta name="DC.Contributor" content="Stephen F Goodwin"/>
+<meta name="DC.Contributor" content="Mani Ramaswami"/>
+<meta name="citation_funding_source" content="citation_funder=EP Abraham Cephalosporin Trust Fund;citation_grant_number=;citation_grant_recipient=Hania J Pavlou"/>
+<meta name="citation_funding_source" content="citation_funder=Brain@McGill Collaboration Fund;citation_grant_number=;citation_grant_recipient=Hania J Pavlou"/>
+<meta name="citation_funding_source" content="citation_funder=National Institute of Mental Health;citation_grant_number=ZIAMH002800;citation_grant_recipient=Benjamin H White"/>
+<meta name="citation_funding_source" content="citation_funder=Wellcome Trust;citation_grant_number=WT106189MA;citation_grant_recipient=Stephen F Goodwin"/>
+<meta name="citation_author" content="Hania J Pavlou"/>
+<meta name="citation_author_institution" content="Centre for Neural Circuits and Behaviour"/>
+<meta name="citation_author_institution" content="University of Oxford"/>
+<meta name="citation_author_email" content="hania.pavlou@imm.ox.ac.uk"/>
+<meta name="citation_author" content="Andrew C Lin"/>
+<meta name="citation_author_institution" content="Centre for Neural Circuits and Behaviour"/>
+<meta name="citation_author_institution" content="University of Oxford"/>
+<meta name="citation_author_institution" content="Department of Biomedical Science"/>
+<meta name="citation_author_institution" content="University of Sheffield"/>
+<meta name="citation_author" content="Megan C Neville"/>
+<meta name="citation_author_institution" content="Centre for Neural Circuits and Behaviour"/>
+<meta name="citation_author_institution" content="University of Oxford"/>
+<meta name="citation_author" content="Tetsuya Nojima"/>
+<meta name="citation_author_institution" content="Centre for Neural Circuits and Behaviour"/>
+<meta name="citation_author_institution" content="University of Oxford"/>
+<meta name="citation_author" content="Fengqiu Diao"/>
+<meta name="citation_author_institution" content="Laboratory of Molecular Biology"/>
+<meta name="citation_author_institution" content="National Institute of Mental Health"/>
+<meta name="citation_author" content="Brian E Chen"/>
+<meta name="citation_author_institution" content="Department of Medicine"/>
+<meta name="citation_author_institution" content="McGill University"/>
+<meta name="citation_author_institution" content="Department of Neurology and Neurosurgery"/>
+<meta name="citation_author_institution" content="McGill University"/>
+<meta name="citation_author" content="Benjamin H White"/>
+<meta name="citation_author_institution" content="Laboratory of Molecular Biology"/>
+<meta name="citation_author_institution" content="National Institute of Mental Health"/>
+<meta name="citation_author" content="Stephen F Goodwin"/>
+<meta name="citation_author_institution" content="Centre for Neural Circuits and Behaviour"/>
+<meta name="citation_author_institution" content="University of Oxford"/>
+<meta name="citation_author_email" content="stephen.goodwin@dpag.ox.ac.uk"/>
+<meta name="citation_author_orcid" content="http://orcid.org/0000-0002-0552-4140"/>
+<meta name="citation_reference" content="citation_journal_title=Journal of Experimental Biology;citation_author=A. Acebes;citation_author=M. Cobb;citation_author=JF. Ferveur;citation_title=Species-specific effects of single sensillum ablation on mating position in Drosophila;citation_pages=3095-3100;citation_volume=206;citation_year=2003;citation_doi=10.1242/jeb.00522"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=S. Arber;citation_title=Motor circuits in action: specification, connectivity, and function;citation_pages=975-989;citation_volume=74;citation_year=2012;citation_doi=10.1016/j.neuron.2012.05.011"/>
+<meta name="citation_reference" content="citation_journal_title=Cell;citation_author=K. Asahina;citation_author=K. Watanabe;citation_author=BJ. Duistermars;citation_author=E. Hoopfer;citation_author=CR. González;citation_author=EA. Eyjólfsdóttir;citation_author=P. Perona;citation_author=DJ. Anderson;citation_title=Tachykinin-expressing neurons control male-specific aggressive arousal in Drosophila;citation_pages=221-235;citation_volume=156;citation_year=2014;citation_doi=10.1016/j.cell.2013.11.045"/>
+<meta name="citation_reference" content="citation_journal_title=BioTechniques;citation_author=S. Barolo;citation_author=LA. Carver;citation_author=JW. Posakony;citation_title=GFP and beta-galactosidase transformation vectors for promoter/enhancer analysis in Drosophila;citation_pages=726-732;citation_volume=29;citation_year=2000"/>
+<meta name="citation_reference" content="citation_journal_title=Current Biology;citation_author=JC. Billeter;citation_author=A. Villella;citation_author=JB. Allendorfer;citation_author=AJ. Dornan;citation_author=M. Richardson;citation_author=DA. Gailey;citation_author=SF. Goodwin;citation_title=Isoform-specific control of male neuronal differentiation and behavior in Drosophila by the fruitless gene;citation_pages=1063-1076;citation_volume=16;citation_year=2006;citation_doi=10.1016/j.cub.2006.04.039"/>
+<meta name="citation_reference" content="citation_journal_title=Proceedings of the Royal Society B: Biological Sciences;citation_author=A. Bretman;citation_author=C. Fricke;citation_author=T. Chapman;citation_title=Plastic responses of male Drosophila melanogaster to the level of sperm competition increase male reproductive fitness;citation_pages=1705-1711;citation_volume=276;citation_year=2009;citation_doi=10.1098/rspb.2008.1878"/>
+<meta name="citation_reference" content="citation_journal_title=Current Biology;citation_author=S. Cachero;citation_author=AD. Ostrovsky;citation_author=JY. Yu;citation_author=BJ. Dickson;citation_author=GS. Jefferis;citation_title=Sexual dimorphism in the fly brain;citation_pages=1589-1601;citation_volume=20;citation_year=2010;citation_doi=10.1016/j.cub.2010.07.045"/>
+<meta name="citation_reference" content="citation_journal_title=Nature;citation_author=TW. Chen;citation_author=TJ. Wardill;citation_author=Y. Sun;citation_author=SR. Pulver;citation_author=SL. Renninger;citation_author=A. Baohan;citation_author=ER. Schreiter;citation_author=RA. Kerr;citation_author=MB. Orger;citation_author=V. Jayaraman;citation_author=LL. Looger;citation_author=K. Svoboda;citation_author=DS. Kim;citation_title=Ultrasensitive fluorescent proteins for imaging neuronal activity;citation_pages=295-300;citation_volume=499;citation_year=2013;citation_doi=10.1038/nature12354"/>
+<meta name="citation_reference" content="citation_journal_title=Cell;citation_author=JD. Clyne;citation_author=G. Miesenböck;citation_title=Sex-specific control and tuning of the pattern generator for courtship song in Drosophila;citation_pages=354-363;citation_volume=133;citation_year=2008;citation_doi=10.1016/j.cell.2008.01.050"/>
+<meta name="citation_reference" content="citation_journal_title=Cell;citation_author=MA. Crickmore;citation_author=LB. Vosshall;citation_title=Opposing dopaminergic and GABAergic neurons control the duration and persistence of copulation in Drosophila;citation_pages=881-893;citation_volume=155;citation_year=2013;citation_doi=10.1016/j.cell.2013.09.055"/>
+<meta name="citation_reference" content="citation_journal_title=The Journal of Comparative Neurology;citation_author=RW. Daniels;citation_author=MV. Gelfand;citation_author=CA. Collins;citation_author=A. DiAntonio;citation_title=Visualizing glutamatergic cell bodies and synapses in Drosophila larval and adult CNS;citation_pages=131-152;citation_volume=508;citation_year=2008;citation_doi=10.1002/cne.21670"/>
+<meta name="citation_reference" content="citation_journal_title=Cell Reports;citation_author=F. Diao;citation_author=H. Ironfield;citation_author=H. Luan;citation_author=F. Diao;citation_author=WC. Shropshire;citation_author=J. Ewer;citation_author=E. Marr;citation_author=CJ. Potter;citation_author=M. Landgraf;citation_author=BH. White;citation_title=Plug-and-play genetic access to drosophila cell types using exchangeable exon cassettes;citation_pages=1410-1421;citation_volume=10;citation_year=2015;citation_doi=10.1016/j.celrep.2015.01.059"/>
+<meta name="citation_reference" content="citation_journal_title=Nature;citation_author=G. Dietzl;citation_author=D. Chen;citation_author=F. Schnorrer;citation_author=KC. Su;citation_author=Y. Barinova;citation_author=M. Fellner;citation_author=B. Gasser;citation_author=K. Kinsey;citation_author=S. Oppel;citation_author=S. Scheiblauer;citation_author=A. Couto;citation_author=V. Marra;citation_author=K. Keleman;citation_author=BJ. Dickson;citation_title=A genome-wide transgenic RNAi library for conditional gene inactivation in Drosophila;citation_pages=151-156;citation_volume=448;citation_year=2007;citation_doi=10.1038/nature05954"/>
+<meta name="citation_reference" content="citation_journal_title=Neurochemical Research;citation_author=MG. Erlander;citation_author=AJ. Tobin;citation_title=The structural and functional heterogeneity of glutamic acid decarboxylase: a review;citation_pages=215-226;citation_volume=16;citation_year=1991;citation_doi=10.1007/BF00966084"/>
+<meta name="citation_reference" content="citation_journal_title=Journal of Neurogenetics;citation_author=PS. Estes;citation_author=GL. Ho;citation_author=R. Narayanan;citation_author=M. Ramaswami;citation_title=Synaptic localization and restricted diffusion of a Drosophila neuronal synaptobrevin--green fluorescent protein chimera in vivo;citation_pages=233-255;citation_volume=13;citation_year=2000;citation_doi=10.3109/01677060009084496"/>
+<meta name="citation_reference" content="citation_journal_title=Cell;citation_author=P. Fan;citation_author=DS. Manoli;citation_author=OM. Ahmed;citation_author=Y. Chen;citation_author=N. Agarwal;citation_author=S. Kwong;citation_author=AG. Cai;citation_author=J. Neitz;citation_author=A. Renslo;citation_author=BS. Baker;citation_author=NM. Shah;citation_title=Genetic and neural mechanisms that inhibit Drosophila from mating with other species;citation_pages=89-102;citation_volume=154;citation_year=2013;citation_doi=10.1016/j.cell.2013.06.008"/>
+<meta name="citation_reference" content="citation_journal_title=Journal of Neurogenetics;citation_author=JF. Ferveur;citation_author=RJ. Greenspan;citation_title=Courtship behavior of brain mosaics in Drosophila;citation_pages=205-226;citation_volume=12;citation_year=1998;citation_doi=10.3109/01677069809108559"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=S. Gao;citation_author=SY. Takemura;citation_author=CY. Ting;citation_author=S. Huang;citation_author=Z. Lu;citation_author=H. Luan;citation_author=J. Rister;citation_author=AS. Thum;citation_author=M. Yang;citation_author=ST. Hong;citation_author=JW. Wang;citation_author=WF. Odenwald;citation_author=BH. White;citation_author=IA. Meinertzhagen;citation_author=CH. Lee;citation_title=The neural substrate of spectral preference in Drosophila;citation_pages=328-342;citation_volume=60;citation_year=2008;citation_doi=10.1016/j.neuron.2008.08.010"/>
+<meta name="citation_reference" content="citation_journal_title=Journal of Insect Physiology;citation_author=M. Garbaczewska;citation_author=JC. Billeter;citation_author=JD. Levine;citation_title=Drosophila melanogaster males increase the number of sperm in their ejaculate when perceiving rival males;citation_pages=306-310;citation_volume=59;citation_year=2013;citation_doi=10.1016/j.jinsphys.2012.08.016"/>
+<meta name="citation_reference" content="citation_journal_title=Evolution;citation_author=AS. Gilchrist;citation_author=L. Partridge;citation_title=Why it is difficult to model sperm displacement in Drosophila melanogaster: the relation between sperm transfer and copulation duration;citation_pages=534-542;citation_volume=54;citation_year=2000;citation_doi=10.1111/j.0014-3820.2000.tb00056.x"/>
+<meta name="citation_reference" content="citation_journal_title=Annual Review of Neuroscience;citation_author=M. Graziano;citation_title=The organization of behavioral repertoire in motor cortex;citation_pages=105-134;citation_volume=29;citation_year=2006;citation_doi=10.1146/annurev.neuro.29.051605.112924"/>
+<meta name="citation_reference" content="citation_journal_title=Genesis;citation_author=MS. Halfon;citation_author=S. Gisselbrecht;citation_author=J. Lu;citation_author=B. Estrada;citation_author=H. Keshishian;citation_author=AM. Michelson;citation_title=New fluorescent protein reporters for use with the Drosophila Gal4 expression system and for vital detection of balancer chromosomes;citation_pages=135-138;citation_volume=34;citation_year=2002;citation_doi=10.1002/gene.10136"/>
+<meta name="citation_reference" content="citation_journal_title=Genetics;citation_author=JC. Hall;citation_title=Control of male reproductive behavior by the central nervous system of Drosophila: dissection of a courtship pathway by genetic mosaics;citation_pages=437-457;citation_volume=92;citation_year=1979"/>
+<meta name="citation_reference" content="citation_journal_title=Nature;citation_author=FN. Hamada;citation_author=M. Rosenzweig;citation_author=K. Kang;citation_author=SR. Pulver;citation_author=A. Ghezzi;citation_author=TJ. Jegla;citation_author=PA. Garrity;citation_title=An internal thermal sensor controlling temperature preference in Drosophila;citation_pages=217-220;citation_volume=454;citation_year=2008;citation_doi=10.1038/nature07001"/>
+<meta name="citation_reference" content="citation_journal_title=Nature Methods;citation_author=HK. Inagaki;citation_author=Y. Jung;citation_author=ED. Hoopfer;citation_author=AM. Wong;citation_author=N. Mishra;citation_author=JY. Lin;citation_author=RY. Tsien;citation_author=DJ. Anderson;citation_title=Optogenetic control of Drosophila using a red-shifted channelrhodopsin reveals experience-dependent influences on courtship;citation_pages=325-332;citation_volume=11;citation_year=2014;citation_doi=10.1038/nmeth.2765"/>
+<meta name="citation_reference" content="citation_journal_title=Journal of Neurochemistry;citation_author=FR. Jackson;citation_author=LM. Newby;citation_author=SJ. Kulkarni;citation_title=Drosophila GABAergic systems: sequence and expression of glutamic acid decarboxylase;citation_pages=1068-1078;citation_volume=54;citation_year=1990;citation_doi=10.1111/j.1471-4159.1990.tb02359.x"/>
+<meta name="citation_reference" content="citation_journal_title=Journal of Evolutionary Biology;citation_author=S. Jagadeeshan;citation_author=RS. Singh;citation_title=A time-sequence functional analysis of mating behaviour and genital coupling in Drosophila: role of cryptic female choice and male sex-drive in the evolution of male genitalia;citation_pages=1058-1070;citation_volume=19;citation_year=2006;citation_doi=10.1111/j.1420-9101.2006.01099.x"/>
+<meta name="citation_reference" content="citation_journal_title=Cell;citation_author=GS. Jefferis;citation_author=CJ. Potter;citation_author=AM. Chan;citation_author=EC. Marin;citation_author=T. Rohlfing;citation_author=CR. Maurer;citation_author=L. Luo;citation_title=Comprehensive maps of Drosophila higher olfactory centers: spatially segregated fruit and pheromone representation;citation_pages=1187-1203;citation_volume=128;citation_year=2007;citation_doi=10.1016/j.cell.2007.01.040"/>
+<meta name="citation_reference" content="citation_journal_title=Zoomorphology;citation_author=Y. Kamimura;citation_title=Copulation anatomy of Drosophila melanogaster (Diptera: Drosophilidae): wound-making organs and their possible roles;citation_pages=163-174;citation_volume=129;citation_year=2010;citation_doi=10.1007/s00435-010-0109-5"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=T. Karuppudurai;citation_author=TY. Lin;citation_author=CY. Ting;citation_author=R. Pursley;citation_author=KV. Melnattur;citation_author=F. Diao;citation_author=BH. White;citation_author=LJ. Macpherson;citation_author=M. Gallio;citation_author=T. Pohida;citation_author=CH. Lee;citation_title=A hard-wired glutamatergic circuit pools and relays UV signals to mediate spectral preference in Drosophila;citation_pages=603-615;citation_volume=81;citation_year=2014;citation_doi=10.1016/j.neuron.2013.12.010"/>
+<meta name="citation_reference" content="citation_journal_title=Nature Protocols;citation_author=I. Kays;citation_author=V. Cvetkovska;citation_author=BE. Chen;citation_title=Structural and functional analysis of single neurons to correlate synaptic connectivity with grooming behavior;citation_pages=1-10;citation_volume=9;citation_year=2014;citation_doi=10.1038/nprot.2013.157"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=K. Kimura;citation_author=T. Hachiya;citation_author=M. Koganezawa;citation_author=T. Tazawa;citation_author=D. Yamamoto;citation_title=Fruitless and doublesex coordinate to generate male-specific neurons that can initiate courtship;citation_pages=759-769;citation_volume=59;citation_year=2008;citation_doi=10.1016/j.neuron.2008.06.007"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=S. Kohatsu;citation_author=M. Koganezawa;citation_author=D. Yamamoto;citation_title=Female contact activates male-specific interneurons that trigger stereotypic courtship behavior in Drosophila;citation_pages=498-508;citation_volume=69;citation_year=2011;citation_doi=10.1016/j.neuron.2010.12.017"/>
+<meta name="citation_reference" content="citation_journal_title=Nature Communications;citation_author=S. Kohatsu;citation_author=D. Yamamoto;citation_title=Visually induced initiation of Drosophila innate courtship-like following pursuit is mediated by central excitatory state;citation_volume=6;citation_year=2015;citation_doi=10.1038/ncomms7457"/>
+<meta name="citation_reference" content="citation_journal_title=Nature Neuroscience;citation_author=AC. Lin;citation_author=AM. Bygrave;citation_author=A. de Calignon;citation_author=T. Lee;citation_author=G. Miesenböck;citation_title=Sparse, decorrelated odor coding in the mushroom body enhances learned odor discrimination;citation_pages=559-568;citation_volume=17;citation_year=2014;citation_doi=10.1038/nn.3660"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=X. Liu;citation_author=WC. Krause;citation_author=RL. Davis;citation_title=GABAA receptor RDL inhibits Drosophila olfactory associative learning;citation_pages=1090-1102;citation_volume=56;citation_year=2007;citation_doi=10.1016/j.neuron.2007.10.036"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=H. Luan;citation_author=NC. Peabody;citation_author=CR. Vinson;citation_author=BH. White;citation_title=Refined spatial manipulation of neuronal function by combinatorial restriction of transgene expression;citation_pages=425-436;citation_volume=52;citation_year=2006;citation_doi=10.1016/j.neuron.2006.08.028"/>
+<meta name="citation_reference" content="citation_journal_title=Gene Expression Patterns;citation_author=A. Mahr;citation_author=H. Aberle;citation_title=The expression pattern of the Drosophila vesicular glutamate transporter: a marker protein for motoneurons and glutamatergic centers in the brain;citation_pages=299-309;citation_volume=6;citation_year=2006;citation_doi=10.1016/j.modgep.2005.07.006"/>
+<meta name="citation_reference" content="citation_journal_title=Development;citation_author=DJ. Mellert;citation_author=JM. Knapp;citation_author=DS. Manoli;citation_author=GW. Meissner;citation_author=BS. Baker;citation_title=Midline crossing by gustatory receptor neuron axons is regulated by fruitless, doublesex and the Roundabout receptors;citation_pages=323-332;citation_volume=137;citation_year=2010;citation_doi=10.1242/dev.045047"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=A. Miri;citation_author=E. Azim;citation_author=TM. Jessell;citation_title=Edging toward entelechy in motor control;citation_pages=827-834;citation_volume=80;citation_year=2013;citation_doi=10.1016/j.neuron.2013.10.049"/>
+<meta name="citation_reference" content="citation_journal_title=PNAS;citation_author=LJ. Nicolaï;citation_author=A. Ramaekers;citation_author=T. Raemaekers;citation_author=A. Drozdzecki;citation_author=AS. Mauss;citation_author=J. Yan;citation_author=M. Landgraf;citation_author=W. Annaert;citation_author=BA. Hassan;citation_title=Genetically encoded dendritic marker sheds light on neuronal connectivity in Drosophila;citation_pages=20553-20558;citation_volume=107;citation_year=2010;citation_doi=10.1073/pnas.1010198107"/>
+<meta name="citation_reference" content="citation_journal_title=Current Biology;citation_author=T. Nojima;citation_author=K. Kimura;citation_author=M. Koganezawa;citation_author=D. Yamamoto;citation_title=Neuronal synaptic outputs determine the sexual fate of postsynaptic targets;citation_pages=836-840;citation_volume=20;citation_year=2010;citation_doi=10.1016/j.cub.2010.02.064"/>
+<meta name="citation_reference" content="citation_journal_title=Cold Spring Harbor Protocols;citation_author=A. Ostrovsky;citation_author=S. Cachero;citation_author=G. Jefferis;citation_title=Clonal analysis of olfaction in Drosophila: image registration;citation_pages=347-349;citation_volume=2013;citation_year=2013;citation_doi=10.1101/pdb.prot071738"/>
+<meta name="citation_reference" content="citation_journal_title=PNAS;citation_author=Y. Pan;citation_author=GW. Meissner;citation_author=BS. Baker;citation_title=Joint control of Drosophila male courtship behavior by motion cues and activation of male-specific P1 neurons;citation_pages=10065-10070;citation_volume=109;citation_year=2012;citation_doi=10.1073/pnas.1207107109"/>
+<meta name="citation_reference" content="citation_journal_title=PLoS One;citation_author=Y. Pan;citation_author=CC. Robinett;citation_author=BS. Baker;citation_title=Turning males on: activation of male courtship behavior in Drosophila melanogaster;citation_volume=6;citation_year=2011;citation_doi=10.1371/journal.pone.0021144"/>
+<meta name="citation_reference" content="citation_journal_title=Current Opinion in Neurobiology;citation_author=HJ. Pavlou;citation_author=SF. Goodwin;citation_title=Courtship behavior in Drosophila melanogaster: towards a 'courtship connectome';citation_pages=76-83;citation_volume=23;citation_year=2013;citation_doi=10.1016/j.conb.2012.09.002"/>
+<meta name="citation_reference" content="citation_journal_title=Developmental Biology;citation_author=DR. Possidente;citation_author=RK. Murphey;citation_title=Genetic control of sexually dimorphic axon morphology in Drosophila sensory neurons;citation_pages=448-457;citation_volume=132;citation_year=1989;citation_doi=10.1016/0012-1606(89)90241-8"/>
+<meta name="citation_reference" content="citation_journal_title=Current Biology;citation_author=EJ. Rideout;citation_author=JC. Billeter;citation_author=SF. Goodwin;citation_title=The sex-determination genes fruitless and doublesex specify a neural substrate required for courtship song;citation_pages=1473-1478;citation_volume=17;citation_year=2007;citation_doi=10.1016/j.cub.2007.07.047"/>
+<meta name="citation_reference" content="citation_journal_title=Nature Neuroscience;citation_author=EJ. Rideout;citation_author=AJ. Dornan;citation_author=MC. Neville;citation_author=S. Eadie;citation_author=SF. Goodwin;citation_title=Control of sexual differentiation and behavior by the doublesex gene in Drosophila melanogaster;citation_pages=458-466;citation_volume=13;citation_year=2010;citation_doi=10.1038/nn.2515"/>
+<meta name="citation_reference" content="citation_journal_title=Cell;citation_author=P. Stockinger;citation_author=D. Kvitsiani;citation_author=S. Rotkopf;citation_author=L. Tirián;citation_author=BJ. Dickson;citation_title=Neural circuitry that governs Drosophila male courtship behavior;citation_pages=795-807;citation_volume=121;citation_year=2005;citation_doi=10.1016/j.cell.2005.04.026"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=ST. Sweeney;citation_author=K. Broadie;citation_author=J. Keane;citation_author=H. Niemann;citation_author=CJ. O'Kane;citation_title=Targeted expression of tetanus toxin light chain in Drosophila specifically eliminates synaptic transmission and causes behavioral defects;citation_pages=341-351;citation_volume=14;citation_year=1995;citation_doi=10.1016/0896-6273(95)90290-2"/>
+<meta name="citation_reference" content="citation_journal_title=PNAS;citation_author=TD. Tayler;citation_author=DA. Pacheco;citation_author=AC. Hergarden;citation_author=M. Murthy;citation_author=DJ. Anderson;citation_title=A neuropeptide circuit that coordinates sperm transfer and copulation duration in Drosophila;citation_pages=20697-20702;citation_volume=109;citation_year=2012;citation_doi=10.1073/pnas.1218246109"/>
+<meta name="citation_reference" content="citation_journal_title=Journal of Neurogenetics;citation_author=BJ. Taylor;citation_title=Sexually dimorphic neurons of the terminalia of Drosophila melanogaster: II. Sex-specific axonal arborizations in the central nervous system;citation_pages=193-213;citation_volume=5;citation_year=1989;citation_doi=10.3109/01677068909066208"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=CY. Ting;citation_author=PG. McQueen;citation_author=N. Pandya;citation_author=TY. Lin;citation_author=M. Yang;citation_author=OV. Reddy;citation_author=MB. O'Connor;citation_author=M. McAuliffe;citation_author=CH. Lee;citation_title=Photoreceptor-derived activin promotes dendritic termination and restricts the receptive fields of first-order interneurons in Drosophila;citation_pages=830-846;citation_volume=81;citation_year=2014;citation_doi=10.1016/j.neuron.2013.12.012"/>
+<meta name="citation_reference" content="citation_journal_title=PLoS One;citation_author=DH. Tran;citation_author=GW. Meissner;citation_author=RL. French;citation_author=BS. Baker;citation_title=A small subset of fruitless subesophageal neurons modulate early courtship in Drosophila;citation_volume=9;citation_year=2014;citation_doi=10.1371/journal.pone.0095472"/>
+<meta name="citation_reference" content="citation_journal_title=Advances in Genetics;citation_author=A. Villella;citation_author=JC. Hall;citation_title=Neurogenetics of courtship and mating in Drosophila;citation_pages=67-184;citation_volume=62;citation_year=2008;citation_doi=10.1016/S0065-2660(08)00603-2"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=AC. von Philipsborn;citation_author=T. Liu;citation_author=JY. Yu;citation_author=C. Masser;citation_author=SS. Bidaye;citation_author=BJ. Dickson;citation_title=Neuronal control of Drosophila courtship song;citation_pages=509-522;citation_volume=69;citation_year=2011;citation_doi=10.1016/j.neuron.2011.01.011"/>
+<meta name="citation_reference" content="citation_journal_title=Microscopy Research and Technique;citation_author=K. Yasuyama;citation_author=PM. Salvaterra;citation_title=Localization of choline acetyltransferase-expressing neurons in Drosophila nervous system;citation_pages=65-79;citation_volume=45;citation_year=1999;citation_doi=10.1002/(SICI)1097-0029(19990415)45:2&lt;65::AID-JEMT2&gt;3.0.CO;2-0"/>
+<meta name="citation_reference" content="citation_journal_title=Current Biology;citation_author=JY. Yu;citation_author=MI. Kanai;citation_author=E. Demir;citation_author=GS. Jefferis;citation_author=BJ. Dickson;citation_title=Cellular organization of the neural circuit that drives Drosophila courtship behavior;citation_pages=1602-1614;citation_volume=20;citation_year=2010;citation_doi=10.1016/j.cub.2010.08.025"/>
+<meta name="citation_reference" content="citation_journal_title=Neuron;citation_author=SX. Zhang;citation_author=D. Rogulja;citation_author=MA. Crickmore;citation_title=Dopaminergic circuitry underlying mating drive;citation_pages=168-181;citation_volume=91;citation_year=2016;citation_doi=10.1016/j.neuron.2016.05.020"/><meta name="citation_publication_date" content="2016/11/15" />
+<meta name="citation_firstpage" content="e20713" />
+<meta name="citation_journal_title" content="eLife" />
+<meta name="citation_publisher" content="eLife Sciences Publications Limited" />
+<meta name="citation_doi" content="10.7554/eLife.20713" />
+<meta name="DC.Language" content="en" />
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ['tex2jax.js'],
+  jax: ['input/TeX','output/HTML-CSS'],
+  tex2jax: {
+    inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+    processEscapes: true,
+    processClass: 'tex2jax',
+    ignoreClass: 'html'
+  },
+  showProcessingMessages: false,
+  messageStyle: 'none'
+});
+</script><meta name="DC.Format" content="text/html" />
+<meta name="citation_journal_abbrev" content="eLife Sciences" />
+<meta name="DC.Publisher" content="eLife Sciences Publications Limited" />
+<meta name="DC.Date" content="2016-11-15" />
+<meta name="citation_issn" content="2050-084X" />
+<meta name="citation_title" content="Neural circuitry coordinating male copulation" />
+<meta name="DC.Identifier" content="10.7554/eLife.20713" />
+<meta name="citation_fulltext_world_readable" content="" />
+<meta name="citation_language" content="en" />
+<meta name="DC.Title" content="Neural circuitry coordinating male copulation" />
+<meta name="description" content="Neural circuitry coordinating male copulation | A circuit consisting of motor neurons, inhibitory interneurons and mechanosensory neurons controls copulatory behaviour in male fruit flies." />
+<link rel="canonical" href="https://elifesciences.org/content/5/e20713" />
+<meta property="fb:app_id" content="1471000156467630" />
+<meta property="og:site_name" content="eLife" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://elifesciences.org/content/5/e20713" />
+<meta property="og:title" content="Neural circuitry coordinating male copulation" />
+<meta property="og:image" content="https://cdn.elifesciences.org/images/elife_final_logo_rgb.jpg" />
+  <title>Neural circuitry coordinating male copulation | eLife</title>  
+  <link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_xE-rWrJf-fncB6ztZfd2huxqgxu4WO-qwma6Xer30m4.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_Hufp9zw62hUIFlDWbOFuEIHaxNaX_sx5W_0EceIbazM.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_NqeXOhA5Y84OL05f_hEf83Rv80nXRIhvcWBPm7YhGz8.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_MSEssiT4mOjxX53lsm3eeaJXPkQFSHupnazmJ1tcuxA.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css__lmC5v25wV5-tgTEL3sSkicCBaWw5vGKUbtxuaLhZhs.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_jWvD78nqE5n_IXf3aKjiNah_6r7BuKNNwes1qOZ5IQE.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_Bv-eusXp1swNOWJ9FeVxHSDXFkm4dThkpbEgJG0NYw0.css" media="print" />
+
+<!--[if (lt IE 9)&(!IEMobile)]>
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_8T3lj3LqZ4DDCII75gOLKHOt0S9pMyba20AYHE7ad7k.css" media="all" />
+<![endif]-->
+
+<!--[if gte IE 9]><!-->
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_8T3lj3LqZ4DDCII75gOLKHOt0S9pMyba20AYHE7ad7k.css" media="all and (min-width: 768px)" />
+<!--<![endif]-->
+
+<!--[if gte IE 9]><!-->
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_RvSfzHmLE890Ws6_NwzJqf8TeTMIoB83QsddZDb0fKU.css" media="all and (min-width: 1220px)" />
+<!--<![endif]-->
+
+<!--[if lte IE 8]>
+<link type="text/css" rel="stylesheet" href="https://elifesciences.org/sites/default/files/css/css_IKUIHz1gMnbMnWeYpz_5j8EaD4uDFDB2in2XbiJOnz4.css" media="all" />
+<![endif]-->
+  <link rel="stylesheet" type="text/css" href="https://fast.fonts.com/cssapi/c10f70b9-7e7a-4f33-9361-d43022ae343e.css"/>
+  <script type="text/javascript" src="https://elifesciences.org/sites/default/files/js/js_JLxuxbhhrFRy-sBnijHkR0TGGHgiukMPv94zvDWgQ3g.js"></script>
+<script type="text/javascript" src="https://elifesciences.org/sites/default/files/js/js_TGt4Bz2WQNO2l8-kQRpmF_J7K3WB-qqhpTEDuzSnHec.js"></script>
+<script type="text/javascript" src="https://elifesciences.org/sites/default/files/js/js_PuNio4rp_j6z9nweoceUqOn3bJW20bA3wMIA-Rb0GNU.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="https://elifesciences.org/sites/default/files/js/js_EBmomT-Xd46w5PeGFCNg53fKfJcuNfPcHTzFXWjXZWM.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+(function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,"script","//www.google-analytics.com/analytics.js","ga");ga("create", "UA-30290146-1", {"cookieDomain":"auto"});ga("set", "page", location.pathname + location.search + location.hash);ga("send", "pageview");
+//--><!]]>
+</script>
+<script type="text/javascript" src="https://elifesciences.org/sites/default/files/js/js_tXFhLxZPcH9NiCmKlzj1TUPexipeT6rsAf0zYMm8Vjo.js"></script>
+<script type="text/javascript" src="https://elifesciences.org/sites/default/files/js/js_TtMTaJ-2yjsITIbgfQReoLIgiBw0vUys0v7DtKvTgo0.js"></script>
+<script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"elife","theme_token":"mWRxiNRGn6M4Wd88wlS5rks7LhUW_9hMFKssjhP6lkE","js":{"profiles\/elife_profile\/modules\/custom\/elife_header\/js\/elife_header.js":1,"profiles\/elife_profile\/modules\/contrib\/jquery_update\/replace\/jquery\/1.8\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"profiles\/elife_profile\/modules\/contrib\/caption_filter\/js\/caption-filter.js":1,"profiles\/elife_profile\/libraries\/colorbox\/jquery.colorbox-min.js":1,"profiles\/elife_profile\/modules\/contrib\/colorbox\/js\/colorbox.js":1,"profiles\/elife_profile\/modules\/contrib\/colorbox\/styles\/default\/colorbox_style.js":1,"profiles\/elife_profile\/modules\/contrib\/mathjax\/mathjax.js":1,"https:\/\/cdn.mathjax.org\/mathjax\/latest\/MathJax.js?config=TeX-AMS-MML_HTMLorMML":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_title.js":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_authors.js":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_figures.js":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_tables.js":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_references.js":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_digest.js":1,"profiles\/elife_profile\/libraries\/jquery.scrollTo\/jquery.scrollTo.min.js":1,"profiles\/elife_profile\/modules\/contrib\/ctools\/js\/collapsible-div.js":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_citation.js":1,"profiles\/elife_profile\/modules\/contrib\/disqus\/disqus.js":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/js\/elife_article_jumpto.js":1,"profiles\/elife_profile\/modules\/contrib\/panels_ajax_tab\/js\/panels_ajax_tab.js":1,"profiles\/elife_profile\/modules\/custom\/elife_lens_link\/js\/elife-lens-link.js":1,"profiles\/elife_profile\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"0":1,"profiles\/elife_profile\/libraries\/cluetip\/lib\/jquery.hoverIntent.js":1,"profiles\/elife_profile\/libraries\/cluetip\/lib\/jquery.bgiframe.js":1,"profiles\/elife_profile\/libraries\/cluetip\/jquery.cluetip.js":1,"profiles\/elife_profile\/themes\/custom\/elife\/js\/theme-scripts.js":1,"profiles\/elife_profile\/themes\/custom\/elife\/js\/css_browser_selector.js":1,"profiles\/elife_profile\/themes\/custom\/elife\/js\/jquery.formalize.js":1,"profiles\/elife_profile\/themes\/custom\/elife\/js\/omega-mediaqueries.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"profiles\/elife_profile\/modules\/custom\/elife_header\/css\/header.css":1,"profiles\/elife_profile\/modules\/contrib\/date\/date_api\/date.css":1,"profiles\/elife_profile\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/user\/user.css":1,"profiles\/elife_profile\/modules\/contrib\/views\/css\/views.css":1,"profiles\/elife_profile\/modules\/contrib\/caption_filter\/caption-filter.css":1,"profiles\/elife_profile\/modules\/contrib\/ckeditor\/css\/ckeditor.css":1,"profiles\/elife_profile\/modules\/contrib\/colorbox\/styles\/default\/colorbox_style.css":1,"profiles\/elife_profile\/modules\/contrib\/ctools\/css\/ctools.css":1,"profiles\/elife_profile\/modules\/contrib\/panels\/css\/panels.css":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/css\/elife-article-tables.css":1,"profiles\/elife_profile\/modules\/custom\/elife_templates\/css\/elife-digest-survey-cta-popup.css":1,"profiles\/elife_profile\/modules\/contrib\/panels\/plugins\/layouts\/onecol\/onecol.css":1,"profiles\/elife_profile\/modules\/contrib\/panels_ajax_tab\/css\/panels_ajax_tab.css":1,"profiles\/elife_profile\/modules\/custom\/elife_lens_link\/css\/elife-lens-link.css":1,"profiles\/elife_profile\/modules\/contrib\/ctools\/css\/collapsible-div.css":1,"profiles\/elife_profile\/modules\/custom\/elife_footer\/css\/footer.css":1,"profiles\/elife_profile\/libraries\/cluetip\/jquery.cluetip.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/colors.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/alpha-reset.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/alpha-alpha.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/formalize.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/omega-text.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/omega-branding.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/omega-menu.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/omega-forms.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/omega-visuals.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/font-awesome.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-colorbox.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/global.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-text.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/css3pie.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/print.css":1,"ie::normal::profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-default.css":1,"ie::normal::profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-elife-default-normal.css":1,"ie::normal::profiles\/elife_profile\/themes\/custom\/elife\/css\/grid\/elife_default\/normal\/elife-default-normal-32.css":1,"normal::profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-default.css":1,"normal::profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-elife-default-normal.css":1,"normal::profiles\/elife_profile\/themes\/custom\/elife\/css\/grid\/elife_default\/normal\/elife-default-normal-32.css":1,"wide::profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-default.css":1,"wide::profiles\/elife_profile\/themes\/custom\/elife\/css\/elife-elife-default-wide.css":1,"wide::profiles\/elife_profile\/themes\/custom\/elife\/css\/grid\/elife_default\/wide\/elife-default-wide-32.css":1,"profiles\/elife_profile\/themes\/custom\/elife\/css\/lte-ie8.css":1}},"colorbox":{"opacity":"0.85","current":"{current} of {total}","previous":"\u00ab Prev","next":"Next \u00bb","close":"Close","maxWidth":"98%","maxHeight":"98%","fixed":true,"mobiledetect":true,"mobiledevicewidth":"480px"},"panel_ajax_tab":{"path":"profiles\/elife_profile\/modules\/contrib\/panels_ajax_tab"},"elife_article_toolbox":{"url":"url=https:\/\/elifesciences.org\/content\/5\/e20713\u0026doi=10.7554\/eLife.20713"},"disqusComments":"elifesciences","urlIsAjaxTrusted":{"https:\/\/crm.elifesciences.org\/crm\/civicrm\/profile\/create?reset=1\u0026gid=18":true},"elife_lens_link":{"lensUri":"\/\/lens.elifesciences.org\/20713\/index.html"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|csv|doc(x|m)?|dot(x|m)?|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|png|ppt(x|m)?|pot(x|m)?|pps(x|m)?|ppam|sld(x|m)?|thmx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls(x|m|b)?|xlt(x|m)|xlam|xml|z|zip","trackUrlFragments":1},"cluetip":{"themeClass":"rounded"},"omega":{"layouts":{"primary":"normal","order":["normal","wide"],"queries":{"normal":"all and (min-width: 768px)","wide":"all and (min-width: 1220px)"}}}});
+//--><!]]>
+</script>
+  <!--[if lt IE 9]><script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body class="html not-front not-logged-in page-node page-node- page-node-420518 node-type-elife-article-ver context-content">
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WVM8KG" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script type="text/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0];var j=d.createElement(s);var dl=l!='dataLayer'?'&l='+l:'';j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;j.type='text/javascript';j.async=true;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WVM8KG');</script>
+<!-- End Google Tag Manager -->
+  <div id="skip-link">
+    <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+  <div class="region region-page-top" id="region-page-top">
+  <div class="region-inner region-page-top-inner">
+    <div class="page_header" role="banner">
+  <a href="/" class="header__identity"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_header/images/elife-identity-header.jpg" alt="eLife" /></a>  <nav class="header__nav">
+    <ol class="header__list"><li class="header__list_item first"><a href="/about" class="header__list_link header__list_link--about">About</a></li>
+<li class="header__list_item"><a href="/careers" class="header__list_link header__list_link--careers">Careers</a></li>
+<li class="header__list_item"><a href="/labs" class="header__list_link header__list_link--labs">Labs</a></li>
+<li class="header__list_item"><a href="http://submit.elifesciences.org/" class="header__list_link header__list_link--submit"><div>Submit</div></a></li>
+<li class="header__list_item last"><a href="/search" class="header__list_link header__list_link--search">Search</a></li>
+</ol>        <ul>
+      <li class="header__list_secondary">
+        <ol class="header__list_secondary--section"><li class="header__list_secondary_item first"><a href="/category/research-article" class="header__list_secondary_item_link header__list_secondary_item_link--section research">Research articles</a></li>
+<li class="header__list_secondary_item"><a href="/category/short-report" class="header__list_secondary_item_link header__list_secondary_item_link--section short">Short reports</a></li>
+<li class="header__list_secondary_item"><a href="/category/tools-and-resources" class="header__list_secondary_item_link header__list_secondary_item_link--section tools">Tools and resources</a></li>
+<li class="header__list_secondary_item"><a href="/category/research-advance" class="header__list_secondary_item_link header__list_secondary_item_link--section advance">Research advances</a></li>
+<li class="header__list_secondary_item"><a href="/collections/reproducibility-project-cancer-biology" class="header__list_secondary_item_link header__list_secondary_item_link--section reproducibility-project">Reproducibility Project</a></li>
+<li class="header__list_secondary_item"><a href="/category/editorial" class="header__list_secondary_item_link header__list_secondary_item_link--section editorials">Editorials</a></li>
+<li class="header__list_secondary_item"><a href="/category/insight" class="header__list_secondary_item_link header__list_secondary_item_link--section insights">Insights</a></li>
+<li class="header__list_secondary_item"><a href="/category/feature-article" class="header__list_secondary_item_link header__list_secondary_item_link--section features">Features</a></li>
+<li class="header__list_secondary_item"><a href="/podcast" class="header__list_secondary_item_link header__list_secondary_item_link--section podcasts">Podcasts</a></li>
+<li class="header__list_secondary_item"><a href="/collections" class="header__list_secondary_item_link header__list_secondary_item_link--section collections">Collections</a></li>
+<li class="header__list_secondary_item last"><a href="/elife-news" class="header__list_secondary_item_link header__list_secondary_item_link--section news">eLife News</a></li>
+</ol>        <ol class="header__list_secondary--interviews"><li class="header__list_secondary_item hidden first"><a href="/interviews/early-career-researchers" class="header__list_secondary_item_link header__list_secondary_item_link--interviews">Early-career researchers</a></li>
+<li class="header__list_secondary_item hidden last"><a href="/interviews/working-lives" class="header__list_secondary_item_link header__list_secondary_item_link--interviews">Working Lives</a></li>
+</ol>        <ol class="header__list_secondary--category"><li class="header__list_secondary_item first"><a href="/major-subject-areas" class="header__list_secondary_item_link header__list_secondary_item_link--category">All categories</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/biochemistry" class="header__list_secondary_item_link header__list_secondary_item_link--category">Biochemistry</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/biophysics-and-structural-biology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Biophysics and Structural Biology</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/cancer-biology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Cancer Biology</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/cell-biology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Cell Biology</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/computational-and-systems-biology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Computational and Systems Biology</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/developmental-biology-and-stem-cells" class="header__list_secondary_item_link header__list_secondary_item_link--category">Developmental Biology and Stem Cells</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/ecology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Ecology</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/epidemiology-and-global-health" class="header__list_secondary_item_link header__list_secondary_item_link--category">Epidemiology and Global Health</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/genes-and-chromosomes" class="header__list_secondary_item_link header__list_secondary_item_link--category">Genes and Chromosomes</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/genomics-and-evolutionary-biology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Genomics and Evolutionary Biology</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/human-biology-and-medicine" class="header__list_secondary_item_link header__list_secondary_item_link--category">Human Biology and Medicine</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/immunology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Immunology</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/microbiology-and-infectious-disease" class="header__list_secondary_item_link header__list_secondary_item_link--category">Microbiology and Infectious Disease</a></li>
+<li class="header__list_secondary_item hidden"><a href="/category/Neuroscience" class="header__list_secondary_item_link header__list_secondary_item_link--category">Neuroscience</a></li>
+<li class="header__list_secondary_item hidden last"><a href="/category/plant-biology" class="header__list_secondary_item_link header__list_secondary_item_link--category">Plant Biology</a></li>
+</ol>      </li> <!-- /.header__list_secondary -->
+    </ul>
+      </nav>
+</div>
+  </div>
+</div>  <div class="page clearfix panels-page panels-layout-elife_article" id="page">
+      <header id="section-header" class="section section-header">
+  <div id="zone-elife-bar-wrapper" class="zone-wrapper zone-elife-bar-wrapper clearfix hidden-small">  
+  <div id="zone-elife-bar" class="zone zone-elife-bar clearfix container-32">
+    <div class="grid-32 region region-elife-bar" id="region-elife-bar">
+  <div class="region-inner region-elife-bar-inner">
+      </div>
+</div>  </div>
+</div><div id="zone-menu-wrapper" class="zone-wrapper zone-menu-wrapper clearfix">  
+  <div id="zone-menu" class="zone zone-menu clearfix container-32">
+    <div class="grid-2 region region-menu" id="region-menu">
+  <div class="region-inner region-menu-inner">
+          </div>
+</div>
+  </div>
+</div></header>    
+      <section id="section-content" class="section section-content">
+  <div id="zone-header-wrapper" class="zone-wrapper zone-header-wrapper clearfix">  
+  <div id="zone-header" class="zone zone-header clearfix container-32">
+    <div class="grid-7 region region-header-second push-25" id="region-header-second">
+  <div class="region-inner region-header-second-inner">
+      </div>
+</div><div class="grid-22 prefix-1 region region-header-first pull-5" id="region-header-first">
+  <div class="region-inner region-header-first-inner">
+  	 
+      </div>
+</div><div class="grid-31 prefix-2 region region-responsive-header" id="region-responsive-header">
+  <div class="region-inner region-responsive-header-inner">
+      </div>
+</div>  </div>
+</div><div id="zone-content-wrapper" class="zone-wrapper zone-content-wrapper clearfix">  
+  <div id="zone-content" class="zone zone-content clearfix container-32">    
+		    <div class="grid-30 region region-content push-2" id="region-content">
+  <div class="region-inner region-content-inner">
+    <a id="main-content"></a>
+            <div class="element-invisible">    <h1 class="title" id="page-title">Neural circuitry coordinating male copulation</h1>
+    </div>                    <div class="block block-system block-main block-system-main odd block-without-title" id="block-system-main">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <div class="panel-display panels-960-layout elife-article-layout" >
+  <div class="panel-row-wrapper panel-row-first clearfix">
+  
+    	<div class="top-wrapper grid-21 suffix-9 alpha omega">
+  				  		<div class="panel-panel panel-region-content-top">
+	  			<div class="inside"><div class="panel-pane pane-panels-ajax-tab-tabs hidden-small"  id="article"  class="panel-pane pane-panels-ajax-tab-tabs hidden-small">
+  
+      
+  
+  <div class="pane-content">
+    <div class="item-list"><ul class="tabs inline panels-ajax-tab"><li class="first"><a href="/content/5/e20713" class="panels-ajax-tab-tab" data-panel-name="elife_article" data-target-id="elife-research-article-tabs" data-entity-context="node:420518" data-trigger="" data-url-enabled="0">Article</a><a href="/panels_ajax_tab/elife_article/node:420518/0" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+<li><a href="/content/5/e20713/article-data" class="panels-ajax-tab-tab" data-panel-name="elife_article_figdata" data-target-id="elife-research-article-tabs" data-entity-context="node:420518" data-trigger="article-data" data-url-enabled="1">Figures & data</a><a href="/panels_ajax_tab/elife_article_figdata/node:420518/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+<li><a href="/content/5/e20713/article-metrics" class="panels-ajax-tab-tab" data-panel-name="elife_article_metrics" data-target-id="elife-research-article-tabs" data-entity-context="node:420518" data-trigger="article-metrics" data-url-enabled="1">Metrics</a><a href="/panels_ajax_tab/elife_article_metrics/node:420518/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+<li class="last"><a href="/content/5/e20713/article-info" class="panels-ajax-tab-tab" data-panel-name="elife_article_author" data-target-id="elife-research-article-tabs" data-entity-context="node:420518" data-trigger="article-info" data-url-enabled="1">Article & author info</a><a href="/panels_ajax_tab/elife_article_author/node:420518/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+</ul></div>  </div>
+
+  
+  </div>
+</div>
+	  		</div>
+  		  	</div>
+  
+  </div>
+  
+  <div class="panel-row-wrapper panel-row-last clearfix">
+		
+			  	<div class="main-wrapper grid-21 alpha">
+	  							<div class="panel-panel panel-region-main-content">
+				  <div class="inside"><div class="panel-pane pane-entity-field pane-node-field-elife-a-category visible-small category-color-code elife-cat-research-article"   class="panel-pane pane-entity-field pane-node-field-elife-a-category visible-small category-color-code">
+  
+      
+  
+  <div class="pane-content">
+    <div class="field field-name-field-elife-a-category field-type-entityreference field-label-hidden"><div class="field-items"><div class="field-item even"><a href="/category/research-article">Research Article</a></div></div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-elife-article-title"   class="panel-pane pane-elife-article-title">
+  
+      
+  
+  <div class="pane-content">
+    <div class="elife-article-indicators clearfix"><a href="http://en.wikipedia.org/wiki/Open_access"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/oa.png" alt="Open access" title="Open access" /></a><a href="http://creativecommons.org/publicdomain/zero/1.0/"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/cc.png" alt="Copyright info" title="Copyright info" /></a><a href="https://elifesciences.org/content/5/e20713-download.pdf" title="PDF" class="pdf-download" type="application/pdf" rel="alternative" data-article-identifier="10.7554/eLife.20713" data-download-type="pdf-article"><img class="visible-small" src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/pdf.png" width="22" alt="Download PDF" title="Download PDF" /></a><a href="https://elifesciences.org/content/5/e20713-download.figures.pdf" title="Figures" class="figures-download" type="application/pdf" rel="alternative" data-article-identifier="10.7554/eLife.20713" data-download-type="pdf-figures"><img class="visible-small" src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/figs.png" width="22" alt="Download figures" title="Download figures" /></a><a href="/content/5/e20713#related-content" title="Related content" rel="#related-content" class="js-trigger-cluetip related-content active"><img class="visible-small" src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/related.gif" width="20" alt="Related content" title="Related content" /></a></div><h1 class="page-title">Neural circuitry coordinating male copulation</h1>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-elife-article-authors"   class="panel-pane pane-elife-article-authors">
+  
+      
+  
+  <div class="pane-content">
+    <div class="author-list"><ul><li class="elife-article-author-item corresp" data-affiliation="item-0"><span class="given-names">Hania J</span> <span class="surname">Pavlou</span> <img class="corresp-icon" src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/corresp.png" alt="" /></li>
+<li class="elife-article-author-item" data-affiliation="item-1"><span class="given-names">Andrew C</span> <span class="surname">Lin</span></li>
+<li class="elife-article-author-item" data-affiliation="item-2"><span class="given-names">Megan C</span> <span class="surname">Neville</span></li>
+<li class="elife-article-author-item" data-affiliation="item-3"><span class="given-names">Tetsuya</span> <span class="surname">Nojima</span></li>
+<li class="elife-article-author-item" data-affiliation="item-4"><span class="given-names">Fengqiu</span> <span class="surname">Diao</span></li>
+<li class="elife-article-author-item" data-affiliation="item-5"><span class="given-names">Brian E</span> <span class="surname">Chen</span></li>
+<li class="elife-article-author-item" data-affiliation="item-6"><span class="given-names">Benjamin H</span> <span class="surname">White</span></li>
+<li class="elife-article-author-item corresp" data-affiliation="item-7"><span class="given-names">Stephen F</span> <span class="surname">Goodwin</span> <img class="corresp-icon" src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/corresp.png" alt="" /></li></ul></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="ctools-collapsible-container ctools-collapsed visible-small"><h2 class="pane-title ctools-collapsible-handle">Affiliation details</h2><div class="ctools-collapsible-content"><div class="author-list-full ctools-collapsible-content"><ul><li class="item-0"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Hania J</span> <span class="surname">Pavlou</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Centre for Neural Circuits and Behaviour</span>, <span class="institution">University of Oxford</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Oxford</span></span>, <span class="country">United Kingdom</span></span></span></div>
+        <div class="author-tooltip-present-address"><span class="author-tooltip-label">Present address: </span><span class="author-tooltip-text"><p>Weatherall Institute of Molecular Medicine, MRC Centre for Computational Biology, University of Oxford, Oxford, United Kingdom</p></span></div>
+        <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article, Contributed unpublished essential data or reagents</span></div>
+          <div class="author-tooltip-corresp"><span class="author-tooltip-label">For correspondence: </span><span class="author-tooltip-text"><a href="mailto:hania.pavlou@imm.ox.ac.uk">hania.pavlou@imm.ox.ac.uk</a></span></div>
+          <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li>
+<li class="item-1"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Andrew C</span> <span class="surname">Lin</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Centre for Neural Circuits and Behaviour</span>, <span class="institution">University of Oxford</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Oxford</span></span>, <span class="country">United Kingdom</span></span>; <span class="aff"><span class="institution" data-content-type="dept">Department of Biomedical Science</span>, <span class="institution">University of Sheffield</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Sheffield</span></span>, <span class="country">United Kingdom</span></span></span></div>
+          <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Acquisition of data, Analysis and interpretation of data, Drafting or revising the article</span></div>
+              <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li>
+<li class="item-2"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Megan C</span> <span class="surname">Neville</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Centre for Neural Circuits and Behaviour</span>, <span class="institution">University of Oxford</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Oxford</span></span>, <span class="country">United Kingdom</span></span></span></div>
+          <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article, Contributed unpublished essential data or reagents</span></div>
+              <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li>
+<li class="item-3"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Tetsuya</span> <span class="surname">Nojima</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Centre for Neural Circuits and Behaviour</span>, <span class="institution">University of Oxford</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Oxford</span></span>, <span class="country">United Kingdom</span></span></span></div>
+          <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Acquisition of data, Analysis and interpretation of data</span></div>
+              <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li>
+<li class="item-4"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Fengqiu</span> <span class="surname">Diao</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Laboratory of Molecular Biology</span>, <span class="institution">National Institute of Mental Health</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Bethesda</span></span>, <span class="country">United States</span></span></span></div>
+          <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Provided key Split-GAL4 neurotransmitter hemi-drivers, Contributed unpublished essential data or reagents</span></div>
+              <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li>
+<li class="item-5"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Brian E</span> <span class="surname">Chen</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Department of Medicine</span>, <span class="institution">McGill University</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Montréal</span></span>, <span class="country">Canada</span></span>; <span class="aff"><span class="institution" data-content-type="dept">Department of Neurology and Neurosurgery</span>, <span class="institution">McGill University</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Montréal</span></span>, <span class="country">Canada</span></span></span></div>
+          <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Designed the experiments, Conception and design</span></div>
+              <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li>
+<li class="item-6"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Benjamin H</span> <span class="surname">White</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Laboratory of Molecular Biology</span>, <span class="institution">National Institute of Mental Health</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Bethesda</span></span>, <span class="country">United States</span></span></span></div>
+          <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Provided key Split-GAL4 neurotransmitter hemi-drivers, Contributed unpublished essential data or reagents</span></div>
+              <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li>
+<li class="item-7"><div class="author-tooltip elife-article-author-affiliation-item ">
+  <h2 class="author-tooltip-name"><span class="given-names">Stephen F</span> <span class="surname">Goodwin</span></h2>
+      <div class="author-tooltip-affiliation"><span class="author-tooltip-text"><span class="aff"><span class="institution" data-content-type="dept">Centre for Neural Circuits and Behaviour</span>, <span class="institution">University of Oxford</span>, <span class="addr-line"><span class="named-content" data-content-type="city">Oxford</span></span>, <span class="country">United Kingdom</span></span></span></div>
+          <div class="author-tooltip-contrib"><span class="author-tooltip-label">Contribution: </span><span class="author-tooltip-text">Conception and design, Analysis and interpretation of data, Drafting or revising the article</span></div>
+          <div class="author-tooltip-corresp"><span class="author-tooltip-label">For correspondence: </span><span class="author-tooltip-text"><a href="mailto:stephen.goodwin@dpag.ox.ac.uk">stephen.goodwin@dpag.ox.ac.uk</a></span></div>
+        <div class="author-tooltip-orcid"><span class="author-tooltip-label"><a href="http://orcid.org/0000-0002-0552-4140" target="_blank"><img class="corresp-icon" src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_templates/images/orcid.png" alt="ORCID" /></a>: </span><span class="author-tooltip-text"><a href="http://orcid.org/0000-0002-0552-4140" target="_blank">http://orcid.org/0000-0002-0552-4140</a></span></div>
+        <div class="author-tooltip-conflict"><span class="author-tooltip-text"><i>No competing interests declared</i></span></div>
+      </div></li></ul></div></div></div><div class="panel-separator"></div><div class="panel-pane pane-elife-article-affiliation"   class="panel-pane pane-elife-article-affiliation">
+  
+      
+  
+  <div class="pane-content">
+    <div class="elife-institutions-list"><span class="elife-institution item-0 item-1 item-2 item-3 item-7"><span class="institution">University of Oxford</span>, <span class="country">United Kingdom</span></span>; <span class="elife-institution item-1"><span class="institution">University of Sheffield</span>, <span class="country">United Kingdom</span></span>; <span class="elife-institution item-4 item-6"><span class="institution">National Institute of Mental Health</span>, <span class="country">United States</span></span>; <span class="elife-institution item-5"><span class="institution">McGill University</span>, <span class="country">Canada</span></span></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-elife-article-doi"   class="panel-pane pane-elife-article-doi">
+  
+      
+  
+  <div class="pane-content">
+    <div class="pane-elife-doi"><div class="elife-doi-doi"><span class="elife-doi-pre-label label">DOI: </span><span class="elife-doi-doi"><a href="http://dx.doi.org/10.7554/eLife.20713">http://dx.doi.org/10.7554/eLife.20713</a></span></div></div><div class="elife-doi-epubdate"><span class="elife-doi-epubdate-label label">Published</span> <span class="elife-doi-epubdate-data">November 15, 2016</span></div><div class="elife-doi-cite-as"><span class="elife-doi-cite-as-label label">Cite as</span> <span class="elife-doi-cite-as-data">eLife 2016;5:e20713</span></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-panels-ajax-tab-tabs visible-small"   class="panel-pane pane-panels-ajax-tab-tabs visible-small">
+  
+      
+  
+  <div class="pane-content">
+    <div class="item-list"><ul class="tabs inline panels-ajax-tab"><li class="first"><a href="/content/5/e20713" class="panels-ajax-tab-tab" data-panel-name="elife_article" data-target-id="elife-research-article-tabs" data-entity-context="none" data-trigger="" data-url-enabled="0">Article</a><a href="/panels_ajax_tab/elife_article/none/0" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+<li><a href="/content/5/e20713/article-data" class="panels-ajax-tab-tab" data-panel-name="elife_article_figdata" data-target-id="elife-research-article-tabs" data-entity-context="none" data-trigger="article-data" data-url-enabled="1">Figures & data</a><a href="/panels_ajax_tab/elife_article_figdata/none/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+<li><a href="/content/5/e20713/article-metrics" class="panels-ajax-tab-tab" data-panel-name="elife_article_metrics" data-target-id="elife-research-article-tabs" data-entity-context="none" data-trigger="article-metrics" data-url-enabled="1">Metrics</a><a href="/panels_ajax_tab/elife_article_metrics/none/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+<li class="last"><a href="/content/5/e20713/article-info" class="panels-ajax-tab-tab" data-panel-name="elife_article_author" data-target-id="elife-research-article-tabs" data-entity-context="none" data-trigger="article-info" data-url-enabled="1">Article info</a><a href="/panels_ajax_tab/elife_article_author/none/1" rel="nofollow" style="display:none" class="js-crawler-link"></a></li>
+</ul></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-panels-ajax-tab-container article-text"   class="panel-pane pane-panels-ajax-tab-container article-text">
+  
+      
+  
+  <div class="pane-content">
+    <div data-panels-ajax-tab-preloaded="elife_article_author" id="panels-ajax-tab-container-elife-research-article-tabs" class="panels-ajax-tab-container"><div class="panels-ajax-tab-loading" style ="display:none"><img class="loading" src="https://elifesciences.org/profiles/elife_profile/modules/contrib/panels_ajax_tab/images/loading.gif" alt="Loading" title="Loading" /></div><div class="panels-ajax-tab-wrap-elife_article_author"><div class="panel-display panel-1col clearfix" >
+  <div class="panel-panel panel-col">
+    <div><div class="ctools-collapsible-container author-info"><h2 class="pane-title ctools-collapsible-handle">Author information</h2><div class="ctools-collapsible-content"><h3>Author contributions</h3><ul class="fn-con"><li>HJP, Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article, Contributed unpublished essential data or reagents</li><li>ACL, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article</li><li>MCN, Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article, Contributed unpublished essential data or reagents</li><li>TN, Acquisition of data, Analysis and interpretation of data</li><li>FD, Provided key Split-GAL4 neurotransmitter hemi-drivers, Contributed unpublished essential data or reagents</li><li>BEC, Designed the experiments, Conception and design</li><li>BHW, Provided key Split-GAL4 neurotransmitter hemi-drivers, Contributed unpublished essential data or reagents</li><li>SFG, Conception and design, Analysis and interpretation of data, Drafting or revising the article</li></ul>
+<h3>For correspondence</h3><ul class="fn-corresp"><li><a href="mailto:hania.pavlou@imm.ox.ac.uk">hania.pavlou@imm.ox.ac.uk</a> (HJP)</li><li><a href="mailto:stephen.goodwin@dpag.ox.ac.uk">stephen.goodwin@dpag.ox.ac.uk</a> (SFG)</li></ul>
+<h3>Additional address</h3><ul class="additional-address-items"><li><span class="present-address-intials">--HJ-P:</span> Present address:<br/>Weatherall Institute of Molecular Medicine, MRC Centre for Computational Biology, University of Oxford, Oxford, United Kingdom</li></ul>
+<h3>Competing interests</h3><ul class="fn-conflict"><li>The authors declare that no competing interests exist.</li></ul>
+<h3>Funding</h3><ul class="funding-group"><li><h4 class="funding-source"><span class="institution">EP Abraham Cephalosporin Trust Fund</span></h4><ul class="principal-award-recipient"><li class="name">Hania J Pavlou</li><li class="name">Stephen F Goodwin</li></ul></li><li><h4 class="funding-source"><span class="institution">Brain@McGill Collaboration Fund</span></h4><ul class="principal-award-recipient"><li class="name">Hania J Pavlou</li><li class="name">Brian E Chen</li><li class="name">Stephen F Goodwin</li></ul></li><li><h4 class="funding-source"><span class="institution">National Institute of Mental Health</span></h4><h5 class="award-id">ZIAMH002800</h5><ul class="principal-award-recipient"><li class="name">Benjamin H White</li></ul></li><li><h4 class="funding-source"><span class="institution">Wellcome Trust</span></h4><h5 class="award-id">WT106189MA</h5><ul class="principal-award-recipient"><li class="name">Stephen F Goodwin</li></ul></li></ul><p class="funding-statement">The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication.</p>
+</div></div><div class="panel-separator"></div><div class="ctools-collapsible-container article-info"><h2 class="pane-title ctools-collapsible-handle">Article information</h2><div class="ctools-collapsible-content"><h3>Identification</h3><div class="elife-article-info-doi"><h4 class="info-label">DOI</h4><div class="info-content"><a href="/lookup/doi/10.7554/eLife.20713">10.7554/eLife.20713</a></div></div><div class="elife-article-info-citeas"><h4 class="info-label">Cite this as</h4><div class="info-content">eLife 2016;5:e20713</div></div>
+<h3>Publication history</h3><ul class="publication-history"><li class="received"><span class="received-label">Received</span> August 18, 2016.</li><li class="accepted"><span class="accepted-label">Accepted</span> September 28, 2016.</li><li class="published"><span class="published-label">Published</span> November 15, 2016.</li></ul>
+<h3>Reviewing editor</h3><div class="elife-article-info-reviewingeditor-text"><span class="nlm-given-names">Mani</span> <span class="nlm-surname">Ramaswami</span>, <span class="nlm-role">Reviewing editor</span>, <span class="nlm-institution">Trinity College Dublin</span>, <span class="nlm-country">Ireland</span></div>
+<h3>Copyright</h3><div class="license"><p>This is an open-access article, free of all copyright, and may be freely reproduced, distributed, transmitted, modified, built upon, or otherwise used by anyone for any lawful purpose. The work is made available under the <a href="http://creativecommons.org/publicdomain/zero/1.0/" target="_blank">Creative Commons CC0 public domain dedication</a>.</p></div>
+</div></div></div>
+  </div>
+</div>
+</div></div>  </div>
+
+  
+  </div>
+</div>
+				</div>
+					</div>	
+		
+					<div class="sidebar-wrapper grid-9 omega">
+        								  <div class="panel-panel panel-region-sidebar-top">
+				    <div class="inside"><div class="panel-pane pane-elife-article-toolbox"   class="panel-pane pane-elife-article-toolbox">
+  
+      
+  
+  <div class="pane-content">
+    <section class="article-tools"><h2 class="pane-title">Downloads:</h2><ul class="article-tools__list inline"><li classes="article-tools__list_item" class="first"><a href="https://elifesciences.org/content/5/e20713-download.pdf" download="" title="Article PDF" type="application/pdf" rel="alternate" class="article-tools__link article-tools__link--pdf-article" data-article-identifier="10.7554/eLife.20713" data-download-type="pdf-article">Article</a></li>
+<li classes="article-tools__list_item" class="last"><a href="https://elifesciences.org/content/5/e20713-download.figures.pdf" download="" title="Figures PDF" type="application/pdf" rel="alternate" class="article-tools__link article-tools__link--pdf-figures" data-article-identifier="10.7554/eLife.20713" data-download-type="pdf-figures">Figures</a></li>
+</ul></section><div class="panel-separator"></div><div class="reference-tools hidden"><h2 class="pane-title">Reference tools:</h2><div class="item-list"><ul class="citation-links links inline hidden-small"><li id="download" class="show-article-toolbox-tooltip first"><a href="#api_box">Download</a><div class="item-list"><ul id="download" class="show-article-toolbox-tooltip"><li class="first last"><div id="citations_options" class="article-toolbox-wrapper"><h5 class="citation-tooltip-head">Download Citations</h5><div class="citation-col"><div class="item-list"><ul class="citations-list"><li class="first last"><a href="/elife/citation/420518/bibtex"><span class="icon-citation-download icon-citation-bibtex"></span><span class="name">BibTeX</span></a></li>
+</ul></div></div><div class="citation-col"><div class="item-list"><ul class="citations-list"><li class="first last"><a href="/elife/citation/420518/ris"><span class="icon-citation-download icon-citation-ris"></span><span class="name">RIS</span></a></li>
+</ul></div></div></div></li>
+</ul></div></li>
+<li id="open" class="show-article-toolbox-tooltip last"><a href="#api_box">Open</a><div class="item-list"><ul id="open" class="show-article-toolbox-tooltip"><li class="first last"><div id="open_options" class="article-toolbox-wrapper"><h5 class="citation-tooltip-head">Open Citations In...</h5><div class="citation-col"><ul class="citations-list"><li class="0 first"><a href="http://www.mendeley.com/import?doi=10.7554/eLife.20713" class="mendeley">Mendeley</a></li><li class="1 last"><a href="http://www.readcube.com/articles/10.7554/eLife.20713" class="readcube">Readcube</a></li></ul></div><div class="citation-col"><ul class="citations-list"><li class="0 first"><a href="papers2://url/https://elifesciences.org/content/5/e20713?title=Neural%20circuitry%20coordinating%20male%20copulation" class="papersapp">Papers App</a></li><li class="1 last"><a href="http://www.citeulike.org/posturl?url=https%3A//elifesciences.org/content/5/e20713&amp;ourl=https%3A//elifesciences.org/content/5/e20713&amp;title=Neural%20circuitry%20coordinating%20male%20copulation&amp;doi=10.7554/eLife.20713" class="citeulike">Citeulike</a></li></ul></div></div></li>
+</ul></div></li>
+</ul></div></div> <!-- /.reference-tools -->  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-elife-article-related"  id="related-content"  class="panel-pane pane-elife-article-related">
+  
+        <h2 class="pane-title">
+      Related content    </h2>
+    
+  
+  <div class="pane-content">
+    <div class="item-list"><ul class="elife-related-articles-list"><li class="first last"><div class="elife-article-citation elife-citation-type-elife-article">
+  <article class="elife-cite elife-citation-elife-small">
+    <div class="elife-cite-title"><cite><a href="/content/5/e22215" class="elife-cite-linked-title">The circuitry of sex</a></cite></div>
+        <div class="elife-cite-authors"><span class="given-names">Joel</span> <span class="surname">Levine</span></div>
+            <div class="elife-cite-categories"><div class="item-list"><ul class="elife-citation-categories inline"><li class="first"><a href="/category/insight" class="category-display-channel insight">Insight</a></li>
+<li class="last"><a href="/category/Neuroscience" class="category-heading">Neuroscience</a></li>
+</ul></div></div>
+      </article>
+</div></li>
+</ul></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-elife-article-jumpto hidden-small"   class="panel-pane pane-elife-article-jumpto hidden-small">
+  
+        <h2 class="pane-title">
+      Jump to:    </h2>
+    
+  
+  <div class="pane-content">
+    <div class="elife-jumpto"><div class="item-list"><ul><li class="first last"><a href="#article" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Article</a><div class="item-list"><ul><li class="first"><a href="#abstract" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Abstract</a></li>
+<li><a href="#digest" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">eLife digest</a></li>
+<li><a href="#main-text" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Main text</a><div class="item-list"><ul><li class="first"><a href="#s1" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Introduction</a></li>
+<li><a href="#s2" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Results</a></li>
+<li><a href="#s3" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Discussion</a></li>
+<li class="last"><a href="#s4" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Materials and methods</a></li>
+</ul></div></li>
+<li><a href="#references" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">References</a></li>
+<li><a href="#acknowledgements" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Acknowledgements</a></li>
+<li><a href="#decision-letter" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Decision letter</a></li>
+<li><a href="#author-response" class="elife-article-jumplink" data-panel-ajax-tab="jnl_elife_article_article">Author response</a></li>
+<li class="last"><a href="#disqus_thread" data-disqus-identifier="article:20713" class="elife-article-jumplink last" data-panel-ajax-tab="jnl_elife_article_article">Leave a comment</a></li>
+</ul></div></li>
+</ul></div></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-elife-article-categories hidden-small"   class="panel-pane pane-elife-article-categories hidden-small">
+  
+        <h2 class="pane-title">
+      Categories &amp; tags    </h2>
+    
+  
+  <div class="pane-content">
+    <div class="item-list"><ul class="elife-article-categories"><li class="first"><a href="/category/research-article" class="category-display-channel research-article">Research Article</a></li>
+<li><a href="/category/Neuroscience" class="category-heading">Neuroscience</a></li>
+<li><a href="/keywords/copulation" class="keyword">copulation</a></li>
+<li><a href="/keywords/d-melanogaster" class="keyword"><i>D. melanogaster</i></a></li>
+<li><a href="/keywords/doublesex" class="keyword">doublesex</a></li>
+<li><a href="/keywords/sexual-behavior" class="keyword">sexual behavior</a></li>
+<li class="last"><a href="/keywords/sexual-dimorphism-0" class="keyword">sexual-dimorphism</a></li>
+</ul></div>  </div>
+
+  
+  </div>
+<div class="panel-separator"></div><div class="panel-pane pane-elife-content-alerts-sign-up"   class="panel-pane pane-elife-content-alerts-sign-up">
+  
+        <h2 class="pane-title">
+      Sign up for <em>eLife</em> alerts    </h2>
+    
+  
+  <div class="pane-content">
+    <form class="elife-sign-up-form" action="https://crm.elifesciences.org/crm/civicrm/profile/create?reset=1&amp;gid=18" method="post" id="elife-content-alerts-sign-up-form" accept-charset="UTF-8"><div><input type="hidden" name="reset" value="1" />
+<input type="hidden" name="gid" value="18" />
+<input type="hidden" name="custom_6" value="article_rev140402" />
+<input type="hidden" name="_qf_Edit_next" value="Save" />
+<div class="form-item form-type-textfield form-item-email-3">
+ <input placeholder="type your email address..." type="text" id="edit-email-3" name="email-3" value="" size="60" maxlength="128" class="form-text" />
+</div>
+<input type="submit" id="edit-submit" name="op" value="SIGN UP" class="form-submit" /><input type="hidden" name="form_build_id" value="form-LBldZzvio7b4BV4Bfor52HDgo_m_vWwS4lpxzkFK6fA" />
+<input type="hidden" name="form_id" value="elife_content_alerts_sign_up_form" />
+</div></form>  </div>
+
+  
+  </div>
+</div>
+				  </div>
+													<div class="panel-panel panel-region-sidebar-bottom article-jumplinks-anchor-region" id="article-jumplinks-anchor-region">
+				    <div class="inside"><div class="panel-pane pane-custom pane-1 hidden-small"  id="jump-links-anchor-container"  class="panel-pane pane-custom pane-1 hidden-small">
+  
+      
+  
+  <div class="pane-content">
+    <p>placeholder-text</p>
+  </div>
+
+  
+  </div>
+</div>
+				  </div>
+			  			</div>
+				
+	</div>
+</div>
+
+    </div>
+  </div>
+</div>      </div>
+</div>  </div>
+</div></section>    
+  
+      <footer id="section-footer" class="section section-footer">
+  <div id="zone-footer-wrapper" class="zone-wrapper zone-footer-wrapper clearfix">  
+  <div id="zone-footer" class="zone zone-footer clearfix container-32">
+    <div class="grid-30 region region-footer-first push-2" id="region-footer-first">
+  <div class="region-inner region-footer-first-inner">
+    <div class="block block-elife-footer block-elife-footer block-elife-footer-elife-footer odd block-without-title" id="block-elife-footer-elife-footer">
+  <div class="block-inner clearfix">
+                
+    <div class="content clearfix">
+      <div class="site-footer">
+  <section class="site-footer__funders">
+    <div class="site-footer__funders__inner">
+      <span class="site-footer__funders_intro">
+        eLife is supported by      </span>
+      <span class="site-footer__funder_img">
+      <img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/Funder_logos_2014_106.png" alt="eLife funder logos" />      </span>
+
+    </div>
+  </section><!-- /.site-footer__funders -->
+  <section class="site-footer__main">
+    <section class="site-footer__text_and_links">
+      <div class="site-footer__identity">
+        <img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/eLife-logo.png" alt="eLife visual identity" />      </div>
+      <div class="h-card vcard">
+                  <p class="site-footer__statement_text">
+            eLife Sciences is a unique, non-profit collaboration between the funders and practitioners of research to improve the way important results are presented and shared. The open-access <i>eLife</i> journal is the first step in this initiative to make science publishing more effectively benefit science and scientists.          </p>
+                          <p class="site-footer__company-info">
+            eLife Sciences Publications, Ltd is a limited liability non-profit non-stock corporation incorporated in the State of Delaware, USA, with company number 5030732, and is registered in the UK with company number FC030576 and branch number BR015634 at the address:          </p>
+                <address class="site-footer__address">
+          <div class="p-name fn">eLife Sciences Publications, Ltd</div>
+          <div class="p-street-address street-address">1st Floor, 24 Hills Road</div>
+          <div><span class="p-locality locality">Cambridge</span>
+            <span class="p-postal-code postal-code">CB2 1JP</span>
+          </div>
+          <div class="p-country-name country-name">UK</div>
+        </address>
+      </div> <!-- /.h-card /.v-card-->
+    </section> <!-- /.site-footer__text_and_links -->
+
+    <section class="site-footer__social">
+      <h2 class="site-footer__social_heading">Follow us</h2>
+      <div class="item-list"><ol><li class="site-footer__social_icon first"><a href="https://www.facebook.com/elifesciences" class="site-footer__social_link"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/facebook-icon.png" alt="Facebook icon" /></a></li>
+<li class="site-footer__social_icon"><a href="https://twitter.com/elife" class="site-footer__social_link"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/twitter-icon.png" alt="Twitter icon" /></a></li>
+<li class="site-footer__social_icon"><a href="http://www.linkedin.com/company/elife-sciences-publications-ltd" class="site-footer__social_link"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/linkedin-icon.png" alt="LinkedIn icon" /></a></li>
+<li class="site-footer__social_icon"><a href="https://plus.google.com/102129675554093758550/posts" class="site-footer__social_link"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/google-plus-icon.png" alt="Google plus icon" /></a></li>
+<li class="site-footer__social_icon"><a href="https://medium.com/@eLife" class="site-footer__social_link"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/medium-icon.png" alt="Medium icon" /></a></li>
+<li class="site-footer__social_icon last"><a href="https://www.flickr.com/photos/128643624@N07/" class="site-footer__social_link"><img src="https://elifesciences.org/profiles/elife_profile/modules/custom/elife_footer/images/flickr-icon.png" alt="Flickr icon" /></a></li>
+</ol></div>    </section> <!-- /.site_footer__social -->
+
+    <section class="site-footer__links">
+      <div class="item-list"><ol class="site-footer__misc_links"><li class="first"><a href="/" class="site-footer__misc_link">Home</a></li>
+<li><a href="/about" class="site-footer__misc_link">About</a></li>
+<li><a href="http://submit.elifesciences.org" class="site-footer__misc_link">Submit</a></li>
+<li><a href="/careers" class="site-footer__misc_link">Careers</a></li>
+<li><a href="/labs" class="site-footer__misc_link">Labs</a></li>
+<li><a href="/contact" class="site-footer__misc_link">Contact</a></li>
+<li><a href="/for-the-press" class="site-footer__misc_link">For the press</a></li>
+<li><a href="/alerts-and-feeds" class="site-footer__misc_link">Sign up for alerts</a></li>
+<li><a href="/resources" class="site-footer__misc_link">Downloads</a></li>
+<li><a href="/annual-reports" class="site-footer__misc_link">Annual reports</a></li>
+<li><a href="/who-we-work-with" class="site-footer__misc_link">Who we work with</a></li>
+<li><a href="/terms-and-conditions-of-use" class="site-footer__misc_link">Terms &amp; conditions</a></li>
+<li class="last"><a href="/privacy-policy" class="site-footer__misc_link">Privacy policy</a></li>
+</ol></div>      <div class="item-list"><ol class="site-footer__section_links"><li class="site-footer__section_list_item site-footer__section_list_item--research first"><a href="/category/research-article" class="site-footer__misc_link">Research articles</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--short"><a href="/category/short-report" class="site-footer__misc_link">Short reports</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--tools"><a href="/category/tools-and-resources" class="site-footer__misc_link">Tools and resources</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--advance"><a href="/category/research-advance" class="site-footer__misc_link">Research advances</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--reproducibility-project"><a href="/collections/reproducibility-project-cancer-biology" class="site-footer__misc_link">Reproducibility Project</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--editorials"><a href="/category/editorial" class="site-footer__misc_link">Editorials</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--insights"><a href="/category/insight" class="site-footer__misc_link">Insights</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--features"><a href="/category/feature-article" class="site-footer__misc_link">Features</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--podcasts"><a href="/podcast" class="site-footer__misc_link">Podcasts</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--collections"><a href="/collections" class="site-footer__misc_link">Collections</a></li>
+<li class="site-footer__section_list_item site-footer__section_list_item--news last"><a href="/elife-news" class="site-footer__misc_link">eLife news</a></li>
+</ol></div>    </section> <!-- /.site-footer__links -->
+  </section>
+
+  <section class="site-footer__copyright-line">
+    &copy; 2016 eLife Sciences Publications Ltd. Subject to a <a href="http://creativecommons.org/licenses/by/4.0/" rel="license">Creative Commons Attribution license</a>, except where otherwise noted. ISSN: 2050-084X  </section>
+</div>
+    </div>
+  </div>
+</div>  </div>
+</div>  </div>
+</div></footer>  </div>  <div class="region region-page-bottom" id="region-page-bottom">
+  <div class="region-inner region-page-bottom-inner">
+      </div>
+</div><script type="text/javascript" src="https://elifesciences.org/sites/default/files/js/js_6rdVZBNaTXBpJfEvwa3rUZ65FrbNJI1F3n483ibSlJw.js"></script>
+<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","licenseKey":"c53c018d69","applicationID":"27107610","transactionName":"NQQGNUZZWEACVhdZWQxOJQJAUVldTEUCV1M9DAUPVV9TQTxbDFRTPRcNBENnRlIEUA==","queueTime":0,"applicationTime":5887,"atts":"GUMFQw5DS04=","errorBeacon":"bam.nr-data.net","agent":""}</script></body>
+</html>

@@ -121,7 +121,7 @@ class Command(ModCommand):
             self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
 
-        LOG.info('attempting to ingest article', extra=self.log_context)
+        LOG.info('attempting to %s article', action, extra=self.log_context)
 
         # read and check the article-json given, if necessary
         try:

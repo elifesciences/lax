@@ -178,14 +178,14 @@ def updatedict(ddict, **kwargs):
         newdata[key] = val
     return newdata
 
-def json_dumps(obj):
+def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
     def _handler(obj):
         if hasattr(obj, 'isoformat'):
             return obj.isoformat()
         else:
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
-    return json.dumps(obj, default=_handler)
+    return json.dumps(obj, default=_handler, **kwargs)
 
 # http://stackoverflow.com/questions/29847098/the-best-way-to-merge-multi-nested-dictionaries-in-python-2-7
 def deepmerge(d1, d2):

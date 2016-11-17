@@ -18,3 +18,4 @@ ingestion-lax.log.json
 aws-perms.sh
 schema/
 article-xml
+.scrapy-cache
