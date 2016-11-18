@@ -22,7 +22,7 @@ class CLI(BaseCase):
         for ingestable in ingest_these:
             path = join(ajson_dir, ingestable)
             ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
-        
+
     def tearDown(self):
         pass
 

@@ -1,4 +1,3 @@
-from django.conf import settings
 import copy
 from publisher import models, utils, fragment_logic as fragments, logic, events
 from publisher.models import XML2JSON
@@ -100,7 +99,7 @@ def _ingest(data, force=False):
         log_context['article-version'] = av
 
         fragments.add(av, XML2JSON, data['article'], pos=0, update=force)
-        fragments.merge_if_valid(av, allow_invalid=settings.ALLOW_INVALID_AJSON)
+        fragments.merge_if_valid(av)
 
         # enforce business rules
 
@@ -174,7 +173,7 @@ def ingest(*args, **kwargs):
 # PUBLISH requests
 #
 
-def _publish(msid, version, force=False, allow_invalid=False):
+def _publish(msid, version, force=False):
     """attach a `datetime_published` value to an article version. if none provided, use RIGHT NOW.
     you cannot publish an already published article version unless force==True"""
     try:
@@ -218,7 +217,7 @@ def _publish(msid, version, force=False, allow_invalid=False):
         av.save()
 
         # merge the fragments we have available and make them available for serving
-        fragments.merge_if_valid(av, allow_invalid=settings.ALLOW_INVALID_AJSON)
+        fragments.merge_if_valid(av)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(events.notify, av.article))

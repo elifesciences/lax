@@ -7,7 +7,6 @@ from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
 from unittest import skip
 from django.core.management import call_command
-from django.test import override_settings
 
 class Ingest(BaseCase):
     def setUp(self):
@@ -156,7 +155,7 @@ class Ingest(BaseCase):
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
         self.assertEqual(av.version, 1) # all the data that would have been saved
 
-    # test ajson stored if valid or invalid if settings allow
+    # test ajson stored if valid
 
     def test_article_json_fails_on_bad_data(self):
         "INGEST events on bad data (distinct from 'invalid') should fail with a ValueError"
@@ -171,7 +170,6 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
 
-    @override_settings(ALLOW_INVALID_AJSON=False)
     def test_article_json_not_stored_if_invalid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored but
         only if valid. ensure nothing is stored if result of merge is invalid"""
@@ -179,16 +177,6 @@ class Ingest(BaseCase):
         av = self.freshen(av)
         self.assertEqual(av.article_json_v1, None)
         self.assertEqual(av.article_json_v1_snippet, None)
-
-    @override_settings(ALLOW_INVALID_AJSON=True)
-    def test_article_json_stored_if_invalid_if_forced(self):
-        """INGEST and PUBLISH events cause the fragments to be merged and stored but
-        only if valid. ensure nothing is stored if result of merge is invalid"""
-        _, _, av = ajson_ingestor.ingest(self.invalid_ajson)
-        av = self.freshen(av)
-        # not a great test ...
-        self.assertNotEqual(av.article_json_v1, None)
-        self.assertNotEqual(av.article_json_v1_snippet, None)
 
 
 class Publish(BaseCase):
