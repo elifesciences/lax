@@ -6,8 +6,7 @@ The import script does not obey business rules and merrily update published date
 The ingest script DOES obey business rules and will not publish things twice,
 
 """
-
-import sys, json, argparse
+import io, re, sys, json, argparse
 from django.core.management.base import BaseCommand
 from publisher import ajson_ingestor, utils
 from publisher.ajson_ingestor import StateError
@@ -63,9 +62,9 @@ class Command(ModCommand):
     help = ''
 
     def add_arguments(self, parser):
-        # update articles that already exist?
-        parser.add_argument('--id', dest='msid', type=int, required=True)
-        parser.add_argument('--version', dest='version', type=int, required=True)
+        parser.add_argument('--id', dest='msid', type=int)
+        parser.add_argument('--version', dest='version', type=int)
+        parser.add_argument('--dir', dest='dir')
         parser.add_argument('--force', action='store_true', default=False)
         parser.add_argument('--dry-run', action='store_true', default=False)
 
@@ -74,6 +73,8 @@ class Command(ModCommand):
         parser.add_argument('--ingest+publish', dest='action', action='store_const', const=BOTH)
 
         parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+
+        self.parser = parser
 
     def write(self, out=None):
         if not isinstance(out, basestring):
@@ -104,29 +105,19 @@ class Command(ModCommand):
         LOG.info("successfully %s article", status, extra=self.log_context)
         self.write(struct)
 
-    def handle(self, *args, **options):
-        action = options['action']
-        msid = options['msid']
-        version = options['version']
-        force = options['force']
-        dry_run = options['dry_run']
-
+    def handle_single(self, action, infile, msid, version, force, dry_run):
         data = None
 
-        self.log_context = {
-            'action': action, 'msid': msid, 'version': version, 'force?': force, 'dry_run?': dry_run
-        }
-
-        if not action:
-            self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
-            sys.exit(1)
+        self.log_context.update(**{
+            'msid': msid, 'version': version
+        })
 
         LOG.info('attempting to %s article', action, extra=self.log_context)
 
         # read and check the article-json given, if necessary
         try:
             if action in [INGEST, BOTH]:
-                raw_data = options['infile'].read()
+                raw_data = infile.read()
                 self.log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
                 data = json.loads(raw_data)
                 # vagary of the CLI interface: article id and version are required
@@ -166,5 +157,48 @@ class Command(ModCommand):
             LOG.exception(msg, extra=self.log_context)
             self.error(ERROR, msg)
             sys.exit(1)
+
+    def handle_many(self, action, path, force, dry_run):
+        json_files = utils.resolve_path(path)
+        cregex = re.compile(r'^.*/elife-\d{5,}-v\d\.xml\.json$')
+        ajson_file_list = filter(cregex.match, json_files)
+
+        for ajson_file in ajson_file_list:
+            _, padded_msid, suffix = os.path.basename(ajson_file).split('-')
+            msid = int(padded_msid)
+            version = int(suffix[1])
+            self.handle_single(action, io.open(ajson_file, 'r', encoding='utf8'), msid, version, force, dry_run)
+        
+    def handle(self, *args, **options):
+        action = options['action']
+        force = options['force']
+        dry_run = options['dry_run']
+
+        # single options:
+        msid = options['msid']
+        version = options['version']
+
+        # many options:
+        path = options['dir']
+
+        self.log_context = {
+            'action': action, 'force?': force, 'dry_run?': dry_run
+        }
+        
+        if not action:
+            self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
+            sys.exit(1)
+
+        if path:
+            if options['msid'] or options['version']:
+                self.parser.error("the 'id' and 'version' options are not required when a 'dir' option is passed")
+                sys.exit(1)
+            self.handle_many(action, path, force, dry_run)
+
+        else:
+            if not options['msid'] and options['version']:
+                self.parser.error("the 'id' and 'version' options are both required when a 'dir' option is not passed")
+                sys.exit(1)
+            self.handle_single(action, options['infile'], msid, version, force, dry_run)
 
         sys.exit(0)
