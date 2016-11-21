@@ -169,7 +169,7 @@ class Command(ModCommand):
             msid = int(padded_msid)
             version = int(suffix[1])
             self.handle_single(action, io.open(ajson_file, 'r', encoding='utf8'), msid, version, force, dry_run)
-        
+
     def handle(self, *args, **options):
         action = options['action']
         force = options['force']
@@ -185,7 +185,7 @@ class Command(ModCommand):
         self.log_context = {
             'action': action, 'force?': force, 'dry_run?': dry_run
         }
-        
+
         if not action:
             self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
