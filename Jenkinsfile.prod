@@ -10,4 +10,5 @@ elifePipeline {
     elifeDeploySlackNotification "lax", "prod"
     elifeGitMoveToBranch commit, 'master'
     builderDeployRevision 'lax--prod', commit
+    builderSmokeTests 'lax--prod', '/srv/lax'
 }
