@@ -162,7 +162,8 @@ class Command(ModCommand):
         json_files = utils.resolve_path(path)
         cregex = re.compile(r'^.*/elife-\d{5,}-v\d\.xml\.json$')
         ajson_file_list = filter(cregex.match, json_files)
-
+        if not ajson_file_list:
+            LOG.info("found no article json at %r" % os.path.abspath(path))
         for ajson_file in ajson_file_list:
             _, padded_msid, suffix = os.path.basename(ajson_file).split('-')
             msid = int(padded_msid)
