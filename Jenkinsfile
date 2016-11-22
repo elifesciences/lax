@@ -13,6 +13,7 @@ elifePipeline {
         stage 'End2end tests'
         elifeEnd2EndTest {
             builderDeployRevision 'lax--end2end', commit
+            builderSmokeTests 'lax--end2end', '/srv/lax'
         }
      
         stage 'Approval'
