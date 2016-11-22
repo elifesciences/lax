@@ -132,6 +132,8 @@ class Command(BaseCommand):
         # article is on website and in database
         # compare versions
 
+        # TODO: case where ingest has happened in lax, but not PUBLISH and website has published article
+
         lax_pv, web_pv = c['published-versions'], c['web-published-versions']
 
         if len(lax_pv) > len(web_pv):
