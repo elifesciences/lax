@@ -268,18 +268,14 @@ class V2Content(base.BaseCase):
 
 class V2PostContent(base.BaseCase):
     def setUp(self):
-        path = join(self.fixture_dir, 'ajson', "elife-16695-v1.xml.json")
+        path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v1.xml.json")
         ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
-        self.msid = 16695
+        self.msid = 20105
         self.version = 1
 
-        # layer in enough to make it validate ...
-        placeholders = {
-            'statusDate': '2001-01-01T00:00:00Z',
-        }
-        fragments.add(self.msid, 'placeholders', placeholders)
         self.av = models.ArticleVersion.objects.filter(article__manuscript_id=self.msid)[0]
+        self.assertTrue(self.av.published())
         self.assertTrue(fragments.merge_if_valid(self.av))
 
         self.c = Client()
@@ -292,7 +288,7 @@ class V2PostContent(base.BaseCase):
         q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid)
 
         # POST fragment into lax
-        self.assertEqual(q.count(), 2) # 'xml->json', placeholder
+        self.assertEqual(q.count(), 1) # 'xml->json'
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
 
@@ -327,9 +323,10 @@ class V2PostContent(base.BaseCase):
         url = reverse('v2:article-fragment', kwargs={'art_id': 99999, 'fragment_id': 'test-frag'})
         resp = self.c.post(url, json.dumps({}), content_type="application/json")
         self.assertEqual(resp.status_code, 404)
-        self.assertEqual(models.ArticleFragment.objects.count(), 2) # xml->json, placeholder
+        self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
 
     def test_add_fragment_for_unpublished_article(self):
+        "article hasn't been published yet but we want to contribute content"
         # unpublish our article
         self.unpublish(self.msid, self.version)
         av = self.freshen(self.av)
@@ -349,11 +346,11 @@ class V2PostContent(base.BaseCase):
     def test_add_bad_fragment(self):
         """request with fragment that would cause otherwise validating article json
         to become invalid is refused"""
-        self.assertEqual(models.ArticleFragment.objects.count(), 2) # xml->json, placeholder
+        self.assertEqual(models.ArticleFragment.objects.count(), 1) # xml->json
         fragment = {'doi': 'this is no doi!'}
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
-        self.assertEqual(models.ArticleFragment.objects.count(), 2) # nothing was created
+        self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
         self.assertEqual(resp.status_code, 400) # bad client request
 
 class RequestArgs(base.BaseCase):

@@ -68,16 +68,20 @@ def valid(merge_result, quiet=True):
             raise
     except ValidationError as err:
         # definitely not valid ;)
-        LOG.error("while validating %s with %s, failed to valid with error: %s", msid, schema, err)
+        LOG.error("while validating %s with %s, failed to validate with error: %s", msid, schema, err)
         if not quiet:
             raise
 
 def extract_snippet(merged_result):
     # TODO: derive these from the schema automatically somehow please
     snippet_keys = [
+        # pulled from given xml->json
         'copyright', 'doi', 'elocationId', 'id', 'impactStatement',
-        'pdf', 'published', 'researchOrganisms', 'status', 'statusDate', 'subjects',
-        'title', 'titlePrefix', 'type', 'version', 'volume', 'authorLine'
+        'pdf', 'published', 'researchOrganisms', 'status', 'subjects',
+        'title', 'titlePrefix', 'type', 'version', 'volume', 'authorLine',
+
+        # added by lax
+        'statusDate', 'stage', 'versionDate',
     ]
     return subdict(merged_result, snippet_keys)
 
@@ -90,17 +94,24 @@ def pre_process(av, result):
     else:
         result['published'] = av.article.datetime_published
 
-    # 'versionDate' is when this version of the article was published
-    # if unpublished, this value will be None
     result['versionDate'] = av.datetime_published
 
-    # calculate the status date
     # 'statusDate' is when the av.status value changed to what it is
-    result['statusDate'] = result['published'] # 'published' is the v1 pubdate remember
+    result['statusDate'] = result['published'] # 'published' is the v1 pubdate, remember
     v1vor = av.article.earliest_vor()
     if v1vor and v1vor.datetime_published:
         # article has a published vor in it's version history! use it's version date
         result['statusDate'] = v1vor.datetime_published.isoformat()
+
+    if av.datetime_published:
+        result['stage'] = 'published'
+    else:
+        result['stage'] = 'preview'
+        del result['versionDate']
+        if av.version == 1:
+            del result['published']
+            del result['statusDate']
+
     return result
 
 def merge_if_valid(av, quiet=True):
