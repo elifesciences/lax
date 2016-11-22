@@ -11,6 +11,7 @@ if [ -d api-raml ]; then
     cd api-raml
     git reset --hard
     git pull
+    node compile.js
     cd ..
 else
     git clone https://github.com/elifesciences/api-raml --depth 1
