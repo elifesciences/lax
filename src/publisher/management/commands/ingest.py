@@ -124,7 +124,7 @@ def handle_many(action, path, force, dry_run):
     if not ajson_file_list:
         LOG.info("found no article json at %r" % os.path.abspath(path))
 
-    Parallel(njobs=-1)(delayed(job)(action, path, force, dry_run) for path in ajson_file_list) # ignore
+    Parallel(njobs=-1)(delayed(job)(action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
 
 
 class ModCommand(BaseCommand):
