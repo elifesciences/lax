@@ -7,7 +7,8 @@ elifePipeline {
     builderCmd 'lax--prod', "cd /srv/lax; ./manage.sh dumpdata --exclude=contenttypes --natural-foreign --natural-primary --indent=4 | gzip -9 - > /tmp/lax-db-${env.BUILD_TAG}.json.gz"
 
     stage 'Deploy'
-    elifeDeploySlackNotification "lax", "prod"
+    elifeDeploySlackNotification 'lax', 'prod'
     elifeGitMoveToBranch commit, 'master'
     builderDeployRevision 'lax--prod', commit
+    builderSmokeTests 'lax--prod', '/srv/lax'
 }
