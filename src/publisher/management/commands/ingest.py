@@ -211,7 +211,7 @@ class Command(ModCommand):
             handle_many(action, path, force, dry_run)
 
         else:
-            if not options['msid'] and options['version']:
+            if not (options['msid'] and options['version']):
                 self.parser.error("the 'id' and 'version' options are both required when a 'dir' option is not passed")
                 sys.exit(1)
             handle_single(action, options['infile'], msid, version, force, dry_run)
