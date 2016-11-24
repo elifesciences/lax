@@ -1,4 +1,3 @@
-from StringIO import StringIO
 from os.path import join
 import json
 from datetime import datetime, timedelta
@@ -6,7 +5,6 @@ from base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
 from unittest import skip
-from django.core.management import call_command
 
 class Ingest(BaseCase):
     def setUp(self):
@@ -413,15 +411,6 @@ class CLI(BaseCase):
 
     def tearDown(self):
         pass
-
-    def call_command(self, *args, **kwargs):
-        stdout = StringIO()
-        try:
-            kwargs['stdout'] = stdout
-            call_command(*args, **kwargs)
-        except SystemExit as err:
-            return err.code, stdout
-        self.fail("ingest script should always throw a systemexit()")
 
     def test_ingest_from_cli(self):
         "ingest script requires the --ingest flag and a source of data"
