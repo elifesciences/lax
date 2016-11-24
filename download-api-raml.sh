@@ -11,6 +11,11 @@ if [ -d api-raml ]; then
     cd api-raml
     git reset --hard
     git pull
+    if type node > /dev/null; then
+        # if node is installed, like on a dev machine recompile
+        # the api as lax uses the contents of the dist dir.
+        node compile.js
+    fi
     cd ..
 else
     git clone https://github.com/elifesciences/api-raml --depth 1

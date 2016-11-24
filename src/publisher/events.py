@@ -111,6 +111,9 @@ def listen(env):
 
 def notify(art, **overrides):
     "notify the event bus when this article or one of it's versions has been changed in some way"
+    if settings.DEBUG:
+        LOG.info("application is in DEBUG mode, not notifying anyone")
+        return
     try:
         msg = {"type": "article", "id": art.manuscript_id}
         #msg_json = json.dumps({'default': msg})

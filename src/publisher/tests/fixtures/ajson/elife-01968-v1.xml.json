@@ -17,7 +17,7 @@
         "versionDate": "2013-12-31T00:00:00", 
         "volume": 2, 
         "elocationId": "e01968", 
-        "pdf": "elife-01968-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/01968/elife-01968-v1.pdf", 
         "subjects": [
             {
                 "id": "developmental-biology-stem-cells", 
@@ -31,6 +31,14 @@
         "researchOrganisms": [
             "Mouse"
         ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
+                }
+            ]
+        }, 
         "copyright": {
             "license": "CC-BY-3.0", 
             "holder": "Mattick", 
@@ -68,8 +76,7 @@
                 ], 
                 "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
             }
-        ], 
-        "impactStatement": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
+        ]
     }, 
     "article": {
         "status": "vor", 
@@ -84,7 +91,7 @@
         "versionDate": "2013-12-31T00:00:00", 
         "volume": 2, 
         "elocationId": "e01968", 
-        "pdf": "elife-01968-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/01968/elife-01968-v1.pdf", 
         "subjects": [
             {
                 "id": "developmental-biology-stem-cells", 
@@ -98,6 +105,14 @@
         "researchOrganisms": [
             "Mouse"
         ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
+                }
+            ]
+        }, 
         "copyright": {
             "license": "CC-BY-3.0", 
             "holder": "Mattick", 
@@ -150,39 +165,39 @@
         "body": [
             {
                 "type": "paragraph", 
-                "text": "<bold>Related research article</bold> Sauvageau M, Goff LA, Lodato S, Bonev B, Groff AF, Gerhardinger C, Sanchez-Gomez DB, Hacisuleyman E, Li E, Spence M, Liapis SC, Mallard W, Morse M, Swerdel MR, D\u2019Ecclessis MF, Moore JC, Lai V, Gong G, Yancopoulos GD, Frendewey D, Kellis M, Hart RP, Valenzuela DM, Arlotta P, Rinn JL. 2013. Multiple knockout mouse models reveal lincRNAs are required for life and brain development. <italic>eLife</italic> <bold>2</bold>:01749. doi: <ext-link ext-link-type=\"uri\" xlink:href=\"http://dx.doi.org/10.7554/eLife.01749\">10.7554/eLife.01749</ext-link>"
+                "text": "<b>Related research article</b> Sauvageau M, Goff LA, Lodato S, Bonev B, Groff AF, Gerhardinger C, Sanchez-Gomez DB, Hacisuleyman E, Li E, Spence M, Liapis SC, Mallard W, Morse M, Swerdel MR, D\u2019Ecclessis MF, Moore JC, Lai V, Gong G, Yancopoulos GD, Frendewey D, Kellis M, Hart RP, Valenzuela DM, Arlotta P, Rinn JL. 2013. Multiple knockout mouse models reveal lincRNAs are required for life and brain development. <i>eLife</i> <b>2</b>:01749. doi: <a href=\"http://dx.doi.org/10.7554/eLife.01749\">10.7554/eLife.01749</a>"
             }, 
             {
                 "type": "paragraph", 
-                "text": "<bold>Image</bold> A wild-type (left) and mutant (right) mouse seven days after birth; this particular mutation (Mdgt<sup>\u2212/\u2212</sup>) is partially lethal with growth defects in survivors"
+                "text": "<b>Image</b> A wild-type (left) and mutant (right) mouse seven days after birth; this particular mutation (Mdgt<sup>\u2212/\u2212</sup>) is partially lethal with growth defects in survivors"
             }, 
             {
                 "type": "paragraph", 
-                "text": "<inline-graphic xlink:href=\"elife-01968-inf1-v1\"/>"
+                "text": "<inline-graphic xlink:href=\"elife-01968-inf1-v1\"></inline-graphic>"
             }, 
             {
                 "type": "paragraph", 
-                "text": "It has been known since the late 1970s that many DNA sequences are transcribed but not translated. Moreover, most protein-coding genes in mammals are fragmented, with only a small fraction of the primary RNA transcript being spliced together to form messenger RNA. For many years it was assumed that untranslated RNA molecules served no useful purpose but, starting in the mid-1990s, a small body of researchers, including the present author (<xref ref-type=\"bibr\" rid=\"bib14\">Mattick, 1994</xref>), have been arguing that these RNAs transmit regulatory information, possibly associated with the emergence of multicellular organisms. This is supported by the observation that the proportion of noncoding genomic sequences broadly correlates with developmental complexity, reaching over 98% in mammals (<xref ref-type=\"bibr\" rid=\"bib12\">Liu et al., 2013</xref>), although others have argued that the increase in genome size is due to the inefficiency of selection against non-functional elements as body size goes up and population size goes down (<xref ref-type=\"bibr\" rid=\"bib13\">Lynch, 2007</xref>)."
+                "text": "It has been known since the late 1970s that many DNA sequences are transcribed but not translated. Moreover, most protein-coding genes in mammals are fragmented, with only a small fraction of the primary RNA transcript being spliced together to form messenger RNA. For many years it was assumed that untranslated RNA molecules served no useful purpose but, starting in the mid-1990s, a small body of researchers, including the present author (<a href=\"#bib14\">Mattick, 1994</a>), have been arguing that these RNAs transmit regulatory information, possibly associated with the emergence of multicellular organisms. This is supported by the observation that the proportion of noncoding genomic sequences broadly correlates with developmental complexity, reaching over 98% in mammals (<a href=\"#bib12\">Liu et al., 2013</a>), although others have argued that the increase in genome size is due to the inefficiency of selection against non-functional elements as body size goes up and population size goes down (<a href=\"#bib13\">Lynch, 2007</a>)."
             }, 
             {
                 "type": "paragraph", 
-                "text": "High-throughput sequencing analyses over the past decade have shown that the majority of mammalian genome is transcribed, often from both strands, and have revealed an extraordinarily complex landscape of overlapping and interlacing sense and antisense, alternatively spliced, protein-coding and non-protein-coding RNAs, the latter generally referred to as long noncoding RNAs (lncRNAs). Moreover, the repertoire of these lncRNAs is different in different cells (<xref ref-type=\"bibr\" rid=\"bib3\">Carninci et al., 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib4\">Cheng et al., 2005</xref>; <xref ref-type=\"bibr\" rid=\"bib2\">Birney et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib17\">Mercer et al., 2012</xref>). While some transcripts may encode previously unrecognized small proteins, the function or otherwise of the vast majority of lncRNAs remains to be determined."
+                "text": "High-throughput sequencing analyses over the past decade have shown that the majority of mammalian genome is transcribed, often from both strands, and have revealed an extraordinarily complex landscape of overlapping and interlacing sense and antisense, alternatively spliced, protein-coding and non-protein-coding RNAs, the latter generally referred to as long noncoding RNAs (lncRNAs). Moreover, the repertoire of these lncRNAs is different in different cells (<a href=\"#bib3\">Carninci et al., 2005</a>; <a href=\"#bib4\">Cheng et al., 2005</a>; <a href=\"#bib2\">Birney et al., 2007</a>; <a href=\"#bib17\">Mercer et al., 2012</a>). While some transcripts may encode previously unrecognized small proteins, the function or otherwise of the vast majority of lncRNAs remains to be determined."
             }, 
             {
                 "type": "paragraph", 
-                "text": "Because many lncRNAs appear to be expressed at low levels, and many have lower sequence conservation than messenger RNAs, one interpretation has been that these RNAs represent transcriptional noise from complex genomes cluttered with evolutionary debris. However, assessments of sequence conservation rely on assumptions about the non-functionality and representative distribution of reference sequences, which are not verified and cannot be directly tested (<xref ref-type=\"bibr\" rid=\"bib20\">Pheasant and Mattick, 2007</xref>). Nonetheless, many lncRNAs show patches of relative sequence conservation (<xref ref-type=\"bibr\" rid=\"bib5\">Derrien et al., 2012</xref>), and even more do so at the secondary structural level (<xref ref-type=\"bibr\" rid=\"bib23\">Smith et al., 2013</xref>)."
+                "text": "Because many lncRNAs appear to be expressed at low levels, and many have lower sequence conservation than messenger RNAs, one interpretation has been that these RNAs represent transcriptional noise from complex genomes cluttered with evolutionary debris. However, assessments of sequence conservation rely on assumptions about the non-functionality and representative distribution of reference sequences, which are not verified and cannot be directly tested (<a href=\"#bib20\">Pheasant and Mattick, 2007</a>). Nonetheless, many lncRNAs show patches of relative sequence conservation (<a href=\"#bib5\">Derrien et al., 2012</a>), and even more do so at the secondary structural level (<a href=\"#bib23\">Smith et al., 2013</a>)."
             }, 
             {
                 "type": "paragraph", 
-                "text": "Expression analyses have shown that lncRNAs originate from all over the genome and are expressed at different times during differentiation and development (<xref ref-type=\"bibr\" rid=\"bib6\">Dinger et al., 2008</xref>), often exhibiting highly cell-specific patterns (<xref ref-type=\"bibr\" rid=\"bib16\">Mercer et al., 2008</xref>). The precision of lncRNA expression is consistent with evidence suggesting that many are associated with chromatin-modifying complexes, thereby acting as regulators of the epigenetic control of differentiation and development (<xref ref-type=\"bibr\" rid=\"bib18\">Mercer and Mattick, 2013</xref>)."
+                "text": "Expression analyses have shown that lncRNAs originate from all over the genome and are expressed at different times during differentiation and development (<a href=\"#bib6\">Dinger et al., 2008</a>), often exhibiting highly cell-specific patterns (<a href=\"#bib16\">Mercer et al., 2008</a>). The precision of lncRNA expression is consistent with evidence suggesting that many are associated with chromatin-modifying complexes, thereby acting as regulators of the epigenetic control of differentiation and development (<a href=\"#bib18\">Mercer and Mattick, 2013</a>)."
             }, 
             {
                 "type": "paragraph", 
-                "text": "A number of lncRNAs have also been linked to complex diseases like cancer (<xref ref-type=\"bibr\" rid=\"bib15\">Mattick, 2009</xref>) and other complex physiological processes (see, for example, <xref ref-type=\"bibr\" rid=\"bib21\">Rapicavoli et al., 2013</xref>). However, these results seem at odds with the fact that few lncRNAs have been identified in traditional genetic screens. The reason for this is likely a combination of phenotypic, technical and expectational bias: mutations in protein-coding regions of the genome generally have phenotypes that are more severe, and are easier to identify, than those in non-coding regions. By contrast, in this context, it is worth noting that \u223c95% of all variants associated with complex (as opposed to monogenic) diseases in humans map to non-coding, presumably regulatory, sequences (<xref ref-type=\"bibr\" rid=\"bib7\">Freedman et al., 2011</xref>)."
+                "text": "A number of lncRNAs have also been linked to complex diseases like cancer (<a href=\"#bib15\">Mattick, 2009</a>) and other complex physiological processes (see, for example, <a href=\"#bib21\">Rapicavoli et al., 2013</a>). However, these results seem at odds with the fact that few lncRNAs have been identified in traditional genetic screens. The reason for this is likely a combination of phenotypic, technical and expectational bias: mutations in protein-coding regions of the genome generally have phenotypes that are more severe, and are easier to identify, than those in non-coding regions. By contrast, in this context, it is worth noting that \u223c95% of all variants associated with complex (as opposed to monogenic) diseases in humans map to non-coding, presumably regulatory, sequences (<a href=\"#bib7\">Freedman et al., 2011</a>)."
             }, 
             {
                 "type": "paragraph", 
-                "text": "Still, the gold standard in this field is the targeted in vivo silencing or deletion of specific genes, and since few of these have been conducted to date, some researchers have remained sceptical about the biological significance of lncRNAs. Now, in <italic>eLife</italic>, John Rinn, Paolo Arlotta and co-workers at Harvard, MIT, the Broad Institute, Rutgers and Regeneron Pharmaceuticals\u2014including Martin Sauvageau, Loyal Goff and Simona Lodata as joint first authors\u2014report the results of the first large-scale attack on the question (<xref ref-type=\"bibr\" rid=\"bib22\">Sauvageau et al., 2013</xref>). They selected 18 lncRNA genes in the mouse genome that had been stringently assessed for lack of protein-coding capacity and that did not overlap with known protein-coding genes or other known gene annotations\u2014hence the name long intergenic noncoding RNAs (lincRNAs)\u2014and generated knockout mouse mutants by replacing the lncRNA gene with a <italic>lacZ</italic> reporter cassette."
+                "text": "Still, the gold standard in this field is the targeted in vivo silencing or deletion of specific genes, and since few of these have been conducted to date, some researchers have remained sceptical about the biological significance of lncRNAs. Now, in <i>eLife</i>, John Rinn, Paolo Arlotta and co-workers at Harvard, MIT, the Broad Institute, Rutgers and Regeneron Pharmaceuticals\u2014including Martin Sauvageau, Loyal Goff and Simona Lodata as joint first authors\u2014report the results of the first large-scale attack on the question (<a href=\"#bib22\">Sauvageau et al., 2013</a>). They selected 18 lncRNA genes in the mouse genome that had been stringently assessed for lack of protein-coding capacity and that did not overlap with known protein-coding genes or other known gene annotations\u2014hence the name long intergenic noncoding RNAs (lincRNAs)\u2014and generated knockout mouse mutants by replacing the lncRNA gene with a <i>lacZ</i> reporter cassette."
             }, 
             {
                 "type": "paragraph", 
@@ -190,15 +205,15 @@
             }, 
             {
                 "type": "paragraph", 
-                "text": "Another group (<xref ref-type=\"bibr\" rid=\"bib8\">Grote et al., 2013</xref>) recently generated a different knockout allele for one of the 18 lincRNAs interrogated by Sauvageau et al., and also reported an embryonic lethal phenotype, albeit with some differences. Importantly, the approach used by Grote et al. also provided strong evidence that the mutant defects were not caused by an indirect effect on an overlapping genomic element, such as an enhancer for a nearby gene."
+                "text": "Another group (<a href=\"#bib8\">Grote et al., 2013</a>) recently generated a different knockout allele for one of the 18 lincRNAs interrogated by Sauvageau et al., and also reported an embryonic lethal phenotype, albeit with some differences. Importantly, the approach used by Grote et al. also provided strong evidence that the mutant defects were not caused by an indirect effect on an overlapping genomic element, such as an enhancer for a nearby gene."
             }, 
             {
                 "type": "paragraph", 
-                "text": "The work of Sauvageau, Goff, Lodata et al. is a mini tour-de-force that shows that there are lncRNAs with important developmental functions in vivo, and it joins a small number of studies from other pioneering groups that show the same thing (<xref ref-type=\"bibr\" rid=\"bib10\">Lewejohann et al., 2004</xref>; <xref ref-type=\"bibr\" rid=\"bib9\">Gutschner et al., 2013</xref>; <xref ref-type=\"bibr\" rid=\"bib11\">Li et al., 2013</xref>), although not all of the targeted lncRNAs showed a phenotype. Similarly, other knockout experiments of widely expressed lncRNAs, as well as some of the most highly conserved elements in the mammalian genome, also did not yield discernable phenotypes (<xref ref-type=\"bibr\" rid=\"bib1\">Ahituv et al., 2007</xref>; <xref ref-type=\"bibr\" rid=\"bib19\">Nakagawa et al., 2011</xref>), which should sound a note of caution about the interpretation of negative results."
+                "text": "The work of Sauvageau, Goff, Lodata et al. is a mini tour-de-force that shows that there are lncRNAs with important developmental functions in vivo, and it joins a small number of studies from other pioneering groups that show the same thing (<a href=\"#bib10\">Lewejohann et al., 2004</a>; <a href=\"#bib9\">Gutschner et al., 2013</a>; <a href=\"#bib11\">Li et al., 2013</a>), although not all of the targeted lncRNAs showed a phenotype. Similarly, other knockout experiments of widely expressed lncRNAs, as well as some of the most highly conserved elements in the mammalian genome, also did not yield discernable phenotypes (<a href=\"#bib1\">Ahituv et al., 2007</a>; <a href=\"#bib19\">Nakagawa et al., 2011</a>), which should sound a note of caution about the interpretation of negative results."
             }, 
             {
                 "type": "paragraph", 
-                "text": "Indeed, since most lncRNAs are expressed in the brain (<xref ref-type=\"bibr\" rid=\"bib16\">Mercer et al., 2008</xref>) and many are primate-specific (<xref ref-type=\"bibr\" rid=\"bib5\">Derrien et al., 2012</xref>), it may be that much of the lncRNA-mediated genetic information in humans (and in mammals generally) is devoted to brain function, and therefore not easily detectable in developmental, as opposed to cognitive, screens. A good example is a noncoding RNA called BC1 that is widely expressed in the brain: knockout of BC1 causes no visible anatomical consequences, but it leads to a behavioural phenotype that would be lethal in the wild (<xref ref-type=\"bibr\" rid=\"bib10\">Lewejohann et al., 2004</xref>)."
+                "text": "Indeed, since most lncRNAs are expressed in the brain (<a href=\"#bib16\">Mercer et al., 2008</a>) and many are primate-specific (<a href=\"#bib5\">Derrien et al., 2012</a>), it may be that much of the lncRNA-mediated genetic information in humans (and in mammals generally) is devoted to brain function, and therefore not easily detectable in developmental, as opposed to cognitive, screens. A good example is a noncoding RNA called BC1 that is widely expressed in the brain: knockout of BC1 causes no visible anatomical consequences, but it leads to a behavioural phenotype that would be lethal in the wild (<a href=\"#bib10\">Lewejohann et al., 2004</a>)."
             }, 
             {
                 "type": "paragraph", 
@@ -5673,7 +5688,6 @@
                 }, 
                 "doi": "10.1093/nar/gkt596"
             }
-        ], 
-        "impactStatement": "Genetic knockout experiments on mice confirm that some long noncoding RNA molecules have developmental functions."
+        ]
     }
 }

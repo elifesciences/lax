@@ -3,6 +3,7 @@ from django.db import models
 #from .fields import JSONField
 from annoying.fields import JSONField
 from utils import second, firstnn, msid2doi
+from django.core.exceptions import ObjectDoesNotExist
 
 POA, VOR = 'poa', 'vor'
 
@@ -140,7 +141,10 @@ class Article(models.Model):
 
     @property
     def datetime_published(self):
-        return self.earliest_version.datetime_published
+        try:
+            return self.earliest_version.datetime_published
+        except ObjectDoesNotExist:
+            return None
 
     @property
     def title(self):
