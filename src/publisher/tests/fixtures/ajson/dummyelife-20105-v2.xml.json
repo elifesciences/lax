@@ -3,13 +3,20 @@
         "status": "poa", 
         "doi": "10.7554/eLife.20105", 
         "elocationId": "e20105", 
-        "impactStatement": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens.", 
         "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
         "authorLine": "Neel H Shah et al", 
+        "abstract": {
+            "content": [
+                {
+                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens.", 
+                    "type": "paragraph"
+                }
+            ]
+        }, 
         "volume": 5, 
         "version": 2, 
         "published": "2016-10-04T00:00:00", 
-        "pdf": "https://cdn.elifesciences.org/elife-articles/20105/pdf/elife-20105.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20105/elife-20105-v2.pdf", 
         "subjects": [
             {
                 "id": "biophysics-structural-biology", 
@@ -31,7 +38,6 @@
         "versionDate": "2016-01-01T00:00:00Z", 
         "doi": "10.7554/eLife.20105", 
         "elocationId": "e20105", 
-        "impactStatement": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens.", 
         "copyright": {
             "holder": "Shah et al", 
             "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited.", 
@@ -39,6 +45,14 @@
         }, 
         "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
         "authorLine": "Neel H Shah et al", 
+        "abstract": {
+            "content": [
+                {
+                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens.", 
+                    "type": "paragraph"
+                }
+            ]
+        }, 
         "authors": [
             {
                 "affiliations": [
@@ -328,7 +342,7 @@
         "version": 2, 
         "published": "2016-10-04T00:00:00", 
         "statusDate": "2016-01-01T00:00:00Z", 
-        "pdf": "https://cdn.elifesciences.org/elife-articles/20105/pdf/elife-20105.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20105/elife-20105-v2.pdf", 
         "subjects": [
             {
                 "id": "biophysics-structural-biology", 

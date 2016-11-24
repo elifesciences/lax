@@ -3,13 +3,18 @@
         "status": "vor", 
         "doi": "10.7554/eLife.20125", 
         "elocationId": "e20125", 
-        "impactStatement": "Epistatic interactions of rare loss of function mutations in <italic>SMAD6</italic> and a common variant modifier near <italic>BMP2</italic> are the most common cause of midline craniosynostosis in humans.", 
+        "ethics": [
+            {
+                "text": "Human subjects: All participants or their parents provided written informed consent to participate in a study of genetic causes of craniosynostosis in their family. Written consent was obtained for publication of patient photographs. The study protocol was approved by the Yale Human Investigation Committee Institutional Review Board.", 
+                "type": "paragraph"
+            }
+        ], 
         "copyright": {
             "holder": "Timberlake et al", 
             "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.", 
             "license": "CC-BY-4.0"
         }, 
-        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare SMAD6 and common BMP2 alleles", 
+        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
         "authorLine": "Andrew T Timberlake et al", 
         "abstract": {
             "content": [
@@ -928,7 +933,8 @@
         "volume": 5, 
         "version": 3, 
         "published": "2016-09-08T00:00:00", 
-        "pdf": "https://cdn.elifesciences.org/elife-articles/20125/pdf/elife-20125.pdf", 
+        "impactStatement": "Epistatic interactions of rare loss of function mutations in <i>SMAD6</i> and a common variant modifier near <i>BMP2</i> are the most common cause of midline craniosynostosis in humans.", 
+        "pdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-v3.pdf", 
         "subjects": [
             {
                 "id": "genes-chromosomes", 
@@ -8702,14 +8708,14 @@
             "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited.", 
             "license": "CC-BY-4.0"
         }, 
-        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare SMAD6 and common BMP2 alleles", 
+        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
         "authorLine": "Andrew T Timberlake et al", 
         "id": "20125", 
         "version": 3, 
         "statusDate": "2016-01-01T00:00:00Z", 
         "type": "research-article", 
         "status": "vor", 
-        "impactStatement": "Epistatic interactions of rare loss of function mutations in <italic>SMAD6</italic> and a common variant modifier near <italic>BMP2</italic> are the most common cause of midline craniosynostosis in humans.", 
+        "impactStatement": "Epistatic interactions of rare loss of function mutations in <i>SMAD6</i> and a common variant modifier near <i>BMP2</i> are the most common cause of midline craniosynostosis in humans.", 
         "volume": 5, 
         "researchOrganisms": [
             "Human"
@@ -9619,6 +9625,12 @@
                 "contribution": "RPL, Conceived, designed, and directed the study, performed genetic analyses, wrote the manuscript"
             }
         ], 
+        "ethics": [
+            {
+                "text": "Human subjects: All participants or their parents provided written informed consent to participate in a study of genetic causes of craniosynostosis in their family. Written consent was obtained for publication of patient photographs. The study protocol was approved by the Yale Human Investigation Committee Institutional Review Board.", 
+                "type": "paragraph"
+            }
+        ], 
         "acknowledgements": [
             {
                 "text": "We are enormously grateful to the study participants and their families for their invaluable role in this study, to the Cranio Kids- Craniosynostosis Support Group and the Craniosynostosis-Positional Plagiocephaly Support Group for posting our invitations to participate on their Facebook pages, to the staff of the Yale Center for Genome Analysis for expert performance of exome sequencing, and to Lynn Boyden for helpful discussions. Supported by the Yale Center for Mendelian Genomics (NIH M#UM1HG006504-05), the Maxillofacial Surgeons Foundation/ASMS (M#M156301), the NIH Medical Scientist Training Program (NIH/NIGMS T32GM007205), and the Howard Hughes Medical Institute.", 
@@ -9681,7 +9693,7 @@
         }, 
         "doi": "10.7554/eLife.20125", 
         "published": "2016-09-08T00:00:00", 
-        "pdf": "https://cdn.elifesciences.org/elife-articles/20125/pdf/elife-20125.pdf"
+        "pdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-v3.pdf"
     }, 
     "journal": {
         "issn": "2050-084X", 

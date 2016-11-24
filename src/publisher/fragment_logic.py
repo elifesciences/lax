@@ -1,5 +1,3 @@
-#from datetime import datetime
-import copy
 from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
@@ -70,85 +68,65 @@ def valid(merge_result, quiet=True):
             raise
     except ValidationError as err:
         # definitely not valid ;)
-        LOG.error("while validating %s with %s, failed to valid with error: %s", msid, schema, err)
+        LOG.error("while validating %s with %s, failed to validate with error: %s", msid, schema, err)
         if not quiet:
             raise
 
 def extract_snippet(merged_result):
     # TODO: derive these from the schema automatically somehow please
     snippet_keys = [
+        # pulled from given xml->json
         'copyright', 'doi', 'elocationId', 'id', 'impactStatement',
-        'pdf', 'published', 'researchOrganisms', 'status', 'statusDate', 'subjects',
-        'title', 'titlePrefix', 'type', 'version', 'volume', 'authorLine'
+        'pdf', 'published', 'researchOrganisms', 'status', 'subjects',
+        'title', 'titlePrefix', 'type', 'version', 'volume', 'authorLine',
+
+        # added by lax
+        'statusDate', 'stage', 'versionDate',
     ]
     return subdict(merged_result, snippet_keys)
 
 def pre_process(av, result):
-    """this is the 'pre_process' step in:
-    merge -> pre_process -> valid? -> post_process -> store
-
-    pre_process is called after `merge()` to add/remove/tweak the merged result
-    prior to validation. especially useful during development, this should be
-    minimal once dev is complete"""
-
-    result = copy.deepcopy(result)
-
-    # at time of writing these, fixtures with these were failing to validate
-    # TODO: these need to be removed
-    utils.delall(result, ['relatedArticles', 'digest', 'references'])
-
-    return result
-
-def post_process(av, result):
-    """this is the 'post_process' step in:
-    merge -> pre_process -> valid? -> post_process -> store
-
-    post_process is called after valid? to tweak the valid result.
-    why oh why would one do this? well, during dev, we have instances
-    where there are changes to the schema that are pending ..."""
-
-    # replace the version date with what we have stored.
-    # it will have a timezone component and be properly formatted
+    # 'published' is when the v1 article was published
     # if unpublished, this value will be None
-    # NOTE: null published values are currently verboten. once allowed, shift back into pre_process
-    result['published'] = av.datetime_published
 
-    # set the version date
-    # if unpublished, this value will be None
+    if av.version == 1:
+        result['published'] = av.datetime_published
+    else:
+        result['published'] = av.article.datetime_published
+
     result['versionDate'] = av.datetime_published
 
-    # calculate the status date
-    # it's when the av.status changed to what it is
-    result['statusDate'] = result['published'] # 'published' is the v1 pubdate remember
+    # 'statusDate' is when the av.status value changed to what it is
+    result['statusDate'] = result['published'] # 'published' is the v1 pubdate, remember
     v1vor = av.article.earliest_vor()
     if v1vor and v1vor.datetime_published:
         # article has a published vor in it's version history! use it's version date
         result['statusDate'] = v1vor.datetime_published.isoformat()
 
+    if av.datetime_published:
+        result['stage'] = 'published'
+    else:
+        result['stage'] = 'preview'
+        del result['versionDate']
+        if av.version == 1:
+            del result['published']
+            del result['statusDate']
+
     return result
 
-def merge_if_valid(av, allow_invalid=False, quiet=True):
+def merge_if_valid(av, quiet=True):
     ensure(isinstance(av, models.ArticleVersion), "I need an ArticleVersion object")
 
-    log_context = {'article-version': av, 'allow_invalid': allow_invalid, 'quiet': quiet}
+    log_context = {'article-version': av, 'quiet': quiet}
 
     result = merge(av)
-
     result = pre_process(av, result)
-    is_valid = valid(result, quiet=quiet)
-    result = post_process(av, result)
 
-    if is_valid or allow_invalid:
-        if not is_valid:
-            absolutely_required_keys = ['published']
-            ensure(all(map(result.has_key, absolutely_required_keys)),
-                   "an invalid merge is being forced but I absolutely require the following keys that are not present: %s" %
-                   ', '.join(absolutely_required_keys))
-            LOG.warn("article-json failed to validate but the 'allow_invalid' flag is set. storing invalid article-json.",
-                     extra=log_context)
+    if valid(result, quiet=quiet):
         av.article_json_v1 = result
         av.article_json_v1_snippet = extract_snippet(result)
         av.save()
         return True
-    LOG.warn("merge result failed to validate, not updating article version", extra=log_context)
+
+    LOG.warn("result of merging fragments failed to validate. not updating `ArticleVersion.article_json_v1*` fields", extra=log_context)
     return False
