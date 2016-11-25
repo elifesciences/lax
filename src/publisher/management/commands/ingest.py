@@ -43,6 +43,7 @@ def error(print_queue, errtype, message, log_context):
     LOG.error(message, extra=log_context)
     write(print_queue, struct)
     clean_up(print_queue)
+    sys.exit(1)
 
 def success(print_queue, action, av, log_context, dry_run=False):
     status = INGESTED if action == INGEST else PUBLISHED
@@ -58,6 +59,7 @@ def success(print_queue, action, av, log_context, dry_run=False):
     LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
     write(print_queue, struct)
     clean_up(print_queue)
+    sys.exit(0)
 
 def handle_single(print_queue, action, infile, msid, version, force, dry_run):
     data = None
@@ -79,18 +81,16 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             data_version = data['article'].get('version')
             if not data_version == version:
                 raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
-            data_msid = int(data['article']['id'].lstrip('0'))
+            data_msid = int(data['article']['id'])
             if not data_msid == msid:
                 raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
 
     except StateError as err:
         error(print_queue, INVALID, err.message, log_context)
-        sys.exit(1)
 
     except ValueError as err:
         msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
         error(print_queue, INVALID, msg, log_context)
-        sys.exit(1)
 
     choices = {
         # all these return a models.ArticleVersion object
@@ -105,13 +105,11 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     except StateError as err:
         error(print_queue, INVALID, "failed to call action %r: %s" % (action, err.message), log_context)
-        sys.exit(1)
 
     except Exception as err:
         msg = "unhandled exception attempting to %r article: %s" % (action, err)
         LOG.exception(msg, extra=log_context)
         error(print_queue, ERROR, msg, log_context)
-        sys.exit(1)
 
 
 def job(print_queue, action, path, force, dry_run):
@@ -188,6 +186,10 @@ class Command(ModCommand):
 
         self.parser = parser
 
+    def invalid_args(self, message):
+        self.parser.error(message)
+        sys.exit(1)
+        
     def handle(self, *args, **options):
         action = options['action']
         force = options['force']
@@ -205,30 +207,29 @@ class Command(ModCommand):
         }
 
         if not action:
-            self.parser.error("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
-            sys.exit(1)
+            self.invalid_args("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
 
         manager = multiprocessing.Manager()
         passable_queue = manager.Queue()
         print_queue = passable_queue
 
-        if path:
-            if options['msid'] or options['version']:
-                self.parser.error("the 'id' and 'version' options are not required when a 'dir' option is passed")
-                sys.exit(1)
-            if not os.path.isdir(path):
-                self.parser.error("the 'dir' option must point to a directory. got %r" % path)
-                sys.exit(1)
-            handle_many(print_queue, action, path, force, dry_run)
+        try:
+            if path:
+                if options['msid'] or options['version']:
+                    self.invalid_args("the 'id' and 'version' options are not required when a 'dir' option is passed")
 
-        else:
-            if not (options['msid'] and options['version']):
-                self.parser.error("the 'id' and 'version' options are both required when a 'dir' option is not passed")
-                sys.exit(1)
-            handle_single(print_queue, action, options['infile'], msid, version, force, dry_run)
+                if not os.path.isdir(path):
+                    self.invalid_args("the 'dir' option must point to a directory. got %r" % path)
+                
+                handle_many(print_queue, action, path, force, dry_run)
 
-        for msg in iter(print_queue.get, 'STOP'):
-            self.stdout.write(msg)
-        self.stdout.flush()
+            else:
+                if not (options['msid'] and options['version']):
+                    self.invalid_args("the 'id' and 'version' options are both required when a 'dir' option is not passed")
 
-        sys.exit(0)
+                handle_single(print_queue, action, options['infile'], msid, version, force, dry_run)
+
+        finally:
+            for msg in iter(print_queue.get, 'STOP'):
+                self.stdout.write(msg)
+            self.stdout.flush()
