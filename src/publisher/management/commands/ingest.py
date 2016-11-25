@@ -12,7 +12,8 @@ from publisher import ajson_ingestor, utils
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
-from multiprocessing import Queue
+import multiprocessing
+from django.db import reset_queries
 
 LOG = logging.getLogger(__name__)
 
@@ -29,6 +30,10 @@ def write(print_queue, out=None):
         out = utils.json_dumps(out) # encodes datetime objects
     print_queue.put(out)
 
+def clean_up(print_queue):
+    print_queue.put('STOP')
+    reset_queries()
+
 def error(print_queue, errtype, message, log_context):
     struct = {
         'status': errtype,
@@ -37,7 +42,7 @@ def error(print_queue, errtype, message, log_context):
     log_context['status'] = errtype
     LOG.error(message, extra=log_context)
     write(print_queue, struct)
-    print_queue.put('STOP')
+    clean_up(print_queue)
 
 def success(print_queue, action, av, log_context, dry_run=False):
     status = INGESTED if action == INGEST else PUBLISHED
@@ -50,9 +55,9 @@ def success(print_queue, action, av, log_context, dry_run=False):
     }
     log_context.update(struct)
     log_context.pop('message')
-    LOG.info("successfully %s article", status, extra=log_context)
+    LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
     write(print_queue, struct)
-    print_queue.put('STOP')
+    clean_up(print_queue)
 
 def handle_single(print_queue, action, infile, msid, version, force, dry_run):
     data = None
@@ -61,7 +66,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         'msid': msid, 'version': version
     }
 
-    LOG.info('attempting to %s article', action, extra=log_context)
+    LOG.info('attempting to %s article %s', action, msid, extra=log_context)
 
     # read and check the article-json given, if necessary
     try:
@@ -124,7 +129,9 @@ def handle_many(print_queue, action, path, force, dry_run):
     ajson_file_list = filter(cregex.match, json_files)
     if not ajson_file_list:
         LOG.info("found no article json at %r" % os.path.abspath(path))
-    Parallel(njobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+        clean_up(print_queue)
+        return
+    Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
 
 
 class ModCommand(BaseCommand):
@@ -201,14 +208,16 @@ class Command(ModCommand):
             self.parser.error("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
 
-        print_queue = Queue()
+        manager = multiprocessing.Manager()
+        passable_queue = manager.Queue()
+        print_queue = passable_queue
 
         if path:
             if options['msid'] or options['version']:
                 self.parser.error("the 'id' and 'version' options are not required when a 'dir' option is passed")
                 sys.exit(1)
             if not os.path.isdir(path):
-                self.parser.error("the 'dir' option must point to a directory")
+                self.parser.error("the 'dir' option must point to a directory. got %r" % path)
                 sys.exit(1)
             handle_many(print_queue, action, path, force, dry_run)
 
