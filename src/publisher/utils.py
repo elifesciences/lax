@@ -97,7 +97,7 @@ def todt(val):
 
     if not dt.tzinfo:
         # no timezone (naive), assume UTC and make it explicit
-        LOG.warn("encountered naive timestamp %r from %r. UTC assumed.", dt, val)
+        LOG.debug("encountered naive timestamp %r from %r. UTC assumed.", dt, val)
         return pytz.utc.localize(dt)
 
     else:
