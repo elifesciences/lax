@@ -19,7 +19,7 @@ class TestUtils(base.BaseCase):
         struct = {'dt': dt}
         expected = '{"dt": "2001-01-01T23:59:59Z"}'
         self.assertEqual(utils.json_dumps(struct), expected)
-    
+
     def test_resolve_paths(self):
         tests_dir = join(settings.SRC_DIR, 'publisher', 'tests', 'fixtures')
         cases = [

@@ -105,6 +105,7 @@ def todt(val):
     dt = val
     if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
+    dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
 
     if not dt.tzinfo:
         # no timezone (naive), assume UTC and make it explicit
@@ -119,6 +120,8 @@ def todt(val):
     return dt
 
 def utcnow():
+    "returns a UTC datetime stamp with a UTC timezone object attached"
+    # there is a datetime.utcnow(), but it doesn't attach a timezone object 
     return datetime.now(pytz.utc).replace(microsecond=0)
 
 def filldict(ddict, keys, default):
