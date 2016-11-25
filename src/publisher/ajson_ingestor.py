@@ -199,17 +199,20 @@ def _publish(msid, version, force=False):
             if av.published() and force:
                 # this article version is already published and a force publish request has been sent
                 if 'versionDate' in raw_data:
-                    # when a 'versionDate' value is present in the article-json, use that.
-                    # as of 2016-10-21 version history isn't captured in the xml, it won't be parsed by the bot-lax-adaptor and
+                    # FUTURE CASE: when a 'versionDate' value is present in the article-json, use that.
+                    # as of 2016-10-21 version history IS NOT captured in the xml,
+                    # it won't be parsed by the bot-lax-adaptor and it
                     # won't find it's way here. this is a future-case only.
                     datetime_published = utils.todt(raw_data['versionDate'])
                     if not datetime_published:
                         raise StateError("found 'versionDate' value in article-json, but it's either null or unparseable as a datetime")
                 else:
+                    # CURRENT CASE
                     # preserve the existing pubdate set by lax.
                     # if the pubdate for an article is to change, it must come from the xml (see above case)
                     datetime_published = av.datetime_published
             else:
+                # CURRENT CASE
                 # this article version hasn't been published yet. use a value of RIGHT NOW as the published date.
                 datetime_published = utils.utcnow()
 
@@ -225,7 +228,7 @@ def _publish(msid, version, force=False):
         return av
 
     except models.ArticleFragment.DoesNotExist:
-        raise StateError("could not find ingested article-json!")
+        raise StateError("no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")
 
     except models.ArticleVersion.DoesNotExist:
         # attempted to publish an article that doesn't exist ...

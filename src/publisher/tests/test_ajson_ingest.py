@@ -424,7 +424,7 @@ class CLI(BaseCase):
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
         self.assertEqual(result['status'], 'ingested')
         # the date and time is roughly the same as right now, ignoring microseconds
-        expected_datetime = utils.utcnow().isoformat()
+        expected_datetime = utils.ymdhms(utils.utcnow())
         self.assertEqual(result['datetime'][:20], expected_datetime[:20])
         self.assertEqual(result['datetime'][-6:], expected_datetime[-6:])
 
@@ -456,7 +456,7 @@ class CLI(BaseCase):
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
         # ensure response data is correct
         self.assertEqual(result['status'], 'published')
-        self.assertEqual(result['datetime'], av.datetime_published.isoformat())
+        self.assertEqual(result['datetime'], utils.ymdhms(av.datetime_published))
 
     def test_ingest_publish_dry_run_from_cli(self):
         # ensure nothing exists

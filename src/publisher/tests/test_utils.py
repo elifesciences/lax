@@ -14,6 +14,12 @@ class TestUtils(base.BaseCase):
     def tearDown(self):
         pass
 
+    def test_json_dumps_rfc3339(self):
+        dt = datetime(year=2001, month=1, day=1, hour=23, minute=59, second=59, microsecond=123, tzinfo=pytz.utc)
+        struct = {'dt': dt}
+        expected = '{"dt": "2001-01-01T23:59:59Z"}'
+        self.assertEqual(utils.json_dumps(struct), expected)
+    
     def test_resolve_paths(self):
         tests_dir = join(settings.SRC_DIR, 'publisher', 'tests', 'fixtures')
         cases = [
