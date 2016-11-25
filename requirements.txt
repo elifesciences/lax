@@ -13,6 +13,7 @@ djangorestframework==3.5.2
 et3==1.2
 joblib==0.10.3
 jsonschema==2.5.1
+kids.cache==0.0.4
 netaddr==0.7.18
 newrelic==2.72.1.53
 prospector==0.12.4

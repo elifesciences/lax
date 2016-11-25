@@ -9,6 +9,7 @@ from datetime import datetime
 from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
+from kids.cache import cache
 
 LOG = logging.getLogger(__name__)
 
@@ -205,6 +206,10 @@ def merge_all(dict_list):
 #
 #
 
+@cache
+def load_schema(schema_path):
+    return json.load(open(schema_path, 'r'))
+
 def validate(struct, schema_path):
     # if given a string, assume it's json and try to load it
     # if given a data, assume it's serializable, dump it and load it
@@ -215,7 +220,7 @@ def validate(struct, schema_path):
         raise
 
     try:
-        schema = json.load(open(schema_path, 'r'))
+        schema = load_schema(schema_path)
         validator(struct, schema)
         return struct
 
