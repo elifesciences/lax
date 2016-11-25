@@ -11,6 +11,9 @@ from django.core.management.base import BaseCommand
 from publisher import ajson_ingestor, utils
 from publisher.ajson_ingestor import StateError
 import logging
+from joblib import Parallel, delayed
+import multiprocessing
+from django.db import reset_queries
 
 LOG = logging.getLogger(__name__)
 
@@ -21,6 +24,115 @@ INGESTED, PUBLISHED = 'ingested', 'published'
 
 import os
 from django.core.management.base import CommandParser
+
+def write(print_queue, out=None):
+    if not isinstance(out, basestring):
+        out = utils.json_dumps(out) # encodes datetime objects
+    print_queue.put(out)
+
+def clean_up(print_queue):
+    print_queue.put('STOP')
+    reset_queries()
+
+def error(print_queue, errtype, message, log_context):
+    struct = {
+        'status': errtype,
+        'message': message
+    }
+    log_context['status'] = errtype
+    LOG.error(message, extra=log_context)
+    write(print_queue, struct)
+    clean_up(print_queue)
+
+def success(print_queue, action, av, log_context, dry_run=False):
+    status = INGESTED if action == INGEST else PUBLISHED
+    attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
+    struct = {
+        'status': status,
+        'id': None if dry_run else av.article.manuscript_id,
+        'datetime': getattr(av, attr),
+        'message': "(dry-run)" if dry_run else None,
+    }
+    log_context.update(struct)
+    log_context.pop('message')
+    LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
+    write(print_queue, struct)
+    clean_up(print_queue)
+
+def handle_single(print_queue, action, infile, msid, version, force, dry_run):
+    data = None
+
+    log_context = {
+        'msid': msid, 'version': version
+    }
+
+    LOG.info('attempting to %s article %s', action, msid, extra=log_context)
+
+    # read and check the article-json given, if necessary
+    try:
+        if action in [INGEST, BOTH]:
+            raw_data = infile.read()
+            log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
+            data = json.loads(raw_data)
+            # vagary of the CLI interface: article id and version are required
+            # these may not match the data given
+            data_version = data['article'].get('version')
+            if not data_version == version:
+                raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
+            data_msid = int(data['article']['id'].lstrip('0'))
+            if not data_msid == msid:
+                raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
+
+    except StateError as err:
+        error(print_queue, INVALID, err.message, log_context)
+        sys.exit(1)
+
+    except ValueError as err:
+        msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
+        error(print_queue, INVALID, msg, log_context)
+        sys.exit(1)
+
+    choices = {
+        # all these return a models.ArticleVersion object
+        INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry)[-1],
+        PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
+        BOTH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry)[-1],
+    }
+
+    try:
+        av = choices[action](msid, version, force, data, dry_run)
+        success(print_queue, action, av, log_context, dry_run)
+
+    except StateError as err:
+        error(print_queue, INVALID, "failed to call action %r: %s" % (action, err.message), log_context)
+        sys.exit(1)
+
+    except Exception as err:
+        msg = "unhandled exception attempting to %r article: %s" % (action, err)
+        LOG.exception(msg, extra=log_context)
+        error(print_queue, ERROR, msg, log_context)
+        sys.exit(1)
+
+
+def job(print_queue, action, path, force, dry_run):
+    _, padded_msid, suffix = os.path.basename(path).split('-')
+    msid = int(padded_msid)
+    version = int(suffix[1])
+    try:
+        return handle_single(print_queue, action, io.open(path, 'r', encoding='utf8'), msid, version, force, dry_run)
+    except SystemExit:
+        LOG.error("system exit caught", extra={'msid': msid, 'version': version})
+
+def handle_many(print_queue, action, path, force, dry_run):
+    json_files = utils.resolve_path(path)
+    cregex = re.compile(r'^.*/elife-\d{5,}-v\d\.xml\.json$')
+    ajson_file_list = filter(cregex.match, json_files)
+    if not ajson_file_list:
+        LOG.info("found no article json at %r" % os.path.abspath(path))
+        clean_up(print_queue)
+        return
+    Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+
 
 class ModCommand(BaseCommand):
     def create_parser(self, prog_name, subcommand):
@@ -76,100 +188,6 @@ class Command(ModCommand):
 
         self.parser = parser
 
-    def write(self, out=None):
-        if not isinstance(out, basestring):
-            out = utils.json_dumps(out) # encodes datetime objects
-        self.stdout.write(out)
-        self.stdout.flush()
-
-    def error(self, errtype, message):
-        struct = {
-            'status': errtype,
-            'message': message
-        }
-        self.log_context['status'] = errtype
-        LOG.error(message, extra=self.log_context)
-        self.write(struct)
-
-    def success(self, action, av, dry_run=False):
-        status = INGESTED if action == INGEST else PUBLISHED
-        attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
-        struct = {
-            'status': status,
-            'id': None if dry_run else av.article.manuscript_id,
-            'datetime': getattr(av, attr),
-            'message': "(dry-run)" if dry_run else None,
-        }
-        self.log_context.update(struct)
-        self.log_context.pop('message')
-        LOG.info("successfully %s article", status, extra=self.log_context)
-        self.write(struct)
-
-    def handle_single(self, action, infile, msid, version, force, dry_run):
-        data = None
-
-        self.log_context.update(**{
-            'msid': msid, 'version': version
-        })
-
-        LOG.info('attempting to %s article', action, extra=self.log_context)
-
-        # read and check the article-json given, if necessary
-        try:
-            if action in [INGEST, BOTH]:
-                raw_data = infile.read()
-                self.log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
-                data = json.loads(raw_data)
-                # vagary of the CLI interface: article id and version are required
-                # these may not match the data given
-                data_version = data['article'].get('version')
-                if not data_version == version:
-                    raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
-                data_msid = int(data['article']['id'].lstrip('0'))
-                if not data_msid == msid:
-                    raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
-
-        except StateError as err:
-            self.error(INVALID, err.message)
-            sys.exit(1)
-
-        except ValueError as err:
-            self.error(INVALID, "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data))
-            sys.exit(1)
-
-        choices = {
-            # all these return a models.ArticleVersion object
-            INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry)[-1],
-            PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
-            BOTH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry)[-1],
-        }
-
-        try:
-            av = choices[action](msid, version, force, data, dry_run)
-            self.success(action, av, dry_run)
-
-        except StateError as err:
-            self.error(INVALID, "failed to call action %r: %s" % (action, err.message))
-            sys.exit(1)
-
-        except Exception as err:
-            msg = "unhandled exception attempting to %r article: %s" % (action, err)
-            LOG.exception(msg, extra=self.log_context)
-            self.error(ERROR, msg)
-            sys.exit(1)
-
-    def handle_many(self, action, path, force, dry_run):
-        json_files = utils.resolve_path(path)
-        cregex = re.compile(r'^.*/elife-\d{5,}-v\d\.xml\.json$')
-        ajson_file_list = filter(cregex.match, json_files)
-        if not ajson_file_list:
-            LOG.info("found no article json at %r" % os.path.abspath(path))
-        for ajson_file in ajson_file_list:
-            _, padded_msid, suffix = os.path.basename(ajson_file).split('-')
-            msid = int(padded_msid)
-            version = int(suffix[1])
-            self.handle_single(action, io.open(ajson_file, 'r', encoding='utf8'), msid, version, force, dry_run)
-
     def handle(self, *args, **options):
         action = options['action']
         force = options['force']
@@ -187,19 +205,30 @@ class Command(ModCommand):
         }
 
         if not action:
-            self.error(INVALID, "no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
+            self.parser.error("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
             sys.exit(1)
+
+        manager = multiprocessing.Manager()
+        passable_queue = manager.Queue()
+        print_queue = passable_queue
 
         if path:
             if options['msid'] or options['version']:
                 self.parser.error("the 'id' and 'version' options are not required when a 'dir' option is passed")
                 sys.exit(1)
-            self.handle_many(action, path, force, dry_run)
+            if not os.path.isdir(path):
+                self.parser.error("the 'dir' option must point to a directory. got %r" % path)
+                sys.exit(1)
+            handle_many(print_queue, action, path, force, dry_run)
 
         else:
-            if not options['msid'] and options['version']:
+            if not (options['msid'] and options['version']):
                 self.parser.error("the 'id' and 'version' options are both required when a 'dir' option is not passed")
                 sys.exit(1)
-            self.handle_single(action, options['infile'], msid, version, force, dry_run)
+            handle_single(print_queue, action, options['infile'], msid, version, force, dry_run)
+
+        for msg in iter(print_queue.get, 'STOP'):
+            self.stdout.write(msg)
+        self.stdout.flush()
 
         sys.exit(0)
