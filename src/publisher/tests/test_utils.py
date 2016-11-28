@@ -20,6 +20,13 @@ class TestUtils(base.BaseCase):
         expected = '{"dt": "2001-01-01T23:59:59Z"}'
         self.assertEqual(utils.json_dumps(struct), expected)
 
+    def test_json_dumps_rfc3339_on_non_utc(self):
+        tz = pytz.timezone('Australia/Adelaide') # +9.5 hours ahead, but pytz thinks it's only +9
+        dt = datetime(year=2001, month=1, day=1, hour=9, minute=59, second=59, microsecond=123, tzinfo=tz)
+        struct = {'dt': dt}
+        expected = '{"dt": "2001-01-01T00:59:59Z"}'
+        self.assertEqual(utils.json_dumps(struct), expected)
+
     def test_resolve_paths(self):
         tests_dir = join(settings.SRC_DIR, 'publisher', 'tests', 'fixtures')
         cases = [

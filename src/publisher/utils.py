@@ -89,19 +89,10 @@ def ymd(dt):
     if dt:
         return dt.strftime("%Y-%m-%d")
 
-def ymdhms(dt):
-    "returns an rfc3339 representation of a datetime object"
-    if dt:
-        if not dt.tzinfo or not dt.tzinfo == pytz.utc:
-            LOG.exception("given a naive or non-utc datetime object to format as rfc3339")
-            raise ValueError("I don't format naive or non-utc datetime objects. fix your data.")
-        return rfc3339(dt, utc=True)
-
 def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
     if val is None:
         return None
-
     dt = val
     if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
@@ -123,6 +114,12 @@ def utcnow():
     "returns a UTC datetime stamp with a UTC timezone object attached"
     # there is a datetime.utcnow(), but it doesn't attach a timezone object
     return datetime.now(pytz.utc).replace(microsecond=0)
+
+def ymdhms(dt):
+    "returns an rfc3339 representation of a datetime object"
+    if dt:
+        dt = todt(dt) # convert to utc, etc
+        return rfc3339(dt, utc=True)
 
 def filldict(ddict, keys, default):
     def filldictslot(ddict, key, val):
