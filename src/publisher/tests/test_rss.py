@@ -3,7 +3,7 @@ from base import BaseCase
 from django.test import Client
 from django.core.urlresolvers import reverse
 from publisher import logic, models, utils
-from datetime import datetime, timedelta
+from datetime import timedelta
 from unittest import skip
 
 class TestLatest(BaseCase):
@@ -17,43 +17,44 @@ class TestLatest(BaseCase):
     def test_only_most_recent_article_versions_returned(self):
         an_hour_ago = utils.utcnow() - timedelta(hours=1)
         many_hours_ago = an_hour_ago - timedelta(hours=999)
+        fmt = utils.ymdhms
         article_data_list = [
             {'title': 'foo',
              'version': 1,
              'doi': "10.7554/eLife.00001",
-             'pub-date': an_hour_ago.isoformat(),
+             'pub-date': fmt(an_hour_ago),
              },
 
 
             {'title': 'bar',
              'version': 1,
              'doi': "10.7554/eLife.00002",
-             'pub-date': many_hours_ago.isoformat(),
+             'pub-date': fmt(many_hours_ago),
              },
             {'title': 'bar',
              'version': 2,
              'doi': "10.7554/eLife.00002",
-             'pub-date': (many_hours_ago - timedelta(hours=1)).isoformat(),
-             'update': (many_hours_ago - timedelta(hours=1)).isoformat(),
+             'pub-date': fmt(many_hours_ago - timedelta(hours=1)),
+             'update': fmt(many_hours_ago - timedelta(hours=1)),
              },
             {'title': 'bar',
              'version': 3,
              'doi': "10.7554/eLife.00002",
-             'pub-date': (many_hours_ago - timedelta(hours=2)).isoformat(),
-             'update': (many_hours_ago - timedelta(hours=2)).isoformat(),
+             'pub-date': fmt(many_hours_ago - timedelta(hours=2)),
+             'update': fmt(many_hours_ago - timedelta(hours=2)),
              },
 
 
             {'title': 'baz',
              'version': 1,
              'doi': "10.7554/eLife.00003",
-             'pub-date': (an_hour_ago + timedelta(minutes=5)).isoformat(),
+             'pub-date': fmt(an_hour_ago + timedelta(minutes=5)),
              },
             {'title': 'baz',
              'version': 2,
              'doi': "10.7554/eLife.00003",
-             'pub-date': (an_hour_ago + timedelta(minutes=10)).isoformat(),
-             'update': (an_hour_ago + timedelta(minutes=10)).isoformat(),
+             'pub-date': fmt(an_hour_ago + timedelta(minutes=10)),
+             'update': fmt(an_hour_ago + timedelta(minutes=10)),
              }
 
         ]
@@ -80,15 +81,16 @@ class RSSViews(BaseCase):
     def setUp(self):
         self.c = Client()
         self.journal = logic.journal()
-        an_hour_ago = datetime.now() - timedelta(hours=1)
+        an_hour_ago = utils.utcnow() - timedelta(hours=1)
         many_hours_ago = an_hour_ago - timedelta(hours=999)
+        fmt = utils.ymdhms
         self.article_data_list = [
             {'title': 'foo',
              'status': 'vor',
              'version': 1,
              'doi': "10.7554/eLife.00001",
              'journal': self.journal,
-             'pub-date': an_hour_ago.isoformat(),
+             'pub-date': fmt(an_hour_ago),
              },
 
             {'title': 'bar',
@@ -96,7 +98,7 @@ class RSSViews(BaseCase):
              'version': 1,
              'doi': "10.7554/eLife.00002",
              'journal': self.journal,
-             'pub-date': many_hours_ago.isoformat(),
+             'pub-date': fmt(many_hours_ago),
              },
 
             {'title': 'baz',
@@ -104,7 +106,7 @@ class RSSViews(BaseCase):
              'status': 'poa', # **
              'doi': "10.7554/eLife.00003",
              'journal': self.journal,
-             'pub-date': an_hour_ago.isoformat(),
+             'pub-date': fmt(an_hour_ago),
              }
         ]
         [logic.add_or_update_article(**article_data) for article_data in self.article_data_list]

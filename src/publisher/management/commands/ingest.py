@@ -189,7 +189,7 @@ class Command(ModCommand):
     def invalid_args(self, message):
         self.parser.error(message)
         sys.exit(1)
-        
+
     def handle(self, *args, **options):
         action = options['action']
         force = options['force']
@@ -220,7 +220,7 @@ class Command(ModCommand):
 
                 if not os.path.isdir(path):
                     self.invalid_args("the 'dir' option must point to a directory. got %r" % path)
-                
+
                 handle_many(print_queue, action, path, force, dry_run)
 
             else:

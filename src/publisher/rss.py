@@ -21,7 +21,7 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
         super(RSSArticleFeedGenerator, self).add_item_elements(handler, item)
         pubdate = item['pubdate']
         if pubdate:
-            handler.addQuickElement("dc:date", pubdate.isoformat())
+            handler.addQuickElement("dc:date", utils.ymdhms(pubdate))
         else:
             LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
 

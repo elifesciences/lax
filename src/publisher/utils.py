@@ -10,6 +10,7 @@ from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
 from kids.cache import cache
+from rfc3339 import rfc3339
 
 LOG = logging.getLogger(__name__)
 
@@ -84,6 +85,7 @@ def delall(ddict, lst):
     return zip(lst, map(delkey, lst))
 
 def ymd(dt):
+    "returns a simple YYYY-MM-DD representation of a datetime object"
     if dt:
         return dt.strftime("%Y-%m-%d")
 
@@ -91,10 +93,10 @@ def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
     if val is None:
         return None
-
     dt = val
     if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
+    dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
 
     if not dt.tzinfo:
         # no timezone (naive), assume UTC and make it explicit
@@ -109,7 +111,15 @@ def todt(val):
     return dt
 
 def utcnow():
-    return datetime.now(pytz.utc)
+    "returns a UTC datetime stamp with a UTC timezone object attached"
+    # there is a datetime.utcnow(), but it doesn't attach a timezone object
+    return datetime.now(pytz.utc).replace(microsecond=0)
+
+def ymdhms(dt):
+    "returns an rfc3339 representation of a datetime object"
+    if dt:
+        dt = todt(dt) # convert to utc, etc
+        return rfc3339(dt, utc=True)
 
 def filldict(ddict, keys, default):
     def filldictslot(ddict, key, val):
@@ -183,7 +193,7 @@ def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
     def _handler(obj):
         if hasattr(obj, 'isoformat'):
-            return obj.isoformat()
+            return ymdhms(obj)
         else:
             raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
     return json.dumps(obj, default=_handler, **kwargs)

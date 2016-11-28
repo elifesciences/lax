@@ -101,7 +101,7 @@ def pre_process(av, result):
     v1vor = av.article.earliest_vor()
     if v1vor and v1vor.datetime_published:
         # article has a published vor in it's version history! use it's version date
-        result['statusDate'] = v1vor.datetime_published.isoformat()
+        result['statusDate'] = utils.ymdhms(v1vor.datetime_published)
 
     if av.datetime_published:
         result['stage'] = 'published'
