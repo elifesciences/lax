@@ -91,9 +91,11 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
 
     if only_published:
         sql = """
-        SELECT pav1.*
+        SELECT
+           pav.id, pav.article_id, pav.title, pav.version, pav.status, pav.datetime_published,
+           pav.datetime_record_created, pav.datetime_record_updated
 
-        FROM publisher_articleversion pav1,
+        FROM publisher_articleversion pav,
 
           (SELECT pav2.article_id,
                   max(version) AS max_ver
@@ -102,7 +104,7 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
            GROUP BY pav2.article_id) as pav2
 
         WHERE
-           pav1.article_id = pav2.article_id AND pav1.version = pav2.max_ver
+           pav.article_id = pav2.article_id AND pav.version = pav2.max_ver
 
         ORDER BY %s %s""" % (order_by, order)
 

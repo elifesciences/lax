@@ -1,20 +1,12 @@
 import itertools
 from publisher import utils, models
 from publisher.utils import ymd
-from functools import wraps
 from django.db.models import Count
 from itertools import islice, imap
 import logging
 from django.db.models import Min, Max, F, Q
 
 LOG = logging.getLogger(__name__)
-
-def needs_peer_review(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        LOG.critical("this function has been explicitly flagged for peer review. it's author needs confirmation of it's correctness!")
-        return func(*args, **kwargs)
-    return wrapper
 
 def take(n, iterable):
     "Return first n items of the iterable as a list"
@@ -64,6 +56,7 @@ def paw_recent_report_raw_data(limit=None):
     "returns the SQL query used to generate the data for the 'recent' report"
     query = models.ArticleVersion.objects \
         .select_related('article') \
+        .defer('article_json_v1', 'article_json_v1_snippet') \
         .annotate(min_vor=Min('article__articleversion__version')) \
         .filter(article__articleversion__version=F('min_vor')) \
         .filter(status='vor') \
@@ -87,6 +80,7 @@ def paw_ahead_report_raw_data(limit=None):
     # only select max version ArticleVersions where the Article has no POA versions
     query = models.ArticleVersion.objects \
         .select_related('article') \
+        .defer('article_json_v1', 'article_json_v1_snippet') \
         .annotate(max_version=Max('article__articleversion__version')) \
         .filter(version=F('max_version')) \
         .exclude(status='vor') \
@@ -103,12 +97,13 @@ def paw_ahead_data(limit=None):
     "'ahead' data is POA only"
     return imap(mkrow, paw_ahead_report_raw_data(limit))
 
-@needs_peer_review
 def totals_for_year(year=2015):
     kwargs = {
         'version': 1,
         'datetime_published__year': year}
-    rs = models.ArticleVersion.objects.filter(**kwargs)
+    rs = models.ArticleVersion.objects \
+        .defer('article_json_v1', 'article_json_v1_snippet') \
+        .filter(**kwargs)
 
     total = rs.count()
     total_poa = rs.filter(status='poa').count()
@@ -153,7 +148,9 @@ def version_totals_for_year(year=2015):
     kwargs = {
         'datetime_published__year': year
     }
-    rs = models.ArticleVersion.objects.filter(**kwargs)
+    rs = models.ArticleVersion.objects \
+        .defer('article_json_v1', 'article_json_v1_snippet') \
+        .filter(**kwargs)
 
     total = rs.count()
     total_poa = rs.filter(status='poa').count()
