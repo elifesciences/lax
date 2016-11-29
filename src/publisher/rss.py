@@ -83,6 +83,7 @@ class SpecificArticleFeed(AbstractArticleFeed):
     def items(self, obj):
         return models.ArticleVersion.objects \
             .select_related('article') \
+            .defer('article_json_v1', 'article_json_v1_snippet') \
             .filter(article__doi__in=obj['doi_list']) \
             .order_by('-datetime_published', 'version')
 
