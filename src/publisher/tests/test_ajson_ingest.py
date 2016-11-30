@@ -233,6 +233,7 @@ class Publish(BaseCase):
         self.assertTrue(av2.published())
         self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av2.datetime_published))
 
+    @skip("forced pubdate update of non-v1 articles disabled until xml supports version history")
     def test_article_publish_v2_forced(self):
         "an unpublished v2 article can be successfully published again, if forced"
         # ingest and publish the v1
