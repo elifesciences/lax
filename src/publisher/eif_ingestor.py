@@ -1,10 +1,10 @@
-import json, copy
+import json  # , copy
 import models
+import utils
 from utils import subdict, todt, delall, msid2doi, doi2msid
 import logging
 from django.conf import settings
-from django.db import transaction, IntegrityError
-from functools import partial
+from django.db import transaction  # , IntegrityError
 
 LOG = logging.getLogger(__name__)
 
@@ -150,6 +150,7 @@ def import_article_from_json_path(journal, article_json_path, *args, **kwargs):
 # 'patch'
 #
 
+'''
 def patch(data, update=True):
     "given partial article/articleversion data, updates that article"
     data = copy.deepcopy(data)
@@ -188,8 +189,23 @@ def patch(data, update=True):
     except IntegrityError as err:
         LOG.error(err)
         raise
+'''
+
+def patch2(patch_data):
+    Model = getattr(models, patch_data['model'])
+    key_list = patch_data['-key']
+    val_list = subdict(patch_data, key_list)
+    try:
+        utils.create_or_update(Model, patch_data, key_list, create=False, update=True)
+        LOG.info("successfully patched %s", val_list)
+        return True
+    except Model.DoesNotExist:
+        LOG.warn("%s not found, skipping patch", patch_data['model'])
+        return False
+    except Exception as err:
+        LOG.error("unhandled exception attempting to patch %s: %s", val_list, err)
 
 def patch_handler(journal, path, create, update):
-    json_patches = open(path, 'r').readlines()
-    patch_list = map(json.loads, json_patches)
-    return map(partial(patch, update), patch_list)
+    with transaction.atomic():
+        patch_list = json.load(open(path, 'r'))
+        return map(patch2, patch_list)

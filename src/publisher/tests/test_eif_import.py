@@ -7,6 +7,7 @@ from base import BaseCase
 import logging
 from django.test import Client
 from django.core.urlresolvers import reverse
+from unittest import skip
 
 logging.getLogger("").setLevel(logging.WARNING) # suppresses debug, info messages
 
@@ -19,6 +20,7 @@ class PatchArticle(BaseCase):
     def tearDown(self):
         pass
 
+    @skip("patch implementation has changed to something more flexible")
     def test_article_patch(self):
         # I think this might be the better patch structure,
         # forcing one patch per version so order isn't ambiguous ...
