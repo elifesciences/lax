@@ -185,18 +185,19 @@ def article_version_list(msid, only_published=True):
 #
 
 def article_version_history(msid, only_published=True):
-    "returns a struct for the history of the given article"
+    "returns a list of snippets for the history of the given article"
     article = models.Article.objects.get(manuscript_id=msid)
     avl = article.articleversion_set.all()
     if only_published:
         avl = avl.exclude(datetime_published=None)
 
+    if not avl.count():
+        # no article versions available, fail
+        raise models.Article.DoesNotExist()
+
     def version_row(av):
-        return {
-            'status': av.status,
-            'published': av.datetime_published,
-            'version': av.version
-        }
+        return av.article_json_v1_snippet or {}
+
     return {
         'received': article.date_initial_qc,
         'accepted': article.date_accepted,
