@@ -15,6 +15,7 @@ cd ..
 if [ -f api-raml.sha1 ]; then
     cd schema/api-raml
     git reset --hard
+    git fetch
     git checkout "$(cat ../../api-raml.sha1)"
     #if type node > /dev/null; then
     #    # if node is installed, like on a dev machine recompile
