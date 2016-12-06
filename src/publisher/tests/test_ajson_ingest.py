@@ -16,6 +16,7 @@ class Ingest(BaseCase):
 
         f3 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
         self.invalid_ajson = json.load(open(f3, 'r'))
+        self.invalid_ajson['article']['title'] = '' # ha! my invalid json is now valid. make it explicitly invalid.
 
     def tearDown(self):
         pass
@@ -345,6 +346,10 @@ class Publish(BaseCase):
         # and that the object returned *does* have a datetime published
         self.assertTrue(unsaved_av.published())
 
+    def test_publish_fails_if_invalid(self):
+        "an article cannot be published if it's article-json is invalid."
+        self.ajson['article']['title'] = ''
+        self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 
 class IngestPublish(BaseCase):
     def setUp(self):
@@ -482,5 +487,5 @@ class CLI(BaseCase):
         self.assertEqual(result['status'], 'published')
 
         ajson = json.load(open(self.ajson_fixture1, 'r'))
-        self.assertEqual(result['datetime'][:19], ajson['article']['published'])
+        self.assertEqual(result['datetime'], ajson['article']['published'])
         self.assertEqual(result['message'], "(dry-run)")

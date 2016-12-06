@@ -14,6 +14,9 @@ from rfc3339 import rfc3339
 
 LOG = logging.getLogger(__name__)
 
+def freshen(obj):
+    return type(obj).objects.get(pk=obj.pk)
+
 def ensure(assertion, msg, *args):
     """intended as a convenient replacement for `assert` statements that
     get compiled away with -O flags"""

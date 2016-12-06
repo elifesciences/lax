@@ -1,7 +1,7 @@
 from StringIO import StringIO
 import os
 from django.test import TestCase
-from publisher import models
+from publisher import models, utils
 from django.core.management import call_command
 
 class BaseCase(TestCase):
@@ -10,7 +10,7 @@ class BaseCase(TestCase):
     maxDiff = None
 
     def freshen(self, obj):
-        return type(obj).objects.get(pk=obj.pk)
+        return utils.freshen(obj)
 
     def unpublish(self, msid, version=None):
         "'unpublishes' an article"
