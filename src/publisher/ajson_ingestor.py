@@ -98,7 +98,9 @@ def _ingest(data, force=False):
         assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
 
-        fragments.add(av, XML2JSON, data['article'], pos=0, update=force)
+        # only update the fragment if this article version has *not* been published *or* if force=True
+        update_fragment = not av.published() or force
+        fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
         fragments.merge_if_valid(av)
 
         # enforce business rules
@@ -183,6 +185,7 @@ def _publish(msid, version, force=False):
                 raise StateError("refusing to publish an already published article version")
 
         # NOTE: we don't use any other article fragments for determining the publication date
+
         # except the xml->json fragment.
         raw_data = fragments.get(av, XML2JSON)
 
