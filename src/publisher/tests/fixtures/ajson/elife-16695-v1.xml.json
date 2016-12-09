@@ -12,11 +12,11 @@
         "doi": "10.7554/eLife.16695", 
         "authorLine": "Arisa Hirano et al", 
         "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
-        "published": "2016-08-16T00:00:00", 
-        "versionDate": "2016-08-16T00:00:00", 
+        "published": "2016-08-16T00:00:00Z", 
+        "versionDate": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 
-        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v1.pdf", 
+        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v1.pdf", 
         "subjects": [
             {
                 "id": "human-biology-medicine", 
@@ -48,11 +48,11 @@
         "doi": "10.7554/eLife.16695", 
         "authorLine": "Arisa Hirano et al", 
         "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
-        "published": "2016-08-16T00:00:00", 
-        "versionDate": "2016-08-16T00:00:00", 
+        "published": "2016-08-16T00:00:00Z", 
+        "versionDate": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 
-        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v1.pdf", 
+        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v1.pdf", 
         "subjects": [
             {
                 "id": "human-biology-medicine", 
@@ -407,6 +407,73 @@
             {
                 "type": "paragraph", 
                 "text": "Human subjects: All human subjects signed a consent form approved by the Institutional Review Boards at the University of Utah and the University of California, San Francisco (IRB# 10-03952). The consent form includes all confidentiality and ethic guidelines and also indicates not revealing subject information in the publication."
+            }
+        ], 
+        "funding": {
+            "awards": [
+                {
+                    "id": "par-1", 
+                    "source": {
+                        "funderId": "10.13039/100000050", 
+                        "name": [
+                            "National Heart, Lung, and Blood Institute"
+                        ]
+                    }, 
+                    "awardId": "HL059596", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Louis J Pt\u00e1\u010dek", 
+                                "index": "Pt\u00e1\u010dek, Louis J"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-2", 
+                    "source": {
+                        "name": [
+                            "National Institute of General Medical Sciences"
+                        ]
+                    }, 
+                    "awardId": "GM079180", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Ying-Hui Fu", 
+                                "index": "Fu, Ying-Hui"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-3", 
+                    "source": {
+                        "funderId": "10.13039/501100001691", 
+                        "name": [
+                            "Japan Society for the Promotion of Science"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Arisa Hirano", 
+                                "index": "Hirano, Arisa"
+                            }
+                        }
+                    ]
+                }
+            ], 
+            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
+        }, 
+        "additionalFiles": [
+            {
+                "mediaType": "application/zip", 
+                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-supp-v1.zip", 
+                "filename": "elife-16695-supp-v1.zip"
             }
         ]
     }

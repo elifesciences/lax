@@ -8,6 +8,7 @@ from et3 import render
 from et3.extract import path as p
 from django.db import IntegrityError
 from functools import partial
+from jsonschema import ValidationError
 
 LOG = logging.getLogger(__name__)
 
@@ -100,8 +101,11 @@ def _ingest(data, force=False):
 
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
-        fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
+        merge_result = fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
         fragments.merge_if_valid(av)
+        invalid_ajson = not merge_result
+        if invalid_ajson:
+            LOG.warn("this article failed to merge it's fragments into a valid result and cannot be PUBLISHed in it's current state.", extra=log_context)
 
         # enforce business rules
 
@@ -223,12 +227,15 @@ def _publish(msid, version, force=False):
         av.save()
 
         # merge the fragments we have available and make them available for serving
-        fragments.merge_if_valid(av)
+        fragments.merge_if_valid(av, quiet=False)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(events.notify, av.article))
 
         return av
+
+    except ValidationError:
+        raise StateError("refusing to publish an article '%sv%s' with invalid article-json" % (msid, version))
 
     except models.ArticleFragment.DoesNotExist:
         raise StateError("no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")
