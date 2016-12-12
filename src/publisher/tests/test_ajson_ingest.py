@@ -1,3 +1,4 @@
+import copy
 from os.path import join
 import json
 from datetime import datetime, timedelta
@@ -43,7 +44,7 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.datetime_published, expected)
 
     def test_article_ingest_update(self):
-        "ingesting article data twice successfully updates the article"
+        "ingesting article data twice successfully updates the Article object"
         _, _, av = ajson_ingestor.ingest(self.ajson)
 
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
@@ -58,6 +59,26 @@ class Ingest(BaseCase):
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
         self.assertEqual(av.title, expected_title)
         self.assertEqual(av.datetime_published, None) # still not published
+
+    def test_article_can_be_ingested_many_times_before_publication(self):
+        "before an article is published it can be ingested many times"
+        cases = json1, json2, json3 = map(copy.deepcopy, [self.ajson] * 3)
+
+        json2['article']['title'] = 'foo'
+        json3['article']['title'] = 'bar'
+
+        # iterate through the three different cases,
+        # assert each case is different from last
+        prev_fragment = None
+        for ajson in cases:
+            _, a, av = ajson_ingestor.ingest(ajson)
+            self.freshen(a)
+            fragment = a.articlefragment_set.get(type=models.XML2JSON)
+            if not prev_fragment:
+                prev_fragment = fragment
+                continue
+
+            self.assertNotEqual(prev_fragment.fragment, fragment.fragment)
 
     def test_article_update_does_not_publish(self):
         "ingesting article data twice still does not cause publication"
@@ -288,7 +309,7 @@ class Publish(BaseCase):
         self.assertEqual(av2.datetime_published, av2v2.datetime_published)
 
     def test_article_publish_fails_if_already_published(self):
-        "a published article cannot be published again"
+        "a published article CANNOT be published again"
         _, _, av = ajson_ingestor.ingest(self.ajson)
         av = ajson_ingestor.publish(self.msid, self.version)
         av = self.freshen(av)

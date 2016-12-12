@@ -1,4 +1,5 @@
 *.pyc
+.tox/*
 *~
 *.sqlite*
 *.orig
@@ -19,3 +20,4 @@ aws-perms.sh
 schema/
 article-xml
 .scrapy-cache
+dumps/*
