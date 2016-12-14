@@ -121,7 +121,7 @@ class RecentArticleFeed(AbstractArticleFeed):
         def published_since(row):
             return row.datetime_published >= obj['since']
 
-        results = logic.latest_article_versions()
+        total, results = logic.latest_article_version_list()
         return filter(compfilter([status_in, published_since]), results)
 
 class AbstractReportFeed(AbstractArticleFeed):

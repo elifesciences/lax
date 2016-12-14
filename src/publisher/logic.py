@@ -1,3 +1,4 @@
+from django.db import connection
 import models
 from django.conf import settings
 import logging
@@ -68,63 +69,59 @@ def add_or_update_article(**article_data):
     return eif_ingestor.import_article(journal(), article_data, create=True, update=True)
 
 #
-#
+# latest article versions
 #
 
-# TODO: rename `latest_article_version_list`
-def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=True):
-    "returns a list of the most recent article versions for all articles."
-
+def validate_pagination_params(page, per_page, order):
     order = str(order).strip().upper()
     ensure(str(order).upper() in ['ASC', 'DESC'], "unknown ordering %r" % order)
-    order_by = 'datetime_published'
 
     ensure(all(map(utils.isint, [page, per_page])), "'page' and 'per-page' must be integers")
 
-    # sql limit+offset rules
+    return page, per_page, order
+
+def latest_published_article_versions(page=1, per_page=-1, order='DESC'):
     limit = per_page
     offset = per_page * (page - 1)
 
-    # python slicing rules
+    sql = """
+    SELECT
+       pav.id, pav.article_id, pav.title, pav.version, pav.status, pav.datetime_published,
+       pav.datetime_record_created, pav.datetime_record_updated
+
+    FROM publisher_articleversion pav,
+
+      (SELECT pav2.article_id,
+              max(version) AS max_ver
+       FROM publisher_articleversion pav2
+       WHERE datetime_published IS NOT NULL
+       GROUP BY pav2.article_id) as pav2
+
+    WHERE
+       pav.article_id = pav2.article_id AND pav.version = pav2.max_ver
+
+    ORDER BY datetime_published %s""" % (order,)
+
+    with connection.cursor() as cursor:
+        total_sql = "select COUNT(*) from (%s) as subq" % sql
+        cursor.execute(total_sql)
+        total = cursor.fetchone()[0]
+
+    if per_page > 0:
+        sql += """
+
+    LIMIT %s
+
+    OFFSET %s""" % (limit, offset)
+
+    q = models.ArticleVersion.objects.raw(sql)
+
+    return total, list(q)
+
+def latest_unpublished_article_versions(page=1, per_page=-1, order='DESC'):
     start = (page - 1) * per_page
     end = start + per_page
-
-    if only_published:
-        sql = """
-        SELECT
-           pav.id, pav.article_id, pav.title, pav.version, pav.status, pav.datetime_published,
-           pav.datetime_record_created, pav.datetime_record_updated
-
-        FROM publisher_articleversion pav,
-
-          (SELECT pav2.article_id,
-                  max(version) AS max_ver
-           FROM publisher_articleversion pav2
-           WHERE datetime_published IS NOT NULL
-           GROUP BY pav2.article_id) as pav2
-
-        WHERE
-           pav.article_id = pav2.article_id AND pav.version = pav2.max_ver
-
-        ORDER BY %s %s""" % (order_by, order)
-
-        if per_page > 0:
-            sql += """
-
-        LIMIT %s
-
-        OFFSET %s""" % (limit, offset)
-
-        # quotes parameters :(
-        #rq = models.ArticleVersion.objects.raw(sql, [order_by])
-        q = models.ArticleVersion.objects.raw(sql)
-        # print q.query
-        # print [(v.article.manuscript_id, v.datetime_published) for v in q]
-        return list(q)
-
-    # this query only works if we're not excluding unpublished articles.
-    # the max() function doesn't obey the filtering rules
-
+    order_by = 'datetime_published'
     if order is 'DESC':
         order_by = '-' + order_by
 
@@ -137,7 +134,14 @@ def latest_article_versions(page=1, per_page=-1, order='DESC', only_published=Tr
     if per_page > 0:
         q = q[start:end]
 
-    return list(q)
+    return q.count(), list(q)
+
+def latest_article_version_list(page=1, per_page=-1, order='DESC', only_published=True):
+    "returns a list of the most recent article versions for all articles."
+    args = validate_pagination_params(page, per_page, order)
+    if only_published:
+        return latest_published_article_versions(*args)
+    return latest_unpublished_article_versions(*args)
 
 def most_recent_article_version(msid, only_published=True):
     "returns the most recent article version for the given article id"
