@@ -257,13 +257,15 @@ class V2Content(base.BaseCase):
         data = json.loads(resp.content)
 
         # the invalid-but-published culprit
-        v4 = utils.json_dumps(data['versions'][-1])
+        v4 = data['versions'][-1]
 
-        expected_struct = utils.json_dumps({
+        expected_struct = json.loads(utils.json_dumps({
             '-invalid': True,
+            'status': av.status,
+            'published': av.article.datetime_published,
             'version': 4,
-            'published': av.datetime_published
-        })
+            'versionDate': av.datetime_published
+        }))
         self.assertEqual(expected_struct, v4)
 
     def test_article_version(self):

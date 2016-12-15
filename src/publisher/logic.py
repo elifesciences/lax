@@ -75,8 +75,10 @@ def add_or_update_article(**article_data):
 def placeholder(av):
     return {
         '-invalid': True,
-        'published': av.datetime_published,
+        'published': av.article.datetime_published,
+        'versionDate': av.datetime_published,
         'version': av.version,
+        'status': av.status
     }
 
 def article_json(av):
