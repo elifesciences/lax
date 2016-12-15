@@ -69,6 +69,27 @@ def add_or_update_article(**article_data):
     return eif_ingestor.import_article(journal(), article_data, create=True, update=True)
 
 #
+#
+#
+
+def placeholder(av):
+    return {
+        '-invalid': True,
+        'published': av.article.datetime_published,
+        'versionDate': av.datetime_published,
+        'version': av.version,
+        'status': av.status
+    }
+
+def article_json(av):
+    "returns the *valid* article json for the given article version."
+    return av.article_json_v1 or None
+
+def article_snippet_json(av, placeholder_if_invalid=True):
+    "return the *valid* article snippet json for the given article version"
+    return av.article_json_v1_snippet or placeholder(av) if placeholder_if_invalid else None
+
+#
 # latest article versions
 #
 
@@ -199,13 +220,10 @@ def article_version_history(msid, only_published=True):
         # no article versions available, fail
         raise models.Article.DoesNotExist()
 
-    def version_row(av):
-        return av.article_json_v1_snippet or {}
-
     return {
         'received': article.date_initial_qc,
         'accepted': article.date_accepted,
-        'versions': map(version_row, avl)
+        'versions': map(article_snippet_json, avl)
     }
 
 def bulk_article_version_history(only_published=True):
@@ -213,22 +231,6 @@ def bulk_article_version_history(only_published=True):
         result = article_version_history(art.manuscript_id, only_published)
         result['msid'] = art.manuscript_id
         yield result
-
-#
-#
-#
-
-def article_json(av):
-    "returns the *valid* article json for the given article version."
-    # TODO: obviously this is just a placeholder.
-    # this function is expected to:
-    # merge any snippets of models.Article json over the top of the models.ArticleVersion raw json
-    # save the result in the models.ArticleVersion actual json field (?)
-    return av.article_json_v1
-
-def article_snippet_json(av):
-    "return the *valid* article snippet json for the given article version"
-    return av.article_json_v1_snippet
 
 #
 #
