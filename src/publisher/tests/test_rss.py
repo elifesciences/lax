@@ -63,7 +63,8 @@ class TestLatest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 3)
         self.assertEqual(models.ArticleVersion.objects.count(), 6)
 
-        avlist = logic.latest_article_versions()
+        total, avlist = logic.latest_article_version_list()
+        self.assertEqual(total, 3)
         self.assertEqual(len(avlist), 3)
 
         expected_version_order = [

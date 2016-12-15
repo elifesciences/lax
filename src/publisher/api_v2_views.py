@@ -62,9 +62,9 @@ def article_list(request):
     try:
         kwargs = request_args(request)
         kwargs['only_published'] = not authenticated
-        results = logic.latest_article_versions(**kwargs)
+        total, results = logic.latest_article_version_list(**kwargs)
         struct = {
-            'total': len(results), # TODO: probably wrong now.
+            'total': total,
             'items': map(logic.article_snippet_json, results),
         }
         return Response(struct, content_type='application/vnd.elife.article-list+json;version=1')

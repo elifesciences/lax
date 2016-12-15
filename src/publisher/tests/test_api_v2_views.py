@@ -391,7 +391,8 @@ class RequestArgs(base.BaseCase):
 
     def test_article_list_paginated_page1(self):
         "a list of articles are returned, paginated by 1"
-        resp = self.c.get(reverse('v2:article-list') + "?per-page=1")
+        url = reverse('v2:article-list') + "?per-page=1"
+        resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
         data = json.loads(resp.content)
@@ -401,7 +402,7 @@ class RequestArgs(base.BaseCase):
 
         # correct data
         self.assertEqual(len(data['items']), 1) # ONE result, [msid1]
-        self.assertEqual(data['total'], 1)
+        self.assertEqual(data['total'], 2)
         self.assertEqual(data['items'][0]['id'], str(self.msid1))
 
     def test_article_list_paginated_page2(self):
@@ -416,19 +417,20 @@ class RequestArgs(base.BaseCase):
 
         # correct data
         self.assertEqual(len(data['items']), 1) # ONE result, [msid2]
-        self.assertEqual(data['total'], 1)
+        self.assertEqual(data['total'], 2)
         self.assertEqual(data['items'][0]['id'], str(self.msid2))
 
     def test_article_list_page_no_per_page(self):
         "defaults for per-page and page parameters kick in when not specified"
-        resp = self.c.get(reverse('v2:article-list') + "?page=2")
+        url = reverse('v2:article-list') + "?page=2"
+        resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
         data = json.loads(resp.content)
 
         # correct data (too few to hit next page)
         self.assertEqual(len(data['items']), 0)
-        self.assertEqual(data['total'], 0)
+        self.assertEqual(data['total'], 2) # 100 per page, we asked for page 2, 2 results total
 
     def test_article_list_ordering_asc(self):
         resp = self.c.get(reverse('v2:article-list') + "?order=asc")
