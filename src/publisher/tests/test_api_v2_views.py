@@ -234,9 +234,7 @@ class V2Content(base.BaseCase):
         data = json.loads(resp.content)
 
         # valid data
-        # TODO: my unpublished PR on the api-raml isn't merged in yet
-        # the null values for the 'published' value are still invalid
-        #utils.validate(data, SCHEMA_IDX['history'])
+        utils.validate(data, SCHEMA_IDX['history'])
 
         # correct data
         self.assertEqual(len(data['versions']), 3)  # this article has two *published*, one *unpublished*
@@ -246,6 +244,27 @@ class V2Content(base.BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 404)
+
+    def test_article_versions_list_placeholder(self):
+        invalid_ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-20125-v4.xml.json'), 'r'))
+        invalid_ajson['article']['title'] = ''
+        _, _, av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
+        self.freshen(av)
+
+        # we now have a published article in lax with invalid article-json
+
+        resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid1}))
+        data = json.loads(resp.content)
+
+        # the invalid-but-published culprit
+        v4 = utils.json_dumps(data['versions'][-1])
+
+        expected_struct = utils.json_dumps({
+            '-invalid': True,
+            'version': 4,
+            'published': av.datetime_published
+        })
+        self.assertEqual(expected_struct, v4)
 
     def test_article_version(self):
         versions = [1, 2, 3]

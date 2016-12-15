@@ -227,7 +227,8 @@ def _publish(msid, version, force=False):
         av.save()
 
         # merge the fragments we have available and make them available for serving
-        fragments.merge_if_valid(av, quiet=False)
+        # allow errors when the publish operation is being forced
+        fragments.merge_if_valid(av, quiet=force)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(events.notify, av.article))

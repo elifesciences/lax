@@ -64,8 +64,8 @@ def valid(merge_result, quiet=True):
     except ValueError as err:
         # either the schema is bad or the struct is bad
         LOG.error("validating %s with %s, failed to load json file: %s", msid, schema, err.message)
-        if not quiet:
-            raise
+        # this is a legitimate error and needs to break things
+        raise
     except ValidationError as err:
         # definitely not valid ;)
         LOG.error("while validating %s with %s, failed to validate with error: %s", msid, schema, err.message)
