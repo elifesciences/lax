@@ -14,6 +14,9 @@ from rfc3339 import rfc3339
 
 LOG = logging.getLogger(__name__)
 
+class StateError(RuntimeError):
+    pass
+
 def freshen(obj):
     return type(obj).objects.get(pk=obj.pk)
 
@@ -214,6 +217,11 @@ def deepmerge(d1, d2):
 def merge_all(dict_list):
     ensure(all(map(lambda r: isinstance(r, dict), dict_list)), "not all given values are dictionaries!")
     return reduce(deepmerge, dict_list)
+
+def boolkey(*args):
+    """given N values, returns a tuple of their truthiness.
+    for example: boolkey(0, 1, 2) => (False, True, True)"""
+    return tuple(map(lambda v: not not v, args))
 
 #
 #

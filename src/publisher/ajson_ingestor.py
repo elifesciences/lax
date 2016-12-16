@@ -1,7 +1,7 @@
 import copy
 from publisher import models, utils, fragment_logic as fragments, logic, events
 from publisher.models import XML2JSON
-from publisher.utils import create_or_update
+from publisher.utils import create_or_update, StateError
 import logging
 from django.db import transaction
 from et3 import render
@@ -11,9 +11,6 @@ from functools import partial
 from jsonschema import ValidationError
 
 LOG = logging.getLogger(__name__)
-
-class StateError(RuntimeError):
-    pass
 
 # make the article-json lax compatible
 # receives a list of article-json

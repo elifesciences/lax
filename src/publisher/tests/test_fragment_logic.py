@@ -144,7 +144,36 @@ class FragmentMerge(BaseCase):
         # ensure delete happens successfully
         self.assertFalse(logic.set_article_json(self.av, quiet=True))
 
-        av = self.freshen(self.av)
-
         # article is no longer serving up invalid content :)
+        av = self.freshen(self.av)
         self.assertFalse(av.article_json_v1)
+
+class CLI(BaseCase):
+    def setUp(self):
+        self.nom = 'revalidate'
+
+        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
+        self.ajson = json.load(open(self.ajson_fixture, 'r'))
+
+        self.msid = self.ajson['article']['id'] # 01968
+        self.version = self.ajson['article']['version'] # 1
+
+        _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
+
+    def test_ingest_from_cli(self):
+        args = [self.nom, '--id', self.msid, '--version', self.version]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+        '''
+        # article has been ingested
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+        # message returned is json encoded with all the right keys and values
+        result = json.loads(stdout.getvalue())
+        self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
+        self.assertEqual(result['status'], 'ingested')
+        # the date and time is roughly the same as right now, ignoring microseconds
+        expected_datetime = utils.ymdhms(utils.utcnow())
+        self.assertEqual(result['datetime'][:20], expected_datetime[:20])
+        self.assertEqual(result['datetime'][-6:], expected_datetime[-6:])
+        '''

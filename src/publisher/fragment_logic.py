@@ -2,7 +2,7 @@ from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
 from . import utils, models
-from .utils import create_or_update, ensure, subdict
+from .utils import create_or_update, ensure, subdict, StateError
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -51,21 +51,41 @@ def merge(av):
         .filter(article=av.article) \
         .filter(Q(version=av.version) | Q(version=None)) \
         .order_by('position')
+    if not fragments:
+        raise StateError("%r has no fragments that can be merged" % av)
     return utils.merge_all(map(lambda f: f.fragment, fragments))
 
 def valid(merge_result, quiet=True):
     "returns True if the merged result is valid article-json"
     msid = merge_result.get('id', '[no id]')
-    schema_key = merge_result['status']
-    schema = settings.SCHEMA_IDX[schema_key]
+    log_context = {
+        'msid': msid,
+        'version': merge_result.get('version', '[no version]'),
+    }
     try:
+        schema_key = merge_result['status'] # poa or vor
+        schema = settings.SCHEMA_IDX[schema_key]
         utils.validate(merge_result, schema)
         return merge_result
+
+    except KeyError:
+        msg = "merging %s returned a data structure that couldn't be used to determine validation"
+        LOG.exception(msg, msid, extra=log_context)
+        # legitimate error that needs to break things
+        raise
+
     except ValueError as err:
         # either the schema is bad or the struct is bad
-        LOG.error("validating %s with %s, failed to load json file: %s", msid, schema, err.message)
+        LOG.exception("validating %s failed to load schema file %s", msid, schema, extra=log_context)
         # this is a legitimate error and needs to break things
         raise
+
+    except StateError as err:
+        msg = "article is in a state where it can't be validated: %s" % err
+        LOG.warn(msg, extra=log_context)
+        if not quiet:
+            raise
+
     except ValidationError as err:
         # definitely not valid ;)
         LOG.error("while validating %s with %s, failed to validate with error: %s", msid, schema, err.message)
@@ -143,3 +163,25 @@ def set_article_json(av, quiet):
         msg = "this article failed to merge it's fragments into a valid result. Any article-json previously set for this version of the article has been removed. This article cannot be published in it's current state."
         LOG.warn(msg, extra=log_context)
     return result
+
+#
+#
+#
+
+SET, RESET, UNSET, NOTSET = 'set', 'reset', 'unset', 'not-set'
+
+def revalidate(av):
+    try:
+        had_json = not not av.article_json_v1
+        result = set_article_json(av, quiet=True)
+        matrix = {
+            # had_json?, result?
+            (True, True): RESET,
+            (True, False): UNSET,
+
+            (False, True): SET,
+            (False, False): NOTSET,
+        }
+        return matrix[utils.boolkey(had_json, result)]
+    except StateError:
+        return NOTSET
