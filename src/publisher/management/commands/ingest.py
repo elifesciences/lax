@@ -7,13 +7,14 @@ The ingest script DOES obey business rules and will not publish things twice,
 
 """
 import io, re, sys, json, argparse
-from django.core.management.base import BaseCommand
 from publisher import ajson_ingestor, utils
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
 import multiprocessing
 from django.db import reset_queries
+import os
+from modcommand import ModCommand
 
 LOG = logging.getLogger(__name__)
 
@@ -21,9 +22,6 @@ INVALID, ERROR = 'invalid', 'error'
 IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
 INGEST, PUBLISH, BOTH = IMPORT_TYPES
 INGESTED, PUBLISHED = 'ingested', 'published'
-
-import os
-from django.core.management.base import CommandParser
 
 def write(print_queue, out=None):
     if not isinstance(out, basestring):
@@ -130,43 +128,6 @@ def handle_many(print_queue, action, path, force, dry_run):
         clean_up(print_queue)
         return
     Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
-
-
-class ModCommand(BaseCommand):
-    def create_parser(self, prog_name, subcommand):
-        """
-        Create and return the ``ArgumentParser`` which will be used to
-        parse the arguments to this command.
-        """
-        parser = CommandParser(
-            self, prog="%s %s" % (os.path.basename(prog_name), subcommand),
-            description=self.help or None,
-        )
-        #parser.add_argument('--version', action='version', version=self.get_version())
-        parser.add_argument(
-            '-v', '--verbosity', action='store', dest='verbosity', default=1,
-            type=int, choices=[0, 1, 2, 3],
-            help='Verbosity level; 0=minimal output, 1=normal output, 2=verbose output, 3=very verbose output',
-        )
-        parser.add_argument(
-            '--settings',
-            help=(
-                'The Python path to a settings module, e.g. '
-                '"myproject.settings.main". If this isn\'t provided, the '
-                'DJANGO_SETTINGS_MODULE environment variable will be used.'
-            ),
-        )
-        parser.add_argument(
-            '--pythonpath',
-            help='A directory to add to the Python path, e.g. "/home/djangoprojects/myproject".',
-        )
-        parser.add_argument('--traceback', action='store_true', help='Raise on CommandError exceptions')
-        parser.add_argument(
-            '--no-color', action='store_true', dest='no_color', default=False,
-            help="Don't colorize the command output.",
-        )
-        self.add_arguments(parser)
-        return parser
 
 class Command(ModCommand):
     help = ''
