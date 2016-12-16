@@ -189,6 +189,7 @@ class ArticleVersion(models.Model):
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
     class Meta:
+        ordering = ('datetime_published',) # ASC, earliest to latest
         unique_together = ('article', 'version')
 
     def published(self):

@@ -451,9 +451,11 @@ class CLI(BaseCase):
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
         self.assertEqual(result['status'], 'ingested')
         # the date and time is roughly the same as right now, ignoring microseconds
-        expected_datetime = utils.ymdhms(utils.utcnow())
-        self.assertEqual(result['datetime'][:20], expected_datetime[:20])
-        self.assertEqual(result['datetime'][-6:], expected_datetime[-6:])
+        expected_datetime = utils.utcnow()
+        actual_datetime = utils.todt(result['datetime'])
+        delta = expected_datetime - actual_datetime
+        threshold = 2 # seconds
+        self.assertTrue(delta.seconds <= threshold)
 
     def test_publish_from_cli(self):
         args = [self.nom, '--ingest', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
