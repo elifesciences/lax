@@ -109,13 +109,42 @@ class FragmentMerge(BaseCase):
         }
         logic.add(self.msid, 'foo', placeholders)
 
-        self.assertTrue(logic.merge_if_valid(self.av))
+        self.assertTrue(logic.set_article_json(self.av, quiet=True))
         av = self.freshen(self.av)
         self.assertTrue(av.article_json_v1)
         self.assertTrue(av.article_json_v1_snippet)
 
     def test_merge_sets_status_date_correctly(self):
-        pass
+        # setUp inserts article snippet that should be valid
+        av = self.freshen(self.av)
+        placeholders = {'statusDate': '2001-01-01T00:00:00Z', }
+        logic.add(self.msid, 'foo', placeholders)
+
+        self.assertTrue(logic.merge_if_valid(self.av))
+
+        av = self.freshen(self.av)
+        self.assertTrue(av.article_json_v1)
+        self.assertTrue(av.article_json_v1_snippet)
 
     def test_merge_ignores_unpublished_vor_when_setting_status_date(self):
         pass
+
+    def test_invalid_merge_deletes_article_json(self):
+        fragment = models.ArticleFragment.objects.all()[0]
+        # simulate a value that was once valid but no longer is
+        fragment.fragment['title'] = ''
+        fragment.save()
+
+        # ensure fragment is now invalid.
+        self.assertFalse(logic.merge_if_valid(self.av))
+
+        # article is still serving up invalid content :(
+        self.assertTrue(self.av.article_json_v1)
+
+        # ensure delete happens successfully
+        self.assertFalse(logic.set_article_json(self.av, quiet=True))
+
+        av = self.freshen(self.av)
+
+        # article is no longer serving up invalid content :)
+        self.assertFalse(av.article_json_v1)

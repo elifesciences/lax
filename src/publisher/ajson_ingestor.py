@@ -101,11 +101,8 @@ def _ingest(data, force=False):
 
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
-        merge_result = fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
-        fragments.merge_if_valid(av)
-        invalid_ajson = not merge_result
-        if invalid_ajson:
-            LOG.warn("this article failed to merge it's fragments into a valid result and cannot be PUBLISHed in it's current state.", extra=log_context)
+        fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
+        fragments.set_article_json(av, quiet=True)
 
         # enforce business rules
 
@@ -226,17 +223,17 @@ def _publish(msid, version, force=False):
         av.datetime_published = datetime_published
         av.save()
 
-        # merge the fragments we have available and make them available for serving
-        # allow errors when the publish operation is being forced
-        fragments.merge_if_valid(av, quiet=force)
+        # merge the fragments we have available and make them available for serving.
+        # allow errors when the publish operation is being forced.
+        fragments.set_article_json(av, quiet=force)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(events.notify, av.article))
 
         return av
 
-    except ValidationError:
-        raise StateError("refusing to publish an article '%sv%s' with invalid article-json" % (msid, version))
+    except ValidationError as err:
+        raise StateError("refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err.message))
 
     except models.ArticleFragment.DoesNotExist:
         raise StateError("no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")

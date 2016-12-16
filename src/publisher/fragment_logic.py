@@ -73,6 +73,8 @@ def valid(merge_result, quiet=True):
             raise
 
 def extract_snippet(merged_result):
+    if not merged_result:
+        return None
     # TODO: derive these from the schema automatically somehow please
     snippet_keys = [
         # pulled from given xml->json
@@ -86,9 +88,9 @@ def extract_snippet(merged_result):
     return subdict(merged_result, snippet_keys)
 
 def pre_process(av, result):
+    "supplements the merged fragments with more article data required for validating"
     # 'published' is when the v1 article was published
     # if unpublished, this value will be None
-
     if av.version == 1:
         result['published'] = av.datetime_published
     else:
@@ -114,19 +116,30 @@ def pre_process(av, result):
 
     return result
 
+def merge_and_preprocess(av):
+    "merges fragments AND pre-processes them for saving"
+    return pre_process(av, merge(av))
+
 def merge_if_valid(av, quiet=True):
-    ensure(isinstance(av, models.ArticleVersion), "I need an ArticleVersion object")
-
-    log_context = {'article-version': av, 'quiet': quiet}
-
-    result = merge(av)
-    result = pre_process(av, result)
-
+    """merges, pre-processes and validates the fragments of the given ArticleVersion instance.
+    if the result is valid, returns the merge result.
+    if invalid, returns nothing.
+    if invalid and quiet=False, a ValidationError will be raised"""
+    result = merge_and_preprocess(av)
     if valid(result, quiet=quiet):
-        av.article_json_v1 = result
-        av.article_json_v1_snippet = extract_snippet(result)
-        av.save()
-        return True
+        return result
 
-    LOG.warn("result of merging fragments failed to validate. not updating `ArticleVersion.article_json_v1*` fields", extra=log_context)
-    return False
+def set_article_json(av, quiet):
+    """updates the article with the result of the merge operation.
+    if the result of the merge was valid, the merged result will be saved.
+    if invalid, the ArticleVersion instance's article-json will be unset.
+    if invalid and quiet=False, a ValidationError will be raised"""
+    log_context = {'article-version': av, 'quiet': quiet}
+    result = merge_if_valid(av, quiet)
+    av.article_json_v1 = result
+    av.article_json_v1_snippet = extract_snippet(result)
+    av.save()
+    if not result:
+        msg = "this article failed to merge it's fragments into a valid result. Any article-json previously set for this version of the article has been removed. This article cannot be published in it's current state."
+        LOG.warn(msg, extra=log_context)
+    return result
