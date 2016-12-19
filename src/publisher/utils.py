@@ -11,11 +11,34 @@ import logging
 from django.db.models.fields.related import ManyToManyField
 from kids.cache import cache
 from rfc3339 import rfc3339
+from django.db import transaction, IntegrityError
 
 LOG = logging.getLogger(__name__)
 
 class StateError(RuntimeError):
     pass
+
+def atomic(fn):
+    def wrapper(*args, **kwargs):
+        result, rollback_key = None, 'dry run rollback'
+        # NOTE: dry_run must always be passed as keyword parameter (dry_run=True)
+        dry_run = kwargs.pop('dry_run', False)
+        try:
+            with transaction.atomic():
+                result = fn(*args, **kwargs)
+                if dry_run:
+                    # `transaction.rollback()` doesn't work here because the `transaction.atomic()`
+                    # block is expecting to do all the work and only rollback on exceptions
+                    raise IntegrityError(rollback_key)
+                print 'NOT rolling back'
+                return result
+        except IntegrityError as err:
+            if dry_run and err.message == rollback_key:
+                print 'rolling back'
+                return result
+            # this was some other IntegrityError
+            raise
+    return wrapper
 
 def freshen(obj):
     return type(obj).objects.get(pk=obj.pk)

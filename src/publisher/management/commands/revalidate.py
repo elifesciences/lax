@@ -1,7 +1,7 @@
 import sys
 from functools import partial
 from modcommand import ModCommand
-from publisher.utils import boolkey
+from publisher.utils import boolkey, atomic
 from publisher import models, fragment_logic
 import logging
 
@@ -13,16 +13,19 @@ def do(avl):
     # count ??
     return str(results)
 
+@atomic
 def revalidate_specific_article_version(msid, ver):
     LOG.debug('revalidating article version %s %s', msid, ver)
     return do(models.ArticleVersion.objects.filter(article__manuscript_id=msid, version=ver))
 
+@atomic
 def revalidate_all_versions_of_article(msid):
     LOG.debug('revalidating all versions of %s', msid)
     return do(models.ArticleVersion.objects.filter(article__manuscript_id=msid))
 
+@atomic
 def revalidate_all_article_versions():
-    LOG.debug('revalidating ALL articles')
+    LOG.debug('revalidating ALL articles, this may take a while')
     return do(models.ArticleVersion.objects.all())
 
 class Command(ModCommand):
@@ -31,6 +34,7 @@ class Command(ModCommand):
     def add_arguments(self, parser):
         parser.add_argument('--id', dest='msid', type=int)
         parser.add_argument('--version', dest='version', type=int)
+        parser.add_argument('--dry-run', action='store_true', default=False)
 
         self.parser = parser
 
@@ -48,4 +52,4 @@ class Command(ModCommand):
 
             (False, True): partial(self.invalid_args, "an '--id' must be provided if a '--version' is supplied")
         }
-        return matrix[boolkey(msid, version)]()
+        return matrix[boolkey(msid, version)](dry_run=options['dry_run'])

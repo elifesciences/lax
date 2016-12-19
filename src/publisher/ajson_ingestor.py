@@ -1,12 +1,11 @@
 import copy
 from publisher import models, utils, fragment_logic as fragments, logic, events
 from publisher.models import XML2JSON
-from publisher.utils import create_or_update, StateError
+from publisher.utils import create_or_update, StateError, atomic
 import logging
 from django.db import transaction
 from et3 import render
 from et3.extract import path as p
-from django.db import IntegrityError
 from functools import partial
 from jsonschema import ValidationError
 
@@ -30,26 +29,6 @@ ARTICLE_VERSION = {
     # only v1 article-json has a published date. v2 article-json does not
     'datetime_published': [p('published', None), utils.todt],
 }
-
-def atomic(fn):
-    def wrapper(*args, **kwargs):
-        result, rollback_key = None, 'dry run rollback'
-        # NOTE: dry_run must always be passed as keyword parameter (dry_run=True)
-        dry_run = kwargs.pop('dry_run', False)
-        try:
-            with transaction.atomic():
-                result = fn(*args, **kwargs)
-                if dry_run:
-                    # `transaction.rollback()` doesn't work here because the `transaction.atomic()`
-                    # block is expecting to do all the work and only rollback on exceptions
-                    raise IntegrityError(rollback_key)
-                return result
-        except IntegrityError as err:
-            if dry_run and err.message == rollback_key:
-                return result
-            # this was some other IntegrityError
-            raise
-    return wrapper
 
 #
 #
