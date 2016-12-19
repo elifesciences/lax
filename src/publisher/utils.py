@@ -30,11 +30,9 @@ def atomic(fn):
                     # `transaction.rollback()` doesn't work here because the `transaction.atomic()`
                     # block is expecting to do all the work and only rollback on exceptions
                     raise IntegrityError(rollback_key)
-                print 'NOT rolling back'
                 return result
         except IntegrityError as err:
             if dry_run and err.message == rollback_key:
-                print 'rolling back'
                 return result
             # this was some other IntegrityError
             raise
