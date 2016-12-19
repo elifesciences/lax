@@ -1,8 +1,9 @@
+from collections import OrderedDict
 from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
 from . import utils, models
-from .utils import create_or_update, ensure, subdict, StateError
+from .utils import create_or_update, ensure, subdict, StateError, atomic
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -185,3 +186,57 @@ def revalidate(av):
         return matrix[utils.boolkey(had_json, result)]
     except StateError:
         return NOTSET
+
+def revalidate_many(avl):
+    def do(av):
+        return {
+            'msid': av.article.manuscript_id,
+            'version': av.version,
+            'result': revalidate(av),
+        }
+    return map(do, avl)
+
+@atomic
+def revalidate_specific_article_version(msid, ver):
+    LOG.debug('revalidating article version %s %s', msid, ver)
+    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid, version=ver)
+    return revalidate_many(avl)
+
+@atomic
+def revalidate_all_versions_of_article(msid):
+    LOG.debug('revalidating all versions of %s', msid)
+    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid)
+    return revalidate_many(avl)
+
+@atomic
+def revalidate_all_article_versions():
+    LOG.debug('revalidating ALL articles, this may take a while')
+    return revalidate_many(models.ArticleVersion.objects.all())
+
+def revalidate_report(results):
+    #instate = lambda row: row['result'] == state
+    def instate(state):
+        def wrapper(row):
+            return row['result'] == state
+        return wrapper
+    #instate = lambda state: lambda row: row['result'] == state
+    
+    _not_set = filter(instate(NOTSET), results)
+    _set = filter(instate(SET), results)
+    _unset = filter(instate(UNSET), results)
+    _reset = filter(instate(RESET), results)
+    
+    report = OrderedDict([
+        (NOTSET, "had no article-json before, has *no* article-json *now*"),
+        (SET, "had no article-json *before*, has article-json *now*"),
+        (UNSET, "*had* article-json before, *no longer* has article-json"),
+        (RESET, "*had* article-json before, *has* article-json now"),
+        ('total-not-set', len(_not_set)),
+        ('total-set', len(_set)),
+        ('total-reset', len(_reset)),
+        ('total-unset', len(_unset)),
+        
+        ('total-with-article-json', len(_set) + len(_reset)),
+        ('total-without-article-json', len(_not_set) + len(_unset)),
+    ])
+    return report
