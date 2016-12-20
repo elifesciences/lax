@@ -30,5 +30,5 @@ class BaseCase(TestCase):
             kwargs['stdout'] = stdout
             call_command(*args, **kwargs)
         except SystemExit as err:
-            return err.code, stdout
+            return err.code, stdout.getvalue()
         self.fail("ingest script should always throw a systemexit()")

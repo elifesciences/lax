@@ -217,6 +217,14 @@ class ArticleFragment(models.Model):
 
     datetime_record_created = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        if self.version:
+            return '%s v%s "%s"' % (self.article.manuscript_id, self.version, self.type)
+        return '%s "%s"' % (self.article.manuscript_id, self.type)
+
+    def __repr__(self):
+        return u'<ArticleFragment %s>' % self
+
     class Meta:
         # an article can only have one instance of a fragment type
         unique_together = ('article', 'type', 'version')

@@ -1,19 +1,15 @@
 import copy
 from publisher import models, utils, fragment_logic as fragments, logic, events
 from publisher.models import XML2JSON
-from publisher.utils import create_or_update
+from publisher.utils import create_or_update, StateError, atomic
 import logging
 from django.db import transaction
 from et3 import render
 from et3.extract import path as p
-from django.db import IntegrityError
 from functools import partial
 from jsonschema import ValidationError
 
 LOG = logging.getLogger(__name__)
-
-class StateError(RuntimeError):
-    pass
 
 # make the article-json lax compatible
 # receives a list of article-json
@@ -33,26 +29,6 @@ ARTICLE_VERSION = {
     # only v1 article-json has a published date. v2 article-json does not
     'datetime_published': [p('published', None), utils.todt],
 }
-
-def atomic(fn):
-    def wrapper(*args, **kwargs):
-        result, rollback_key = None, 'dry run rollback'
-        # NOTE: dry_run must always be passed as keyword parameter (dry_run=True)
-        dry_run = kwargs.pop('dry_run', False)
-        try:
-            with transaction.atomic():
-                result = fn(*args, **kwargs)
-                if dry_run:
-                    # `transaction.rollback()` doesn't work here because the `transaction.atomic()`
-                    # block is expecting to do all the work and only rollback on exceptions
-                    raise IntegrityError(rollback_key)
-                return result
-        except IntegrityError as err:
-            if dry_run and err.message == rollback_key:
-                return result
-            # this was some other IntegrityError
-            raise
-    return wrapper
 
 #
 #
@@ -101,11 +77,8 @@ def _ingest(data, force=False):
 
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
-        merge_result = fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
-        fragments.merge_if_valid(av)
-        invalid_ajson = not merge_result
-        if invalid_ajson:
-            LOG.warn("this article failed to merge it's fragments into a valid result and cannot be PUBLISHed in it's current state.", extra=log_context)
+        fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
+        fragments.set_article_json(av, quiet=True)
 
         # enforce business rules
 
@@ -191,7 +164,7 @@ def _publish(msid, version, force=False):
         # NOTE: we don't use any other article fragments for determining the publication date
 
         # except the xml->json fragment.
-        raw_data = fragments.get(av, XML2JSON)
+        raw_data = fragments.get(av, XML2JSON).fragment
 
         # the json *will always* have a published date if v1 ...
         if version == 1:
@@ -226,17 +199,17 @@ def _publish(msid, version, force=False):
         av.datetime_published = datetime_published
         av.save()
 
-        # merge the fragments we have available and make them available for serving
-        # allow errors when the publish operation is being forced
-        fragments.merge_if_valid(av, quiet=force)
+        # merge the fragments we have available and make them available for serving.
+        # allow errors when the publish operation is being forced.
+        fragments.set_article_json(av, quiet=force)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(events.notify, av.article))
 
         return av
 
-    except ValidationError:
-        raise StateError("refusing to publish an article '%sv%s' with invalid article-json" % (msid, version))
+    except ValidationError as err:
+        raise StateError("refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err.message))
 
     except models.ArticleFragment.DoesNotExist:
         raise StateError("no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")

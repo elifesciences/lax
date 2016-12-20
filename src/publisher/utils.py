@@ -11,8 +11,32 @@ import logging
 from django.db.models.fields.related import ManyToManyField
 from kids.cache import cache
 from rfc3339 import rfc3339
+from django.db import transaction, IntegrityError
 
 LOG = logging.getLogger(__name__)
+
+class StateError(RuntimeError):
+    pass
+
+def atomic(fn):
+    def wrapper(*args, **kwargs):
+        result, rollback_key = None, 'dry run rollback'
+        # NOTE: dry_run must always be passed as keyword parameter (dry_run=True)
+        dry_run = kwargs.pop('dry_run', False)
+        try:
+            with transaction.atomic():
+                result = fn(*args, **kwargs)
+                if dry_run:
+                    # `transaction.rollback()` doesn't work here because the `transaction.atomic()`
+                    # block is expecting to do all the work and only rollback on exceptions
+                    raise IntegrityError(rollback_key)
+                return result
+        except IntegrityError as err:
+            if dry_run and err.message == rollback_key:
+                return result
+            # this was some other IntegrityError
+            raise
+    return wrapper
 
 def freshen(obj):
     return type(obj).objects.get(pk=obj.pk)
@@ -214,6 +238,11 @@ def deepmerge(d1, d2):
 def merge_all(dict_list):
     ensure(all(map(lambda r: isinstance(r, dict), dict_list)), "not all given values are dictionaries!")
     return reduce(deepmerge, dict_list)
+
+def boolkey(*args):
+    """given N values, returns a tuple of their truthiness.
+    for example: boolkey(0, 1, 2) => (False, True, True)"""
+    return tuple(map(lambda v: not not v, args))
 
 #
 #

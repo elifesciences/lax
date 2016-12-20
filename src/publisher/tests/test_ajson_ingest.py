@@ -447,7 +447,7 @@ class CLI(BaseCase):
         # article has been ingested
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
         # message returned is json encoded with all the right keys and values
-        result = json.loads(stdout.getvalue())
+        result = json.loads(stdout)
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
         self.assertEqual(result['status'], 'ingested')
         # the date and time is roughly the same as right now, ignoring microseconds
@@ -468,7 +468,7 @@ class CLI(BaseCase):
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
         # ensure response is json
-        result = json.loads(stdout.getvalue())
+        result = json.loads(stdout)
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
         self.assertEqual(result['status'], 'published')
 
@@ -481,7 +481,7 @@ class CLI(BaseCase):
         # article has been published
         self.assertTrue(av.published())
         # ensure response is json and well-formed
-        result = json.loads(stdout.getvalue())
+        result = json.loads(stdout)
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
         # ensure response data is correct
         self.assertEqual(result['status'], 'published')
@@ -504,7 +504,7 @@ class CLI(BaseCase):
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
         # ensure response is json and well-formed
-        result = json.loads(stdout.getvalue())
+        result = json.loads(stdout)
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime', 'message']))
         # ensure response data is correct
         self.assertEqual(result['status'], 'published')
