@@ -42,7 +42,7 @@ def get(x, ftype):
         'type': ftype
     }
     kwargs.update(_getids(x))
-    return models.ArticleFragment.objects.get(**kwargs).fragment
+    return models.ArticleFragment.objects.get(**kwargs)
 
 def merge(av):
     """returns the merged result for a particlar article version"""
@@ -214,18 +214,16 @@ def revalidate_all_article_versions():
     return revalidate_many(models.ArticleVersion.objects.all())
 
 def revalidate_report(results):
-    #instate = lambda row: row['result'] == state
     def instate(state):
         def wrapper(row):
             return row['result'] == state
         return wrapper
-    #instate = lambda state: lambda row: row['result'] == state
-    
+
     _not_set = filter(instate(NOTSET), results)
     _set = filter(instate(SET), results)
     _unset = filter(instate(UNSET), results)
     _reset = filter(instate(RESET), results)
-    
+
     report = OrderedDict([
         (NOTSET, "had no article-json before, has *no* article-json *now*"),
         (SET, "had no article-json *before*, has article-json *now*"),
@@ -235,7 +233,7 @@ def revalidate_report(results):
         ('total-set', len(_set)),
         ('total-reset', len(_reset)),
         ('total-unset', len(_unset)),
-        
+
         ('total-with-article-json', len(_set) + len(_reset)),
         ('total-without-article-json', len(_not_set) + len(_unset)),
     ])

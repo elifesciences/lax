@@ -164,7 +164,7 @@ def _publish(msid, version, force=False):
         # NOTE: we don't use any other article fragments for determining the publication date
 
         # except the xml->json fragment.
-        raw_data = fragments.get(av, XML2JSON)
+        raw_data = fragments.get(av, XML2JSON).fragment
 
         # the json *will always* have a published date if v1 ...
         if version == 1:

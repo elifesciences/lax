@@ -1,7 +1,8 @@
+import glob
 from os.path import join
 import json
 from base import BaseCase
-from publisher import fragment_logic as logic, ajson_ingestor, models
+from publisher import logic as article_logic, fragment_logic as logic, ajson_ingestor, models
 
 """
 ingesting an article creates our initial ArticleFragment, the 'xml->json' fragment
@@ -54,7 +55,7 @@ class FragmentLogic(BaseCase):
 
         # ensure we have something that resembles the ingest data
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
-        frag = logic.get(self.av, 'xml->json')
+        frag = logic.get(self.av, 'xml->json').fragment
         self.assertTrue('title' in frag)
 
         # now update it with some garbage
@@ -62,7 +63,7 @@ class FragmentLogic(BaseCase):
         logic.add(self.av, 'xml->json', data, pos=0, update=True)
 
         # ensure we've just destroyed our very important data
-        frag = logic.get(self.av, 'xml->json')
+        frag = logic.get(self.av, 'xml->json').fragment
         self.assertEqual(frag, data)
 
     def test_delete_fragment(self):
@@ -152,28 +153,129 @@ class CLI(BaseCase):
     def setUp(self):
         self.nom = 'revalidate'
 
-        self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
-        self.ajson = json.load(open(self.ajson_fixture, 'r'))
+        # publish four valid articles, ensure each is in different states
 
-        self.msid = self.ajson['article']['id'] # 01968
-        self.version = self.ajson['article']['version'] # 1
+        fixture_list = [
+            '01968', # SET
+            '16695', # RESET
+            '20105', # UNSET
+            '20125', # NOTSET
+        ]
+        self.msid1, self.msid2, self.msid3, self.msid4 = fixture_list
+        self.version = '1'
 
-        _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
+        for msid in fixture_list:
+            fixture_path = join(self.fixture_dir, 'ajson', 'elife-%s-v1.xml.json' % msid)
+            ajson_ingestor.ingest_publish(json.load(open(fixture_path, 'r')))
 
-    def test_ingest_from_cli(self):
-        args = [self.nom, '--id', self.msid, '--version', self.version]
+        # SET
+        # remove the valid ajson so it gets set
+        av = article_logic.article_version(self.msid1, self.version)
+        av.article_json_v1 = av.article_json_v1_snippet = None
+        av.save()
+
+        # RESET
+        # already valid, nothing to do
+
+        # UNSET
+        # ensure the fragment is now invalid
+        av = article_logic.article_version(self.msid3, self.version)
+        frag = logic.get(av, models.XML2JSON)
+        frag.fragment['title'] = ''
+        frag.save()
+
+        # NOTSET
+        # remove the valid article-json
+        # ensure fragment is invalid and won't be set
+        av = article_logic.article_version(self.msid4, self.version)
+        av.article_json_v1 = av.article_json_v1_snippet = None
+        av.save()
+        frag = logic.get(av, models.XML2JSON)
+        frag.fragment['title'] = ''
+        frag.save()
+
+    def test_revalidate_article_version_from_cli(self):
+        "the revalidate command can be called from the CLI for a specific article version"
+        args = [self.nom, '--id', self.msid1, '--version', self.version]
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
 
-        '''
-        # article has been ingested
-        self.assertEqual(models.ArticleVersion.objects.count(), 1)
-        # message returned is json encoded with all the right keys and values
-        result = json.loads(stdout.getvalue())
-        self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime']))
-        self.assertEqual(result['status'], 'ingested')
-        # the date and time is roughly the same as right now, ignoring microseconds
-        expected_datetime = utils.ymdhms(utils.utcnow())
-        self.assertEqual(result['datetime'][:20], expected_datetime[:20])
-        self.assertEqual(result['datetime'][-6:], expected_datetime[-6:])
-        '''
+        report = json.loads(stdout)
+        self.assertEqual(report['total-set'], 1)
+        self.assertEqual(report['total-with-article-json'], 1)
+
+    def test_revalidate_article_from_cli(self):
+        "the revalidate command can be called from the CLI for all versions of an article"
+        # we need to ingest some more versions here
+        fixtures = sorted(glob.glob(join(self.fixture_dir, 'ajson', 'elife-%s-v*.xml.json' % self.msid2)))
+        for fixture in fixtures[1:]: # don't reingest v1
+            ajson_ingestor.ingest_publish(json.load(open(fixture, 'r')))
+        args = [self.nom, '--id', self.msid2]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+        report = json.loads(stdout)
+        self.assertEqual(report['total-reset'], 3) # msid2 is untouched, all are valid, all should be reset
+
+    def test_revalidate_all_from_cli(self):
+        args = [self.nom]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+        report = json.loads(stdout)
+        self.assertEqual(report['total-set'], 1)
+        self.assertEqual(report['total-unset'], 1)
+        self.assertEqual(report['total-reset'], 1)
+        self.assertEqual(report['total-not-set'], 1)
+
+        # SET
+        av = article_logic.article_version(self.msid1, self.version)
+        self.assertTrue(av.article_json_v1)
+        self.assertTrue(av.article_json_v1_snippet)
+
+        # RESET
+        av = article_logic.article_version(self.msid2, self.version)
+        self.assertTrue(av.article_json_v1)
+        self.assertTrue(av.article_json_v1_snippet)
+
+        # UNSET
+        av = article_logic.article_version(self.msid3, self.version)
+        self.assertFalse(av.article_json_v1)
+        self.assertFalse(av.article_json_v1_snippet)
+
+        # NOTSET
+        av = article_logic.article_version(self.msid4, self.version)
+        self.assertFalse(av.article_json_v1)
+        self.assertFalse(av.article_json_v1_snippet)
+
+    def test_revalidate_from_cli_dry_run(self):
+        "a dry run doesn't modify anything. the report should be the same as an actual run, but with no changes"
+        args = [self.nom, '--dry-run']
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+        report = json.loads(stdout)
+        self.assertEqual(report['total-set'], 1)
+        self.assertEqual(report['total-unset'], 1)
+        self.assertEqual(report['total-reset'], 1)
+        self.assertEqual(report['total-not-set'], 1)
+
+        # SET (nothing SET)
+        av = article_logic.article_version(self.msid1, self.version)
+        self.assertFalse(av.article_json_v1)
+        self.assertFalse(av.article_json_v1_snippet)
+
+        # RESET (still SET)
+        av = article_logic.article_version(self.msid2, self.version)
+        self.assertTrue(av.article_json_v1)
+        self.assertTrue(av.article_json_v1_snippet)
+
+        # UNSET (nothing UNSET)
+        av = article_logic.article_version(self.msid3, self.version)
+        self.assertTrue(av.article_json_v1)
+        self.assertTrue(av.article_json_v1_snippet)
+
+        # NOTSET (nothing ... not ... set ?)
+        av = article_logic.article_version(self.msid4, self.version)
+        self.assertFalse(av.article_json_v1)
+        self.assertFalse(av.article_json_v1_snippet)
