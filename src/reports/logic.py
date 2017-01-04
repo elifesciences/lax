@@ -21,11 +21,11 @@ def article_poa_vor_pubdates():
     def row(art):
         poa = art.earliest_poa()
         vor = art.earliest_vor()
-        return (utils.doi2msid(art.doi), ymd_dt(poa), ymd_dt(vor))
+        return (art.manuscript_id, ymd_dt(poa), ymd_dt(vor))
     query = models.Article.objects.all() \
         .exclude(type__in=['article-commentary', 'editorial', 'book-review', 'discussion', 'correction']) \
         .exclude(volume=None) \
-        .order_by('doi')
+        .order_by('manuscript_id')
     return imap(row, query)
 
 
