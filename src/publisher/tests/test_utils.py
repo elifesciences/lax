@@ -16,7 +16,7 @@ class TestUtils(base.BaseCase):
 
     def test_dxdoi_link(self):
         cases = [
-            ('eLife.09560', 'http://dx.doi.org/eLife.09560'),
+            ('eLife.09560', 'https://dx.doi.org/eLife.09560'),
         ]
         for given, expected in cases:
             self.assertEqual(utils.mk_dxdoi_link(given), expected)

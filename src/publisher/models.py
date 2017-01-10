@@ -2,7 +2,7 @@ from slugify import slugify
 from django.db import models
 #from .fields import JSONField
 from annoying.fields import JSONField
-from utils import second, firstnn, msid2doi
+from utils import second, firstnn, msid2doi, mk_dxdoi_link
 from django.core.exceptions import ObjectDoesNotExist
 
 POA, VOR = 'poa', 'vor'
@@ -158,7 +158,7 @@ class Article(models.Model):
         ordering = ('-date_initial_qc', )
 
     def dxdoi_url(self):
-        return utils.mk_dxdoi_link(self.doi)
+        return mk_dxdoi_link(self.doi)
 
     def get_absolute_url(self):
         return self.dxdoi_url()
