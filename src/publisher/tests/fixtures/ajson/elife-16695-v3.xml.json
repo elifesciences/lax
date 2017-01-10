@@ -1140,7 +1140,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig1-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig1-v3.jpg", 
                                 "sourceData": [
                                     {
                                         "doi": "10.7554/eLife.16695.004", 
@@ -1158,7 +1158,7 @@
                                         "filename": "elife-16695-fig1-data1-v3.docx"
                                     }
                                 ], 
-                                "filename": "elife-16695-fig1-v3"
+                                "filename": "elife-16695-fig1-v3.jpg"
                             }
                         ]
                     }, 
@@ -1184,7 +1184,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-v3.jpg", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1199,8 +1199,8 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp1-v3", 
-                                        "filename": "elife-16695-fig2-figsupp1-v3"
+                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp1-v3.jpg", 
+                                        "filename": "elife-16695-fig2-figsupp1-v3.jpg"
                                     }, 
                                     {
                                         "type": "image", 
@@ -1215,8 +1215,8 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp2-v3", 
-                                        "filename": "elife-16695-fig2-figsupp2-v3"
+                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp2-v3.jpg", 
+                                        "filename": "elife-16695-fig2-figsupp2-v3.jpg"
                                     }, 
                                     {
                                         "type": "image", 
@@ -1231,8 +1231,8 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp3-v3", 
-                                        "filename": "elife-16695-fig2-figsupp3-v3"
+                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp3-v3.jpg", 
+                                        "filename": "elife-16695-fig2-figsupp3-v3.jpg"
                                     }, 
                                     {
                                         "type": "image", 
@@ -1247,11 +1247,11 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp4-v3", 
-                                        "filename": "elife-16695-fig2-figsupp4-v3"
+                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp4-v3.jpg", 
+                                        "filename": "elife-16695-fig2-figsupp4-v3.jpg"
                                     }
                                 ], 
-                                "filename": "elife-16695-fig2-v3"
+                                "filename": "elife-16695-fig2-v3.jpg"
                             }
                         ]
                     }, 
@@ -1277,8 +1277,8 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig3-v3", 
-                                "filename": "elife-16695-fig3-v3"
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig3-v3.jpg", 
+                                "filename": "elife-16695-fig3-v3.jpg"
                             }, 
                             {
                                 "type": "image", 
@@ -1293,7 +1293,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-v3.jpg", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1308,11 +1308,11 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-figsupp1-v3", 
-                                        "filename": "elife-16695-fig4-figsupp1-v3"
+                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-figsupp1-v3.jpg", 
+                                        "filename": "elife-16695-fig4-figsupp1-v3.jpg"
                                     }
                                 ], 
-                                "filename": "elife-16695-fig4-v3"
+                                "filename": "elife-16695-fig4-v3.jpg"
                             }
                         ]
                     }, 
@@ -1360,7 +1360,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-v3.jpg", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1375,11 +1375,11 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-figsupp1-v3", 
-                                        "filename": "elife-16695-fig5-figsupp1-v3"
+                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-figsupp1-v3.jpg", 
+                                        "filename": "elife-16695-fig5-figsupp1-v3.jpg"
                                     }
                                 ], 
-                                "filename": "elife-16695-fig5-v3"
+                                "filename": "elife-16695-fig5-v3.jpg"
                             }, 
                             {
                                 "type": "paragraph", 
@@ -1413,7 +1413,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-v3.jpg", 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1428,11 +1428,11 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-figsupp1-v3", 
-                                        "filename": "elife-16695-fig6-figsupp1-v3"
+                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-figsupp1-v3.jpg", 
+                                        "filename": "elife-16695-fig6-figsupp1-v3.jpg"
                                     }
                                 ], 
-                                "filename": "elife-16695-fig6-v3"
+                                "filename": "elife-16695-fig6-v3.jpg"
                             }
                         ]
                     }
@@ -1526,7 +1526,7 @@
                         "content": [
                             {
                                 "type": "paragraph", 
-                                "text": "m<i>Per2<sup>Luc</sup></i> knockin mice (RRID <a href=\"https://scicrunch.org/resolver/IMSR_006852\">IMSR_006852</a>) and m<i>Cry2</i> knockout mouse (RRID <a href=\"https://scicrunch.org/resolver/IMSR_016185\">IMSR_016185</a>) were purchased from The Jackson Laboratory and crossed with h<i>CRY2</i> transgenic mice."
+                                "text": "m<i>Per2<sup>Luc</sup></i> knockin mice (RRID <a href=\"https://scicrunch.org/resolver/IMSR_JAX006852\">IMSR_JAX006852</a>) and m<i>Cry2</i> knockout mouse (RRID <a href=\"https://scicrunch.org/resolver/IMSR_JAX016185\">IMSR_JAX016185</a>) were purchased from The Jackson Laboratory and crossed with h<i>CRY2</i> transgenic mice."
                             }
                         ]
                     }, 
@@ -1812,7 +1812,8 @@
                 }, 
                 "volume": "3", 
                 "pages": "e3055", 
-                "doi": "10.1371/journal.pone.0003055"
+                "doi": "10.1371/journal.pone.0003055", 
+                "pmid": 18725972
             }, 
             {
                 "type": "journal", 
@@ -1888,7 +1889,8 @@
                     "last": "904", 
                     "range": "900\u2013904"
                 }, 
-                "doi": "10.1126/science.1141194"
+                "doi": "10.1126/science.1141194", 
+                "pmid": 17463251
             }, 
             {
                 "type": "journal", 
@@ -1964,7 +1966,8 @@
                     "last": "1405", 
                     "range": "1394\u20131405"
                 }, 
-                "doi": "10.1016/j.cell.2013.05.011"
+                "doi": "10.1016/j.cell.2013.05.011", 
+                "pmid": 23746849
             }, 
             {
                 "type": "journal", 
@@ -4125,7 +4128,8 @@
                     "last": "116", 
                     "range": "105\u2013116"
                 }, 
-                "doi": "10.1038/ng.520"
+                "doi": "10.1038/ng.520", 
+                "pmid": 20081858
             }, 
             {
                 "type": "journal", 
@@ -4257,7 +4261,8 @@
                     "last": "900", 
                     "range": "897\u2013900"
                 }, 
-                "doi": "10.1126/science.1141138"
+                "doi": "10.1126/science.1141138", 
+                "pmid": 17463252
             }, 
             {
                 "type": "journal", 
@@ -4298,7 +4303,8 @@
                     "last": "771", 
                     "range": "768\u2013771"
                 }, 
-                "doi": "10.1126/science.286.5440.768"
+                "doi": "10.1126/science.286.5440.768", 
+                "pmid": 10531061
             }, 
             {
                 "type": "journal", 
@@ -4360,7 +4366,8 @@
                     "last": "1080", 
                     "range": "1063\u20131080"
                 }, 
-                "doi": "10.1113/jphysiol.2012.242198"
+                "doi": "10.1113/jphysiol.2012.242198", 
+                "pmid": 23207594
             }, 
             {
                 "type": "journal", 
@@ -4443,7 +4450,8 @@
                     "last": "870", 
                     "range": "866\u2013870"
                 }, 
-                "doi": "10.1126/science.1174443"
+                "doi": "10.1126/science.1174443", 
+                "pmid": 19679812
             }, 
             {
                 "type": "journal", 
@@ -4512,7 +4520,8 @@
                     "last": "4473", 
                     "range": "4464\u20134473"
                 }, 
-                "doi": "10.1128/MCB.00711-14"
+                "doi": "10.1128/MCB.00711-14", 
+                "pmid": 25288642
             }, 
             {
                 "type": "journal", 
@@ -4602,7 +4611,8 @@
                     "last": "1118", 
                     "range": "1106\u20131118"
                 }, 
-                "doi": "10.1016/j.cell.2013.01.054"
+                "doi": "10.1016/j.cell.2013.01.054", 
+                "pmid": 23452856
             }, 
             {
                 "type": "journal", 
@@ -4713,7 +4723,8 @@
                     "last": "1097", 
                     "range": "1094\u20131097"
                 }, 
-                "doi": "10.1126/science.1223710"
+                "doi": "10.1126/science.1223710", 
+                "pmid": 22798407
             }, 
             {
                 "type": "journal", 
@@ -4893,7 +4904,8 @@
                     "last": "548", 
                     "range": "539\u2013548"
                 }, 
-                "doi": "10.1158/1940-6207.CAPR-09-0127"
+                "doi": "10.1158/1940-6207.CAPR-09-0127", 
+                "pmid": 20233903
             }, 
             {
                 "type": "journal", 
@@ -4976,7 +4988,8 @@
                     "last": "1065", 
                     "range": "1062\u20131065"
                 }, 
-                "doi": "10.1038/12502"
+                "doi": "10.1038/12502", 
+                "pmid": 10470086
             }, 
             {
                 "type": "journal", 
@@ -5073,7 +5086,8 @@
                     "last": "302", 
                     "range": "291\u2013302"
                 }, 
-                "doi": "10.1016/j.cmet.2012.12.017"
+                "doi": "10.1016/j.cmet.2012.12.017", 
+                "pmid": 23395175
             }, 
             {
                 "type": "journal", 
@@ -5124,7 +5138,8 @@
                 }, 
                 "volume": "8", 
                 "pages": "e71450", 
-                "doi": "10.1371/journal.pone.0071450"
+                "doi": "10.1371/journal.pone.0071450", 
+                "pmid": 23951166
             }, 
             {
                 "type": "journal", 
@@ -5207,7 +5222,8 @@
                     "last": "205", 
                     "range": "193\u2013205"
                 }, 
-                "doi": "10.1016/S0092-8674(00)81014-4"
+                "doi": "10.1016/S0092-8674(00)81014-4", 
+                "pmid": 10428031
             }, 
             {
                 "type": "journal", 
@@ -5307,7 +5323,8 @@
                 }, 
                 "volume": "5", 
                 "pages": "e9407", 
-                "doi": "10.1371/journal.pone.0009407"
+                "doi": "10.1371/journal.pone.0009407", 
+                "pmid": 20195522
             }, 
             {
                 "type": "journal", 
@@ -5404,7 +5421,8 @@
                     "last": "518", 
                     "range": "507\u2013518"
                 }, 
-                "doi": "10.1172/JCI58470"
+                "doi": "10.1172/JCI58470", 
+                "pmid": 22214848
             }, 
             {
                 "type": "journal", 
@@ -5434,7 +5452,8 @@
                 }, 
                 "volume": "6", 
                 "pages": "220", 
-                "doi": "10.1186/gb-2005-6-5-220"
+                "doi": "10.1186/gb-2005-6-5-220", 
+                "pmid": 15892880
             }, 
             {
                 "type": "journal", 
@@ -5510,7 +5529,8 @@
                     "last": "491", 
                     "range": "483\u2013491"
                 }, 
-                "doi": "10.1126/science.288.5465.483"
+                "doi": "10.1126/science.288.5465.483", 
+                "pmid": 10775102
             }, 
             {
                 "type": "journal", 
@@ -5544,7 +5564,8 @@
                     "last": "441", 
                     "range": "407\u2013441"
                 }, 
-                "doi": "10.1146/annurev.genom.5.061903.175925"
+                "doi": "10.1146/annurev.genom.5.061903.175925", 
+                "pmid": 15485355
             }, 
             {
                 "type": "journal", 
@@ -5585,7 +5606,8 @@
                     "last": "1419", 
                     "range": "1417\u20131419"
                 }, 
-                "doi": "10.1038/cr.2013.136"
+                "doi": "10.1038/cr.2013.136", 
+                "pmid": 24080726
             }, 
             {
                 "type": "journal", 
@@ -5661,7 +5683,8 @@
                     "last": "2534", 
                     "range": "2531\u20132534"
                 }, 
-                "doi": "10.1126/science.286.5449.2531"
+                "doi": "10.1126/science.286.5449.2531", 
+                "pmid": 10617474
             }, 
             {
                 "type": "journal", 
@@ -5730,7 +5753,8 @@
                     "last": "604", 
                     "range": "595\u2013604"
                 }, 
-                "doi": "10.1111/jsr.12144"
+                "doi": "10.1111/jsr.12144", 
+                "pmid": 24635757
             }, 
             {
                 "type": "journal", 
@@ -5764,7 +5788,8 @@
                     "last": "745", 
                     "range": "726\u2013745"
                 }, 
-                "doi": "10.1016/S0076-6879(05)93038-3"
+                "doi": "10.1016/S0076-6879(05)93038-3", 
+                "pmid": 15817321
             }, 
             {
                 "type": "journal", 
@@ -5833,7 +5858,8 @@
                     "last": "1612", 
                     "range": "1605\u20131612"
                 }, 
-                "doi": "10.1002/jcc.20084"
+                "doi": "10.1002/jcc.20084", 
+                "pmid": 15264254
             }, 
             {
                 "type": "journal", 
@@ -5867,7 +5893,8 @@
                     "last": "473", 
                     "range": "449\u2013473"
                 }, 
-                "doi": "10.1016/j.pop.2005.02.002"
+                "doi": "10.1016/j.pop.2005.02.002", 
+                "pmid": 15935195
             }, 
             {
                 "type": "journal", 
@@ -5929,7 +5956,8 @@
                     "last": "1094", 
                     "range": "1089\u20131094"
                 }, 
-                "doi": "10.1001/archneur.58.7.1089"
+                "doi": "10.1001/archneur.58.7.1089", 
+                "pmid": 11448298
             }, 
             {
                 "type": "journal", 
@@ -5963,7 +5991,8 @@
                     "last": "1399", 
                     "range": "1393\u20131399"
                 }, 
-                "doi": "10.1016/j.febslet.2011.02.038"
+                "doi": "10.1016/j.febslet.2011.02.038", 
+                "pmid": 21376720
             }, 
             {
                 "type": "journal", 
@@ -5997,7 +6026,8 @@
                     "last": "676", 
                     "range": "647\u2013676"
                 }, 
-                "doi": "10.1146/annurev.physiol.63.1.647"
+                "doi": "10.1146/annurev.physiol.63.1.647", 
+                "pmid": 11181971
             }, 
             {
                 "type": "journal", 
@@ -6066,7 +6096,8 @@
                     "last": "R1039", 
                     "range": "R1038\u2013R1039"
                 }, 
-                "doi": "10.1016/j.cub.2004.11.039"
+                "doi": "10.1016/j.cub.2004.11.039", 
+                "pmid": 15620633
             }, 
             {
                 "type": "journal", 
@@ -6121,7 +6152,8 @@
                     "last": "708", 
                     "range": "697\u2013708"
                 }, 
-                "doi": "10.1111/j.1356-9597.2004.00758.x"
+                "doi": "10.1111/j.1356-9597.2004.00758.x", 
+                "pmid": 15298678
             }, 
             {
                 "type": "journal", 
@@ -6218,7 +6250,8 @@
                     "last": "1019", 
                     "range": "1013\u20131019"
                 }, 
-                "doi": "10.1126/science.288.5468.1013"
+                "doi": "10.1126/science.288.5468.1013", 
+                "pmid": 10807566
             }, 
             {
                 "type": "journal", 
@@ -6412,7 +6445,8 @@
                     "last": "1023", 
                     "range": "1011\u20131023"
                 }, 
-                "doi": "10.1016/j.cell.2007.04.030"
+                "doi": "10.1016/j.cell.2007.04.030", 
+                "pmid": 17462724
             }, 
             {
                 "type": "journal", 
@@ -6491,7 +6525,8 @@
                 }, 
                 "volume": "5", 
                 "pages": "e12632", 
-                "doi": "10.1371/journal.pone.0012632"
+                "doi": "10.1371/journal.pone.0012632", 
+                "pmid": 20856823
             }, 
             {
                 "type": "journal", 
@@ -6576,7 +6611,8 @@
                 }, 
                 "volume": "7", 
                 "pages": "69", 
-                "doi": "10.3389/fnmol.2014.00069"
+                "doi": "10.3389/fnmol.2014.00069", 
+                "pmid": 25147498
             }, 
             {
                 "type": "journal", 
@@ -6603,7 +6639,8 @@
                     "last": "553", 
                     "range": "531\u2013553"
                 }, 
-                "doi": "10.1146/annurev.ne.18.030195.002531"
+                "doi": "10.1146/annurev.ne.18.030195.002531", 
+                "pmid": 7605073
             }, 
             {
                 "type": "journal", 
@@ -6679,7 +6716,8 @@
                     "last": "1043", 
                     "range": "1040\u20131043"
                 }, 
-                "doi": "10.1126/science.1057499"
+                "doi": "10.1126/science.1057499", 
+                "pmid": 11232563
             }, 
             {
                 "type": "journal", 
@@ -6797,7 +6835,8 @@
                     "last": "630", 
                     "range": "627\u2013630"
                 }, 
-                "doi": "10.1038/19323"
+                "doi": "10.1038/19323", 
+                "pmid": 10217146
             }, 
             {
                 "type": "journal", 
@@ -6977,7 +7016,8 @@
                     "last": "68", 
                     "range": "64\u201368"
                 }, 
-                "doi": "10.1038/nature11964"
+                "doi": "10.1038/nature11964", 
+                "pmid": 23503662
             }, 
             {
                 "type": "journal", 
@@ -7060,7 +7100,8 @@
                     "last": "644", 
                     "range": "640\u2013644"
                 }, 
-                "doi": "10.1038/nature03453"
+                "doi": "10.1038/nature03453", 
+                "pmid": 15800623
             }, 
             {
                 "type": "journal", 
@@ -7122,7 +7163,8 @@
                     "last": "70", 
                     "range": "59\u201370"
                 }, 
-                "doi": "10.1016/j.cell.2006.11.043"
+                "doi": "10.1016/j.cell.2006.11.043", 
+                "pmid": 17218255
             }, 
             {
                 "type": "journal", 
@@ -7254,7 +7296,8 @@
                     "last": "1105", 
                     "range": "1091\u20131105"
                 }, 
-                "doi": "10.1016/j.cell.2013.01.055"
+                "doi": "10.1016/j.cell.2013.01.055", 
+                "pmid": 23452855
             }, 
             {
                 "type": "journal", 
@@ -7420,7 +7463,8 @@
                     "last": "3686", 
                     "range": "3675\u20133686"
                 }, 
-                "doi": "10.1128/MCB.01864-08"
+                "doi": "10.1128/MCB.01864-08", 
+                "pmid": 19414601
             }, 
             {
                 "type": "journal", 
@@ -7593,7 +7637,8 @@
                     "last": "81", 
                     "range": "51\u201381"
                 }, 
-                "doi": "10.1016/B978-0-12-396971-2.00003-8"
+                "doi": "10.1016/B978-0-12-396971-2.00003-8", 
+                "pmid": 23899594
             }
         ], 
         "acknowledgements": [
@@ -7677,7 +7722,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "This is a misleading statement \u00e2\u20ac\u201c all of the references cited studied the combined effects on CRY1 and CRY2 of Fbxl3. The authors should therefore say: \"the protein stability of CRY1 and CRY2 is a critical determinant\u00e2\u20ac\u00a6\"."
+                    "text": "This is a misleading statement \u2013 all of the references cited studied the combined effects on CRY1 and CRY2 of Fbxl3. The authors should therefore say: \"the protein stability of CRY1 and CRY2 is a critical determinant\u2026\"."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7689,7 +7734,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "3) <a href=\"#SD1-data\">Figure 1\u00e2\u20ac\u201dsource data 1</a> and <a href=\"#fig1\">Figure 1A</a>:"
+                    "text": "3) <a href=\"#SD1-data\">Figure 1\u2014source data 1</a> and <a href=\"#fig1\">Figure 1A</a>:"
                 }, 
                 {
                     "type": "paragraph", 
@@ -7697,7 +7742,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "4) <a href=\"#fig2s1\">Figure 2\u00e2\u20ac\u201dfigure supplement 1C</a>:"
+                    "text": "4) <a href=\"#fig2s1\">Figure 2\u2014figure supplement 1C</a>:"
                 }, 
                 {
                     "type": "paragraph", 
@@ -7705,7 +7750,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "5) <a href=\"#fig2\">Figure 2D</a>; <a href=\"#fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2</a>:"
+                    "text": "5) <a href=\"#fig2\">Figure 2D</a>; <a href=\"#fig2s2\">Figure 2\u2014figure supplement 2</a>:"
                 }, 
                 {
                     "type": "paragraph", 
@@ -7713,7 +7758,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "6) <a href=\"#fig2s4\">Figure 2\u00e2\u20ac\u201dfigure supplement 4A</a>:"
+                    "text": "6) <a href=\"#fig2s4\">Figure 2\u2014figure supplement 4A</a>:"
                 }, 
                 {
                     "type": "paragraph", 
@@ -7721,15 +7766,15 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "7) Results section, \u00e2\u20ac\u0153Shortened period and reduced phase-shift in <i>hCRY2-A260T</i> mice\u00e2\u20ac\u009d: \"Of note, there is no significant difference in the periods and phase-shifting of hCRY2-WT transgenic vs. transgene negative mice (<a href=\"#fig2\">Figure 2E,F</a>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of hCRY2.\""
+                    "text": "7) Results section, \u201cShortened period and reduced phase-shift in <i>hCRY2-A260T</i> mice\u201d: \"Of note, there is no significant difference in the periods and phase-shifting of hCRY2-WT transgenic vs. transgene negative mice (<a href=\"#fig2\">Figure 2E, F</a>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of hCRY2.\""
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "This is not the case for the activity offset in <a href=\"#fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2A</a>, though?"
+                    "text": "This is not the case for the activity offset in <a href=\"#fig2s2\">Figure 2\u2014figure supplement 2A</a>, though?"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "8) <a href=\"#fig4s1\">Figure 4\u00e2\u20ac\u201dfigure supplement 1C</a>: The quantification does not seem to match the shown WB at all. Rather, in the WB, the WT and mutant results seem essentially indistinguishable."
+                    "text": "8) <a href=\"#fig4s1\">Figure 4\u2014figure supplement 1C</a>: The quantification does not seem to match the shown WB at all. Rather, in the WB, the WT and mutant results seem essentially indistinguishable."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7754,7 +7799,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "We have added a table summarizing human sleep phenotype in this submission (Figure 1\u00e2\u20ac\u201dfigure supplement Table. 1). We have interviewed the proband\u00e2\u20ac\u2122s mother who also has the A260T mutation. She is not included in the Supplement Table 1. We could not perform sleep log recording or questionnaire diagnosis because she was 91 years old when phenotyped. However, in the interview, she described that she habitually woke up at 5:00 in the morning without alarm clock at least since she was 31 years old when she gave birth to her first child. It was hard to categorize the proband\u00e2\u20ac\u2122s nephew because of his young age."
+                    "text": "We have added a table summarizing human sleep phenotype in this submission (Figure 1\u2014figure supplement Table. 1). We have interviewed the proband\u2019s mother who also has the A260T mutation. She is not included in the Supplement Table 1. We could not perform sleep log recording or questionnaire diagnosis because she was 91 years old when phenotyped. However, in the interview, she described that she habitually woke up at 5:00 in the morning without alarm clock at least since she was 31 years old when she gave birth to her first child. It was hard to categorize the proband\u2019s nephew because of his young age."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7770,7 +7815,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "We understand the family in this study is not big enough to conclude that A260T mutation is causative for FASP base on human genetics data alone (i.e. by linkage analysis). That\u00e2\u20ac\u2122s why we generated the mouse model and characterized their behavior to see how A260T mutation affects behavioral and cellular rhythms on a homogeneous genetic background. One thing that we\u00e2\u20ac\u2122ve learned from study of familial human behavioral traits is the challenge of recruiting additional family members. Sleep is NOT a disease phenotype, so people are not as motivated to participate with all the questionnaires, interviews, and tests that we would like them to do, especially when they are not getting paid for any of these. In order to overcome this challenge, our approach has been trying our best to recruit as many subjects as possible in each family followed by mutation screening. Proving that a mutation is causal requires demonstration of the behavioral phenotype in a mouse model and the altered molecular functions in vitro/in vivo. If the family has many mutation carriers who have the sleep trait but the mouse model does not demonstrate the phenotype, then we cannot follow up with the mutation even if the number of mutation carriers is higher."
+                    "text": "We understand the family in this study is not big enough to conclude that A260T mutation is causative for FASP base on human genetics data alone (i.e. by linkage analysis). That\u2019s why we generated the mouse model and characterized their behavior to see how A260T mutation affects behavioral and cellular rhythms on a homogeneous genetic background. One thing that we\u2019ve learned from study of familial human behavioral traits is the challenge of recruiting additional family members. Sleep is NOT a disease phenotype, so people are not as motivated to participate with all the questionnaires, interviews, and tests that we would like them to do, especially when they are not getting paid for any of these. In order to overcome this challenge, our approach has been trying our best to recruit as many subjects as possible in each family followed by mutation screening. Proving that a mutation is causal requires demonstration of the behavioral phenotype in a mouse model and the altered molecular functions in vitro/in vivo. If the family has many mutation carriers who have the sleep trait but the mouse model does not demonstrate the phenotype, then we cannot follow up with the mutation even if the number of mutation carriers is higher."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7802,7 +7847,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "The averaged goodness of sine-fitting was 91.9 \u00c2\u00b1 3.4% for CRY2-WT and 86.5 \u00c2\u00b1 3.7% for A260T, respectively."
+                    "text": "The averaged goodness of sine-fitting was 91.9 \u00b1 3.4% for CRY2-WT and 86.5 \u00b1 3.7% for A260T, respectively."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7810,7 +7855,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "The averaged goodness of sine-fitting was 98.2 \u00c2\u00b1 0.32% for CRY2-WT and 84.8 \u00c2\u00b1 4.5% for A260T, respectively."
+                    "text": "The averaged goodness of sine-fitting was 98.2 \u00b1 0.32% for CRY2-WT and 84.8 \u00b1 4.5% for A260T, respectively."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7818,7 +7863,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "The averaged goodness of sine-fitting was 89.9 \u00c2\u00b1 0.43% for CRY2-WT, 93 \u00c2\u00b1 0.18% for A260T line #1 and 94.2 \u00c2\u00b1 0.19% for A260T line #2 respectively."
+                    "text": "The averaged goodness of sine-fitting was 89.9 \u00b1 0.43% for CRY2-WT, 93 \u00b1 0.18% for A260T line #1 and 94.2 \u00b1 0.19% for A260T line #2 respectively."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7826,7 +7871,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "The averaged goodness of sine-fitting was 80.4 \u00c2\u00b1 1.04% for CRY2-WT Cell line#1, 82.1 \u00c2\u00b1 2.78% for CRY2-WT Cell line#2, 81.0 \u00c2\u00b1 0.82%for CRY2-A260T Cell line #1, 78.0 \u00c2\u00b1 1.63%for CRY2-A260T Cell line #2 and 78.3 \u00c2\u00b1 1.45%for Cry2 KO, respectively."
+                    "text": "The averaged goodness of sine-fitting was 80.4 \u00b1 1.04% for CRY2-WT Cell line#1, 82.1 \u00b1 2.78% for CRY2-WT Cell line#2, 81.0 \u00b1 0.82%for CRY2-A260T Cell line #1, 78.0 \u00b1 1.63%for CRY2-A260T Cell line #2 and 78.3 \u00b1 1.45%for Cry2 KO, respectively."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7850,7 +7895,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "In the initial submission, data was shown for both WT and Mutant without KL001, and WT and Mutant with KL001. We\u00e2\u20ac\u2122ve added a new panel to <a href=\"#fig5\">Figure 5D</a> and in <a href=\"#fig5s1\">Figure 5\u00e2\u20ac\u201dfigure supplement 1A</a>. The new panel shows differences in half-life compared to the no-drug control as this reviewer recommended."
+                    "text": "In the initial submission, data was shown for both WT and Mutant without KL001, and WT and Mutant with KL001. We\u2019ve added a new panel to <a href=\"#fig5\">Figure 5D</a> and in Figure 5\u2014figure supplement A. The new panel shows differences in half-life compared to the no-drug control as this reviewer recommended."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7866,7 +7911,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "It is well known that mice have strong masking effect by light. Here, it appears that activity onset around the LD transition is masked by light signal in wheel-running analysis, although we detected advanced activity offset. However, <a href=\"#fig2\">Figure 2A-C</a> shows the advanced \u00e2\u20ac\u0153locomotor\u00e2\u20ac\u009d activity onset by video recording. Thus, we think that while CRY2-A260T Tg mice wake earlier than WT mice, they are not running on the wheel, likely due to masking to light. In addition, the inconsistency among the analysis tools can be explained by the fact that wheel-running exercise alters mouse behavioral rhythms (Webb et al., Behavioral Neuroscience, 2014) (especially shortens the free-running period). Thus, wheel-running does not reflect the \u00e2\u20ac\u0153sleep-wake\u00e2\u20ac\u009d pattern perfectly. We also need to remember that humans do not run on wheels all day long, so wheel-running behavior is likely not the best reflection of human sleep wake behavior. We discussed these points and also the differences in the phenotype of our mice in the Discussion section. Also, we understand so little about the relationship between period length and phase angle of entrainment to speak with too much certainty about what is expected in terms of phase advance for any given endogenous period. We accept that there are differences between mouse and human physiology. The conditions under which we measure such things is also different in mice than in humans (see above). Finally, it is also possible that the phase advance in the humans is due to a combination of effects of period shortening and altered entrainment. We have attempted to enroll these subjects in studies in temporal isolation by our collaborator, Jeanne Duffy. Unfortunately, these subjects did not want to do such an intensive study. We did observed abnormal phase-shifting in the mice, which also is likely to contribute to the phenotype."
+                    "text": "It is well known that mice have strong masking effect by light. Here, it appears that activity onset around the LD transition is masked by light signal in wheel-running analysis, although we detected advanced activity offset. However, <a href=\"#fig2\">Figure 2A-C</a> shows the advanced \u201clocomotor\u201d activity onset by video recording. Thus, we think that while CRY2-A260T Tg mice wake earlier than WT mice, they are not running on the wheel, likely due to masking to light. In addition, the inconsistency among the analysis tools can be explained by the fact that wheel-running exercise alters mouse behavioral rhythms (Webb et al., Behavioral Neuroscience, 2014) (especially shortens the free-running period). Thus, wheel-running does not reflect the \u201csleep-wake\u201d pattern perfectly. We also need to remember that humans do not run on wheels all day long, so wheel-running behavior is likely not the best reflection of human sleep wake behavior. We discussed these points and also the differences in the phenotype of our mice in the Discussion section. Also, we understand so little about the relationship between period length and phase angle of entrainment to speak with too much certainty about what is expected in terms of phase advance for any given endogenous period. We accept that there are differences between mouse and human physiology. The conditions under which we measure such things is also different in mice than in humans (see above). Finally, it is also possible that the phase advance in the humans is due to a combination of effects of period shortening and altered entrainment. We have attempted to enroll these subjects in studies in temporal isolation by our collaborator, Jeanne Duffy. Unfortunately, these subjects did not want to do such an intensive study. We did observed abnormal phase-shifting in the mice, which also is likely to contribute to the phenotype."
                 }, 
                 {
                     "type": "paragraph", 
@@ -7886,7 +7931,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": " <i>This is a misleading statement \u00e2\u20ac\u201c all of the references cited studied the combined effects on CRY1 and CRY2 of Fbxl3. The authors should therefore say: \"the protein stability of CRY1 and CRY2 is a critical determinant\u00e2\u20ac\u00a6\".</i>"
+                    "text": " <i>This is a misleading statement \u2013 all of the references cited studied the combined effects on CRY1 and CRY2 of Fbxl3. The authors should therefore say: \"the protein stability of CRY1 and CRY2 is a critical determinant\u2026\".</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -7910,7 +7955,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>3) <a href=\"#SD1-data\">Figure 1\u00e2\u20ac\u201dsource data 1</a> and <a href=\"#fig1\">Figure 1A</a>:</i> "
+                    "text": "<i>3) <a href=\"#SD1-data\">Figure 1\u2014source data 1</a> and <a href=\"#fig1\">Figure 1A</a>:</i> "
                 }, 
                 {
                     "type": "paragraph", 
@@ -7918,19 +7963,19 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "As pointed out by this reviewer, this subject\u00e2\u20ac\u2122s phenotype cannot be categorized as FASP. However, in adolescence and young adult life, there is a well recognized tendency to be more phase delayed. When phenotyped at age 21, subject 101374 was at the statistical peak age of maximum phase delay and was prone to be even more phase-delayed by his male sex (Roenneberg T et al. A marker for the end of adolescence. Curr Biol 2004;14(24):R1038-9.)."
+                    "text": "As pointed out by this reviewer, this subject\u2019s phenotype cannot be categorized as FASP. However, in adolescence and young adult life, there is a well recognized tendency to be more phase delayed. When phenotyped at age 21, subject 101374 was at the statistical peak age of maximum phase delay and was prone to be even more phase-delayed by his male sex (Roenneberg T et al. A marker for the end of adolescence. Curr Biol 2004;14(<a href=\"#bib24\">24</a>):R1038-9.)."
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "In the recent authoritative review of advanced sleep phase in the International Classification of Sleep Disorders (American Academy of Sleep Medicine. International classification of sleep disorders, 3<sup>rd</sup> ed. Darien, IL: American Academy of Sleep Medicine, 2014) there was insufficient peer-reviewed data on age-of-onset in Advanced Sleep Phase to even be mentioned, other than the trend toward higher prevalence in \u00e2\u20ac\u0153older age.\u00e2\u20ac\u009d"
+                    "text": "In the recent authoritative review of advanced sleep phase in the International Classification of Sleep Disorders (American Academy of Sleep Medicine. International classification of sleep disorders, 3<sup>rd</sup> ed. Darien, IL: American Academy of Sleep Medicine, 2014) there was insufficient peer-reviewed data on age-of-onset in Advanced Sleep Phase to even be mentioned, other than the trend toward higher prevalence in \u201colder age.\u201d"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "Thus, we have always considered individuals under age 30 who do not meet our strict diagnostic criteria to be \u00e2\u20ac\u0153unknown\u00e2\u20ac\u009d. It is likely that he will become more phase advanced as he approaches age 30 (still young enough so as not to be confused with the ASPS of aging). Because non-penetrance does occur, it is also possible that this individual will never manifest FASP. We have modified the discussion to reflect this important issue."
+                    "text": "Thus, we have always considered individuals under age 30 who do not meet our strict diagnostic criteria to be \u201cunknown\u201d. It is likely that he will become more phase advanced as he approaches age 30 (still young enough so as not to be confused with the ASPS of aging). Because non-penetrance does occur, it is also possible that this individual will never manifest FASP. We have modified the discussion to reflect this important issue."
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": " <i>4) <a href=\"#fig2s1\">Figure 2\u00e2\u20ac\u201dfigure supplement 1C</a>:</i> "
+                    "text": " <i>4) <a href=\"#fig2s1\">Figure 2\u2014figure supplement 1C</a>:</i> "
                 }, 
                 {
                     "type": "paragraph", 
@@ -7938,11 +7983,11 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "We did not detect significant differences in activity onset time and offset time due to the large variations, while there is a trend of advanced activity phase in hCRY2-A260T/Cry2 KO. However, we observed a significantly different activity and resting pattern (<a href=\"#fig2s1\">Figure 2\u00e2\u20ac\u201dfigure supplement 1C</a>, left) around ZT12-13 and ZT 22-0 to support the advanced sleep/wake phase. We didn\u00e2\u20ac\u2122t have enough mice to do similar statistical analysis and agree that it is not clear how early the activity onset (immobility offset) is advanced in hCRY2-A260T/Cry2 KO mice from the profile data. We have modified the description in the main text accordingly."
+                    "text": "We did not detect significant differences in activity onset time and offset time due to the large variations, while there is a trend of advanced activity phase in hCRY2-A260T/Cry2 KO. However, we observed a significantly different activity and resting pattern (<a href=\"#fig1\">Figure 2\u2014figure supplement 1C</a>, left) around ZT12-13 and ZT 22-0 to support the advanced sleep/wake phase. We didn\u2019t have enough mice to do similar statistical analysis and agree that it is not clear how early the activity onset (immobility offset) is advanced in hCRY2-A260T/Cry2 KO mice from the profile data. We have modified the description in the main text accordingly."
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": " <i>5) <a href=\"#fig2\">Figure 2D</a>; <a href=\"#fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplements 2</a>:</i> "
+                    "text": " <i>5) <a href=\"#fig2\">Figure 2D</a>; <a href=\"#fig2s2\">Figure 2\u2014figure supplements 2</a>:</i> "
                 }, 
                 {
                     "type": "paragraph", 
@@ -7950,15 +7995,15 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "The activity offset was quantified and shown in <a href=\"#fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2A</a>, middle panel. The activity onset was also quantified, but there was no significant phenotype (data not shown). We also show the activity profile in <a href=\"#fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplement 2A</a> (left panel, average of 19 mice for each Tg line, and 7 mice for WT) as it is hard to interpret from actogram of a single animal."
+                    "text": "The activity offset was quantified and shown in <a href=\"#fig2s2\">Figure 2\u2014figure supplement 2A</a>, middle panel. The activity onset was also quantified, but there was no significant phenotype (data not shown). We also show the activity profile in <a href=\"#fig2s2\">Figure 2\u2014figure supplement 2A</a> (left panel, average of 19 mice for each Tg line, and 7 mice for WT) as it is hard to interpret from actogram of a single animal."
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "As pointed out by this reviewer, mice carrying the hCry2-WT transgene showed delayed activity offset vs. WT littermates. We also found that a hCRY2 transgene (both WT and A260T) lengthened the active period (\u00ce\u00b1) in DD (data not shown) and increased total wake time in LD (EEG data, data not shown), suggesting that hCRY2 overexpression affects sleep homeostasis. This leads to delayed activity offset in hCry2-WT-Tg mice vs. WT littermates. Thus, it is ideal that hCry2-A260T-Tg should be compared with hCry2-WT-Tg mice. See also comment 7 below."
+                    "text": "As pointed out by this reviewer, mice carrying the hCry2-WT transgene showed delayed activity offset vs. WT littermates. We also found that a hCRY2 transgene (both WT and A260T) lengthened the active period (\u03b1) in DD (data not shown) and increased total wake time in LD (EEG data, data not shown), suggesting that hCRY2 overexpression affects sleep homeostasis. This leads to delayed activity offset in hCry2-WT-Tg mice vs. WT littermates. Thus, it is ideal that hCry2-A260T-Tg should be compared with hCry2-WT-Tg mice. See also comment 7 below."
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": " <i>6) <a href=\"#fig2s4\">Figure 2\u00e2\u20ac\u201dfigure supplement 4A</a>:</i> "
+                    "text": " <i>6) <a href=\"#fig2s4\">Figure 2\u2014figure supplement 4A</a>:</i> "
                 }, 
                 {
                     "type": "paragraph", 
@@ -7966,23 +8011,23 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "In <a href=\"#fig3\">Figure 3E</a>, the circadian period of Cry2 KO (24.28 \u00c2\u00b1 0.28 hr) was shortened by hCRY2-WT transgene (#1 24.1 \u00c2\u00b1 0.00 hr; #2 23.65 \u00c2\u00b1 0.18 hr). The circadian period of wheel-running activity of Cry2 KO (24.41 \u00c2\u00b1 0.06 hr) was longer than that of hCRY2-WT/Cry2 KO mice (24.34 hr \u00c2\u00b1 0.14 hr). We predicted that the expression of the human CRY2 transgene is much lower than that of mouse endogenous CRY2 and that the human wild-type CRY2 transgene partially rescued the Cry2 KO phenotype."
+                    "text": "In <a href=\"#fig3\">Figure 3E</a>, the circadian period of Cry2 KO (24.28 +/- 0.28 hr) was shortened by hCRY2-WT transgene (#1 24.1 +/- 0.00 hr; #2 23.65 +/- 0.18 hr). The circadian period of wheel-running activity of Cry2 KO (24.41 +/- 0.06 hr) was longer than that of hCRY2-WT/Cry2 KO mice (24.34 hr +/- 0.14 hr). We predicted that the expression of the human CRY2 transgene is much lower than that of mouse endogenous CRY2 and that the human wild-type CRY2 transgene partially rescued the Cry2 KO phenotype."
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": " <i>7) Results section, \u00e2\u20ac\u0153Shortened period and reduced phase-shift in hCRY2-A260T mice\u00e2\u20ac\u009d: \"Of note, there is no significant difference in the periods and phase-shifting of hCRY2-WT transgenic vs. transgene negative mice (<a href=\"#fig2\">Figure 2E,F</a>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of hCRY2.\"</i> "
+                    "text": " <i>7) Results section, \u201cShortened period and reduced phase-shift in hCRY2-A260T mice\u201d: \"Of note, there is no significant difference in the periods and phase-shifting of hCRY2-WT transgenic vs. transgene negative mice (<a href=\"#fig2\">Figure 2E, F</a>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of hCRY2.\"</i> "
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>This is not the case for the activity offset in <a href=\"#fig2s2\">Figure 2\u00e2\u20ac\u201dfigure supplements 2</a>, though?</i> "
+                    "text": "<i>This is not the case for the activity offset in <a href=\"#fig2s2\">Figure 2\u2014figure supplements 2</a>, though?</i> "
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "As pointed out by this reviewer, mice carrying the hCry2-WT transgene showed delayed activity offset vs. WT littermate. As described above (comment 5), we also found that a hCRY2 transgene (both WT and A260T) lengthened the active period (\u00ce\u00b1) in DD (data not shown) and increased total wake time in LD (EEG data, data not shown), suggesting that hCRY2 overexpression affects sleep homeostasis. This leads to delayed activity offset in hCry2-WT-Tg mice vs. WT littermates. In the manuscript, we intended to mention that the circadian behavior (not sleep homeostasis) was not affected by the transgene."
+                    "text": "As pointed out by this reviewer, mice carrying the hCry2-WT transgene showed delayed activity offset vs. WT littermate. As described above (comment 5), we also found that a hCRY2 transgene (both WT and A260T) lengthened the active period (\u03b1) in DD (data not shown) and increased total wake time in LD (EEG data, data not shown), suggesting that hCRY2 overexpression affects sleep homeostasis. This leads to delayed activity offset in hCry2-WT-Tg mice vs. WT littermates. In the manuscript, we intended to mention that the circadian behavior (not sleep homeostasis) was not affected by the transgene."
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": " <i>8) <a href=\"#fig4s1\">Figure 4\u00e2\u20ac\u201dfigure supplement 1C</a>: The quantification does not seem to match the shown WB at all. Rather, in the WB, the WT and mutant results seem essentially indistinguishable.</i> "
+                    "text": " <i>8) <a href=\"#fig4s1\">Figure 4\u2014figure supplement 1C</a>: The quantification does not seem to match the shown WB at all. Rather, in the WB, the WT and mutant results seem essentially indistinguishable.</i> "
                 }, 
                 {
                     "type": "paragraph", 

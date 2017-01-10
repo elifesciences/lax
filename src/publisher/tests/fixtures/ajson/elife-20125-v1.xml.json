@@ -46,6 +46,8 @@
         }, 
         "additionalFiles": [
             {
+                "id": "SD1-data", 
+                "title": "Supplementary file 1.", 
                 "filename": "elife-20125-supp-v1.zip", 
                 "mediaType": "application/zip", 
                 "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp-v1.zip"
@@ -75,20 +77,6 @@
                         {
                             "type": "person", 
                             "name": {
-                                "index": "Bilguvar, Kaya", 
-                                "preferred": "Kaya Bilguvar"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Tikhonova, Irina", 
-                                "preferred": "Irina Tikhonova"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
                                 "index": "Mane, Shrikant", 
                                 "preferred": "Shrikant Mane"
                             }
@@ -104,13 +92,6 @@
                     "awardId": "M#M156301", 
                     "id": "par-2", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Brooks, Eric D", 
-                                "preferred": "Eric D Brooks"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -132,13 +113,6 @@
                         {
                             "type": "person", 
                             "name": {
-                                "index": "Timberlake, Andrew T", 
-                                "preferred": "Andrew T Timberlake"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
                                 "index": "Zaidi, Samir", 
                                 "preferred": "Samir Zaidi"
                             }
@@ -154,41 +128,6 @@
                     }, 
                     "id": "par-4", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Timberlake, Andrew T", 
-                                "preferred": "Andrew T Timberlake"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Choi, Jungmin", 
-                                "preferred": "Jungmin Choi"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Zaidi, Samir", 
-                                "preferred": "Samir Zaidi"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Nelson-Williams, Carol", 
-                                "preferred": "Carol Nelson-Williams"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Loring, Erin", 
-                                "preferred": "Erin Loring"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -217,8 +156,7 @@
             "generated": [
                 {
                     "title": "Yale Center for Mendelian Genomics", 
-                    "uri": "https://publishing-cdn.elifesciences.org/20125/http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1", 
-                    "filename": "study.cgi?study_id=phs000744.v2.p1", 
+                    "uri": "http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1", 
                     "details": "Publicly available at the dbGaP (accession no: phs000744)", 
                     "authors": [
                         {

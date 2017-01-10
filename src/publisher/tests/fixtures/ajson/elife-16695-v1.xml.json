@@ -473,7 +473,9 @@
             {
                 "mediaType": "application/zip", 
                 "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-supp-v1.zip", 
-                "filename": "elife-16695-supp-v1.zip"
+                "filename": "elife-16695-supp-v1.zip", 
+                "id": "SD1-data", 
+                "title": "Supplementary file 1."
             }
         ]
     }

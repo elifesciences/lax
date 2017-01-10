@@ -236,5 +236,8 @@ def revalidate_report(results):
 
         ('total-with-article-json', len(_set) + len(_reset)),
         ('total-without-article-json', len(_not_set) + len(_unset)),
+
+        ('raw-set', _set),
+        ('raw-unset', _unset),
     ])
     return report
