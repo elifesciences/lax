@@ -52,7 +52,7 @@ def decision_codes():
 
 class Article(models.Model):
     journal = models.ForeignKey(Journal)
-    manuscript_id = models.PositiveIntegerField(unique=True, help_text="article identifier from beginning of submission process right through to end of publication.")
+    manuscript_id = models.BigIntegerField(unique=True, help_text="article identifier from beginning of submission process right through to end of publication.")
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
