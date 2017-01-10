@@ -598,4 +598,4 @@ class UnicodePreserved(BaseCase):
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid, version=self.version)
 
         given = av.article_json_v1['authors'][1]['name']['preferred']
-        self.assertEqual(expected + 'a', given)
+        self.assertEqual(expected, given)
