@@ -46,6 +46,8 @@
         }, 
         "additionalFiles": [
             {
+                "id": "SD1-data", 
+                "title": "Supplementary file 1.", 
                 "filename": "elife-20105-supp-v1.zip", 
                 "mediaType": "application/zip", 
                 "uri": "https://publishing-cdn.elifesciences.org/20105/elife-20105-supp-v1.zip"
@@ -73,13 +75,6 @@
                     "awardId": "PO1 AI091580", 
                     "id": "par-1", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Weiss, Arthur", 
-                                "preferred": "Arthur Weiss"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -116,13 +111,6 @@
                     }, 
                     "id": "par-3", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Wang, Qi", 
-                                "preferred": "Qi Wang"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {

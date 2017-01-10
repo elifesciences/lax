@@ -988,41 +988,6 @@
                         {
                             "type": "person", 
                             "name": {
-                                "index": "Timberlake, Andrew T", 
-                                "preferred": "Andrew T Timberlake"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Choi, Jungmin", 
-                                "preferred": "Jungmin Choi"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Zaidi, Samir", 
-                                "preferred": "Samir Zaidi"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Nelson-Williams, Carol", 
-                                "preferred": "Carol Nelson-Williams"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Loring, Erin", 
-                                "preferred": "Erin Loring"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
                                 "index": "Lifton, Richard P", 
                                 "preferred": "Richard P Lifton"
                             }
@@ -1039,13 +1004,6 @@
                     "awardId": "Medical Scientist Training Program, NIH/NIGMS T32GM007205", 
                     "id": "par-2", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Brooks, Eric D", 
-                                "preferred": "Eric D Brooks"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -1067,34 +1025,6 @@
                         {
                             "type": "person", 
                             "name": {
-                                "index": "Bilguvar, Kaya", 
-                                "preferred": "Kaya Bilguvar"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Tikhonova, Irina", 
-                                "preferred": "Irina Tikhonova"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Mane, Shrikant", 
-                                "preferred": "Shrikant Mane"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Loring, Erin", 
-                                "preferred": "Erin Loring"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
                                 "index": "Lifton, Richard P", 
                                 "preferred": "Richard P Lifton"
                             }
@@ -1110,27 +1040,6 @@
                     }, 
                     "id": "par-4", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Bilguvar, Kaya", 
-                                "preferred": "Kaya Bilguvar"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Tikhonova, Irina", 
-                                "preferred": "Irina Tikhonova"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Mane, Shrikant", 
-                                "preferred": "Shrikant Mane"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -1165,8 +1074,7 @@
             "generated": [
                 {
                     "title": "Yale Center for Mendelian Genomics", 
-                    "uri": "https://publishing-cdn.elifesciences.org/20125/http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1", 
-                    "filename": "study.cgi?study_id=phs000744.v2.p1", 
+                    "uri": "http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1", 
                     "details": "Publicly available at dbGaP (accession no: phs000744)", 
                     "authors": [
                         {
@@ -1283,7 +1191,7 @@
                     {
                         "doi": "10.7554/eLife.20125.003", 
                         "title": "Phenotypes of midline craniosynostosis.", 
-                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig1-v3", 
+                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig1-v3.jpg", 
                         "label": "Figure 1.", 
                         "caption": [
                             {
@@ -1292,7 +1200,7 @@
                             }
                         ], 
                         "alt": "", 
-                        "filename": "elife-20125-fig1-v3", 
+                        "filename": "elife-20125-fig1-v3.jpg", 
                         "type": "image", 
                         "id": "fig1"
                     }, 
@@ -1376,7 +1284,7 @@
                                     {
                                         "doi": "10.7554/eLife.20125.009", 
                                         "title": "Plots of independent Illumina sequencing reads in a parent-offspring trio showing de novo <i>SMAD6</i> mutation.", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp1-v3", 
+                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp1-v3.jpg", 
                                         "label": "Figure 2\u2014figure supplement 1.", 
                                         "caption": [
                                             {
@@ -1385,14 +1293,14 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "filename": "elife-20125-fig2-figsupp1-v3", 
+                                        "filename": "elife-20125-fig2-figsupp1-v3.jpg", 
                                         "type": "image", 
                                         "id": "fig2s1"
                                     }, 
                                     {
                                         "doi": "10.7554/eLife.20125.010", 
                                         "title": "Confirmation of <i>SMAD6</i> mutations by Sanger sequencing of PCR products.", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp2-v3", 
+                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp2-v3.jpg", 
                                         "label": "Figure 2\u2014figure supplement 2.", 
                                         "caption": [
                                             {
@@ -1401,14 +1309,14 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "filename": "elife-20125-fig2-figsupp2-v3", 
+                                        "filename": "elife-20125-fig2-figsupp2-v3.jpg", 
                                         "type": "image", 
                                         "id": "fig2s2"
                                     }
                                 ], 
                                 "doi": "10.7554/eLife.20125.006", 
                                 "title": "Segregation of <i>SMAD6</i> mutations and <i>BMP2</i> SNP genotypes in pedigrees with midline craniosynostosis.", 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-v3.jpg", 
                                 "label": "Figure 2.", 
                                 "caption": [
                                     {
@@ -1449,7 +1357,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "filename": "elife-20125-fig2-v3", 
+                                "filename": "elife-20125-fig2-v3.jpg", 
                                 "type": "image", 
                                 "id": "fig2"
                             }, 
@@ -1488,7 +1396,7 @@
                                     {
                                         "doi": "10.7554/eLife.20125.014", 
                                         "title": "Quantile-quantile plots comparing all transmitted, damaging variants in protein-coding genes in 191 probands with midline craniosynostosis to the expected binomial distribution.", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp1-v3", 
+                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp1-v3.jpg", 
                                         "label": "Figure 3\u2014figure supplement 1.", 
                                         "caption": [
                                             {
@@ -1497,14 +1405,14 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "filename": "elife-20125-fig3-figsupp1-v3", 
+                                        "filename": "elife-20125-fig3-figsupp1-v3.jpg", 
                                         "type": "image", 
                                         "id": "fig3s1"
                                     }, 
                                     {
                                         "doi": "10.7554/eLife.20125.015", 
                                         "title": "Principal-component analysis of 191 probands and 3337 European autism controls.", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp2-v3", 
+                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp2-v3.jpg", 
                                         "label": "Figure 3\u2014figure supplement 2.", 
                                         "caption": [
                                             {
@@ -1513,14 +1421,14 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "filename": "elife-20125-fig3-figsupp2-v3", 
+                                        "filename": "elife-20125-fig3-figsupp2-v3.jpg", 
                                         "type": "image", 
                                         "id": "fig3s2"
                                     }, 
                                     {
                                         "doi": "10.7554/eLife.20125.016", 
                                         "title": "Quantile-quantile plot of observed versus expected p-values comparing the burden of damaging (LOF + D-mis) variants in protein-coding genes in craniosynostosis cases and controls.", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp3-v3", 
+                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp3-v3.jpg", 
                                         "label": "Figure 3\u2014figure supplement 3.", 
                                         "caption": [
                                             {
@@ -1529,14 +1437,14 @@
                                             }
                                         ], 
                                         "alt": "", 
-                                        "filename": "elife-20125-fig3-figsupp3-v3", 
+                                        "filename": "elife-20125-fig3-figsupp3-v3.jpg", 
                                         "type": "image", 
                                         "id": "fig3s3"
                                     }
                                 ], 
                                 "doi": "10.7554/eLife.20125.012", 
                                 "title": "Quantile-quantile plots of observed versus expected p-values comparing the burden of rare LOF and damaging (LOF + D-mis) variants in protein-coding genes in craniosynostosis cases.", 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-v3.jpg", 
                                 "label": "Figure 3.", 
                                 "caption": [
                                     {
@@ -1556,7 +1464,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "filename": "elife-20125-fig3-v3", 
+                                "filename": "elife-20125-fig3-v3.jpg", 
                                 "type": "image", 
                                 "id": "fig3"
                             }, 
@@ -1629,7 +1537,7 @@
                             {
                                 "doi": "10.7554/eLife.20125.019", 
                                 "title": "SMAD6 inhibits osteoblast differentiation by inhibiting BMP-mediated SMAD signaling (<a href=\"#bib31\">Salazar et al., 2016</a>).", 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig4-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig4-v3.jpg", 
                                 "label": "Figure 4.", 
                                 "caption": [
                                     {
@@ -1638,7 +1546,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "filename": "elife-20125-fig4-v3", 
+                                "filename": "elife-20125-fig4-v3.jpg", 
                                 "type": "image", 
                                 "id": "fig4"
                             }, 
@@ -1649,7 +1557,7 @@
                             {
                                 "doi": "10.7554/eLife.20125.020", 
                                 "title": "A de novo variant identified in <i>SMURF1</i>.", 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig5-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig5-v3.jpg", 
                                 "label": "Figure 5.", 
                                 "caption": [
                                     {
@@ -1658,7 +1566,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "filename": "elife-20125-fig5-v3", 
+                                "filename": "elife-20125-fig5-v3.jpg", 
                                 "type": "image", 
                                 "id": "fig5"
                             }
@@ -1729,7 +1637,7 @@
                             {
                                 "doi": "10.7554/eLife.20125.022", 
                                 "title": "De novo loss-of-function mutations in Sprouty genes.", 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig6-v3", 
+                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig6-v3.jpg", 
                                 "label": "Figure 6.", 
                                 "caption": [
                                     {
@@ -1738,7 +1646,7 @@
                                     }
                                 ], 
                                 "alt": "", 
-                                "filename": "elife-20125-fig6-v3", 
+                                "filename": "elife-20125-fig6-v3.jpg", 
                                 "type": "image", 
                                 "id": "fig6"
                             }
@@ -7346,8 +7254,7 @@
             }, 
             {
                 "title": "Smad Proteins and the Regulation of Endochondral Bone Formation. PhD Thesis", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/http://search.proquest.com/docview/304651496", 
-                "filename": "304651496", 
+                "uri": "http://search.proquest.com/docview/304651496", 
                 "details": "Smad Proteins and the Regulation of Endochondral Bone Formation. PhD Thesis, University of California,\u00a0Los Angeles., http://search.proquest.com/docview/304651496", 
                 "authors": [
                     {
@@ -9099,41 +9006,6 @@
                         {
                             "type": "person", 
                             "name": {
-                                "index": "Timberlake, Andrew T", 
-                                "preferred": "Andrew T Timberlake"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Choi, Jungmin", 
-                                "preferred": "Jungmin Choi"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Zaidi, Samir", 
-                                "preferred": "Samir Zaidi"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Nelson-Williams, Carol", 
-                                "preferred": "Carol Nelson-Williams"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Loring, Erin", 
-                                "preferred": "Erin Loring"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
                                 "index": "Lifton, Richard P", 
                                 "preferred": "Richard P Lifton"
                             }
@@ -9150,13 +9022,6 @@
                     "awardId": "Medical Scientist Training Program, NIH/NIGMS T32GM007205", 
                     "id": "par-2", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Brooks, Eric D", 
-                                "preferred": "Eric D Brooks"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -9178,34 +9043,6 @@
                         {
                             "type": "person", 
                             "name": {
-                                "index": "Bilguvar, Kaya", 
-                                "preferred": "Kaya Bilguvar"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Tikhonova, Irina", 
-                                "preferred": "Irina Tikhonova"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Mane, Shrikant", 
-                                "preferred": "Shrikant Mane"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Loring, Erin", 
-                                "preferred": "Erin Loring"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
                                 "index": "Lifton, Richard P", 
                                 "preferred": "Richard P Lifton"
                             }
@@ -9221,27 +9058,6 @@
                     }, 
                     "id": "par-4", 
                     "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Bilguvar, Kaya", 
-                                "preferred": "Kaya Bilguvar"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Tikhonova, Irina", 
-                                "preferred": "Irina Tikhonova"
-                            }
-                        }, 
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Mane, Shrikant", 
-                                "preferred": "Shrikant Mane"
-                            }
-                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -9270,8 +9086,7 @@
             "generated": [
                 {
                     "title": "Yale Center for Mendelian Genomics", 
-                    "uri": "https://publishing-cdn.elifesciences.org/20125/http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1", 
-                    "filename": "study.cgi?study_id=phs000744.v2.p1", 
+                    "uri": "http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1", 
                     "details": "Publicly available at dbGaP (accession no: phs000744)", 
                     "authors": [
                         {
