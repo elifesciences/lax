@@ -158,7 +158,7 @@ class Article(models.Model):
         ordering = ('-date_initial_qc', )
 
     def dxdoi_url(self):
-        return 'https://dx.doi.org/' + self.doi
+        return utils.mk_dxdoi_link(self.doi)
 
     def get_absolute_url(self):
         return self.dxdoi_url()

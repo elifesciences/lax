@@ -231,10 +231,3 @@ def bulk_article_version_history(only_published=True):
         result = article_version_history(art.manuscript_id, only_published)
         result['msid'] = art.manuscript_id
         yield result
-
-#
-#
-#
-
-def mk_dxdoi_link(doi):
-    return "http://dx.doi.org/%s" % doi

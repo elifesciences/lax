@@ -63,6 +63,9 @@ def isint(v):
     except (ValueError, TypeError):
         return False
 
+def mk_dxdoi_link(doi):
+    return "https://dx.doi.org/%s" % doi
+
 def doi2msid(doi):
     "doi to manuscript id used in EJP"
     prefix = '10.7554/eLife.'
