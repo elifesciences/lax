@@ -256,9 +256,8 @@ def load_schema(schema_path):
     return json.load(open(schema_path, 'r'))
 
 def validate(struct, schema_path):
-    # if given a string, assume it's json and try to load it
-    # if given a data, assume it's serializable, dump it and load it
     try:
+        # this has the effect of converting any datetime objects to rfc3339 formatted strings
         struct = json.loads(json_dumps(struct))
     except ValueError as err:
         LOG.error("struct is not serializable: %s", err.message)

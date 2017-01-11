@@ -66,8 +66,7 @@ def valid(merge_result, quiet=True):
     try:
         schema_key = merge_result['status'] # poa or vor
         schema = settings.SCHEMA_IDX[schema_key]
-        utils.validate(merge_result, schema)
-        return merge_result
+        return utils.validate(merge_result, schema)
 
     except KeyError:
         msg = "merging %s returned a data structure that couldn't be used to determine validation"
@@ -80,12 +79,6 @@ def valid(merge_result, quiet=True):
         LOG.exception("validating %s failed to load schema file %s", msid, schema, extra=log_context)
         # this is a legitimate error and needs to break things
         raise
-
-    except StateError as err:
-        msg = "article is in a state where it can't be validated: %s" % err
-        LOG.warn(msg, extra=log_context)
-        if not quiet:
-            raise
 
     except ValidationError as err:
         # definitely not valid ;)
@@ -146,9 +139,7 @@ def merge_if_valid(av, quiet=True):
     if the result is valid, returns the merge result.
     if invalid, returns nothing.
     if invalid and quiet=False, a ValidationError will be raised"""
-    result = merge_and_preprocess(av)
-    if valid(result, quiet=quiet):
-        return result
+    return valid(merge_and_preprocess(av), quiet=quiet)
 
 def set_article_json(av, quiet):
     """updates the article with the result of the merge operation.

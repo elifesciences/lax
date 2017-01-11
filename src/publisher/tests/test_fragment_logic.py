@@ -3,6 +3,7 @@ from os.path import join
 import json
 from base import BaseCase
 from publisher import logic as article_logic, fragment_logic as logic, ajson_ingestor, models
+from datetime import datetime
 
 """
 ingesting an article creates our initial ArticleFragment, the 'xml->json' fragment
@@ -148,6 +149,21 @@ class FragmentMerge(BaseCase):
         # article is no longer serving up invalid content :)
         av = self.freshen(self.av)
         self.assertFalse(av.article_json_v1)
+
+    def test_merged_datetime_content(self):
+        "microseconds are stripped from the datetime published value when stored"
+        # modify article data
+        pubdate = datetime(year=2001, month=1, day=1, hour=1, minute=1, second=1, microsecond=666)
+        self.av.datetime_published = pubdate
+        self.av.save()
+
+        # merge, re-validate, re-set
+        logic.set_article_json(self.av, quiet=False)
+
+        av = self.freshen(self.av)
+        expected_version_date = '2001-01-01T01:01:01Z' # no microsecond component
+        self.assertEqual(expected_version_date, av.article_json_v1['versionDate'])
+
 
 class CLI(BaseCase):
     def setUp(self):
