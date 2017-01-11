@@ -38,13 +38,19 @@ class KongAuthentication(object):
         internal_network = IPNetwork(settings.INTERNAL_NETWORK)
         if not client_ip in internal_network:
             strip_auth_headers(request)
-            LOG.warn("your IP doesn't originate within internal network, refusing auth")
+            LOG.debug("IP doesn't originate within internal network, refusing auth: %s" % request.META['REMOTE_ADDR'])
             return
 
         # if request has expected headers, but their values are invalid, strip auth
         if headers[CGROUPS] not in ['user', 'admin']:
             strip_auth_headers(request)
-            LOG.warn("unknown user group, refusing auth")
+            LOG.debug("unknown user group, refusing auth")
+            return
+
+        # if user is 'just' a user
+        if headers[CGROUPS] == 'user':
+            strip_auth_headers(request)
+            LOG.debug("'user' group receives has no special permissions")
             return
 
         # test the id somehow?
@@ -52,8 +58,8 @@ class KongAuthentication(object):
         # if their username is 'anonymous'
         if headers[CUSER] == 'anonymous':
             strip_auth_headers(request)
-            LOG.warn("anonymous user, refusing auth")
+            LOG.debug("anonymous user, refusing auth")
             return
 
         strip_auth_headers(request, authenticated=True)
-        LOG.info("authenticated!")
+        LOG.debug("authenticated!")

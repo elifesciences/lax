@@ -20,7 +20,7 @@ class TestUtils(base.BaseCase):
         ]
         for given, expected in cases:
             self.assertEqual(utils.mk_dxdoi_link(given), expected)
-    
+
     def test_json_dumps_rfc3339(self):
         dt = datetime(year=2001, month=1, day=1, hour=23, minute=59, second=59, microsecond=123, tzinfo=pytz.utc)
         struct = {'dt': dt}

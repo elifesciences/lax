@@ -9,7 +9,7 @@ class KongAuthMiddleware(TestCase):
         self.c = Client()
         self.extra = {
             'REMOTE_ADDR': '10.0.2.6',
-            mware.CGROUPS: 'user',
+            mware.CGROUPS: 'admin',
             mware.CID: str(uuid.uuid4()),
             mware.CUSER: 'pants'
         }
@@ -41,6 +41,13 @@ class KongAuthMiddleware(TestCase):
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
 
     def test_bad_authentication_request2(self):
+        "client is trying to authenticate but the user group doesn't have any special permissions"
+        self.extra[mware.CGROUPS] = 'user'
+        resp = self.c.get('/', **self.extra)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
+
+    def test_bad_authentication_request3(self):
         "client is trying to authenticate but the user is unknown"
         self.extra[mware.CGROUPS] = 'party'
         resp = self.c.get('/', **self.extra)
