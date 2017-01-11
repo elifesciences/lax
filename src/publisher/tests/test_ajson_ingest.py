@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import copy
 from os.path import join
 import json
@@ -6,6 +8,10 @@ from base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
 from unittest import skip
+
+from publisher import logic
+from django.test import Client
+from django.core.urlresolvers import reverse
 
 class Ingest(BaseCase):
     def setUp(self):
@@ -512,3 +518,84 @@ class CLI(BaseCase):
         ajson = json.load(open(self.ajson_fixture1, 'r'))
         self.assertEqual(result['datetime'], ajson['article']['published'])
         self.assertEqual(result['message'], "(dry-run)")
+
+
+class UnicodePreserved(BaseCase):
+    u'''
+    ensures unicode isn't being mangled at any step of the processing
+    http://jira.elifesciences.org:8080/browse/ELPP-2013
+
+        {"type":"person","name":{"index":"Lengyel, MĂĄtĂŠ","preferred":"MĂĄtĂŠ Lengyel"}}
+
+        If I generate JSON locally using bot-lax-adaptor I get
+
+                    {
+                        "type": "person",
+                        "name": {
+                            "preferred": "M\u00e1t\u00e9 Lengyel",
+                            "index": "Lengyel, M\u00e1t\u00e9"
+                        },
+
+        The web and Lens it shows as
+
+        Máté Lengyel
+    '''
+
+    def setUp(self):
+        self.nom = 'ingest'
+        self.msid = "12215"
+        self.version = "1"
+        self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-12215-v1.xml.json')
+
+    def test_ingest_publish_dont_alter_unicode(self):
+        "the unicode value in the scraped json isn't altered when it's ingested and published"
+        ajson = json.load(open(self.ajson_fixture1, 'r'))
+        _, _, av = ajson_ingestor.ingest_publish(ajson)
+        av = utils.freshen(av)
+        expected = ajson['snippet']['authors'][1]['name']['preferred']
+        given = av.article_json_v1['authors'][1]['name']['preferred']
+        self.assertEqual(expected, given)
+
+    def test_logic_doesnt_mangle_unicode(self):
+        "the api logic doesn't alter unicode values"
+        ajson = json.load(open(self.ajson_fixture1, 'r'))
+        ajson_ingestor.ingest_publish(ajson)
+
+        expected = ajson['snippet']['authors'][1]['name']['preferred']
+
+        # /articles/{id}
+        given = logic.most_recent_article_version(self.msid).article_json_v1['authors'][1]['name']['preferred']
+        self.assertEqual(expected, given)
+
+        # /articles/{id}/versions/{version}
+        given = logic.article_version(self.msid, self.version).article_json_v1['authors'][1]['name']['preferred']
+        self.assertEqual(expected, given)
+
+    def test_api_doesnt_mangle_unicode(self):
+        ajson = json.load(open(self.ajson_fixture1, 'r'))
+        ajson_ingestor.ingest_publish(ajson)
+        expected = ajson['snippet']['authors'][1]['name']['preferred']
+
+        c = Client()
+        resp = c.get(reverse('v2:article', kwargs={'id': self.msid}))
+        data = json.loads(resp.content)
+        given = data['authors'][1]['name']['preferred']
+
+        self.assertEqual(expected, given)
+
+        resp = c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': self.version}))
+        data = json.loads(resp.content)
+        given = data['authors'][1]['name']['preferred']
+
+    def test_cli_ingest_doesnt_mangle_unicode(self):
+        ajson = json.load(open(self.ajson_fixture1, 'r'))
+        expected = ajson['snippet']['authors'][1]['name']['preferred']
+
+        args = [self.nom, '--ingest+publish', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+        # article has been ingested
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid, version=self.version)
+
+        given = av.article_json_v1['authors'][1]['name']['preferred']
+        self.assertEqual(expected, given)
