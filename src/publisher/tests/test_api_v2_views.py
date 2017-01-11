@@ -108,7 +108,7 @@ class V2Content(base.BaseCase):
         # an authenticated client
         self.ac = Client(**{
             'REMOTE_ADDR': '10.0.2.6',
-            mware.CGROUPS: 'user',
+            mware.CGROUPS: 'admin',
             mware.CID: str(uuid.uuid4()),
             mware.CUSER: 'pants'
         })
