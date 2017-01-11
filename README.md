@@ -25,9 +25,6 @@ For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) articl
 RSS feeds are available here:
 
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/rss.py)
-
-
-
 * [articles published in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) \[[POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/)\] \[[VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/)\], or [last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) \[[POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/)\] \[[VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/)\]
 
 The URLs look like:
@@ -46,6 +43,10 @@ For example, if you wanted all articles published in the last month:
     cd lax
     ./install.sh
 
+Postgresql is used in production so there is a dependency on psycopg2 which 
+requires your distribution's 'libpq' library to be installed. On Arch Linux, 
+this is 'libpqxx', on Ubuntu this is 'libpq-dev'.
+
 ## updating
 
 [code](https://github.com/elifesciences/lax/blob/master/install.sh)  
@@ -62,27 +63,8 @@ For example, if you wanted all articles published in the last month:
 
 [code](https://github.com/elifesciences/lax/blob/master/runserver.sh)
 
-    ./runserver.sh
+    ./manage.sh runserver
     firefox http://127.0.0.1:8000/api/docs/
-
-## loading article JSON
-
-eLife uses a JSON format called [EIF](https://github.com/elifesciences/elife-eif-schema) 
-(eLife Ingestor Format) that was designed to convert JATS XML into something 
-malleable for the website and other downstream projects (like Lax).
-
-The eLife EIF JSON can be imported with:
-
-    ./load-elife-json.sh
-
-This will clone the EIF JSON and load it sequentially into Lax.
-
-or, via http:
-    
-    curl -vX POST http://127.0.0.1:8000/api/v1/article/create-update/ \
-      --data @eif-article-file.json \
-      --header "Content-Type: application/json"
-
 
 ## data model
 
@@ -90,28 +72,35 @@ or, via http:
 
 A publisher has one or many journals, each journal has many articles.
 
-Each article is uniquely identified by it's DOI. The DOI doesn't have to be 
-registered with Crossref.
+Each article is uniquely identified by it's 'manuscript id', a simple integer.
 
-Each article consists of a set of [known attributes](https://github.com/elifesciences/lax/blob/master/src/publisher/models.py#L24) that are stored together in the database.
+Each article may have many versions. Each article version contains the 
+article-json (derived from the article's JATS xml), the date and time it was
+published, etc.
 
-Each article also has zero or many attributes in a simple `key=val` table that 
-supplements the normalised article data. This allows for collection of ad-hoc 
-article data. These attributes and their values may be migrated into the 
-`article` database table at a later point.
+## loading article JSON
 
-## the 'Publisher' app
+Lax has support for two internal (to eLife) types of article json: EIF and 
+'article-json'. 
 
-[code](https://github.com/elifesciences/lax/blob/master/src/publisher/)
+[EIF](https://github.com/elifesciences/elife-eif-schema) was a loosely 
+structured format that was extremely convenient for sharing just the important 
+bulk of article data between the elife-bot, lax, and the Drupal journal website.
 
-The core application on which other apps may be dependant.
+This format is deprecated and support will eventually be removed.
 
-It models the basic relationships between entities and captures events occurring
-against Articles.
+The other format is [article-json](https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-vor.v1.json), 
+defined as part of elife's API definition effort and used extensively in our 
+new infrastructure.
 
-Both the `Article` and `ArticleAttribute` models in the Publisher app keep a 
-record of data that is changed. If an article is updated, it's previous version 
-is kept and can be queried if you want insight into it's history.
+These article-json files can be imported into Lax with:
+
+[code](https://github.com/elifesciences/lax/blob/master/src/publisher/management/commands/ingest.py)
+
+    ./manage.sh ingest /path/to/article.json
+    
+See the [bot-lax-adaptor](https://github.com/elifesciences/bot-lax-adaptor) for
+converting JATs XML to article-json.
 
 ## Copyright & Licence
 

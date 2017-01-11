@@ -3,6 +3,7 @@ from os.path import join
 import json
 from base import BaseCase
 from publisher import logic as article_logic, fragment_logic as logic, ajson_ingestor, models
+from datetime import datetime
 
 """
 ingesting an article creates our initial ArticleFragment, the 'xml->json' fragment
@@ -76,6 +77,7 @@ class FragmentLogic(BaseCase):
 
 class FragmentMerge(BaseCase):
     def setUp(self):
+        # poa, published 2016-08-16T00:00:00Z
         self.ajson_fixture = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json')
         self.ajson = json.load(open(self.ajson_fixture, 'r'))
         self.msid = self.ajson['article']['id']
@@ -115,20 +117,66 @@ class FragmentMerge(BaseCase):
         self.assertTrue(av.article_json_v1)
         self.assertTrue(av.article_json_v1_snippet)
 
-    def test_merge_sets_status_date_correctly(self):
-        # setUp inserts article snippet that should be valid
+    def test_merge_sets_status_date_correctly_poa_v1(self):
+        "statusDate for a v1 poa is correctly set: earliest POA if POA, earliest VOR if VOR"
+        # poa, published 2016-08-16T00:00:00Z
         av = self.freshen(self.av)
-        placeholders = {'statusDate': '2001-01-01T00:00:00Z', }
-        logic.add(self.msid, 'foo', placeholders)
+        expected = '2016-08-16T00:00:00Z'
+        self.assertEqual(expected, av.article_json_v1['statusDate'])
 
-        self.assertTrue(logic.merge_if_valid(self.av))
-
+    def test_merge_sets_status_date_correctly_poa_v2(self):
+        "statusDate for a v2 poa is correctly set: earliest POA if POA, earliest VOR if VOR"
         av = self.freshen(self.av)
-        self.assertTrue(av.article_json_v1)
-        self.assertTrue(av.article_json_v1_snippet)
+        expected = '2016-08-16T00:00:00Z'
+        self.assertEqual(expected, av.article_json_v1['statusDate'])
+
+        # load v2 as a poa
+        fixture = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json')
+        data = json.load(open(fixture, 'r'))
+        data['status'] = models.POA
+        data['published'] = '2016-08-17T00:00:00Z' # v2 POA published a day later
+        _, _, av2 = ajson_ingestor.ingest_publish(data)
+
+        # nothing should have changed
+        av2 = self.freshen(av)
+        self.assertEqual(expected, av2.article_json_v1['statusDate'])
+
+    def test_merge_sets_status_date_correctly_vor_v2(self):
+        "statusDate for a v2 vor is correctly set: earliest POA if POA, earliest VOR if VOR"
+        # load v2 vor
+        fixture = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json')
+        data = json.load(open(fixture, 'r'))
+        _, _, av2 = ajson_ingestor.ingest_publish(data)
+        av2.datetime_published = datetime(year=2016, month=8, day=17) # v2 VOR published a day later
+        av2.save()
+        logic.set_article_json(av2, quiet=False)
+
+        av1 = self.freshen(self.av)
+        expected = '2016-08-16T00:00:00Z'
+        self.assertEqual(expected, av1.article_json_v1['statusDate'])
+
+        av2 = self.freshen(av2)
+        expected = '2016-08-17T00:00:00Z'
+        self.assertEqual(expected, av2.article_json_v1['statusDate'])
 
     def test_merge_ignores_unpublished_vor_when_setting_status_date(self):
-        pass
+        "the first unpublished VOR doesn't get a value until it's published"
+        fixture = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json')
+        data = json.load(open(fixture, 'r'))
+        _, _, av2 = ajson_ingestor.ingest(data) # ingested, not published
+
+        av1 = self.freshen(self.av)
+        expected = '2016-08-16T00:00:00Z'
+        self.assertEqual(expected, av1.article_json_v1['statusDate'])
+
+        av2 = self.freshen(av2)
+        self.assertFalse(av2.datetime_published) # v2 is not published yet
+        self.assertTrue(av2.article_json_v1) # has article json attached
+
+        # v2 vor hasn't been published
+        self.assertEqual('preview', av2.article_json_v1['stage'])
+        self.assertFalse('statusDate' in av2.article_json_v1)
+        self.assertFalse('versionDate' in av2.article_json_v1)
 
     def test_invalid_merge_deletes_article_json(self):
         fragment = models.ArticleFragment.objects.all()[0]
@@ -148,6 +196,21 @@ class FragmentMerge(BaseCase):
         # article is no longer serving up invalid content :)
         av = self.freshen(self.av)
         self.assertFalse(av.article_json_v1)
+
+    def test_merged_datetime_content(self):
+        "microseconds are stripped from the datetime published value when stored"
+        # modify article data
+        pubdate = datetime(year=2001, month=1, day=1, hour=1, minute=1, second=1, microsecond=666)
+        self.av.datetime_published = pubdate
+        self.av.save()
+
+        # merge, re-validate, re-set
+        logic.set_article_json(self.av, quiet=False)
+
+        av = self.freshen(self.av)
+        expected_version_date = '2001-01-01T01:01:01Z' # no microsecond component
+        self.assertEqual(expected_version_date, av.article_json_v1['versionDate'])
+
 
 class CLI(BaseCase):
     def setUp(self):

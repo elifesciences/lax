@@ -209,7 +209,7 @@ def _publish(msid, version, force=False):
         return av
 
     except ValidationError as err:
-        raise StateError("refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err.message))
+        raise StateError("refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err))
 
     except models.ArticleFragment.DoesNotExist:
         raise StateError("no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")

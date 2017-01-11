@@ -117,7 +117,7 @@ def job(print_queue, action, path, force, dry_run):
     try:
         return handle_single(print_queue, action, io.open(path, 'r', encoding='utf8'), msid, version, force, dry_run)
     except SystemExit:
-        LOG.error("system exit caught", extra={'msid': msid, 'version': version})
+        LOG.debug("system exit caught", extra={'msid': msid, 'version': version})
 
 def handle_many(print_queue, action, path, force, dry_run):
     json_files = utils.resolve_path(path)

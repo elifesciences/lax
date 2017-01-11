@@ -66,8 +66,7 @@ def valid(merge_result, quiet=True):
     try:
         schema_key = merge_result['status'] # poa or vor
         schema = settings.SCHEMA_IDX[schema_key]
-        utils.validate(merge_result, schema)
-        return merge_result
+        return utils.validate(merge_result, schema)
 
     except KeyError:
         msg = "merging %s returned a data structure that couldn't be used to determine validation"
@@ -80,12 +79,6 @@ def valid(merge_result, quiet=True):
         LOG.exception("validating %s failed to load schema file %s", msid, schema, extra=log_context)
         # this is a legitimate error and needs to break things
         raise
-
-    except StateError as err:
-        msg = "article is in a state where it can't be validated: %s" % err
-        LOG.warn(msg, extra=log_context)
-        if not quiet:
-            raise
 
     except ValidationError as err:
         # definitely not valid ;)
@@ -119,21 +112,32 @@ def pre_process(av, result):
 
     result['versionDate'] = av.datetime_published
 
-    # 'statusDate' is when the av.status value changed to what it is
-    result['statusDate'] = result['published'] # 'published' is the v1 pubdate, remember
-    v1vor = av.article.earliest_vor()
-    if v1vor and v1vor.datetime_published:
-        # article has a published vor in it's version history! use it's version date
-        result['statusDate'] = utils.ymdhms(v1vor.datetime_published)
+    # 'statusDate' is when the 'status' (poa/vor) value changed to the status being
+    # served up in *this* result.
+    if av.version == 1 or av.status == models.POA:
+        # we're a POA or a version 1, statusDate is easy :)
+        result['statusDate'] = result['published']
+    else:
+        # we're a non-v1 VOR, statusDate is a little harder
+        # we can't tell which previous version was a vor so consult our version history
+        earliest_vor = av.article.earliest_vor()
+        if earliest_vor:
+            # article has a vor in it's version history! use it's version date
+            result['statusDate'] = earliest_vor.datetime_published # may be None
+        else:
+            # no VORs found AT ALL
+            # this means our av == earliest_vor and it *hasn't been saved yet*
+            result['statusDate'] = av.datetime_published # may be/probably None
 
     if av.datetime_published:
         result['stage'] = 'published'
     else:
+        # https://github.com/elifesciences/api-raml/blob/develop/src/snippets/article.v1.yaml
         result['stage'] = 'preview'
         del result['versionDate']
+        del result['statusDate']
         if av.version == 1:
             del result['published']
-            del result['statusDate']
 
     return result
 
@@ -146,9 +150,7 @@ def merge_if_valid(av, quiet=True):
     if the result is valid, returns the merge result.
     if invalid, returns nothing.
     if invalid and quiet=False, a ValidationError will be raised"""
-    result = merge_and_preprocess(av)
-    if valid(result, quiet=quiet):
-        return result
+    return valid(merge_and_preprocess(av), quiet=quiet)
 
 def set_article_json(av, quiet):
     """updates the article with the result of the merge operation.
@@ -196,22 +198,9 @@ def revalidate_many(avl):
         }
     return map(do, avl)
 
-@atomic
-def revalidate_specific_article_version(msid, ver):
-    LOG.debug('revalidating article version %s %s', msid, ver)
-    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid, version=ver)
-    return revalidate_many(avl)
-
-@atomic
-def revalidate_all_versions_of_article(msid):
-    LOG.debug('revalidating all versions of %s', msid)
-    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid)
-    return revalidate_many(avl)
-
-@atomic
-def revalidate_all_article_versions():
-    LOG.debug('revalidating ALL articles, this may take a while')
-    return revalidate_many(models.ArticleVersion.objects.all())
+#
+#
+#
 
 def revalidate_report(results):
     def instate(state):
@@ -236,5 +225,29 @@ def revalidate_report(results):
 
         ('total-with-article-json', len(_set) + len(_reset)),
         ('total-without-article-json', len(_not_set) + len(_unset)),
+
+        ('raw-set', _set),
+        ('raw-unset', _unset),
     ])
     return report
+
+#
+#
+#
+
+@atomic
+def revalidate_specific_article_version(msid, ver):
+    LOG.debug('revalidating article version %s %s', msid, ver)
+    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid, version=ver)
+    return revalidate_many(avl)
+
+@atomic
+def revalidate_all_versions_of_article(msid):
+    LOG.debug('revalidating all versions of %s', msid)
+    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid)
+    return revalidate_many(avl)
+
+@atomic
+def revalidate_all_article_versions():
+    LOG.debug('revalidating ALL articles, this may take a while')
+    return revalidate_many(models.ArticleVersion.objects.all())

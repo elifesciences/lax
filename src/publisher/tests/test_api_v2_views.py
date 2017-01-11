@@ -108,7 +108,7 @@ class V2Content(base.BaseCase):
         # an authenticated client
         self.ac = Client(**{
             'REMOTE_ADDR': '10.0.2.6',
-            mware.CGROUPS: 'user',
+            mware.CGROUPS: 'admin',
             mware.CID: str(uuid.uuid4()),
             mware.CUSER: 'pants'
         })
@@ -222,6 +222,11 @@ class V2Content(base.BaseCase):
         # correct data
         self.assertEqual(len(data['versions']), 2) # this article only has two *published*
 
+        # correct order
+        expected = [1, 2]
+        given = [data['versions'][i]['version'] for i in range(0, 2)]
+        self.assertEqual(given, expected)
+
     def test_unpublished_article_versions_list(self):
         "valid json content is returned"
         # we need some data that can only come from ejp for this
@@ -238,6 +243,11 @@ class V2Content(base.BaseCase):
 
         # correct data
         self.assertEqual(len(data['versions']), 3)  # this article has two *published*, one *unpublished*
+
+        # correct order
+        expected = [1, 2, 3]
+        given = [data['versions'][i]['version'] for i in range(0, 3)]
+        self.assertEqual(given, expected)
 
     def test_article_versions_list_does_not_exist(self):
         models.Article.objects.all().delete()

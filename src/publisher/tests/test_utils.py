@@ -14,6 +14,13 @@ class TestUtils(base.BaseCase):
     def tearDown(self):
         pass
 
+    def test_dxdoi_link(self):
+        cases = [
+            ('eLife.09560', 'https://dx.doi.org/eLife.09560'),
+        ]
+        for given, expected in cases:
+            self.assertEqual(utils.mk_dxdoi_link(given), expected)
+
     def test_json_dumps_rfc3339(self):
         dt = datetime(year=2001, month=1, day=1, hour=23, minute=59, second=59, microsecond=123, tzinfo=pytz.utc)
         struct = {'dt': dt}

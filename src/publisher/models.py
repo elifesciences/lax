@@ -2,7 +2,7 @@ from slugify import slugify
 from django.db import models
 #from .fields import JSONField
 from annoying.fields import JSONField
-from utils import second, firstnn, msid2doi
+from utils import second, firstnn, msid2doi, mk_dxdoi_link
 from django.core.exceptions import ObjectDoesNotExist
 
 POA, VOR = 'poa', 'vor'
@@ -52,7 +52,7 @@ def decision_codes():
 
 class Article(models.Model):
     journal = models.ForeignKey(Journal)
-    manuscript_id = models.PositiveIntegerField(unique=True, help_text="article identifier from beginning of submission process right through to end of publication.")
+    manuscript_id = models.BigIntegerField(unique=True, help_text="article identifier from beginning of submission process right through to end of publication.")
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
@@ -158,7 +158,7 @@ class Article(models.Model):
         ordering = ('-date_initial_qc', )
 
     def dxdoi_url(self):
-        return 'https://dx.doi.org/' + self.doi
+        return mk_dxdoi_link(self.doi)
 
     def get_absolute_url(self):
         return self.dxdoi_url()
@@ -189,7 +189,7 @@ class ArticleVersion(models.Model):
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
 
     class Meta:
-        ordering = ('datetime_published',) # ASC, earliest to latest
+        ordering = ('version',) # ASC, earliest to latest
         unique_together = ('article', 'version')
 
     def published(self):
