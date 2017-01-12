@@ -28,7 +28,7 @@ pytz==2016.7
 PyYAML==3.12
 requests==2.11.1
 rfc3339==5
-Scrapy==1.2.1
 unittest-xml-reporting==2.1.0
 # sql-explorer optional deps
 tinys3==0.1.12
+xenon==0.5.0
