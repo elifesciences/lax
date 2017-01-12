@@ -10,34 +10,18 @@ def import_article(journal, article_data, create=True, update=False):
     article_data['journal'] = journal
     msid = article_data['manuscript_id']
     article_data['doi'] = utils.msid2doi(msid)
-    art = None
+
     try:
-        art = models.Article.objects.get(manuscript_id=msid)
-        if not update:
-            raise AssertionError("article with manuscript id exists and I've been told not to update.")
-    except models.Article.DoesNotExist:
-        # doesn't exist, we can happily create a new article
-        if not create:
-            LOG.error("article with manuscript id %r does *not* exist and I've been told *not* to create new articles.", msid)
-            # raise
+        art, created, updated = \
+            utils.create_or_update(models.Article, article_data, ['manuscript_id', 'journal'], create, update)
+        if created or updated:
+            LOG.info("%s Article %s", 'created' if created else 'updated', art)
 
-    if not art and create:
-        try:
-            art = models.Article(**article_data)
-            art.save()
-            LOG.info("created Article %r", art)
-            return art
-        except:
-            LOG.exception("unhandled error attempting to import article from EJP: %s", article_data)
-            raise
+        return art, created, updated
 
-    # update article, but only if we have an article
-    if update and art:
-        for key, val in article_data.items():
-            setattr(art, key, val)
-        art.save()
-        LOG.info("updated Article %r", art)
-    return art
+    except Exception as err:
+        LOG.exception("unhandled error (%s) attempting to import article from EJP: %s", err, article_data)
+        raise
 
 #
 #

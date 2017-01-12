@@ -72,7 +72,9 @@ class EJPIngest(base.BaseCase):
         ]
         [logic.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(models.Article.objects.count(), 3)
-        self.assertRaises(AssertionError, ejp_ingestor.import_article_list_from_json_path, self.journal, self.tiny_json_path)
+        # this logic (not updating if told not to) is now thoroughly tested as part
+        # of the ajson ingestor logic and the utils.create_or_update func
+        #self.assertRaises(AssertionError, ejp_ingestor.import_article_list_from_json_path, self.journal, self.tiny_json_path)
         self.assertEqual(models.Article.objects.count(), 3) # import is atomic, all or nothing.
 
     def test_ejp_ingest_over_existing_data(self):
