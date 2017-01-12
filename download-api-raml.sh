@@ -25,7 +25,7 @@ if [ -f api-raml.sha1 ]; then
     git checkout "$sha"
 
     if [ "$recompile" = "0" ]; then
-        if type node > /dev/null; then
+        if type node 2> /dev/null; then
             # if node is installed, like on a dev machine recompile
             # the api as lax uses the contents of the dist dir.
             npm install
