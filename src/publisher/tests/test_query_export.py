@@ -2,7 +2,7 @@ import re
 from explorer import models
 from django.core.management import call_command
 from .base import BaseCase
-from StringIO import StringIO
+from io import StringIO
 
 class CLI(BaseCase):
     def setUp(self):

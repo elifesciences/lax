@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-import views
+from . import views
 import operator
 from functools import reduce # pylint:disable=redefined-builtin
 

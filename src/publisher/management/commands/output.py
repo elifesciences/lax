@@ -15,7 +15,7 @@ class Command(BaseCommand):
         pass
 
     def write(self, out=None):
-        if not isinstance(out, basestring):
+        if not isinstance(out, str):
             out = utils.json_dumps(out) # encodes datetime objects
         self.stdout.write(out)
         self.stdout.flush()
@@ -28,4 +28,4 @@ class Command(BaseCommand):
         }
 
         for row in output_type_map[output_type]():
-            print utils.json_dumps(row)
+            print(utils.json_dumps(row))

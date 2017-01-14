@@ -1,6 +1,6 @@
 from django.shortcuts import Http404
-import models, logic
-import eif_ingestor
+from . import models, logic
+from . import eif_ingestor
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import ParseError

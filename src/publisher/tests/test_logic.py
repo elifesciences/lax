@@ -1,6 +1,6 @@
 import json
 from os.path import join
-from base import BaseCase
+from .base import BaseCase
 from publisher import logic, ajson_ingestor, models, eif_ingestor
 
 class TestLogic0(BaseCase):
@@ -156,7 +156,7 @@ class TestLogic0(BaseCase):
                 av = latest_idx[msid]
                 self.assertEqual(av.version, expected_version)
             except:
-                print 'failed on', msid, 'version', expected_version
+                print('failed on', msid, 'version', expected_version)
                 raise
 
 

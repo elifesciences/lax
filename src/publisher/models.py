@@ -2,7 +2,7 @@ from slugify import slugify
 from django.db import models
 #from .fields import JSONField
 from annoying.fields import JSONField
-from utils import second, firstnn, msid2doi, mk_dxdoi_link
+from .utils import second, firstnn, msid2doi, mk_dxdoi_link
 from django.core.exceptions import ObjectDoesNotExist
 
 POA, VOR = 'poa', 'vor'
@@ -14,7 +14,7 @@ class Publisher(models.Model):
         return self.name
 
     def __repr__(self):
-        return u'<Publisher %s>' % self.name
+        return '<Publisher %s>' % self.name
 
 class Journal(models.Model):
     publisher = models.ForeignKey(Publisher, null=True, help_text="A publisher may have many journals. A journal doesn't necessarily need a Publisher.")
@@ -25,7 +25,7 @@ class Journal(models.Model):
         return self.name
 
     def __repr__(self):
-        return u'<Journal %s>' % self.name
+        return '<Journal %s>' % self.name
 
 def ejp_type_choices():
     return [
@@ -37,7 +37,7 @@ def ejp_type_choices():
     ]
 
 EJP_TYPE_IDX = dict(ejp_type_choices())
-EJP_TYPE_REV_SLUG_IDX = {slugify(unicode(val), stopwords=['and']): key for key, val in ejp_type_choices()}
+EJP_TYPE_REV_SLUG_IDX = {slugify(str(val), stopwords=['and']): key for key, val in ejp_type_choices()}
 
 AF = 'AF'
 def decision_codes():
@@ -117,7 +117,7 @@ class Article(models.Model):
              (self.rev2_decision, self.date_rev2_decision),
              (self.rev3_decision, self.date_rev3_decision),
              (self.rev4_decision, self.date_rev4_decision)]
-        return second(firstnn(filter(lambda p: p[0] == AF, x)))
+        return second(firstnn([p for p in x if p[0] == AF]))
 
     def earliest_poa(self):
         try:
@@ -167,7 +167,7 @@ class Article(models.Model):
         return self.doi
 
     def __repr__(self):
-        return u'<Article %s>' % self.doi
+        return '<Article %s>' % self.doi
 
 class ArticleVersion(models.Model):
     article = models.ForeignKey(Article)  # , related_name='articleversion_set')
@@ -203,7 +203,7 @@ class ArticleVersion(models.Model):
         return '%s v%s' % (self.article.manuscript_id, self.version)
 
     def __repr__(self):
-        return u'<ArticleVersion %s>' % self
+        return '<ArticleVersion %s>' % self
 
 # the bulk of the article data, derived from the xml via the bot-lax adaptor
 XML2JSON = 'xml->json'
@@ -223,7 +223,7 @@ class ArticleFragment(models.Model):
         return '%s "%s"' % (self.article.manuscript_id, self.type)
 
     def __repr__(self):
-        return u'<ArticleFragment %s>' % self
+        return '<ArticleFragment %s>' % self
 
     class Meta:
         # an article can only have one instance of a fragment type

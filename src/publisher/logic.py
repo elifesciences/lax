@@ -1,9 +1,9 @@
 from django.db import connection
-import models
+from . import models
 from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils
-from publisher.utils import ensure
+from publisher.utils import ensure, lmap
 from django.utils import timezone
 from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
 
@@ -223,7 +223,7 @@ def article_version_history(msid, only_published=True):
     return {
         'received': article.date_initial_qc,
         'accepted': article.date_accepted,
-        'versions': map(article_snippet_json, avl)
+        'versions': lmap(article_snippet_json, avl)
     }
 
 def bulk_article_version_history(only_published=True):

@@ -79,8 +79,8 @@ class TestReport(base.BaseCase):
             try:
                 self.assertTrue(utils.has_all_keys(row, expected_keys))
             except AssertionError:
-                print 'expecting', expected_keys
-                print 'got keys', row.keys()
+                print('expecting', expected_keys)
+                print('got keys', list(row.keys()))
                 raise
 
     def test_paw_recent_report_data(self):
@@ -128,7 +128,7 @@ class TestReport(base.BaseCase):
     def test_time_to_publication_data_structure(self):
         "DOES NOT TEST CORRECTNESS OF DATA, only structure" # yes, cop out
         rows = logic.time_to_publication()
-        self.assertTrue(all(map(lambda row: len(row) == 9, rows)))
+        self.assertTrue(all([len(row) == 9 for row in rows]))
 
     #
     # views
@@ -145,7 +145,6 @@ class TestReport(base.BaseCase):
         resp = Client().get(url)
         self.assertEqual(resp.status_code, 200)
         xml = resp.content
-        print 'xml:', xml
         self.assertEqual(len(re.findall('<item>', xml)), self.vor_art_count)
 
     def test_paw_ahead_report(self):

@@ -1,5 +1,5 @@
 import re
-from base import BaseCase
+from .base import BaseCase
 from django.test import Client
 from django.core.urlresolvers import reverse
 from publisher import logic, models, utils
@@ -136,7 +136,7 @@ class RSSViews(BaseCase):
     def test_specific_feed_many_article(self):
         """a specific article can be targeted in the rss. why? spot fixes
         to ALM and a person may be interested in future versions of a given article"""
-        aid_list = map(lambda a: a['doi'][8:], self.article_data_list)
+        aid_list = [a['doi'][8:] for a in self.article_data_list]
         aid_str = ','.join(aid_list)
         url = reverse('rss-specific-article-list', kwargs={'aid_list': aid_str})
         resp = self.c.get(url)
@@ -145,7 +145,7 @@ class RSSViews(BaseCase):
     @skip('nobody uses rss. tune performance then')
     def test_specific_feed_many_article_db_performance(self):
         "we hit the database once for an rss feed even with 'many' article versions in the system"
-        aid_list = map(lambda a: a['doi'][8:], self.article_data_list)
+        aid_list = [a['doi'][8:] for a in self.article_data_list]
         aid_str = ','.join(aid_list)
         url = reverse('rss-specific-article-list', kwargs={'aid_list': aid_str})
         with self.assertNumQueries(1):

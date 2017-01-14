@@ -1,5 +1,5 @@
 from django.conf.urls import url
-import api_v1_views as views
+from . import api_v1_views as views
 
 urlpatterns = [
     #url(r'corpus/info/$', views.corpus_info, name='api-corpus-info'),

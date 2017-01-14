@@ -1,7 +1,7 @@
 from jsonschema import ValidationError
 from django.db import transaction
 from . import models, logic, fragment_logic
-from .utils import ensure, isint
+from .utils import ensure, isint, lmap
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -65,7 +65,7 @@ def article_list(request):
         total, results = logic.latest_article_version_list(**kwargs)
         struct = {
             'total': total,
-            'items': map(logic.article_snippet_json, results),
+            'items': lmap(logic.article_snippet_json, results)
         }
         return Response(struct, content_type='application/vnd.elife.article-list+json;version=1')
     except AssertionError as err:

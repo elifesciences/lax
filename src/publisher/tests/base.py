@@ -1,4 +1,4 @@
-from StringIO import StringIO
+from io import StringIO
 import os
 from django.test import TestCase
 from publisher import models, utils

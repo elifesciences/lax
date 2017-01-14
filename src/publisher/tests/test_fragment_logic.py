@@ -1,7 +1,7 @@
 import glob
 from os.path import join
 import json
-from base import BaseCase
+from .base import BaseCase
 from publisher import logic as article_logic, fragment_logic as logic, ajson_ingestor, models
 from datetime import datetime
 

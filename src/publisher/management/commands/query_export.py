@@ -1,5 +1,5 @@
 import sys
-from publisher import utils
+from publisher.utils import subdict, lmap
 from functools import partial
 from slugify import slugify
 from django.core.management.base import BaseCommand
@@ -58,8 +58,8 @@ class Command(BaseCommand):
             if not qid_list:
                 LOG.info("no query objects found, nothing to upload")
             else:
-                fnargs = utils.subdict(options, ['upload', 'timestamp_fname'])
-                map(partial(self.snapshot_query, **fnargs), qid_list)
+                fnargs = subdict(options, ['upload', 'timestamp_fname'])
+                lmap(partial(self.snapshot_query, **fnargs), qid_list)
 
         except Exception as err:
             LOG.exception(err)

@@ -5,7 +5,7 @@ from django.utils import six
 
 from collections import MutableMapping, MutableSequence
 import json
-import utils
+from . import utils
 
 class _JsonMeta(type):
 
@@ -23,9 +23,7 @@ class _JsonMeta(type):
         return type.__call__(JSON.JsonString, pyobj, json_string)
 
 
-class JSON(object):
-    __metaclass__ = _JsonMeta
-
+class JSON(object, metaclass=_JsonMeta):
     class InvalidJSON(Exception):
         pass
 
@@ -57,7 +55,7 @@ class JSON(object):
             self.json_string = json.dumps(self._data)
 
         def __unicode__(self):
-            return unicode(json.dumps(self._data))
+            return str(json.dumps(self._data))
 
     class JsonString(str):
 
@@ -98,7 +96,7 @@ class JSON(object):
             self.json_string = json.dumps(self._contents)
 
         def __unicode__(self):
-            return unicode(json.dumps(self._contents))
+            return str(json.dumps(self._contents))
 
 
 class JSONField(six.with_metaclass(models.SubfieldBase, models.TextField)):

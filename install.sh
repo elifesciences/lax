@@ -4,7 +4,7 @@ set -e # everything must succeed.
 . download-api-raml.sh
 
 if [ ! -d venv ]; then
-    virtualenv --python=`which python2` venv
+    virtualenv --python=`which python3` venv
 fi
 source venv/bin/activate
 if [ ! -e app.cfg ]; then

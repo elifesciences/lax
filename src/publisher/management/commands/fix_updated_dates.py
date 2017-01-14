@@ -1,7 +1,7 @@
 import json
 from publisher import eif_ingestor
 from django.core.management.base import BaseCommand
-
+from publisher.utils import lmap
 import logging
 logger = logging.getLogger(__name__)
 
@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fname = './updated-dates/output.json'
-        data = map(json.loads, open(fname, 'r').readlines())
+        data = lmap(json.loads, open(fname, 'r').readlines())
 
         def mkpatch(d):
             v = {}
@@ -21,4 +21,4 @@ class Command(BaseCommand):
                 del ver['version']
             d['versions'] = v
             return d
-        map(eif_ingestor.patch, map(mkpatch, data))
+        lmap(eif_ingestor.patch, lmap(mkpatch, data))

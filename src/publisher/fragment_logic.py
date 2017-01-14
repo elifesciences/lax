@@ -3,7 +3,7 @@ from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
 from . import utils, models
-from .utils import create_or_update, ensure, subdict, StateError, atomic
+from .utils import create_or_update, ensure, subdict, StateError, atomic, lmap, lfilter
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -54,7 +54,7 @@ def merge(av):
         .order_by('position')
     if not fragments:
         raise StateError("%r has no fragments that can be merged" % av)
-    return utils.merge_all(map(lambda f: f.fragment, fragments))
+    return utils.merge_all([f.fragment for f in fragments])
 
 def valid(merge_result, quiet=True):
     "returns True if the merged result is valid article-json"
@@ -196,7 +196,7 @@ def revalidate_many(avl):
             'version': av.version,
             'result': revalidate(av),
         }
-    return map(do, avl)
+    return lmap(do, avl)
 
 #
 #
@@ -208,10 +208,10 @@ def revalidate_report(results):
             return row['result'] == state
         return wrapper
 
-    _not_set = filter(instate(NOTSET), results)
-    _set = filter(instate(SET), results)
-    _unset = filter(instate(UNSET), results)
-    _reset = filter(instate(RESET), results)
+    _not_set = lfilter(instate(NOTSET), results)
+    _set = lfilter(instate(SET), results)
+    _unset = lfilter(instate(UNSET), results)
+    _reset = lfilter(instate(RESET), results)
 
     report = OrderedDict([
         (NOTSET, "had no article-json before, has *no* article-json *now*"),

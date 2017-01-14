@@ -32,7 +32,7 @@ def load_with_datetime(pairs, format='%Y-%m-%d'):
     """Load with dates"""
     d = {}
     for k, v in pairs:
-        if isinstance(v, basestring):
+        if isinstance(v, str):
             if k.startswith('date_'):
                 v = parser.parse(v)
         d[k] = v
@@ -49,4 +49,4 @@ def import_article_list_from_json_path(journal, json_path, *args, **kwargs):
                 LOG.error("failed to import article with msid %r: %s", ad['manuscript_id'], e)
                 LOG.error("full data %s", ad)
                 raise
-        map(fn, article_list)
+        utils.lmap(fn, article_list)

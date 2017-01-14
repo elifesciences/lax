@@ -15,6 +15,10 @@ from django.db import transaction, IntegrityError
 
 LOG = logging.getLogger(__name__)
 
+lmap = lambda func, *iterable: list(map(func, *iterable))
+
+lfilter = lambda func, *iterable: list(filter(func, *iterable))
+
 class StateError(RuntimeError):
     pass
 
@@ -112,7 +116,7 @@ def delall(ddict, lst):
             return True
         except KeyError:
             return False
-    return zip(lst, map(delkey, lst))
+    return list(zip(lst, lmap(delkey, lst)))
 
 def ymd(dt):
     "returns a simple YYYY-MM-DD representation of a datetime object"
@@ -195,10 +199,10 @@ def dictmap(func, data, **funcargs):
 
 def has_all_keys(data, expected_keys):
     actual_keys = data.keys()
-    return all(map(lambda key: key in actual_keys, expected_keys))
+    return all([key in actual_keys for key in expected_keys])
 
 def djobj_hasattr(djobj, key):
-    return key in map(lambda f: f.name, djobj._meta.get_fields())
+    return key in [f.name for f in djobj._meta.get_fields()]
 
 def to_dict(instance):
     opts = instance._meta
@@ -239,13 +243,13 @@ def deepmerge(d1, d2):
     return d1
 
 def merge_all(dict_list):
-    ensure(all(map(lambda r: isinstance(r, dict), dict_list)), "not all given values are dictionaries!")
+    ensure(all([isinstance(r, dict) for r in dict_list]), "not all given values are dictionaries!")
     return reduce(deepmerge, dict_list)
 
 def boolkey(*args):
     """given N values, returns a tuple of their truthiness.
     for example: boolkey(0, 1, 2) => (False, True, True)"""
-    return tuple(map(lambda v: not not v, args))
+    return tuple([not not v for v in args])
 
 #
 #

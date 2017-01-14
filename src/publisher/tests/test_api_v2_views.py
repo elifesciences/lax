@@ -1,7 +1,7 @@
 from core import middleware as mware
 import uuid
 from datetime import timedelta
-import base
+from . import base
 from os.path import join
 import json
 from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, ejp_ingestor
@@ -473,7 +473,7 @@ class RequestArgs(base.BaseCase):
         self.assertEqual(len(data['items']), 2)
         self.assertEqual(data['total'], 2)
 
-        id_list = map(lambda row: int(row['id']), data['items'])
+        id_list = [int(row['id']) for row in data['items']]
         self.assertEqual(id_list, [self.msid2, self.msid1]) # numbers ascend -> 20105, 20125
 
     def test_article_list_ordering_desc(self):
@@ -486,7 +486,7 @@ class RequestArgs(base.BaseCase):
         self.assertEqual(len(data['items']), 2)
         self.assertEqual(data['total'], 2)
 
-        id_list = map(lambda row: int(row['id']), data['items'])
+        id_list = [int(row['id']) for row in data['items']]
         self.assertEqual(id_list, [self.msid1, self.msid2]) # numbers descend 20125, 20105 <-
 
     #

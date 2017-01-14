@@ -1,8 +1,8 @@
 import itertools
 from publisher import utils, models
-from publisher.utils import ymd
+from publisher.utils import ymd, lmap
 from django.db.models import Count
-from itertools import islice, imap
+from itertools import islice
 import logging
 from django.db.models import Min, Max, F, Q
 
@@ -26,7 +26,7 @@ def article_poa_vor_pubdates():
         .exclude(type__in=['article-commentary', 'editorial', 'book-review', 'discussion', 'correction']) \
         .exclude(volume=None) \
         .order_by('manuscript_id')
-    return imap(row, query)
+    return map(row, query)
 
 
 #
@@ -71,7 +71,7 @@ def paw_recent_report_raw_data(limit=None):
 
 def paw_recent_data(limit=None):
     "turns the raw SQL results data into rows suitable for a report"
-    return imap(mkrow, paw_recent_report_raw_data(limit))
+    return map(mkrow, paw_recent_report_raw_data(limit))
 
 
 # 'ahead' report (POA)
@@ -95,7 +95,7 @@ def paw_ahead_report_raw_data(limit=None):
 
 def paw_ahead_data(limit=None):
     "'ahead' data is POA only"
-    return imap(mkrow, paw_ahead_report_raw_data(limit))
+    return map(mkrow, paw_ahead_report_raw_data(limit))
 
 def totals_for_year(year=2015):
     kwargs = {
@@ -123,7 +123,7 @@ def totals_for_year(year=2015):
             count = row[key + '__count'] # 36
             article_type = row[key] # 'correction'
             return (article_type, count) # ll: (correction, 36)
-        return map(counts, vals)
+        return lmap(counts, vals)
 
     jats_type_counts = xcount('article__type')
     ejp_type_counts = xcount('article__ejp_type')
@@ -209,7 +209,7 @@ def time_to_publication(year=2015):
             days_to_vor,
             days_to_vor_from_poa,
         ]
-    return itertools.chain([headers], imap(row, models.Article.objects.filter(**kwargs)))
+    return itertools.chain([headers], map(row, models.Article.objects.filter(**kwargs)))
 
 '''
 # once off
