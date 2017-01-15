@@ -5,6 +5,13 @@ set -e # everything must succeed.
 
 if [ ! -d venv ]; then
     virtualenv --python=`which python3` venv
+else
+    # check for old python2 binary
+    if [ -e venv/bin/python2 ]; then
+        echo "old python2 venv detected, rebuilding venv"
+        rm -rf venv
+        virtualenv --python=`which python3` venv
+    fi
 fi
 source venv/bin/activate
 if [ ! -e app.cfg ]; then
