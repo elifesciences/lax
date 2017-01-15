@@ -144,12 +144,12 @@ class TestReport(base.BaseCase):
         url = reverse('paw-recent-report', kwargs={'days_ago': 9999})
         resp = Client().get(url)
         self.assertEqual(resp.status_code, 200)
-        xml = resp.content
+        xml = resp.content.decode('utf-8')
         self.assertEqual(len(re.findall('<item>', xml)), self.vor_art_count)
 
     def test_paw_ahead_report(self):
         url = reverse('paw-ahead-report', kwargs={'days_ago': 9999})
         resp = Client().get(url)
         self.assertEqual(resp.status_code, 200)
-        xml = resp.content
+        xml = resp.content.decode('utf-8')
         self.assertEqual(len(re.findall('<item>', xml)), self.poa_art_count)

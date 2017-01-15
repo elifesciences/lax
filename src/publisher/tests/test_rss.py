@@ -122,7 +122,7 @@ class RSSViews(BaseCase):
         aid = doi[8:]
         url = reverse('rss-specific-article-list', kwargs={'aid_list': aid})
         resp = self.c.get(url)
-        self.assertEqual(1, len(re.findall('<guid', resp.content)))
+        self.assertEqual(1, len(re.findall('<guid', resp.content.decode('utf-8'))))
 
     @skip('nobody uses rss. tune performance then')
     def test_specific_feed_single_article_db_performance(self):
@@ -140,7 +140,7 @@ class RSSViews(BaseCase):
         aid_str = ','.join(aid_list)
         url = reverse('rss-specific-article-list', kwargs={'aid_list': aid_str})
         resp = self.c.get(url)
-        self.assertEqual(3, len(re.findall('<guid', resp.content)))
+        self.assertEqual(3, len(re.findall('<guid', resp.content.decode('utf-8'))))
 
     @skip('nobody uses rss. tune performance then')
     def test_specific_feed_many_article_db_performance(self):
@@ -154,7 +154,7 @@ class RSSViews(BaseCase):
     def test_last_n_articles(self):
         url = reverse('rss-recent-article-list', kwargs={'article_status': 'vor', 'since': '1'})
         resp = self.c.get(url)
-        self.assertEqual(1, len(re.findall('<guid', resp.content)))
+        self.assertEqual(1, len(re.findall('<guid', resp.content.decode('utf-8'))))
 
     @skip('nobody uses rss. tune performance then')
     def test_last_n_articles_db_performance(self):

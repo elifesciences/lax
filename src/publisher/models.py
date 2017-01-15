@@ -10,7 +10,7 @@ POA, VOR = 'poa', 'vor'
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def __repr__(self):
@@ -21,7 +21,7 @@ class Journal(models.Model):
     name = models.CharField(max_length=255, unique=True, help_text="Name of the journal.")
     inception = models.DateTimeField(null=True, blank=True, help_text="Date journal was created.")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def __repr__(self):
@@ -163,7 +163,7 @@ class Article(models.Model):
     def get_absolute_url(self):
         return self.dxdoi_url()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.doi
 
     def __repr__(self):
@@ -199,7 +199,7 @@ class ArticleVersion(models.Model):
     def get_absolute_url(self):
         return self.article.dxdoi_url()
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s v%s' % (self.article.manuscript_id, self.version)
 
     def __repr__(self):
@@ -217,7 +217,7 @@ class ArticleFragment(models.Model):
 
     datetime_record_created = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.version:
             return '%s v%s "%s"' % (self.article.manuscript_id, self.version, self.type)
         return '%s "%s"' % (self.article.manuscript_id, self.type)
