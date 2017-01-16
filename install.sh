@@ -11,7 +11,7 @@ maxpy3=$(which /usr/bin/python3* | grep -E '[0-9]$' | sort -r | head -n 1)
 
 # ll: python3.6
 # http://stackoverflow.com/questions/2664740/extract-file-basename-without-path-and-extension-in-bash
-py3=${maypy3##*/} # magic
+py3=${maxpy3##*/} # magic
 
 # check for exact version of python3
 if [ ! -e "venv/bin/$py3" ]; then
