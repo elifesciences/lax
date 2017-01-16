@@ -3,18 +3,20 @@ set -e # everything must succeed.
 
 . download-api-raml.sh
 
-if [ ! -d venv ]; then
-    virtualenv --python=`which python3` venv
-else
-    # check for old python2 binary
-    if [ -e venv/bin/python2 ]; then
-        echo "old python2 venv detected, rebuilding venv"
-        rm -rf venv
-        # use the latest version of python3 we can find. 
-        # on Ubuntu14.04 the stable version is 3.3, the max we can install is 3.6
-        maxpy3=$(which /usr/bin/python3* | grep -E '[0-9]$' | sort -r | head -n 1)
-        virtualenv --python="$maxpy3" venv
-    fi
+# use the latest version of python3 we can find. 
+# on Ubuntu14.04 the stable version is 3.3, the max we can install is 3.6
+
+# ll: /usr/bin/python3.6
+maxpy3=$(which /usr/bin/python3* | grep -E '[0-9]$' | sort -r | head -n 1)
+
+# ll: python3.6
+# http://stackoverflow.com/questions/2664740/extract-file-basename-without-path-and-extension-in-bash
+py3=${maypy3##*/} # magic
+
+# check for exact version of python3
+if [ ! -e "venv/bin/$py3" ]; then
+    rm -rf venv
+    virtualenv --python="$maxpy3" venv
 fi
 source venv/bin/activate
 if [ ! -e app.cfg ]; then
