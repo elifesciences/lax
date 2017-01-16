@@ -3,10 +3,7 @@ set -e
 
 # remove any old compiled python files
 # pylint likes to lint them
-#find src/ -name '*.py[c|~]' -delete
-#find src/ -name \*.pyc -o -name \*.pyo -delete
-#find src/ -name __pycache__ -delete
-
+find src/ -name '*.py[c|~]' -delete
 find src/ -regex "\(.*__pycache__.*\|*.py[co]\)" -delete
 
 echo "* calling pyflakes"
