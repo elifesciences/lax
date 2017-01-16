@@ -10,7 +10,10 @@ else
     if [ -e venv/bin/python2 ]; then
         echo "old python2 venv detected, rebuilding venv"
         rm -rf venv
-        virtualenv --python=`which python3` venv
+        # use the latest version of python3 we can find. 
+        # on Ubuntu14.04 the stable version is 3.3, the max we can install is 3.6
+        maxpy3=$(which /usr/bin/python3* | grep -E '[0-9]$' | sort -r | head -n 1)
+        virtualenv --python="$maxpy3" venv
     fi
 fi
 source venv/bin/activate
