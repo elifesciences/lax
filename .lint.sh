@@ -1,5 +1,5 @@
 #!/bin/bash
-set -exv
+set -e
 
 # remove any old compiled python files
 # pylint likes to lint them
