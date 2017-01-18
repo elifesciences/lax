@@ -31,4 +31,5 @@ hg+https://bitbucket.org/lskibinski/rfc3339
 unittest-xml-reporting==2.1.0
 # sql-explorer optional deps
 tinys3==0.1.12
+uWSGI==2.0.14
 xenon==0.5.0
