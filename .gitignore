@@ -1,12 +1,12 @@
 *.pyc
-.tox/*
+.tox/
 *~
 *.sqlite*
 *.orig
 *.log
-media/**
-collected-static/**
-venv
+media/
+collected-static/
+venv/
 build/
 .elife-json
 .coverage
@@ -20,4 +20,4 @@ aws-perms.sh
 schema/
 article-xml
 .scrapy-cache
-dumps/*
+dumps/

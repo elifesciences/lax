@@ -4,7 +4,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-EXPECTED_HEADERS = CGROUPS, CID, CUSER = 'x-consumer-groups', 'x-consumer-id', 'x-consumer-username'
+EXPECTED_HEADERS = CGROUPS, CID, CUSER = 'HTTP_X_CONSUMER_GROUPS', 'HTTP_X_CONSUMER_ID', 'HTTP_X_CONSUMER_USERNAME'
 
 def set_authenticated(request, state=False):
     request.META[settings.KONG_AUTH_HEADER] = state
@@ -29,6 +29,7 @@ class KongAuthentication(object):
         for header in EXPECTED_HEADERS:
             if header not in request.META:
                 # no auth or invalid auth request, return immediately
+                LOG.debug('header %r not found, refusing auth', header)
                 strip_auth_headers(request)
                 return
             headers[header] = str(request.META[header])
