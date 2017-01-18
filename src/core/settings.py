@@ -145,8 +145,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(SRC_DIR, 'media')
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'collected-static')
+MEDIA_ROOT = join(SRC_DIR, 'media')
+STATIC_ROOT = join(PROJECT_DIR, 'collected-static')
 
 STATICFILES_DIRS = (
     os.path.join(SRC_DIR, "static"),
@@ -268,7 +268,6 @@ LOGGING = {
     },
 
     'handlers': {
-        # entries go to standard lax.log file
         'lax.log': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
@@ -276,7 +275,6 @@ LOGGING = {
             'formatter': 'json',
         },
 
-        # entries go to stderr
         'stderr': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
