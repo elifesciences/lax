@@ -4,9 +4,10 @@ import copy
 from os.path import join
 import json
 from datetime import datetime, timedelta
-from base import BaseCase
+from .base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
+from publisher.utils import lmap
 from unittest import skip
 
 from publisher import logic
@@ -68,7 +69,7 @@ class Ingest(BaseCase):
 
     def test_article_can_be_ingested_many_times_before_publication(self):
         "before an article is published it can be ingested many times"
-        cases = json1, json2, json3 = map(copy.deepcopy, [self.ajson] * 3)
+        cases = json1, json2, json3 = lmap(copy.deepcopy, [self.ajson] * 3)
 
         json2['article']['title'] = 'foo'
         json3['article']['title'] = 'bar'
@@ -521,7 +522,7 @@ class CLI(BaseCase):
 
 
 class UnicodePreserved(BaseCase):
-    u'''
+    '''
     ensures unicode isn't being mangled at any step of the processing
     http://jira.elifesciences.org:8080/browse/ELPP-2013
 
@@ -578,13 +579,14 @@ class UnicodePreserved(BaseCase):
 
         c = Client()
         resp = c.get(reverse('v2:article', kwargs={'id': self.msid}))
-        data = json.loads(resp.content)
+        data = json.loads(resp.content.decode('utf-8'))
+        # data = resp.json() # https://github.com/tomchristie/django-rest-framework/issues/4491
         given = data['authors'][1]['name']['preferred']
 
         self.assertEqual(expected, given)
 
         resp = c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': self.version}))
-        data = json.loads(resp.content)
+        data = json.loads(resp.content.decode('utf-8'))
         given = data['authors'][1]['name']['preferred']
 
     def test_cli_ingest_doesnt_mangle_unicode(self):

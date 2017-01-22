@@ -1,9 +1,9 @@
-from StringIO import StringIO
+from io import StringIO
 from django.core.management import call_command
 import os, json
 from os.path import join
 from publisher import eif_ingestor as ingestor, utils, models, logic
-from base import BaseCase
+from .base import BaseCase
 import logging
 from django.test import Client
 from django.core.urlresolvers import reverse
@@ -287,8 +287,8 @@ class ImportArticleFromJSONViaAPI(BaseCase):
                 self.assertEqual(400, resp.status_code)
                 self.assertEqual(0, models.Article.objects.count())
             except AssertionError as e:
-                print '>>> ', bad_data
-                print e
+                print('>>> ', bad_data)
+                print(e)
                 raise
 
     def test_article_update_when_doesnt_exist(self):
@@ -310,7 +310,7 @@ class ImportFromPPPEIF(BaseCase):
         for dirpath, _, files in os.walk(join(self.fixture_dir, 'ppp')):
             if not files:
                 continue
-            self.fixture_list.extend(map(lambda f: os.path.join(dirpath, f), files))
+            self.fixture_list.extend([os.path.join(dirpath, f) for f in files])
 
     def tearDown(self):
         pass

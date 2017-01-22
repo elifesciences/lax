@@ -1,4 +1,4 @@
-from base import BaseCase
+from .base import BaseCase
 from django.test import Client
 from django.core.urlresolvers import reverse
 

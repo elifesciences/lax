@@ -1,9 +1,9 @@
 from functools import partial
-from utils import compfilter
+from .utils import compfilter, lfilter
 from django.conf.urls import url
 from django.contrib.syndication.views import Feed
 from django.core.urlresolvers import reverse
-import models, logic, utils
+from . import models, logic, utils
 from datetime import timedelta  # , datetime
 from django.utils.feedgenerator import Rss201rev2Feed
 
@@ -74,7 +74,7 @@ class SpecificArticleFeed(AbstractArticleFeed):
 
     def get_object(self, request, aid_list):
         aid_list = aid_list.split(',')
-        doi_list = map(lambda aid: '10.7554/' + aid, aid_list)
+        doi_list = ['10.7554/' + aid for aid in aid_list]
         return {'aid_list': aid_list,
                 'doi_list': doi_list}
 
@@ -89,7 +89,7 @@ class SpecificArticleFeed(AbstractArticleFeed):
             .order_by('-datetime_published', 'version')
 
     def item_title(self, item):
-        return u'%s (version %s)' % (item.title, item.version)
+        return '%s (version %s)' % (item.title, item.version)
 
 
 class RecentArticleFeed(AbstractArticleFeed):
@@ -125,7 +125,7 @@ class RecentArticleFeed(AbstractArticleFeed):
         #published_since = partial(published_between, start, end)
 
         total, results = logic.latest_article_version_list()
-        return filter(compfilter([status_in, published_since]), results)
+        return lfilter(compfilter([status_in, published_since]), results)
 
 class AbstractReportFeed(AbstractArticleFeed):
     feed_type = RSSArticleFeedGenerator

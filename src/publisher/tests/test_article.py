@@ -1,6 +1,7 @@
+from publisher.utils import keys
 from publisher import models, logic
 from publisher import api_v1_views as views
-from base import BaseCase
+from .base import BaseCase
 import logging
 from datetime import datetime, timedelta
 from django.test import Client
@@ -137,7 +138,7 @@ class ArticleInfoViaApi(BaseCase):
 
         resp = self.c.get(reverse("api-article-versions", kwargs={'doi': doi}))
         data = resp.data
-        self.assertEqual([1, 2, 3], data.keys())
+        self.assertEqual([1, 2, 3], keys(data))
         for expected_item in article_data_list:
             resp_item = data[expected_item['version']]
             self.assertEqual(resp_item['title'], expected_item['title'])
@@ -170,8 +171,6 @@ class ArticleInfoViaApi(BaseCase):
         expected_version = 1
         api_args = {'doi': doi, 'version': expected_version}
         resp = self.c.get(reverse("api-article-version", kwargs=api_args))
-
-        print resp.data
 
         self.assertEqual(resp.data['version'], expected_version)
         self.assertEqual(resp.data['title'], 'bar')

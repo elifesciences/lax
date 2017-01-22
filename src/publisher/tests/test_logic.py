@@ -1,6 +1,6 @@
 import json
 from os.path import join
-from base import BaseCase
+from .base import BaseCase
 from publisher import logic, ajson_ingestor, models, eif_ingestor
 
 class TestLogic0(BaseCase):
@@ -80,10 +80,12 @@ class TestLogic0(BaseCase):
         for msid, version in unpublish_these:
             self.unpublish(msid, version)
 
-        wrapped_total, wrapped_results = logic.latest_article_version_list(only_published=False)
+        wrapper_total, wrapper_results = logic.latest_article_version_list(only_published=False)
         total, results = logic.latest_unpublished_article_versions()
-        self.assertEqual(wrapped_total, total)
-        self.assertItemsEqual(wrapped_results, results)
+        self.assertEqual(wrapper_total, total)
+        # checks the items as well as the length
+        # https://docs.python.org/3/library/unittest.html?highlight=assertcountequal#unittest.TestCase.assertCountEqual
+        self.assertCountEqual(wrapper_results, results)
 
     def test_latest_article_version_list_only_unpublished(self):
         "ensure only the latest versions of the articles are returned when unpublished versions exist"
@@ -156,7 +158,7 @@ class TestLogic0(BaseCase):
                 av = latest_idx[msid]
                 self.assertEqual(av.version, expected_version)
             except:
-                print 'failed on', msid, 'version', expected_version
+                print('failed on', msid, 'version', expected_version)
                 raise
 
 

@@ -2,6 +2,7 @@ import pprint
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from publisher import eif_ingestor, logic, ejp_ingestor, utils
+from publisher.utils import lmap
 from functools import partial
 import logging
 
@@ -23,9 +24,9 @@ def ingest(fn, journal, create, update, path_list):
             LOG.exception("failed to import article")
             return False
     try:
-        map(_, path_list)
+        lmap(_, path_list)
     except KeyboardInterrupt:
-        print 'caught interrupt'
+        print('caught interrupt')
         exit(1)
 
 class Command(BaseCommand):
@@ -78,14 +79,11 @@ class Command(BaseCommand):
         if not options['just_do_it']:
             try:
                 pprint.pprint(path_list)
-                print
-                print import_type.upper(), 'import of', len(path_list), 'files'
-                print 'create?', create_articles
-                print 'update?', update_articles
-                print
-                raw_input('continue? (ctrl-c to exit)')
+                print(import_type.upper(), 'import of', len(path_list), 'files')
+                print('create?', create_articles)
+                print('update?', update_articles)
+                input('continue? (ctrl-c to exit)')
             except KeyboardInterrupt:
-                print
                 exit(0)
 
         choices = {

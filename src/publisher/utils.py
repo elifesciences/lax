@@ -15,8 +15,19 @@ from django.db import transaction, IntegrityError
 
 LOG = logging.getLogger(__name__)
 
+lmap = lambda func, *iterable: list(map(func, *iterable))
+
+lfilter = lambda func, *iterable: list(filter(func, *iterable))
+
+keys = lambda d: list(d.keys())
+
 class StateError(RuntimeError):
     pass
+
+class LaxAssertionError(AssertionError):
+    @property
+    def message(self):
+        return self.args[0]
 
 def atomic(fn):
     def wrapper(*args, **kwargs):
@@ -32,7 +43,8 @@ def atomic(fn):
                     raise IntegrityError(rollback_key)
                 return result
         except IntegrityError as err:
-            if dry_run and err.message == rollback_key:
+            message = err.args[0]
+            if dry_run and message == rollback_key:
                 return result
             # this was some other IntegrityError
             raise
@@ -45,7 +57,7 @@ def ensure(assertion, msg, *args):
     """intended as a convenient replacement for `assert` statements that
     get compiled away with -O flags"""
     if not assertion:
-        raise AssertionError(msg % args)
+        raise LaxAssertionError(msg % args)
 
 def resolve_path(p, ext='.json'):
     "returns a list of absolute paths given a file or a directory"
@@ -102,7 +114,7 @@ def second(x):
 
 def firstnn(x):
     "given sequential `x`, returns the first non-nil value"
-    return first(filter(None, x))
+    return first(lfilter(None, x))
 
 def delall(ddict, lst):
     "mutator. "
@@ -112,7 +124,7 @@ def delall(ddict, lst):
             return True
         except KeyError:
             return False
-    return zip(lst, map(delkey, lst))
+    return list(zip(lst, lmap(delkey, lst)))
 
 def ymd(dt):
     "returns a simple YYYY-MM-DD representation of a datetime object"
@@ -194,11 +206,11 @@ def dictmap(func, data, **funcargs):
     return {k: func(v) for k, v in data.items()}
 
 def has_all_keys(data, expected_keys):
-    actual_keys = data.keys()
-    return all(map(lambda key: key in actual_keys, expected_keys))
+    actual_keys = keys(data)
+    return all([key in actual_keys for key in expected_keys])
 
 def djobj_hasattr(djobj, key):
-    return key in map(lambda f: f.name, djobj._meta.get_fields())
+    return key in [f.name for f in djobj._meta.get_fields()]
 
 def to_dict(instance):
     opts = instance._meta
@@ -218,6 +230,11 @@ def updatedict(ddict, **kwargs):
     for key, val in kwargs.items():
         newdata[key] = val
     return newdata
+
+def json_loads(data, *args, **kwargs):
+    if isinstance(data, bytes):
+        data = data.decode('utf-8')
+    return json.loads(data, *args, **kwargs)
 
 def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
@@ -239,13 +256,13 @@ def deepmerge(d1, d2):
     return d1
 
 def merge_all(dict_list):
-    ensure(all(map(lambda r: isinstance(r, dict), dict_list)), "not all given values are dictionaries!")
+    ensure(all([isinstance(r, dict) for r in dict_list]), "not all given values are dictionaries!")
     return reduce(deepmerge, dict_list)
 
 def boolkey(*args):
     """given N values, returns a tuple of their truthiness.
     for example: boolkey(0, 1, 2) => (False, True, True)"""
-    return tuple(map(lambda v: not not v, args))
+    return tuple([not not v for v in args])
 
 #
 #
@@ -253,7 +270,7 @@ def boolkey(*args):
 
 @cache
 def load_schema(schema_path):
-    return json.load(open(schema_path, 'r'))
+    return json.load(open(schema_path, 'r', encoding='utf-8'))
 
 def validate(struct, schema_path):
     try:

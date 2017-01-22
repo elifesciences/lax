@@ -1,7 +1,7 @@
 import json  # , copy
-import models
-import utils
-from utils import subdict, todt, delall, msid2doi, doi2msid
+from . import models
+from . import utils
+from .utils import lmap, subdict, todt, delall, msid2doi, doi2msid
 import logging
 from django.conf import settings
 from django.db import transaction  # , IntegrityError
@@ -208,4 +208,4 @@ def patch2(patch_data):
 def patch_handler(journal, path, create, update):
     with transaction.atomic():
         patch_list = json.load(open(path, 'r'))
-        return map(patch2, patch_list)
+        return lmap(patch2, patch_list)

@@ -1,7 +1,7 @@
 from core import middleware as mware
 import uuid
 from datetime import timedelta
-import base
+from . import base
 from os.path import join
 import json
 from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, ejp_ingestor
@@ -118,7 +118,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['list'])
@@ -135,7 +135,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
         idx = {int(item['id']): item for item in data['items']}
 
         # valid data
@@ -151,7 +151,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['poa'])
@@ -164,7 +164,7 @@ class V2Content(base.BaseCase):
         resp = self.ac.get(reverse('v2:article', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['poa'])
@@ -178,7 +178,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, "application/vnd.elife.article-vor+json;version=1")
 
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['vor'])
@@ -192,7 +192,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).exclude(datetime_published=None).count(), 2)
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['poa'])
@@ -214,7 +214,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['history'])
@@ -236,7 +236,7 @@ class V2Content(base.BaseCase):
         resp = self.ac.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['history'])
@@ -264,12 +264,12 @@ class V2Content(base.BaseCase):
         # we now have a published article in lax with invalid article-json
 
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid1}))
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # the invalid-but-published culprit
         v4 = data['versions'][-1]
 
-        expected_struct = json.loads(utils.json_dumps({
+        expected_struct = utils.json_loads(utils.json_dumps({
             '-invalid': True,
             'status': av.status,
             'published': av.article.datetime_published,
@@ -426,7 +426,7 @@ class RequestArgs(base.BaseCase):
         resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['list'])
@@ -441,7 +441,7 @@ class RequestArgs(base.BaseCase):
         resp = self.c.get(reverse('v2:article-list') + "?per-page=1&page=2")
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # valid data
         utils.validate(data, SCHEMA_IDX['list'])
@@ -457,7 +457,7 @@ class RequestArgs(base.BaseCase):
         resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
         self.assertEqual(len(data['items']), 0)
@@ -467,26 +467,26 @@ class RequestArgs(base.BaseCase):
         resp = self.c.get(reverse('v2:article-list') + "?order=asc")
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
         self.assertEqual(len(data['items']), 2)
         self.assertEqual(data['total'], 2)
 
-        id_list = map(lambda row: int(row['id']), data['items'])
+        id_list = [int(row['id']) for row in data['items']]
         self.assertEqual(id_list, [self.msid2, self.msid1]) # numbers ascend -> 20105, 20125
 
     def test_article_list_ordering_desc(self):
         resp = self.c.get(reverse('v2:article-list') + "?order=desc")
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
-        data = json.loads(resp.content)
+        data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
         self.assertEqual(len(data['items']), 2)
         self.assertEqual(data['total'], 2)
 
-        id_list = map(lambda row: int(row['id']), data['items'])
+        id_list = [int(row['id']) for row in data['items']]
         self.assertEqual(id_list, [self.msid1, self.msid2]) # numbers descend 20125, 20105 <-
 
     #

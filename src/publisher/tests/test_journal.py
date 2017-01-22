@@ -1,4 +1,4 @@
-from base import BaseCase
+from .base import BaseCase
 from publisher import logic, models
 from django.conf import settings
 

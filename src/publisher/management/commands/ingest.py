@@ -8,13 +8,14 @@ The ingest script DOES obey business rules and will not publish things twice,
 """
 import io, re, sys, json, argparse
 from publisher import ajson_ingestor, utils
+from publisher.utils import lfilter
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
 import multiprocessing
 from django.db import reset_queries
 import os
-from modcommand import ModCommand
+from .modcommand import ModCommand
 
 LOG = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ INGEST, PUBLISH, BOTH = IMPORT_TYPES
 INGESTED, PUBLISHED = 'ingested', 'published'
 
 def write(print_queue, out=None):
-    if not isinstance(out, basestring):
+    if not isinstance(out, str):
         out = utils.json_dumps(out) # encodes datetime objects
     print_queue.put(out)
 
@@ -122,7 +123,7 @@ def job(print_queue, action, path, force, dry_run):
 def handle_many(print_queue, action, path, force, dry_run):
     json_files = utils.resolve_path(path)
     cregex = re.compile(r'^.*/elife-\d{5,}-v\d\.xml\.json$')
-    ajson_file_list = filter(cregex.match, json_files)
+    ajson_file_list = lfilter(cregex.match, json_files)
     if not ajson_file_list:
         LOG.info("found no article json at %r" % os.path.abspath(path))
         clean_up(print_queue)

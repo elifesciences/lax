@@ -1,6 +1,6 @@
 import sys, json
 from functools import partial
-from modcommand import ModCommand
+from .modcommand import ModCommand
 from publisher.utils import boolkey
 from publisher.fragment_logic import revalidate_specific_article_version, revalidate_all_versions_of_article, revalidate_all_article_versions, revalidate_report
 import logging

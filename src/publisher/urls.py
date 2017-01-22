@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-import views, rss
+from . import views, rss
 from rest_framework_swagger.views import get_swagger_view
 
 urlpatterns = [

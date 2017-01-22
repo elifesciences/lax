@@ -1,4 +1,5 @@
 import os
+from publisher.utils import lmap
 from django.core.management.base import BaseCommand
 import boto3
 
@@ -7,9 +8,9 @@ logger = logging.getLogger(__name__)
 
 def pub_eif_struct(o):
     keys = ['key', 'last_modified']
-    struct = dict(map(lambda attr: (attr, getattr(o, attr)), keys))
+    struct = dict([(attr, getattr(o, attr)) for attr in keys])
     # fname ll: elife-00003-v1.json
-    struct.update(dict(zip(['aid', 'uuid', 'fname'], struct['key'].split('/'))))
+    struct.update(dict(list(zip(['aid', 'uuid', 'fname'], struct['key'].split('/')))))
     struct['last_modified'] = struct['last_modified'].strftime('%Y-%m-%d-%H-%M-%S')
     #struct['obj'] = o
     return struct
@@ -34,7 +35,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         pub_eif_bucket, dataset = bucket_listing('elife-publishing-eif')  # , limit=10)
         # turn those objects into something we can deal with
-        dataset = map(pub_eif_struct, dataset)
+        dataset = lmap(pub_eif_struct, dataset)
         # order everything by when they were modified, from earliest to oldest
         dataset = sorted(dataset, key=lambda x: x['last_modified'])
         # key by fname so more recent runs of the same file override previous runs
@@ -45,7 +46,7 @@ class Command(BaseCommand):
             if key in struct_map:
                 old_run = struct_map[key]['last_modified']
                 new_run = struct['last_modified']
-                print '%s: replacing run %s with %s' % (key, old_run, new_run)
+                print('%s: replacing run %s with %s' % (key, old_run, new_run))
                 if key not in run_replacements:
                     run_replacements[key] = []
                 run_replacements[key].append((old_run, new_run))
@@ -60,13 +61,13 @@ class Command(BaseCommand):
         def download(s):
             path = '.repop/%s' % s['fname']
             if s['fname'] not in idx:
-                print 'file not published yet, NOT downloading', s['key']
+                print('file not published yet, NOT downloading', s['key'])
             elif os.path.exists(path):
                 # print 'file exists, NOT downloading',s['key']
                 pass
             else:
-                print 'downloading', s['key']
+                print('downloading', s['key'])
                 pub_eif_bucket.download_file(s['key'], path)
             return key
 
-        map(download, sorted(struct_map.values()))
+        lmap(download, sorted(struct_map.values()))
