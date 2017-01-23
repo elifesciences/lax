@@ -172,8 +172,7 @@ class Command(ModCommand):
             self.invalid_args("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
 
         manager = multiprocessing.Manager()
-        passable_queue = manager.Queue()
-        print_queue = passable_queue
+        print_queue = manager.Queue()
 
         try:
             if path:
@@ -190,6 +189,10 @@ class Command(ModCommand):
                     self.invalid_args("the 'id' and 'version' options are both required when a 'dir' option is not passed")
 
                 handle_single(print_queue, action, options['infile'], msid, version, force, dry_run)
+
+        except Exception as err:
+            LOG.exception("unhandled exception!")
+            error(print_queue, ERROR, str(err), self.log_context)
 
         finally:
             for msg in iter(print_queue.get, 'STOP'):

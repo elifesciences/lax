@@ -22,7 +22,9 @@ lfilter = lambda func, *iterable: list(filter(func, *iterable))
 keys = lambda d: list(d.keys())
 
 class StateError(RuntimeError):
-    pass
+    @property
+    def message(self):
+        return self.args[0]
 
 class LaxAssertionError(AssertionError):
     @property
