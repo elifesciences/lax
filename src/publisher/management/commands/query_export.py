@@ -1,3 +1,4 @@
+import io
 import sys
 from publisher.utils import subdict, lmap
 from functools import partial
@@ -8,7 +9,7 @@ from datetime import date
 from explorer import exporters, models
 import logging
 import botocore.session
-import tinys3
+import boto3
 
 LOG = logging.getLogger(__name__)
 
@@ -21,11 +22,12 @@ class Command(BaseCommand):
         parser.add_argument('--timestamp-filenames', dest='timestamp_fname', action='store_true')
 
     def _upload(self, key, data):
-        credentials = botocore.session.get_session().get_credentials()
-        access_key = credentials.access_key
-        secret_key = credentials.secret_key
-        conn = tinys3.Connection(access_key, secret_key, default_bucket=settings.EXPLORER_S3_BUCKET)
-        return conn.upload(key, data)  # expects a file-like object
+        # assume boto can find our credentials
+        s3 = boto3.resource('s3')
+        # django-sql-explorer on master branch has fixed this issue but it's still present
+        # in 1.0. `get_file_output()` is casting to a str before returning
+        data = io.BytesIO(data.getvalue().encode())
+        s3.Bucket(settings.EXPLORER_S3_BUCKET).put_object(Key=key, Body=data)
 
     def snapshot_query(self, query_id, upload=True, timestamp_fname=False):
         q = models.Query.objects.get(pk=query_id)
@@ -37,9 +39,15 @@ class Command(BaseCommand):
             fname = 'query%s--%s--%s.csv' % (q.id, safe_title, date.today().strftime('%Y%m%d-%H:%M:%S'))
         if upload and settings.EXPLORER_S3_BUCKET:
             LOG.info("uploading snapshot: %s", fname)
-            self._upload(fname, exporter.get_file_output())
+            res = exporter.query.execute_query_only()
+            data = exporter._get_output(res)
+            self._upload(fname, data)
+            #self._upload(fname, exporter.get_file_output())
             LOG.info("completed upload of snapshot: %s", fname)
             self.echo('%s uploaded' % fname)
+        else:
+            LOG.warn("the bucket to upload query result %r hasn't been defined in your app.cfg file. skipping upload" % fname)
+
         self.echo(fname)
 
     def echo(self, x):
