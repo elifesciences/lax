@@ -8,7 +8,6 @@ from django.conf import settings
 from datetime import date
 from explorer import exporters, models
 import logging
-import botocore.session
 import boto3
 
 LOG = logging.getLogger(__name__)
