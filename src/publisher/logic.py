@@ -152,10 +152,12 @@ def latest_unpublished_article_versions(page=1, per_page=-1, order='DESC'):
         .filter(version=F('max_version')) \
         .order_by(order_by)
 
+    total = q.count()
+
     if per_page > 0:
         q = q[start:end]
 
-    return q.count(), list(q)
+    return total, list(q)
 
 def latest_article_version_list(page=1, per_page=-1, order='DESC', only_published=True):
     "returns a list of the most recent article versions for all articles."
