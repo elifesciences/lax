@@ -99,7 +99,7 @@ def article_version(request, id, version):
     try:
         # TODO: this seems wrong, should be 'not authenticated'
         # since you are already at it, test at the HTTP level also the other requests
-        av = logic.article_version(id, version, only_published=authenticated)
+        av = logic.article_version(id, version, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.ArticleVersion.DoesNotExist:
         raise Http404()

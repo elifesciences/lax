@@ -183,7 +183,7 @@ class V2Content(base.BaseCase):
         # correct data
         self.assertEqual(data['version'], 3)
 
-    def test_article_unpublished_ver_not_returned(self):
+    def test_article_unpublished_version_not_returned(self):
         "unpublished article versions are not returned"
         self.unpublish(self.msid2, version=3)
         self.assertEqual(models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).exclude(datetime_published=None).count(), 2)
@@ -196,6 +196,16 @@ class V2Content(base.BaseCase):
 
         # correct data
         self.assertEqual(data['version'], 2) # third version was unpublished
+
+        # list of versions
+        version_list = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        self.assertEqual(version_list.status_code, 200)
+        version_list_data = utils.json_loads(version_list.content)
+        self.assertEqual(len(version_list_data['versions']), 2)
+
+        # directly trying to access the unpublished version
+        unpublished_version = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 3}))
+        self.assertEqual(unpublished_version.status_code, 404)
 
     def test_article_does_not_exist(self):
         fake_msid = 123
@@ -278,7 +288,7 @@ class V2Content(base.BaseCase):
     def test_article_version(self):
         versions = [1, 2, 3]
         for ver in versions:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': ver}))
+            resp = self.ac.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': ver}))
             self.assertEqual(resp.status_code, 200)
 
     def test_article_version_art_does_not_exist(self):
