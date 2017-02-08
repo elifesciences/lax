@@ -40,7 +40,7 @@ class KongAuthentication(object):
         client_ip = IPAddress(request.META['REMOTE_ADDR'])
         internal_networks = [IPNetwork(n) for n in settings.INTERNAL_NETWORKS]
         in_internal_networks = len([n for n in internal_networks if client_ip in n]) > 0
-        if not internal_networks:
+        if not in_internal_networks:
             strip_auth_headers(request)
             LOG.debug("IP doesn't originate within internal network, refusing auth: %s" % request.META['REMOTE_ADDR'])
             return
