@@ -315,7 +315,7 @@ class V2PostContent(base.BaseCase):
         "a POST request can be sent that adds an article fragment"
         key = 'test-frag'
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
-        fragment = {'title': 'pants-party'}
+        fragment = {'title': 'Electrostatic selection'}
         q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid)
 
         # POST fragment into lax
@@ -326,6 +326,12 @@ class V2PostContent(base.BaseCase):
         # fragment has been added
         frag = models.ArticleFragment.objects.get(type=key)
         self.assertEqual(frag.fragment, fragment)
+
+        # fragment is served into the article
+        article_url = reverse('v2:article-version-list', kwargs={'id': self.msid})
+        resp = self.c.get(article_url)
+        data = utils.json_loads(resp.content)
+        self.assertEqual(data['versions'][0]['title'], fragment['title'])
 
     def test_add_fragment_twice(self):
         key = 'test-frag'

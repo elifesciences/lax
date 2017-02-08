@@ -108,7 +108,6 @@ def article_version(request, id, version):
 
 @api_view(['POST'])
 def article_fragment(request, art_id, fragment_id):
-    #LOG.info('api_v2_views.article_fragment')
     only_published = is_authenticated(request)
     try:
         reserved_keys = [XML2JSON]
@@ -118,7 +117,7 @@ def article_fragment(request, art_id, fragment_id):
             data = request.data
             frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
             ensure(created or updated, "fragment was not created/updated")
-            fragment_logic.merge_if_valid(av, quiet=False)
+            fragment_logic.set_article_json(av, quiet=False)
             return Response(frag.fragment) # return the data they gave us
 
     except ValidationError as err:

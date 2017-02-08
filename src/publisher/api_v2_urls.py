@@ -8,6 +8,5 @@ urlpatterns = [
     url(r'articles/(?P<id>\d+)/versions/(?P<version>\d+)$', views.article_version, name='article-version'),
 
     # not part of Public API
-    # this should be "fragments/" for consistency
-    url(r'articles/(?P<art_id>\d+)/fragment/(?P<fragment_id>[\-\w]{3,25})$', views.article_fragment, name='article-fragment'),
+    url(r'articles/(?P<art_id>\d+)/fragments/(?P<fragment_id>[\-\w]{3,25})$', views.article_fragment, name='article-fragment'),
 ]
