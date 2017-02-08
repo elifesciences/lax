@@ -333,6 +333,25 @@ class V2PostContent(base.BaseCase):
         data = utils.json_loads(resp.content)
         self.assertEqual(data['versions'][0]['title'], fragment['title'])
 
+    def test_add_fragment_multiple_versions(self):
+        path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v2.xml.json")
+        ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+
+        key = 'test-frag'
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        fragment = {'title': 'Electrostatic selection'}
+
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
+        # fragment is served into all article versions
+        article_url = reverse('v2:article-version-list', kwargs={'id': self.msid})
+        resp = self.c.get(article_url)
+        data = utils.json_loads(resp.content)
+        self.assertEquals(len(data['versions']), 2)
+        self.assertEqual(data['versions'][0]['title'], fragment['title'])
+        self.assertEqual(data['versions'][1]['title'], fragment['title'])
+
     def test_add_fragment_twice(self):
         key = 'test-frag'
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})

@@ -113,11 +113,12 @@ def article_fragment(request, art_id, fragment_id):
         reserved_keys = [XML2JSON]
         ensure(fragment_id not in reserved_keys, "that key is taken")
         with transaction.atomic():
-            av = logic.most_recent_article_version(art_id, only_published)
-            data = request.data
-            frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
-            ensure(created or updated, "fragment was not created/updated")
-            fragment_logic.set_article_json(av, quiet=False)
+            avs = logic.article_version_list(art_id, only_published)
+            for av in avs:
+                data = request.data
+                frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
+                ensure(created or updated, "fragment was not created/updated")
+                fragment_logic.set_article_json(av, quiet=False)
             return Response(frag.fragment) # return the data they gave us
 
     except ValidationError as err:
