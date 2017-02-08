@@ -119,7 +119,7 @@ TEST_OUTPUT_FILE_NAME = 'junit.xml'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # lax often receives long bursts of traffic from dependant services
-CONN_MAX_AGE = 60 # seconds. 
+CONN_MAX_AGE = 60 # seconds.
 
 DATABASES = {
     'default': {
