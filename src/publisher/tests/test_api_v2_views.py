@@ -1,5 +1,4 @@
 from core import middleware as mware
-import uuid
 from datetime import timedelta
 from . import base
 from os.path import join
