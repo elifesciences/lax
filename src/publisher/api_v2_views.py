@@ -51,6 +51,7 @@ def request_args(request, **overrides):
 #
 
 def is_authenticated(request):
+    # this header is never set, but only for this API because on /articles/42 it works
     val = request.META.get(settings.KONG_AUTH_HEADER)
     #LOG.info("authenticated? %s type %s" % (val, type(val)))
     return val or False
@@ -107,6 +108,7 @@ def article_version(request, id, version):
 
 @api_view(['POST'])
 def article_fragment(request, art_id, fragment_id):
+    #LOG.info('api_v2_views.article_fragment')
     only_published = is_authenticated(request)
     try:
         reserved_keys = [XML2JSON]
