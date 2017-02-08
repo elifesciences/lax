@@ -381,7 +381,6 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(resp.status_code, 404)
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
 
-    # TODO: delete as outdated, better transform into failing test if you're not authenticated or if you have 'user'
     def test_add_fragment_for_unpublished_article(self):
         "article hasn't been published yet but we want to contribute content"
         # unpublish our article
@@ -409,6 +408,15 @@ class V2PostContent(base.BaseCase):
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
         self.assertEqual(resp.status_code, 400) # bad client request
+
+    def test_fragment_needs_authentication(self):
+        "only admin users can modify content"
+        key = 'test-frag'
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        fragment = {'title': 'Electrostatic selection'}
+
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(resp.status_code, 403)
 
 class RequestArgs(base.BaseCase):
     def setUp(self):
