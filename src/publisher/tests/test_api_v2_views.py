@@ -1,5 +1,4 @@
 from core import middleware as mware
-import uuid
 from datetime import timedelta
 from . import base
 from os.path import join
@@ -107,10 +106,7 @@ class V2Content(base.BaseCase):
         self.c = Client()
         # an authenticated client
         self.ac = Client(**{
-            'REMOTE_ADDR': '10.0.2.6',
             mware.CGROUPS: 'admin',
-            mware.CID: str(uuid.uuid4()),
-            mware.CUSER: 'pants'
         })
 
     def test_article_list(self):
@@ -186,7 +182,7 @@ class V2Content(base.BaseCase):
         # correct data
         self.assertEqual(data['version'], 3)
 
-    def test_article_unpublished_ver_not_returned(self):
+    def test_article_unpublished_version_not_returned(self):
         "unpublished article versions are not returned"
         self.unpublish(self.msid2, version=3)
         self.assertEqual(models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).exclude(datetime_published=None).count(), 2)
@@ -199,6 +195,16 @@ class V2Content(base.BaseCase):
 
         # correct data
         self.assertEqual(data['version'], 2) # third version was unpublished
+
+        # list of versions
+        version_list = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        self.assertEqual(version_list.status_code, 200)
+        version_list_data = utils.json_loads(version_list.content)
+        self.assertEqual(len(version_list_data['versions']), 2)
+
+        # directly trying to access the unpublished version
+        unpublished_version = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 3}))
+        self.assertEqual(unpublished_version.status_code, 404)
 
     def test_article_does_not_exist(self):
         fake_msid = 123
@@ -281,7 +287,7 @@ class V2Content(base.BaseCase):
     def test_article_version(self):
         versions = [1, 2, 3]
         for ver in versions:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': ver}))
+            resp = self.ac.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': ver}))
             self.assertEqual(resp.status_code, 200)
 
     def test_article_version_art_does_not_exist(self):
@@ -310,22 +316,50 @@ class V2PostContent(base.BaseCase):
         self.assertTrue(fragments.merge_if_valid(self.av))
 
         self.c = Client()
+        self.ac = Client(**{
+            mware.CGROUPS: 'admin',
+        })
 
     def test_add_fragment(self):
         "a POST request can be sent that adds an article fragment"
         key = 'test-frag'
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
-        fragment = {'title': 'pants-party'}
+        fragment = {'title': 'Electrostatic selection'}
         q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid)
 
         # POST fragment into lax
         self.assertEqual(q.count(), 1) # 'xml->json'
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
 
         # fragment has been added
         frag = models.ArticleFragment.objects.get(type=key)
         self.assertEqual(frag.fragment, fragment)
+
+        # fragment is served into the article
+        article_url = reverse('v2:article-version-list', kwargs={'id': self.msid})
+        resp = self.c.get(article_url)
+        data = utils.json_loads(resp.content)
+        self.assertEqual(data['versions'][0]['title'], fragment['title'])
+
+    def test_add_fragment_multiple_versions(self):
+        path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v2.xml.json")
+        ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+
+        key = 'test-frag'
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        fragment = {'title': 'Electrostatic selection'}
+
+        resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
+        # fragment is served into all article versions
+        article_url = reverse('v2:article-version-list', kwargs={'id': self.msid})
+        resp = self.c.get(article_url)
+        data = utils.json_loads(resp.content)
+        self.assertEquals(len(data['versions']), 2)
+        self.assertEqual(data['versions'][0]['title'], fragment['title'])
+        self.assertEqual(data['versions'][1]['title'], fragment['title'])
 
     def test_add_fragment_twice(self):
         key = 'test-frag'
@@ -333,7 +367,7 @@ class V2PostContent(base.BaseCase):
 
         # POST fragment into lax
         fragment1 = {'title': 'pants-party'}
-        resp = self.c.post(url, json.dumps(fragment1), content_type="application/json")
+        resp = self.ac.post(url, json.dumps(fragment1), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
 
         # fragment has been added
@@ -342,7 +376,7 @@ class V2PostContent(base.BaseCase):
 
         # do it again
         fragment2 = {'title': 'party-pants'}
-        resp = self.c.post(url, json.dumps(fragment2), content_type="application/json")
+        resp = self.ac.post(url, json.dumps(fragment2), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
 
         # fragment has been added
@@ -352,7 +386,7 @@ class V2PostContent(base.BaseCase):
     def test_add_fragment_for_non_article(self):
         # POST fragment into lax
         url = reverse('v2:article-fragment', kwargs={'art_id': 99999, 'fragment_id': 'test-frag'})
-        resp = self.c.post(url, json.dumps({}), content_type="application/json")
+        resp = self.ac.post(url, json.dumps({}), content_type="application/json")
         self.assertEqual(resp.status_code, 404)
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
 
@@ -366,12 +400,12 @@ class V2PostContent(base.BaseCase):
         # post to unpublished article
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
         fragment = {'more-article-content': 'pants'}
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
 
     def test_add_fragment_fails_unknown_content_type(self):
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
-        resp = self.c.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss")
+        resp = self.ac.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss")
         self.assertEqual(resp.status_code, 415) # unsupported media type
 
     def test_add_bad_fragment(self):
@@ -380,9 +414,18 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # xml->json
         fragment = {'doi': 'this is no doi!'}
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
         self.assertEqual(resp.status_code, 400) # bad client request
+
+    def test_fragment_needs_authentication(self):
+        "only admin users can modify content"
+        key = 'test-frag'
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        fragment = {'title': 'Electrostatic selection'}
+
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(resp.status_code, 403)
 
 class RequestArgs(base.BaseCase):
     def setUp(self):

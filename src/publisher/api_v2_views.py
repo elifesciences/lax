@@ -51,6 +51,7 @@ def request_args(request, **overrides):
 #
 
 def is_authenticated(request):
+    # this header is never set, but only for this API because on /articles/42 it works
     val = request.META.get(settings.KONG_AUTH_HEADER)
     #LOG.info("authenticated? %s type %s" % (val, type(val)))
     return val or False
@@ -96,7 +97,9 @@ def article_version(request, id, version):
     "returns the article-json for a specific version of the given article ID"
     authenticated = is_authenticated(request)
     try:
-        av = logic.article_version(id, version, only_published=authenticated)
+        # TODO: this seems wrong, should be 'not authenticated'
+        # since you are already at it, test at the HTTP level also the other requests
+        av = logic.article_version(id, version, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.ArticleVersion.DoesNotExist:
         raise Http404()
@@ -107,16 +110,18 @@ def article_version(request, id, version):
 
 @api_view(['POST'])
 def article_fragment(request, art_id, fragment_id):
-    only_published = is_authenticated(request)
+    if not is_authenticated(request):
+        return Response("not authenticated. only authenticated admin users can modify content", status=403)
     try:
         reserved_keys = [XML2JSON]
         ensure(fragment_id not in reserved_keys, "that key is taken")
         with transaction.atomic():
-            av = logic.most_recent_article_version(art_id, only_published)
-            data = request.data
-            frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
-            ensure(created or updated, "fragment was not created/updated")
-            fragment_logic.merge_if_valid(av, quiet=False)
+            avs = logic.article_version_list(art_id, only_published=False)
+            for av in avs:
+                data = request.data
+                frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
+                ensure(created or updated, "fragment was not created/updated")
+                fragment_logic.set_article_json(av, quiet=False)
             return Response(frag.fragment) # return the data they gave us
 
     except ValidationError as err:

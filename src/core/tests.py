@@ -1,4 +1,3 @@
-import uuid
 from django.conf import settings
 from django.test import TestCase, Client
 #from django.core.urlresolvers import reverse
@@ -10,20 +9,11 @@ class KongAuthMiddleware(TestCase):
         self.extra = {
             'REMOTE_ADDR': '10.0.2.6',
             mware.CGROUPS: 'admin',
-            mware.CID: str(uuid.uuid4()),
-            mware.CUSER: 'pants'
         }
 
     def test_unauthenticated_request(self):
         "ensure an unauthenticated request is marked as such"
         resp = self.c.get('/')
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
-
-    def test_anonymous_request(self):
-        "client is trying to authenticate but the user is 'anonymous'"
-        self.extra[mware.CUSER] = 'anonymous'
-        resp = self.c.get('/', **self.extra)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
 

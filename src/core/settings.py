@@ -119,7 +119,7 @@ TEST_OUTPUT_FILE_NAME = 'junit.xml'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # lax often receives long bursts of traffic from dependant services
-CONN_MAX_AGE = 60 # seconds. 
+CONN_MAX_AGE = 60 # seconds.
 
 DATABASES = {
     'default': {
@@ -217,7 +217,7 @@ API_OPTS = render_item({
 # KONG gateway options
 
 KONG_AUTH_HEADER = 'KONG-Authenticated'
-INTERNAL_NETWORK = '10.0.2.0/24'
+INTERNAL_NETWORKS = ['10.0.0.0/16', '127.0.0.0/8']
 
 #
 # notification events
@@ -237,14 +237,11 @@ EVENT_BUS = {
 FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)
 
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
-LOG_FILE = join(PROJECT_DIR, LOG_NAME) # ll: /path/to/lax/log/lax.log
 
 INGESTION_LOG_NAME = 'ingestion-%s.log' % PROJECT_NAME
-INGESTION_LOG_FILE = join(PROJECT_DIR, INGESTION_LOG_NAME)
 
-if ENV != DEV:
-    LOG_FILE = join('/var/log/', LOG_NAME) # ll: /var/log/lax.log
-    INGESTION_LOG_FILE = join('/var/log/', INGESTION_LOG_NAME) # ll: /var/log/lax.log
+LOG_FILE = join('/var/log/', LOG_NAME) # ll: /var/log/lax.log
+INGESTION_LOG_FILE = join('/var/log/', INGESTION_LOG_NAME) # ll: /var/log/lax.log
 
 # whereever our log files are, ensure they are writable before we do anything else.
 def writable(path):
