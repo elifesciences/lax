@@ -4,7 +4,9 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
-EXPECTED_HEADERS = CGROUPS, CID, CUSER = 'HTTP_X_CONSUMER_GROUPS', 'HTTP_X_CONSUMER_ID', 'HTTP_X_CONSUMER_USERNAME'
+# TODO: possibly remove everything different from CGROUPS, these values should not be depended upon by Lax
+CGROUPS, CID, CUSER = 'HTTP_X_CONSUMER_GROUPS', 'HTTP_X_CONSUMER_ID', 'HTTP_X_CONSUMER_USERNAME'
+EXPECTED_HEADERS = (CGROUPS, )
 
 def set_authenticated(request, state=False):
     request.META[settings.KONG_AUTH_HEADER] = state
@@ -36,8 +38,9 @@ class KongAuthentication(object):
 
         # if request not originating from within vpn, strip auth
         client_ip = IPAddress(request.META['REMOTE_ADDR'])
-        internal_network = IPNetwork(settings.INTERNAL_NETWORK)
-        if not client_ip in internal_network:
+        internal_networks = [IPNetwork(n) for n in settings.INTERNAL_NETWORKS]
+        in_internal_networks = len([n for n in internal_networks if client_ip in n]) > 0
+        if not internal_networks:
             strip_auth_headers(request)
             LOG.debug("IP doesn't originate within internal network, refusing auth: %s" % request.META['REMOTE_ADDR'])
             return
@@ -52,14 +55,6 @@ class KongAuthentication(object):
         if headers[CGROUPS] == 'user':
             strip_auth_headers(request)
             LOG.debug("'user' group receives has no special permissions")
-            return
-
-        # test the id somehow?
-
-        # if their username is 'anonymous'
-        if headers[CUSER] == 'anonymous':
-            strip_auth_headers(request)
-            LOG.debug("anonymous user, refusing auth")
             return
 
         strip_auth_headers(request, authenticated=True)

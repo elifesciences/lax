@@ -217,7 +217,7 @@ API_OPTS = render_item({
 # KONG gateway options
 
 KONG_AUTH_HEADER = 'KONG-Authenticated'
-INTERNAL_NETWORK = '10.0.2.0/24'
+INTERNAL_NETWORKS = ['10.0.0.0/16', '127.0.0.0/8']
 
 #
 # notification events
