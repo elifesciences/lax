@@ -320,7 +320,7 @@ class V2PostContent(base.BaseCase):
 
         # POST fragment into lax
         self.assertEqual(q.count(), 1) # 'xml->json'
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(resp.status_code, 200)
 
         # fragment has been added
@@ -341,7 +341,7 @@ class V2PostContent(base.BaseCase):
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
         fragment = {'title': 'Electrostatic selection'}
 
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(resp.status_code, 200)
 
         # fragment is served into all article versions
@@ -358,7 +358,7 @@ class V2PostContent(base.BaseCase):
 
         # POST fragment into lax
         fragment1 = {'title': 'pants-party'}
-        resp = self.c.post(url, json.dumps(fragment1), content_type="application/json")
+        resp = self.c.post(url, json.dumps(fragment1), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(resp.status_code, 200)
 
         # fragment has been added
@@ -367,7 +367,7 @@ class V2PostContent(base.BaseCase):
 
         # do it again
         fragment2 = {'title': 'party-pants'}
-        resp = self.c.post(url, json.dumps(fragment2), content_type="application/json")
+        resp = self.c.post(url, json.dumps(fragment2), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(resp.status_code, 200)
 
         # fragment has been added
@@ -377,10 +377,11 @@ class V2PostContent(base.BaseCase):
     def test_add_fragment_for_non_article(self):
         # POST fragment into lax
         url = reverse('v2:article-fragment', kwargs={'art_id': 99999, 'fragment_id': 'test-frag'})
-        resp = self.c.post(url, json.dumps({}), content_type="application/json")
+        resp = self.c.post(url, json.dumps({}), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(resp.status_code, 404)
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
 
+    # TODO: delete as outdated, better transform into failing test if you're not authenticated or if you have 'user'
     def test_add_fragment_for_unpublished_article(self):
         "article hasn't been published yet but we want to contribute content"
         # unpublish our article
@@ -391,12 +392,12 @@ class V2PostContent(base.BaseCase):
         # post to unpublished article
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
         fragment = {'more-article-content': 'pants'}
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(resp.status_code, 200)
 
     def test_add_fragment_fails_unknown_content_type(self):
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
-        resp = self.c.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss")
+        resp = self.c.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(resp.status_code, 415) # unsupported media type
 
     def test_add_bad_fragment(self):
@@ -405,7 +406,7 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # xml->json
         fragment = {'doi': 'this is no doi!'}
         url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json", HTTP_X_CONSUMER_GROUPS='admin')
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
         self.assertEqual(resp.status_code, 400) # bad client request
 
