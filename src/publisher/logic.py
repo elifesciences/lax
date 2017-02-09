@@ -116,12 +116,14 @@ def latest_published_article_versions(page=1, per_page=-1, order='DESC'):
               max(version) AS max_ver
        FROM publisher_articleversion pav2
        WHERE datetime_published IS NOT NULL
-       GROUP BY pav2.article_id) as pav2
+       GROUP BY pav2.article_id) as pav2,
+       publisher_article pa
 
     WHERE
        pav.article_id = pav2.article_id AND pav.version = pav2.max_ver
+       AND pav.article_id = pa.id
 
-    ORDER BY datetime_published %s""" % (order,)
+    ORDER BY datetime_published %s, pa.manuscript_id %s""" % (order, order)
 
     with connection.cursor() as cursor:
         total_sql = "select COUNT(*) from (%s) as subq" % sql
@@ -142,15 +144,15 @@ def latest_published_article_versions(page=1, per_page=-1, order='DESC'):
 def latest_unpublished_article_versions(page=1, per_page=-1, order='DESC'):
     start = (page - 1) * per_page
     end = start + per_page
-    order_by = 'datetime_published'
+    order_by = ['datetime_published', 'article__manuscript_id']
     if order is 'DESC':
-        order_by = '-' + order_by
+        order_by = ['-' + o for o in order_by]
 
     q = models.ArticleVersion.objects \
         .select_related('article') \
         .annotate(max_version=Max('article__articleversion__version')) \
         .filter(version=F('max_version')) \
-        .order_by(order_by)
+        .order_by(*order_by)
 
     total = q.count()
 
