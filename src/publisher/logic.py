@@ -145,7 +145,7 @@ def latest_unpublished_article_versions(page=1, per_page=-1, order='DESC'):
     start = (page - 1) * per_page
     end = start + per_page
     order_by = ['datetime_published', 'article__manuscript_id']
-    if order is 'DESC':
+    if order == 'DESC':
         order_by = ['-' + o for o in order_by]
 
     q = models.ArticleVersion.objects \
