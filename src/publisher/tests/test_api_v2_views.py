@@ -454,11 +454,13 @@ class RequestArgs(base.BaseCase):
         self.msid2 = 20105
 
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid1, version=3)
-        av.datetime_published = av.datetime_published + timedelta(days=1) # helps debug ordering
+        av.datetime_published = av.datetime_published + timedelta(days=1) # helps debug ordering: 20125 is published after 20105
         av.save()
 
         self.c = Client()
-
+        self.ac = Client(**{
+            mware.CGROUPS: 'admin',
+        })
     #
     # Pagination
     #
@@ -521,6 +523,32 @@ class RequestArgs(base.BaseCase):
 
     def test_article_list_ordering_desc(self):
         resp = self.c.get(reverse('v2:article-list') + "?order=desc")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        data = utils.json_loads(resp.content)
+
+        # correct data (too few to hit next page)
+        self.assertEqual(len(data['items']), 2)
+        self.assertEqual(data['total'], 2)
+
+        id_list = [int(row['id']) for row in data['items']]
+        self.assertEqual(id_list, [self.msid1, self.msid2]) # numbers descend 20125, 20105 <-
+
+    def test_article_list_ordering_asc_unpublished(self):
+        resp = self.ac.get(reverse('v2:article-list') + "?order=asc")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        data = utils.json_loads(resp.content)
+
+        # correct data (too few to hit next page)
+        self.assertEqual(len(data['items']), 2)
+        self.assertEqual(data['total'], 2)
+
+        id_list = [int(row['id']) for row in data['items']]
+        self.assertEqual(id_list, [self.msid2, self.msid1]) # numbers ascend -> 20105, 20125
+
+    def test_article_list_ordering_desc_unpublished(self):
+        resp = self.ac.get(reverse('v2:article-list') + "?order=desc")
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
         data = utils.json_loads(resp.content)
