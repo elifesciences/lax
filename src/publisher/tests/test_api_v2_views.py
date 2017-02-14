@@ -313,6 +313,16 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse('v2:article-related', kwargs={'id': 42}))
         self.assertEqual(resp.status_code, 404)
 
+    def test_article_related_articles_on_unpublished_article(self):
+        self.unpublish(self.msid2, version=3)
+        self.unpublish(self.msid2, version=2)
+        self.unpublish(self.msid2, version=1)
+
+        resp = self.ac.get(reverse('v2:article-related', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 200)
+
+        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 404)
 
 class V2PostContent(base.BaseCase):
     def setUp(self):
