@@ -1,0 +1,16 @@
+def botLaxAdaptorSummary;
+elifeUpdatePipeline(
+    { commit ->
+        lock('lax--ci') {
+            builderDeployRevision 'lax--ci', commit
+            builderCmd "lax--ci", "./update-bot-lax-adaptor.sh", "/srv/lax"
+            builderSync "ci--lax.elife.internal", "/srv/lax/"
+            sh "git add bot-lax-adaptor.sha1"
+            botLaxAdaptorSummary = builderCmd "lax--ci", "git log -1 --pretty=\"%B\" | head -n 1", "/opt/bot-lax-adaptor", true
+        }
+    },
+    {
+        return "Updated bot-lax-adaptor to: ${botLaxAdaptorSummary}"
+    },
+    'update_bot_lax_adaptor'
+)
