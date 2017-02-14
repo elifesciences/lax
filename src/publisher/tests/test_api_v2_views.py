@@ -56,6 +56,7 @@ class V2ContentTypes(base.BaseCase):
         art_poa_type = 'application/vnd.elife.article-poa+json;version=1'
         art_vor_type = 'application/vnd.elife.article-vor+json;version=1'
         art_history_type = 'application/vnd.elife.article-history+json;version=1'
+        art_related_type = 'application/vnd.elife.article-related+json;version=1'
 
         case_list = {
             reverse('v2:article-list'): art_list_type,
@@ -63,6 +64,7 @@ class V2ContentTypes(base.BaseCase):
             reverse('v2:article-version-list', kwargs={'id': self.msid}): art_history_type,
             reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}): art_poa_type,
             reverse('v2:article-version', kwargs={'id': self.msid, 'version': 2}): art_vor_type,
+            reverse('v2:article-related', kwargs={'id': self.msid}): art_related_type,
         }
 
         # test
@@ -302,6 +304,25 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 9}))
         self.assertEqual(resp.status_code, 404)
 
+    def test_article_related_articles(self):
+        resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid1}))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(utils.json_loads(resp.content), [])
+
+    def test_article_related_articles_of_an_article_that_does_not_exist(self):
+        resp = self.c.get(reverse('v2:article-related', kwargs={'id': 42}))
+        self.assertEqual(resp.status_code, 404)
+
+    def test_article_related_articles_on_unpublished_article(self):
+        self.unpublish(self.msid2, version=3)
+        self.unpublish(self.msid2, version=2)
+        self.unpublish(self.msid2, version=1)
+
+        resp = self.ac.get(reverse('v2:article-related', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 200)
+
+        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 404)
 
 class V2PostContent(base.BaseCase):
     def setUp(self):

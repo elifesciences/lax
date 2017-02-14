@@ -92,6 +92,7 @@ def article_version_list(request, id):
     except models.Article.DoesNotExist:
         raise Http404()
 
+
 @api_view(['GET'])
 def article_version(request, id, version):
     "returns the article-json for a specific version of the given article ID"
@@ -104,6 +105,18 @@ def article_version(request, id, version):
     except models.ArticleVersion.DoesNotExist:
         raise Http404()
 
+# TODO: test Content-Type
+# TODO: test 404
+@api_view(['GET'])
+def article_related(request, id):
+    "return the related articles for a given article ID"
+    authenticated = is_authenticated(request)
+    try:
+        # exception if the article id cannot be found
+        logic.most_recent_article_version(id, only_published=not authenticated)
+        return Response([], content_type="application/vnd.elife.article-related+json;version=1")
+    except models.Article.DoesNotExist:
+        raise Http404()
 #
 # not part of public api
 #
