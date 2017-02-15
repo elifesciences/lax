@@ -1,6 +1,8 @@
 """Adds a list of supported media types to Django REST so it
 doesn't spaz out when you ask for a custom media article in the
-Accept header."""
+Accept header.
+
+Creates a series of objects in the publisher.negotiation module with names such as ArticleListVersion1"""
 
 from rest_framework.renderers import JSONRenderer
 from .utils import lmap
@@ -16,11 +18,12 @@ def mktype(row):
     lmap(gen_klass, klass_list)
 
 _dynamic_types = [
-    # class name, media type, known version list
+    # prefix of the global variable name to create, media type, known version list
     ('ArticleList', 'application/vnd.elife.article-list+json', [1]),
     ('POAArticle', 'application/vnd.elife.article-poa+json', [1]),
     ('VORArticle', 'application/vnd.elife.article-vor+json', [1]),
-    ('ArticleHistory', 'application/vnd.elife.article-history+json', [1])
+    ('ArticleHistory', 'application/vnd.elife.article-history+json', [1]),
+    ('ArticleRelated', 'application/vnd.elife.article-related+json', [1]),
 ]
 
 lmap(mktype, _dynamic_types)
