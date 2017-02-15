@@ -169,6 +169,7 @@ REST_FRAMEWORK = {
         'publisher.negotiation.POAArticleVersion1',
         'publisher.negotiation.VORArticleVersion1',
         'publisher.negotiation.ArticleHistoryVersion1',
+        'publisher.negotiation.ArticleRelatedVersion1',
         'rest_framework.renderers.JSONRenderer',
         #'rest_framework.renderers.BrowsableAPIRenderer',
     )

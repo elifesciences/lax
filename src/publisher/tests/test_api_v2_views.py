@@ -32,6 +32,11 @@ class V2ContentTypes(base.BaseCase):
             resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
             self.assertEqual(resp.status_code, 200)
 
+    def test_accept_type_on_related_articles(self):
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+        resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid}), HTTP_ACCEPT='application/vnd.elife.article-related+json; version=1')
+        self.assertEqual(resp.status_code, 200)
+
     def test_unacceptable_types(self):
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
         cases = [
