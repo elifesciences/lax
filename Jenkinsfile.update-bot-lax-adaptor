@@ -12,5 +12,5 @@ elifeUpdatePipeline(
     {
         return "Updated bot-lax-adaptor to: ${botLaxAdaptorSummary}"
     },
-    'update_bot_lax_adaptor'
+    'update_bot_lax_adaptor_'
 )
