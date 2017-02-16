@@ -10,4 +10,5 @@ git pull origin master
 sha1=$(git rev-parse HEAD) 
 cd -
 echo $sha1 > bot-lax-adaptor.sha1
+cat $folder/api-raml.sha1 > api-raml.sha1
 
