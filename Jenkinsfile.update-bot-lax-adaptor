@@ -5,7 +5,7 @@ elifeUpdatePipeline(
             builderDeployRevision 'lax--ci', commit
             builderCmd "lax--ci", "./update-bot-lax-adaptor.sh", "/srv/lax"
             builderSync "ci--lax.elife.internal", "/srv/lax/"
-            sh "git add bot-lax-adaptor.sha1"
+            sh "git add bot-lax-adaptor.sha1 api-raml.sha1"
             botLaxAdaptorSummary = builderCmd "lax--ci", "git log -1 --pretty=\"%B\" | head -n 1", "/opt/bot-lax-adaptor", true
         }
     },
