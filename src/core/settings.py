@@ -121,7 +121,7 @@ TEST_OUTPUT_FILE_NAME = 'junit.xml'
 # lax often receives long bursts of traffic from dependant services
 # UPDATE: not working, no improvement recorded.
 # perhaps third party pooling is required: https://pgbouncer.github.io/usage.html
-#CONN_MAX_AGE = 60 # seconds.
+# CONN_MAX_AGE = 60 # seconds.
 
 DATABASES = {
     'default': {
