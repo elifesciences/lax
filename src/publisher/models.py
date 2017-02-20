@@ -228,3 +228,16 @@ class ArticleFragment(models.Model):
     class Meta:
         # an article can only have one instance of a fragment type
         unique_together = ('article', 'type', 'version')
+
+class ArticleVersionRelation(models.Model):
+    articleversion = models.ForeignKey(ArticleVersion)
+    related_to = models.ForeignKey(Article, help_text="the Article this ArticleVersion is related to")
+
+    class Meta:
+        unique_together = ('articleversion', 'related_to',)
+
+    def __str__(self):
+        return '%s => %s' % (self.articleversion, self.related_to)
+
+    def __repr__(self):
+        return '<ArticleVersionRelation %s>' % self
