@@ -321,6 +321,7 @@ def create_or_update(Model, orig_data, key_list=None, create=True, update=True, 
             created = True
 
     if (updated or created) and commit:
+        inst.full_clean()
         inst.save()
 
     # it is possible to neither create nor update.

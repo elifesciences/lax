@@ -210,7 +210,7 @@ XML2JSON = 'xml->json'
 
 class ArticleFragment(models.Model):
     article = models.ForeignKey(Article, help_text="all fragments belong to an article, only some fragments belong to an article version")
-    version = models.PositiveSmallIntegerField(null=True, help_text="if null, fragment applies only to a specific version of article")
+    version = models.PositiveSmallIntegerField(blank=True, null=True, help_text="if null, fragment applies only to a specific version of article")
     type = models.CharField(max_length=25, help_text='the type of fragment, eg "xml", "content-header", etc')
     fragment = JSONField(help_text="partial piece of article data to be merged in")
     position = models.PositiveSmallIntegerField(default=1, help_text="position in the merge order with lower fragments merged first")
@@ -238,6 +238,20 @@ class ArticleVersionRelation(models.Model):
 
     def __str__(self):
         return '%s => %s' % (self.articleversion, self.related_to)
+
+    def __repr__(self):
+        return '<ArticleVersionRelation %s>' % self
+
+class ArticleVersionExtRelation(models.Model):
+    articleversion = models.ForeignKey(ArticleVersion)
+    uri = models.URLField(max_length=2000, help_text="location of external object")
+    citation = JSONField(help_text="snippet of json describing the external link")
+
+    class Meta:
+        unique_together = ('articleversion', 'uri',)
+
+    def __str__(self):
+        return '%s => %s' % (self.articleversion, self.uri)
 
     def __repr__(self):
         return '<ArticleVersionRelation %s>' % self

@@ -81,7 +81,9 @@ def _ingest(data, force=False):
         fragments.set_article_json(av, quiet=True)
 
         # update the relationships
-        relationships.relate_using_msid_list(av, data.get('-related-articles', []), replace=True)
+        relationships.remove_relationships(av)
+        relationships.relate_using_msid_list(av, data.get('-related-articles-internal', []))
+        relationships.relate_using_citation_list(av, data.get('-related-articles-external', []))
 
         # enforce business rules
         if created:
