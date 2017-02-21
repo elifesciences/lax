@@ -104,11 +104,7 @@ class RelatedExternally(base.BaseCase):
         self.citation = {
             "type": "external-article",
             "articleTitle": "Transcriptional amplification in tumor cells with elevated c-Myc",
-            "journal": {
-                "name": [
-                    "Cell"
-                ]
-            },
+            "journal": "Cell",
             "authorLine": "C. Y. Lin et al",
             "uri": "https://doi.org/10.1016/j.cell.2012.08.026"
         }
