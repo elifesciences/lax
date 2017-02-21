@@ -98,8 +98,7 @@ def article_version(request, id, version):
     "returns the article-json for a specific version of the given article ID"
     authenticated = is_authenticated(request)
     try:
-        # TODO: this seems wrong, should be 'not authenticated'
-        # since you are already at it, test at the HTTP level also the other requests
+        # TODO: test at the HTTP level also the other requests
         av = logic.article_version(id, version, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.ArticleVersion.DoesNotExist:
@@ -129,12 +128,16 @@ def article_fragment(request, art_id, fragment_id):
         reserved_keys = [XML2JSON]
         ensure(fragment_id not in reserved_keys, "that key is taken")
         with transaction.atomic():
+            article = models.Article.objects.get(manuscript_id=art_id)
+            data = request.data
+            frag, created, updated = fragment_logic.add(article, fragment_id, data, update=True)
+
+            ensure(created or updated, "fragment was not created/updated")
+
+            # update all article-json for all versions of an article
             avs = logic.article_version_list(art_id, only_published=False)
-            for av in avs:
-                data = request.data
-                frag, created, updated = fragment_logic.add(av.article, fragment_id, data, update=True)
-                ensure(created or updated, "fragment was not created/updated")
-                fragment_logic.set_article_json(av, quiet=False)
+            [fragment_logic.set_article_json(av, quiet=False) for av in avs]
+
             return Response(frag.fragment) # return the data they gave us
 
     except ValidationError as err:
