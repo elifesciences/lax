@@ -149,18 +149,46 @@ class RelatedExternally(base.BaseCase):
         relation_logic.remove_relationships(self.av)
         self.assertEqual(0, models.ArticleVersionExtRelation.objects.count())
 
-class Ingest(base.BaseCase):
+class IngestPublish(base.BaseCase):
     def setUp(self):
-        pass
+        ingest_these = [
+            "elife-04718-v1.xml.json", # reverse relation to 13038
+            "elife-13038-v1.xml.json", # int relation to 04718
+            "elife-13620-v1.xml.json", # ext relation
+        ]
+        ajson_dir = join(self.fixture_dir, 'relatedness')
+        for ingestable in ingest_these:
+            data = json.load(open(join(ajson_dir, ingestable), 'r'))
+            ajson_ingestor.ingest_publish(data)
+        self.assertEqual(models.ArticleVersion.objects.count(), 3)
 
     def tearDown(self):
         pass
 
     def test_relations_created_during_ingest(self):
-        pass
+        self.assertEqual(1, models.ArticleVersionRelation.objects.count()) # 13038
+        self.assertEqual(1, models.ArticleVersionExtRelation.objects.count()) # 13620
 
     def test_relations_replaced_during_ingest(self):
-        pass
+        data = json.load(open(join(self.fixture_dir, 'relatedness', 'elife-13038-v1.xml.json')))
+        # point to 13620
+        data['article']['-related-articles-internal'] = ['13620']
+        ajson_ingestor.ingest(data, force=True)
+        avr = models.ArticleVersionRelation.objects.all()
+        self.assertEqual(1, avr.count()) # still have just the one relationship ...
+        # and it's been updated
+        self.assertEqual(avr[0].related_to, models.Article.objects.get(manuscript_id='13620'))
+
+    def test_v1_relations_preserved_ingesting_v2(self):
+        data = json.load(open(join(self.fixture_dir, 'relatedness', 'elife-13038-v1.xml.json')))
+        # point to 13620
+        data['article']['-related-articles-internal'] = ['13620']
+        data['article']['version'] = 2
+        ajson_ingestor.ingest(data)
+        avr = models.ArticleVersionRelation.objects.all().order_by('articleversion__version')
+        self.assertEqual(2, avr.count()) # two relations now
+        for i, avr in enumerate(avr):
+            self.assertEqual(avr.articleversion.version, i + 1)
 
 class RelationList(base.BaseCase):
     def setUp(self):
@@ -209,21 +237,19 @@ class RelationList(base.BaseCase):
             (self.msid3, [self.msid1, self.msid2]), # 3 => [1, 2]
         ]
 
-        #import pdb;pdb.set_trace() 
-            
-        #import IPython
-        #IPython.embed()
-            
-        #import code; code.interact(local=locals())
-
-        self._print_relations()
+        #self._print_relations()
             
         for msid, expected_relations in expected_relationships:
-            actual_relationships = relation_logic.internal_relationships_for_article(msid)
-            #self.assertEqual(expected_relations, [r.related_to.manuscript_id for r in actual_relationships], \
-            #                     "for %r I expected relations to %r" % (msid, expected_relations))
+            av = models.Article.objects.get(manuscript_id=msid).latest_version
+            actual_relationships = relation_logic.internal_relationships_for_article_version(av)
+            self.assertEqual(expected_relations, [r.manuscript_id for r in actual_relationships], \
+                "for %r I expected relations to %r" % (msid, expected_relations))
 
-            self.assertEqual(expected_relations, [r.manuscript_id for r in actual_relationships])
-            
-    def test_reverse_relations_found_for_article(self):
+    def test_reverse_relations_for_unpublished_article_not_returned(self):
+        # an unpublished article may reference a published article
+        # this would case a backwards relationship to exist for the published article
+        # the published article may then return it's snippet
+        pass
+
+    def test_external_relations_found_for_article(self):
         pass

@@ -2,7 +2,7 @@ from django.db import connection
 from . import models
 from django.conf import settings
 import logging
-from publisher import eif_ingestor, utils
+from publisher import eif_ingestor, utils, relation_logic
 from publisher.utils import ensure, lmap
 from django.utils import timezone
 from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
@@ -169,7 +169,7 @@ def latest_article_version_list(page=1, per_page=-1, order='DESC', only_publishe
     return latest_unpublished_article_versions(*args)
 
 def most_recent_article_version(msid, only_published=True):
-    "returns the most recent article version for the given article id"
+    "returns the most recent ArticleVersion for the given manuscript id"
     try:
         latest = models.ArticleVersion.objects \
             .select_related('article') \
@@ -208,6 +208,20 @@ def article_version_list(msid, only_published=True):
     if not qs.count():
         raise models.Article.DoesNotExist()
     return qs
+
+def relationships(msid, only_published=True):
+    "returns all relationships for the given article"
+    # TODO: only-published not supported yet
+    av = most_recent_article_version(msid, only_published)
+    
+    intr = relation_logic.internal_relationships_for_article_version(av)
+    extr = relation_logic.external_relationships_for_article_version(av)
+
+    # the internal relationships must be snippets of the latest version of that article
+    avl = [most_recent_article_version(a.manuscript_id) for a in intr]
+    avl = lmap(article_snippet_json, avl)
+
+    return list(extr) + avl
 
 #
 #

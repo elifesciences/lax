@@ -1,5 +1,5 @@
 from functools import partial
-from publisher import models, logic
+from publisher import models
 from publisher.utils import create_or_update, lmap, ensure, first
 #from django.db.models import Q
 
@@ -66,9 +66,7 @@ def internal_relationships_for_article_version(av):
     lst.extend([r.articleversion.article for r in rev])
 
     return lst
-    
 
-def internal_relationships_for_article(msid, only_published=True):
-    "returns a list of Articles that are related to the most recent version of the given article"
-    av = logic.most_recent_article_version(msid, only_published)
-    return internal_relationships_for_article_version(av)
+def external_relationships_for_article_version(av):
+    return models.ArticleVersionExtRelation.objects \
+      .filter(articleversion=av)
