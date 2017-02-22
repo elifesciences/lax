@@ -58,8 +58,10 @@ class RelatedInternally(base.BaseCase):
         "relationships between an ArticleVersion and other articles can be created in bulk"
         relationship_list = relation_logic.relate_using_msid_list(self.av, [self.msid2, self.msid3])
         self.assertEqual(2, models.ArticleVersionRelation.objects.count())
-        for relationship in relationship_list:
+        for relationship, msid in zip(relationship_list, [self.msid2, self.msid3]):
             self.assertTrue(isinstance(relationship, models.ArticleVersionRelation))
+            self.assertEqual(relationship.articleversion, self.av)
+            self.assertEqual(relationship.related_to.manuscript_id, msid)
 
     '''
     # removing previous relationships is now the responsibility of the ingestor
@@ -189,6 +191,10 @@ class RelationList(base.BaseCase):
             av = models.Article.objects.get(manuscript_id=target).latest_version
             relation_logic.relate_using_msid_list(av, msid_list)
 
+    def _print_relations(self):
+        for avr in models.ArticleVersionRelation.objects.all():
+            print(avr)
+            
     def test_relations_found_for_article(self):
         create_relationships = [
             (self.msid1, [self.msid2]), # 1 => 2
@@ -198,13 +204,26 @@ class RelationList(base.BaseCase):
         self._relate_using_msids(create_relationships)
 
         expected_relationships = [
-            (self.msid1, [self.msid2, self.msid3]),
-            (self.msid2, [self.msid3, self.msid1]),
-            (self.msid3, [self.msid1, self.msid2]),
+            (self.msid1, [self.msid2, self.msid3]), # 1 => [2, 3]
+            (self.msid2, [self.msid3, self.msid1]), # 2 => [3, 1]
+            (self.msid3, [self.msid1, self.msid2]), # 3 => [1, 2]
         ]
 
-        # ... todo
-        print(expected_relationships)
+        #import pdb;pdb.set_trace() 
+            
+        #import IPython
+        #IPython.embed()
+            
+        #import code; code.interact(local=locals())
 
+        self._print_relations()
+            
+        for msid, expected_relations in expected_relationships:
+            actual_relationships = relation_logic.internal_relationships_for_article(msid)
+            #self.assertEqual(expected_relations, [r.related_to.manuscript_id for r in actual_relationships], \
+            #                     "for %r I expected relations to %r" % (msid, expected_relations))
+
+            self.assertEqual(expected_relations, [r.manuscript_id for r in actual_relationships])
+            
     def test_reverse_relations_found_for_article(self):
         pass

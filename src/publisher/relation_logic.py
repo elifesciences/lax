@@ -1,6 +1,7 @@
 from functools import partial
-from publisher import models
-from publisher.utils import create_or_update, lmap, ensure
+from publisher import models, logic
+from publisher.utils import create_or_update, lmap, ensure, first
+#from django.db.models import Q
 
 def remove_relationships(av):
     "destroys any relationships that may exist for given ArticleVersion"
@@ -18,12 +19,10 @@ def relate(av, a):
         'articleversion': av,
         'related_to': a
     }
-    # create new relation
-    avr, _, _ = create_or_update(models.ArticleVersionRelation, data, create=True, update=False)
-    return avr
+    return first(create_or_update(models.ArticleVersionRelation, data, create=True, update=False))
 
 def relate_using_msid(av, msid):
-    return relate(av, models.Article.objects.get(manuscript_id=int(msid)))
+    return relate(av, models.Article.objects.get(manuscript_id=msid))
 
 def relate_using_msid_list(av, msid_list):
     return lmap(partial(relate_using_msid, av), msid_list)
@@ -47,3 +46,29 @@ def associate(av, citation):
 
 def relate_using_citation_list(av, citation_list):
     return lmap(partial(associate, av), citation_list)
+
+#
+# querying
+#
+
+def internal_relationships_for_article_version(av):
+    "returns a list of Article objects that are related, backward and forwards, by the given article version"
+    # could I solve this with clever SQL/Django ORM tricks? almost certainly
+    # do I have time to and is it important enough? absolutely not
+
+    fwd = models.ArticleVersionRelation.objects \
+      .filter(articleversion=av)
+
+    rev = models.ArticleVersionRelation.objects \
+      .filter(related_to=av.article)
+
+    lst = [r.related_to for r in fwd]
+    lst.extend([r.articleversion.article for r in rev])
+
+    return lst
+    
+
+def internal_relationships_for_article(msid, only_published=True):
+    "returns a list of Articles that are related to the most recent version of the given article"
+    av = logic.most_recent_article_version(msid, only_published)
+    return internal_relationships_for_article_version(av)

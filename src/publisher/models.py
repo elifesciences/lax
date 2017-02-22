@@ -237,7 +237,7 @@ class ArticleVersionRelation(models.Model):
         unique_together = ('articleversion', 'related_to',)
 
     def __str__(self):
-        return '%s => %s' % (self.articleversion, self.related_to)
+        return '%s => %s' % (self.articleversion, self.related_to.manuscript_id)
 
     def __repr__(self):
         return '<ArticleVersionRelation %s>' % self
