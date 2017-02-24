@@ -1606,11 +1606,7 @@
         "references": [
             {
                 "doi": "10.1126/science.aaa5838", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "pages": "aaa5838", 
                 "volume": "348", 
                 "articleTitle": "Embryo development. BMP gradients: A paradigm for morphogen-mediated developmental patterning", 
@@ -1636,11 +1632,7 @@
             }, 
             {
                 "doi": "10.1111/j.1601-6343.2007.00393.x", 
-                "journal": {
-                    "name": [
-                        "Orthodontics & Craniofacial Research"
-                    ]
-                }, 
+                "journal": "Orthodontics & Craniofacial Research",
                 "pages": {
                     "range": "129\u2013137", 
                     "last": "137", 
@@ -1667,11 +1659,7 @@
             }, 
             {
                 "doi": "10.1016/j.ydbio.2008.03.037", 
-                "journal": {
-                    "name": [
-                        "Developmental Biology"
-                    ]
-                }, 
+                "journal": "Developmental Biology", 
                 "pages": {
                     "range": "323\u2013334", 
                     "last": "334", 
@@ -1750,11 +1738,7 @@
             }, 
             {
                 "doi": "10.1016/j.ajhg.2009.03.001", 
-                "journal": {
-                    "name": [
-                        "American Journal of Human Genetics"
-                    ]
-                }, 
+                "journal": "American Journal of Human Genetics",
                 "pages": {
                     "range": "483\u2013492", 
                     "last": "492", 
@@ -1854,11 +1838,7 @@
             }, 
             {
                 "doi": "10.1038/nature13772", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "209\u2013215", 
                     "last": "215", 
@@ -2523,11 +2503,7 @@
             }, 
             {
                 "doi": "10.1093/hmg/ddu733", 
-                "journal": {
-                    "name": [
-                        "Human Molecular Genetics"
-                    ]
-                }, 
+                "journal": "Human Molecular Genetics",
                 "pages": {
                     "range": "2125\u20132137", 
                     "last": "2137", 
@@ -2592,11 +2568,7 @@
             }, 
             {
                 "doi": "10.1038/ng.2421", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "1249\u20131254", 
                     "last": "1254", 
@@ -2780,11 +2752,7 @@
             }, 
             {
                 "doi": "10.1002/jbmr.443", 
-                "journal": {
-                    "name": [
-                        "Journal of Bone and Mineral Research"
-                    ]
-                }, 
+                "journal": "Journal of Bone and Mineral Research",
                 "pages": {
                     "range": "2498\u20132510", 
                     "last": "2510", 
@@ -2828,11 +2796,7 @@
             }, 
             {
                 "doi": "10.1007/s00381-014-2474-8", 
-                "journal": {
-                    "name": [
-                        "Child's Nervous System"
-                    ]
-                }, 
+                "journal": "Child's Nervous System",
                 "pages": {
                     "range": "2157\u20132161", 
                     "last": "2161", 
@@ -2897,11 +2861,7 @@
             }, 
             {
                 "doi": "10.1002/wdev.227", 
-                "journal": {
-                    "name": [
-                        "Wiley Interdisciplinary Reviews: Developmental Biology"
-                    ]
-                }, 
+                "journal": "Wiley Interdisciplinary Reviews: Developmental Biology",
                 "pages": {
                     "range": "429\u2013459", 
                     "last": "459", 
@@ -2938,11 +2898,7 @@
             }, 
             {
                 "doi": "10.1038/nature06258", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "851\u2013861", 
                     "last": "861", 
@@ -4712,11 +4668,7 @@
             }, 
             {
                 "doi": "10.1038/gim.2013.134", 
-                "journal": {
-                    "name": [
-                        "Genetics in Medicine"
-                    ]
-                }, 
+                "journal": "Genetics in Medicine",
                 "pages": {
                     "range": "302\u2013310", 
                     "last": "310", 
@@ -4767,11 +4719,7 @@
             }, 
             {
                 "doi": "10.1101/gad.12.2.186", 
-                "journal": {
-                    "name": [
-                        "Genes & Development"
-                    ]
-                }, 
+                "journal": "Genes & Development",
                 "pages": {
                     "range": "186\u2013197", 
                     "last": "197", 
@@ -4815,11 +4763,7 @@
             }, 
             {
                 "doi": "10.1126/science.aac9396", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "pages": {
                     "range": "1262\u20131266", 
                     "last": "1266", 
@@ -5122,11 +5066,7 @@
             }, 
             {
                 "doi": "10.1038/nature13908", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "216\u2013221", 
                     "last": "221", 
@@ -5471,11 +5411,7 @@
             }, 
             {
                 "doi": "10.1016/j.neuron.2012.04.009", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "pages": {
                     "range": "285\u2013299", 
                     "last": "299", 
@@ -5736,11 +5672,7 @@
             }, 
             {
                 "doi": "10.1074/jbc.M705578200", 
-                "journal": {
-                    "name": [
-                        "Journal of Biological Chemistry"
-                    ]
-                }, 
+                "journal": "Journal of Biological Chemistry",
                 "pages": {
                     "range": "8412\u20138422", 
                     "last": "8422", 
@@ -5833,11 +5765,7 @@
             }, 
             {
                 "doi": "10.1038/ng.2463", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "1360\u20131364", 
                     "last": "1364", 
@@ -6084,11 +6012,7 @@
             }, 
             {
                 "doi": "10.1002/jbmr.1857", 
-                "journal": {
-                    "name": [
-                        "Journal of Bone and Mineral Research"
-                    ]
-                }, 
+                "journal": "Journal of Bone and Mineral Research",
                 "pages": {
                     "range": "1422\u20131433", 
                     "last": "1433", 
@@ -6167,11 +6091,7 @@
             }, 
             {
                 "doi": "10.1038/ng.3303", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "582\u2013588", 
                     "last": "588", 
@@ -6278,11 +6198,7 @@
             }, 
             {
                 "doi": "10.1038/ng1511", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "275\u2013281", 
                     "last": "281", 
@@ -6466,11 +6382,7 @@
             }, 
             {
                 "doi": "10.1038/ng.2479", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "1291\u20131292", 
                     "last": "1292", 
@@ -6493,11 +6405,7 @@
             }, 
             {
                 "doi": "10.1097/00001665-200201000-00023", 
-                "journal": {
-                    "name": [
-                        "Journal of Craniofacial Surgery"
-                    ]
-                }, 
+                "journal": "Journal of Craniofacial Surgery",
                 "pages": {
                     "range": "99\u2013104", 
                     "last": "104", 
@@ -6541,11 +6449,7 @@
             }, 
             {
                 "doi": "10.1002/ajmg.a.33557", 
-                "journal": {
-                    "name": [
-                        "American Journal of Medical Genetics Part A"
-                    ]
-                }, 
+                "journal": "American Journal of Medical Genetics Part A",
                 "pages": {
                     "range": "2203\u20132210", 
                     "last": "2210", 
@@ -6638,11 +6542,7 @@
             }, 
             {
                 "doi": "10.1016/j.yexcr.2014.01.019", 
-                "journal": {
-                    "name": [
-                        "Experimental Cell Research"
-                    ]
-                }, 
+                "journal": "Experimental Cell Research",
                 "pages": {
                     "range": "138\u2013147", 
                     "last": "147", 
@@ -6672,11 +6572,7 @@
             }, 
             {
                 "doi": "10.1091/mbc.E02-07-0441", 
-                "journal": {
-                    "name": [
-                        "Molecular Biology of the Cell"
-                    ]
-                }, 
+                "journal": "Molecular Biology of the Cell",
                 "pages": {
                     "range": "2809\u20132817", 
                     "last": "2817", 
@@ -6727,11 +6623,7 @@
             }, 
             {
                 "doi": "10.1038/ng.835", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "585\u2013589", 
                     "last": "589", 
@@ -6859,11 +6751,7 @@
             }, 
             {
                 "doi": "10.1097/PRS.0000000000000511", 
-                "journal": {
-                    "name": [
-                        "Plastic and Reconstructive Surgery"
-                    ]
-                }, 
+                "journal": "Plastic and Reconstructive Surgery",
                 "pages": {
                     "range": "608e\u2013617e", 
                     "last": "617e", 
@@ -7024,11 +6912,7 @@
             }, 
             {
                 "doi": "10.1038/nrendo.2016.12", 
-                "journal": {
-                    "name": [
-                        "Nature Reviews Endocrinology"
-                    ]
-                }, 
+                "journal": "Nature Reviews Endocrinology",
                 "pages": {
                     "range": "203\u2013221", 
                     "last": "221", 
@@ -7065,11 +6949,7 @@
             }, 
             {
                 "doi": "10.1038/ng.3050", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "944\u2013950", 
                     "last": "950", 
@@ -7267,11 +7147,7 @@
             }, 
             {
                 "doi": "10.1038/nature10945", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "237\u2013241", 
                     "last": "241", 
@@ -7497,11 +7373,7 @@
             }, 
             {
                 "doi": "10.1016/j.celrep.2016.03.003", 
-                "journal": {
-                    "name": [
-                        "Cell Reports"
-                    ]
-                }, 
+                "journal": "Cell Reports",
                 "pages": {
                     "range": "27\u201335", 
                     "last": "35", 
@@ -7538,11 +7410,7 @@
             }, 
             {
                 "doi": "10.1111/j.1469-8749.2003.tb00857.x", 
-                "journal": {
-                    "name": [
-                        "Developmental Medicine & Child Neurology"
-                    ]
-                }, 
+                "journal": "Developmental Medicine & Child Neurology",
                 "pages": {
                     "range": "34\u201343", 
                     "last": "43", 
@@ -7600,11 +7468,7 @@
             }, 
             {
                 "doi": "10.1038/ng2096", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "1145\u20131150", 
                     "last": "1150", 
@@ -7655,11 +7519,7 @@
             }, 
             {
                 "doi": "10.1097/00006534-199602000-00002", 
-                "journal": {
-                    "name": [
-                        "Plastic & Reconstructive Surgery"
-                    ]
-                }, 
+                "journal": "Plastic & Reconstructive Surgery",
                 "pages": {
                     "range": "276\u2013281", 
                     "last": "281", 
@@ -7703,11 +7563,7 @@
             }, 
             {
                 "doi": "10.1097/01.prs.0000304441.99483.97", 
-                "journal": {
-                    "name": [
-                        "Plastic and Reconstructive Surgery"
-                    ]
-                }, 
+                "journal": "Plastic and Reconstructive Surgery",
                 "pages": {
                     "range": "170e\u2013178e", 
                     "last": "178e", 
@@ -7765,11 +7621,7 @@
             }, 
             {
                 "doi": "10.1038/ng.2539", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "308\u2013313", 
                     "last": "313", 
@@ -7974,11 +7826,7 @@
             }, 
             {
                 "doi": "10.1016/j.ajhg.2015.07.006", 
-                "journal": {
-                    "name": [
-                        "The American Journal of Human Genetics"
-                    ]
-                }, 
+                "journal": "The American Journal of Human Genetics",
                 "pages": {
                     "range": "359\u2013377", 
                     "last": "377", 
@@ -8008,11 +7856,7 @@
             }, 
             {
                 "doi": "10.1093/nar/gkq603", 
-                "journal": {
-                    "name": [
-                        "Nucleic Acids Research"
-                    ]
-                }, 
+                "journal": "Nucleic Acids Research",
                 "pages": "e164", 
                 "volume": "38", 
                 "articleTitle": "ANNOVAR: functional annotation of genetic variants from high-throughput sequencing data", 
@@ -8045,11 +7889,7 @@
             }, 
             {
                 "doi": "10.1002/0471142905.hg0725s87", 
-                "journal": {
-                    "name": [
-                        "Current Protocols in Human Genetics"
-                    ]
-                }, 
+                "journal": "Current Protocols in Human Genetics",
                 "pages": {
                     "range": "7.25.1\u20137.25.15", 
                     "last": "7.25.15", 
@@ -8093,11 +7933,7 @@
             }, 
             {
                 "doi": "10.1093/bioinformatics/btu839", 
-                "journal": {
-                    "name": [
-                        "Bioinformatics"
-                    ]
-                }, 
+                "journal": "Bioinformatics",
                 "pages": {
                     "range": "1375\u20131381", 
                     "last": "1381", 
@@ -8162,11 +7998,7 @@
             }, 
             {
                 "doi": "10.1097/01.PRS.0000080729.28749.A3", 
-                "journal": {
-                    "name": [
-                        "Plastic and Reconstructive Surgery"
-                    ]
-                }, 
+                "journal": "Plastic and Reconstructive Surgery",
                 "pages": {
                     "range": "1211\u20131218", 
                     "last": "1218", 
@@ -8231,11 +8063,7 @@
             }, 
             {
                 "doi": "10.1038/nature12141", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "220\u2013223", 
                     "last": "223", 

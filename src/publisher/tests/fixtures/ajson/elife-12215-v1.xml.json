@@ -1144,11 +1144,7 @@
         "references": [
             {
                 "doi": "10.1162/jocn.1995.7.1.66", 
-                "journal": {
-                    "name": [
-                        "Journal of Cognitive Neuroscience"
-                    ]
-                }, 
+                "journal": "Journal of Cognitive Neuroscience",
                 "pages": {
                     "range": "66\u201380", 
                     "last": "80", 
@@ -1259,11 +1255,7 @@
             }, 
             {
                 "doi": "10.1073/pnas.1301216110", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of the United States of America"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of the United States of America",
                 "pages": {
                     "range": "10438\u201310445", 
                     "last": "10445", 
@@ -1314,11 +1306,7 @@
             }, 
             {
                 "doi": "10.1016/S0042-6989(00)00256-X", 
-                "journal": {
-                    "name": [
-                        "Vision Research"
-                    ]
-                }, 
+                "journal": "Vision Research",
                 "pages": {
                     "range": "1561\u20131574", 
                     "last": "1574", 
@@ -1348,11 +1336,7 @@
             }, 
             {
                 "doi": "10.1364/JOSAA.4.002379", 
-                "journal": {
-                    "name": [
-                        "Journal of the Optical Society of America A"
-                    ]
-                }, 
+                "journal": "Journal of the Optical Society of America A",
                 "pages": {
                     "range": "2379\u20132394", 
                     "last": "2394", 
@@ -1375,11 +1359,7 @@
             }, 
             {
                 "doi": "10.1016/j.visres.2010.09.027", 
-                "journal": {
-                    "name": [
-                        "Vision Research"
-                    ]
-                }, 
+                "journal": "Vision Research",
                 "pages": {
                     "range": "771\u2013781", 
                     "last": "781", 
@@ -1402,11 +1382,7 @@
             }, 
             {
                 "doi": "10.1016/S0042-6989(01)00097-9", 
-                "journal": {
-                    "name": [
-                        "Vision Research"
-                    ]
-                }, 
+                "journal": "Vision Research",
                 "pages": {
                     "range": "2261\u20132271", 
                     "last": "2271", 
@@ -1509,11 +1485,7 @@
             }, 
             {
                 "doi": "10.1016/j.tics.2005.02.009", 
-                "journal": {
-                    "name": [
-                        "Trends in Cognitive Sciences"
-                    ]
-                }, 
+                "journal": "Trends in Cognitive Sciences",
                 "pages": {
                     "range": "188\u2013194", 
                     "last": "194", 
@@ -1543,11 +1515,7 @@
             }, 
             {
                 "doi": "10.1167/3.1.6", 
-                "journal": {
-                    "name": [
-                        "Journal of Vision"
-                    ]
-                }, 
+                "journal": "Journal of Vision",
                 "pages": {
                     "range": "6\u201363", 
                     "last": "63", 
@@ -1591,11 +1559,7 @@
             }, 
             {
                 "doi": "10.1371/journal.pone.0051325", 
-                "journal": {
-                    "name": [
-                        "PloS One"
-                    ]
-                }, 
+                "journal": "PloS One",
                 "pages": "e51325", 
                 "volume": "7", 
                 "articleTitle": "Object learning improves feature extraction but does not improve feature selection", 
@@ -1665,11 +1629,7 @@
             }, 
             {
                 "doi": "10.1016/j.cub.2013.09.012", 
-                "journal": {
-                    "name": [
-                        "Current Biology"
-                    ]
-                }, 
+                "journal": "Current Biology",
                 "pages": {
                     "range": "2169\u20132175", 
                     "last": "2175", 
@@ -1764,11 +1724,7 @@
             }, 
             {
                 "doi": "10.1016/S0042-6989(99)00163-7", 
-                "journal": {
-                    "name": [
-                        "Vision Research"
-                    ]
-                }, 
+                "journal": "Vision Research",
                 "pages": {
                     "range": "1489\u20131506", 
                     "last": "1506", 
@@ -1798,11 +1754,7 @@
             }, 
             {
                 "doi": "10.1016/S1364-6613(00)01452-2", 
-                "journal": {
-                    "name": [
-                        "Trends in Cognitive Sciences"
-                    ]
-                }, 
+                "journal": "Trends in Cognitive Sciences",
                 "pages": {
                     "range": "138\u2013147", 
                     "last": "147", 
@@ -1825,11 +1777,7 @@
             }, 
             {
                 "doi": "10.1016/j.conb.2006.06.009", 
-                "journal": {
-                    "name": [
-                        "Current Opinion in Neurobiology"
-                    ]
-                }, 
+                "journal": "Current Opinion in Neurobiology",
                 "pages": {
                     "range": "435\u2013444", 
                     "last": "444", 
@@ -1866,11 +1814,7 @@
             }, 
             {
                 "doi": "10.1038/nn.2663", 
-                "journal": {
-                    "name": [
-                        "Nature Neuroscience"
-                    ]
-                }, 
+                "journal": "Nature Neuroscience",
                 "pages": {
                     "range": "1549\u20131553", 
                     "last": "1553", 
@@ -1907,11 +1851,7 @@
             }, 
             {
                 "doi": "10.1038/nn.2635", 
-                "journal": {
-                    "name": [
-                        "Nature Neuroscience"
-                    ]
-                }, 
+                "journal": "Nature Neuroscience",
                 "pages": {
                     "range": "1292\u20131298", 
                     "last": "1298", 
@@ -1948,11 +1888,7 @@
             }, 
             {
                 "doi": "10.1016/j.cub.2012.01.050", 
-                "journal": {
-                    "name": [
-                        "Current Biology"
-                    ]
-                }, 
+                "journal": "Current Biology",
                 "pages": {
                     "range": "510\u2013514", 
                     "last": "514", 
@@ -2024,11 +1960,7 @@
             }, 
             {
                 "doi": "10.1016/0010-0285(87)90008-9", 
-                "journal": {
-                    "name": [
-                        "Cognitive Psychology"
-                    ]
-                }, 
+                "journal": "Cognitive Psychology",
                 "pages": {
                     "range": "342\u2013368", 
                     "last": "368", 
@@ -2058,11 +1990,7 @@
             }, 
             {
                 "doi": "10.1016/j.visres.2007.12.009", 
-                "journal": {
-                    "name": [
-                        "Vision Research"
-                    ]
-                }, 
+                "journal": "Vision Research",
                 "pages": {
                     "range": "635\u2013654", 
                     "last": "654", 
@@ -2085,11 +2013,7 @@
             }, 
             {
                 "doi": "10.1073/pnas.092277599", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of the United States of America"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of the United States of America",
                 "pages": {
                     "range": "9596\u20139601", 
                     "last": "9601", 
@@ -2133,11 +2057,7 @@
             }, 
             {
                 "doi": "10.1162/neco.1992.4.4.590", 
-                "journal": {
-                    "name": [
-                        "Neural Computation"
-                    ]
-                }, 
+                "journal": "Neural Computation",
                 "pages": {
                     "range": "590\u2013604", 
                     "last": "604", 
@@ -2160,11 +2080,7 @@
             }, 
             {
                 "doi": "10.1523/JNEUROSCI.0908-11.2011", 
-                "journal": {
-                    "name": [
-                        "Journal of Neuroscience"
-                    ]
-                }, 
+                "journal": "Journal of Neuroscience",
                 "pages": {
                     "range": "9298\u20139306", 
                     "last": "9306", 
@@ -2208,11 +2124,7 @@
             }, 
             {
                 "doi": "10.1371/journal.pcbi.1002342", 
-                "journal": {
-                    "name": [
-                        "PLoS Computational Biology"
-                    ]
-                }, 
+                "journal": "PLoS Computational Biology",
                 "pages": "e1002342", 
                 "volume": "8", 
                 "articleTitle": "Human visual search does not maximize the post-saccadic probability of identifying targets", 
@@ -2245,11 +2157,7 @@
             }, 
             {
                 "doi": "10.1038/nature03390", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "387\u2013391", 
                     "last": "391", 
@@ -2279,11 +2187,7 @@
             }, 
             {
                 "doi": "10.1167/8.3.4", 
-                "journal": {
-                    "name": [
-                        "Journal of Vision"
-                    ]
-                }, 
+                "journal": "Journal of Vision",
                 "pages": {
                     "range": "4\u201314", 
                     "last": "14", 
@@ -2313,11 +2217,7 @@
             }, 
             {
                 "doi": "10.1073/pnas.0911972107", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of the United States of America"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of the United States of America",
                 "pages": {
                     "range": "5232\u20135237", 
                     "last": "5237", 
@@ -2361,11 +2261,7 @@
             }, 
             {
                 "doi": "10.1016/j.neucom.2006.02.026", 
-                "journal": {
-                    "name": [
-                        "Neurocomputing"
-                    ]
-                }, 
+                "journal": "Neurocomputing",
                 "pages": {
                     "range": "2256\u20132272", 
                     "last": "2272", 
@@ -2395,11 +2291,7 @@
             }, 
             {
                 "doi": "10.1016/S0079-6123(06)55002-2", 
-                "journal": {
-                    "name": [
-                        "Progress in Brain Research"
-                    ]
-                }, 
+                "journal": "Progress in Brain Research",
                 "pages": {
                     "range": "23\u201336", 
                     "last": "36", 
@@ -2429,11 +2321,7 @@
             }, 
             {
                 "doi": "10.1073/pnas.1214269109", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of the United States of America"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of the United States of America",
                 "pages": "E3314", 
                 "volume": "109", 
                 "articleTitle": "Looking just below the eyes is optimal across face recognition tasks", 
@@ -2459,11 +2347,7 @@
             }, 
             {
                 "doi": "10.1016/j.cub.2013.07.007", 
-                "journal": {
-                    "name": [
-                        "Current Biology"
-                    ]
-                }, 
+                "journal": "Current Biology",
                 "pages": {
                     "range": "1691\u20131695", 
                     "last": "1695", 
@@ -2537,11 +2421,7 @@
             }, 
             {
                 "doi": "10.1167/7.3.6", 
-                "journal": {
-                    "name": [
-                        "Journal of Vision"
-                    ]
-                }, 
+                "journal": "Journal of Vision",
                 "pages": {
                     "range": "6\u201317", 
                     "last": "17", 
@@ -2578,11 +2458,7 @@
             }, 
             {
                 "doi": "10.1016/j.visres.2009.08.010", 
-                "journal": {
-                    "name": [
-                        "Vision Research"
-                    ]
-                }, 
+                "journal": "Vision Research",
                 "pages": {
                     "range": "2415\u20132441", 
                     "last": "2441", 
@@ -2605,11 +2481,7 @@
             }, 
             {
                 "doi": "10.1167/7.14.16", 
-                "journal": {
-                    "name": [
-                        "Journal of Vision"
-                    ]
-                }, 
+                "journal": "Journal of Vision",
                 "pages": {
                     "range": "16\u201320", 
                     "last": "20", 
@@ -2646,11 +2518,7 @@
             }, 
             {
                 "doi": "10.1038/nature05866", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "852\u2013855", 
                     "last": "855", 
@@ -2694,11 +2562,7 @@
             }, 
             {
                 "doi": "10.1073/pnas.1115638109", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of the United States of America"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of the United States of America",
                 "pages": {
                     "range": "7547\u20137552", 
                     "last": "7552", 
@@ -2735,11 +2599,7 @@
             }, 
             {
                 "doi": "10.1111/1467-9868.00225", 
-                "journal": {
-                    "name": [
-                        "Journal of the Royal Statistical Society: Series B"
-                    ]
-                }, 
+                "journal": "Journal of the Royal Statistical Society: Series B",
                 "pages": {
                     "range": "145\u2013157", 
                     "last": "157", 
@@ -2768,11 +2628,7 @@
                 "id": "bib42"
             }, 
             {
-                "journal": {
-                    "name": [
-                        "Journal of Eye Movement Research"
-                    ]
-                }, 
+                "journal": "Journal of Eye Movement Research",
                 "pages": "5", 
                 "volume": "2(2)", 
                 "articleTitle": "Systematic tendencies in scene viewing", 
@@ -2798,11 +2654,7 @@
             }, 
             {
                 "doi": "10.1080/13506280902764539", 
-                "journal": {
-                    "name": [
-                        "Visual Cognition"
-                    ]
-                }, 
+                "journal": "Visual Cognition",
                 "pages": {
                     "range": "1029\u20131054", 
                     "last": "1054", 
@@ -2832,11 +2684,7 @@
             }, 
             {
                 "doi": "10.1038/381520a0", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "520\u2013522", 
                     "last": "522", 
@@ -2873,11 +2721,7 @@
             }, 
             {
                 "doi": "10.1073/pnas.1216954110", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of the United States of America"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of the United States of America",
                 "pages": {
                     "range": "11163\u201311168", 
                     "last": "11168", 
@@ -2914,11 +2758,7 @@
             }, 
             {
                 "doi": "10.1016/j.visres.2012.02.003", 
-                "journal": {
-                    "name": [
-                        "Vision Research"
-                    ]
-                }, 
+                "journal": "Vision Research",
                 "pages": {
                     "range": "19\u201326", 
                     "last": "26", 
