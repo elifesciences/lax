@@ -4,4 +4,4 @@ set -e
 . .lint.sh
 . .test.sh
 # encoding errors in python3 version of xenon/radon
-#. .cc-check.sh
+. .cc-check.sh
