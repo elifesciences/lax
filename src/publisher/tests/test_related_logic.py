@@ -264,8 +264,31 @@ class RelationList(base.BaseCase):
         for msid, expected_relations in expected_relationships:
             av = models.Article.objects.get(manuscript_id=msid).latest_version
             actual_relationships = relation_logic.internal_relationships_for_article_version(av)
-            self.assertEqual(expected_relations, [r.manuscript_id for r in actual_relationships],
-                             "for %r I expected relations to %r" % (msid, expected_relations))
+            self.assertCountEqual(expected_relations, [r.manuscript_id for r in actual_relationships],
+                                  "for %r I expected relations to %r" % (msid, expected_relations))
+
+    def test_relations_found_for_article2(self):
+        "no duplicates should exist when reverse relationships are made explicit"
+        create_relationships = [
+            (self.msid1, [self.msid2, self.msid3]), # 1 => 2, 3
+            (self.msid2, [self.msid3, self.msid1]), # 2 => 3, 1
+            (self.msid3, [self.msid1, self.msid2]), # 3 => 1, 2
+        ]
+        self._relate_using_msids(create_relationships)
+
+        expected_relationships = [
+            (self.msid1, [self.msid2, self.msid3]), # 1 => [2, 3]
+            (self.msid2, [self.msid3, self.msid1]), # 2 => [3, 1]
+            (self.msid3, [self.msid1, self.msid2]), # 3 => [1, 2]
+        ]
+
+        # self._print_relations()
+
+        for msid, expected_relations in expected_relationships:
+            av = models.Article.objects.get(manuscript_id=msid).latest_version
+            actual_relationships = relation_logic.internal_relationships_for_article_version(av)
+            self.assertCountEqual(expected_relations, [r.manuscript_id for r in actual_relationships],
+                                  "for %r I expected relations to %r" % (msid, expected_relations))
 
     def test_reverse_relations_for_unpublished_article_not_returned(self):
         # an unpublished article may reference a published article

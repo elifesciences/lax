@@ -74,7 +74,7 @@ def internal_relationships_for_article_version(av):
     lst = [r.related_to for r in fwd]
     lst.extend([r.articleversion.article for r in rev])
 
-    return lst
+    return list(set(lst))
 
 def external_relationships_for_article_version(av):
     return models.ArticleVersionExtRelation.objects \
