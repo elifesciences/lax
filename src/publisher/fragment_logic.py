@@ -132,12 +132,21 @@ def pre_process(av, result):
     if av.datetime_published:
         result['stage'] = 'published'
     else:
+        # unpublished! tweak the results
         # https://github.com/elifesciences/api-raml/blob/develop/src/snippets/article.v1.yaml
         result['stage'] = 'preview'
         del result['versionDate']
         del result['statusDate']
         if av.version == 1:
             del result['published']
+
+    # these keys are not part of the article-json spec and shouldn't be made public
+    delete_these = [
+        '-related-articles-internal',
+        '-related-articles-external',
+        '-meta',
+    ]
+    utils.delall(result, delete_these)
 
     return result
 
