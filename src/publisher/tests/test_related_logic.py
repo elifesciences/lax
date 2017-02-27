@@ -222,7 +222,7 @@ class RelationList(base.BaseCase):
     def _print_relations(self):
         for avr in models.ArticleVersionRelation.objects.all():
             print(avr)
-            
+
     def test_relations_found_for_article(self):
         create_relationships = [
             (self.msid1, [self.msid2]), # 1 => 2
@@ -237,13 +237,13 @@ class RelationList(base.BaseCase):
             (self.msid3, [self.msid1, self.msid2]), # 3 => [1, 2]
         ]
 
-        #self._print_relations()
-            
+        # self._print_relations()
+
         for msid, expected_relations in expected_relationships:
             av = models.Article.objects.get(manuscript_id=msid).latest_version
             actual_relationships = relation_logic.internal_relationships_for_article_version(av)
-            self.assertEqual(expected_relations, [r.manuscript_id for r in actual_relationships], \
-                "for %r I expected relations to %r" % (msid, expected_relations))
+            self.assertEqual(expected_relations, [r.manuscript_id for r in actual_relationships],
+                             "for %r I expected relations to %r" % (msid, expected_relations))
 
     def test_reverse_relations_for_unpublished_article_not_returned(self):
         # an unpublished article may reference a published article

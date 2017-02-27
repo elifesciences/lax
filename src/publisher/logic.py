@@ -213,7 +213,7 @@ def relationships(msid, only_published=True):
     "returns all relationships for the given article"
     # TODO: only-published not supported yet
     av = most_recent_article_version(msid, only_published)
-    
+
     intr = relation_logic.internal_relationships_for_article_version(av)
     extr = relation_logic.external_relationships_for_article_version(av)
 

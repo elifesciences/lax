@@ -57,10 +57,10 @@ def internal_relationships_for_article_version(av):
     # do I have time to and is it important enough? absolutely not
 
     fwd = models.ArticleVersionRelation.objects \
-      .filter(articleversion=av)
+        .filter(articleversion=av)
 
     rev = models.ArticleVersionRelation.objects \
-      .filter(related_to=av.article)
+        .filter(related_to=av.article)
 
     lst = [r.related_to for r in fwd]
     lst.extend([r.articleversion.article for r in rev])
@@ -69,4 +69,4 @@ def internal_relationships_for_article_version(av):
 
 def external_relationships_for_article_version(av):
     return models.ArticleVersionExtRelation.objects \
-      .filter(articleversion=av)
+        .filter(articleversion=av)
