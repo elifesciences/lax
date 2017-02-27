@@ -235,8 +235,12 @@ EVENT_BUS = {
 
 # Lax settings
 
+# when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, False.
+RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', False)
+
 # when ingesting an article version and the EIF has no 'update' value,
 # should we fail and raise an error? if not, the article pub-date is used instead.
+# NOTE 2017-02-28, I do believe all EIF have been backfilled with an 'update' value now. consider removing this option
 FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)
 
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log

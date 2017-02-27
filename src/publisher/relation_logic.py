@@ -1,8 +1,8 @@
 from functools import partial
 from publisher import models
-from publisher.utils import create_or_update, lmap, ensure, first, StateError
-#from django.db.models import Q
+from publisher.utils import create_or_update, lmap, ensure, first, StateError, msid2doi
 import logging
+from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
@@ -26,9 +26,21 @@ def relate(av, a):
 
 def relate_using_msid(av, msid, quiet=False):
     try:
-        return relate(av, models.Article.objects.get(manuscript_id=msid))
+        art = models.Article.objects.get(manuscript_id=msid)
     except models.Article.DoesNotExist:
-        msg = "article with msid %r not found attempting to relate %r => %s" % (msid, av, msid)
+        # we're trying to relate this ArticleVersion to an Article that doesnt exist.
+        # create a stub article and relate it to that
+        stub = {
+            'manuscript_id': msid,
+            'journal': av.article.journal, # saves us having to refer to logic.py and circular dependencies
+            'doi': msid2doi(msid)
+        }
+        art, _, _ = create_or_update(models.Article, stub, create=settings.RELATED_ARTICLE_STUBS, update=False)
+
+    if art:
+        return relate(av, art)
+    else:
+        msg = "article with msid %r not found (and not created) attempting to relate %r => %s" % (msid, av, msid)
         if not quiet:
             raise StateError(msg)
         LOG.error(msg)

@@ -211,6 +211,20 @@ class IngestPublish(base.BaseCase):
         self.assertEqual(0, avr.count()) # not created ...
         models.ArticleVersion.objects.get(article__manuscript_id=13038, version=2) # ... but ingested
 
+    def test_ingest_passes_and_creates_stubs_if_option_on(self):
+        "an article that is related to an article that doesn't exist will have the related Article created as a stub."
+        models.ArticleVersionRelation.objects.all().delete()
+        data = json.load(open(join(self.fixture_dir, 'relatedness', 'elife-13038-v1.xml.json')))
+        data['article']['-related-articles-internal'] = [42]
+        data['article']['version'] = 2
+
+        with self.settings(RELATED_ARTICLE_STUBS=True):
+            ajson_ingestor.ingest(data)
+            avr = models.ArticleVersionRelation.objects.all()
+            self.assertEqual(1, avr.count()) # relationship created ...
+            models.ArticleVersion.objects.get(article__manuscript_id=13038, version=2) # ... and av ingested
+            models.Article.objects.get(manuscript_id=42) # ... and stub created
+
 
 class RelationList(base.BaseCase):
     def setUp(self):
@@ -299,8 +313,8 @@ class RelationList(base.BaseCase):
 
     def test_reverse_relations_for_unpublished_article_not_returned(self):
         # an unpublished article may reference a published article
-        # this would case a backwards relationship to exist for the published article
-        # the published article may then return it's snippet
+        # this would cause a backwards relationship to exist for the published article
+        # the published article may then return an unpublished snippet
         pass
 
     def test_external_relations_found_for_article(self):
