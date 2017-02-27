@@ -198,7 +198,7 @@ class IngestPublish(base.BaseCase):
         data['article']['version'] = 2
         self.assertRaises(utils.StateError, ajson_ingestor.ingest, data)
         avr = models.ArticleVersionRelation.objects.all()
-        self.assertEqual(0, avr.count()) # 
+        self.assertEqual(0, avr.count())
 
     def test_forced_ingest_passes_with_nonexistant_relations(self):
         "an article that is related to an article that doesn't exist cannot be ingested (unless forced)."
