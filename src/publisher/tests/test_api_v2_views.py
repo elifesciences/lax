@@ -128,7 +128,11 @@ class V2Content(base.BaseCase):
 
         # correct data
         self.assertEqual(data['total'], 2) # two results, [msid1, msid2]
+
+        # NOTE! insertion order is not guaranteed. sometimes you get av2, av1 ...
         av1, av2 = data['items']
+        print(data['items'])
+        
         self.assertEqual(av1['version'], 2)
         self.assertEqual(av2['version'], 3)
 
@@ -319,13 +323,19 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 404)
 
     def test_article_related_articles_on_unpublished_article(self):
+        "a 200 response is returned for an article that exists but has no related content"
         self.unpublish(self.msid2, version=3)
         self.unpublish(self.msid2, version=2)
         self.unpublish(self.msid2, version=1)
 
+        # auth
         resp = self.ac.get(reverse('v2:article-related', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
 
+        # no auth
+        resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid2}))
+        self.assertEqual(resp.status_code, 404)
+        
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 404)
 
