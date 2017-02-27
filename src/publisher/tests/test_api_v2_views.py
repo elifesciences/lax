@@ -3,7 +3,7 @@ from datetime import timedelta
 from . import base
 from os.path import join
 import json
-from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, ejp_ingestor
+from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, ejp_ingestor, relation_logic
 from django.test import Client
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -64,7 +64,7 @@ class V2ContentTypes(base.BaseCase):
             reverse('v2:article-version-list', kwargs={'id': self.msid}): art_history_type,
             reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}): art_poa_type,
             reverse('v2:article-version', kwargs={'id': self.msid, 'version': 2}): art_vor_type,
-            reverse('v2:article-related', kwargs={'id': self.msid}): art_related_type,
+            reverse('v2:article-relations', kwargs={'id': self.msid}): art_related_type,
         }
 
         # test
@@ -98,7 +98,10 @@ class V2Content(base.BaseCase):
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
             path = join(ajson_dir, ingestable)
-            ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+            data = json.load(open(path, 'r'))
+            # remove these values here so they don't interfere in creation
+            utils.delall(data, ['-related-articles-internal', '-related-articles-external'])
+            ajson_ingestor.ingest_publish(data)
 
         self.msid1 = 20125
         self.msid2 = 20105
@@ -312,13 +315,13 @@ class V2Content(base.BaseCase):
 
     def test_related_articles(self):
         "related articles endpoint exists and returns a 200 response for published article"
-        resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid1}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(utils.json_loads(resp.content), [])
 
     def test_related_articles_of_an_article_that_does_not_exist(self):
         "related articles endpoint returns a 404 response for missing article"
-        resp = self.c.get(reverse('v2:article-related', kwargs={'id': 42}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': 42}))
         self.assertEqual(resp.status_code, 404)
 
     def test_related_articles_on_unpublished_article(self):
@@ -329,15 +332,33 @@ class V2Content(base.BaseCase):
         self.unpublish(self.msid2, version=1)
 
         # auth
-        resp = self.ac.get(reverse('v2:article-related', kwargs={'id': self.msid2}))
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
 
         # no auth
-        resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid2}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 404)
 
     def test_related_articles_expected_data(self):
-        pass
+        # create a relationship between 1 and 2
+        relation_logic._relate_using_msids([(self.msid1, [self.msid2])])
+
+        # no auth
+        expected = [
+            logic.article_snippet_json(logic.most_recent_article_version(self.msid2))
+        ]
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        data = utils.json_loads(resp.content)
+        self.assertEqual(expected, data)
+
+        # auth
+        expected = [
+            logic.article_snippet_json(logic.most_recent_article_version(self.msid2, only_published=False))
+        ]
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        data = utils.json_loads(resp.content)
+        self.assertEqual(expected, data)
+
 
 class V2PostContent(base.BaseCase):
     def setUp(self):
@@ -462,6 +483,7 @@ class V2PostContent(base.BaseCase):
 
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 403)
+
 
 class RequestArgs(base.BaseCase):
     def setUp(self):
