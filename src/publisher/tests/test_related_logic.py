@@ -1,7 +1,7 @@
 from os.path import join
 import json, copy
 from . import base
-from publisher import ajson_ingestor, models, relation_logic, utils
+from publisher import ajson_ingestor, models, relation_logic, utils  # , logic
 from django.core.exceptions import ValidationError
 
 class RelatedInternally(base.BaseCase):
@@ -236,22 +236,13 @@ class RelationList(base.BaseCase):
     def tearDown(self):
         pass
 
-    def _relate_using_msids(self, matrix):
-        for target, msid_list in matrix:
-            av = models.Article.objects.get(manuscript_id=target).latest_version
-            relation_logic.relate_using_msid_list(av, msid_list)
-
-    def _print_relations(self):
-        for avr in models.ArticleVersionRelation.objects.all():
-            print(avr)
-
     def test_relations_found_for_article(self):
         create_relationships = [
             (self.msid1, [self.msid2]), # 1 => 2
             (self.msid2, [self.msid3]), # 2 => 3
             (self.msid3, [self.msid1]), # 3 => 1
         ]
-        self._relate_using_msids(create_relationships)
+        relation_logic._relate_using_msids(create_relationships)
 
         expected_relationships = [
             (self.msid1, [self.msid2, self.msid3]), # 1 => [2, 3]
@@ -259,7 +250,7 @@ class RelationList(base.BaseCase):
             (self.msid3, [self.msid1, self.msid2]), # 3 => [1, 2]
         ]
 
-        # self._print_relations()
+        relation_logic._print_relations()
 
         for msid, expected_relations in expected_relationships:
             av = models.Article.objects.get(manuscript_id=msid).latest_version
@@ -274,7 +265,7 @@ class RelationList(base.BaseCase):
             (self.msid2, [self.msid3, self.msid1]), # 2 => 3, 1
             (self.msid3, [self.msid1, self.msid2]), # 3 => 1, 2
         ]
-        self._relate_using_msids(create_relationships)
+        relation_logic._relate_using_msids(create_relationships)
 
         expected_relationships = [
             (self.msid1, [self.msid2, self.msid3]), # 1 => [2, 3]
@@ -282,13 +273,29 @@ class RelationList(base.BaseCase):
             (self.msid3, [self.msid1, self.msid2]), # 3 => [1, 2]
         ]
 
-        # self._print_relations()
-
         for msid, expected_relations in expected_relationships:
             av = models.Article.objects.get(manuscript_id=msid).latest_version
             actual_relationships = relation_logic.internal_relationships_for_article_version(av)
             self.assertCountEqual(expected_relations, [r.manuscript_id for r in actual_relationships],
                                   "for %r I expected relations to %r" % (msid, expected_relations))
+
+    def test_relation_data(self):
+        "we expect to see the article object of the related article"
+        create_relationships = [
+            (self.msid1, [self.msid2]), # 1 => 2
+        ]
+        relation_logic._relate_using_msids(create_relationships)
+
+        av1 = self.av
+        av2 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2)
+
+        a1 = self.av.article
+        a2 = models.Article.objects.get(manuscript_id=self.msid2)
+
+        # forwards
+        self.assertEqual([a2], relation_logic.internal_relationships_for_article_version(av1))
+        # backwards
+        self.assertEqual([a1], relation_logic.internal_relationships_for_article_version(av2))
 
     def test_reverse_relations_for_unpublished_article_not_returned(self):
         # an unpublished article may reference a published article

@@ -1,7 +1,7 @@
 import json
 from os.path import join
 from .base import BaseCase
-from publisher import logic, ajson_ingestor, models, eif_ingestor
+from publisher import logic, ajson_ingestor, models, eif_ingestor, utils, relation_logic
 
 class TestLogic0(BaseCase):
     def setUp(self):
@@ -253,3 +253,76 @@ class TestLogic(BaseCase):
 
     def test_article_snippet_json_not_found(self):
         pass
+
+class TestRelationshipLogic(BaseCase):
+    def setUp(self):
+        ingest_these = [
+            "elife-01968-v1.xml.json", # => 01749
+            "elife-16695-v1.xml.json", # => []
+            #"elife-16695-v2.xml.json",
+            "elife-20125-v1.xml.json", # poa
+            #"elife-16695-v3.xml.json"
+        ]
+        ajson_dir = join(self.fixture_dir, 'ajson')
+        for ingestable in ingest_these:
+            path = join(ajson_dir, ingestable)
+            data = json.load(open(path, 'r'))
+            # remove these values here so they don't interfere in creation
+            utils.delall(data, ['-related-articles-internal', '-related-articles-external'])
+            ajson_ingestor.ingest_publish(data)
+
+        self.msid1 = 1968
+        self.msid2 = 16695
+        self.msid3 = 20125
+
+        self.av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid1, version=1)
+        self.a = models.Article.objects.get(manuscript_id=self.msid2) # note: no version information
+
+    def test_relationship_data(self):
+        "we expect to see the article snippet of the related article"
+        create_relationships = [
+            (self.msid1, [self.msid2]), # 1 => 2
+        ]
+        relation_logic._relate_using_msids(create_relationships)
+
+        av1 = self.av
+        av2 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2)
+
+        # forwards
+        self.assertEqual([logic.article_snippet_json(av2)], logic.relationships(self.msid1))
+        # backwards
+        self.assertEqual([logic.article_snippet_json(av1)], logic.relationships(self.msid2))
+
+    def test_relationship_data2(self):
+        "we expect to see the article snippet of the relationed article and external citations"
+        create_relationships = [
+            (self.msid1, [self.msid2]), # 1 => 2
+        ]
+        relation_logic._relate_using_msids(create_relationships)
+
+        av1 = self.av
+        av2 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2)
+
+        external_relation = {
+            'type': 'external-article',
+            'articleTitle': u'Tumour micro-environment elicits innate resistance to RAF inhibitors through HGF secretion',
+            'journal': 'Nature',
+            'authorLine': '- R Straussman\n- T Morikawa\n- K Shee\n- M Barzily-Rokni\n- ZR Qian\n- J Du\n- A Davis\n- MM Mongare\n- J Gould\n- DT Frederick\n- ZA Cooper\n- PB Chapman\n- DB Solit\n- A Ribas\n- RS Lo\n- KT Flaherty\n- S Ogino\n- JA Wargo\n- TR Golub',
+            'uri': 'https://doi.org/10.1038/nature11183',
+        }
+        relation_logic.relate_using_citation_list(av1, [external_relation])
+        relation_logic.relate_using_citation_list(av2, [external_relation])
+
+        # forwards
+        expected = [
+            external_relation,
+            logic.article_snippet_json(av2)
+        ]
+        self.assertEqual(expected, logic.relationships(self.msid1))
+
+        # backwards
+        expected = [
+            external_relation,
+            logic.article_snippet_json(av1)
+        ]
+        self.assertEqual(expected, logic.relationships(self.msid2))

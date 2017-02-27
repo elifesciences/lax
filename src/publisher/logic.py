@@ -214,14 +214,17 @@ def relationships(msid, only_published=True):
     # TODO: only-published not supported yet
     av = most_recent_article_version(msid, only_published)
 
-    intr = relation_logic.internal_relationships_for_article_version(av)
     extr = relation_logic.external_relationships_for_article_version(av)
+    intr = relation_logic.internal_relationships_for_article_version(av)
 
     # the internal relationships must be snippets of the latest version of that article
     avl = [most_recent_article_version(a.manuscript_id) for a in intr]
     avl = lmap(article_snippet_json, avl)
 
-    return list(extr) + avl
+    # pull the citation from each relation
+    cl = [aver.citation for aver in extr]
+
+    return cl + avl
 
 #
 #
