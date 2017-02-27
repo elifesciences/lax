@@ -1,7 +1,10 @@
 from functools import partial
 from publisher import models
-from publisher.utils import create_or_update, lmap, ensure, first
+from publisher.utils import create_or_update, lmap, ensure, first, StateError
 #from django.db.models import Q
+import logging
+
+LOG = logging.getLogger(__name__)
 
 def remove_relationships(av):
     "destroys any relationships that may exist for given ArticleVersion"
@@ -21,11 +24,17 @@ def relate(av, a):
     }
     return first(create_or_update(models.ArticleVersionRelation, data, create=True, update=False))
 
-def relate_using_msid(av, msid):
-    return relate(av, models.Article.objects.get(manuscript_id=msid))
+def relate_using_msid(av, msid, quiet=False):
+    try:
+        return relate(av, models.Article.objects.get(manuscript_id=msid))
+    except models.Article.DoesNotExist:
+        msg = "article with msid %r not found attempting to relate %r => %s" % (msid, av, msid)
+        if not quiet:
+            raise StateError(msg)
+        LOG.error(msg)
 
-def relate_using_msid_list(av, msid_list):
-    return lmap(partial(relate_using_msid, av), msid_list)
+def relate_using_msid_list(av, msid_list, quiet=False):
+    return lmap(partial(relate_using_msid, av, quiet=quiet), msid_list)
 
 #
 # external relationships

@@ -32,11 +32,6 @@ class V2ContentTypes(base.BaseCase):
             resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
             self.assertEqual(resp.status_code, 200)
 
-    def test_accept_type_on_related_articles(self):
-        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
-        resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid}), HTTP_ACCEPT='application/vnd.elife.article-related+json; version=1')
-        self.assertEqual(resp.status_code, 200)
-
     def test_unacceptable_types(self):
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
         cases = [
@@ -87,7 +82,9 @@ class V2Content(base.BaseCase):
 
             "dummyelife-20125-v1.xml.json", # poa
             "dummyelife-20125-v2.xml.json", # poa
-            "dummyelife-20125-v3.xml.json", # vor
+            "dummyelife-20125-v3.xml.json", # vor, related to 21162
+
+            #"elife-21162-v1.xml.json", # vor, related to 20125
 
             # NOT VALID, doesn't ingest
             #"elife-16695-v1.xml.json",
@@ -313,17 +310,20 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 9}))
         self.assertEqual(resp.status_code, 404)
 
-    def test_article_related_articles(self):
+    def test_related_articles(self):
+        "related articles endpoint exists and returns a 200 response for published article"
         resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(utils.json_loads(resp.content), [])
 
-    def test_article_related_articles_of_an_article_that_does_not_exist(self):
+    def test_related_articles_of_an_article_that_does_not_exist(self):
+        "related articles endpoint returns a 404 response for missing article"
         resp = self.c.get(reverse('v2:article-related', kwargs={'id': 42}))
         self.assertEqual(resp.status_code, 404)
 
-    def test_article_related_articles_on_unpublished_article(self):
-        "a 200 response is returned for an article that exists but has no related content"
+    def test_related_articles_on_unpublished_article(self):
+        """related articles endpoint returns a 200 response to an authenticated request for 
+        an unpublished article and a 404 to an unauthenticated request"""
         self.unpublish(self.msid2, version=3)
         self.unpublish(self.msid2, version=2)
         self.unpublish(self.msid2, version=1)
@@ -335,10 +335,10 @@ class V2Content(base.BaseCase):
         # no auth
         resp = self.c.get(reverse('v2:article-related', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 404)
-        
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
-        self.assertEqual(resp.status_code, 404)
 
+    def test_related_articles_expected_data(self):
+        pass
+        
 class V2PostContent(base.BaseCase):
     def setUp(self):
         path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v1.xml.json")
