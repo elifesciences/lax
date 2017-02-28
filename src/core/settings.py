@@ -119,7 +119,9 @@ TEST_OUTPUT_FILE_NAME = 'junit.xml'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # lax often receives long bursts of traffic from dependant services
-CONN_MAX_AGE = 60 # seconds.
+# UPDATE: not working, no improvement recorded.
+# perhaps third party pooling is required: https://pgbouncer.github.io/usage.html
+# CONN_MAX_AGE = 60 # seconds.
 
 DATABASES = {
     'default': {
@@ -233,16 +235,21 @@ EVENT_BUS = {
 
 # Lax settings
 
+# when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, False.
+RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', False)
+
 # when ingesting an article version and the EIF has no 'update' value,
 # should we fail and raise an error? if not, the article pub-date is used instead.
+# NOTE 2017-02-28, I do believe all EIF have been backfilled with an 'update' value now. consider removing this option
 FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)
 
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
 
 INGESTION_LOG_NAME = 'ingestion-%s.log' % PROJECT_NAME
 
-LOG_FILE = join('/var/log/', LOG_NAME) # ll: /var/log/lax.log
-INGESTION_LOG_FILE = join('/var/log/', INGESTION_LOG_NAME) # ll: /var/log/lax.log
+LOG_DIR = '/var/log/' if ENV != DEV else './'
+LOG_FILE = join(LOG_DIR, LOG_NAME) # ll: /var/log/lax.log
+INGESTION_LOG_FILE = join(LOG_DIR, INGESTION_LOG_NAME) # ll: /var/log/lax.log
 
 # whereever our log files are, ensure they are writable before we do anything else.
 def writable(path):

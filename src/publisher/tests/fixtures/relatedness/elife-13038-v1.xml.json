@@ -1,0 +1,248 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "status": "vor", 
+        "id": "13038", 
+        "version": 1, 
+        "type": "correction", 
+        "doi": "10.7554/eLife.13038", 
+        "authorLine": "Olivier Britz et al", 
+        "title": "Correction: A genetically defined asymmetry underlies the inhibitory control of flexor\u2013extensor locomotor movements", 
+        "published": "2015-11-25T00:00:00Z", 
+        "versionDate": "2015-11-25T00:00:00Z", 
+        "volume": 4, 
+        "elocationId": "e13038", 
+        "pdf": "https://publishing-cdn.elifesciences.org/13038/elife-13038-v1.pdf", 
+        "subjects": [
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
+        ], 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Britz et al", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Olivier Britz", 
+                    "index": "Britz, Olivier"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jingming Zhang", 
+                    "index": "Zhang, Jingming"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Katja S Grossmann", 
+                    "index": "Grossmann, Katja S"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jason Dyck", 
+                    "index": "Dyck, Jason"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jun C Kim", 
+                    "index": "Kim, Jun C"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Susan Dymecki", 
+                    "index": "Dymecki, Susan"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Simon Gosgnach", 
+                    "index": "Gosgnach, Simon"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Martyn Goulding", 
+                    "index": "Goulding, Martyn"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ]
+    }, 
+    "article": {
+        "status": "vor", 
+        "id": "13038", 
+        "version": 1, 
+        "type": "correction", 
+        "doi": "10.7554/eLife.13038", 
+        "authorLine": "Olivier Britz et al", 
+        "title": "Correction: A genetically defined asymmetry underlies the inhibitory control of flexor\u2013extensor locomotor movements", 
+        "published": "2015-11-25T00:00:00Z", 
+        "versionDate": "2015-11-25T00:00:00Z", 
+        "volume": 4, 
+        "elocationId": "e13038", 
+        "pdf": "https://publishing-cdn.elifesciences.org/13038/elife-13038-v1.pdf", 
+        "subjects": [
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
+        ], 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Britz et al", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Olivier Britz", 
+                    "index": "Britz, Olivier"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jingming Zhang", 
+                    "index": "Zhang, Jingming"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Katja S Grossmann", 
+                    "index": "Grossmann, Katja S"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jason Dyck", 
+                    "index": "Dyck, Jason"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jun C Kim", 
+                    "index": "Kim, Jun C"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Susan Dymecki", 
+                    "index": "Dymecki, Susan"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Simon Gosgnach", 
+                    "index": "Gosgnach, Simon"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Martyn Goulding", 
+                    "index": "Goulding, Martyn"
+                }, 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ], 
+        "-related-articles-internal": [
+            "04718"
+        ], 
+        "-related-articles-external": [], 
+        "body": [
+            {
+                "type": "section", 
+                "id": "s0", 
+                "title": "Main text", 
+                "content": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Britz O, Zhang J, Grossmann KS, Dyck J, Kim JC, Dymecki S, Gosgnach S, Goulding M. 2015. A genetically defined asymmetry underlies the inhibitory control of flexor\u2013extensor locomotor movements. <i>eLife</i> <b>4</b>:e04718. doi: <a href=\"http://dx.doi.org/10.7554/eLife.04718\">10.7554/eLife.04718</a>"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Published 14 October 2015"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The originally published Figure 1 mistakenly used an image from an earlier version of the article, in which the order of the panels had been switched, resulting in a disconnect between Figure 1, the figure legend for Figure 1, and the text."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The corrected Figure 1 is shown here:"
+                    }, 
+                    {
+                        "type": "image", 
+                        "id": "fig1", 
+                        "alt": "", 
+                        "uri": "https://publishing-cdn.elifesciences.org/13038/elife-13038-fig1-v1.tif", 
+                        "filename": "elife-13038-fig1-v1.tif"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The originally published Figure 1 is also shown for reference:"
+                    }, 
+                    {
+                        "type": "image", 
+                        "id": "fig2", 
+                        "alt": "", 
+                        "uri": "https://publishing-cdn.elifesciences.org/13038/elife-13038-fig2-v1.tif", 
+                        "filename": "elife-13038-fig2-v1.tif"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Following this change, the sentence, \u2018(<b>J</b>\u2013<b>L</b>) Sections through the spinal cord showing the relative numbers of V1 cells that undergo Cre only recombination (lacZ-positive) vs those V1 cells that undergo both Cre and Flp recombination (GFP-positive)\u2019 has been removed from the legend of Figure 1 and the text \u2018(<b>G</b>\u2013<b>I</b>) Images from E12.5 embryos\u2026\u2019 has been corrected to read \u2018(<b>G</b>\u2013<b>J</b>) Images from E12.5 embryos\u2026\u2019"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "In addition, the label on the top left side of Figure 2 should have read \u2018\u2212FlpO\u2019, rather than \u2018_FlpO\u2019."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The article has been corrected accordingly."
+                    }
+                ]
+            }
+        ]
+    }
+}

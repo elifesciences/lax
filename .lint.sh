@@ -10,7 +10,7 @@ echo "* calling pyflakes"
 pyflakes ./src/
 # disabled until pylint supports Python 3.6
 # https://github.com/PyCQA/pylint/issues/1113
-#echo "* calling pylint"
-#pylint -E ./src/publisher/** --load-plugins=pylint_django --disable=E1103 2> /dev/null
+echo "* calling pylint"
+pylint -E ./src/publisher/** --load-plugins=pylint_django --disable=E1103 2> /dev/null
 echo "* scrubbing"
 . .scrub.sh 2> /dev/null

@@ -301,12 +301,13 @@ def validate(struct, schema_path):
 #
 #
 
-def create_or_update(Model, orig_data, key_list, create=True, update=True, commit=True, **overrides):
+def create_or_update(Model, orig_data, key_list=None, create=True, update=True, commit=True, **overrides):
     inst = None
     created = updated = False
     data = {}
     data.update(orig_data)
     data.update(overrides)
+    key_list = key_list or data.keys()
     try:
         # try and find an entry of Model using the key fields in the given data
         inst = Model.objects.get(**subdict(data, key_list))
@@ -320,6 +321,7 @@ def create_or_update(Model, orig_data, key_list, create=True, update=True, commi
             created = True
 
     if (updated or created) and commit:
+        inst.full_clean()
         inst.save()
 
     # it is possible to neither create nor update.

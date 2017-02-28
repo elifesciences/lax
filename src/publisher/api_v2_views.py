@@ -111,9 +111,8 @@ def article_related(request, id):
     "return the related articles for a given article ID"
     authenticated = is_authenticated(request)
     try:
-        # exception if the article id cannot be found
-        logic.most_recent_article_version(id, only_published=not authenticated)
-        return Response([], content_type="application/vnd.elife.article-related+json;version=1")
+        rl = logic.relationships(id, only_published=not authenticated)
+        return Response(rl, content_type="application/vnd.elife.article-related+json;version=1")
     except models.Article.DoesNotExist:
         raise Http404()
 #

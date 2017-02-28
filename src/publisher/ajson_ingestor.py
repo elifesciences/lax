@@ -1,5 +1,5 @@
 import copy
-from publisher import models, utils, fragment_logic as fragments, logic, events
+from publisher import models, utils, fragment_logic as fragments, logic, events, relation_logic as relationships
 from publisher.models import XML2JSON
 from publisher.utils import create_or_update, StateError, atomic
 import logging
@@ -80,8 +80,12 @@ def _ingest(data, force=False):
         fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
         fragments.set_article_json(av, quiet=True)
 
-        # enforce business rules
+        # update the relationships
+        relationships.remove_relationships(av)
+        relationships.relate_using_msid_list(av, data['article'].get('-related-articles-internal', []), quiet=force)
+        relationships.relate_using_citation_list(av, data['article'].get('-related-articles-external', []))
 
+        # enforce business rules
         if created:
             if previous_article_versions:
                 last_version = previous_article_versions[-1]
