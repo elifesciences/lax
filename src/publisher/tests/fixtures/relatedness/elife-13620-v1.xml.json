@@ -6484,11 +6484,7 @@
                     }
                 ], 
                 "articleTitle": "The Cancer Cell Line Encyclopedia enables predictive modelling of anticancer drug sensitivity", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "483", 
                 "pages": {
                     "first": "603", 
@@ -6700,11 +6696,7 @@
                     }
                 ], 
                 "articleTitle": "Mechanistic rationale for inhibition of poly(ADP-ribose) polymerase in ETS gene fusion-positive prostate cancer", 
-                "journal": {
-                    "name": [
-                        "Cancer Cell"
-                    ]
-                }, 
+                "journal": "Cancer Cell",
                 "volume": "19", 
                 "pages": {
                     "first": "664", 
@@ -6797,11 +6789,7 @@
                     }
                 ], 
                 "articleTitle": "PARP-1 inhibition as a targeted strategy to treat Ewing's sarcoma", 
-                "journal": {
-                    "name": [
-                        "Cancer Research"
-                    ]
-                }, 
+                "journal": "Cancer Research",
                 "volume": "72", 
                 "pages": {
                     "first": "1608", 
@@ -6917,11 +6905,7 @@
                     }
                 ], 
                 "articleTitle": "G*Power 3: a flexible statistical power analysis program for the social, behavioral, and biomedical sciences", 
-                "journal": {
-                    "name": [
-                        "Behavior Research Methods"
-                    ]
-                }, 
+                "journal": "Behavior Research Methods",
                 "volume": "39", 
                 "pages": {
                     "first": "175", 
@@ -6958,11 +6942,7 @@
                     }
                 ], 
                 "articleTitle": "Oncogenic partnerships: EWS-FLI1 protein interactions initiate key pathways of Ewing's sarcoma", 
-                "journal": {
-                    "name": [
-                        "Clinical Cancer Research"
-                    ]
-                }, 
+                "journal": "Clinical Cancer Research",
                 "volume": "16", 
                 "pages": {
                     "first": "4077", 
@@ -7057,11 +7037,7 @@
                     }
                 ], 
                 "articleTitle": "Chromatin to Clinic: The Molecular Rationale for PARP1 Inhibitor Function", 
-                "journal": {
-                    "name": [
-                        "Molecular Cell"
-                    ]
-                }, 
+                "journal": "Molecular Cell",
                 "volume": "58", 
                 "pages": {
                     "first": "925", 
@@ -7455,11 +7431,7 @@
                     }
                 ], 
                 "articleTitle": "Systematic identification of genomic markers of drug sensitivity in cancer cells", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "483", 
                 "pages": {
                     "first": "570", 
@@ -7524,11 +7496,7 @@
                     }
                 ], 
                 "articleTitle": "Poly(ADP-Ribose) Polymerase 1: Cellular Pluripotency, Reprogramming, and Tumorogenesis", 
-                "journal": {
-                    "name": [
-                        "International Journal of Molecular Sciences"
-                    ]
-                }, 
+                "journal": "International Journal of Molecular Sciences",
                 "volume": "16", 
                 "pages": {
                     "first": "15531", 
@@ -7607,11 +7575,7 @@
                     }
                 ], 
                 "articleTitle": "Combining PARP-1 inhibition and radiation in Ewing sarcoma results in lethal DNA damage", 
-                "journal": {
-                    "name": [
-                        "Molecular Cancer Therapeutics"
-                    ]
-                }, 
+                "journal": "Molecular Cancer Therapeutics",
                 "volume": "12", 
                 "pages": {
                     "first": "2591", 
@@ -7692,11 +7656,7 @@
                     }
                 ], 
                 "articleTitle": "Molecular Pathogenesis of Ewing Sarcoma: New Therapeutic and Transcriptional Targets", 
-                "journal": {
-                    "name": [
-                        "Annual Review of Pathology: Mechanisms of Disease"
-                    ]
-                }, 
+                "journal": "Annual Review of Pathology: Mechanisms of Disease",
                 "volume": "7", 
                 "pages": {
                     "first": "145", 
@@ -7733,11 +7693,7 @@
                     }
                 ], 
                 "articleTitle": "Synthetic lethality and cancer therapy: lessons learned from the development of PARP inhibitors", 
-                "journal": {
-                    "name": [
-                        "Annual Review of Medicine"
-                    ]
-                }, 
+                "journal": "Annual Review of Medicine",
                 "volume": "66", 
                 "pages": {
                     "first": "455", 
@@ -7781,11 +7737,7 @@
                     }
                 ], 
                 "articleTitle": "Preclinical evaluation of the PARP inhibitor, olaparib, in combination with cytotoxic chemotherapy in pediatric solid tumors", 
-                "journal": {
-                    "name": [
-                        "Pediatric Blood & Cancer"
-                    ]
-                }, 
+                "journal": "Pediatric Blood & Cancer",
                 "volume": "61", 
                 "pages": {
                     "first": "145", 
@@ -7990,11 +7942,7 @@
                     }
                 ], 
                 "articleTitle": "An update on PARP inhibitors\u2014moving to the adjuvant setting", 
-                "journal": {
-                    "name": [
-                        "Nat Rev Clin Onco"
-                    ]
-                }, 
+                "journal": "Nat Rev Clin Onco",
                 "volume": "12", 
                 "pages": {
                     "first": "27", 
@@ -8185,11 +8133,7 @@
                     }
                 ], 
                 "articleTitle": "Targeting the DNA repair pathway in Ewing sarcoma", 
-                "journal": {
-                    "name": [
-                        "Cell Reports"
-                    ]
-                }, 
+                "journal": "Cell Reports",
                 "volume": "9", 
                 "pages": {
                     "first": "829", 

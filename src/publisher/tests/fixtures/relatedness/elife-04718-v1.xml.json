@@ -1306,11 +1306,7 @@
                     }
                 ], 
                 "articleTitle": "Drivers and modulators from push-pull and balanced synaptic input", 
-                "journal": {
-                    "name": [
-                        "Progress in Brain Research"
-                    ]
-                }, 
+                "journal": "Progress in Brain Research",
                 "volume": "149", 
                 "pages": {
                     "first": "147", 
@@ -1354,11 +1350,7 @@
                     }
                 ], 
                 "articleTitle": "Degradation of mouse locomotor pattern in the absence of proprioceptive sensory feedback", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of USA"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of USA",
                 "volume": "111", 
                 "pages": {
                     "first": "16877", 
@@ -1388,11 +1380,7 @@
                     }
                 ], 
                 "articleTitle": "Circuits for skilled reaching and grasping", 
-                "journal": {
-                    "name": [
-                        "Annual Review of Neuroscience"
-                    ]
-                }, 
+                "journal": "Annual Review of Neuroscience",
                 "volume": "35", 
                 "pages": {
                     "first": "559", 
@@ -1464,11 +1452,7 @@
                     }
                 ], 
                 "articleTitle": "Postnatal phenotype and localization of spinal cord V1 derived interneurons", 
-                "journal": {
-                    "name": [
-                        "The Journal of Comparative Neurology"
-                    ]
-                }, 
+                "journal": "The Journal of Comparative Neurology",
                 "volume": "493", 
                 "pages": {
                     "first": "177", 
@@ -1505,11 +1489,7 @@
                     }
                 ], 
                 "articleTitle": "Candidate interneurones mediating group I disynaptic EPSPs in extensor motoneurones during fictive locomotion in the cat", 
-                "journal": {
-                    "name": [
-                        "The Journal of Physiology"
-                    ]
-                }, 
+                "journal": "The Journal of Physiology",
                 "volume": "563", 
                 "pages": {
                     "first": "597", 
@@ -1532,11 +1512,7 @@
                     }
                 ], 
                 "articleTitle": "Motor circuits in action: specification, connectivity and temporal mechanisms", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "74", 
                 "pages": {
                     "first": "975", 
@@ -1587,11 +1563,7 @@
                     }
                 ], 
                 "articleTitle": "Evolving the lock to fit the key to create a family of G protein-coupled receptors potently activated by an inert ligand", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of USA"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of USA",
                 "volume": "104", 
                 "pages": {
                     "first": "5163", 
@@ -1628,11 +1600,7 @@
                     }
                 ], 
                 "articleTitle": "Balanced inhibition and excitation drive spike activity in spinal half-centers", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "315", 
                 "pages": {
                     "first": "390", 
@@ -1683,11 +1651,7 @@
                     }
                 ], 
                 "articleTitle": "The recurrent case for the Renshaw cell", 
-                "journal": {
-                    "name": [
-                        "The Journal of Neuroscience"
-                    ]
-                }, 
+                "journal": "The Journal of Neuroscience",
                 "volume": "34", 
                 "pages": {
                     "first": "12919", 
@@ -1790,11 +1754,7 @@
                     }
                 ], 
                 "articleTitle": "A Cre inducible diphtheria toxin receptor mediates cell lineage ablation after toxin administration", 
-                "journal": {
-                    "name": [
-                        "Nature Methods"
-                    ]
-                }, 
+                "journal": "Nature Methods",
                 "volume": "2", 
                 "pages": {
                     "first": "419", 
@@ -1852,11 +1812,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic evidence that relative synaptic efficiency biases the outcome of synaptic competition", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "424", 
                 "pages": {
                     "first": "430", 
@@ -1893,11 +1849,7 @@
                     }
                 ], 
                 "articleTitle": "Gain modulation from background synaptic input", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "35", 
                 "pages": {
                     "first": "773", 
@@ -1934,11 +1886,7 @@
                     }
                 ], 
                 "articleTitle": "Proprioceptive input resets central locomotor rhythm in the spinal cat", 
-                "journal": {
-                    "name": [
-                        "Experimental Brain Research"
-                    ]
-                }, 
+                "journal": "Experimental Brain Research",
                 "volume": "68", 
                 "pages": {
                     "first": "643", 
@@ -2031,11 +1979,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic ablation of V2a ipsilateral interneurons disrupts left-right locomotor coordination in mammalian spinal cord", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "60", 
                 "pages": {
                     "first": "70", 
@@ -2065,11 +2009,7 @@
                     }
                 ], 
                 "articleTitle": "Expression patterns of the homeo box-containing genes En-1 and En-2 and the proto-oncogene int-1 diverge during mouse development", 
-                "journal": {
-                    "name": [
-                        "Genes & Development"
-                    ]
-                }, 
+                "journal": "Genes & Development",
                 "volume": "2", 
                 "pages": {
                     "first": "1736", 
@@ -2099,11 +2039,7 @@
                     }
                 ], 
                 "articleTitle": "Activity of Ia inhibitory interneurons during fictitious scratch reflex in the cat", 
-                "journal": {
-                    "name": [
-                        "Brain Research"
-                    ]
-                }, 
+                "journal": "Brain Research",
                 "volume": "193", 
                 "pages": {
                     "first": "439", 
@@ -2133,11 +2069,7 @@
                     }
                 ], 
                 "articleTitle": "Inhibition of flexor burst generation by loading ankle extensor muscles in walking cats", 
-                "journal": {
-                    "name": [
-                        "Brain Research"
-                    ]
-                }, 
+                "journal": "Brain Research",
                 "volume": "187", 
                 "pages": {
                     "first": "321", 
@@ -2167,11 +2099,7 @@
                     }
                 ], 
                 "articleTitle": "Activity of interneurons mediating reciprocal Ia inhibition during locomotion", 
-                "journal": {
-                    "name": [
-                        "Brain Research"
-                    ]
-                }, 
+                "journal": "Brain Research",
                 "volume": "84", 
                 "pages": {
                     "first": "181", 
@@ -2194,11 +2122,7 @@
                     }
                 ], 
                 "articleTitle": "Stumbling corrective reaction: a phase dependent compensatory reaction during locomotion", 
-                "journal": {
-                    "name": [
-                        "Journal of Neurophysiology"
-                    ]
-                }, 
+                "journal": "Journal of Neurophysiology",
                 "volume": "42", 
                 "pages": {
                     "first": "936", 
@@ -2227,11 +2151,7 @@
                     }
                 ], 
                 "articleTitle": "Asymmetric control of cycle period by the spinal locomotor rhythm generator in the adult cat", 
-                "journal": {
-                    "name": [
-                        "The Journal of Physiology"
-                    ]
-                }, 
+                "journal": "The Journal of Physiology",
                 "volume": "587", 
                 "pages": {
                     "first": "4617", 
@@ -2254,11 +2174,7 @@
                     }
                 ], 
                 "articleTitle": "Spatial distribution of recurrent inhibitory synapses on spinal motoneurons in the cat", 
-                "journal": {
-                    "name": [
-                        "Journal of Neurophysiology"
-                    ]
-                }, 
+                "journal": "Journal of Neurophysiology",
                 "volume": "65", 
                 "pages": {
                     "first": "1134", 
@@ -2308,11 +2224,7 @@
                     }
                 ], 
                 "articleTitle": "Reciprocal Ia inhibition contributes to motoneuronal hyperpolarization during the inactive phase of locomotion and scratching in the cat", 
-                "journal": {
-                    "name": [
-                        "The Journal of Physiology"
-                    ]
-                }, 
+                "journal": "The Journal of Physiology",
                 "volume": "589", 
                 "pages": {
                     "first": "119", 
@@ -2398,11 +2310,7 @@
                     }
                 ], 
                 "articleTitle": "V1 spinal neurons regulate the speed of vertebrate locomotor outputs", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "440", 
                 "pages": {
                     "first": "215", 
@@ -2446,11 +2354,7 @@
                     }
                 ], 
                 "articleTitle": "Transmission in a locomotor-related group Ib pathway from hindlimb extensor muscles in the cat", 
-                "journal": {
-                    "name": [
-                        "Experimental Brain Research"
-                    ]
-                }, 
+                "journal": "Experimental Brain Research",
                 "volume": "98", 
                 "pages": {
                     "first": "213", 
@@ -2473,11 +2377,7 @@
                     }
                 ], 
                 "articleTitle": "Circuits controlling vertebrate locomotion: moving in a new direction", 
-                "journal": {
-                    "name": [
-                        "Nature Reviews Neuroscience"
-                    ]
-                }, 
+                "journal": "Nature Reviews Neuroscience",
                 "volume": "10", 
                 "pages": {
                     "first": "507", 
@@ -2500,11 +2400,7 @@
                     }
                 ], 
                 "articleTitle": "Locomotion in vertebrates: central mechanisms and reflex interaction", 
-                "journal": {
-                    "name": [
-                        "Physiological Reviews"
-                    ]
-                }, 
+                "journal": "Physiological Reviews",
                 "volume": "55", 
                 "pages": {
                     "first": "247", 
@@ -2533,11 +2429,7 @@
                     }
                 ], 
                 "articleTitle": "Measured motion: searching for simplicity in spinal locomotor networks", 
-                "journal": {
-                    "name": [
-                        "Current Opinion in Neurobiology"
-                    ]
-                }, 
+                "journal": "Current Opinion in Neurobiology",
                 "volume": "19", 
                 "pages": {
                     "first": "572", 
@@ -2567,11 +2459,7 @@
                     }
                 ], 
                 "articleTitle": "On the central generation of locomotion in the low spinal cat", 
-                "journal": {
-                    "name": [
-                        "Brain Research"
-                    ]
-                }, 
+                "journal": "Brain Research",
                 "volume": "34", 
                 "pages": {
                     "first": "241", 
@@ -2607,11 +2495,7 @@
                     }
                 ], 
                 "articleTitle": "Lbx1 specifies somatosensory association neurons in the dorsal spinal cord", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "34", 
                 "pages": {
                     "first": "535", 
@@ -2655,11 +2539,7 @@
                     }
                 ], 
                 "articleTitle": "Activation of groups of excitatory neurons in the mammalian spinal cord or hindbrain evokes locomotion", 
-                "journal": {
-                    "name": [
-                        "Nature Neuroscience"
-                    ]
-                }, 
+                "journal": "Nature Neuroscience",
                 "volume": "13", 
                 "pages": {
                     "first": "246", 
@@ -2682,11 +2562,7 @@
                     }
                 ], 
                 "articleTitle": "The stride cycle of the cat: the modelling of locomotion by computerized analysis of automatic recordings", 
-                "journal": {
-                    "name": [
-                        "Acta Physiologica Scandinavica Supplementum"
-                    ]
-                }, 
+                "journal": "Acta Physiologica Scandinavica Supplementum",
                 "volume": "521", 
                 "pages": {
                     "first": "1", 
@@ -2771,11 +2647,7 @@
                     }
                 ], 
                 "articleTitle": "Inducible ablation of melanopsin-expressing retinal ganglion cells reveals their central role in non-image forming responses", 
-                "journal": {
-                    "name": [
-                        "PLOS ONE"
-                    ]
-                }, 
+                "journal": "PLOS ONE",
                 "volume": "3", 
                 "pages": "e2451", 
                 "doi": "10.1371/journal.pone.0002451"
@@ -2815,11 +2687,7 @@
                     }
                 ], 
                 "articleTitle": "Engrailed-1 expression marks a primitive class of inhibitory spinal interneuron", 
-                "journal": {
-                    "name": [
-                        "The Journal of Neuroscience"
-                    ]
-                }, 
+                "journal": "The Journal of Neuroscience",
                 "volume": "24", 
                 "pages": {
                     "first": "5827", 
@@ -2891,11 +2759,7 @@
                     }
                 ], 
                 "articleTitle": "Mouse model of colonic adenoma-carcinoma progression based on somatic Apc inactivation", 
-                "journal": {
-                    "name": [
-                        "Cancer Research"
-                    ]
-                }, 
+                "journal": "Cancer Research",
                 "volume": "67", 
                 "pages": {
                     "first": "9721", 
@@ -2960,11 +2824,7 @@
                     }
                 ], 
                 "articleTitle": "A developmental switch in the response of DRG neurons to ETS transcription factor signaling", 
-                "journal": {
-                    "name": [
-                        "PLOS Biology"
-                    ]
-                }, 
+                "journal": "PLOS Biology",
                 "volume": "3", 
                 "pages": "e159", 
                 "doi": "10.1371/journal.pbio.0030159"
@@ -2983,11 +2843,7 @@
                     }
                 ], 
                 "articleTitle": "Interneuronal relay in spinal pathways from proprioceptors", 
-                "journal": {
-                    "name": [
-                        "Progress in Neurobiology"
-                    ]
-                }, 
+                "journal": "Progress in Neurobiology",
                 "volume": "38", 
                 "pages": {
                     "first": "335", 
@@ -3017,11 +2873,7 @@
                     }
                 ], 
                 "articleTitle": "Synaptic actions of single interneurones mediating reciprocal Ia inhibition of motoneurones", 
-                "journal": {
-                    "name": [
-                        "The Journal of Physiology"
-                    ]
-                }, 
+                "journal": "The Journal of Physiology",
                 "volume": "222", 
                 "pages": {
                     "first": "623", 
@@ -3065,11 +2917,7 @@
                     }
                 ], 
                 "articleTitle": "Push-pull control of motor output", 
-                "journal": {
-                    "name": [
-                        "The Journal of Neuroscience"
-                    ]
-                }, 
+                "journal": "The Journal of Neuroscience",
                 "volume": "32", 
                 "pages": {
                     "first": "4592", 
@@ -3106,11 +2954,7 @@
                     }
                 ], 
                 "articleTitle": "Locomotor rhythmogenesis in the isolated rat spinal cord: a phase-coupled set of symmetrical flexion extension oscillators", 
-                "journal": {
-                    "name": [
-                        "The Journal of Physiology"
-                    ]
-                }, 
+                "journal": "The Journal of Physiology",
                 "volume": "583", 
                 "pages": {
                     "first": "115", 
@@ -3133,11 +2977,7 @@
                     }
                 ], 
                 "articleTitle": "Locomotor circuits in the mammalian spinal cord", 
-                "journal": {
-                    "name": [
-                        "Annual Review of Neuroscience"
-                    ]
-                }, 
+                "journal": "Annual Review of Neuroscience",
                 "volume": "29", 
                 "pages": {
                     "first": "279", 
@@ -3195,11 +3035,7 @@
                     }
                 ], 
                 "articleTitle": "Linking genetically defined neurons to behavior through a broadly applicable silencing allele", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "63", 
                 "pages": {
                     "first": "305", 
@@ -3222,11 +3058,7 @@
                     }
                 ], 
                 "articleTitle": "A push-me pull-you neural design", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "315", 
                 "pages": {
                     "first": "339", 
@@ -3256,11 +3088,7 @@
                     }
                 ], 
                 "articleTitle": "Deletions of rhythmic motoneuron activity during fictive locomotion ands scratch provides clues to the structure of the mammalian central pattern generator", 
-                "journal": {
-                    "name": [
-                        "Journal of Neurophysiology"
-                    ]
-                }, 
+                "journal": "Journal of Neurophysiology",
                 "volume": "94", 
                 "pages": {
                     "first": "1120", 
@@ -3311,11 +3139,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic identification of spinal interneurons that coordinate left-right locomotor activity necessary for walking movements", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "42", 
                 "pages": {
                     "first": "375", 
@@ -3366,11 +3190,7 @@
                     }
                 ], 
                 "articleTitle": "Primitive roles for inhibitory interneurons in developing frog spinal cord", 
-                "journal": {
-                    "name": [
-                        "The Journal of Neuroscience"
-                    ]
-                }, 
+                "journal": "The Journal of Neuroscience",
                 "volume": "24", 
                 "pages": {
                     "first": "5840", 
@@ -3407,11 +3227,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic dissection of neural circuits", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "57", 
                 "pages": {
                     "first": "634", 
@@ -3511,11 +3327,7 @@
                     }
                 ], 
                 "articleTitle": "A robust and high-throughput Cre reporting and characterization system for the whole mouse brain", 
-                "journal": {
-                    "name": [
-                        "Nature Neuroscience"
-                    ]
-                }, 
+                "journal": "Nature Neuroscience",
                 "volume": "13", 
                 "pages": {
                     "first": "133", 
@@ -3545,11 +3357,7 @@
                     }
                 ], 
                 "articleTitle": "Organization of mammalian locomotor rhythm and pattern generation", 
-                "journal": {
-                    "name": [
-                        "Brain Research Reviews"
-                    ]
-                }, 
+                "journal": "Brain Research Reviews",
                 "volume": "57", 
                 "pages": {
                     "first": "134", 
@@ -3586,11 +3394,7 @@
                     }
                 ], 
                 "articleTitle": "A kinematic comparison of L-DOPA-induced air-stepping and swimming in developing rats", 
-                "journal": {
-                    "name": [
-                        "Developmental Psychobiology"
-                    ]
-                }, 
+                "journal": "Developmental Psychobiology",
                 "volume": "30", 
                 "pages": {
                     "first": "313", 
@@ -3620,11 +3424,7 @@
                     }
                 ], 
                 "articleTitle": "The sizes of motoneurons supplying hindlimb muscles in the mouse", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the Royal Society of London. Series B, Biological Sciences"
-                    ]
-                }, 
+                "journal": "Proceedings of the Royal Society of London. Series B, Biological Sciences",
                 "volume": "213", 
                 "pages": {
                     "first": "201", 
@@ -3654,11 +3454,7 @@
                     }
                 ], 
                 "articleTitle": "Shunting inhibition modulates neuronal gain during synaptic excitation", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "38", 
                 "pages": {
                     "first": "433", 
@@ -3737,11 +3533,7 @@
                     }
                 ], 
                 "articleTitle": "Cholinergic input required during embryonic development to mediate proper assembly of spinal locomotor circuits", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "46", 
                 "pages": {
                     "first": "37", 
@@ -3785,11 +3577,7 @@
                     }
                 ], 
                 "articleTitle": "The role of Renshaw cells in locomotion: antagonism of their excitation from motor axon collaterals with intravenous mecamylamine", 
-                "journal": {
-                    "name": [
-                        "Experimental Brain Research"
-                    ]
-                }, 
+                "journal": "Experimental Brain Research",
                 "volume": "66", 
                 "pages": {
                     "first": "99", 
@@ -3833,11 +3621,7 @@
                     }
                 ], 
                 "articleTitle": "Protamine-Cre recombinase transgenes efficiently recombine target sequences in the male germ line of mice, but not in embryonic stem cells", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of USA"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of USA",
                 "volume": "94", 
                 "pages": {
                     "first": "14602", 
@@ -3860,11 +3644,7 @@
                     }
                 ], 
                 "articleTitle": "Role of sensory feedback in the control of stance duration in walking cats", 
-                "journal": {
-                    "name": [
-                        "Brain Research Reviews"
-                    ]
-                }, 
+                "journal": "Brain Research Reviews",
                 "volume": "57", 
                 "pages": {
                     "first": "222", 
@@ -3901,11 +3681,7 @@
                     }
                 ], 
                 "articleTitle": "A new electrode configuration for recording electromyographic activity in behaving mice", 
-                "journal": {
-                    "name": [
-                        "Journal of Neuroscience Methods"
-                    ]
-                }, 
+                "journal": "Journal of Neuroscience Methods",
                 "volume": "148", 
                 "pages": {
                     "first": "36", 
@@ -3935,11 +3711,7 @@
                     }
                 ], 
                 "articleTitle": "Reversal of influence of group Ib afferents from plantaris on activity in medial gastrocnemius muscle during locomotor activity", 
-                "journal": {
-                    "name": [
-                        "Journal of Neurophysiology"
-                    ]
-                }, 
+                "journal": "Journal of Neurophysiology",
                 "volume": "70", 
                 "pages": {
                     "first": "1009", 
@@ -3968,11 +3740,7 @@
                     }
                 ], 
                 "articleTitle": "Ia inhibitory interneurons and Renshaw cells as contributors to the spinal mechanisms of fictive locomotion", 
-                "journal": {
-                    "name": [
-                        "Journal of Neurophysiology"
-                    ]
-                }, 
+                "journal": "Journal of Neurophysiology",
                 "volume": "57", 
                 "pages": {
                     "first": "56", 
@@ -4036,11 +3804,7 @@
                     }
                 ], 
                 "articleTitle": "Impaired respiratory and body temperature control upon acute serotonergic neuron inhibition", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "333", 
                 "pages": {
                     "first": "637", 
@@ -4112,11 +3876,7 @@
                     }
                 ], 
                 "articleTitle": "High-efficiency deleter mice show that FLPe is an alternative to Cre-loxP", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "volume": "25", 
                 "pages": {
                     "first": "139", 
@@ -4195,11 +3955,7 @@
                     }
                 ], 
                 "articleTitle": "Pax6 and engrailed 1 regulate two distinct aspects of renshaw cell development", 
-                "journal": {
-                    "name": [
-                        "The Journal of Neuroscience"
-                    ]
-                }, 
+                "journal": "The Journal of Neuroscience",
                 "volume": "24", 
                 "pages": {
                     "first": "1255", 
@@ -4236,11 +3992,7 @@
                     }
                 ], 
                 "articleTitle": "Engrailed-1 and netrin-1 regulate axon pathfinding by association interneurons that project to motor neurons", 
-                "journal": {
-                    "name": [
-                        "Development"
-                    ]
-                }, 
+                "journal": "Development",
                 "volume": "126", 
                 "pages": {
                     "first": "4201", 
@@ -4293,11 +4045,7 @@
                     }
                 ], 
                 "articleTitle": "Flexion-reflex of the limb, crossed extension reflex and reflex stepping and standing", 
-                "journal": {
-                    "name": [
-                        "The Journal of Physiology"
-                    ]
-                }, 
+                "journal": "The Journal of Physiology",
                 "volume": "40", 
                 "pages": {
                     "first": "28", 
@@ -4348,11 +4096,7 @@
                     }
                 ], 
                 "articleTitle": "Inhibition from plantar nerve to soleus muscle during the stance phase of walking", 
-                "journal": {
-                    "name": [
-                        "Brain Research"
-                    ]
-                }, 
+                "journal": "Brain Research",
                 "volume": "1048", 
                 "pages": {
                     "first": "48", 
@@ -4424,11 +4168,7 @@
                     }
                 ], 
                 "articleTitle": "Renshaw cell interneuron specialization is controlled by a temporally restricted transcription factor program", 
-                "journal": {
-                    "name": [
-                        "Development"
-                    ]
-                }, 
+                "journal": "Development",
                 "volume": "139", 
                 "pages": {
                     "first": "179", 
@@ -4451,11 +4191,7 @@
                     }
                 ], 
                 "articleTitle": "Motor pattern deletions and modular organization of turtle spinal cord", 
-                "journal": {
-                    "name": [
-                        "Brain Research Reviews"
-                    ]
-                }, 
+                "journal": "Brain Research Reviews",
                 "volume": "57", 
                 "pages": {
                     "first": "118", 
@@ -4527,11 +4263,7 @@
                     }
                 ], 
                 "articleTitle": "Selective and quickly reversible inactivation of mammalian neurons in vivo using the <i>Drosophila</i> allatostatin receptor", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "51", 
                 "pages": {
                     "first": "157", 
@@ -4568,11 +4300,7 @@
                     }
                 ], 
                 "articleTitle": "Motor antagonism exposed by spatial segregation and timing of neurogenesis", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "479", 
                 "pages": {
                     "first": "61", 
@@ -4651,11 +4379,7 @@
                     }
                 ], 
                 "articleTitle": "GATA-3 is involved in the development of serotonergic neurons in the caudal raphe nuclei", 
-                "journal": {
-                    "name": [
-                        "The Journal of Neuroscience"
-                    ]
-                }, 
+                "journal": "The Journal of Neuroscience",
                 "volume": "19", 
                 "pages": "RC12"
             }, 
@@ -4673,11 +4397,7 @@
                     }
                 ], 
                 "articleTitle": "On the role of recurrent inhibitory feedback in motor control", 
-                "journal": {
-                    "name": [
-                        "Progress in Neurobiology"
-                    ]
-                }, 
+                "journal": "Progress in Neurobiology",
                 "volume": "49", 
                 "pages": {
                     "first": "517", 
@@ -4721,11 +4441,7 @@
                     }
                 ], 
                 "articleTitle": "Early postnatal development of reciprocal Ia inhibition in the murine spinal cord", 
-                "journal": {
-                    "name": [
-                        "Journal of Neurophysiology"
-                    ]
-                }, 
+                "journal": "Journal of Neurophysiology",
                 "volume": "100", 
                 "pages": {
                     "first": "185", 
@@ -4776,11 +4492,7 @@
                     }
                 ], 
                 "articleTitle": "Spatiotemporal activation of lumbosacral motoneurons in the locomotor step cycle", 
-                "journal": {
-                    "name": [
-                        "Journal of Neurophysiology"
-                    ]
-                }, 
+                "journal": "Journal of Neurophysiology",
                 "volume": "87", 
                 "pages": {
                     "first": "1542", 
@@ -4851,11 +4563,7 @@
                     }
                 ], 
                 "articleTitle": "Spontaneous neural activity is required for the establishment and maintenance of the olfactory sensory map", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "42", 
                 "pages": {
                     "first": "553", 
@@ -4934,11 +4642,7 @@
                     }
                 ], 
                 "articleTitle": "V1 and V2b interneurons secure the alternating flexor-extensor activity limb that mice require for limbed locomotion", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "82", 
                 "pages": {
                     "first": "138", 
@@ -5038,11 +4742,7 @@
                     }
                 ], 
                 "articleTitle": "V3 spinal neurons establish a robust and balanced locomotor rhythm during walking", 
-                "journal": {
-                    "name": [
-                        "Neuron"
-                    ]
-                }, 
+                "journal": "Neuron",
                 "volume": "60", 
                 "pages": {
                     "first": "84", 
@@ -5093,11 +4793,7 @@
                     }
                 ], 
                 "articleTitle": "Mosaic analysis with double markers in mice", 
-                "journal": {
-                    "name": [
-                        "Cell"
-                    ]
-                }, 
+                "journal": "Cell",
                 "volume": "121", 
                 "pages": {
                     "first": "479", 
