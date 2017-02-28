@@ -6,6 +6,7 @@ from . import views
 #
 
 urlpatterns = [
+    #url(r'^status/$', views.status_page, name='status'),
     url(r'^paw/ahead.xml$', views.PAWAheadReport(), name='paw-ahead-report'),
     url(r'^paw/recent.xml$', views.PAWRecentReport(), name='paw-recent-report'),
     # these are more for testing but can be used to generate very large rss feeds
