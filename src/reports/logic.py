@@ -27,12 +27,27 @@ def status_report():
         .order_by('article__manuscript_id', 'version') \
         .all()
 
+    def get_loc(av):
+        try:
+            return av.article.articlefragment_set.get(type=models.XML2JSON).fragment['article']['-meta']['location']
+        except models.ArticleFragment.DoesNotExist:
+            return 'no-article-fragment'
+        except KeyError:
+            return 'no-location-stored'
+
     def avi(av):
         return {
             'msid': av.article.manuscript_id,
-            'version': av.version
+            'version': av.version,
         }
 
+    def avil(av):
+        d = avi(av)
+        d.update({
+            'location': get_loc(av),
+        })
+        return d
+    
     return OrderedDict([
         #'articles': {
         #    'total': al.count(),
@@ -44,12 +59,12 @@ def status_report():
             ('invalid-unpublished', OrderedDict([
                 ('desc', 'no article-json set, no datetime-published set',),
                 ('total', avl.filter(article_json_v1=None, datetime_published=None).count()),
-                ('list', lmap(avi, avl.filter(article_json_v1=None, datetime_published=None))),
+                ('list', lmap(avil, avl.filter(article_json_v1=None, datetime_published=None))),
             ])),
             ('invalid', OrderedDict([
                 ('desc', 'no article-json set'),
                 ('total', avl.filter(article_json_v1=None).count()),
-                ('list', lmap(avi, avl.filter(article_json_v1=None))),
+                ('list', lmap(avil, avl.filter(article_json_v1=None))),
             ])),
             ('unpublished', OrderedDict([
                 ('desc', 'no datetime-published set'),
