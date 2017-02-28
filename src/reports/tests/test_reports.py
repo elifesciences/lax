@@ -1,4 +1,4 @@
-import re
+import re, json
 from os.path import join
 from publisher.tests import base
 from publisher import eif_ingestor, logic as publogic, models, utils
@@ -53,6 +53,50 @@ class TestReport(base.BaseCase):
 
     def tearDown(self):
         pass
+
+    def test_status_report(self):
+        given = logic.status_report()
+        total_av = self.vor_version_count + self.poa_version_count
+        expected = {
+            'article-versions': {
+                'total': total_av,
+                'total-published': total_av,
+                'invalid-unpublished': {
+                    # they're all published
+                    'total': 0, 
+                },
+                # ingested via EIF, all considered invalid (not present)
+                'invalid': {
+                    'total': total_av,
+                    'list': [
+                        {'msid': 353, 'version': 1},
+                        {'msid': 385, 'version': 1},
+                        {'msid': 1328, 'version': 1},
+                        {'msid': 2619, 'version': 1},
+                        {'msid': 3401, 'version': 1},
+                        {'msid': 3401, 'version': 2},
+                        {'msid': 3401, 'version': 3},
+                        {'msid': 3665, 'version': 1},
+                        {'msid': 6250, 'version': 1},
+                        {'msid': 6250, 'version': 2},
+                        {'msid': 6250, 'version': 3},
+                        {'msid': 7301, 'version': 1},
+                        {'msid': 8025, 'version': 1},
+                        {'msid': 8025, 'version': 2},
+                        {'msid': 9571, 'version': 1},
+                    ]
+                },
+                'unpublished': {
+                    # all published
+                    'total': 0,
+                },
+            }
+        }
+        expected = json.loads(json.dumps(expected))
+        given = json.loads(json.dumps(given))
+        #print(expected)
+        #print(given)
+        self.assertTrue(utils.partial_match(expected, given))
 
     def test_poa_vor_pubdates_data(self):
         "the report yields the expected data in the expected format"
