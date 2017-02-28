@@ -139,11 +139,7 @@
         "references": [
             {
                 "doi": "10.1371/journal.pbio.0050234", 
-                "journal": {
-                    "name": [
-                        "PLOS Biology"
-                    ]
-                }, 
+                "journal": "PLOS Biology",
                 "pages": "e234", 
                 "volume": "5", 
                 "articleTitle": "Deletion of ultraconserved elements yields viable mice", 
@@ -204,11 +200,7 @@
             }, 
             {
                 "doi": "10.1038/nature05874", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "pages": {
                     "range": "799\u2013816", 
                     "last": "816", 
@@ -2457,11 +2449,7 @@
             }, 
             {
                 "doi": "10.1126/science.1112014", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "pages": {
                     "range": "1559\u20131563", 
                     "last": "1563", 
@@ -3885,11 +3873,7 @@
             }, 
             {
                 "doi": "10.1126/science.1108625", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "pages": {
                     "range": "1149\u20131154", 
                     "last": "1154", 
@@ -4038,11 +4022,7 @@
             }, 
             {
                 "doi": "10.1101/gr.132159.111", 
-                "journal": {
-                    "name": [
-                        "Genome Research"
-                    ]
-                }, 
+                "journal": "Genome Research",
                 "pages": {
                     "range": "1775\u20131789", 
                     "last": "1789", 
@@ -4247,11 +4227,7 @@
             }, 
             {
                 "doi": "10.1101/gr.078378.108", 
-                "journal": {
-                    "name": [
-                        "Genome Research"
-                    ]
-                }, 
+                "journal": "Genome Research",
                 "pages": {
                     "range": "1433\u20131445", 
                     "last": "1445", 
@@ -4372,11 +4348,7 @@
             }, 
             {
                 "doi": "10.1038/ng.840", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "pages": {
                     "range": "513\u2013518", 
                     "last": "518", 
@@ -4504,11 +4476,7 @@
             }, 
             {
                 "doi": "10.1016/j.devcel.2012.12.012", 
-                "journal": {
-                    "name": [
-                        "Developmental Cell"
-                    ]
-                }, 
+                "journal": "Developmental Cell",
                 "pages": {
                     "range": "206\u2013214", 
                     "last": "214", 
@@ -4601,11 +4569,7 @@
             }, 
             {
                 "doi": "10.1158/0008-5472.CAN-12-2850", 
-                "journal": {
-                    "name": [
-                        "Cancer Research"
-                    ]
-                }, 
+                "journal": "Cancer Research",
                 "pages": {
                     "range": "1180\u20131189", 
                     "last": "1189", 
@@ -4719,11 +4683,7 @@
             }, 
             {
                 "doi": "10.1016/j.bbr.2004.02.015", 
-                "journal": {
-                    "name": [
-                        "Behavioural Brain Research"
-                    ]
-                }, 
+                "journal": "Behavioural Brain Research",
                 "pages": {
                     "range": "273\u2013289", 
                     "last": "289", 
@@ -4837,11 +4797,7 @@
             }, 
             {
                 "doi": "10.1016/j.celrep.2013.09.003", 
-                "journal": {
-                    "name": [
-                        "Cell Reports"
-                    ]
-                }, 
+                "journal": "Cell Reports",
                 "pages": {
                     "range": "3\u201312", 
                     "last": "12", 
@@ -4941,11 +4897,7 @@
             }, 
             {
                 "doi": "10.4161/cc.25134", 
-                "journal": {
-                    "name": [
-                        "Cell Cycle"
-                    ]
-                }, 
+                "journal": "Cell Cycle",
                 "pages": {
                     "range": "2061\u20132072", 
                     "last": "2072", 
@@ -5012,11 +4964,7 @@
             }, 
             {
                 "doi": "10.1016/0959-437X(94)90066-3", 
-                "journal": {
-                    "name": [
-                        "Current Opinion in Genetics & Development"
-                    ]
-                }, 
+                "journal": "Current Opinion in Genetics & Development",
                 "pages": {
                     "range": "823\u2013831", 
                     "last": "831", 
@@ -5039,11 +4987,7 @@
             }, 
             {
                 "doi": "10.1371/journal.pgen.1000459", 
-                "journal": {
-                    "name": [
-                        "PLOS Genetics"
-                    ]
-                }, 
+                "journal": "PLOS Genetics",
                 "pages": "e1000459", 
                 "volume": "5", 
                 "articleTitle": "The genetic signatures of noncoding RNAs", 
@@ -5062,11 +5006,7 @@
             }, 
             {
                 "doi": "10.1073/pnas.0706729105", 
-                "journal": {
-                    "name": [
-                        "Proceedings of the National Academy of Sciences of the United States of America"
-                    ]
-                }, 
+                "journal": "Proceedings of the National Academy of Sciences of the United States of America",
                 "pages": {
                     "range": "716\u2013721", 
                     "last": "721", 
@@ -5117,11 +5057,7 @@
             }, 
             {
                 "doi": "10.1038/nbt.2024", 
-                "journal": {
-                    "name": [
-                        "Nature Biotechnology"
-                    ]
-                }, 
+                "journal": "Nature Biotechnology",
                 "pages": {
                     "range": "99\u2013104", 
                     "last": "104", 
@@ -5193,11 +5129,7 @@
             }, 
             {
                 "doi": "10.1038/nsmb.2480", 
-                "journal": {
-                    "name": [
-                        "Nature Structural and Molecular Biology"
-                    ]
-                }, 
+                "journal": "Nature Structural and Molecular Biology",
                 "pages": {
                     "range": "300\u2013307", 
                     "last": "307", 
@@ -5227,11 +5159,7 @@
             }, 
             {
                 "doi": "10.1083/jcb.201011110", 
-                "journal": {
-                    "name": [
-                        "Journal of Cell Biology"
-                    ]
-                }, 
+                "journal": "Journal of Cell Biology",
                 "pages": {
                     "range": "31\u201339", 
                     "last": "39", 
@@ -5275,11 +5203,7 @@
             }, 
             {
                 "doi": "10.1101/gr.6406307", 
-                "journal": {
-                    "name": [
-                        "Genome Research"
-                    ]
-                }, 
+                "journal": "Genome Research",
                 "pages": {
                     "range": "1245\u20131253", 
                     "last": "1253", 
@@ -5309,11 +5233,7 @@
             }, 
             {
                 "doi": "10.7554/eLife.00762", 
-                "journal": {
-                    "name": [
-                        "eLife"
-                    ]
-                }, 
+                "journal": "eLife",
                 "pages": "e00762", 
                 "volume": "2", 
                 "articleTitle": "A mammalian pseudogene lncRNA at the interface of inflammation and anti-inflammatory therapeutics", 
@@ -5367,11 +5287,7 @@
             }, 
             {
                 "doi": "10.7554/eLife.01749", 
-                "journal": {
-                    "name": [
-                        "eLife"
-                    ]
-                }, 
+                "journal": "eLife",
                 "pages": "01749", 
                 "volume": "2", 
                 "articleTitle": "Multiple knockout mouse models reveal lincRNAs are required for life and brain development", 
@@ -5558,11 +5474,7 @@
             }, 
             {
                 "doi": "10.1093/nar/gkt596", 
-                "journal": {
-                    "name": [
-                        "Nucleic Acids Research"
-                    ]
-                }, 
+                "journal": "Nucleic Acids Research",
                 "pages": {
                     "range": "8220\u20138236", 
                     "last": "8236", 

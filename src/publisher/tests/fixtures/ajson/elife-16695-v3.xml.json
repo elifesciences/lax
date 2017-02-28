@@ -1805,11 +1805,7 @@
                     }
                 ], 
                 "articleTitle": "Individual differences in the amount and timing of salivary melatonin secretion", 
-                "journal": {
-                    "name": [
-                        "PLoS One"
-                    ]
-                }, 
+                "journal": "PLoS One",
                 "volume": "3", 
                 "pages": "e3055", 
                 "doi": "10.1371/journal.pone.0003055", 
@@ -1878,11 +1874,7 @@
                     }
                 ], 
                 "articleTitle": "SCFFbxl3 controls the oscillation of the circadian clock by directing the degradation of cryptochrome proteins", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "316", 
                 "pages": {
                     "first": "900", 
@@ -1955,11 +1947,7 @@
                     }
                 ], 
                 "articleTitle": "Structures of Drosophila cryptochrome and mouse cryptochrome1 provide insight into circadian function", 
-                "journal": {
-                    "name": [
-                        "Cell"
-                    ]
-                }, 
+                "journal": "Cell",
                 "volume": "153", 
                 "pages": {
                     "first": "1394", 
@@ -4117,11 +4105,7 @@
                     }
                 ], 
                 "articleTitle": "New genetic loci implicated in fasting glucose homeostasis and their impact on type 2 diabetes risk", 
-                "journal": {
-                    "name": [
-                        "Nature Genetics"
-                    ]
-                }, 
+                "journal": "Nature Genetics",
                 "volume": "42", 
                 "pages": {
                     "first": "105", 
@@ -4250,11 +4234,7 @@
                     }
                 ], 
                 "articleTitle": "The after-hours mutant reveals a role for Fbxl3 in determining mammalian circadian period", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "316", 
                 "pages": {
                     "first": "897", 
@@ -4292,11 +4272,7 @@
                     }
                 ], 
                 "articleTitle": "Light-independent role of CRY1 and CRY2 in the mammalian circadian clock", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "286", 
                 "pages": {
                     "first": "768", 
@@ -4355,11 +4331,7 @@
                     }
                 ], 
                 "articleTitle": "Suppressed cellular oscillations in after-hours mutant mice are associated with enhanced circadian phase-resetting", 
-                "journal": {
-                    "name": [
-                        "Journal of Physiology"
-                    ]
-                }, 
+                "journal": "Journal of Physiology",
                 "volume": "591", 
                 "pages": {
                     "first": "1063", 
@@ -4439,11 +4411,7 @@
                     }
                 ], 
                 "articleTitle": "The transcriptional repressor DEC2 regulates sleep length in mammals", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "325", 
                 "pages": {
                     "first": "866", 
@@ -4509,11 +4477,7 @@
                     }
                 ], 
                 "articleTitle": "In vivo role of phosphorylation of cryptochrome 2 in the mouse circadian clock", 
-                "journal": {
-                    "name": [
-                        "Molecular and Cellular Biology"
-                    ]
-                }, 
+                "journal": "Molecular and Cellular Biology",
                 "volume": "34", 
                 "pages": {
                     "first": "4464", 
@@ -4600,11 +4564,7 @@
                     }
                 ], 
                 "articleTitle": "FBXL21 regulates oscillation of the circadian clock through ubiquitination and stabilization of cryptochromes", 
-                "journal": {
-                    "name": [
-                        "Cell"
-                    ]
-                }, 
+                "journal": "Cell",
                 "volume": "152", 
                 "pages": {
                     "first": "1106", 
@@ -4712,11 +4672,7 @@
                     }
                 ], 
                 "articleTitle": "Identification of small molecule activators of cryptochrome", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "337", 
                 "pages": {
                     "first": "1094", 
@@ -4803,11 +4759,7 @@
                     }
                 ], 
                 "articleTitle": "Functional motifs in the (6-4) photolyase crystal structure make a comparative framework for DNA repair photolyases and clock cryptochromes", 
-                "journal": {
-                    "name": [
-                        "PNAS"
-                    ]
-                }, 
+                "journal": "PNAS",
                 "volume": "106", 
                 "pages": {
                     "first": "6962", 
@@ -4893,11 +4845,7 @@
                     }
                 ], 
                 "articleTitle": "The core circadian gene Cryptochrome 2 influences breast cancer risk, possibly by mediating hormone signaling", 
-                "journal": {
-                    "name": [
-                        "Cancer Prevention Research"
-                    ]
-                }, 
+                "journal": "Cancer Prevention Research",
                 "volume": "3", 
                 "pages": {
                     "first": "539", 
@@ -4977,11 +4925,7 @@
                     }
                 ], 
                 "articleTitle": "Familial advanced sleep-phase syndrome: A short-period circadian rhythm variant in humans", 
-                "journal": {
-                    "name": [
-                        "Nature Medicine"
-                    ]
-                }, 
+                "journal": "Nature Medicine",
                 "volume": "5", 
                 "pages": {
                     "first": "1062", 
@@ -5075,11 +5019,7 @@
                     }
                 ], 
                 "articleTitle": "Glucose sensor O-GlcNAcylation coordinates with phosphorylation to regulate circadian clock", 
-                "journal": {
-                    "name": [
-                        "Cell Metabolism"
-                    ]
-                }, 
+                "journal": "Cell Metabolism",
                 "volume": "17", 
                 "pages": {
                     "first": "291", 
@@ -5131,11 +5071,7 @@
                     }
                 ], 
                 "articleTitle": "CRY2 genetic variants associate with dysthymia", 
-                "journal": {
-                    "name": [
-                        "PLoS One"
-                    ]
-                }, 
+                "journal": "PLoS One",
                 "volume": "8", 
                 "pages": "e71450", 
                 "doi": "10.1371/journal.pone.0071450", 
@@ -5211,11 +5147,7 @@
                     }
                 ], 
                 "articleTitle": "mCRY1 and mCRY2 are essential components of the negative limb of the circadian clock feedback loop", 
-                "journal": {
-                    "name": [
-                        "Cell"
-                    ]
-                }, 
+                "journal": "Cell",
                 "volume": "98", 
                 "pages": {
                     "first": "193", 
@@ -5316,11 +5248,7 @@
                     }
                 ], 
                 "articleTitle": "CRY2 is associated with depression", 
-                "journal": {
-                    "name": [
-                        "PLoS One"
-                    ]
-                }, 
+                "journal": "PLoS One",
                 "volume": "5", 
                 "pages": "e9407", 
                 "doi": "10.1371/journal.pone.0009407", 
@@ -5410,11 +5338,7 @@
                     }
                 ], 
                 "articleTitle": "Dopamine dysregulation in a mouse model of paroxysmal nonkinesigenic dyskinesia", 
-                "journal": {
-                    "name": [
-                        "Journal of Clinical Investigation"
-                    ]
-                }, 
+                "journal": "Journal of Clinical Investigation",
                 "volume": "122", 
                 "pages": {
                     "first": "507", 
@@ -5445,11 +5369,7 @@
                     }
                 ], 
                 "articleTitle": "The cryptochromes", 
-                "journal": {
-                    "name": [
-                        "Genome Biology"
-                    ]
-                }, 
+                "journal": "Genome Biology",
                 "volume": "6", 
                 "pages": "220", 
                 "doi": "10.1186/gb-2005-6-5-220", 
@@ -5518,11 +5438,7 @@
                     }
                 ], 
                 "articleTitle": "Positional syntenic cloning and functional characterization of the mammalian circadian mutation tau", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "288", 
                 "pages": {
                     "first": "483", 
@@ -5553,11 +5469,7 @@
                     }
                 ], 
                 "articleTitle": "Mammalian circadian biology: elucidating genome-wide levels of temporal organization", 
-                "journal": {
-                    "name": [
-                        "Annual Review of Genomics and Human Genetics"
-                    ]
-                }, 
+                "journal": "Annual Review of Genomics and Human Genetics",
                 "volume": "5", 
                 "pages": {
                     "first": "407", 
@@ -5595,11 +5507,7 @@
                     }
                 ], 
                 "articleTitle": "Crystal structure of mammalian cryptochrome in complex with a small molecule competitor of its ubiquitin ligase", 
-                "journal": {
-                    "name": [
-                        "Cell Research"
-                    ]
-                }, 
+                "journal": "Cell Research",
                 "volume": "23", 
                 "pages": {
                     "first": "1417", 
@@ -5672,11 +5580,7 @@
                     }
                 ], 
                 "articleTitle": "Photic induction of mPer1 and mPer2 in cry-deficient mice lacking a biological clock", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "286", 
                 "pages": {
                     "first": "2531", 
@@ -5742,11 +5646,7 @@
                     }
                 ], 
                 "articleTitle": "Polymorphisms in the circadian expressed genes PER3 and ARNTL2 are associated with diurnal preference and GN\u03b23 with sleep measures", 
-                "journal": {
-                    "name": [
-                        "Journal of Sleep Research"
-                    ]
-                }, 
+                "journal": "Journal of Sleep Research",
                 "volume": "23", 
                 "pages": {
                     "first": "595", 
@@ -5777,11 +5677,7 @@
                     }
                 ], 
                 "articleTitle": "Cryptochromes and circadian photoreception in animals", 
-                "journal": {
-                    "name": [
-                        "Methods in Enzymology"
-                    ]
-                }, 
+                "journal": "Methods in Enzymology",
                 "volume": "393", 
                 "pages": {
                     "first": "726", 
@@ -5847,11 +5743,7 @@
                     }
                 ], 
                 "articleTitle": "UCSF Chimera--a visualization system for exploratory research and analysis", 
-                "journal": {
-                    "name": [
-                        "Journal of Computational Chemistry"
-                    ]
-                }, 
+                "journal": "Journal of Computational Chemistry",
                 "volume": "25", 
                 "pages": {
                     "first": "1605", 
@@ -5882,11 +5774,7 @@
                     }
                 ], 
                 "articleTitle": "Circadian rhythm sleep disorders", 
-                "journal": {
-                    "name": [
-                        "Primary Care"
-                    ]
-                }, 
+                "journal": "Primary Care",
                 "volume": "32", 
                 "pages": {
                     "first": "449", 
@@ -5945,11 +5833,7 @@
                     }
                 ], 
                 "articleTitle": "Familial advanced sleep phase syndrome", 
-                "journal": {
-                    "name": [
-                        "Archives of Neurology"
-                    ]
-                }, 
+                "journal": "Archives of Neurology",
                 "volume": "58", 
                 "pages": {
                     "first": "1089", 
@@ -5980,11 +5864,7 @@
                     }
                 ], 
                 "articleTitle": "Kinases and phosphatases in the mammalian circadian clock", 
-                "journal": {
-                    "name": [
-                        "FEBS Letters"
-                    ]
-                }, 
+                "journal": "FEBS Letters",
                 "volume": "585", 
                 "pages": {
                     "first": "1393", 
@@ -6015,11 +5895,7 @@
                     }
                 ], 
                 "articleTitle": "Molecular analysis of mammalian circadian rhythms", 
-                "journal": {
-                    "name": [
-                        "Annual Review of Physiology"
-                    ]
-                }, 
+                "journal": "Annual Review of Physiology",
                 "volume": "63", 
                 "pages": {
                     "first": "647", 
@@ -6085,11 +5961,7 @@
                     }
                 ], 
                 "articleTitle": "A marker for the end of adolescence", 
-                "journal": {
-                    "name": [
-                        "Current Biology"
-                    ]
-                }, 
+                "journal": "Current Biology",
                 "volume": "14", 
                 "pages": {
                     "first": "R1038", 
@@ -6141,11 +6013,7 @@
                     }
                 ], 
                 "articleTitle": "Serine phosphorylation of mCRY1 and mCRY2 by mitogen-activated protein kinase", 
-                "journal": {
-                    "name": [
-                        "Genes to Cells"
-                    ]
-                }, 
+                "journal": "Genes to Cells",
                 "volume": "9", 
                 "pages": {
                     "first": "697", 
@@ -6239,11 +6107,7 @@
                     }
                 ], 
                 "articleTitle": "Interacting molecular loops in the mammalian circadian clock", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "288", 
                 "pages": {
                     "first": "1013", 
@@ -6358,11 +6222,7 @@
                     }
                 ], 
                 "articleTitle": "Dual roles of FBXL3 in the mammalian circadian feedback loops are important for period determination and robustness of the clock", 
-                "journal": {
-                    "name": [
-                        "PNAS"
-                    ]
-                }, 
+                "journal": "PNAS",
                 "volume": "110", 
                 "pages": {
                     "first": "4750", 
@@ -6434,11 +6294,7 @@
                     }
                 ], 
                 "articleTitle": "Circadian mutant overtime reveals F-box protein FBXL3 regulation of cryptochrome and period gene expression", 
-                "journal": {
-                    "name": [
-                        "Cell"
-                    ]
-                }, 
+                "journal": "Cell",
                 "volume": "129", 
                 "pages": {
                     "first": "1011", 
@@ -6518,11 +6374,7 @@
                     }
                 ], 
                 "articleTitle": "CRY2 is associated with rapid cycling in bipolar disorder patients", 
-                "journal": {
-                    "name": [
-                        "PLoS One"
-                    ]
-                }, 
+                "journal": "PLoS One",
                 "volume": "5", 
                 "pages": "e12632", 
                 "doi": "10.1371/journal.pone.0012632", 
@@ -6563,11 +6415,7 @@
                     }
                 ], 
                 "articleTitle": "Spatiotemporal separation of PER and CRY posttranslational regulation in the mammalian circadian clock", 
-                "journal": {
-                    "name": [
-                        "PNAS"
-                    ]
-                }, 
+                "journal": "PNAS",
                 "volume": "111", 
                 "pages": {
                     "first": "2040", 
@@ -6604,11 +6452,7 @@
                     }
                 ], 
                 "articleTitle": "A central role for ubiquitination within a circadian clock protein modification code", 
-                "journal": {
-                    "name": [
-                        "Frontiers in Molecular Neuroscience"
-                    ]
-                }, 
+                "journal": "Frontiers in Molecular Neuroscience",
                 "volume": "7", 
                 "pages": "69", 
                 "doi": "10.3389/fnmol.2014.00069", 
@@ -6628,11 +6472,7 @@
                     }
                 ], 
                 "articleTitle": "Molecular neurobiology and genetics of circadian rhythms in mammals", 
-                "journal": {
-                    "name": [
-                        "Annual Review of Neuroscience"
-                    ]
-                }, 
+                "journal": "Annual Review of Neuroscience",
                 "volume": "18", 
                 "pages": {
                     "first": "531", 
@@ -6705,11 +6545,7 @@
                     }
                 ], 
                 "articleTitle": "An hPer2 phosphorylation site mutation in familial advanced sleep phase syndrome", 
-                "journal": {
-                    "name": [
-                        "Science"
-                    ]
-                }, 
+                "journal": "Science",
                 "volume": "291", 
                 "pages": {
                     "first": "1040", 
@@ -6824,11 +6660,7 @@
                     }
                 ], 
                 "articleTitle": "Mammalian Cry1 and Cry2 are essential for maintenance of circadian rhythms", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "398", 
                 "pages": {
                     "first": "627", 
@@ -6929,11 +6761,7 @@
                     }
                 ], 
                 "articleTitle": "Differential regulation of mammalian period genes and circadian rhythmicity by cryptochromes 1 and 2", 
-                "journal": {
-                    "name": [
-                        "PNAS"
-                    ]
-                }, 
+                "journal": "PNAS",
                 "volume": "96", 
                 "pages": {
                     "first": "12114", 
@@ -7005,11 +6833,7 @@
                     }
                 ], 
                 "articleTitle": "SCF(FBXL3) ubiquitin ligase targets cryptochromes at their cofactor pocket", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "496", 
                 "pages": {
                     "first": "64", 
@@ -7089,11 +6913,7 @@
                     }
                 ], 
                 "articleTitle": "Functional consequences of a CKIdelta mutation causing familial advanced sleep phase syndrome", 
-                "journal": {
-                    "name": [
-                        "Nature"
-                    ]
-                }, 
+                "journal": "Nature",
                 "volume": "434", 
                 "pages": {
                     "first": "640", 
@@ -7152,11 +6972,7 @@
                     }
                 ], 
                 "articleTitle": "Modeling of a human circadian mutation yields insights into clock regulation by PER2", 
-                "journal": {
-                    "name": [
-                        "Cell"
-                    ]
-                }, 
+                "journal": "Cell",
                 "volume": "128", 
                 "pages": {
                     "first": "59", 
@@ -7285,11 +7101,7 @@
                     }
                 ], 
                 "articleTitle": "Competing E3 ubiquitin ligases govern circadian periodicity by degradation of CRY in nucleus and cytoplasm", 
-                "journal": {
-                    "name": [
-                        "Cell"
-                    ]
-                }, 
+                "journal": "Cell",
                 "volume": "152", 
                 "pages": {
                     "first": "1091", 
@@ -7390,11 +7202,7 @@
                     }
                 ], 
                 "articleTitle": "PERIOD2::LUCIFERASE real-time reporting of circadian dynamics reveals persistent circadian oscillations in mouse peripheral tissues", 
-                "journal": {
-                    "name": [
-                        "PNAS"
-                    ]
-                }, 
+                "journal": "PNAS",
                 "volume": "101", 
                 "pages": {
                     "first": "5339", 
@@ -7452,11 +7260,7 @@
                     }
                 ], 
                 "articleTitle": "Roles of CLOCK phosphorylation in suppression of E-box-dependent transcription", 
-                "journal": {
-                    "name": [
-                        "Molecular and Cellular Biology"
-                    ]
-                }, 
+                "journal": "Molecular and Cellular Biology",
                 "volume": "29", 
                 "pages": {
                     "first": "3675", 
@@ -7585,11 +7389,7 @@
                     }
                 ], 
                 "articleTitle": "A PERIOD3 variant causes a circadian phenotype and is associated with a seasonal mood trait", 
-                "journal": {
-                    "name": [
-                        "PNAS"
-                    ]
-                }, 
+                "journal": "PNAS",
                 "volume": "113", 
                 "pages": {
                     "first": "E1536", 
@@ -7626,11 +7426,7 @@
                     }
                 ], 
                 "articleTitle": "Diversity of human clock genotypes and consequences", 
-                "journal": {
-                    "name": [
-                        "Progress in Molecular Biology and Translational Science"
-                    ]
-                }, 
+                "journal": "Progress in Molecular Biology and Translational Science",
                 "volume": "119", 
                 "pages": {
                     "first": "51", 
