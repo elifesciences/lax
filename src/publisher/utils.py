@@ -297,6 +297,17 @@ def validate(struct, schema_path):
         #LOG.error("struct failed to validate against schema: %s" % err.message)
         raise
 
+# modified from:
+# http://stackoverflow.com/questions/9323749/python-check-if-one-dictionary-is-a-subset-of-another-larger-dictionary
+def partial_match(patn, real):
+    """does real dict match pattern?"""
+    for pkey, pvalue in patn.items():
+        if isinstance(pvalue, dict):
+            partial_match(pvalue, real[pkey]) # recurse
+        else:
+            ensure(real[pkey] == pvalue, "%s != %s" % (real[pkey], pvalue))
+    return True
+
 #
 #
 #

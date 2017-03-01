@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework_swagger', # gui for api
 
+    'reports', # necessary for management commands
     'publisher',
 )
 

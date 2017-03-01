@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import itertools
 from publisher import utils, models
 from publisher.utils import ymd, lmap
@@ -11,6 +12,68 @@ LOG = logging.getLogger(__name__)
 def take(n, iterable):
     "Return first n items of the iterable as a list"
     return list(islice(iterable, n))
+
+#
+#
+#
+
+def status_report():
+    "useful insights into the current state of this lax instance"
+
+    #al = models.Article.objects.all()
+    avl = models.ArticleVersion.objects \
+        .select_related('article') \
+        .defer('article_json_v1', 'article_json_v1_snippet') \
+        .order_by('article__manuscript_id', 'version') \
+        .all()
+
+    def get_loc(av):
+        try:
+            return av.article.articlefragment_set.get(type=models.XML2JSON).fragment['article']['-meta']['location']
+        except models.ArticleFragment.DoesNotExist:
+            return 'no-article-fragment'
+        except KeyError:
+            return 'no-location-stored'
+
+    def avi(av):
+        return {
+            'msid': av.article.manuscript_id,
+            'version': av.version,
+        }
+
+    def avil(av):
+        d = avi(av)
+        d.update({
+            'location': get_loc(av),
+        })
+        return d
+    
+    return OrderedDict([
+        #'articles': {
+        #    'total': al.count(),
+        #    'total-published': ...
+        #}
+        ('article-versions', OrderedDict([
+            ('total', avl.count()),
+            ('total-published', avl.exclude(datetime_published=None).count()),
+            ('invalid-unpublished', OrderedDict([
+                ('desc', 'no article-json set, no datetime-published set',),
+                ('total', avl.filter(article_json_v1=None, datetime_published=None).count()),
+                ('list', lmap(avil, avl.filter(article_json_v1=None, datetime_published=None))),
+            ])),
+            ('invalid', OrderedDict([
+                ('desc', 'no article-json set'),
+                ('total', avl.filter(article_json_v1=None).count()),
+                ('list', lmap(avil, avl.filter(article_json_v1=None))),
+            ])),
+            ('unpublished', OrderedDict([
+                ('desc', 'no datetime-published set'),
+                ('total', avl.filter(datetime_published=None).count()),
+                ('list', lmap(avi, avl.filter(datetime_published=None))),
+            ])),
+        ]))
+    ])
+
 
 # 'published.csv'
 def article_poa_vor_pubdates():

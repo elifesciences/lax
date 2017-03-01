@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from datetime import datetime, timedelta
-
 from publisher import rss
 from . import logic as reports
 
@@ -9,9 +8,11 @@ import csv
 # https://docs.djangoproject.com/en/1.9/howto/outputting-csv/
 from django.http import StreamingHttpResponse
 
-#
-# reports
-#
+'''
+# would be nice, but not right now
+def status_page(self):
+    return reports.status_report()
+'''
 
 class Echo(object):
     "An object that implements just the write method of the file-like interface."
