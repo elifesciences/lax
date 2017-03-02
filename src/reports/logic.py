@@ -47,7 +47,7 @@ def status_report():
             'location': get_loc(av),
         })
         return d
-    
+
     return OrderedDict([
         #'articles': {
         #    'total': al.count(),

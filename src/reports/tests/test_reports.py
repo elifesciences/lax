@@ -63,7 +63,7 @@ class TestReport(base.BaseCase):
                 'total-published': total_av,
                 'invalid-unpublished': {
                     # they're all published
-                    'total': 0, 
+                    'total': 0,
                 },
                 # ingested via EIF, all considered invalid (not present)
                 'invalid': {
@@ -94,8 +94,8 @@ class TestReport(base.BaseCase):
         }
         expected = json.loads(json.dumps(expected))
         given = json.loads(json.dumps(given))
-        #print(expected)
-        #print(given)
+        # print(expected)
+        # print(given)
         self.assertTrue(utils.partial_match(expected, given))
 
     def test_poa_vor_pubdates_data(self):
