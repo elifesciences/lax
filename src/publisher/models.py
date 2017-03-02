@@ -34,7 +34,8 @@ def ejp_type_choices():
         ('AV', 'Research advance'),
         ('RR', 'Registered report'),
         ('TR', 'Tools and resources'),
-        ('RE', 'Unknown'), # to be provided
+        ('RE', 'Research exchange'),
+        ('RS', 'Unknown'),
     ]
 
 EJP_TYPE_IDX = dict(ejp_type_choices())
