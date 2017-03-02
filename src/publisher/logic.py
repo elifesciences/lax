@@ -217,7 +217,13 @@ def relationships(msid, only_published=True):
     intr = relation_logic.internal_relationships_for_article_version(av)
 
     # the internal relationships must be snippets of the latest version of that article
-    avl = [most_recent_article_version(a.manuscript_id, only_published) for a in intr]
+    avl = []
+    for a in intr:
+        try:
+            avl.append(most_recent_article_version(a.manuscript_id, only_published))
+        except models.Article.DoesNotExist:
+            # log something?
+            pass
     avl = lmap(article_snippet_json, avl)
 
     # pull the citation from each relation
