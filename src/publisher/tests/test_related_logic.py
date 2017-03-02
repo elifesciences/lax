@@ -196,9 +196,10 @@ class IngestPublish(base.BaseCase):
         data = json.load(open(join(self.fixture_dir, 'relatedness', 'elife-13038-v1.xml.json')))
         data['article']['-related-articles-internal'] = ['42']
         data['article']['version'] = 2
-        self.assertRaises(utils.StateError, ajson_ingestor.ingest, data)
-        avr = models.ArticleVersionRelation.objects.all()
-        self.assertEqual(0, avr.count())
+        with self.settings(RELATED_ARTICLE_STUBS=False):
+            self.assertRaises(utils.StateError, ajson_ingestor.ingest, data)
+            avr = models.ArticleVersionRelation.objects.all()
+            self.assertEqual(0, avr.count())
 
     def test_forced_ingest_passes_with_nonexistant_relations(self):
         "an article that is related to an article that doesn't exist cannot be ingested (unless forced)."
@@ -206,10 +207,12 @@ class IngestPublish(base.BaseCase):
         data = json.load(open(join(self.fixture_dir, 'relatedness', 'elife-13038-v1.xml.json')))
         data['article']['-related-articles-internal'] = ['42']
         data['article']['version'] = 2
-        ajson_ingestor.ingest(data, force=True)
-        avr = models.ArticleVersionRelation.objects.all()
-        self.assertEqual(0, avr.count()) # not created ...
-        models.ArticleVersion.objects.get(article__manuscript_id=13038, version=2) # ... but ingested
+
+        with self.settings(RELATED_ARTICLE_STUBS=False):
+            ajson_ingestor.ingest(data, force=True)
+            avr = models.ArticleVersionRelation.objects.all()
+            self.assertEqual(0, avr.count()) # not created ...
+            models.ArticleVersion.objects.get(article__manuscript_id=13038, version=2) # ... but ingested
 
     def test_ingest_passes_and_creates_stubs_if_option_on(self):
         "an article that is related to an article that doesn't exist will have the related Article created as a stub."
