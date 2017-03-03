@@ -35,7 +35,7 @@ def ejp_type_choices():
         ('RR', 'Registered report'),
         ('TR', 'Tools and resources'),
         ('RE', 'Research exchange'),
-        ('RS', 'Unknown'),
+        ('RS', 'Replication Study'),
     ]
 
 EJP_TYPE_IDX = dict(ejp_type_choices())

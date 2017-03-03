@@ -3,7 +3,7 @@ from . import models
 from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils, relation_logic
-from publisher.utils import ensure, lmap
+from publisher.utils import ensure, lmap, lfilter
 from django.utils import timezone
 from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
 
@@ -217,13 +217,22 @@ def relationships(msid, only_published=True):
     intr = relation_logic.internal_relationships_for_article_version(av)
 
     # the internal relationships must be snippets of the latest version of that article
-    avl = [most_recent_article_version(a.manuscript_id, only_published) for a in intr]
-    avl = lmap(article_snippet_json, avl)
+    def relation_snippet(art):
+        try:
+            return article_snippet_json(most_recent_article_version(art.manuscript_id, only_published))
+        except models.Article.DoesNotExist:
+            # reference to an article that could not be found!
+            # it is either:
+            # * a stub (hasn't finished production) or
+            # * unpublished (finished production but unpublished)
+            # neither are error conditions
+            pass
+    avl = lfilter(None, lmap(relation_snippet, intr))
 
-    # pull the citation from each relation
-    cl = [aver.citation for aver in extr]
+    # pull the citation from each external relation
+    extcl = [aver.citation for aver in extr]
 
-    return cl + avl
+    return extcl + avl
 
 #
 #
