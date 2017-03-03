@@ -121,14 +121,22 @@ class Article(models.Model):
              (self.rev4_decision, self.date_rev4_decision)]
         return second(firstnn([p for p in x if p[0] == AF]))
 
-    def earliest_poa(self):
+    def earliest_poa(self, defer=True):
         try:
+            if defer:
+                return self.articleversion_set \
+                    .defer('article_json_v1', 'article_json_v1_snippet') \
+                    .filter(status=POA).earliest('version')
             return self.articleversion_set.filter(status=POA).earliest('version')
         except models.ObjectDoesNotExist:
             return None
 
-    def earliest_vor(self):
+    def earliest_vor(self, defer=True):
         try:
+            if defer:
+                return self.articleversion_set \
+                    .defer('article_json_v1', 'article_json_v1_snippet') \
+                    .filter(status=VOR).earliest('version')
             return self.articleversion_set.filter(status=VOR).earliest('version')
         except models.ObjectDoesNotExist:
             return None
