@@ -131,7 +131,7 @@ class V2Content(base.BaseCase):
 
         # NOTE! insertion order is not guaranteed. sometimes you get av2, av1 ...
         av1, av2 = data['items']
-        print(data['items'])
+        # print(data['items'])
 
         self.assertEqual(av1['version'], 2)
         self.assertEqual(av2['version'], 3)
@@ -358,6 +358,44 @@ class V2Content(base.BaseCase):
         resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
         data = utils.json_loads(resp.content)
         self.assertEqual(expected, data)
+
+    def test_related_article_with_unpublished_article(self):
+        # create a relationship between 1 and 2
+        relation_logic._relate_using_msids([(self.msid1, [self.msid2])])
+        # unpublish v2
+        self.unpublish(self.msid2)
+
+        # no auth
+        expected = [] # empty response
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        data = utils.json_loads(resp.content)
+        self.assertEqual(data, expected)
+
+        # auth
+        expected = [
+            logic.article_snippet_json(logic.most_recent_article_version(self.msid2, only_published=False))
+        ]
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        data = utils.json_loads(resp.content)
+        self.assertEqual(data, expected)
+
+    def test_related_article_with_stub_article(self):
+        # create a relationship between 1 and 2
+        relation_logic._relate_using_msids([(self.msid1, [self.msid2])])
+        # delete all ArticleVersions leaving just an Article (stub)
+        models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).delete()
+
+        # no auth
+        expected = [] # empty response
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        data = utils.json_loads(resp.content)
+        self.assertEqual(data, expected)
+
+        # auth
+        expected = [] # also an empty response (nothing to serve up)
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        data = utils.json_loads(resp.content)
+        self.assertEqual(data, expected)
 
 
 class V2PostContent(base.BaseCase):
