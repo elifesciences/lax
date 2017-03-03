@@ -6,6 +6,7 @@ from django.db.models import Count
 from itertools import islice
 import logging
 from django.db.models import Min, Max, F, Q
+from django.db import transaction
 
 LOG = logging.getLogger(__name__)
 
@@ -75,8 +76,10 @@ def status_report():
     ])
 
 
-# 'published.csv'
+#@check_query_count # 6k + queries at last check. this needs refactoring.
+@transaction.atomic # helps cut down overhead of querying all those articles
 def article_poa_vor_pubdates():
+    "published.csv"
     def ymd_dt(av):
         if av and hasattr(av, 'datetime_published'):
             return ymd(av.datetime_published)
@@ -89,6 +92,8 @@ def article_poa_vor_pubdates():
         .exclude(type__in=['article-commentary', 'editorial', 'book-review', 'discussion', 'correction']) \
         .exclude(volume=None) \
         .order_by('manuscript_id')
+    # force evaluation to get query count
+    # return list(map(row, query))
     return map(row, query)
 
 

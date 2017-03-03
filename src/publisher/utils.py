@@ -11,7 +11,8 @@ import logging
 from django.db.models.fields.related import ManyToManyField
 from kids.cache import cache
 from rfc3339 import rfc3339
-from django.db import transaction, IntegrityError
+from django.db import transaction, IntegrityError, connection
+from functools import wraps
 
 LOG = logging.getLogger(__name__)
 
@@ -338,3 +339,13 @@ def create_or_update(Model, orig_data, key_list=None, create=True, update=True, 
     # it is possible to neither create nor update.
     # in this case if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)
+
+# modified from: https://djangosnippets.org/snippets/2219/
+def check_query_count(func):
+    @wraps(func)
+    def inner(*args, **kwargs):
+        ret = func(*args, **kwargs)
+        LOG.info("queries: %s", len(connection.queries))
+        LOG.debug("%s", connection.queries)
+        return ret
+    return inner
