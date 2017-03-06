@@ -15,10 +15,7 @@ class RelatedInternally(base.BaseCase):
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
-            path = join(ajson_dir, ingestable)
-            data = json.load(open(path, 'r'))
-            # remove these values here so they don't interfere in creation
-            utils.delall(data, ['-related-articles-internal', '-related-articles-external'])
+            data = self.load_ajson(join(ajson_dir, ingestable))
             ajson_ingestor.ingest_publish(data)
 
         self.msid1 = 1968
@@ -90,10 +87,7 @@ class RelatedExternally(base.BaseCase):
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
-            path = join(ajson_dir, ingestable)
-            data = json.load(open(path, 'r'))
-            # remove these values here so they don't interfere in creation
-            utils.delall(data, ['-related-articles-internal', '-related-articles-external'])
+            data = self.load_ajson(join(ajson_dir, ingestable))
             ajson_ingestor.ingest_publish(data)
 
         self.msid1 = 1968
@@ -238,10 +232,7 @@ class RelationList(base.BaseCase):
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
-            path = join(ajson_dir, ingestable)
-            data = json.load(open(path, 'r'))
-            # remove these values here so they don't interfere in creation
-            utils.delall(data, ['-related-articles-internal', '-related-articles-external'])
+            data = self.load_ajson(join(ajson_dir, ingestable))
             ajson_ingestor.ingest_publish(data)
 
         self.msid1 = 1968

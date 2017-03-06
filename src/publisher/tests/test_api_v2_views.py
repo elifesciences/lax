@@ -80,20 +80,19 @@ class V2Content(base.BaseCase):
         ingest_these = [
             #"elife-01968-v1.xml.json",
 
-            "dummyelife-20125-v1.xml.json", # poa
-            "dummyelife-20125-v2.xml.json", # poa
-            "dummyelife-20125-v3.xml.json", # vor, related to 21162
+            "elife-20125-v1.xml.json", # poa
+            "elife-20125-v2.xml.json", # poa
+            "elife-20125-v3.xml.json", # vor, related to 21162
 
             #"elife-21162-v1.xml.json", # vor, related to 20125
 
-            # NOT VALID, doesn't ingest
             #"elife-16695-v1.xml.json",
             #"elife-16695-v2.xml.json",
             #"elife-16695-v3.xml.json", # vor
 
-            "dummyelife-20105-v1.xml.json", # poa
-            "dummyelife-20105-v2.xml.json", # poa
-            "dummyelife-20105-v3.xml.json" # poa, UNPUBLISHED
+            "elife-20105-v1.xml.json", # poa
+            "elife-20105-v2.xml.json", # poa
+            "elife-20105-v3.xml.json" # poa, UNPUBLISHED
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
@@ -400,7 +399,7 @@ class V2Content(base.BaseCase):
 
 class V2PostContent(base.BaseCase):
     def setUp(self):
-        path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v1.xml.json")
+        path = join(self.fixture_dir, 'ajson', "elife-20105-v1.xml.json")
         ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         self.msid = 20105
@@ -438,7 +437,7 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(data['versions'][0]['title'], fragment['title'])
 
     def test_add_fragment_multiple_versions(self):
-        path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v2.xml.json")
+        path = join(self.fixture_dir, 'ajson', "elife-20105-v2.xml.json")
         ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         key = 'test-frag'
@@ -528,18 +527,17 @@ class RequestArgs(base.BaseCase):
         ingest_these = [
             #"elife-01968-v1.xml.json",
 
-            "dummyelife-20125-v1.xml.json", # poa
-            "dummyelife-20125-v2.xml.json", # poa
-            "dummyelife-20125-v3.xml.json", # vor
+            "elife-20125-v1.xml.json", # poa
+            "elife-20125-v2.xml.json", # poa
+            "elife-20125-v3.xml.json", # vor
 
-            # NOT VALID, doesn't ingest
             #"elife-16695-v1.xml.json",
             #"elife-16695-v2.xml.json",
             #"elife-16695-v3.xml.json", # vor
 
-            "dummyelife-20105-v1.xml.json", # poa
-            "dummyelife-20105-v2.xml.json", # poa
-            "dummyelife-20105-v3.xml.json" # poa
+            "elife-20105-v1.xml.json", # poa
+            "elife-20105-v2.xml.json", # poa
+            "elife-20105-v3.xml.json" # poa
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:

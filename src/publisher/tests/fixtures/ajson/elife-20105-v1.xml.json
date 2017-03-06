@@ -1,22 +1,24 @@
 {
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
     "snippet": {
-        "status": "poa", 
-        "doi": "10.7554/eLife.20105", 
-        "versionDate": "2016-10-04T00:00:00Z", 
-        "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
-        "authorLine": "Neel H Shah et al", 
-        "abstract": {
-            "content": [
-                {
-                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens.", 
-                    "type": "paragraph"
-                }
-            ]
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20105-v1.xml"
         }, 
-        "elocationId": "e20105", 
-        "volume": 5, 
+        "status": "poa", 
+        "id": "20105", 
         "version": 1, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.20105", 
+        "authorLine": "Neel H Shah et al", 
+        "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
         "published": "2016-10-04T00:00:00Z", 
+        "versionDate": "2016-10-04T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e20105", 
         "pdf": "https://publishing-cdn.elifesciences.org/20105/elife-20105-v1.pdf", 
         "subjects": [
             {
@@ -31,28 +33,32 @@
         "researchOrganisms": [
             "E. coli"
         ], 
-        "type": "research-article", 
-        "id": "20105"
-    }, 
-    "article": {
-        "versionDate": "2099-01-01T00:00:00Z", 
         "abstract": {
             "content": [
                 {
-                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens.", 
-                    "type": "paragraph"
+                    "type": "paragraph", 
+                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens."
                 }
             ]
+        }
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20105-v1.xml", 
+            "patched": true
         }, 
-        "additionalFiles": [
-            {
-                "id": "SD1-data", 
-                "title": "Supplementary file 1.", 
-                "filename": "elife-20105-supp-v1.zip", 
-                "mediaType": "application/zip", 
-                "uri": "https://publishing-cdn.elifesciences.org/20105/elife-20105-supp-v1.zip"
-            }
-        ], 
+        "status": "poa", 
+        "id": "20105", 
+        "version": 1, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.20105", 
+        "authorLine": "Neel H Shah et al", 
+        "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
+        "published": "2016-10-04T00:00:00Z", 
+        "versionDate": "2016-10-04T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e20105", 
+        "pdf": "https://publishing-cdn.elifesciences.org/20105/elife-20105-v1.pdf", 
         "subjects": [
             {
                 "id": "biophysics-structural-biology", 
@@ -63,85 +69,29 @@
                 "name": "Immunology"
             }
         ], 
-        "funding": {
-            "awards": [
-                {
-                    "source": {
-                        "funderId": "10.13039/100000002", 
-                        "name": [
-                            "National Institutes of Health"
-                        ]
-                    }, 
-                    "awardId": "PO1 AI091580", 
-                    "id": "par-1", 
-                    "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Kuriyan, John", 
-                                "preferred": "John Kuriyan"
-                            }
-                        }
-                    ]
-                }, 
-                {
-                    "source": {
-                        "funderId": "10.13039/100001021", 
-                        "name": [
-                            "Damon Runyon Cancer Research Foundation"
-                        ]
-                    }, 
-                    "id": "par-2", 
-                    "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Shah, Neel H", 
-                                "preferred": "Neel H Shah"
-                            }
-                        }
-                    ]
-                }, 
-                {
-                    "source": {
-                        "funderId": "10.13039/100000884", 
-                        "name": [
-                            "Cancer Research Institute"
-                        ]
-                    }, 
-                    "id": "par-3", 
-                    "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Yan, Qingrong", 
-                                "preferred": "Qingrong Yan"
-                            }
-                        }
-                    ]
-                }
-            ], 
-            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
-        }, 
-        "copyright": {
-            "holder": "Shah et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited.", 
-            "license": "CC-BY-4.0"
-        }, 
-        "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
-        "authorLine": "Neel H Shah et al", 
-        "id": "20105", 
-        "version": 1, 
-        "statusDate": "2099-01-01T00:00:00Z", 
-        "type": "research-article", 
-        "status": "poa", 
-        "volume": 5, 
         "researchOrganisms": [
             "E. coli"
         ], 
-        "-patched": true, 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Shah et al", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
         "authors": [
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Neel H Shah", 
+                    "index": "Shah, Neel H"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -154,22 +104,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "Berkeley"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Shah, Neel H", 
-                    "preferred": "Neel H Shah"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Qi Wang", 
+                    "index": "Wang, Qi"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -181,22 +131,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New York"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Wang, Qi", 
-                    "preferred": "Qi Wang"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Qingrong Yan", 
+                    "index": "Yan, Qingrong"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -208,22 +158,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "Malvern"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Yan, Qingrong", 
-                    "preferred": "Qingrong Yan"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Deepti Karandur", 
+                    "index": "Karandur, Deepti"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -236,22 +186,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "Berkeley"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Karandur, Deepti", 
-                    "preferred": "Deepti Karandur"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Theresa A Kadlacek", 
+                    "index": "Kadlacek, Theresa A"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -264,22 +214,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "San Francisco"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Kadlacek, Theresa A", 
-                    "preferred": "Theresa A Kadlacek"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ian R Fallahee", 
+                    "index": "Fallahee, Ian R"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -292,22 +242,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "Berkeley"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Fallahee, Ian R", 
-                    "preferred": "Ian R Fallahee"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "William P Russ", 
+                    "index": "Russ, William P"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -320,22 +270,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "Dallas"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Russ, William P", 
-                    "preferred": "William P Russ"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Rama Ranganathan", 
+                    "index": "Ranganathan, Rama"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -348,22 +298,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "Dallas"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Ranganathan, Rama", 
-                    "preferred": "Rama Ranganathan"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Arthur Weiss", 
+                    "index": "Weiss, Arthur"
+                }, 
                 "orcid": "0000-0002-2414-9024", 
                 "affiliations": [
                     {
@@ -377,27 +327,23 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "San Francisco"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Weiss, Arthur", 
-                    "preferred": "Arthur Weiss"
-                }, 
                 "competingInterests": "The other authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
                 "name": {
-                    "index": "Kuriyan, John", 
-                    "preferred": "John Kuriyan"
+                    "preferred": "John Kuriyan", 
+                    "index": "Kuriyan, John"
                 }, 
-                "competingInterests": "John Kuriyan, Senior editor, eLife.", 
+                "orcid": "0000-0002-4414-5477", 
                 "affiliations": [
                     {
                         "name": [
@@ -410,30 +356,90 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "Berkeley"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "orcid": "0000-0002-4414-5477", 
                 "emailAddresses": [
                     "jkuriyan@mac.com"
                 ], 
-                "type": "person"
+                "competingInterests": "John Kuriyan, Senior editor, eLife."
             }
         ], 
-        "elocationId": "e20105", 
+        "funding": {
+            "awards": [
+                {
+                    "id": "par-1", 
+                    "source": {
+                        "funderId": "10.13039/100000002", 
+                        "name": [
+                            "National Institutes of Health"
+                        ]
+                    }, 
+                    "awardId": "PO1 AI091580", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "John Kuriyan", 
+                                "index": "Kuriyan, John"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-2", 
+                    "source": {
+                        "funderId": "10.13039/100001021", 
+                        "name": [
+                            "Damon Runyon Cancer Research Foundation"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Neel H Shah", 
+                                "index": "Shah, Neel H"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-3", 
+                    "source": {
+                        "funderId": "10.13039/100000884", 
+                        "name": [
+                            "Cancer Research Institute"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Qingrong Yan", 
+                                "index": "Yan, Qingrong"
+                            }
+                        }
+                    ]
+                }
+            ], 
+            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
+        }, 
+        "additionalFiles": [
+            {
+                "mediaType": "application/zip", 
+                "uri": "https://publishing-cdn.elifesciences.org/20105/elife-20105-supp-v1.zip", 
+                "filename": "elife-20105-supp-v1.zip", 
+                "id": "SD1-data", 
+                "title": "Supplementary file 1."
+            }
+        ], 
         "stage": "published", 
-        "doi": "10.7554/eLife.20105", 
-        "published": "2016-10-04T00:00:00Z", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20105/elife-20105-v1.pdf"
-    }, 
-    "journal": {
-        "issn": "2050-084X", 
-        "id": "eLife", 
-        "title": "eLife"
+        "statusDate": "2099-01-01T00:00:00Z"
     }
 }

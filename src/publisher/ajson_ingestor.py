@@ -78,7 +78,7 @@ def _ingest(data, force=False):
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
         fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
-        fragments.set_article_json(av, quiet=True)
+        fragments.set_article_json(av, quiet=force) # article-json validation occurs here
 
         # update the relationships
         relationships.remove_relationships(av)
@@ -213,6 +213,7 @@ def _publish(msid, version, force=False):
         return av
 
     except ValidationError as err:
+        # the problem isn't that the ajson is invalid, it's that we've allowed invalid ajson into the system
         raise StateError("refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err))
 
     except models.ArticleFragment.DoesNotExist:

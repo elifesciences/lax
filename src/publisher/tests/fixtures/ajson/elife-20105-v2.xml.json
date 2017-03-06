@@ -6,99 +6,205 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-16695-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20105-v2.xml"
         }, 
         "status": "poa", 
-        "id": "16695", 
-        "version": 1, 
+        "id": "20105", 
+        "version": 2, 
         "type": "research-article", 
-        "doi": "10.7554/eLife.16695", 
-        "authorLine": "Arisa Hirano et al", 
-        "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
-        "published": "2016-08-16T00:00:00Z", 
-        "versionDate": "2016-08-16T00:00:00Z", 
+        "doi": "10.7554/eLife.20105", 
+        "authorLine": "Neel H Shah et al", 
+        "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
+        "published": "2016-10-04T00:00:00Z", 
         "volume": 5, 
-        "elocationId": "e16695", 
-        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v1.pdf", 
+        "elocationId": "e20105", 
+        "pdf": "https://publishing-cdn.elifesciences.org/20105/elife-20105-v2.pdf", 
         "subjects": [
             {
-                "id": "human-biology-medicine", 
-                "name": "Human Biology and Medicine"
+                "id": "biophysics-structural-biology", 
+                "name": "Biophysics and Structural Biology"
             }, 
             {
-                "id": "neuroscience", 
-                "name": "Neuroscience"
+                "id": "immunology", 
+                "name": "Immunology"
             }
         ], 
         "researchOrganisms": [
-            "Human", 
-            "Mouse"
+            "E. coli"
         ], 
         "abstract": {
             "content": [
                 {
                     "type": "paragraph", 
-                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
+                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens."
                 }
             ]
         }
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-16695-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20105-v2.xml", 
             "patched": true
         }, 
         "status": "poa", 
-        "id": "16695", 
-        "version": 1, 
+        "id": "20105", 
+        "version": 2, 
         "type": "research-article", 
-        "doi": "10.7554/eLife.16695", 
-        "authorLine": "Arisa Hirano et al", 
-        "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
-        "published": "2016-08-16T00:00:00Z", 
-        "versionDate": "2016-08-16T00:00:00Z", 
+        "doi": "10.7554/eLife.20105", 
+        "authorLine": "Neel H Shah et al", 
+        "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
+        "published": "2016-10-04T00:00:00Z", 
         "volume": 5, 
-        "elocationId": "e16695", 
-        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v1.pdf", 
+        "elocationId": "e20105", 
+        "pdf": "https://publishing-cdn.elifesciences.org/20105/elife-20105-v2.pdf", 
         "subjects": [
             {
-                "id": "human-biology-medicine", 
-                "name": "Human Biology and Medicine"
+                "id": "biophysics-structural-biology", 
+                "name": "Biophysics and Structural Biology"
             }, 
             {
-                "id": "neuroscience", 
-                "name": "Neuroscience"
+                "id": "immunology", 
+                "name": "Immunology"
             }
         ], 
         "researchOrganisms": [
-            "Human", 
-            "Mouse"
+            "E. coli"
         ], 
         "abstract": {
             "content": [
                 {
                     "type": "paragraph", 
-                    "text": "Familial Advanced Sleep Phase (FASP) is a heritable human sleep phenotype characterized by very early sleep and wake times. We identified a missense mutation in the human Cryptochrome 2 (CRY2) gene that co-segregates with FASP in one family. The mutation leads to replacement of an alanine residue at position 260 with a threonine (A260T). In mice, the CRY2 mutation causes a shortened circadian period and reduced phase-shift to early-night light pulse associated with phase-advanced behavioral rhythms in the light-dark cycle. The A260T mutation is located in the phosphate loop of the flavin adenine dinucleotide (FAD) binding domain of CRY2. The mutation alters the conformation of CRY2, increasing its accessibility and affinity for FBXL3 (an E3 ubiquitin ligase), thus promoting its degradation. These results demonstrate that CRY2 stability controlled by FBXL3 plays a key role in the regulation of human sleep wake behavior."
+                    "text": "The sequence of events that initiates T cell signaling is dictated by the specificities and order of activation of the tyrosine kinases that signal downstream of the T cell receptor. Using a platform that combines exhaustive point-mutagenesis of peptide substrates, bacterial surface-display, cell sorting, and deep sequencing, we have defined the specificities of the first two kinases in this pathway, Lck and ZAP-70, for the T cell receptor \u03b6 chain and the scaffold proteins LAT and SLP-76. We find that ZAP-70 selects its substrates by utilizing an electrostatic mechanism that excludes substrates with positively-charged residues and favors LAT and SLP-76 phosphosites that are surrounded by negatively-charged residues. This mechanism prevents ZAP-70 from phosphorylating its own activation loop, thereby enforcing its strict dependence on Lck for activation. The sequence features in ZAP-70, LAT, and SLP-76 that underlie electrostatic selectivity likely contribute to the specific response of T cells to foreign antigens."
                 }
             ]
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Hirano et al", 
+            "holder": "Shah et al", 
             "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
                 "type": "person", 
                 "name": {
-                    "preferred": "Arisa Hirano", 
-                    "index": "Hirano, Arisa"
+                    "preferred": "Neel H Shah", 
+                    "index": "Shah, Neel H"
                 }, 
                 "affiliations": [
                     {
                         "name": [
-                            "Department of Neurology", 
-                            "University of California San Francisco"
+                            "Department of Molecular and Cell Biology", 
+                            "Howard Hughes Medical Institute, University of California, Berkeley"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Berkeley", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Berkeley"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Qi Wang", 
+                    "index": "Wang, Qi"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "D. E. Shaw Research"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "New York", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "New York"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Qingrong Yan", 
+                    "index": "Yan, Qingrong"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Janssen Pharmaceutical Companies of Johnson and Johnson"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Malvern", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Malvern"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Deepti Karandur", 
+                    "index": "Karandur, Deepti"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Molecular and Cell Biology", 
+                            "Howard Hughes Medical Institute, University of California, Berkeley"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Berkeley", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Berkeley"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Theresa A Kadlecek", 
+                    "index": "Kadlecek, Theresa A"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Rosalind Russell/Ephraim P. Engleman Rheumatology Research Center, Department of Medicine", 
+                            "Howard Hughes Medical Institute, University of California, San Francisco"
                         ], 
                         "address": {
                             "formatted": [
@@ -119,14 +225,99 @@
             {
                 "type": "person", 
                 "name": {
-                    "preferred": "Guangsen Shi", 
-                    "index": "Shi, Guangsen"
+                    "preferred": "Ian R Fallahee", 
+                    "index": "Fallahee, Ian R"
                 }, 
                 "affiliations": [
                     {
                         "name": [
-                            "Department of Neurology", 
-                            "University of California, San Francisco"
+                            "Department of Molecular and Cell Biology", 
+                            "Howard Hughes Medical Institute, University of California, Berkeley"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Berkeley", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Berkeley"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "William P Russ", 
+                    "index": "Russ, William P"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Green Center for Systems Biology", 
+                            "University of Texas Southwestern Medical Center"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Dallas", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Dallas"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Rama Ranganathan", 
+                    "index": "Ranganathan, Rama"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Green Center for Systems Biology", 
+                            "University of Texas Southwestern Medical Center"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Dallas", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Dallas"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The other authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Arthur Weiss", 
+                    "index": "Weiss, Arthur"
+                }, 
+                "orcid": "0000-0002-2414-9024", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Rosalind Russell/Ephraim P. Engleman Rheumatology Research Center, Department of Medicine", 
+                            "Howard Hughes Medical Institute, University of California, San Francisco"
                         ], 
                         "address": {
                             "formatted": [
@@ -147,221 +338,24 @@
             {
                 "type": "person", 
                 "name": {
-                    "preferred": "Christopher R Jones", 
-                    "index": "Jones, Christopher R"
+                    "preferred": "John Kuriyan", 
+                    "index": "Kuriyan, John"
                 }, 
+                "orcid": "0000-0002-4414-5477", 
                 "affiliations": [
                     {
                         "name": [
-                            "Department of Neurology", 
-                            "University of Utah"
+                            "Department of Molecular and Cell Biology", 
+                            "Howard Hughes Medical Institute, University of California, Berkeley"
                         ], 
                         "address": {
                             "formatted": [
-                                "Salt Lake City", 
+                                "Berkeley", 
                                 "United States"
                             ], 
                             "components": {
                                 "locality": [
-                                    "Salt Lake City"
-                                ], 
-                                "country": "United States"
-                            }
-                        }
-                    }
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "Anna Lipzen", 
-                    "index": "Lipzen, Anna"
-                }, 
-                "affiliations": [
-                    {
-                        "name": [
-                            "Department of Energy Joint Genome Institute", 
-                            "Lawrence Berkeley National Laboratory"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "Walnut Creek", 
-                                "United States"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "Walnut Creek"
-                                ], 
-                                "country": "United States"
-                            }
-                        }
-                    }
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "Len A Pennacchio", 
-                    "index": "Pennacchio, Len A"
-                }, 
-                "affiliations": [
-                    {
-                        "name": [
-                            "DOE Joint Genome Institute", 
-                            "Lawrence Berkeley National Laboratory"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "Walnut Creek", 
-                                "United States"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "Walnut Creek"
-                                ], 
-                                "country": "United States"
-                            }
-                        }
-                    }
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "Ying Xu", 
-                    "index": "Xu, Ying"
-                }, 
-                "orcid": "0000-0002-6689-7768", 
-                "affiliations": [
-                    {
-                        "name": [
-                            "Center for System Biology", 
-                            "Soochow University"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "Suzhou", 
-                                "China"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "Suzhou"
-                                ], 
-                                "country": "China"
-                            }
-                        }
-                    }
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "William C Hallows", 
-                    "index": "Hallows, William C"
-                }, 
-                "orcid": "0000-0001-8306-8438", 
-                "affiliations": [
-                    {
-                        "name": [
-                            "Department of Neurology", 
-                            "University of California, San Francisco"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "San Francisco", 
-                                "United States"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "San Francisco"
-                                ], 
-                                "country": "United States"
-                            }
-                        }
-                    }
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "Thomas McMahon", 
-                    "index": "McMahon, Thomas"
-                }, 
-                "affiliations": [
-                    {
-                        "name": [
-                            "Department of Neurology", 
-                            "University of California, San Francisco"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "San Francisco", 
-                                "United States"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "San Francisco"
-                                ], 
-                                "country": "United States"
-                            }
-                        }
-                    }
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "Maya Yamazaki", 
-                    "index": "Yamazaki, Maya"
-                }, 
-                "affiliations": [
-                    {
-                        "name": [
-                            "Department of Neurology", 
-                            "University of California, San Francisco"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "San Francisco", 
-                                "United States"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "San Francisco"
-                                ], 
-                                "country": "United States"
-                            }
-                        }
-                    }
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "Louis J Pt\u00e1\u010dek", 
-                    "index": "Pt\u00e1\u010dek, Louis J"
-                }, 
-                "affiliations": [
-                    {
-                        "name": [
-                            "Department of Neurology", 
-                            "University of California, San Francisco"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "San Francisco", 
-                                "United States"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "San Francisco"
+                                    "Berkeley"
                                 ], 
                                 "country": "United States"
                             }
@@ -369,51 +363,9 @@
                     }
                 ], 
                 "emailAddresses": [
-                    "ljp@ucsf.edu"
+                    "jkuriyan@mac.com"
                 ], 
-                "competingInterests": "Louis J Pt\u00e1\u010dek, Reviewing editor, eLife."
-            }, 
-            {
-                "type": "person", 
-                "name": {
-                    "preferred": "Ying-Hui Fu", 
-                    "index": "Fu, Ying-Hui"
-                }, 
-                "orcid": "0000-0002-6628-0266", 
-                "affiliations": [
-                    {
-                        "name": [
-                            "Department of Neurology", 
-                            "University of California, San Francisco"
-                        ], 
-                        "address": {
-                            "formatted": [
-                                "San Francisco", 
-                                "United States"
-                            ], 
-                            "components": {
-                                "locality": [
-                                    "San Francisco"
-                                ], 
-                                "country": "United States"
-                            }
-                        }
-                    }
-                ], 
-                "emailAddresses": [
-                    "ying-hui.fu@ucsf.edu"
-                ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
-            }
-        ], 
-        "ethics": [
-            {
-                "type": "paragraph", 
-                "text": "Animal experimentation: All experimental protocols (Protocol no. AN111686-02) were conducted according to US National Institutes of Health guidelines for animal research andwere approved by the Institutional Animal Care and Use Committee at the University of California, San Francisco."
-            }, 
-            {
-                "type": "paragraph", 
-                "text": "Human subjects: All human subjects signed a consent form approved by the Institutional Review Boards at the University of Utah and the University of California, San Francisco (IRB# 10-03952). The consent form includes all confidentiality and ethic guidelines and also indicates not revealing subject information in the publication."
+                "competingInterests": "John Kuriyan, Senior editor, eLife."
             }
         ], 
         "funding": {
@@ -421,18 +373,18 @@
                 {
                     "id": "par-1", 
                     "source": {
-                        "funderId": "10.13039/100000050", 
+                        "funderId": "10.13039/100000002", 
                         "name": [
-                            "National Heart, Lung, and Blood Institute"
+                            "National Institutes of Health"
                         ]
                     }, 
-                    "awardId": "HL059596", 
+                    "awardId": "PO1 AI091580", 
                     "recipients": [
                         {
                             "type": "person", 
                             "name": {
-                                "preferred": "Louis J Pt\u00e1\u010dek", 
-                                "index": "Pt\u00e1\u010dek, Louis J"
+                                "preferred": "John Kuriyan", 
+                                "index": "Kuriyan, John"
                             }
                         }
                     ]
@@ -440,17 +392,17 @@
                 {
                     "id": "par-2", 
                     "source": {
+                        "funderId": "10.13039/100001021", 
                         "name": [
-                            "National Institute of General Medical Sciences"
+                            "Damon Runyon Cancer Research Foundation"
                         ]
                     }, 
-                    "awardId": "GM079180", 
                     "recipients": [
                         {
                             "type": "person", 
                             "name": {
-                                "preferred": "Ying-Hui Fu", 
-                                "index": "Fu, Ying-Hui"
+                                "preferred": "Neel H Shah", 
+                                "index": "Shah, Neel H"
                             }
                         }
                     ]
@@ -458,17 +410,17 @@
                 {
                     "id": "par-3", 
                     "source": {
-                        "funderId": "10.13039/501100001691", 
+                        "funderId": "10.13039/100000884", 
                         "name": [
-                            "Japan Society for the Promotion of Science"
+                            "Cancer Research Institute"
                         ]
                     }, 
                     "recipients": [
                         {
                             "type": "person", 
                             "name": {
-                                "preferred": "Arisa Hirano", 
-                                "index": "Hirano, Arisa"
+                                "preferred": "Qingrong Yan", 
+                                "index": "Yan, Qingrong"
                             }
                         }
                     ]
@@ -479,13 +431,14 @@
         "additionalFiles": [
             {
                 "mediaType": "application/zip", 
-                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-supp-v1.zip", 
-                "filename": "elife-16695-supp-v1.zip", 
+                "uri": "https://publishing-cdn.elifesciences.org/20105/elife-20105-supp-v2.zip", 
+                "filename": "elife-20105-supp-v2.zip", 
                 "id": "SD1-data", 
                 "title": "Supplementary file 1."
             }
         ], 
         "stage": "published", 
-        "statusDate": "2099-01-01T00:00:00Z"
+        "statusDate": "2099-01-01T00:00:00Z", 
+        "versionDate": "2099-01-01T00:00:00Z"
     }
 }
