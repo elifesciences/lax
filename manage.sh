@@ -1,5 +1,5 @@
 #!/bin/bash
-set -exv
+set -e
 
 # @description convenience wrapper around Django's runserver command
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
