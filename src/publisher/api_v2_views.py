@@ -3,7 +3,8 @@ from django.db import transaction
 from . import models, logic, fragment_logic
 from .utils import ensure, isint, lmap
 from rest_framework import status
-from rest_framework.decorators import api_view
+#from rest_framework.decorators import api_view
+from monitoring import api_view
 from rest_framework.response import Response
 from django.shortcuts import Http404
 from django.conf import settings
@@ -59,6 +60,7 @@ def is_authenticated(request):
 @api_view(['GET'])
 def article_list(request):
     "returns a list of snippets"
+
     authenticated = is_authenticated(request)
     try:
         kwargs = request_args(request)
