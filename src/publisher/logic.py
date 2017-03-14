@@ -75,6 +75,7 @@ def add_or_update_article(**article_data):
 def placeholder(av):
     return {
         '-invalid': True,
+        'id': av.article.manuscript_id,
         'published': av.article.datetime_published,
         'versionDate': av.datetime_published,
         'version': av.version,
