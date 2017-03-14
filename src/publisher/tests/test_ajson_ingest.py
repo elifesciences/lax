@@ -11,7 +11,7 @@ from publisher.utils import lmap
 from unittest import skip
 from jsonschema.exceptions import ValidationError
 from publisher import logic
-from django.test import Client
+from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 
 class Ingest(BaseCase):
@@ -151,6 +151,7 @@ class Ingest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails(self):
         "attempting to ingest an article with a version greater than 1 when no article versions currently exists fails"
         # no article exists, attempt to ingest a v2
@@ -162,6 +163,7 @@ class Ingest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails2(self):
         "attempting to ingest an article with a version greater than another unpublished version fails"
         _, _, av = ajson_ingestor.ingest(self.ajson) # v1
@@ -201,6 +203,7 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_article_json_not_stored_if_invalid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored but
         only if valid. ensure nothing is stored if result of merge is invalid"""

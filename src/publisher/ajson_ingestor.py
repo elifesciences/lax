@@ -8,6 +8,7 @@ from et3 import render
 from et3.extract import path as p
 from functools import partial
 from jsonschema import ValidationError
+from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
@@ -78,7 +79,7 @@ def _ingest(data, force=False):
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
         fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
-        fragments.set_article_json(av, quiet=force) # article-json validation occurs here
+        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force) # article-json validation occurs here
 
         # update the relationships
         relationships.remove_relationships(av)
@@ -205,7 +206,7 @@ def _publish(msid, version, force=False):
 
         # merge the fragments we have available and make them available for serving.
         # allow errors when the publish operation is being forced.
-        fragments.set_article_json(av, quiet=force)
+        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(events.notify, av.article))

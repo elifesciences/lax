@@ -244,6 +244,14 @@ RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', True)
 # NOTE 2017-02-28, I do believe all EIF have been backfilled with an 'update' value now. consider removing this option
 FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)
 
+# when ingesting and publishing article-json with the force=True parameter,
+# should validation failures cause the ingest/publish action to fail?
+VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
+
+#
+# logging
+#
+
 LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
 
 INGESTION_LOG_NAME = 'ingestion-%s.log' % PROJECT_NAME

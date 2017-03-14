@@ -4,7 +4,7 @@ from . import base
 from os.path import join
 import json
 from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, ejp_ingestor, relation_logic
-from django.test import Client
+from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 from django.conf import settings
 #from unittest import skip
@@ -266,12 +266,15 @@ class V2Content(base.BaseCase):
         self.assertEqual(given, expected)
 
     def test_article_versions_list_does_not_exist(self):
+        "request the list of versions for an article that doesn't exist returns a 404"
         models.Article.objects.all().delete()
         self.assertEqual(models.Article.objects.count(), 0)
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 404)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_article_versions_list_placeholder(self):
+        "invalid article-json causes a placeholder to be served instead"
         invalid_ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-20125-v4.xml.json'), 'r'))
         invalid_ajson['article']['title'] = ''
         _, _, av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
