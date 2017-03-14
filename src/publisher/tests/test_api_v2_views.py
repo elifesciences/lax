@@ -288,6 +288,7 @@ class V2Content(base.BaseCase):
 
         expected_struct = utils.json_loads(utils.json_dumps({
             '-invalid': True,
+            'id': av.article.manuscript_id,
             'status': av.status,
             'published': av.article.datetime_published,
             'version': 4,
