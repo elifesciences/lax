@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from functools import partial
 import copy
 from os.path import join
 import json
@@ -9,21 +9,21 @@ from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
 from publisher.utils import lmap
 from unittest import skip
-
+from jsonschema.exceptions import ValidationError
 from publisher import logic
-from django.test import Client
+from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 
 class Ingest(BaseCase):
     def setUp(self):
-        f1 = join(self.fixture_dir, 'ajson', 'dummyelife-20105-v1.xml.json')
-        self.ajson = json.load(open(f1, 'r'))
+        f1 = join(self.fixture_dir, 'ajson', 'elife-20105-v1.xml.json')
+        self.ajson = self.load_ajson(f1)
 
         f2 = join(self.fixture_dir, 'ajson', 'elife-01968-v1-bad.xml.json')
-        self.bad_ajson = json.load(open(f2, 'r'))
+        self.bad_ajson = self.load_ajson(f2)
 
         f3 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
-        self.invalid_ajson = json.load(open(f3, 'r'))
+        self.invalid_ajson = self.load_ajson(f3)
         self.invalid_ajson['article']['title'] = '' # ha! my invalid json is now valid. make it explicitly invalid.
 
     def tearDown(self):
@@ -151,15 +151,19 @@ class Ingest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails(self):
         "attempting to ingest an article with a version greater than 1 when no article versions currently exists fails"
         # no article exists, attempt to ingest a v2
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
         self.ajson['article']['version'] = 2
-        self.assertRaises(StateError, ajson_ingestor.ingest, self.ajson)
+        # force=True to get it past the validation errors.
+        # this used to work when we ignored validation errors on ingest
+        self.assertRaises(StateError, partial(ajson_ingestor.ingest, force=True), self.ajson) # v2 POA
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails2(self):
         "attempting to ingest an article with a version greater than another unpublished version fails"
         _, _, av = ajson_ingestor.ingest(self.ajson) # v1
@@ -168,7 +172,9 @@ class Ingest(BaseCase):
 
         # now attempt to ingest a v3
         self.ajson['article']['version'] = 3
-        self.assertRaises(StateError, ajson_ingestor.ingest, self.ajson)
+        # force=True to get it past the validation errors.
+        # this used to work when we ignored validation errors on ingest
+        self.assertRaises(StateError, partial(ajson_ingestor.ingest, force=True), self.ajson)
 
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
@@ -197,10 +203,11 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_article_json_not_stored_if_invalid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored but
         only if valid. ensure nothing is stored if result of merge is invalid"""
-        _, _, av = ajson_ingestor.ingest(self.invalid_ajson)
+        _, _, av = ajson_ingestor.ingest(self.invalid_ajson, force=True)
         av = self.freshen(av)
         self.assertEqual(av.article_json_v1, None)
         self.assertEqual(av.article_json_v1_snippet, None)
@@ -209,7 +216,7 @@ class Ingest(BaseCase):
 class Publish(BaseCase):
     def setUp(self):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
-        self.ajson = json.load(open(self.ajson_fixture1, 'r'))
+        self.ajson = self.load_ajson(self.ajson_fixture1)
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1
 
@@ -377,12 +384,15 @@ class Publish(BaseCase):
     def test_publish_fails_if_invalid(self):
         "an article cannot be published if it's article-json is invalid."
         self.ajson['article']['title'] = ''
-        self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
+        # ValidationError is raised during ingest
+        self.assertRaises(ValidationError, ajson_ingestor.ingest_publish, self.ajson)
+        # TODO: affect a valid INGEST but an invalid PUBLISH
+        #self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 
 class IngestPublish(BaseCase):
     def setUp(self):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
-        self.ajson = json.load(open(self.ajson_fixture1, 'r'))
+        self.ajson = self.load_ajson(self.ajson_fixture1)
 
     def tearDown(self):
         pass

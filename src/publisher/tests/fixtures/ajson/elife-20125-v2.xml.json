@@ -1,21 +1,23 @@
 {
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
     "snippet": {
-        "status": "poa", 
-        "doi": "10.7554/eLife.20125", 
-        "elocationId": "e20125", 
-        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
-        "authorLine": "Andrew T Timberlake et al", 
-        "abstract": {
-            "content": [
-                {
-                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <i>de novo</i> or rare transmitted mutations in <i>SMAD6</i>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <i>SMAD6</i> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <i>BMP2</i> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases.", 
-                    "type": "paragraph"
-                }
-            ]
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20125-v2.xml"
         }, 
-        "volume": 5, 
+        "status": "poa", 
+        "id": "20125", 
         "version": 2, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.20125", 
+        "authorLine": "Andrew T Timberlake et al", 
+        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
         "published": "2016-09-08T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e20125", 
         "pdf": "https://publishing-cdn.elifesciences.org/20125/elife-20125-v2.pdf", 
         "subjects": [
             {
@@ -30,28 +32,31 @@
         "researchOrganisms": [
             "Human"
         ], 
-        "type": "research-article", 
-        "id": "20125"
-    }, 
-    "article": {
-        "versionDate": "2099-01-01T00:00:00Z", 
         "abstract": {
             "content": [
                 {
-                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <i>de novo</i> or rare transmitted mutations in <i>SMAD6</i>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <i>SMAD6</i> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <i>BMP2</i> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases.", 
-                    "type": "paragraph"
+                    "type": "paragraph", 
+                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <i>de novo</i> or rare transmitted mutations in <i>SMAD6</i>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <i>SMAD6</i> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <i>BMP2</i> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
                 }
             ]
+        }
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20125-v2.xml", 
+            "patched": true
         }, 
-        "additionalFiles": [
-            {
-                "id": "SD1-data", 
-                "title": "Supplementary file 1.", 
-                "filename": "elife-20125-supp-v2.zip", 
-                "mediaType": "application/zip", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp-v2.zip"
-            }
-        ], 
+        "status": "poa", 
+        "id": "20125", 
+        "version": 2, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.20125", 
+        "authorLine": "Andrew T Timberlake et al", 
+        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
+        "published": "2016-09-08T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e20125", 
+        "pdf": "https://publishing-cdn.elifesciences.org/20125/elife-20125-v2.pdf", 
         "subjects": [
             {
                 "id": "genes-chromosomes", 
@@ -62,119 +67,29 @@
                 "name": "Genomics and Evolutionary Biology"
             }
         ], 
-        "funding": {
-            "awards": [
-                {
-                    "source": {
-                        "name": [
-                            "Yale Center for Mendelian Genomics"
-                        ]
-                    }, 
-                    "awardId": "NIH M#UM1HG006504-05", 
-                    "id": "par-1", 
-                    "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Mane, Shrikant", 
-                                "preferred": "Shrikant Mane"
-                            }
-                        }
-                    ]
-                }, 
-                {
-                    "source": {
-                        "name": [
-                            "Maxillofacial Surgeons Foundation/ASMS"
-                        ]
-                    }, 
-                    "awardId": "M#M156301", 
-                    "id": "par-2", 
-                    "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Persing, John A", 
-                                "preferred": "John A Persing"
-                            }
-                        }
-                    ]
-                }, 
-                {
-                    "source": {
-                        "name": [
-                            "NIH Medical Scientist Training Program"
-                        ]
-                    }, 
-                    "awardId": "NIH/NIGMS T32GM007205", 
-                    "id": "par-3", 
-                    "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Zaidi, Samir", 
-                                "preferred": "Samir Zaidi"
-                            }
-                        }
-                    ]
-                }, 
-                {
-                    "source": {
-                        "funderId": "10.13039/100000011", 
-                        "name": [
-                            "Howard Hughes Medical Institute"
-                        ]
-                    }, 
-                    "id": "par-4", 
-                    "recipients": [
-                        {
-                            "type": "person", 
-                            "name": {
-                                "index": "Lifton, Richard P", 
-                                "preferred": "Richard P Lifton"
-                            }
-                        }
-                    ]
-                }
-            ], 
-            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
-        }, 
-        "copyright": {
-            "holder": "Timberlake et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited.", 
-            "license": "CC-BY-4.0"
-        }, 
-        "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
-        "authorLine": "Andrew T Timberlake et al", 
-        "id": "20125", 
-        "version": 2, 
-        "statusDate": "2099-01-01T00:00:00Z", 
-        "type": "research-article", 
-        "status": "poa", 
-        "dataSets": {
-            "generated": [
-                {
-                    "title": "Yale Center for Mendelian Genomics", 
-                    "uri": "http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1", 
-                    "details": "Publicly available at the dbGaP (accession no: phs000744)", 
-                    "authors": [
-                        {
-                            "type": "group", 
-                            "name": "Timberlake et al. "
-                        }
-                    ], 
-                    "date": "2016", 
-                    "id": "dataro1"
-                }
-            ]
-        }, 
-        "volume": 5, 
         "researchOrganisms": [
             "Human"
         ], 
-        "-patched": true, 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Premature fusion of the cranial sutures (craniosynostosis), affecting 1 in 2,000 newborns, is treated surgically in infancy to prevent adverse neurologic outcomes. To identify mutations contributing to common non-syndromic midline (sagittal and metopic) craniosynostosis, we performed exome sequencing of 132 parent-offspring trios and 59 additional probands. Thirteen probands (7%) had damaging <i>de novo</i> or rare transmitted mutations in <i>SMAD6</i>, an inhibitor of BMP - induced osteoblast differentiation (P &lt; 10-20). <i>SMAD6</i> mutations nonetheless showed striking incomplete penetrance (&lt;60%). Genotypes of a common variant near <i>BMP2</i> that is strongly associated with midline craniosynostosis explained nearly all the phenotypic variation in these kindreds, with highly significant evidence of genetic interaction between these loci via both association and analysis of linkage. This epistatic interaction of rare and common variants defines the most frequent cause of midline craniosynostosis and has implications for the genetic basis of other diseases."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Timberlake et al", 
+            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
         "authors": [
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Andrew T Timberlake", 
+                    "index": "Timberlake, Andrew T"
+                }, 
                 "orcid": "0000-0002-8926-9692", 
                 "affiliations": [
                     {
@@ -188,22 +103,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Timberlake, Andrew T", 
-                    "preferred": "Andrew T Timberlake"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jungmin Choi", 
+                    "index": "Choi, Jungmin"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -216,22 +131,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Choi, Jungmin", 
-                    "preferred": "Jungmin Choi"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Samir Zaidi", 
+                    "index": "Zaidi, Samir"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -244,22 +159,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Zaidi, Samir", 
-                    "preferred": "Samir Zaidi"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Qiongshi Lu", 
+                    "index": "Lu, Qiongshi"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -272,22 +187,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Lu, Qiongshi", 
-                    "preferred": "Qiongshi Lu"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Carol Nelson-Williams", 
+                    "index": "Nelson-Williams, Carol"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -300,22 +215,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Nelson-Williams, Carol", 
-                    "preferred": "Carol Nelson-Williams"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Eric D Brooks", 
+                    "index": "Brooks, Eric D"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -328,22 +243,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Brooks, Eric D", 
-                    "preferred": "Eric D Brooks"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Kaya Bilguvar", 
+                    "index": "Bilguvar, Kaya"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -356,22 +271,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Bilguvar, Kaya", 
-                    "preferred": "Kaya Bilguvar"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Irina Tikhonova", 
+                    "index": "Tikhonova, Irina"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -384,22 +299,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Tikhonova, Irina", 
-                    "preferred": "Irina Tikhonova"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Shrikant Mane", 
+                    "index": "Mane, Shrikant"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -412,22 +327,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Mane, Shrikant", 
-                    "preferred": "Shrikant Mane"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jenny F Yang", 
+                    "index": "Yang, Jenny F"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -440,22 +355,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Yang, Jenny F", 
-                    "preferred": "Jenny F Yang"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Rajendra Sawh-Martinez", 
+                    "index": "Sawh-Martinez, Rajendra"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -468,22 +383,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Sawh-Martinez, Rajendra", 
-                    "preferred": "Rajendra Sawh-Martinez"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Sarah Persing", 
+                    "index": "Persing, Sarah"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -496,22 +411,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Persing, Sarah", 
-                    "preferred": "Sarah Persing"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Elizabeth G Zellner", 
+                    "index": "Zellner, Elizabeth G"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -524,22 +439,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Zellner, Elizabeth G", 
-                    "preferred": "Elizabeth G Zellner"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Erin Loring", 
+                    "index": "Loring, Erin"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -552,22 +467,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Loring, Erin", 
-                    "preferred": "Erin Loring"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Carolyn Chuang", 
+                    "index": "Chuang, Carolyn"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -580,22 +495,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Chuang, Carolyn", 
-                    "preferred": "Carolyn Chuang"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Amy Galm", 
+                    "index": "Galm, Amy"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -607,22 +522,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New York"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Galm, Amy", 
-                    "preferred": "Amy Galm"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Peter W Hashim", 
+                    "index": "Hashim, Peter W"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -635,22 +550,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Hashim, Peter W", 
-                    "preferred": "Peter W Hashim"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Derek M Steinbacher", 
+                    "index": "Steinbacher, Derek M"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -663,22 +578,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Steinbacher, Derek M", 
-                    "preferred": "Derek M Steinbacher"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Michael L DiLuna", 
+                    "index": "DiLuna, Michael L"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -691,22 +606,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "DiLuna, Michael L", 
-                    "preferred": "Michael L DiLuna"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Charles C Duncan", 
+                    "index": "Duncan, Charles C"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -719,22 +634,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Duncan, Charles C", 
-                    "preferred": "Charles C Duncan"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Kevin A Pelphrey", 
+                    "index": "Pelphrey, Kevin A"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -747,22 +662,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Pelphrey, Kevin A", 
-                    "preferred": "Kevin A Pelphrey"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Hongyu Zhao", 
+                    "index": "Zhao, Hongyu"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -775,22 +690,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Zhao, Hongyu", 
-                    "preferred": "Hongyu Zhao"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "John A Persing", 
+                    "index": "Persing, John A"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -803,22 +718,22 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Persing, John A", 
-                    "preferred": "John A Persing"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }, 
             {
+                "type": "person", 
+                "name": {
+                    "preferred": "Richard P Lifton", 
+                    "index": "Lifton, Richard P"
+                }, 
                 "affiliations": [
                     {
                         "name": [
@@ -831,10 +746,10 @@
                                 "United States"
                             ], 
                             "components": {
-                                "country": "United States", 
                                 "locality": [
                                     "New Haven"
-                                ]
+                                ], 
+                                "country": "United States"
                             }
                         }
                     }
@@ -842,29 +757,120 @@
                 "emailAddresses": [
                     "richard.lifton@yale.edu"
                 ], 
-                "type": "person", 
-                "name": {
-                    "index": "Lifton, Richard P", 
-                    "preferred": "Richard P Lifton"
-                }, 
                 "competingInterests": "The authors declare that no competing interests exist."
             }
         ], 
         "ethics": [
             {
-                "text": "Human subjects: All participants or their parents provided written informed consent to participate in a study of genetic causes of craniosynostosis in their family. Written consent was obtained for publication of patient photographs. The study protocol was approved by the Yale Human Investigation Committee Institutional Review Board.", 
-                "type": "paragraph"
+                "type": "paragraph", 
+                "text": "Human subjects: All participants or their parents provided written informed consent to participate in a study of genetic causes of craniosynostosis in their family. Written consent was obtained for publication of patient photographs. The study protocol was approved by the Yale Human Investigation Committee Institutional Review Board."
             }
         ], 
-        "elocationId": "e20125", 
+        "funding": {
+            "awards": [
+                {
+                    "id": "par-1", 
+                    "source": {
+                        "name": [
+                            "Yale Center for Mendelian Genomics"
+                        ]
+                    }, 
+                    "awardId": "NIH M#UM1HG006504-05", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Shrikant Mane", 
+                                "index": "Mane, Shrikant"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-2", 
+                    "source": {
+                        "name": [
+                            "Maxillofacial Surgeons Foundation/ASMS"
+                        ]
+                    }, 
+                    "awardId": "M#M156301", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "John A Persing", 
+                                "index": "Persing, John A"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-3", 
+                    "source": {
+                        "name": [
+                            "NIH Medical Scientist Training Program"
+                        ]
+                    }, 
+                    "awardId": "NIH/NIGMS T32GM007205", 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Samir Zaidi", 
+                                "index": "Zaidi, Samir"
+                            }
+                        }
+                    ]
+                }, 
+                {
+                    "id": "par-4", 
+                    "source": {
+                        "funderId": "10.13039/100000011", 
+                        "name": [
+                            "Howard Hughes Medical Institute"
+                        ]
+                    }, 
+                    "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Richard P Lifton", 
+                                "index": "Lifton, Richard P"
+                            }
+                        }
+                    ]
+                }
+            ], 
+            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
+        }, 
+        "additionalFiles": [
+            {
+                "mediaType": "application/zip", 
+                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp-v2.zip", 
+                "filename": "elife-20125-supp-v2.zip", 
+                "id": "SD1-data", 
+                "title": "Supplementary file 1."
+            }
+        ], 
+        "dataSets": {
+            "generated": [
+                {
+                    "id": "dataro1", 
+                    "date": "2016", 
+                    "authors": [
+                        {
+                            "type": "group", 
+                            "name": "Timberlake et al. "
+                        }
+                    ], 
+                    "title": "Yale Center for Mendelian Genomics", 
+                    "details": "Publicly available at the dbGaP (accession no: phs000744)", 
+                    "uri": "http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000744.v2.p1"
+                }
+            ]
+        }, 
         "stage": "published", 
-        "doi": "10.7554/eLife.20125", 
-        "published": "2016-09-08T00:00:00Z", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20125/elife-20125-v2.pdf"
-    }, 
-    "journal": {
-        "issn": "2050-084X", 
-        "id": "eLife", 
-        "title": "eLife"
+        "statusDate": "2099-01-01T00:00:00Z", 
+        "versionDate": "2099-01-01T00:00:00Z"
     }
 }

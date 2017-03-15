@@ -4,7 +4,7 @@ from . import base
 from os.path import join
 import json
 from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, ejp_ingestor, relation_logic
-from django.test import Client
+from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 from django.conf import settings
 #from unittest import skip
@@ -80,20 +80,19 @@ class V2Content(base.BaseCase):
         ingest_these = [
             #"elife-01968-v1.xml.json",
 
-            "dummyelife-20125-v1.xml.json", # poa
-            "dummyelife-20125-v2.xml.json", # poa
-            "dummyelife-20125-v3.xml.json", # vor, related to 21162
+            "elife-20125-v1.xml.json", # poa
+            "elife-20125-v2.xml.json", # poa
+            "elife-20125-v3.xml.json", # vor, related to 21162
 
             #"elife-21162-v1.xml.json", # vor, related to 20125
 
-            # NOT VALID, doesn't ingest
             #"elife-16695-v1.xml.json",
             #"elife-16695-v2.xml.json",
             #"elife-16695-v3.xml.json", # vor
 
-            "dummyelife-20105-v1.xml.json", # poa
-            "dummyelife-20105-v2.xml.json", # poa
-            "dummyelife-20105-v3.xml.json" # poa, UNPUBLISHED
+            "elife-20105-v1.xml.json", # poa
+            "elife-20105-v2.xml.json", # poa
+            "elife-20105-v3.xml.json" # poa, UNPUBLISHED
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
@@ -267,12 +266,15 @@ class V2Content(base.BaseCase):
         self.assertEqual(given, expected)
 
     def test_article_versions_list_does_not_exist(self):
+        "request the list of versions for an article that doesn't exist returns a 404"
         models.Article.objects.all().delete()
         self.assertEqual(models.Article.objects.count(), 0)
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 404)
 
+    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_article_versions_list_placeholder(self):
+        "invalid article-json causes a placeholder to be served instead"
         invalid_ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-20125-v4.xml.json'), 'r'))
         invalid_ajson['article']['title'] = ''
         _, _, av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
@@ -401,7 +403,7 @@ class V2Content(base.BaseCase):
 
 class V2PostContent(base.BaseCase):
     def setUp(self):
-        path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v1.xml.json")
+        path = join(self.fixture_dir, 'ajson', "elife-20105-v1.xml.json")
         ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         self.msid = 20105
@@ -439,7 +441,7 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(data['versions'][0]['title'], fragment['title'])
 
     def test_add_fragment_multiple_versions(self):
-        path = join(self.fixture_dir, 'ajson', "dummyelife-20105-v2.xml.json")
+        path = join(self.fixture_dir, 'ajson', "elife-20105-v2.xml.json")
         ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         key = 'test-frag'
@@ -529,18 +531,17 @@ class RequestArgs(base.BaseCase):
         ingest_these = [
             #"elife-01968-v1.xml.json",
 
-            "dummyelife-20125-v1.xml.json", # poa
-            "dummyelife-20125-v2.xml.json", # poa
-            "dummyelife-20125-v3.xml.json", # vor
+            "elife-20125-v1.xml.json", # poa
+            "elife-20125-v2.xml.json", # poa
+            "elife-20125-v3.xml.json", # vor
 
-            # NOT VALID, doesn't ingest
             #"elife-16695-v1.xml.json",
             #"elife-16695-v2.xml.json",
             #"elife-16695-v3.xml.json", # vor
 
-            "dummyelife-20105-v1.xml.json", # poa
-            "dummyelife-20105-v2.xml.json", # poa
-            "dummyelife-20105-v3.xml.json" # poa
+            "elife-20105-v1.xml.json", # poa
+            "elife-20105-v2.xml.json", # poa
+            "elife-20105-v3.xml.json" # poa
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:

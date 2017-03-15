@@ -1,5 +1,5 @@
 from io import StringIO
-import os
+import os, json
 from django.test import TestCase
 from publisher import models, utils
 from django.core.management import call_command
@@ -8,6 +8,16 @@ class BaseCase(TestCase):
     this_dir = os.path.dirname(os.path.realpath(__file__))
     fixture_dir = os.path.join(this_dir, 'fixtures')
     maxDiff = None
+
+    # eh - not sure about this. can I patch entire classes
+    # to turn auto-stubbing off??
+    def load_ajson(self, path, strip_relations=True):
+        "loads an article-json fixture. conveniently strips relations by default"
+        data = json.load(open(path, 'r'))
+        if strip_relations:
+            # remove these values here so they don't interfere in creation
+            utils.delall(data['article'], ['-related-articles-internal', '-related-articles-external'])
+        return data
 
     def freshen(self, obj):
         return utils.freshen(obj)
