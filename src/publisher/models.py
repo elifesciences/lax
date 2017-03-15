@@ -238,6 +238,9 @@ class ArticleFragment(models.Model):
     class Meta:
         # an article can only have one instance of a fragment type
         unique_together = ('article', 'type', 'version')
+        # multiple fragments at position=1 will be ordered by the date they were added
+        # lowest positions first (ASC), earliest creation date first (ASC)
+        ordering = ('position', 'datetime_record_created')
 
 class ArticleVersionRelation(models.Model):
     articleversion = models.ForeignKey(ArticleVersion)

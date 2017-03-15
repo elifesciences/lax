@@ -100,6 +100,29 @@ class FragmentMerge(BaseCase):
         expected = {'title': 'baz'}
         self.assertEqual(expected, logic.merge(self.av))
 
+    def test_fragment_ordering(self):
+        logic.add(self.av, 'xml->json', {'title': 'foo'}, update=True)
+        logic.add(self.msid, 'frag1', {'body': 'bar'})
+        logic.add(self.msid, 'frag2', {'foot': 'baz'})
+
+        # order of insertion is preserved
+        expected_order = ['xml->json', 'frag1', 'frag2']
+        for given, expected in zip(models.ArticleFragment.objects.all(), expected_order):
+            self.assertEqual(given.type, expected)
+
+    def test_fragment_ordering_explicit(self):
+        logic.add(self.av, 'xml->json', {'title': 'foo'}, update=True) # implicit pos=1
+        logic.add(self.msid, 'frag1', {'title': 'bar'}, pos=2) # explicit pos=2
+        logic.add(self.msid, 'frag2', {'title': 'baz'}, pos=1) # explicit pos=1
+
+        # order of insertion is preserved + explicit ordering
+        expected_order = ['xml->json', 'frag2', 'frag1']
+        for given, expected in zip(models.ArticleFragment.objects.all(), expected_order):
+            self.assertEqual(given.type, expected)
+
+        expected = {'title': 'bar'}
+        self.assertEqual(expected, logic.merge(self.av))
+
     def test_valid_merge_updates_article_version_fields(self):
         "when a fragment is added, if the merge results in valid article-json, the results of the merge are stored"
         # setUp inserts article snippet that should be valid

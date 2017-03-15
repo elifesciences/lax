@@ -50,8 +50,7 @@ def merge(av):
     # to this article in general
     fragments = models.ArticleFragment.objects \
         .filter(article=av.article) \
-        .filter(Q(version=av.version) | Q(version=None)) \
-        .order_by('position')
+        .filter(Q(version=av.version) | Q(version=None))
     if not fragments:
         raise StateError("%r has no fragments that can be merged" % av)
     return utils.merge_all([f.fragment for f in fragments])
