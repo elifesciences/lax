@@ -6,7 +6,11 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-16695-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-16695-v1.xml"
+        }, 
+        "-history": {
+            "received": "2016-04-06T00:00:00Z", 
+            "accepted": "2016-08-14T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "16695", 
@@ -45,8 +49,12 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-16695-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-16695-v1.xml", 
             "patched": true
+        }, 
+        "-history": {
+            "received": "2016-04-06T00:00:00Z", 
+            "accepted": "2016-08-14T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "16695", 
@@ -85,7 +93,7 @@
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Hirano et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
@@ -404,6 +412,31 @@
                     "ying-hui.fu@ucsf.edu"
                 ], 
                 "competingInterests": "The other authors declare that no competing interests exist."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Joseph G Gleeson", 
+                    "index": "Gleeson, Joseph G"
+                }, 
+                "role": "Reviewing editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Howard Hughes Medical Institute, The Rockefeller University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ]
             }
         ], 
         "ethics": [

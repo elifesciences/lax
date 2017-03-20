@@ -6,7 +6,11 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20105-v3.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20105-v3.xml"
+        }, 
+        "-history": {
+            "received": "2016-07-27T00:00:00Z", 
+            "accepted": "2016-10-03T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "20105", 
@@ -43,8 +47,12 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20105-v3.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20105-v3.xml", 
             "patched": true
+        }, 
+        "-history": {
+            "received": "2016-07-27T00:00:00Z", 
+            "accepted": "2016-10-03T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "20105", 
@@ -81,7 +89,7 @@
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Shah et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
@@ -368,6 +376,31 @@
                     "jkuriyan@mac.com"
                 ], 
                 "competingInterests": "John Kuriyan, Senior editor, eLife."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Philip A Cole", 
+                    "index": "Cole, Philip A"
+                }, 
+                "role": "Reviewing editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Johns Hopkins University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ]
             }
         ], 
         "funding": {

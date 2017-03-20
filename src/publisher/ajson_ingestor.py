@@ -1,5 +1,5 @@
 import copy
-from publisher import models, utils, fragment_logic as fragments, logic, events, relation_logic as relationships
+from publisher import models, utils, fragment_logic as fragments, logic, events, aws_events, relation_logic as relationships
 from publisher.models import XML2JSON
 from publisher.utils import create_or_update, StateError, atomic
 import logging
@@ -30,6 +30,16 @@ ARTICLE_VERSION = {
     # only v1 article-json has a published date. v2 article-json does not
     'datetime_published': [p('published', None), utils.todt],
 }
+
+INGEST_EVENTS = [
+    {'event': [models.DATE_XML_RECEIVED], 'datetime_event': [p('-history.received', render.EXCLUDE_ME)]},
+    {'event': [models.DATE_XML_ACCEPTED], 'datetime_event': [p('-history.accepted', render.EXCLUDE_ME)]},
+    {'event': [models.DATETIME_ACTION_INGEST], 'datetime_event': [None], 'value': [p('forced?'), lambda v: "forced=%s" % v]},
+]
+
+PUBLISH_EVENTS = [
+    {'event': [models.DATETIME_ACTION_PUBLISH], 'value': [p('forced?'), lambda v: "forced=%s" % v]},
+]
 
 #
 #
@@ -70,6 +80,12 @@ def _ingest(data, force=False):
             av, created, updated = \
                 create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
                                  create, update, commit=False, article=article)
+
+            data['article']['forced?'] = force
+            ae_structs = [render.render_item(desc, data['article']) for desc in INGEST_EVENTS]
+            # ignore any events we don't have explicit datetimes for
+            [events.add(article, **struct) for struct in ae_structs if 'datetime_event' in struct]
+
         except KeyError as err:
             raise ValueError("failed to scrape article data, couldn't find key %s" % err)
 
@@ -133,7 +149,7 @@ def _ingest(data, force=False):
         av.save()
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(events.notify, article))
+        transaction.on_commit(partial(aws_events.notify, article))
 
         return journal, article, av
 
@@ -204,12 +220,15 @@ def _publish(msid, version, force=False):
         av.datetime_published = datetime_published
         av.save()
 
+        ae_structs = [render.render_item(desc, {'article': av.article, 'forced?': force}) for desc in PUBLISH_EVENTS]
+        [events.add(av.article, **struct) for struct in ae_structs]
+
         # merge the fragments we have available and make them available for serving.
         # allow errors when the publish operation is being forced.
         fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force)
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(events.notify, av.article))
+        transaction.on_commit(partial(aws_events.notify, av.article))
 
         return av
 

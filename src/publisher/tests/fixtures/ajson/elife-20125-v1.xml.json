@@ -6,7 +6,11 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20125-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20125-v1.xml"
+        }, 
+        "-history": {
+            "received": "2016-07-28T00:00:00Z", 
+            "accepted": "2016-08-30T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "20125", 
@@ -44,8 +48,12 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-20125-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20125-v1.xml", 
             "patched": true
+        }, 
+        "-history": {
+            "received": "2016-07-28T00:00:00Z", 
+            "accepted": "2016-08-30T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "20125", 
@@ -83,7 +91,7 @@
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Timberlake et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License permitting unrestricted use and redistribution provided that the original author and source are credited."
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
@@ -760,6 +768,31 @@
                     "richard.lifton@yale.edu"
                 ], 
                 "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "David Ginsburg", 
+                    "index": "Ginsburg, David"
+                }, 
+                "role": "Reviewing editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Howard Hughes Medical Institute, University of Michigan"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ]
             }
         ], 
         "ethics": [
