@@ -180,7 +180,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         raise
 
 @atomic
-def ingest(*args, **kwargs):
+def ingest(*args, **kwargs) -> models.ArticleVersion:
     return _ingest(*args, **kwargs)
 
 
