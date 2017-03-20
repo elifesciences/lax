@@ -2,7 +2,7 @@ from slugify import slugify
 from django.db import models
 #from .fields import JSONField
 from annoying.fields import JSONField
-from .utils import second, firstnn, msid2doi, mk_dxdoi_link
+from .utils import msid2doi, mk_dxdoi_link
 from django.core.exceptions import ObjectDoesNotExist
 
 POA, VOR = 'poa', 'vor'
@@ -109,17 +109,6 @@ class Article(models.Model):
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
-
-    @property
-    def date_accepted(self):
-        # TODO: this sucks. normalize these into 'event' data or something
-        x = [(self.initial_decision, self.date_initial_decision),
-             (self.decision, self.date_full_decision),
-             (self.rev1_decision, self.date_rev1_decision),
-             (self.rev2_decision, self.date_rev2_decision),
-             (self.rev3_decision, self.date_rev3_decision),
-             (self.rev4_decision, self.date_rev4_decision)]
-        return second(firstnn([p for p in x if p[0] == AF]))
 
     def earliest_poa(self, defer=True):
         try:

@@ -3,7 +3,7 @@ from . import models
 from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils, relation_logic
-from publisher.utils import ensure, lmap, lfilter
+from publisher.utils import ensure, lmap, lfilter, firstnn, second
 from django.utils import timezone
 from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
 
@@ -239,6 +239,34 @@ def relationships(msid, only_published=True):
 #
 #
 
+def date_received(art):
+    # use the ejp data if we have it
+    # NOTE: I expect to move the ejp dates into the event history soon regardless
+    dr = firstnn([art.date_initial_decision, art.date_full_qc])
+    if dr:
+        return dr
+    # otherwise consult event history
+    ael = art.articleevent_set.filter(event=models.DATE_XML_RECEIVED).order_by('-datetime_event')
+    if ael:
+        return ael[0].datetime_event
+
+def date_accepted(art):
+    # use the ejp data, if we have it
+    attrs = [
+        (art.initial_decision, art.date_initial_decision),
+        (art.decision, art.date_full_decision),
+        (art.rev1_decision, art.date_rev1_decision),
+        (art.rev2_decision, art.date_rev2_decision),
+        (art.rev3_decision, art.date_rev3_decision),
+        (art.rev4_decision, art.date_rev4_decision)]
+    da = second(firstnn([pair for pair in attrs if pair[0] == models.AF]))
+    if da:
+        return da
+    # otherwise, consult event history
+    ael = art.articleevent_set.filter(event=models.DATE_XML_ACCEPTED).order_by('-datetime_event')
+    if ael:
+        return ael[0].datetime_event
+
 def article_version_history(msid, only_published=True):
     "returns a list of snippets for the history of the given article"
     article = models.Article.objects.get(manuscript_id=msid)
@@ -251,8 +279,8 @@ def article_version_history(msid, only_published=True):
         raise models.Article.DoesNotExist()
 
     return {
-        'received': article.date_initial_qc,
-        'accepted': article.date_accepted,
+        'received': date_received(article),
+        'accepted': date_accepted(article),
         'versions': lmap(article_snippet_json, avl)
     }
 

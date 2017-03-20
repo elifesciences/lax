@@ -223,10 +223,6 @@ class V2Content(base.BaseCase):
 
     def test_article_versions_list(self):
         "valid json content is returned"
-        # we need some data that can only come from ejp for this
-        ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
-        ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
-
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
