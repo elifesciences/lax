@@ -45,52 +45,67 @@ PUBLISH_EVENTS = [
 #
 #
 
-def _ingest(data, force=False):
+def _ingest_objects(data, create, update, force, log_context):
+    "ingest helper. returns the journal, article, an article version and a list of article events"
+
+    # WARN: log_context is a mutable dict
+
+    data = copy.deepcopy(data)
+
+    # this *could* be scraped from the provided data, but we have no time to
+    # normalize journal names so we sometimes get duplicate journals in the db.
+    # safer to disable until needed.
+    journal = logic.journal()
+
+    try:
+        article_struct = render.render_item(ARTICLE, data['article'])
+        article, created, updated = \
+            create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
+
+        assert isinstance(article, models.Article)
+        log_context['article'] = article
+
+        previous_article_versions = []
+        if updated:
+            previous_article_versions = list(article.articleversion_set.all().order_by('version')) # earliest -> latest
+
+        av_struct = render.render_item(ARTICLE_VERSION, data['article'])
+        # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
+        del av_struct['datetime_published']
+
+        av, created, updated = \
+            create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
+                             create, update, commit=False, article=article)
+
+        assert isinstance(av, models.ArticleVersion)
+        log_context['article-version'] = av
+
+        data['article']['forced?'] = force
+        ae_structs = [render.render_item(desc, data['article']) for desc in INGEST_EVENTS]
+        # ignore any events we don't have explicit datetimes for
+        [events.add(article, **struct) for struct in ae_structs if 'datetime_event' in struct]
+
+        # return journal, article, av, ael
+        return av, created, updated, previous_article_versions
+
+    except KeyError as err:
+        raise ValueError("failed to scrape article data, couldn't find key %s" % err)
+
+
+#
+#
+#
+
+def _ingest(data, force=False) -> models.ArticleVersion:
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
     unpublished article-version data can be ingested multiple times UNLESS that article version has been published.
     published article-version data can be ingested only if force=True"""
-
-    data = copy.deepcopy(data) # we don't want to modify the given data
 
     create = update = True
     log_context = {}
 
     try:
-        # this *could* be scraped from the provided data, but we have no time to
-        # normalize journal names so we sometimes get duplicate journals in the db.
-        # safer to disable until needed.
-        journal = logic.journal()
-
-        try:
-            article_struct = render.render_item(ARTICLE, data['article'])
-            article, created, updated = \
-                create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
-
-            assert isinstance(article, models.Article)
-            log_context['article'] = article
-
-            previous_article_versions = None
-            if updated:
-                previous_article_versions = list(article.articleversion_set.all().order_by('version')) # earliest -> latest
-
-            av_struct = render.render_item(ARTICLE_VERSION, data['article'])
-            # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
-            del av_struct['datetime_published']
-
-            av, created, updated = \
-                create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
-                                 create, update, commit=False, article=article)
-
-            data['article']['forced?'] = force
-            ae_structs = [render.render_item(desc, data['article']) for desc in INGEST_EVENTS]
-            # ignore any events we don't have explicit datetimes for
-            [events.add(article, **struct) for struct in ae_structs if 'datetime_event' in struct]
-
-        except KeyError as err:
-            raise ValueError("failed to scrape article data, couldn't find key %s" % err)
-
-        assert isinstance(av, models.ArticleVersion)
-        log_context['article-version'] = av
+        av, created, updated, previous_article_versions = _ingest_objects(data, create, update, force, log_context)
 
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
@@ -149,9 +164,9 @@ def _ingest(data, force=False):
         av.save()
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(aws_events.notify, article))
+        transaction.on_commit(partial(aws_events.notify, av.article))
 
-        return journal, article, av
+        return av
 
     except KeyError as err:
         # *probably* an error while scraping ...
@@ -173,7 +188,7 @@ def ingest(*args, **kwargs):
 # PUBLISH requests
 #
 
-def _publish(msid, version, force=False):
+def _publish(msid, version, force=False) -> models.ArticleVersion:
     """attach a `datetime_published` value to an article version. if none provided, use RIGHT NOW.
     you cannot publish an already published article version unless force==True"""
     try:
@@ -244,7 +259,7 @@ def _publish(msid, version, force=False):
         raise StateError("refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
 
 @atomic
-def publish(*args, **kwargs):
+def publish(*args, **kwargs) -> models.ArticleVersion:
     return _publish(*args, **kwargs)
 
 #
@@ -252,7 +267,7 @@ def publish(*args, **kwargs):
 #
 
 @atomic
-def ingest_publish(data, force=False, dry_run=False):
+def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
     "convenience. publish an article if it were successfully ingested"
-    j, a, av = _ingest(data, force=force)
-    return j, a, _publish(a.manuscript_id, av.version, force=force)
+    av = _ingest(data, force=force)
+    return _publish(av.article.manuscript_id, av.version, force=force)

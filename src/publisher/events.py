@@ -11,7 +11,7 @@ def add(art, event, value=None, datetime_event=None):
         'value': str(value),
         'datetime_event': datetime_event
     }
-    print('ae %s' % struct)
+    #print('ae %s' % struct)
     create = update = True
     ae, created, updated = \
         create_or_update(models.ArticleEvent, struct, ['article', 'event', 'datetime_event'], create, update, article=art)

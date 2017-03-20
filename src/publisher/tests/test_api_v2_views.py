@@ -128,7 +128,7 @@ class V2Content(base.BaseCase):
         # correct data
         self.assertEqual(data['total'], 2) # two results, [msid1, msid2]
 
-        # NOTE! insertion order is not guaranteed. sometimes you get av2, av1 ...
+        # FIXME: non-deterministic insertion order. sometimes you get av2, av1 ...
         av1, av2 = data['items']
         # print(data['items'])
 
@@ -277,7 +277,7 @@ class V2Content(base.BaseCase):
         "invalid article-json causes a placeholder to be served instead"
         invalid_ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-20125-v4.xml.json'), 'r'))
         invalid_ajson['article']['title'] = ''
-        _, _, av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
+        av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
         self.freshen(av)
 
         # we now have a published article in lax with invalid article-json

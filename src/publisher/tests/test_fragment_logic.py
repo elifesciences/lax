@@ -36,7 +36,7 @@ class FragmentLogic(BaseCase):
         self.version = self.ajson['article']['version'] # v1
 
         # populate with an article. CREATES A FRAGMENT
-        _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
+        self.av = ajson_ingestor.ingest_publish(self.ajson)
 
     def tearDown(self):
         pass
@@ -82,7 +82,7 @@ class FragmentMerge(BaseCase):
         self.ajson = json.load(open(self.ajson_fixture, 'r'))
         self.msid = self.ajson['article']['id']
         self.version = self.ajson['article']['version'] # v1
-        _, _, self.av = ajson_ingestor.ingest_publish(self.ajson)
+        self.av = ajson_ingestor.ingest_publish(self.ajson)
 
     def test_merge_fragments(self):
         logic.add(self.av, 'xml->json', {'title': 'foo'}, update=True)
@@ -158,7 +158,7 @@ class FragmentMerge(BaseCase):
         data = json.load(open(fixture, 'r'))
         data['status'] = models.POA
         data['published'] = '2016-08-17T00:00:00Z' # v2 POA published a day later
-        _, _, av2 = ajson_ingestor.ingest_publish(data)
+        av2 = ajson_ingestor.ingest_publish(data)
 
         # nothing should have changed
         av2 = self.freshen(av)
@@ -169,7 +169,7 @@ class FragmentMerge(BaseCase):
         # load v2 vor
         fixture = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json')
         data = json.load(open(fixture, 'r'))
-        _, _, av2 = ajson_ingestor.ingest_publish(data)
+        av2 = ajson_ingestor.ingest_publish(data)
         av2.datetime_published = datetime(year=2016, month=8, day=17) # v2 VOR published a day later
         av2.save()
         logic.set_article_json(av2, quiet=False)
@@ -186,7 +186,7 @@ class FragmentMerge(BaseCase):
         "the first unpublished VOR doesn't get a value until it's published"
         fixture = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json')
         data = json.load(open(fixture, 'r'))
-        _, _, av2 = ajson_ingestor.ingest(data) # ingested, not published
+        av2 = ajson_ingestor.ingest(data) # ingested, not published
 
         av1 = self.freshen(self.av)
         expected = '2016-08-16T00:00:00Z'
