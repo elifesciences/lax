@@ -11,6 +11,8 @@
 
 set -e
 
+echo "[-] .cc-check.sh"
+
 xenon src/ \
 	--max-absolute B \
 	--max-modules A \
@@ -26,3 +28,5 @@ xenon src/ \
 	--max-absolute C \
 	--max-modules B \
 	--max-average B
+
+echo "[✓] .cc-check.sh"

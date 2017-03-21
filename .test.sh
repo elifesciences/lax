@@ -2,6 +2,8 @@
 
 set -e # everything must pass
 
+echo "[-] .test.sh"
+
 pyflakes src/
 
 args="$@"
@@ -35,3 +37,4 @@ if [ $print_coverage -eq 1 ]; then
     fi
 fi
 
+echo "[✓] .test.sh"
