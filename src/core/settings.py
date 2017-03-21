@@ -323,7 +323,7 @@ LOGGING = {
     },
 
     'loggers': {
-        None: {
+        '': {
             'handlers': ['stderr', 'lax.log'],
             'level': 'INFO',
             'propagate': True,
