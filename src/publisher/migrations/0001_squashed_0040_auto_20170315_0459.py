@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 
 import annoying.fields
-import autoslug.fields
+#import autoslug.fields
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
@@ -26,7 +26,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('doi', models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255, unique=True)),
                 ('title', models.CharField(blank=True, help_text=b'The title of the article', max_length=255, null=True)),
-                ('slug', autoslug.fields.AutoSlugField(blank=True, editable=False, help_text=b'A friendlier version of the title for machines', null=True, populate_from=b'title')),
+                # optimisation of squash could really be improved. this field is dropped later
+                #('slug', autoslug.fields.AutoSlugField(blank=True, editable=False, help_text=b'A friendlier version of the title for machines', null=True, populate_from=b'title')),
                 ('version', models.PositiveSmallIntegerField(default=1, help_text=b'The version of the article. All articles have at least a version 1')),
                 ('volume', models.PositiveSmallIntegerField(blank=True, null=True)),
                 ('status', models.CharField(blank=True, choices=[(b'poa', b'POA'), (b'vor', b'VOR')], max_length=3, null=True)),
@@ -68,21 +69,26 @@ class Migration(migrations.Migration):
             name='type',
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
-        migrations.AlterField(
-            model_name='article',
-            name='doi',
-            field=models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255),
-        ),
-        migrations.AlterField(
-            model_name='article',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(always_update=True, blank=True, editable=False, help_text=b'A friendlier version of the title for machines', null=True, populate_from=b'title'),
-        ),
+        # this alteration *drops* the unique constraint which is then later added again, 
+        # causing PostgreSQL to complain about the relation already existing
+        #migrations.AlterField(
+        #    model_name='article',
+        #    name='doi',
+        #    field=models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255),
+        #),
+
+        # again, bad optimization
+        #migrations.AlterField(
+        #    model_name='article',
+        #    name='slug',
+        #    field=autoslug.fields.AutoSlugField(always_update=True, blank=True, editable=False, help_text=b'A friendlier version of the title for machines', null=True, populate_from=b'title'),
+        #),
         migrations.AlterField(
             model_name='article',
             name='version',
             field=models.PositiveSmallIntegerField(default=0, help_text=b'The version of the article. Version=0 means pre-publication'),
         ),
+        # here
         migrations.AlterUniqueTogether(
             name='article',
             unique_together=set([('doi', 'version')]),
@@ -106,7 +112,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(blank=True, help_text=b'The title of the article', max_length=255, null=True)),
-                ('doi', models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255)),
+                # another example of bad optimization
+                #('doi', models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255)),
                 ('version', models.PositiveSmallIntegerField(default=None, help_text=b'The version of the article. Version=None means pre-publication')),
                 ('status', models.CharField(blank=True, choices=[(b'poa', b'POA'), (b'vor', b'VOR')], max_length=3, null=True)),
                 ('datetime_published', models.DateTimeField(blank=True, help_text=b'Date article first appeared on website', null=True)),
@@ -143,20 +150,20 @@ class Migration(migrations.Migration):
             model_name='article',
             name='title',
         ),
-        migrations.RemoveField(
-            model_name='article',
-            name='slug',
-        ),
+        #migrations.RemoveField(
+        #    model_name='article',
+        #    name='slug',
+        #),
         migrations.AddField(
             model_name='articleversion',
             name='article',
             field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='publisher.Article'),
             preserve_default=False,
         ),
-        migrations.RemoveField(
-            model_name='ArticleVersion',
-            name='doi',
-        ),
+        #migrations.RemoveField(
+        #    model_name='ArticleVersion',
+        #    name='doi',
+        #),
         migrations.AddField(
             model_name='articleversion',
             name='article_json_v1',
