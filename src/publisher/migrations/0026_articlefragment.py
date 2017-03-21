@@ -4,7 +4,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import publisher.fields
+import annoying.fields
 
 
 class Migration(migrations.Migration):
@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='ArticleFragment',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fragment', publisher.fields.JSONField(help_text=b'partial piece of article data to be merged in')),
+                ('fragment', annoying.fields.JSONField(help_text=b'partial piece of article data to be merged in')),
                 ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publisher.Article')),
             ],
         ),

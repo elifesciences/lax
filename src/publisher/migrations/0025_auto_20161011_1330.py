@@ -3,7 +3,7 @@
 
 
 from django.db import migrations
-import publisher.fields
+import annoying.fields
 
 
 class Migration(migrations.Migration):
@@ -16,16 +16,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='articleversion',
             name='article_json_v1',
-            field=publisher.fields.JSONField(blank=True, help_text=b'Valid article-json.', null=True),
+            field=annoying.fields.JSONField(blank=True, help_text=b'Valid article-json.', null=True),
         ),
         migrations.AlterField(
             model_name='articleversion',
             name='article_json_v1_raw',
-            field=publisher.fields.JSONField(blank=True, help_text=b'raw input article json we receive from different places', null=True),
+            field=annoying.fields.JSONField(blank=True, help_text=b'raw input article json we receive from different places', null=True),
         ),
         migrations.AlterField(
             model_name='articleversion',
             name='article_json_v1_snippet',
-            field=publisher.fields.JSONField(blank=True, help_text=b'Valid article-json snippet.', null=True),
+            field=annoying.fields.JSONField(blank=True, help_text=b'Valid article-json snippet.', null=True),
         ),
     ]
