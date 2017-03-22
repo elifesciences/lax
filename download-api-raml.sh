@@ -3,8 +3,10 @@
 # this repository contains the specification for article-json and
 # is used to validate what the scraper generates.
 # see `src/validate.py`
-
 set -e # everything must pass
+
+echo "[-] download-api-raml.sh"
+
 mkdir -p schema
 cd schema
 if [ ! -d api-raml ]; then
@@ -34,3 +36,5 @@ if [ -f api-raml.sha1 ]; then
     fi
     cd -
 fi
+
+echo "[✓] download-api-raml.sh"

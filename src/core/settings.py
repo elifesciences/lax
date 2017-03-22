@@ -75,7 +75,7 @@ INSTALLED_APPS = (
     'publisher',
 )
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,9 +86,14 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
+
+    'core.middleware.DownstreamCaching',
 ]
 
 ROOT_URLCONF = 'core.urls'
+
+# https://docs.djangoproject.com/en/1.10/ref/middleware/#module-django.middleware.common
+USE_ETAGS = True
 
 TEMPLATES = [
     {
