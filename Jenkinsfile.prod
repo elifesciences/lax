@@ -4,7 +4,8 @@ elifePipeline {
     def commit = elifeGitRevision()
 
     stage 'Backup'
-    builderCmd 'lax--prod', "cd /srv/lax; ./manage.sh dumpdata --exclude=contenttypes --natural-foreign --natural-primary --indent=4 | gzip -9 - > /tmp/lax-db-${env.BUILD_TAG}.json.gz"
+    builderCmd 'lax--prod', "cd /srv/lax; ./backup_prune.sh 3"
+    builderCmd 'lax--prod', "cd /srv/lax; ./backup.sh ${env.BUILD_TAG}"
 
     stage 'Deploy'
     elifeDeploySlackNotification 'lax', 'prod'

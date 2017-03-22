@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e # everything must succeed.
+echo "[-] install.sh"
 
 . download-api-raml.sh
 
@@ -28,3 +29,5 @@ fi
 pip install -r requirements.txt
 NEW_RELIC_EXTENSIONS=false pip install --no-binary :all: newrelic==2.82.0.62
 python src/manage.py migrate --no-input
+
+echo "[✓] install.sh"

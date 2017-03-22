@@ -75,7 +75,7 @@ INSTALLED_APPS = (
     'publisher',
 )
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -86,9 +86,14 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
+
+    'core.middleware.DownstreamCaching',
 ]
 
 ROOT_URLCONF = 'core.urls'
+
+# https://docs.djangoproject.com/en/1.10/ref/middleware/#module-django.middleware.common
+USE_ETAGS = True
 
 TEMPLATES = [
     {
@@ -282,20 +287,30 @@ LOGGING = {
         'brief': {
             'format': '%(levelname)s - %(message)s'
         },
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[%(server_time)s] %(message)s',
+        },
     },
 
     'handlers': {
+        'stderr': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'brief',
+        },
+
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+
         'lax.log': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': LOG_FILE,
             'formatter': 'json',
-        },
-
-        'stderr': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'brief',
         },
 
         # entries go to the lax-ingestion.log file
@@ -305,14 +320,6 @@ LOGGING = {
             'filename': INGESTION_LOG_FILE,
             'formatter': 'json',
         },
-
-        # entries go to the database
-        # incomplete. I need the django-db-logger a little bit cleverer first
-        #'database': {
-        #    'level': 'DEBUG',
-        #    'class': 'django_db_logger.db_log_handler.DatabaseLogHandler',
-        #    'formatter': 'json',
-        #},
     },
 
     'loggers': {
@@ -326,6 +333,12 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
 }
 
@@ -338,7 +351,6 @@ module_loggers = [
 ]
 logger = {
     'level': 'INFO',
-    #'handlers': ['database', 'ingestion.log', 'lax.log', 'stderr'],
     'handlers': ['ingestion.log', 'lax.log', 'stderr'],
     'propagate': False, # don't propagate up to root logger
 }
