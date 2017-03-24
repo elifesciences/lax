@@ -15,11 +15,18 @@ LOG = logging.getLogger(__name__)
 # make the article-json lax compatible
 # receives a list of article-json
 
+def exclude_if_empty(val):
+    if not val:
+        return render.EXCLUDE_ME
+    return val
+
 ARTICLE = {
     'manuscript_id': [p('id'), int],
     'volume': [p('volume')],
     'type': [p('type')],
     'doi': [p('id'), utils.msid2doi], # remove when apiv1 is turned off
+    'date_received': [p('-history.received', None), utils.todt, exclude_if_empty],
+    'date_accepted': [p('-history.accepted', None), utils.todt, exclude_if_empty],
     #'ejp_type': [p('type'), models.EJP_TYPE_REV_SLUG_IDX.get]
 }
 

@@ -58,9 +58,16 @@ class Article(models.Model):
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
+    # these come from the XML
+    # insights, editorials and some feature articles don't have these values.
+    date_received = models.DateField(blank=True, null=True, help_text="xml 'received' date. not all article types have this.")
+    date_accepted = models.DateField(blank=True, null=True, help_text="xml 'accepted' date. not all articles types have this. ")
+
     @property
     def _doi(self):
         return msid2doi(self.manuscript_id)
+
+    # these come from EJP
 
     # data exists but isn't being considered. for reporting reasons, 'submission date' is date of initial quality check
     # NOTE 2016-09-06: disabled. expectation of data in this field was becoming annoying.

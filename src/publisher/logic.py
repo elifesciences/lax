@@ -240,32 +240,24 @@ def relationships(msid, only_published=True):
 #
 
 def date_received(art):
-    # use the ejp data if we have it
-    # NOTE: I expect to move the ejp dates into the event history soon regardless
-    dr = firstnn([art.date_initial_decision, art.date_full_qc])
-    if dr:
-        return dr
-    # otherwise consult event history
-    ael = art.articleevent_set.filter(event=models.DATE_XML_RECEIVED).order_by('-datetime_event')
-    if ael:
-        return ael[0].datetime_event
+    # the date received, scraped from the xml, is guaranteed to not exist for certain article types
+    # the initial quality check date will not exist under certain circumstances:
+    # James, 20170317: "there are some instances in the archive where articles were essentially first submitted as full submissions rather than initial submissions, due to appeals or previous interactions etc. The logic we've been using for PoA is that if there is no initial qc date, use the full qc date."
+    return firstnn([art.date_received, art.date_initial_qc, art.date_full_qc])
 
 def date_accepted(art):
-    # use the ejp data, if we have it
     attrs = [
+        # scraped from the xml, guaranteed to not exist for certain article types
+        (models.AF, art.date_accepted),
+
+        # use ejp values if not above
         (art.initial_decision, art.date_initial_decision),
         (art.decision, art.date_full_decision),
         (art.rev1_decision, art.date_rev1_decision),
         (art.rev2_decision, art.date_rev2_decision),
         (art.rev3_decision, art.date_rev3_decision),
         (art.rev4_decision, art.date_rev4_decision)]
-    da = second(firstnn([pair for pair in attrs if pair[0] == models.AF]))
-    if da:
-        return da
-    # otherwise, consult event history
-    ael = art.articleevent_set.filter(event=models.DATE_XML_ACCEPTED).order_by('-datetime_event')
-    if ael:
-        return ael[0].datetime_event
+    return second(firstnn([pair for pair in attrs if pair[0] == models.AF]))
 
 def article_version_history(msid, only_published=True):
     "returns a list of snippets for the history of the given article"

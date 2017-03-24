@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-import copy
+import json, copy
 from os.path import join
-import json
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from .base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
@@ -41,6 +40,33 @@ class Ingest(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
+
+    def test_article_ingest_data(self):
+        ajson_ingestor.ingest(self.ajson)
+        article_cases = [
+            ('journal', logic.journal()),
+            ('manuscript_id', 20105),
+            ('volume', 5),
+            ('doi', '10.7554/eLife.20105'),
+            ('date_received', date(year=2016, month=7, day=27)),
+            ('date_accepted', date(year=2016, month=10, day=3)),
+        ]
+        art = models.Article.objects.get(manuscript_id=20105)
+        for attr, expected in article_cases:
+            actual = getattr(art, attr)
+            self.assertEqual(actual, expected, "expecting %r for %r got %r" % (expected, attr, actual))
+
+        article_version_cases = [
+            ('article', art),
+            ('title', 'An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor'),
+            ('version', 1),
+            ('status', 'poa'),
+            ('datetime_published', None)
+        ]
+        av = art.articleversion_set.all()[0]
+        for attr, expected in article_version_cases:
+            actual = getattr(av, attr)
+            self.assertEqual(actual, expected, "expecting %r for %r got %r" % (expected, attr, actual))
 
     def test_article_ingest_does_not_publish(self):
         """ingesting article json does not cause an article to become published
