@@ -69,16 +69,16 @@ class Migration(migrations.Migration):
             name='type',
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
-        # this alteration *drops* the unique constraint which is then later added again, 
+        # this alteration *drops* the unique constraint which is then later added again,
         # causing PostgreSQL to complain about the relation already existing
-        #migrations.AlterField(
+        # migrations.AlterField(
         #    model_name='article',
         #    name='doi',
         #    field=models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255),
         #),
 
         # again, bad optimization
-        #migrations.AlterField(
+        # migrations.AlterField(
         #    model_name='article',
         #    name='slug',
         #    field=autoslug.fields.AutoSlugField(always_update=True, blank=True, editable=False, help_text=b'A friendlier version of the title for machines', null=True, populate_from=b'title'),
@@ -150,7 +150,7 @@ class Migration(migrations.Migration):
             model_name='article',
             name='title',
         ),
-        #migrations.RemoveField(
+        # migrations.RemoveField(
         #    model_name='article',
         #    name='slug',
         #),
@@ -160,7 +160,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='publisher.Article'),
             preserve_default=False,
         ),
-        #migrations.RemoveField(
+        # migrations.RemoveField(
         #    model_name='ArticleVersion',
         #    name='doi',
         #),
