@@ -52,7 +52,7 @@ class DownstreamCachine(TestCase):
     def tearDown(self):
         pass
 
-    def test_cache_headers_in_response(self):        
+    def test_cache_headers_in_response(self):
         expected_headers = [
             'vary',
             'etag',

@@ -71,7 +71,7 @@ from django.utils.cache import patch_vary_headers
 class DownstreamCaching(object):
     def __init__(self, get_response):
         self.get_response = get_response
-    
+
     def __call__(self, request):
         public_headers = {
             'public': True,
@@ -84,12 +84,12 @@ class DownstreamCaching(object):
             'max-age': 0, # seconds
             'must-revalidate': True,
         }
-        
+
         authenticated = request.META[settings.KONG_AUTH_HEADER]
         headers = public_headers if not authenticated else private_headers
-        
+
         response = self.get_response(request)
-        
+
         patch_cache_control(response, **headers)
         patch_vary_headers(response, ['Accept'])
 

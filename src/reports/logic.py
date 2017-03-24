@@ -1,6 +1,6 @@
 from collections import OrderedDict
 import itertools
-from publisher import utils, models
+from publisher import utils, models, logic as pub_logic
 from publisher.utils import ymd, lmap
 from django.db.models import Count
 from itertools import islice
@@ -249,7 +249,7 @@ def time_to_publication(year=2015):
     headers = ['doi', 'jats type', 'ejp type', 'date accepted', 'date poa published', 'date vor published', 'days to poa', 'days to vor', 'days to vor from poa']
 
     def row(art):
-        accepted = art.date_accepted
+        accepted = pub_logic.date_accepted(art)
         poa = getattr(art.earliest_poa(), 'datetime_published', None)
         vor = getattr(art.earliest_vor(), 'datetime_published', None)
 
@@ -269,7 +269,7 @@ def time_to_publication(year=2015):
             art.doi,
             art.type,
             art.ejp_type,
-            art.date_accepted,
+            accepted,
             utils.ymd(poa),
             utils.ymd(vor),
 
@@ -312,7 +312,7 @@ def arb1():
         digest = has_digest_results.get(key, "UNKNOWN (no xml)")
         return OrderedDict([
             ('id', art.manuscript_id),
-            ('date-accepted', art.date_accepted.isoformat()),
+            ('date-accepted', pub_logic.date_accepted(art).isoformat()),
             ('first-vor', vor.datetime_published.isoformat() if vor else None,),
             ('has-digest?', digest['digest?'] if isinstance(digest, dict) else digest),
         ])

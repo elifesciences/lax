@@ -144,6 +144,7 @@ def pre_process(av, result):
         '-related-articles-internal',
         '-related-articles-external',
         '-meta',
+        '-history',
     ]
     utils.delall(result, delete_these)
 

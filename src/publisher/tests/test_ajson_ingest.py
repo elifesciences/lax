@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from functools import partial
-import copy
+import json, copy
 from os.path import join
-import json
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from .base import BaseCase
 from publisher import ajson_ingestor, models, utils
 from publisher.ajson_ingestor import StateError
@@ -42,17 +41,44 @@ class Ingest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
 
+    def test_article_ingest_data(self):
+        ajson_ingestor.ingest(self.ajson)
+        article_cases = [
+            ('journal', logic.journal()),
+            ('manuscript_id', 20105),
+            ('volume', 5),
+            ('doi', '10.7554/eLife.20105'),
+            ('date_received', date(year=2016, month=7, day=27)),
+            ('date_accepted', date(year=2016, month=10, day=3)),
+        ]
+        art = models.Article.objects.get(manuscript_id=20105)
+        for attr, expected in article_cases:
+            actual = getattr(art, attr)
+            self.assertEqual(actual, expected, "expecting %r for %r got %r" % (expected, attr, actual))
+
+        article_version_cases = [
+            ('article', art),
+            ('title', 'An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor'),
+            ('version', 1),
+            ('status', 'poa'),
+            ('datetime_published', None)
+        ]
+        av = art.articleversion_set.all()[0]
+        for attr, expected in article_version_cases:
+            actual = getattr(av, attr)
+            self.assertEqual(actual, expected, "expecting %r for %r got %r" % (expected, attr, actual))
+
     def test_article_ingest_does_not_publish(self):
         """ingesting article json does not cause an article to become published
         (gain a published date) even if a published date was supplied"""
         expected = "2016-04-13T01:00:00"
         self.ajson['article']['published'] = expected
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         self.assertNotEqual(av.datetime_published, expected)
 
     def test_article_ingest_update(self):
         "ingesting article data twice successfully updates the Article object"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
 
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
         self.assertEqual(av.title, self.ajson['article']['title'])
@@ -61,7 +87,7 @@ class Ingest(BaseCase):
         # do it again to cause an update
         expected_title = 'flub'
         self.ajson['article']['title'] = expected_title
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
 
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
         self.assertEqual(av.title, expected_title)
@@ -78,9 +104,9 @@ class Ingest(BaseCase):
         # assert each case is different from last
         prev_fragment = None
         for ajson in cases:
-            _, a, av = ajson_ingestor.ingest(ajson)
-            self.freshen(a)
-            fragment = a.articlefragment_set.get(type=models.XML2JSON)
+            av = ajson_ingestor.ingest(ajson)
+            self.freshen(av)
+            fragment = av.article.articlefragment_set.get(type=models.XML2JSON)
             if not prev_fragment:
                 prev_fragment = fragment
                 continue
@@ -89,18 +115,18 @@ class Ingest(BaseCase):
 
     def test_article_update_does_not_publish(self):
         "ingesting article data twice still does not cause publication"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(av.datetime_published, None)
 
         expected = "2016-04-13T01:00:00"
         self.ajson['article']['published'] = expected
 
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(av.datetime_published, None)
 
     def test_article_ingest_fails_for_published_articles(self):
         "ingesting article data for a published article version fails"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         # edit data directly
         av.datetime_published = '2001-01-01'
         av.save()
@@ -111,7 +137,7 @@ class Ingest(BaseCase):
 
     def test_article_ingest_for_published_articles_succeeds_if_forced(self):
         "ingesting article data for a published article version succeeds if force=True"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         # edit data directly
         av.datetime_published = '2001-01-01'
         av.save()
@@ -120,7 +146,7 @@ class Ingest(BaseCase):
         # attempt another ingest
         expected_title = 'foo'
         self.ajson['article']['title'] = expected_title
-        _, _, av = ajson_ingestor.ingest(self.ajson, force=True)
+        av = ajson_ingestor.ingest(self.ajson, force=True)
         self.assertEqual(av.title, expected_title)
 
     @skip("we don't scrape journal data any more. we may in future")
@@ -166,7 +192,7 @@ class Ingest(BaseCase):
     @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails2(self):
         "attempting to ingest an article with a version greater than another unpublished version fails"
-        _, _, av = ajson_ingestor.ingest(self.ajson) # v1
+        av = ajson_ingestor.ingest(self.ajson) # v1
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
         self.assertEqual(av.version, 1)
 
@@ -184,7 +210,7 @@ class Ingest(BaseCase):
     def test_ingest_dry_run(self):
         "specifying a dry run does not commit changes to database"
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
-        _, _, av = ajson_ingestor.ingest(self.ajson, dry_run=True)
+        av = ajson_ingestor.ingest(self.ajson, dry_run=True)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
         self.assertEqual(av.version, 1) # all the data that would have been saved
 
@@ -197,7 +223,7 @@ class Ingest(BaseCase):
     def test_article_json_stored_if_valid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored
         but only if valid. ensure ajson is stored if result of merge is valid."""
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         av = self.freshen(av)
         # not a great test ...
         self.assertNotEqual(av.article_json_v1, None)
@@ -207,7 +233,7 @@ class Ingest(BaseCase):
     def test_article_json_not_stored_if_invalid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored but
         only if valid. ensure nothing is stored if result of merge is invalid"""
-        _, _, av = ajson_ingestor.ingest(self.invalid_ajson, force=True)
+        av = ajson_ingestor.ingest(self.invalid_ajson, force=True)
         av = self.freshen(av)
         self.assertEqual(av.article_json_v1, None)
         self.assertEqual(av.article_json_v1_snippet, None)
@@ -225,7 +251,7 @@ class Publish(BaseCase):
 
     def test_article_publish_v1(self):
         "an unpublished v1 article can be successfully published"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
@@ -250,7 +276,7 @@ class Publish(BaseCase):
 
     def test_article_publish_v2(self):
         "an unpublished v2 article can be successfully published"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
@@ -262,7 +288,7 @@ class Publish(BaseCase):
 
         # modify to a v2 and publish
         self.ajson['article']['version'] = 2
-        _, _, av2 = ajson_ingestor.ingest_publish(self.ajson)
+        av2 = ajson_ingestor.ingest_publish(self.ajson)
 
         av2 = self.freshen(av2)
         self.assertEqual(models.ArticleVersion.objects.count(), 2)
@@ -273,14 +299,14 @@ class Publish(BaseCase):
     def test_article_publish_v2_forced(self):
         "an unpublished v2 article can be successfully published again, if forced"
         # ingest and publish the v1
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         ajson_ingestor.publish(self.msid, self.version)
         av = self.freshen(av)
         self.assertTrue(av.published())
 
         # modify and ingest+publish a v2
         self.ajson['article']['version'] = 2
-        _, _, av2 = ajson_ingestor.ingest_publish(self.ajson)
+        av2 = ajson_ingestor.ingest_publish(self.ajson)
         av2 = self.freshen(av2)
         self.assertTrue(av2.published())
 
@@ -293,13 +319,13 @@ class Publish(BaseCase):
         # modify the versionDate of the v2 and ingest+publish again
         yesterday = datetime.now() - timedelta(days=1)
         self.ajson['article']['versionDate'] = yesterday
-        _, _, av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
+        av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
         av2v2 = self.freshen(av2v2)
         self.assertEqual(utils.ymd(yesterday), utils.ymd(av2v2.datetime_published))
 
     def test_article_publish_v2_forced2(self):
         "a PUBLISHED v2 article can be successfully published (again), if forced"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         ajson_ingestor.publish(self.msid, self.version)
         av = self.freshen(av)
         self.assertTrue(av.published())
@@ -309,7 +335,7 @@ class Publish(BaseCase):
         # there is a versionDate here, but because we're not forcing it, it doesn't get looked for
         # lax is the distributor of non-v1 pub dates. this may find their way into xml later, but
         # they will always come from lax.
-        _, _, av2 = ajson_ingestor.ingest_publish(self.ajson)
+        av2 = ajson_ingestor.ingest_publish(self.ajson)
         av2 = self.freshen(av2)
         self.assertTrue(av2.published())
         self.assertEqual(utils.ymd(datetime.now()), utils.ymd(av2.datetime_published))
@@ -317,14 +343,14 @@ class Publish(BaseCase):
         # don't set a versionDate, just force a publish
         # we expect the v2.datetime_publish to remain unchanged
         del self.ajson['article']['versionDate'] # remember, this was copied from a v1 that had a versionDate!
-        _, _, av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
+        av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
         av2v2 = self.freshen(av2v2)
 
         self.assertEqual(av2.datetime_published, av2v2.datetime_published)
 
     def test_article_publish_fails_if_already_published(self):
         "a published article CANNOT be published again"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         av = ajson_ingestor.publish(self.msid, self.version)
         av = self.freshen(av)
         self.assertTrue(av.published())
@@ -334,7 +360,7 @@ class Publish(BaseCase):
 
     def test_article_publish_succeeds_for_published_article_if_forced(self):
         "publication of an already published article can occur only if forced"
-        _, _, av = ajson_ingestor.ingest(self.ajson)
+        av = ajson_ingestor.ingest(self.ajson)
         av = ajson_ingestor.publish(self.msid, self.version)
         av = self.freshen(av)
         expected_pubdate = utils.ymd(utils.todt(self.ajson['article']['published']))
@@ -355,7 +381,7 @@ class Publish(BaseCase):
     def test_out_of_sequence_publish_fails(self):
         "attempting to ingest an article with a version greater than another *published* version fails"
         # ingest and publish a v1
-        _, _, av = ajson_ingestor.ingest(self.ajson) # v1
+        av = ajson_ingestor.ingest(self.ajson) # v1
         ajson_ingestor.publish(self.msid, self.version)
 
         # now attempt to ingest a v3
@@ -373,7 +399,7 @@ class Publish(BaseCase):
 
     def test_publish_dry_run(self):
         "specifying a dry run does not commit changes to database"
-        _, _, saved_av = ajson_ingestor.ingest(self.ajson) # do an actual ingest first
+        saved_av = ajson_ingestor.ingest(self.ajson) # do an actual ingest first
         unsaved_av = ajson_ingestor.publish(self.msid, self.version, dry_run=True)
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
         # ensure the article version stored has no published date
@@ -403,7 +429,7 @@ class IngestPublish(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
-        _, _, av = ajson_ingestor.ingest_publish(self.ajson)
+        av = ajson_ingestor.ingest_publish(self.ajson)
 
         self.assertEqual(models.Journal.objects.count(), 1)
         self.assertEqual(models.Article.objects.count(), 1)
@@ -415,17 +441,17 @@ class IngestPublish(BaseCase):
 
     def test_ingest_publish_force(self):
         "we can do silent corrections/updates if we force it to"
-        _, _, av = ajson_ingestor.ingest_publish(self.ajson)
+        av = ajson_ingestor.ingest_publish(self.ajson)
         expected_title = 'pants-party'
         self.ajson['article']['title'] = expected_title
-        _, _, av = ajson_ingestor.ingest_publish(self.ajson, force=True)
+        av = ajson_ingestor.ingest_publish(self.ajson, force=True)
         av = self.freshen(av)
         self.assertEqual(av.title, expected_title)
 
     def test_ingest_publish_no_force(self):
         "attempting to do an update without force=True fails"
         # ingest once
-        _, _, av = ajson_ingestor.ingest_publish(self.ajson)
+        ajson_ingestor.ingest_publish(self.ajson)
         # attempt second ingest
         self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 
@@ -435,7 +461,7 @@ class IngestPublish(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
-        j, a, av = ajson_ingestor.ingest_publish(self.ajson, dry_run=True)
+        av = ajson_ingestor.ingest_publish(self.ajson, dry_run=True)
 
         # all counts are still zero
         self.assertEqual(models.Journal.objects.count(), 0)
@@ -561,7 +587,7 @@ class UnicodePreserved(BaseCase):
     def test_ingest_publish_dont_alter_unicode(self):
         "the unicode value in the scraped json isn't altered when it's ingested and published"
         ajson = json.load(open(self.ajson_fixture1, 'r'))
-        _, _, av = ajson_ingestor.ingest_publish(ajson)
+        av = ajson_ingestor.ingest_publish(ajson)
         av = utils.freshen(av)
         expected = ajson['snippet']['authors'][1]['name']['preferred']
         given = av.article_json_v1['authors'][1]['name']['preferred']

@@ -1,6 +1,6 @@
 import sys
 from django.core.management.base import BaseCommand
-from publisher import events, models
+from publisher import aws_events, models
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -18,7 +18,7 @@ class Command(BaseCommand):
         env = options['env']
 
         if options['listen']:
-            events.listen(env)
+            aws_events.listen(env)
         else:
             msid = options['msid']
             if not msid:
@@ -26,6 +26,6 @@ class Command(BaseCommand):
                 msid = models.Article.objects.all().order_by('?')[0].manuscript_id
             art = models.Article.objects.get(manuscript_id=msid)
             # notify bus about this article
-            events.notify(art, env=env)
+            aws_events.notify(art, env=env)
 
         sys.exit(0)

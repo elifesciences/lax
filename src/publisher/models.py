@@ -2,7 +2,7 @@ from slugify import slugify
 from django.db import models
 #from .fields import JSONField
 from annoying.fields import JSONField
-from .utils import second, firstnn, msid2doi, mk_dxdoi_link
+from .utils import msid2doi, mk_dxdoi_link
 from django.core.exceptions import ObjectDoesNotExist
 
 POA, VOR = 'poa', 'vor'
@@ -58,9 +58,16 @@ class Article(models.Model):
     # deprecated. the DOI is derived from the manuscript_id. this field will be going away.
     doi = models.CharField(max_length=255, unique=True, help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum")
 
+    # these come from the XML
+    # insights, editorials and some feature articles don't have these values.
+    date_received = models.DateField(blank=True, null=True, help_text="xml 'received' date. not all article types have this.")
+    date_accepted = models.DateField(blank=True, null=True, help_text="xml 'accepted' date. not all articles types have this. ")
+
     @property
     def _doi(self):
         return msid2doi(self.manuscript_id)
+
+    # these come from EJP
 
     # data exists but isn't being considered. for reporting reasons, 'submission date' is date of initial quality check
     # NOTE 2016-09-06: disabled. expectation of data in this field was becoming annoying.
@@ -109,17 +116,6 @@ class Article(models.Model):
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")
-
-    @property
-    def date_accepted(self):
-        # TODO: this sucks. normalize these into 'event' data or something
-        x = [(self.initial_decision, self.date_initial_decision),
-             (self.decision, self.date_full_decision),
-             (self.rev1_decision, self.date_rev1_decision),
-             (self.rev2_decision, self.date_rev2_decision),
-             (self.rev3_decision, self.date_rev3_decision),
-             (self.rev4_decision, self.date_rev4_decision)]
-        return second(firstnn([p for p in x if p[0] == AF]))
 
     def earliest_poa(self, defer=True):
         try:
@@ -241,6 +237,69 @@ class ArticleFragment(models.Model):
         # multiple fragments at position=1 will be ordered by the date they were added
         # lowest positions first (ASC), earliest creation date first (ASC)
         ordering = ('position', 'datetime_record_created')
+
+DATE_XML_RECEIVED, DATE_XML_ACCEPTED = 'date-xml-received', 'date-xml-accepted'
+DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = 'datetime-action-ingest', 'datetime-action-publish'
+
+def article_event_choices():
+
+    # these need support as well
+    '''
+    date_initial_qc = models.DateField(blank=True, null=True)
+    date_initial_decision = models.DateField(blank=True, null=True)
+    initial_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
+
+    date_full_qc = models.DateField(blank=True, null=True)
+
+    date_full_decision = models.DateField(blank=True, null=True)
+    decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
+
+    date_rev1_qc = models.DateField(blank=True, null=True)
+
+    date_rev1_decision = models.DateField(blank=True, null=True)
+    rev1_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
+
+    date_rev2_qc = models.DateField(blank=True, null=True)
+
+    date_rev2_decision = models.DateField(blank=True, null=True)
+    rev2_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
+
+    date_rev3_qc = models.DateField(blank=True, null=True)
+
+    date_rev3_decision = models.DateField(blank=True, null=True)
+    rev3_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
+
+    date_rev4_qc = models.DateField(blank=True, null=True)
+
+    date_rev4_decision = models.DateField(blank=True, null=True)
+    rev4_decision = models.CharField(max_length=25, blank=True, null=True, choices=decision_codes())
+    '''
+
+    return [
+        (DATE_XML_RECEIVED, 'date received (XML)'),
+        (DATE_XML_ACCEPTED, 'date accepted (XML)'),
+
+        (DATETIME_ACTION_INGEST, "'ingest' event"),
+        (DATETIME_ACTION_PUBLISH, "'publish' event"),
+        #('date-ejp-received', 'date received (EJP)'),
+    ]
+
+class ArticleEvent(models.Model):
+    article = models.ForeignKey(Article)
+    event = models.CharField(max_length=25, choices=article_event_choices())
+    datetime_event = models.DateTimeField()
+    value = models.CharField(max_length=50, blank=True, null=True, help_text="a value, if any, associated with this event")
+
+    class Meta:
+        # this means if the times on certain events change, they'll get a new event
+        unique_together = ('article', 'event', 'datetime_event')
+        ordering = ('datetime_event', 'event') # least to most recent (ASC), then alphabetically by event type
+
+    def __str__(self):
+        return '%s: %s' % (self.event, self.value)
+
+    def __repr__(self):
+        return '<ArticleEvent %s>' % self.event
 
 class ArticleVersionRelation(models.Model):
     articleversion = models.ForeignKey(ArticleVersion)

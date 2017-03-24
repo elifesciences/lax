@@ -128,7 +128,7 @@ class V2Content(base.BaseCase):
         # correct data
         self.assertEqual(data['total'], 2) # two results, [msid1, msid2]
 
-        # NOTE! insertion order is not guaranteed. sometimes you get av2, av1 ...
+        # FIXME: non-deterministic insertion order. sometimes you get av2, av1 ...
         av1, av2 = data['items']
         # print(data['items'])
 
@@ -223,10 +223,6 @@ class V2Content(base.BaseCase):
 
     def test_article_versions_list(self):
         "valid json content is returned"
-        # we need some data that can only come from ejp for this
-        ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
-        ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
-
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
@@ -277,7 +273,7 @@ class V2Content(base.BaseCase):
         "invalid article-json causes a placeholder to be served instead"
         invalid_ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-20125-v4.xml.json'), 'r'))
         invalid_ajson['article']['title'] = ''
-        _, _, av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
+        av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
         self.freshen(av)
 
         # we now have a published article in lax with invalid article-json

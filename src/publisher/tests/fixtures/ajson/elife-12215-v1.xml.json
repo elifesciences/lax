@@ -6,7 +6,11 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-12215-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-12215-v1.xml"
+        }, 
+        "-history": {
+            "received": "2015-10-10T00:00:00Z", 
+            "accepted": "2015-12-06T00:00:00Z"
         }, 
         "status": "vor", 
         "id": "12215", 
@@ -41,7 +45,7 @@
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Yang et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
@@ -158,6 +162,31 @@
                 "competingInterests": "The authors declare that no competing interests exist.", 
                 "equalContributionGroups": [
                     1
+                ]
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Doris Y Tsao", 
+                    "index": "Tsao, Doris Y"
+                }, 
+                "role": "Reviewing editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "California Institute of Technology"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
                 ]
             }
         ], 
@@ -230,8 +259,12 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/0bcd8975f2cb7cd58ee81d51ca87bd25d638aee9/articles/elife-12215-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-12215-v1.xml", 
             "patched": true
+        }, 
+        "-history": {
+            "received": "2015-10-10T00:00:00Z", 
+            "accepted": "2015-12-06T00:00:00Z"
         }, 
         "status": "vor", 
         "id": "12215", 
@@ -266,7 +299,7 @@
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Yang et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
@@ -383,6 +416,31 @@
                 "competingInterests": "The authors declare that no competing interests exist.", 
                 "equalContributionGroups": [
                     1
+                ]
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Doris Y Tsao", 
+                    "index": "Tsao, Doris Y"
+                }, 
+                "role": "Reviewing editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "California Institute of Technology"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
                 ]
             }
         ], 
@@ -504,8 +562,8 @@
                         "type": "image", 
                         "doi": "10.7554/eLife.12215.003", 
                         "id": "fig1", 
-                        "title": "Active sensing involves an interplay between perception and action.", 
                         "label": "Figure 1.", 
+                        "title": "Active sensing involves an interplay between perception and action.", 
                         "caption": [
                             {
                                 "type": "paragraph", 
@@ -536,8 +594,8 @@
                                 "type": "image", 
                                 "doi": "10.7554/eLife.12215.004", 
                                 "id": "fig2", 
-                                "title": "Image categorization task and participants\u2019 performance.", 
                                 "label": "Figure 2.", 
+                                "title": "Image categorization task and participants\u2019 performance.", 
                                 "caption": [
                                     {
                                         "type": "paragraph", 
@@ -551,8 +609,8 @@
                                         "type": "image", 
                                         "doi": "10.7554/eLife.12215.005", 
                                         "id": "fig2s1", 
-                                        "title": "Performance in the no-rescanning control experiment.", 
                                         "label": "Figure 2\u2014figure supplement 1.", 
+                                        "title": "Performance in the no-rescanning control experiment.", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
@@ -578,8 +636,8 @@
                                 "type": "image", 
                                 "doi": "10.7554/eLife.12215.006", 
                                 "id": "fig3", 
-                                "title": "Density maps of relative revealing locations and their correlations.", 
                                 "label": "Figure 3.", 
+                                "title": "Density maps of relative revealing locations and their correlations.", 
                                 "caption": [
                                     {
                                         "type": "paragraph", 
@@ -593,8 +651,8 @@
                                         "type": "image", 
                                         "doi": "10.7554/eLife.12215.007", 
                                         "id": "fig3s1", 
-                                        "title": "Revealing density maps in the no-rescanning control experiment.", 
                                         "label": "Figure 3\u2014figure supplement 1.", 
+                                        "title": "Revealing density maps in the no-rescanning control experiment.", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
@@ -609,8 +667,8 @@
                                         "type": "image", 
                                         "doi": "10.7554/eLife.12215.008", 
                                         "id": "fig3s2", 
-                                        "title": "Saccadic variability and bias.", 
                                         "label": "Figure 3\u2014figure supplement 2.", 
+                                        "title": "Saccadic variability and bias.", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
@@ -625,8 +683,8 @@
                                         "type": "image", 
                                         "doi": "10.7554/eLife.12215.009", 
                                         "id": "fig3s3", 
-                                        "title": "Revealing density maps of the average participant in the main experiment split into correct and incorrect trials, and the BAS revealing maps.", 
                                         "label": "Figure 3\u2014figure supplement 3.", 
+                                        "title": "Revealing density maps of the average participant in the main experiment split into correct and incorrect trials, and the BAS revealing maps.", 
                                         "alt": "", 
                                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig3-figsupp3-v1.jpg", 
                                         "filename": "elife-12215-fig3-figsupp3-v1.jpg"
@@ -657,13 +715,8 @@
                                 "type": "table", 
                                 "doi": "10.7554/eLife.12215.010", 
                                 "id": "tbl1", 
-                                "title": "Table 1.", 
-                                "caption": [
-                                    {
-                                        "type": "paragraph", 
-                                        "text": "Maximum likelihood parameters of the model (see Materials\u00a0and\u00a0methods for details) with the best BIC score (see Table 2)."
-                                    }
-                                ], 
+                                "label": "Table 1.", 
+                                "title": "Maximum likelihood parameters of the model (see Materials\u00a0and\u00a0methods for details) with the best BIC score (see Table 2)", 
                                 "tables": [
                                     "<table><thead><tr><th rowspan=\"2\">Participant</th><th rowspan=\"2\">Perception noise, \u03c3<sub>p</sub></th><th rowspan=\"2\">Prior bias, \u0394</th><th colspan=\"2\">Decision noise</th></tr><tr><th>Stimulus-dependent, <i>\u03b2</i></th><th>Stimulus-independent, \u03ba</th></tr></thead><tbody><tr><td>1</td><td>0.5</td><td>0.58\u00b0</td><td>1.4</td><td>0.044</td></tr><tr><td>2</td><td>0.5</td><td>0.61\u00b0</td><td>1.9</td><td>0.12</td></tr><tr><td>3</td><td>0.3</td><td>0.54\u00b0</td><td>1.5</td><td>0.10</td></tr></tbody></table>"
                                 ]
@@ -672,7 +725,8 @@
                                 "type": "table", 
                                 "doi": "10.7554/eLife.12215.011", 
                                 "id": "tbl2", 
-                                "title": "Table 2.", 
+                                "label": "Table 2.", 
+                                "title": "Model comparison results using Bayesian information criterion (BIC, lower is better)", 
                                 "caption": [
                                     {
                                         "type": "paragraph", 
@@ -712,8 +766,8 @@
                                 "type": "image", 
                                 "doi": "10.7554/eLife.12215.012", 
                                 "id": "fig4", 
-                                "title": "Example trial of the Bayesian active sensor (BAS) and its maximum entropy variant.", 
                                 "label": "Figure 4.", 
+                                "title": "Example trial of the Bayesian active sensor (BAS) and its maximum entropy variant.", 
                                 "caption": [
                                     {
                                         "type": "paragraph", 
@@ -727,8 +781,8 @@
                                         "type": "image", 
                                         "doi": "10.7554/eLife.12215.013", 
                                         "id": "fig4s1", 
-                                        "title": "Trade-off between the two components making up total uncertainty underlying the maximum-entropy algorithm.", 
                                         "label": "Figure 4\u2014figure supplement 1.", 
+                                        "title": "Trade-off between the two components making up total uncertainty underlying the maximum-entropy algorithm.", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
@@ -765,8 +819,8 @@
                                 "type": "image", 
                                 "doi": "10.7554/eLife.12215.014", 
                                 "id": "fig5", 
-                                "title": "Information gain as a function of revealing number for different strategies.", 
                                 "label": "Figure 5.", 
+                                "title": "Information gain as a function of revealing number for different strategies.", 
                                 "caption": [
                                     {
                                         "type": "paragraph", 
@@ -780,8 +834,8 @@
                                         "type": "image", 
                                         "doi": "10.7554/eLife.12215.015", 
                                         "id": "fig5s1", 
-                                        "title": "Relative efficiency across free-scan sessions.", 
                                         "label": "Figure 5\u2014figure supplement 1.", 
+                                        "title": "Relative efficiency across free-scan sessions.", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
@@ -3108,7 +3162,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>Reviewer #1:</i> "
+                    "text": "<i>Reviewer #1:</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3152,7 +3206,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>Reviewer #2 (General assessment and major comments (Required)):</i> "
+                    "text": "<i>Reviewer #2 (General assessment and major comments (Required)):</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3260,7 +3314,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>Reviewer #3:</i> "
+                    "text": "<i>Reviewer #3:</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3293,7 +3347,7 @@
             "content": [
                 {
                     "type": "paragraph", 
-                    "text": "<i>Having conferred about this paper, we agree that it is acceptable for publication pending revision. However, there was an extended discussion among the reviewers about the extent to which the current results apply to natural vision. The reviewers agree that the authors need to qualify their conclusions to clearly state that while they were trying to emulate natural vision, their task was unnatural in several important ways (e.g. very small exposures, uniform statistics, small saccades not allowed, and reviewing for up to 60s after presentation in the passive conditions), all of which may have changed the participants' strategy from that used in natural vision. Natural vision works under entirely different constrains \u2013 larger exposures, natural scene statistics, all saccades allowed, and limited time. Under these constrains the selection of targets may (or may not) be completely different. These differences between the paradigm used in the study and natural vision should be carefully discussed, and relevant parts of the Abstract and Discussion should be modified accordingly.</i> "
+                    "text": "<i>Having conferred about this paper, we agree that it is acceptable for publication pending revision. However, there was an extended discussion among the reviewers about the extent to which the current results apply to natural vision. The reviewers agree that the authors need to qualify their conclusions to clearly state that while they were trying to emulate natural vision, their task was unnatural in several important ways (e.g. very small exposures, uniform statistics, small saccades not allowed, and reviewing for up to 60s after presentation in the passive conditions), all of which may have changed the participants' strategy from that used in natural vision. Natural vision works under entirely different constrains \u2013 larger exposures, natural scene statistics, all saccades allowed, and limited time. Under these constrains the selection of targets may (or may not) be completely different. These differences between the paradigm used in the study and natural vision should be carefully discussed, and relevant parts of the Abstract and Discussion should be modified accordingly.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3305,7 +3359,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>While all of the reviewers appreciated the significance of the work, they were very concerned about potential confounds due to letting subjects continue viewing the display for 60s after the last revealing. Given this confound, the reviewers were not certain that a revision would adequately deal with this problem, which led to the decision to reject the paper at this time.</i> "
+                    "text": "<i>While all of the reviewers appreciated the significance of the work, they were very concerned about potential confounds due to letting subjects continue viewing the display for 60s after the last revealing. Given this confound, the reviewers were not certain that a revision would adequately deal with this problem, which led to the decision to reject the paper at this time.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3337,11 +3391,11 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>Remarks</i> "
+                    "text": "<i>Remarks</i>"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>1) In <a href=\"#fig1\">Figure 1</a>, it is not clear to me, why the patch surrounded by the red circle should have more information about zebra vs. cheetah than other blue patches, so maybe use a better example.</i> "
+                    "text": "<i>1) In <a href=\"#fig1\">Figure 1</a>, it is not clear to me, why the patch surrounded by the red circle should have more information about zebra vs. cheetah than other blue patches, so maybe use a better example.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3349,7 +3403,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>2) In <a href=\"#fig2\">Figure 2C</a>, the blue condition titled Random should be called passive or computer-controlled random locations to avoid confusion. Also, please clarify the term \"gaze-contingent\".</i> "
+                    "text": "<i>2) In <a href=\"#fig2\">Figure 2C</a>, the blue condition titled Random should be called passive or computer-controlled random locations to avoid confusion. Also, please clarify the term \"gaze-contingent\".</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3357,7 +3411,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>3) In Formula 1, D is not defined.</i> "
+                    "text": "<i>3) In Formula 1, D is not defined.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3365,7 +3419,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>4) Regarding <a href=\"#fig4\">Figure 4B</a>, I don't understand why the first term of the formula isn't maximal at locations as far as possible from previous locations (i.e. on the borders of the image). Given that spatial correlations of the stimulus decrease with distance, the uncertainty about pixel values at a far distance from known pixel values should be highest.</i> "
+                    "text": "<i>4) Regarding <a href=\"#fig4\">Figure 4B</a>, I don't understand why the first term of the formula isn't maximal at locations as far as possible from previous locations (i.e. on the borders of the image). Given that spatial correlations of the stimulus decrease with distance, the uncertainty about pixel values at a far distance from known pixel values should be highest.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3381,7 +3435,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>5) The correlation analysis done in <a href=\"#fig3\">Figure 3</a> should be repeated with simulated entropy-maximizing saccades, to show that the correlation analysis is meaningful. Just correlating the fixation density maps might not be the best measure to evaluate fit of the simulation, since it does not consider each fixation on a case-by-case basis given the prior information from previous saccades.</i> "
+                    "text": "<i>5) The correlation analysis done in <a href=\"#fig3\">Figure 3</a> should be repeated with simulated entropy-maximizing saccades, to show that the correlation analysis is meaningful. Just correlating the fixation density maps might not be the best measure to evaluate fit of the simulation, since it does not consider each fixation on a case-by-case basis given the prior information from previous saccades.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3404,7 +3458,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>6) In addition to the BIC it would be nice to know the cross-validated prediction accuracy of category choice on a testing set.</i> "
+                    "text": "<i>6) In addition to the BIC it would be nice to know the cross-validated prediction accuracy of category choice on a testing set.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3423,7 +3477,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>7) Also, when showing the performance decrease when revealing at random locations, I would have matched the inter-saccadic distribution (including the variance) and the saccadic distance distribution, to ensure the performance decline is not due to the variance in fixation duration or the subject needing to recover from longer saccades.</i> "
+                    "text": "<i>7) Also, when showing the performance decrease when revealing at random locations, I would have matched the inter-saccadic distribution (including the variance) and the saccadic distance distribution, to ensure the performance decline is not due to the variance in fixation duration or the subject needing to recover from longer saccades.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3435,15 +3489,15 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>1) The authors employ a reductionist method, which is indeed necessary if one wants to reveal underlying mechanisms. However, some the reductionist choices made in this work fuel the questioning of several of its conclusions. The most concerning reductionist steps are:</i> "
+                    "text": "<i>1) The authors employ a reductionist method, which is indeed necessary if one wants to reveal underlying mechanisms. However, some the reductionist choices made in this work fuel the questioning of several of its conclusions. The most concerning reductionist steps are:</i>"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>A) Small saccades (&lt; 1 deg) were not allowed. The use of small (\"micro\") saccades is task dependent and it may be the case, for example, that with images like those used here a possible strategy is scanning a continuous region. This possibility was \"reduced-out\" here.</i> "
+                    "text": "<i>A) Small saccades (&lt; 1 deg) were not allowed. The use of small (\"micro\") saccades is task dependent and it may be the case, for example, that with images like those used here a possible strategy is scanning a continuous region. This possibility was \"reduced-out\" here.</i>"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>B) The exposed area was effectively &lt; 0.5 deg and was scaled down in transparency from the center out \u2013 this reduced-out a meaningful drift-based scanning of the fixational region.</i> "
+                    "text": "<i>B) The exposed area was effectively &lt; 0.5 deg and was scaled down in transparency from the center out \u2013 this reduced-out a meaningful drift-based scanning of the fixational region.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3459,11 +3513,11 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>C) The images had uniform statistics, which preclude generalization to natural images.</i> "
+                    "text": "<i>C) The images had uniform statistics, which preclude generalization to natural images.</i>"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>The authors mention that \"the task still allowed them to employ natural every-day eye movement strategies as evidenced by the inter-saccadic intervals (mean 408 ms) that were similar to those recorded for everyday activities [\u2026]\" \u2013 evidently, normal ISIs do not indicate a natural strategy \u2013 a) there is much more into an active strategy and b) ISIs seems to be determined by hard-wired circuits that are only slightly modulated in different contexts \u2013 see a variety of tests of ISIs in the last decade.</i> "
+                    "text": "<i>The authors mention that \"the task still allowed them to employ natural every-day eye movement strategies as evidenced by the inter-saccadic intervals (mean 408 ms) that were similar to those recorded for everyday activities [\u2026]\" \u2013 evidently, normal ISIs do not indicate a natural strategy \u2013 a) there is much more into an active strategy and b) ISIs seems to be determined by hard-wired circuits that are only slightly modulated in different contexts \u2013 see a variety of tests of ISIs in the last decade.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3471,11 +3525,11 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>2) The \"last 60s\" problem. Natural viewing involves a scanpath of fixations. However, natural viewing does not allow a re-scanning of the collection of previous fixation locations. The design of the trial is thus odd\u2013 why were the subjects given those extra 60s at the end of the trial to rescan their revealings? This is not justified in the paper and it is actually hidden, in a way, in the Methods section \u2013 it took me some time to understand that this was the case. The implications of this design are significant:</i> "
+                    "text": "<i>2) The \"last 60s\" problem. Natural viewing involves a scanpath of fixations. However, natural viewing does not allow a re-scanning of the collection of previous fixation locations. The design of the trial is thus odd\u2013 why were the subjects given those extra 60s at the end of the trial to rescan their revealings? This is not justified in the paper and it is actually hidden, in a way, in the Methods section \u2013 it took me some time to understand that this was the case. The implications of this design are significant:</i>"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>A) How can the authors relate performance to either of the two different phases of the trial (the \"acquiring\" and the \"rescanning\")?</i> "
+                    "text": "<i>A) How can the authors relate performance to either of the two different phases of the trial (the \"acquiring\" and the \"rescanning\")?</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3483,7 +3537,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>B) Even in the \"acquiring\" phase, how can the authors rule out brief rescanning of exposed revealings for periods shorter than the threshold period?</i> "
+                    "text": "<i>B) Even in the \"acquiring\" phase, how can the authors rule out brief rescanning of exposed revealings for periods shorter than the threshold period?</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3491,7 +3545,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>C) If performance depended on the perception during these 60s, then what was the underlying strategy while rescanning?</i> "
+                    "text": "<i>C) If performance depended on the perception during these 60s, then what was the underlying strategy while rescanning?</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3499,7 +3553,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>The authors must describe the procedure clearly at the outset, relate to all these issues explicitly, and explain how they affect (or not) their conclusions.</i> "
+                    "text": "<i>The authors must describe the procedure clearly at the outset, relate to all these issues explicitly, and explain how they affect (or not) their conclusions.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3515,7 +3569,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>4) From the above and from further analysis it appears that the strong statements of the Abstract are not supported by the data in the paper.</i> "
+                    "text": "<i>4) From the above and from further analysis it appears that the strong statements of the Abstract are not supported by the data in the paper.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3527,7 +3581,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>B) \"By using [\u2026] we show that a major portion of this apparent suboptimality of fixation locations arises from prior biases, perceptual noise and inaccuracies in eye movements [\u2026]\" \u2013 you do not really show this. You show that if you add these imperfections to your model you get performance level that resembles that of the subjects. However, there are so many ways to impair the performance of your model \u2013 where do you show that these are the crucial factors?</i> "
+                    "text": "<i>B) \"By using [\u2026] we show that a major portion of this apparent suboptimality of fixation locations arises from prior biases, perceptual noise and inaccuracies in eye movements [\u2026]\" \u2013 you do not really show this. You show that if you add these imperfections to your model you get performance level that resembles that of the subjects. However, there are so many ways to impair the performance of your model \u2013 where do you show that these are the crucial factors?</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3535,7 +3589,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>C) \"The central process of selecting fixation locations is around 70% efficient\" \u2013 this is correct only for the specific task and context of your experiment. The statement sounds much more general than that.</i> "
+                    "text": "<i>C) \"The central process of selecting fixation locations is around 70% efficient\" \u2013 this is correct only for the specific task and context of your experiment. The statement sounds much more general than that.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3543,7 +3597,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>D) \"Participants select eye movements with the goal of maximizing information about abstract categories that require the integration of information from multiple locations\" \u2013 again, a statement with a general flavor without such justification \u2013 the statement should be toned and tuned down to reflect the narrow context of the findings.</i> "
+                    "text": "<i>D) \"Participants select eye movements with the goal of maximizing information about abstract categories that require the integration of information from multiple locations\" \u2013 again, a statement with a general flavor without such justification \u2013 the statement should be toned and tuned down to reflect the narrow context of the findings.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3551,7 +3605,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>5) Audience and style. As written now the paper seems to address experts in Bayesian models of perception. Given that it is submitted to</i> eLife <i>I assume that the paper should address primarily, or at least to the same degree, biologists who are interested in understanding perception. And indeed, papers like this form a wonderful opportunity to create a productive dialogue between biologists and theoreticians. For this end, the style of writing must change. The amount of statistical details should be reduced,</i> "
+                    "text": "<i>5) Audience and style. As written now the paper seems to address experts in Bayesian models of perception. Given that it is submitted to</i> eLife <i>I assume that the paper should address primarily, or at least to the same degree, biologists who are interested in understanding perception. And indeed, papers like this form a wonderful opportunity to create a productive dialogue between biologists and theoreticians. For this end, the style of writing must change. The amount of statistical details should be reduced,</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3559,7 +3613,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>the biological meaning of the various strategies discussed should be provided, the rational for selecting the BAS algorithm as the optimal strategy should be explained, the meaning of each strategy in terms of actual eye movements in natural scenes should be explained. At the end, the reader should understand the biological meaning of each strategy (that is, a biologically-plausible description of the strategy employed by their subjects in this task, and a strategy they would employ in a natural task), the rational of why one strategy is better than the other, and in what sense humans are sub-optimal.</i> "
+                    "text": "<i>the biological meaning of the various strategies discussed should be provided, the rational for selecting the BAS algorithm as the optimal strategy should be explained, the meaning of each strategy in terms of actual eye movements in natural scenes should be explained. At the end, the reader should understand the biological meaning of each strategy (that is, a biologically-plausible description of the strategy employed by their subjects in this task, and a strategy they would employ in a natural task), the rational of why one strategy is better than the other, and in what sense humans are sub-optimal.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3567,11 +3621,11 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>6) The discussions about active-sensing in the paper are written as if they come from a sort of a theoretical vacuum. Active sensing has been introduced, studied and discussed at various levels for various species and modalities for years, and intensively so for the last decade or two. Nevertheless, the paper sounds as if these concepts are only beginning to be addressed, and as if active vision is mostly covered by addressing saccades scanpath selections. This introduces a huge distortion of the concepts of active sensing and active vision. Active vision is much more than scanpath selections. Eye movements include saccades and drifts, and as far as we know today vision does not occur without the drift movements. Saccades include large and small (\"micro\") saccades, making a continuous spectrum of saccade amplitudes. In this study only large (&gt; 1 deg) saccades were allowed. Thus, this study ignores a substantial portion of visually-crucial eye movements. While this is ok as a reductionist method, it is not ok to ignore the reduced-away components in the discussion and interpretation of the results. Thus:</i> "
+                    "text": "<i>6) The discussions about active-sensing in the paper are written as if they come from a sort of a theoretical vacuum. Active sensing has been introduced, studied and discussed at various levels for various species and modalities for years, and intensively so for the last decade or two. Nevertheless, the paper sounds as if these concepts are only beginning to be addressed, and as if active vision is mostly covered by addressing saccades scanpath selections. This introduces a huge distortion of the concepts of active sensing and active vision. Active vision is much more than scanpath selections. Eye movements include saccades and drifts, and as far as we know today vision does not occur without the drift movements. Saccades include large and small (\"micro\") saccades, making a continuous spectrum of saccade amplitudes. In this study only large (&gt; 1 deg) saccades were allowed. Thus, this study ignores a substantial portion of visually-crucial eye movements. While this is ok as a reductionist method, it is not ok to ignore the reduced-away components in the discussion and interpretation of the results. Thus:</i>"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>A) There is no justification to use the term \"eye movements\" in this paper \u2013 the components of eye movements studied here should be termed properly (perhaps use terms like \"fixation scanpath\" or \"saccadic order\" or anything else that is appropriate).</i> "
+                    "text": "<i>A) There is no justification to use the term \"eye movements\" in this paper \u2013 the components of eye movements studied here should be termed properly (perhaps use terms like \"fixation scanpath\" or \"saccadic order\" or anything else that is appropriate).</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3579,7 +3633,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>B) Previous results and hypotheses about active sensing/active vision that refer to all kinds of movements must be discussed and referred to when interpreting the current results.</i> "
+                    "text": "<i>B) Previous results and hypotheses about active sensing/active vision that refer to all kinds of movements must be discussed and referred to when interpreting the current results.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3587,7 +3641,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>C) The results of the current study should be put in the context of this general active sensing context, and the generality of the conclusions should be phrased accordingly \u2013 mostly, they should be toned down and related to the specific reduced context of this study.</i> "
+                    "text": "<i>C) The results of the current study should be put in the context of this general active sensing context, and the generality of the conclusions should be phrased accordingly \u2013 mostly, they should be toned down and related to the specific reduced context of this study.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3607,7 +3661,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>2) <a href=\"#fig3\">Figure 3B</a> \u2013 please run a shuffling control analysis to show how much of the correlation is order-dependent.</i> "
+                    "text": "<i>2) <a href=\"#fig3\">Figure 3B</a> \u2013 please run a shuffling control analysis to show how much of the correlation is order-dependent.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3617,8 +3671,8 @@
                     "type": "image", 
                     "doi": "10.7554/eLife.12215.016", 
                     "id": "fig6", 
-                    "title": "Correlation as a function of revealing number with the revealing number shuffled.", 
                     "label": "Author response image 1.", 
+                    "title": "Correlation as a function of revealing number with the revealing number shuffled.", 
                     "caption": [
                         {
                             "type": "paragraph", 
@@ -3649,15 +3703,15 @@
                     "type": "image", 
                     "doi": "10.7554/eLife.12215.017", 
                     "id": "fig7", 
-                    "title": "Probability density of saccade angles.", 
                     "label": "Author response image 2.", 
+                    "title": "Probability density of saccade angles.", 
                     "alt": "", 
                     "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-resp-fig2-v1.jpg", 
                     "filename": "elife-12215-resp-fig2-v1.jpg"
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>2) Since there were a lot of incorrect judgments overall, it would be interesting to compare the density maps for correct and incorrect judgments. If eye movements are indeed controlled by an active strategy, the differences and correlations should be more pronounced for correct judgments.</i> "
+                    "text": "<i>2) Since there were a lot of incorrect judgments overall, it would be interesting to compare the density maps for correct and incorrect judgments. If eye movements are indeed controlled by an active strategy, the differences and correlations should be more pronounced for correct judgments.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3665,7 +3719,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>3) The example trial in <a href=\"#fig4\">Figure 4</a> provides a good illustration of BAS and the maximum entropy variant but it does not allow a quantitative comparison. It would be helpful to show the full distributions of percentile values with respect to BAS and entropy scores.</i> "
+                    "text": "<i>3) The example trial in <a href=\"#fig4\">Figure 4</a> provides a good illustration of BAS and the maximum entropy variant but it does not allow a quantitative comparison. It would be helpful to show the full distributions of percentile values with respect to BAS and entropy scores.</i>"
                 }, 
                 {
                     "type": "paragraph", 
@@ -3673,7 +3727,7 @@
                 }, 
                 {
                     "type": "paragraph", 
-                    "text": "<i>4) As I understand the task, the revealings stayed on screen after the last revealing for 60 s or an unlimited duration, depending on the condition. The behavior of the subjects after the last revealing should be reported because it could have influenced their perceptual judgment.</i> "
+                    "text": "<i>4) As I understand the task, the revealings stayed on screen after the last revealing for 60 s or an unlimited duration, depending on the condition. The behavior of the subjects after the last revealing should be reported because it could have influenced their perceptual judgment.</i>"
                 }, 
                 {
                     "type": "paragraph", 
