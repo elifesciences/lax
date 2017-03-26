@@ -1,3 +1,8 @@
 #!/bin/bash
-# wrapper for jenkins that expects a project_tests.sh file
-source test.sh
+set -e
+
+source venv/bin/activate
+
+. .lint.sh
+. .test.sh
+. .cc-check.sh
