@@ -2,6 +2,7 @@ from django.conf.urls import url
 from . import api_v2_views as views
 
 urlpatterns = [
+    url(r'/ping$', views.ping, name='ping'),
     url(r'articles$', views.article_list, name='article-list'),
     url(r'articles/(?P<id>\d+)$', views.article, name='article'),
     url(r'articles/(?P<id>\d+)/versions$', views.article_version_list, name='article-version-list'),

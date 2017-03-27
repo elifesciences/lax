@@ -3,7 +3,8 @@ from django.db import transaction
 from . import models, logic, fragment_logic
 from .utils import ensure, isint, lmap
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import Http404
 from django.conf import settings
@@ -55,6 +56,14 @@ def is_authenticated(request):
     val = request.META.get(settings.KONG_AUTH_HEADER)
     #LOG.info("authenticated? %s type %s" % (val, type(val)))
     return val or False
+
+@api_view(['GET'])
+@renderer_classes((StaticHTMLRenderer,))
+def ping(request):
+    "returns a test response"
+    # produce standard authenticated header
+    is_authenticated(request)
+    return Response('pong', content_type='text/plain; charset=UTF-8', headers={'Cache-Control': 'must-revalidate, no-cache, no-store, private'})
 
 @api_view(['GET'])
 def article_list(request):
