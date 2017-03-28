@@ -115,6 +115,13 @@ class V2Content(base.BaseCase):
             mware.CGROUPS: 'admin',
         })
 
+    def test_ping(self):
+        resp = self.c.get(reverse('v2:ping'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'text/plain; charset=UTF-8')
+        self.assertEqual(resp['Cache-Control'], 'must-revalidate, no-cache, no-store, private')
+        self.assertEqual(resp.content.decode('utf-8'), 'pong')
+
     def test_article_list(self):
         "a list of published articles are returned to an unauthenticated response"
         resp = self.c.get(reverse('v2:article-list'))
