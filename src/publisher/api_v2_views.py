@@ -60,9 +60,8 @@ def is_authenticated(request):
 @api_view(['GET'])
 @renderer_classes((StaticHTMLRenderer,))
 def ping(request):
-    "returns a test response"
-    # produce standard authenticated header
-    is_authenticated(request)
+    "returns a test response for monitoring, *never* to be cached"
+
     return Response('pong', content_type='text/plain; charset=UTF-8', headers={'Cache-Control': 'must-revalidate, no-cache, no-store, private'})
 
 @api_view(['GET'])
