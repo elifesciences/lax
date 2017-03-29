@@ -90,7 +90,8 @@ class DownstreamCaching(object):
 
         response = self.get_response(request)
 
-        patch_cache_control(response, **headers)
+        if not response.get('Cache-Control'):
+            patch_cache_control(response, **headers)
         patch_vary_headers(response, ['Accept'])
 
         return response
