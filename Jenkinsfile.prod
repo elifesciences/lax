@@ -6,8 +6,8 @@ elifePipeline {
     }
 
     stage 'Backup', {
-        builderCmd 'lax--prod', "cd /srv/lax; ./backup_prune.sh 3"
-        builderCmd 'lax--prod', "cd /srv/lax; ./backup.sh ${env.BUILD_TAG}"
+        builderCmd 'lax--prod', "./backup_prune.sh 3", "/srv/lax"
+        builderCmd 'lax--prod', "./backup.sh ${env.BUILD_TAG}", "/srv/lax"
     }
 
     stage 'Deploy', {
