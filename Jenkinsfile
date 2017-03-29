@@ -1,12 +1,15 @@
 elifePipeline {
-    stage 'Checkout'
-    checkout scm
-    def commit = elifeGitRevision()
+    def commit
+    stage 'Checkout', {
+        checkout scm
+        commit = elifeGitRevision()
+    }
  
-    stage 'Project tests'
-    lock('lax--ci') {
-        builderDeployRevision 'lax--ci', commit
-        builderProjectTests 'lax--ci', '/srv/lax', ['/srv/lax/build/junit.xml']
+    stage 'Project tests', {
+        lock('lax--ci') {
+            builderDeployRevision 'lax--ci', commit
+            builderProjectTests 'lax--ci', '/srv/lax', ['/srv/lax/build/junit.xml']
+        }
     }
     
     elifeMainlineOnly {
@@ -20,7 +23,8 @@ elifePipeline {
             )
         }
      
-        stage 'Approval'
-        elifeGitMoveToBranch commit, 'approved'
+        stage 'Approval', {
+            elifeGitMoveToBranch commit, 'approved'
+        }
     }
 }

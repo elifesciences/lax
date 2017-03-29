@@ -1,15 +1,19 @@
 elifePipeline {
-    stage 'Checkout approved'
-    checkout scm
-    def commit = elifeGitRevision()
+    def commit
+    stage 'Checkout approved', {
+        checkout scm
+        commit = elifeGitRevision()
+    }
 
-    stage 'Backup'
-    builderCmd 'lax--prod', "cd /srv/lax; ./backup_prune.sh 3"
-    builderCmd 'lax--prod', "cd /srv/lax; ./backup.sh ${env.BUILD_TAG}"
+    stage 'Backup', {
+        builderCmd 'lax--prod', "cd /srv/lax; ./backup_prune.sh 3"
+        builderCmd 'lax--prod', "cd /srv/lax; ./backup.sh ${env.BUILD_TAG}"
+    }
 
-    stage 'Deploy'
-    elifeDeploySlackNotification 'lax', 'prod'
-    elifeGitMoveToBranch commit, 'master'
-    builderDeployRevision 'lax--prod', commit
-    builderSmokeTests 'lax--prod', '/srv/lax'
+    stage 'Deploy', {
+        elifeDeploySlackNotification 'lax', 'prod'
+        elifeGitMoveToBranch commit, 'master'
+        builderDeployRevision 'lax--prod', commit
+        builderSmokeTests 'lax--prod', '/srv/lax'
+    }
 }
