@@ -10,10 +10,14 @@ elifePipeline {
     }
     
     elifeMainlineOnly {
-        stage 'End2end tests'
-        elifeEnd2EndTest {
-            builderDeployRevision 'lax--end2end', commit
-            builderSmokeTests 'lax--end2end', '/srv/lax'
+        stage 'End2end tests', {
+            elifeSpectrum(
+                deploy: [
+                    stackname: 'lax--end2end',
+                    revision: commit,
+                    folder: '/srv/lax'
+                ]
+            )
         }
      
         stage 'Approval'
