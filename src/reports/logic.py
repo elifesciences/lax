@@ -1,6 +1,6 @@
 from collections import OrderedDict
 import itertools
-from publisher import utils, models, logic as pub_logic
+from publisher import utils, models, logic as pub_logic, fragment_logic
 from publisher.utils import ymd, lmap
 from django.db.models import Count
 from itertools import islice
@@ -21,8 +21,7 @@ def take(n, iterable):
 def status_report():
     "useful insights into the current state of this lax instance"
 
-    #al = models.Article.objects.all()
-    avl = models.ArticleVersion.objects \
+    rs = models.ArticleVersion.objects \
         .select_related('article') \
         .defer('article_json_v1', 'article_json_v1_snippet') \
         .order_by('article__manuscript_id', 'version') \
@@ -30,24 +29,19 @@ def status_report():
 
     def get_loc(av):
         try:
-            return av.article.articlefragment_set.get(type=models.XML2JSON).fragment['article']['-meta']['location']
+            obj = fragment_logic.get(av, models.XML2JSON)
+            return obj.fragment['-meta']['location']
         except models.ArticleFragment.DoesNotExist:
             return 'no-article-fragment'
-        except KeyError:
+        except KeyError as err:
             return 'no-location-stored'
 
-    def avi(av):
+    def avi(av): # article-version-info
         return {
             'msid': av.article.manuscript_id,
             'version': av.version,
-        }
-
-    def avil(av):
-        d = avi(av)
-        d.update({
             'location': get_loc(av),
-        })
-        return d
+        }
 
     return OrderedDict([
         #'articles': {
@@ -55,22 +49,22 @@ def status_report():
         #    'total-published': ...
         #}
         ('article-versions', OrderedDict([
-            ('total', avl.count()),
-            ('total-published', avl.exclude(datetime_published=None).count()),
+            ('total', rs.count()),
+            ('total-published', rs.exclude(datetime_published=None).count()),
             ('invalid-unpublished', OrderedDict([
                 ('desc', 'no article-json set, no datetime-published set',),
-                ('total', avl.filter(article_json_v1=None, datetime_published=None).count()),
-                ('list', lmap(avil, avl.filter(article_json_v1=None, datetime_published=None))),
+                ('total', rs.filter(article_json_v1=None, datetime_published=None).count()),
+                ('list', lmap(avi, rs.filter(article_json_v1=None, datetime_published=None))),
             ])),
             ('invalid', OrderedDict([
                 ('desc', 'no article-json set'),
-                ('total', avl.filter(article_json_v1=None).count()),
-                ('list', lmap(avil, avl.filter(article_json_v1=None))),
+                ('total', rs.filter(article_json_v1=None).count()),
+                ('list', lmap(avi, rs.filter(article_json_v1=None))),
             ])),
             ('unpublished', OrderedDict([
                 ('desc', 'no datetime-published set'),
-                ('total', avl.filter(datetime_published=None).count()),
-                ('list', lmap(avi, avl.filter(datetime_published=None))),
+                ('total', rs.filter(datetime_published=None).count()),
+                ('list', lmap(avi, rs.filter(datetime_published=None))),
             ])),
         ]))
     ])
