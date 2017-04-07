@@ -35,6 +35,7 @@ def ejp_type_choices():
         ('RR', 'Registered report'),
         ('TR', 'Tools and resources'),
         ('RE', 'Research exchange'),
+        ('SC', 'Scientific Correspondence'),
         ('RS', 'Replication Study'),
     ]
 
