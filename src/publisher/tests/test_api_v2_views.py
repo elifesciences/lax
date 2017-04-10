@@ -10,6 +10,74 @@ from django.conf import settings
 #from unittest import skip
 SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
+class Fragments(base.BaseCase):
+    def setUp(self):
+        # unauthenticated
+        self.c = Client()
+        # authenticated
+        self.ac = Client(**{
+            mware.CGROUPS: 'admin',
+        })
+
+        self.msid = 16695
+        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json') # poa
+        self.av = ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+
+        self.key = 'test-frag'
+        fragment = {'title': 'Electrostatic selection'}
+        fragments.add(self.av.article, self.key, fragment) # add it to the *article* not the article *version*
+
+    def tearDown(self):
+        pass
+
+    def test_delete_fragment(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.ac.delete(url)
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments - 1)
+
+    def test_delete_fragment_not_authenticated(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.c.delete(url) # .c vs .ac
+        self.assertEqual(403, resp.status_code)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_fragment_doesnt_exist(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'pants-party'})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 404)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_protected_fragment(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': models.XML2JSON})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 400) # client error, bad request
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_fragment_fails_if_result_is_invalid(self):
+        "if the result of deleting a fragment is invalid article-json, the fragment will not be deleted"
+        # modify the XML2JSON fragment so 'title' is None (invalid)
+        # the test fragment {'title': 'whatever'} makes it valid
+        # deleting the test fragment should fail
+        fobj = models.ArticleFragment.objects.get(type=models.XML2JSON)
+        fobj.fragment['title'] = None
+        fobj.save()
+        self.assertTrue(fragments.merge_if_valid(self.av)) # returns None if invalid
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 400)
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+
 class V2ContentTypes(base.BaseCase):
     def setUp(self):
         self.c = Client()

@@ -1,10 +1,12 @@
 from collections import OrderedDict
+from functools import partial
 from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
 from . import utils, models
 from .utils import create_or_update, ensure, subdict, StateError, atomic, lmap, lfilter
 import logging
+from django.db import transaction
 
 LOG = logging.getLogger(__name__)
 
@@ -176,8 +178,31 @@ def set_article_json(av, quiet):
         LOG.warn(msg, extra=log_context)
     return result
 
+def set_all_article_json(art, quiet):
+    "like `set_article_json`, but for every version of an article"
+    return lmap(partial(set_article_json, quiet=quiet), art.articleversion_set.all())
+
 #
+# higher level logic
 #
+
+def add_fragment_update_article(art, key, fragment):
+    "adds a fragment to an article, re-renders article. if an error occurs, update is rolled back"
+    with transaction.atomic():
+        # pos=1 ensures we don't ever replace the XML2JSON fragment
+        frag, created, updated = add(art, key, fragment, pos=1, update=True)
+        ensure(created or updated, "fragment was not created/updated")
+        return set_all_article_json(art, quiet=False)
+
+def delete_fragment_update_article(art, key):
+    "removes a fragment from an article, re-renders article. if an error occurs, delete is rolled back"
+    with transaction.atomic():
+        # version=None ensures we don't ever remove the XML2JSON fragment
+        models.ArticleFragment.objects.get(article=art, type=key, version=None).delete()
+        return set_all_article_json(art, quiet=False)
+
+#
+# revalidate logic
 #
 
 SET, RESET, UNSET, NOTSET = 'set', 'reset', 'unset', 'not-set'
@@ -207,8 +232,6 @@ def revalidate_many(avl):
         }
     return lmap(do, avl)
 
-#
-#
 #
 
 def revalidate_report(results):
@@ -240,8 +263,6 @@ def revalidate_report(results):
     ])
     return report
 
-#
-#
 #
 
 @atomic
