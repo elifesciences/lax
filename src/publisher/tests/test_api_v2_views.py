@@ -62,6 +62,21 @@ class Fragments(base.BaseCase):
         self.assertEqual(resp.status_code, 400) # client error, bad request
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
 
+    def test_delete_fragment_fails_if_result_is_invalid(self):
+        "if the result of deleting a fragment is invalid article-json, the fragment will not be deleted"
+        # modify the XML2JSON fragment so 'title' is None (invalid)
+        # the test fragment {'title': 'whatever'} makes it valid
+        # deleting the test fragment should fail
+        fobj = models.ArticleFragment.objects.get(type=models.XML2JSON)
+        fobj.fragment['title'] = None
+        fobj.save()
+        self.assertTrue(fragments.merge_if_valid(self.av)) # returns None if invalid
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 400)
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
 
 class V2ContentTypes(base.BaseCase):
     def setUp(self):
