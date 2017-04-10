@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^articles/(?P<id>\d+)/related$', views.article_related, name='article-relations'),
 
     # not part of Public API
-    url(r'^articles/(?P<art_id>\d+)/fragments/(?P<fragment_id>[\-\w]{3,25})$', views.article_fragment, name='article-fragment'),
+    url(r'^articles/(?P<art_id>\d+)/fragments/(?P<fragment_id>[>\-\w]{3,25})$', views.article_fragment, name='article-fragment'),
 ]

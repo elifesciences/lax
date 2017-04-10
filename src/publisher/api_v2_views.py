@@ -7,6 +7,7 @@ from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import Http404, get_object_or_404
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from .models import POA, XML2JSON
 from et3.extract import path as p
 from et3.render import render_item
@@ -160,6 +161,6 @@ def article_fragment(request, art_id, fragment_id):
         # client broke business rules somehow
         return Response(err.message, status=status.HTTP_400_BAD_REQUEST)
 
-    except (models.Article.DoesNotExist, models.ArticleVersion.DoesNotExist):
-        # article with given ID doesn't exist
+    except ObjectDoesNotExist:
+        # article/articleversion/fragment with given ID doesn't exist
         raise Http404()

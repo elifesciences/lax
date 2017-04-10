@@ -38,6 +38,31 @@ class Fragments(base.BaseCase):
         self.assertEqual(200, resp.status_code)
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments - 1)
 
+    def test_delete_fragment_not_authenticated(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.c.delete(url) # .c vs .ac
+        self.assertEqual(403, resp.status_code)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_fragment_doesnt_exist(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'pants-party'})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 404)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_protected_fragment(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': models.XML2JSON})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 400) # client error, bad request
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+
 class V2ContentTypes(base.BaseCase):
     def setUp(self):
         self.c = Client()
