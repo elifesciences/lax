@@ -1,12 +1,11 @@
 from jsonschema import ValidationError
-from django.db import transaction
 from . import models, logic, fragment_logic
 from .utils import ensure, isint, lmap
 from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
-from django.shortcuts import Http404
+from django.shortcuts import Http404, get_object_or_404
 from django.conf import settings
 from .models import POA, XML2JSON
 from et3.extract import path as p
@@ -123,29 +122,35 @@ def article_related(request, id):
         return Response(rl, content_type="application/vnd.elife.article-related+json;version=1")
     except models.Article.DoesNotExist:
         raise Http404()
+
 #
-# not part of public api
+# Fragments
+# not part of 'public' api
 #
 
-@api_view(['POST'])
+@api_view(['POST', 'DELETE'])
 def article_fragment(request, art_id, fragment_id):
+    # authenticated
     if not is_authenticated(request):
         return Response("not authenticated. only authenticated admin users can modify content", status=403)
+
+    # article exists
+    article = get_object_or_404(models.Article, manuscript_id=art_id)
+
     try:
         reserved_keys = [XML2JSON]
-        ensure(fragment_id not in reserved_keys, "that key is taken")
-        with transaction.atomic():
-            article = models.Article.objects.get(manuscript_id=art_id)
-            data = request.data
-            frag, created, updated = fragment_logic.add(article, fragment_id, data, update=True)
+        ensure(fragment_id not in reserved_keys, "that key is protected")
 
-            ensure(created or updated, "fragment was not created/updated")
+        if request.method == 'POST':
+            fragment_logic.add_fragment_update_article(article, fragment_id, request.data)
+            frag = models.ArticleFragment.objects.get(article=article, type=fragment_id)
+            resp_data = frag.fragment
 
-            # update all article-json for all versions of an article
-            avs = logic.article_version_list(art_id, only_published=False)
-            [fragment_logic.set_article_json(av, quiet=False) for av in avs]
+        elif request.method == 'DELETE':
+            fragment_logic.delete_fragment_update_article(article, fragment_id)
+            resp_data = {fragment_id: 'deleted'}
 
-            return Response(frag.fragment) # return the data they gave us
+        return Response(resp_data)
 
     except ValidationError as err:
         # client submitted json that would generate invalid article-json

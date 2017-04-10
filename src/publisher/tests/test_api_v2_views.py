@@ -10,6 +10,34 @@ from django.conf import settings
 #from unittest import skip
 SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
+class Fragments(base.BaseCase):
+    def setUp(self):
+        # unauthenticated
+        self.c = Client()
+        # authenticated
+        self.ac = Client(**{
+            mware.CGROUPS: 'admin',
+        })
+
+        self.msid = 16695
+        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json') # poa
+        self.av = ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+
+        self.key = 'test-frag'
+        fragment = {'title': 'Electrostatic selection'}
+        fragments.add(self.av.article, self.key, fragment) # add it to the *article* not the article *version*
+
+    def tearDown(self):
+        pass
+
+    def test_delete_fragment(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.ac.delete(url)
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments - 1)
+
 class V2ContentTypes(base.BaseCase):
     def setUp(self):
         self.c = Client()
