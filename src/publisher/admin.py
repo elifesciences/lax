@@ -7,7 +7,6 @@ class ArticleVersionAdmin(admin.TabularInline):
     fields = ('version', 'status', 'datetime_record_created', 'datetime_published')
     model = models.ArticleVersion
     extra = 0
-    can_delete = False
 
     def has_add_permission(self, request):
         return False
