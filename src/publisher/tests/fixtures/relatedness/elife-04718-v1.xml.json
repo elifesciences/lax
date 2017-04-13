@@ -5,6 +5,13 @@
         "issn": "2050-084X"
     }, 
     "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-04718-v1.xml"
+        }, 
+        "-history": {
+            "received": "2014-09-11T00:00:00Z", 
+            "accepted": "2015-08-29T00:00:00Z"
+        }, 
         "status": "vor", 
         "id": "04718", 
         "version": 1, 
@@ -38,7 +45,7 @@
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Britz et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
@@ -275,6 +282,31 @@
                 ], 
                 "contribution": "MG, Conception and design, Analysis and interpretation of data, Drafting or revising the article", 
                 "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ronald L Calabrese", 
+                    "index": "Calabrese, Ronald L"
+                }, 
+                "role": "Reviewing Editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Emory University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ]
             }
         ], 
         "ethics": [
@@ -329,6 +361,14 @@
         "impactStatement": "Two classes of premotor inhibitory neurons have specific roles in controlling flexor-extensor behaviors in mice, which is the underlying neural mechanism for limb driven movements in terrestrial vertebrates."
     }, 
     "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-04718-v1.xml", 
+            "patched": true
+        }, 
+        "-history": {
+            "received": "2014-09-11T00:00:00Z", 
+            "accepted": "2015-08-29T00:00:00Z"
+        }, 
         "status": "vor", 
         "id": "04718", 
         "version": 1, 
@@ -362,7 +402,7 @@
         "copyright": {
             "license": "CC-BY-4.0", 
             "holder": "Britz et al", 
-            "statement": "This article is distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use and redistribution provided that the original author and source are credited."
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
             {
@@ -599,6 +639,31 @@
                 ], 
                 "contribution": "MG, Conception and design, Analysis and interpretation of data, Drafting or revising the article", 
                 "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Ronald L Calabrese", 
+                    "index": "Calabrese, Ronald L"
+                }, 
+                "role": "Reviewing Editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Emory University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United States"
+                            ], 
+                            "components": {
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ]
             }
         ], 
         "ethics": [
@@ -725,9 +790,22 @@
                                 "text": "(<b>A</b>) Schematic of the tripartite genetic system used to restrict diphtheria toxin receptor (DTR) expression to caudal V1 and V2b INs. The <i>Tau</i><sup>ds-DTR</sup> and <i>Cdx2-FlpO</i> alleles are shown above. Cre-mediated recombination removes the first stop cassette to activate nuclear \u03b2-galactosidase (\u03b2-gal/nlsLacZ) expression in neurons (light blue). DTR (purple) is only expressed in neurons following Cre- and FlpO-mediated excision of both stop cassettes. (<b>B</b>) Whole mount image of a P15 <i>Cdx2-FlpO</i>; <i>R26</i><sup>FRTstop-nlslacZ</sup> brain and spinal cord viewed from the dorsal aspect showing \u03b2-galactosidase (\u03b2-gal) expression is restricted to the spinal cord and caudal PNS. (<b>C</b>) Whole mount image of the anterior spinal cord from a P15 <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-lacZ</sup> mouse viewed from the ventral aspect showing expression of \u03b2-gal is restricted to caudal V1 INs and is absent at upper cervical levels and in the hindbrain. (<b>D</b>\u2013<b>F</b>) Expression of a Cre- and FlpO-dependent GFP reporter (<i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-HTB</sup>) in V1 INs. Coronal sections from a <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-HTB</sup> spinal cord (<b>D</b>, <b>E</b>) in which V1 INs that have undergone Cre recombination alone express \u03b2-gal (red), and V1 INs cells that have undergone both Cre and FlpO recombinations express GFP (green). FlpO recombination is fully penetrant in lumbar V1 INs (<b>E</b>, <b>F</b>). (<b>G</b>\u2013<b>J</b>) Images from E12.5 embryos showing that the <i>Mapt</i><sup>ds-DTR</sup> and <i>Cdx2-FlpO</i> alleles progressively restrict reporter gene expression to V1 and V2b INs in the caudal spinal cord. There is no \u03b2-gal expression in non-neuronal tissues. The absence of \u03b2-gal expression in the caudal CNS reflects the efficient excision of the nlsLacZ-stop cassette and expression of DTR in V1 and V2b INs."
                             }
                         ], 
-                        "alt": "", 
+                        "image": {
+                            "source": {
+                                "mediaType": "image/jpeg", 
+                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig1-v1.tif/full/full/0/default.jpg", 
+                                "filename": "elife-04718-fig1-v1.jpg"
+                            }, 
+                            "alt": "", 
+                            "size": {
+                                "width": 3490, 
+                                "height": 4481
+                            }, 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig1-v1.tif", 
+                            "filename": "elife-04718-fig1-v1.tif"
+                        }, 
                         "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig1-v1.tif", 
-                        "filename": "elife-04718-fig1-v1.tif"
+                        "alt": ""
                     }, 
                     {
                         "type": "paragraph", 
@@ -758,8 +836,20 @@
                                         "text": "Immunohistochemical and histological analysis of P7 control, <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO; Mapt</i><sup>ds-DTR</sup> and <i>Gata3</i><sup>Cre</sup>; <i>Cdx2-FlpO; Mapt</i><sup>ds-DTR</sup> animals 6 days after administering DTX. All sections are from the mid-lumbar cord except for those in panels <b>A</b>, <b>B</b>, <b>M</b>, and <b>N</b>, which are from the cervical cord. (<b>A</b>\u2013<b>D</b>) En1-derived V1 INs (green) are selectively ablated in the lumbar spinal cord (c.f. <b>C</b>, <b>D</b>), whereas ChAT<sup>+</sup> motor neurons (red) are spared at lumbar (<b>D</b>) and cervical levels (<b>B</b>). (<b>E</b>, <b>H</b>) Calbindin<sup>+</sup> Renshaw cells (blue) are present in control cords (<b>E</b>, arrow) but not in V1 IN-ablated cords (<b>F</b>). (<b>G</b>, <b>H</b>) Chx10<sup>+</sup> V2a INs are present in normal numbers following V1 IN-ablation. (<b>I</b>, <b>J</b>) Hematoxylin-eosin staining reveals no evidence of widespread neuronal cell loss or gliosis. (<b>K</b>, <b>L</b>) CD86<sup>+</sup> microglia were occasionally observed in close proximity to V1 cell debris (arrowhead). (<b>M</b>\u2013<b>P</b>) Motor neurons are spared at both cervical (<b>M</b>, <b>N</b>) and lumbar (<b>O</b>, <b>P</b>) levels following ablation of the V2b INs. (<b>Q</b>, <b>R</b>) V2b INs (green) are specifically deleted in V2b IN-ablated mice (<b>R</b>) while V0c neurons (red) are spared. (<b>S</b>, <b>T</b>) Chx10<sup>+</sup> V2a INs are present in normal numbers following V2b IN-ablation. (<b>U</b>, <b>V</b>) Hematoxylin-eosin staining. (<b>W</b>, <b>X</b>) Localized CD86 expression (red) in lamina VII is associated with dying V2b INs (green)."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig2-v1.tif", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig2-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3497, 
+                                        "height": 2819
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-v1.tif", 
+                                    "filename": "elife-04718-fig2-v1.tif"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -773,12 +863,26 @@
                                                 "text": "(<b>A</b>, <b>B</b>) Expression of calbindin in the dorsal spinal cord of P7 control (<b>A</b>) and V1 IN-ablated mice (<b>B</b>). (<b>C</b>) V1 IN cell numbers per hemisection at thoracic and lumbar levels (n = 15 sections [30 \u03bcm] from 3 spinal cords each for control and V1 IN-ablated mice). (<b>D</b>, <b>E</b>) Counts of neurons in the lumbar spinal cord of P7 DTX-treated mice (6 days p.i.). Cell counts at the indicated levels were expressed as a percentage of comparable counts for control sections (n = 12 sections [30 \u03bcm] for control), V1 IN-ablated and V2b IN-ablated mice (n = 3 cords for each genotype). Data are expressed as mean \u00b1 s.d."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-figsupp1-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig2-figsupp1-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 3148, 
+                                                "height": 2591
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-figsupp1-v1.tif", 
+                                            "filename": "elife-04718-fig2-figsupp1-v1.tif"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig2-figsupp1-v1.tif", 
-                                        "filename": "elife-04718-fig2-figsupp1-v1.tif"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-04718-fig2-v1.tif"
+                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig2-v1.tif", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -811,9 +915,22 @@
                                         "text": "Time-lapse sequence images showing the hindlimb movements of P7 mice suspended by their tails. Mice were photographed 4 days after DTX treatment. The genotypes of the mice are indicated. Control mice were littermates that lacked the <i>Cdx2-FlpO</i> allele. (<b>A</b>) Control mice are able to flex (arrowheads) and extend (arrow) their hindlimbs when suspended by their tail. (<b>B</b>) Following the ablation of V1 INs, P7 mice lose their ability to extend their hindlimbs, which remain clasped to the body in a flexed position (arrowheads). The forelimbs of these mice are able to undergo extension movements (asterisk). (<b>C</b>) Ablation of V2b INs leads to pronounced extension of the hindlimbs (arrows) and impairment of hindlimb flexion movements."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig3-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig3-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3497, 
+                                        "height": 2687
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig3-v1.tif", 
+                                    "filename": "elife-04718-fig3-v1.tif"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig3-v1.tif", 
-                                "filename": "elife-04718-fig3-v1.tif"
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -831,9 +948,22 @@
                                         "text": "(<b>A</b>) Images of airstepping P7 animals following DTX injection. Flexed limbs are depicted with black arrowheads and extended limbs with white arrows. Control animals (left) flex and extend their hindlimbs. The hindlimbs of V1 IN-ablated animals (middle) remain flexed and those of V2b IN-ablated mice (right) are fully extended. (<b>B</b>) Traces showing the change in ankle (top) and elbow (bottom) joint angle during 5 s of airstepping. Deletion of V1 and V2b INs impairs movement of the ankle joint, whereas rhythmic movements are maintained for the elbow joint. Small rhythmic variations of the ankle joint angle occur in phase with movements of the elbow joint angle (asterisks). (<b>C</b>) Measured changes in joint movement showing the amplitude change (left), the maximal joint angle (filled symbol) and the minimal joint angle (open symbol) joint angle (right). The mean and s.d. is shown for 24 consecutive steps (n = 3 animals for each genotype)."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig4-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig4-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3497, 
+                                        "height": 2910
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig4-v1.tif", 
+                                    "filename": "elife-04718-fig4-v1.tif"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig4-v1.tif", 
-                                "filename": "elife-04718-fig4-v1.tif"
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -855,9 +985,22 @@
                                         "text": "(<b>A</b>) EMG recordings from the tibialis anterior (TA, flexor) and gastrocnemius (GS, extensor) muscles during L-DOPA-induced airstepping. Single deleted bursts are indicated by arrowheads. The asterisk marks a prolonged deletion that encompasses two step cycles. (<b>B</b>) Scatter plots show the relationship between ankle flexor (TA) burst duration and the step cycle period (black dots) and between ankle extensor (GS) burst duration and the step cycle period (gray circles). Each point represents the ratio of burst to step cycle duration for a single step. Control and V2b IN-ablated animals display an extensor dominant pattern, whereas V1 IN-ablated animals show a flexor-phase dominant pattern. Mean slope of regression calculations for each experimental group shows that the step cycle period in control mice (aGS = 0.72) is strongly correlated with GS burst duration, while TA bursts remain relatively constant (aTA = 0.12). The increase in step cycle duration in V1 IN-ablated mice is moderately correlated with flexor phase duration (aTA = 0.46). V2b IN-ablated animals display a pronounced increase in step cycle duration that is very highly correlated with the length of the extensor phase (aGS = 0.96). (<b>C</b>) Quantification of step cycle period, flexor and extensor burst duration for control, V1 IN-ablated and V2b IN-ablated mice. (<b>D</b>) Percentage of skipped bursts/deletions as measured during twelve 10-s periods of locomotor activity (n = 3 animals each)."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig5-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig5-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3488, 
+                                        "height": 4313
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig5-v1.tif", 
+                                    "filename": "elife-04718-fig5-v1.tif"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig5-v1.tif", 
-                                "filename": "elife-04718-fig5-v1.tif"
+                                "alt": ""
                             }, 
                             {
                                 "type": "image", 
@@ -871,8 +1014,20 @@
                                         "text": "Hindlimb kinematics from control (left), V1 IN-ablated (middle), and V2b IN-ablated (right) mice at 3 weeks post DTX injection, by which time functional recovery was maximal. (<b>A</b>) Representative stick figure diagrams showing one complete step cycle (swing and stance) for the hindlimb. The arrow (middle) indicates hyperflexion during early swing phase in V1 IN-ablated mice. The arrowhead shows hyperextension of the ankle joint during late stance in V2b IN-ablated mice. (<b>B</b>) Comparison of limb positions at the transition from stance to swing (left), at mid-swing (middle), and at the swing to stance transition (right). (<b>C</b>) Representative angular changes to the ankle joint. The arrows indicate when the foot is lifted (stance to swing) and when the foot is planted (swing to stance). (<b>D</b>, <b>E</b>) Simultaneous EMG recordings of the GS and TA muscles in one leg during walking (<b>D</b>) and swimming (<b>E</b>). The bar in <b>D</b> indicates the expansion in TA activity. The asterisks indicate co-activation of the TA and GS muscles. Note the synchronous activity of both muscles during swimming in V1 IN-ablated mice."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-v1.tif", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig6-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3148, 
+                                        "height": 3837
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-v1.tif", 
+                                    "filename": "elife-04718-fig6-v1.tif"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -886,9 +1041,22 @@
                                                 "text": "The average period that the TA and GS muscles are active during the step cycle was calculated. Measurements were normalized for each step cycle, with the onset of GS EMG activity (0) serving as the reference for the beginning of the step cycle and 1 indicating the onset of the following stance phase. Note the expansion of TA activity in mice lacking V1 INs. Mice lacking V2b INs show prolonged GS activity during swing when the TA muscle is active. During swimming V1 IN-ablated mice show extensive co-activation of the GS and TA muscles. The mean period of muscle activity (gray solid bars) for each experimental sample is shown (n = 18 steps). Black error bars indicate the standard deviation for each sample."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp1-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig6-figsupp1-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2746, 
+                                                "height": 894
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp1-v1.tif", 
+                                            "filename": "elife-04718-fig6-figsupp1-v1.tif"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-figsupp1-v1.tif", 
-                                        "filename": "elife-04718-fig6-figsupp1-v1.tif"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -902,9 +1070,22 @@
                                                 "text": "Representative EMG recordings and kinematics from control (<b>A</b>), and V1 IN-ablated mice 5 (<b>B</b>) and 7 (<b>C</b>) days after commencing DTX treatment. The EMG recordings (upper panels) and joint angle plots (lower panel) are synchronized. In control animals, the TA and IP muscles are inactive during stance, and TA and GS activity is strictly alternating (<b>A</b>). The arrow in <b>B</b> indicates a small burst of ectopic TA activity which is associated with hyperflexion of the limb in V1 IN-ablated mice. By day 7 p.i., TA muscle activity has expanded and is co-active with the GS muscle during stance (<b>C</b>, bar). IP burst activity during swing (<b>B</b>, bar) and stance (arrowhead) is also increased. The matching lower traces show the accompanying changes in the angle of the hip, knee, and ankle joints during walking. Note the reduced opening of the hip and knee joints that accompanies the loss of V1 INs. At day 5 p.i., the ankle joint opens up more slowly (black arrows), but is still able to fully open. By day 7 p.i. the ankle joint is flexed throughout the step cycle, both at early stance (black arrow) and at the transition from stance to swing (asterisk). The small increase in hip motion seen at day 7 p.i. compared to day 5 p.i. is due to increased swaying of the pelvis during walking. The knee angle is also reduced during the step cycle. The shaded boxes indicate the extensor phase. Following V1 IN cell loss, ectopic TA muscle EMG activity is observed during stance (arrow)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp2-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig6-figsupp2-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 3148, 
+                                                "height": 2221
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp2-v1.tif", 
+                                            "filename": "elife-04718-fig6-figsupp2-v1.tif"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-figsupp2-v1.tif", 
-                                        "filename": "elife-04718-fig6-figsupp2-v1.tif"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -918,12 +1099,26 @@
                                                 "text": "(<b>A</b>) Foot placement analysis in control and V1 IN-ablated mice 3 weeks post-DTX treatment. High-speed video was used to capture the foot strike during walking on an elevated walkway. (Left) The position of the forepaws during stance is shown in blue, the position of the hindpaws are shown in red. The arrowhead indicates the first forelimb step, with the animals moving from right to left. (Right) The stride lengths for the forelimb and hindlimb were calculated for 36 steps (n = 3 animals each for control and V1 IN-ablated). (<b>B</b>) V1 IN-ablated mice show an increase in the rotation of the pelvis during walking. (Left) The change in the angle of the pelvis was calculated with 90\u00b0 representing the median position of the pelvis. (Right) Quantification of the angular change in pelvis during a single step. The angular change was calculated for 24 steps (n = 3 animals each for control and V1 IN-ablated). Data is expressed as mean \u00b1 s.d. ** indicates p &lt; 0.01."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp3-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig6-figsupp3-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 3148, 
+                                                "height": 2003
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp3-v1.tif", 
+                                            "filename": "elife-04718-fig6-figsupp3-v1.tif"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-figsupp3-v1.tif", 
-                                        "filename": "elife-04718-fig6-figsupp3-v1.tif"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-04718-fig6-v1.tif"
+                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-v1.tif", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -994,9 +1189,22 @@
                                         "text": "(<b>A</b>) Schematic showing the in vitro recording setup used for the localized light activation of ChR2 in V1 and V2b INs. (<b>B</b>\u2013<b>D</b>) Representative ENG recordings from a P0 <i>Gata3</i><sup>Cre</sup>; <i>R26</i><sup>lsl-ChR2</sup> (<i>Ai32</i>) spinal cord showing the suppression of L5 extensor-related activity in the presence of blue light photostimulation (blue bar). The lumbar levels that were photostimulated are indicated as upper (L1\u2013L2), mid (L3\u2013L4), and lower (L5\u2013L6). (<b>E</b>) Representative recording from a P0 <i>En1</i><sup>Cre</sup>; <i>R26</i><sup>lsl-ChR2</sup> (<i>Ai32</i>) spinal cord showing suppression of L2 and L5 ventral root activity following photostimulation of V1 INs at L3\u2013L4. Upper traces represent the raw filtered ENG recordings. Lower traces display the matching online rectified ENG signal."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig7-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig7-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3148, 
+                                        "height": 1972
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig7-v1.tif", 
+                                    "filename": "elife-04718-fig7-v1.tif"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig7-v1.tif", 
-                                "filename": "elife-04718-fig7-v1.tif"
+                                "alt": ""
                             }, 
                             {
                                 "type": "image", 
@@ -1010,8 +1218,20 @@
                                         "text": "(<b>A</b>) Schematic of experimental design used for labeling V1 and V2b inhibitory contacts on specific motor pools. Motor neurons (MNs) were retrogradely labeled by injecting Cy5-CTB into individual hindlimb muscles at P11. Interneuron class-specific contacts were labeled with a conditional <i>Thy1</i><sup>lsl-YFP</sup> reporter allele (green) and inhibitory contacts were detected with antibodies to vGAT and GlyT2 (red). (<b>B</b>) Putative V1- and V2b-derived inhibitory contacts (vGAT/GlyT2 (red) and Thy1-YFP reporter (green)) onto CTB-labeled TA and GS motor neurons (blue). Filled arrowheads indicate examples of inhibitory synaptic terminals that co-localize with YFP. YFP-negative inhibitory contacts are marked with open arrowheads. (<b>C</b>) Quantification of V1- or V2b-IN-derived inhibitory contacts on the soma/proximal dendrites of defined hindlimb motor neurons (n = 12 motor neurons per pool). A greater number of putative V1 IN inhibitory synapses contact flexor motor neuron pools as compared to their antagonist extensor-related motor pools. In contrast, V2b-derived contacts represent a greater proportion of the inhibitory synapses onto extensor-related motor neurons as compared to antagonist flexor-related motor neurons. Abbreviations: GS, gastrocnemius; TA, tibialis anterior. Error bars: mean \u00b1 s.d."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig8-v1.tif", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig8-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3148, 
+                                        "height": 3727
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-v1.tif", 
+                                    "filename": "elife-04718-fig8-v1.tif"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1025,12 +1245,26 @@
                                                 "text": "P0 <i>En1</i><sup>Cre</sup>; <i>R26</i><sup>lsl-HTB</sup> and G<i>ata3</i><sup>Cre</sup>; <i>R26</i><sup>lsl-HTB</sup> mice were used to label and trace the projections of V1 and V2b INs, respectively. Rhodamine-conjugated dextran was applied unilaterally to the cut ventral horn at the L2. Data represent cumulative cell counts from two cords each for V1 and V2b INs. The distribution shown covers the lumbar spinal cord from the T13/L1 border to L6."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-figsupp1-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig8-figsupp1-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 3148, 
+                                                "height": 2640
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-figsupp1-v1.tif", 
+                                            "filename": "elife-04718-fig8-figsupp1-v1.tif"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig8-figsupp1-v1.tif", 
-                                        "filename": "elife-04718-fig8-figsupp1-v1.tif"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-04718-fig8-v1.tif"
+                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig8-v1.tif", 
+                                "alt": ""
                             }
                         ]
                     }, 
@@ -1306,7 +1540,7 @@
                     }
                 ], 
                 "articleTitle": "Drivers and modulators from push-pull and balanced synaptic input", 
-                "journal": "Progress in Brain Research",
+                "journal": "Progress in Brain Research", 
                 "volume": "149", 
                 "pages": {
                     "first": "147", 
@@ -1350,7 +1584,7 @@
                     }
                 ], 
                 "articleTitle": "Degradation of mouse locomotor pattern in the absence of proprioceptive sensory feedback", 
-                "journal": "Proceedings of the National Academy of Sciences of USA",
+                "journal": "Proceedings of the National Academy of Sciences of USA", 
                 "volume": "111", 
                 "pages": {
                     "first": "16877", 
@@ -1380,7 +1614,7 @@
                     }
                 ], 
                 "articleTitle": "Circuits for skilled reaching and grasping", 
-                "journal": "Annual Review of Neuroscience",
+                "journal": "Annual Review of Neuroscience", 
                 "volume": "35", 
                 "pages": {
                     "first": "559", 
@@ -1452,7 +1686,7 @@
                     }
                 ], 
                 "articleTitle": "Postnatal phenotype and localization of spinal cord V1 derived interneurons", 
-                "journal": "The Journal of Comparative Neurology",
+                "journal": "The Journal of Comparative Neurology", 
                 "volume": "493", 
                 "pages": {
                     "first": "177", 
@@ -1489,7 +1723,7 @@
                     }
                 ], 
                 "articleTitle": "Candidate interneurones mediating group I disynaptic EPSPs in extensor motoneurones during fictive locomotion in the cat", 
-                "journal": "The Journal of Physiology",
+                "journal": "The Journal of Physiology", 
                 "volume": "563", 
                 "pages": {
                     "first": "597", 
@@ -1512,7 +1746,7 @@
                     }
                 ], 
                 "articleTitle": "Motor circuits in action: specification, connectivity and temporal mechanisms", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "74", 
                 "pages": {
                     "first": "975", 
@@ -1563,7 +1797,7 @@
                     }
                 ], 
                 "articleTitle": "Evolving the lock to fit the key to create a family of G protein-coupled receptors potently activated by an inert ligand", 
-                "journal": "Proceedings of the National Academy of Sciences of USA",
+                "journal": "Proceedings of the National Academy of Sciences of USA", 
                 "volume": "104", 
                 "pages": {
                     "first": "5163", 
@@ -1600,7 +1834,7 @@
                     }
                 ], 
                 "articleTitle": "Balanced inhibition and excitation drive spike activity in spinal half-centers", 
-                "journal": "Science",
+                "journal": "Science", 
                 "volume": "315", 
                 "pages": {
                     "first": "390", 
@@ -1651,7 +1885,7 @@
                     }
                 ], 
                 "articleTitle": "The recurrent case for the Renshaw cell", 
-                "journal": "The Journal of Neuroscience",
+                "journal": "The Journal of Neuroscience", 
                 "volume": "34", 
                 "pages": {
                     "first": "12919", 
@@ -1673,7 +1907,6 @@
                         }
                     }
                 ], 
-                "authorsType": "authors", 
                 "bookTitle": "Organization of the spinal cord", 
                 "publisher": {
                     "name": [
@@ -1754,7 +1987,7 @@
                     }
                 ], 
                 "articleTitle": "A Cre inducible diphtheria toxin receptor mediates cell lineage ablation after toxin administration", 
-                "journal": "Nature Methods",
+                "journal": "Nature Methods", 
                 "volume": "2", 
                 "pages": {
                     "first": "419", 
@@ -1812,7 +2045,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic evidence that relative synaptic efficiency biases the outcome of synaptic competition", 
-                "journal": "Nature",
+                "journal": "Nature", 
                 "volume": "424", 
                 "pages": {
                     "first": "430", 
@@ -1849,7 +2082,7 @@
                     }
                 ], 
                 "articleTitle": "Gain modulation from background synaptic input", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "35", 
                 "pages": {
                     "first": "773", 
@@ -1886,7 +2119,7 @@
                     }
                 ], 
                 "articleTitle": "Proprioceptive input resets central locomotor rhythm in the spinal cat", 
-                "journal": "Experimental Brain Research",
+                "journal": "Experimental Brain Research", 
                 "volume": "68", 
                 "pages": {
                     "first": "643", 
@@ -1979,7 +2212,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic ablation of V2a ipsilateral interneurons disrupts left-right locomotor coordination in mammalian spinal cord", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "60", 
                 "pages": {
                     "first": "70", 
@@ -2009,7 +2242,7 @@
                     }
                 ], 
                 "articleTitle": "Expression patterns of the homeo box-containing genes En-1 and En-2 and the proto-oncogene int-1 diverge during mouse development", 
-                "journal": "Genes & Development",
+                "journal": "Genes & Development", 
                 "volume": "2", 
                 "pages": {
                     "first": "1736", 
@@ -2039,7 +2272,7 @@
                     }
                 ], 
                 "articleTitle": "Activity of Ia inhibitory interneurons during fictitious scratch reflex in the cat", 
-                "journal": "Brain Research",
+                "journal": "Brain Research", 
                 "volume": "193", 
                 "pages": {
                     "first": "439", 
@@ -2069,7 +2302,7 @@
                     }
                 ], 
                 "articleTitle": "Inhibition of flexor burst generation by loading ankle extensor muscles in walking cats", 
-                "journal": "Brain Research",
+                "journal": "Brain Research", 
                 "volume": "187", 
                 "pages": {
                     "first": "321", 
@@ -2099,7 +2332,7 @@
                     }
                 ], 
                 "articleTitle": "Activity of interneurons mediating reciprocal Ia inhibition during locomotion", 
-                "journal": "Brain Research",
+                "journal": "Brain Research", 
                 "volume": "84", 
                 "pages": {
                     "first": "181", 
@@ -2122,7 +2355,7 @@
                     }
                 ], 
                 "articleTitle": "Stumbling corrective reaction: a phase dependent compensatory reaction during locomotion", 
-                "journal": "Journal of Neurophysiology",
+                "journal": "Journal of Neurophysiology", 
                 "volume": "42", 
                 "pages": {
                     "first": "936", 
@@ -2151,7 +2384,7 @@
                     }
                 ], 
                 "articleTitle": "Asymmetric control of cycle period by the spinal locomotor rhythm generator in the adult cat", 
-                "journal": "The Journal of Physiology",
+                "journal": "The Journal of Physiology", 
                 "volume": "587", 
                 "pages": {
                     "first": "4617", 
@@ -2174,7 +2407,7 @@
                     }
                 ], 
                 "articleTitle": "Spatial distribution of recurrent inhibitory synapses on spinal motoneurons in the cat", 
-                "journal": "Journal of Neurophysiology",
+                "journal": "Journal of Neurophysiology", 
                 "volume": "65", 
                 "pages": {
                     "first": "1134", 
@@ -2224,7 +2457,7 @@
                     }
                 ], 
                 "articleTitle": "Reciprocal Ia inhibition contributes to motoneuronal hyperpolarization during the inactive phase of locomotion and scratching in the cat", 
-                "journal": "The Journal of Physiology",
+                "journal": "The Journal of Physiology", 
                 "volume": "589", 
                 "pages": {
                     "first": "119", 
@@ -2310,7 +2543,7 @@
                     }
                 ], 
                 "articleTitle": "V1 spinal neurons regulate the speed of vertebrate locomotor outputs", 
-                "journal": "Nature",
+                "journal": "Nature", 
                 "volume": "440", 
                 "pages": {
                     "first": "215", 
@@ -2354,7 +2587,7 @@
                     }
                 ], 
                 "articleTitle": "Transmission in a locomotor-related group Ib pathway from hindlimb extensor muscles in the cat", 
-                "journal": "Experimental Brain Research",
+                "journal": "Experimental Brain Research", 
                 "volume": "98", 
                 "pages": {
                     "first": "213", 
@@ -2377,7 +2610,7 @@
                     }
                 ], 
                 "articleTitle": "Circuits controlling vertebrate locomotion: moving in a new direction", 
-                "journal": "Nature Reviews Neuroscience",
+                "journal": "Nature Reviews Neuroscience", 
                 "volume": "10", 
                 "pages": {
                     "first": "507", 
@@ -2400,7 +2633,7 @@
                     }
                 ], 
                 "articleTitle": "Locomotion in vertebrates: central mechanisms and reflex interaction", 
-                "journal": "Physiological Reviews",
+                "journal": "Physiological Reviews", 
                 "volume": "55", 
                 "pages": {
                     "first": "247", 
@@ -2429,7 +2662,7 @@
                     }
                 ], 
                 "articleTitle": "Measured motion: searching for simplicity in spinal locomotor networks", 
-                "journal": "Current Opinion in Neurobiology",
+                "journal": "Current Opinion in Neurobiology", 
                 "volume": "19", 
                 "pages": {
                     "first": "572", 
@@ -2459,7 +2692,7 @@
                     }
                 ], 
                 "articleTitle": "On the central generation of locomotion in the low spinal cat", 
-                "journal": "Brain Research",
+                "journal": "Brain Research", 
                 "volume": "34", 
                 "pages": {
                     "first": "241", 
@@ -2495,7 +2728,7 @@
                     }
                 ], 
                 "articleTitle": "Lbx1 specifies somatosensory association neurons in the dorsal spinal cord", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "34", 
                 "pages": {
                     "first": "535", 
@@ -2539,7 +2772,7 @@
                     }
                 ], 
                 "articleTitle": "Activation of groups of excitatory neurons in the mammalian spinal cord or hindbrain evokes locomotion", 
-                "journal": "Nature Neuroscience",
+                "journal": "Nature Neuroscience", 
                 "volume": "13", 
                 "pages": {
                     "first": "246", 
@@ -2562,7 +2795,7 @@
                     }
                 ], 
                 "articleTitle": "The stride cycle of the cat: the modelling of locomotion by computerized analysis of automatic recordings", 
-                "journal": "Acta Physiologica Scandinavica Supplementum",
+                "journal": "Acta Physiologica Scandinavica Supplementum", 
                 "volume": "521", 
                 "pages": {
                     "first": "1", 
@@ -2647,7 +2880,7 @@
                     }
                 ], 
                 "articleTitle": "Inducible ablation of melanopsin-expressing retinal ganglion cells reveals their central role in non-image forming responses", 
-                "journal": "PLOS ONE",
+                "journal": "PLOS ONE", 
                 "volume": "3", 
                 "pages": "e2451", 
                 "doi": "10.1371/journal.pone.0002451"
@@ -2687,7 +2920,7 @@
                     }
                 ], 
                 "articleTitle": "Engrailed-1 expression marks a primitive class of inhibitory spinal interneuron", 
-                "journal": "The Journal of Neuroscience",
+                "journal": "The Journal of Neuroscience", 
                 "volume": "24", 
                 "pages": {
                     "first": "5827", 
@@ -2759,7 +2992,7 @@
                     }
                 ], 
                 "articleTitle": "Mouse model of colonic adenoma-carcinoma progression based on somatic Apc inactivation", 
-                "journal": "Cancer Research",
+                "journal": "Cancer Research", 
                 "volume": "67", 
                 "pages": {
                     "first": "9721", 
@@ -2824,7 +3057,7 @@
                     }
                 ], 
                 "articleTitle": "A developmental switch in the response of DRG neurons to ETS transcription factor signaling", 
-                "journal": "PLOS Biology",
+                "journal": "PLOS Biology", 
                 "volume": "3", 
                 "pages": "e159", 
                 "doi": "10.1371/journal.pbio.0030159"
@@ -2843,7 +3076,7 @@
                     }
                 ], 
                 "articleTitle": "Interneuronal relay in spinal pathways from proprioceptors", 
-                "journal": "Progress in Neurobiology",
+                "journal": "Progress in Neurobiology", 
                 "volume": "38", 
                 "pages": {
                     "first": "335", 
@@ -2873,7 +3106,7 @@
                     }
                 ], 
                 "articleTitle": "Synaptic actions of single interneurones mediating reciprocal Ia inhibition of motoneurones", 
-                "journal": "The Journal of Physiology",
+                "journal": "The Journal of Physiology", 
                 "volume": "222", 
                 "pages": {
                     "first": "623", 
@@ -2917,7 +3150,7 @@
                     }
                 ], 
                 "articleTitle": "Push-pull control of motor output", 
-                "journal": "The Journal of Neuroscience",
+                "journal": "The Journal of Neuroscience", 
                 "volume": "32", 
                 "pages": {
                     "first": "4592", 
@@ -2954,7 +3187,7 @@
                     }
                 ], 
                 "articleTitle": "Locomotor rhythmogenesis in the isolated rat spinal cord: a phase-coupled set of symmetrical flexion extension oscillators", 
-                "journal": "The Journal of Physiology",
+                "journal": "The Journal of Physiology", 
                 "volume": "583", 
                 "pages": {
                     "first": "115", 
@@ -2977,7 +3210,7 @@
                     }
                 ], 
                 "articleTitle": "Locomotor circuits in the mammalian spinal cord", 
-                "journal": "Annual Review of Neuroscience",
+                "journal": "Annual Review of Neuroscience", 
                 "volume": "29", 
                 "pages": {
                     "first": "279", 
@@ -3035,7 +3268,7 @@
                     }
                 ], 
                 "articleTitle": "Linking genetically defined neurons to behavior through a broadly applicable silencing allele", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "63", 
                 "pages": {
                     "first": "305", 
@@ -3058,7 +3291,7 @@
                     }
                 ], 
                 "articleTitle": "A push-me pull-you neural design", 
-                "journal": "Science",
+                "journal": "Science", 
                 "volume": "315", 
                 "pages": {
                     "first": "339", 
@@ -3088,7 +3321,7 @@
                     }
                 ], 
                 "articleTitle": "Deletions of rhythmic motoneuron activity during fictive locomotion ands scratch provides clues to the structure of the mammalian central pattern generator", 
-                "journal": "Journal of Neurophysiology",
+                "journal": "Journal of Neurophysiology", 
                 "volume": "94", 
                 "pages": {
                     "first": "1120", 
@@ -3139,7 +3372,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic identification of spinal interneurons that coordinate left-right locomotor activity necessary for walking movements", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "42", 
                 "pages": {
                     "first": "375", 
@@ -3190,7 +3423,7 @@
                     }
                 ], 
                 "articleTitle": "Primitive roles for inhibitory interneurons in developing frog spinal cord", 
-                "journal": "The Journal of Neuroscience",
+                "journal": "The Journal of Neuroscience", 
                 "volume": "24", 
                 "pages": {
                     "first": "5840", 
@@ -3227,7 +3460,7 @@
                     }
                 ], 
                 "articleTitle": "Genetic dissection of neural circuits", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "57", 
                 "pages": {
                     "first": "634", 
@@ -3327,7 +3560,7 @@
                     }
                 ], 
                 "articleTitle": "A robust and high-throughput Cre reporting and characterization system for the whole mouse brain", 
-                "journal": "Nature Neuroscience",
+                "journal": "Nature Neuroscience", 
                 "volume": "13", 
                 "pages": {
                     "first": "133", 
@@ -3357,7 +3590,7 @@
                     }
                 ], 
                 "articleTitle": "Organization of mammalian locomotor rhythm and pattern generation", 
-                "journal": "Brain Research Reviews",
+                "journal": "Brain Research Reviews", 
                 "volume": "57", 
                 "pages": {
                     "first": "134", 
@@ -3394,7 +3627,7 @@
                     }
                 ], 
                 "articleTitle": "A kinematic comparison of L-DOPA-induced air-stepping and swimming in developing rats", 
-                "journal": "Developmental Psychobiology",
+                "journal": "Developmental Psychobiology", 
                 "volume": "30", 
                 "pages": {
                     "first": "313", 
@@ -3424,7 +3657,7 @@
                     }
                 ], 
                 "articleTitle": "The sizes of motoneurons supplying hindlimb muscles in the mouse", 
-                "journal": "Proceedings of the Royal Society of London. Series B, Biological Sciences",
+                "journal": "Proceedings of the Royal Society of London. Series B, Biological Sciences", 
                 "volume": "213", 
                 "pages": {
                     "first": "201", 
@@ -3454,7 +3687,7 @@
                     }
                 ], 
                 "articleTitle": "Shunting inhibition modulates neuronal gain during synaptic excitation", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "38", 
                 "pages": {
                     "first": "433", 
@@ -3533,7 +3766,7 @@
                     }
                 ], 
                 "articleTitle": "Cholinergic input required during embryonic development to mediate proper assembly of spinal locomotor circuits", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "46", 
                 "pages": {
                     "first": "37", 
@@ -3577,7 +3810,7 @@
                     }
                 ], 
                 "articleTitle": "The role of Renshaw cells in locomotion: antagonism of their excitation from motor axon collaterals with intravenous mecamylamine", 
-                "journal": "Experimental Brain Research",
+                "journal": "Experimental Brain Research", 
                 "volume": "66", 
                 "pages": {
                     "first": "99", 
@@ -3621,7 +3854,7 @@
                     }
                 ], 
                 "articleTitle": "Protamine-Cre recombinase transgenes efficiently recombine target sequences in the male germ line of mice, but not in embryonic stem cells", 
-                "journal": "Proceedings of the National Academy of Sciences of USA",
+                "journal": "Proceedings of the National Academy of Sciences of USA", 
                 "volume": "94", 
                 "pages": {
                     "first": "14602", 
@@ -3644,7 +3877,7 @@
                     }
                 ], 
                 "articleTitle": "Role of sensory feedback in the control of stance duration in walking cats", 
-                "journal": "Brain Research Reviews",
+                "journal": "Brain Research Reviews", 
                 "volume": "57", 
                 "pages": {
                     "first": "222", 
@@ -3681,7 +3914,7 @@
                     }
                 ], 
                 "articleTitle": "A new electrode configuration for recording electromyographic activity in behaving mice", 
-                "journal": "Journal of Neuroscience Methods",
+                "journal": "Journal of Neuroscience Methods", 
                 "volume": "148", 
                 "pages": {
                     "first": "36", 
@@ -3711,7 +3944,7 @@
                     }
                 ], 
                 "articleTitle": "Reversal of influence of group Ib afferents from plantaris on activity in medial gastrocnemius muscle during locomotor activity", 
-                "journal": "Journal of Neurophysiology",
+                "journal": "Journal of Neurophysiology", 
                 "volume": "70", 
                 "pages": {
                     "first": "1009", 
@@ -3740,7 +3973,7 @@
                     }
                 ], 
                 "articleTitle": "Ia inhibitory interneurons and Renshaw cells as contributors to the spinal mechanisms of fictive locomotion", 
-                "journal": "Journal of Neurophysiology",
+                "journal": "Journal of Neurophysiology", 
                 "volume": "57", 
                 "pages": {
                     "first": "56", 
@@ -3804,7 +4037,7 @@
                     }
                 ], 
                 "articleTitle": "Impaired respiratory and body temperature control upon acute serotonergic neuron inhibition", 
-                "journal": "Science",
+                "journal": "Science", 
                 "volume": "333", 
                 "pages": {
                     "first": "637", 
@@ -3876,7 +4109,7 @@
                     }
                 ], 
                 "articleTitle": "High-efficiency deleter mice show that FLPe is an alternative to Cre-loxP", 
-                "journal": "Nature Genetics",
+                "journal": "Nature Genetics", 
                 "volume": "25", 
                 "pages": {
                     "first": "139", 
@@ -3955,7 +4188,7 @@
                     }
                 ], 
                 "articleTitle": "Pax6 and engrailed 1 regulate two distinct aspects of renshaw cell development", 
-                "journal": "The Journal of Neuroscience",
+                "journal": "The Journal of Neuroscience", 
                 "volume": "24", 
                 "pages": {
                     "first": "1255", 
@@ -3992,7 +4225,7 @@
                     }
                 ], 
                 "articleTitle": "Engrailed-1 and netrin-1 regulate axon pathfinding by association interneurons that project to motor neurons", 
-                "journal": "Development",
+                "journal": "Development", 
                 "volume": "126", 
                 "pages": {
                     "first": "4201", 
@@ -4013,7 +4246,6 @@
                         }
                     }
                 ], 
-                "authorsType": "authors", 
                 "bookTitle": "The integrative action of the nervous system", 
                 "publisher": {
                     "name": [
@@ -4045,7 +4277,7 @@
                     }
                 ], 
                 "articleTitle": "Flexion-reflex of the limb, crossed extension reflex and reflex stepping and standing", 
-                "journal": "The Journal of Physiology",
+                "journal": "The Journal of Physiology", 
                 "volume": "40", 
                 "pages": {
                     "first": "28", 
@@ -4096,7 +4328,7 @@
                     }
                 ], 
                 "articleTitle": "Inhibition from plantar nerve to soleus muscle during the stance phase of walking", 
-                "journal": "Brain Research",
+                "journal": "Brain Research", 
                 "volume": "1048", 
                 "pages": {
                     "first": "48", 
@@ -4168,7 +4400,7 @@
                     }
                 ], 
                 "articleTitle": "Renshaw cell interneuron specialization is controlled by a temporally restricted transcription factor program", 
-                "journal": "Development",
+                "journal": "Development", 
                 "volume": "139", 
                 "pages": {
                     "first": "179", 
@@ -4191,7 +4423,7 @@
                     }
                 ], 
                 "articleTitle": "Motor pattern deletions and modular organization of turtle spinal cord", 
-                "journal": "Brain Research Reviews",
+                "journal": "Brain Research Reviews", 
                 "volume": "57", 
                 "pages": {
                     "first": "118", 
@@ -4263,7 +4495,7 @@
                     }
                 ], 
                 "articleTitle": "Selective and quickly reversible inactivation of mammalian neurons in vivo using the <i>Drosophila</i> allatostatin receptor", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "51", 
                 "pages": {
                     "first": "157", 
@@ -4300,7 +4532,7 @@
                     }
                 ], 
                 "articleTitle": "Motor antagonism exposed by spatial segregation and timing of neurogenesis", 
-                "journal": "Nature",
+                "journal": "Nature", 
                 "volume": "479", 
                 "pages": {
                     "first": "61", 
@@ -4379,7 +4611,7 @@
                     }
                 ], 
                 "articleTitle": "GATA-3 is involved in the development of serotonergic neurons in the caudal raphe nuclei", 
-                "journal": "The Journal of Neuroscience",
+                "journal": "The Journal of Neuroscience", 
                 "volume": "19", 
                 "pages": "RC12"
             }, 
@@ -4397,7 +4629,7 @@
                     }
                 ], 
                 "articleTitle": "On the role of recurrent inhibitory feedback in motor control", 
-                "journal": "Progress in Neurobiology",
+                "journal": "Progress in Neurobiology", 
                 "volume": "49", 
                 "pages": {
                     "first": "517", 
@@ -4441,7 +4673,7 @@
                     }
                 ], 
                 "articleTitle": "Early postnatal development of reciprocal Ia inhibition in the murine spinal cord", 
-                "journal": "Journal of Neurophysiology",
+                "journal": "Journal of Neurophysiology", 
                 "volume": "100", 
                 "pages": {
                     "first": "185", 
@@ -4492,7 +4724,7 @@
                     }
                 ], 
                 "articleTitle": "Spatiotemporal activation of lumbosacral motoneurons in the locomotor step cycle", 
-                "journal": "Journal of Neurophysiology",
+                "journal": "Journal of Neurophysiology", 
                 "volume": "87", 
                 "pages": {
                     "first": "1542", 
@@ -4563,7 +4795,7 @@
                     }
                 ], 
                 "articleTitle": "Spontaneous neural activity is required for the establishment and maintenance of the olfactory sensory map", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "42", 
                 "pages": {
                     "first": "553", 
@@ -4642,7 +4874,7 @@
                     }
                 ], 
                 "articleTitle": "V1 and V2b interneurons secure the alternating flexor-extensor activity limb that mice require for limbed locomotion", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "82", 
                 "pages": {
                     "first": "138", 
@@ -4742,7 +4974,7 @@
                     }
                 ], 
                 "articleTitle": "V3 spinal neurons establish a robust and balanced locomotor rhythm during walking", 
-                "journal": "Neuron",
+                "journal": "Neuron", 
                 "volume": "60", 
                 "pages": {
                     "first": "84", 
@@ -4793,7 +5025,7 @@
                     }
                 ], 
                 "articleTitle": "Mosaic analysis with double markers in mice", 
-                "journal": "Cell",
+                "journal": "Cell", 
                 "volume": "121", 
                 "pages": {
                     "first": "479", 
@@ -4938,6 +5170,8 @@
                     "text": "We discuss in more detail the differences in ankle extensor and flexor EMG activity that occur during walking versus swimming in the V1 IN-ablated mice (see the third paragraph of the subsection \u201cDeficits in flexor-extensor motor coordination persist following V1 and V2b IN ablation\u201d). We believe that these differences are likely to be due to reduced Ib sensory feedback, which is known to promote extension and also strongly influence the transition from stance to swing during walking. In the absence of V1 inhibitory IN-mediated sensory feedback, attenuation of this pathway during swimming might remove the Ib sensory signals that suppress flexor activity during extension, as along with timing signals that are provided by Golgi tendon activity and possibly also cutaneous signals from the plantar surface of the foot. This point is raised again in the Discussion. The phase relationships between GS and TA are now provided in <a href=\"#fig6s1\">Figure 6\u2013figure supplement 1</a>."
                 }
             ]
-        }
+        }, 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z"
     }
 }
