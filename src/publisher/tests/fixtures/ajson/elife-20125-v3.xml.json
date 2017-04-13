@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20125-v3.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20125-v3.xml"
         }, 
         "-history": {
             "received": "2016-07-28T00:00:00Z", 
@@ -962,7 +962,7 @@
                     "preferred": "David Ginsburg", 
                     "index": "Ginsburg, David"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -1219,7 +1219,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20125-v3.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20125-v3.xml", 
             "patched": true
         }, 
         "-history": {
@@ -2176,7 +2176,7 @@
                     "preferred": "David Ginsburg", 
                     "index": "Ginsburg, David"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -2494,9 +2494,22 @@
                                 "text": "(<b>a</b>) Normal infant skull with patent sagittal (S) and metopic (M) sutures. (<b>b</b>) Three-dimensional reconstruction of computed tomography (3D CT) demonstrating premature fusion of both the sagittal and metopic sutures. (<b>c</b>) A three-month-old boy with sagittal craniosynostosis featuring scaphocephaly (narrow and elongated cranial vault), and frontal bossing. (<b>d</b>) 3D CT reconstruction of a one-month-old boy found to have sagittal craniosynostosis. (<b>e</b>) A six-month-old boy presenting with trigonocephaly (triangulation of the cranial vault, with prominent forehead ridge resulting from premature fusion of the metopic suture) and hypotelorism (abnormally decreased intercanthal distance, also a result of premature fusion of the metopic suture). 3D CT reconstruction demonstrated metopic craniosynostosis. (<b>f</b>) 3D CT reconstruction demonstrating premature fusion of the metopic suture with characteristic trigonocephaly and hypotelorism."
                             }
                         ], 
-                        "alt": "", 
+                        "image": {
+                            "source": {
+                                "mediaType": "image/jpeg", 
+                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig1-v3.jpg/full/full/0/default.jpg", 
+                                "filename": "elife-20125-fig1-v3.jpg"
+                            }, 
+                            "alt": "", 
+                            "size": {
+                                "width": 4588, 
+                                "height": 1672
+                            }, 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig1-v3.jpg", 
+                            "filename": "elife-20125-fig1-v3.jpg"
+                        }, 
                         "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig1-v3.jpg", 
-                        "filename": "elife-20125-fig1-v3.jpg"
+                        "alt": ""
                     }, 
                     {
                         "type": "paragraph", 
@@ -2582,8 +2595,20 @@
                                         "text": "(<b>a</b>) Domain structure of <i>SMAD6</i> showing location of the MH1 and MH2 domains. The MH1 domain mediates DNA binding and negatively regulates the functions of the MH2 domain, while the MH2 domain is responsible for transactivation and mediates phosphorylation-triggered heteromeric assembly with receptor\u00a0SMADs. De novo or rare damaging mutations identified in craniosynostosis probands are indicated. Color of text denotes suture(s) showing premature closure. (<b>b</b>) Pedigrees harboring de novo (denoted by stars within pedigree symbols) or rare transmitted variants in <i>SMAD6</i>. Filled and unfilled symbols denote individuals with and without craniosynostosis, respectively. The <i>SMAD6</i> mutation identified in each kindred is noted above each pedigree. Below each symbol, genotypes are shown first for <i>SMAD6</i> (with 'D' denoting the damaging allele) and for rs1884302 risk locus downstream of <i>BMP2</i>, (with 'T' conferring protection from and 'C' conferring increased risk of craniosynostosis). All 17 subjects with craniosynostosis have <i>SMAD6</i> mutations, and 14/17 have also inherited the risk allele at rs1884302, whereas only 3 of 16 <i>SMAD6</i> mutation carriers without the rs1884302 risk allele have craniosynostosis."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-v3.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-20125-fig2-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3119, 
+                                        "height": 1949
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-v3.jpg", 
+                                    "filename": "elife-20125-fig2-v3.jpg"
+                                }, 
                                 "sourceData": [
                                     {
                                         "doi": "10.7554/eLife.20125.007", 
@@ -2629,9 +2654,22 @@
                                                 "text": "The reference sequence of a segment of <i>SMAD6</i> that includes base 15:67073502 (denoted by arrow) is shown in the top row, with red, blue, green and yellow squares representing A, C, G, T, respectively. Below, all independent reads that map to this interval are shown. The results show that the proband has 23 reads of reference \u2018G\u2019, and 10 reads of non-reference \u2018T\u2019. Only the reference \u2018G\u2019 is seen in both parents, providing evidence of a de novo mutation."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig2-figsupp1-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1027, 
+                                                "height": 1344
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp1-v3.jpg", 
+                                            "filename": "elife-20125-fig2-figsupp1-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp1-v3.jpg", 
-                                        "filename": "elife-20125-fig2-figsupp1-v3.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -2645,12 +2683,26 @@
                                                 "text": "Sanger sequencing traces of PCR amplicons containing <i>SMAD6</i> mutations identified by exome sequencing are shown. Above each trace or set of traces, the kindred ID, mutation identified in the DNA sequence and its impact on SMAD6 protein is indicated. Above sequence traces, the inferred DNA sequence is shown, along with the inferred amino acid sequence (shown in single letter code). Heterozygous mutations are indicated beneath the wild-type sequence and non-reference amino acid sequences are shown in red. Deleted and inserted bases are denoted, and result in an overlap of wild-type and mutant sequences."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp2-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig2-figsupp2-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2060, 
+                                                "height": 1986
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp2-v3.jpg", 
+                                            "filename": "elife-20125-fig2-figsupp2-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp2-v3.jpg", 
-                                        "filename": "elife-20125-fig2-figsupp2-v3.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-20125-fig2-v3.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-v3.jpg", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "table", 
@@ -2688,8 +2740,20 @@
                                         "text": "Rare (allele frequency &lt;2 \u00d7 10<sup>\u20135</sup>\u00a0in the ExAC03 database) loss of function (LOF) and damaging missense (D-mis) variants were identified in 191 probands. The probability of the observed number of variants in each gene occurring by chance was calculated from the total number of observed variants and the length of the coding region of each gene using the binomial test. The distribution of observed P-values compared to the expected distribution is shown. (<b>a</b>) Q-Q plot for rare LOF variants in each gene from a total of 1135 LOF variants identified in probands. The distribution of observed p-values closely conforms to expectation with the exception of <i>SMAD6</i>, which shows p=1.1 \u00d7 10<sup>\u201315</sup>\u00a0and 156-fold enrichment in cases. (<b>b</b>) Q-Q plot for rare damaging (LOF + D-mis) variants in each gene from a total of 3156 damaging variants in probands. Again, <i>SMAD6</i> deviates greatly from the expected distribution, with p&lt;10<sup>\u201320</sup> and 91-fold enrichment."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-v3.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-20125-fig3-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 1766, 
+                                        "height": 900
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-v3.jpg", 
+                                    "filename": "elife-20125-fig3-v3.jpg"
+                                }, 
                                 "sourceData": [
                                     {
                                         "doi": "10.7554/eLife.20125.013", 
@@ -2714,9 +2778,22 @@
                                                 "text": "De novo variants were excluded from this analysis, leaving 1122 rare (ExAC allele frequency &lt; 2 x10<sup>\u22125</sup>), transmitted LOF variants and 3115 transmitted damaging (LOF + D-mis) variants. All genes closely matched expectation, with the exception of <i>SMAD6</i>. (<b>a</b>) There were 6 transmitted <i>SMAD6</i> LOF mutations, a 118-fold enrichment compared to the expected 0.05 (p=2.2 \u00d7 10<sup>\u201311</sup>). (<b>b</b>) Similarly, there were 10 transmitted damaging <i>SMAD6</i> variants, a 71-fold enrichment compared to the expected 0.14 (p=7.0 \u00d7 10<sup>\u201316</sup>). The results demonstrate genome-wide significance of rare transmitted variants in <i>SMAD6</i> independent of de novo mutations."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig3-figsupp1-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1950, 
+                                                "height": 900
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp1-v3.jpg", 
+                                            "filename": "elife-20125-fig3-figsupp1-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp1-v3.jpg", 
-                                        "filename": "elife-20125-fig3-figsupp1-v3.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -2730,9 +2807,22 @@
                                                 "text": "(<b>a</b>) Principal component analysis of exome sequence genotypes from 191 probands with sagittal, metopic, or combined sagittal and metopic craniosynostosis clustered along with HapMap subjects. Results identify 172 craniosynostosis subjects that cluster with HapMap European subjects. (<b>b</b>) Principal component analysis of genotypes from exome sequencing data of European autism parent controls (n\u00a0=\u00a03337) showing clustering with HapMap subjects. In both panels, subjects considered to be of European ancestry are circled."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp2-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig3-figsupp2-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1800, 
+                                                "height": 1200
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp2-v3.jpg", 
+                                            "filename": "elife-20125-fig3-figsupp2-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp2-v3.jpg", 
-                                        "filename": "elife-20125-fig3-figsupp2-v3.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -2746,12 +2836,26 @@
                                                 "text": "The frequency of rare (allele frequency &lt; 2 \u00d7 10<sup>\u20135</sup>\u00a0in the ExAC03 database) loss of function and D-mis variants in each gene was compared in 172 European probands with midline craniosynostosis and 3337 European controls. The distribution of observed p-values conforms to expectation with the exception of <i>SMAD6</i>, which deviates significantly from expectation. Because exon 1 of <i>SMAD6</i> was poorly captured using the V2 capture reagent (used in control samples), 3 damaging variants in exon 1 in cases were excluded from this analysis."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp3-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig3-figsupp3-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 864, 
+                                                "height": 771
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp3-v3.jpg", 
+                                            "filename": "elife-20125-fig3-figsupp3-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp3-v3.jpg", 
-                                        "filename": "elife-20125-fig3-figsupp3-v3.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-20125-fig3-v3.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-v3.jpg", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "table", 
@@ -2819,9 +2923,22 @@
                                         "text": "(<b>a</b>) BMP ligands activate BMP receptors, leading to phosphorylation of receptor-regulated SMADs (R-SMADs), which complex with SMAD4 and enter the nucleus, cooperating with RUNX2 to induce osteoblast differentiation. SMAD6 inhibits this signal by competing with SMAD4 for binding to R-SMADs, preventing nuclear translocation. (<b>b</b>) SMAD6 also cooperates with SMURF1, an E3 ubiquitin ligase, to induce ubiquitin-mediated proteasomal degradation of R-SMADs, BMP receptor complexes, and RUNX2."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig4-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-20125-fig4-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 3561, 
+                                        "height": 1983
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig4-v3.jpg", 
+                                    "filename": "elife-20125-fig4-v3.jpg"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig4-v3.jpg", 
-                                "filename": "elife-20125-fig4-v3.jpg"
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -2839,9 +2956,22 @@
                                         "text": "(<b>a</b>) Sanger sequence electropherogram of a PCR product amplified from the genomic DNA of a proband with metopic craniosynostosis, confirming a de novo R468W mutation in <i>SMURF1</i>, a <i>SMAD6</i> binding partner. (<b>b</b>) Patient photographs of the proband, who presented with trigonocephaly and mild orbital abnormalities. 3D CT reconstruction demonstrates metopic craniosynostosis, trigonocephaly, and a patent sagittal suture."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig5-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-20125-fig5-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 1124, 
+                                        "height": 481
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig5-v3.jpg", 
+                                    "filename": "elife-20125-fig5-v3.jpg"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig5-v3.jpg", 
-                                "filename": "elife-20125-fig5-v3.jpg"
+                                "alt": ""
                             }
                         ]
                     }, 
@@ -2913,9 +3043,22 @@
                                         "text": "(<b>a</b>) Pedigree and Sanger sequencing traces for kindred SAG150, demonstrating a de novo nonsense mutation in <i>SPRY4</i> (p.E160*) in the proband. (<b>b</b>) Pedigree and Sanger sequencing traces in a kindred with a de novo <i>SPRY1</i> frameshift mutation (p.Q6fs*8) that was transmitted to two affected offspring."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig6-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-20125-fig6-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2190, 
+                                        "height": 1362
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig6-v3.jpg", 
+                                    "filename": "elife-20125-fig6-v3.jpg"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig6-v3.jpg", 
-                                "filename": "elife-20125-fig6-v3.jpg"
+                                "alt": ""
                             }
                         ]
                     }

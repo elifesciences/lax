@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-12215-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-12215-v1.xml"
         }, 
         "-history": {
             "received": "2015-10-10T00:00:00Z", 
@@ -172,7 +172,7 @@
                     "preferred": "Doris Y Tsao", 
                     "index": "Tsao, Doris Y"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -259,7 +259,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-12215-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-12215-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -426,7 +426,7 @@
                     "preferred": "Doris Y Tsao", 
                     "index": "Tsao, Doris Y"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -570,9 +570,22 @@
                                 "text": "When trying to categorize whether a fur hidden behind foliage (left) belongs to a zebra or a cheetah, evidence from multiple fixations (blue, the visible patches of the fur, and their location in the image) needs to be integrated to generate beliefs about fur category (right, here represented probabilistically, as the posterior probability of the particular animal given the evidence). Given current beliefs, different potential locations in the scene will be expected to have different amounts of informativeness with regard to further distinguishing between the categories, and optimal sensing involves choosing the maximally informative location (red). In the example shown, after the first two fixations (blue) it is ambiguous whether the fur belongs to a zebra or a cheetah, but active sensing chooses a collinearly located revealing position (red) which should be informative and indeed reveals a zebra with high certainty. Note that this is just an illustrative example."
                             }
                         ], 
-                        "alt": "", 
+                        "image": {
+                            "source": {
+                                "mediaType": "image/jpeg", 
+                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig1-v1.jpg/full/full/0/default.jpg", 
+                                "filename": "elife-12215-fig1-v1.jpg"
+                            }, 
+                            "alt": "", 
+                            "size": {
+                                "width": 1535, 
+                                "height": 1193
+                            }, 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig1-v1.jpg", 
+                            "filename": "elife-12215-fig1-v1.jpg"
+                        }, 
                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig1-v1.jpg", 
-                        "filename": "elife-12215-fig1-v1.jpg"
+                        "alt": ""
                     }
                 ]
             }, 
@@ -602,8 +615,20 @@
                                         "text": "(<b>A</b>) Example stimuli for each of the three image types sampled from two-dimensional Gaussian processes. (<b>B</b>) Experimental design. Participants started each trial by fixating the center cross. In the free-scan condition, an aperture of the underlying image was revealed at each fixation location. In the passive condition, revealing locations were chosen by the computer. In both conditions, after a random number of revealings, participants were required to make a category choice (patchy, P, versus stripy, S) and were given feedback. (<b>C</b>) Categorization performance as a function of revealing number for each of the three participants (symbols and error bars: mean\u00a0<math id=\"inf1\"> <mo>\u00b1 </mo></math>\u00a0SEM across trials), and their average, under the free-scan and passive conditions corresponding to different revealing strategies. Lines and shaded areas show across-trial mean\u00a0<math id=\"inf2\"> <mo>\u00b1 </mo></math>\u00a0SEM for the ideal observer model. <a href=\"#fig2s1\">Figure 2\u2014figure supplement 1</a> shows categorization performance in a control experiment in which no rescanning was allowed."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig2-v1.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig2-v1.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-12215-fig2-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2008, 
+                                        "height": 1528
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig2-v1.jpg", 
+                                    "filename": "elife-12215-fig2-v1.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -617,12 +642,26 @@
                                                 "text": "Categorization performance as a function of revealing number for participants in the control (no rescanning) and the average participant in the main experiment (rescanning) in which rescanning was allowed (cf. <a href=\"#fig2\">Figure 2C</a>)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig2-figsupp1-v1.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-12215-fig2-figsupp1-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2008, 
+                                                "height": 415
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig2-figsupp1-v1.jpg", 
+                                            "filename": "elife-12215-fig2-figsupp1-v1.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig2-figsupp1-v1.jpg", 
-                                        "filename": "elife-12215-fig2-figsupp1-v1.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-12215-fig2-v1.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig2-v1.jpg", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -644,8 +683,20 @@
                                         "text": "(<b>A</b>) Revealing density maps for participants and BAS. Last three columns show mean-corrected revealing densities for each of the three underlying image types (removing the mean density across image types, first column). Bottom: color scales used for all mean densities (left), and for all mean-corrected densities (right). All density maps use the same scale, such that a density of 1 corresponds to the peak mean density across all maps. <a href=\"#fig3s1\">Figure 3\u2014figure supplement 1</a> shows revealing density maps obtained for participants in a control experiment in which no rescanning was allowed. <a href=\"#fig3s2\">Figure 3\u2014figure supplement 2</a> shows the measured saccadic noise that was incorporated into the BAS simulations. <a href=\"#fig3s3\">Figure 3\u2014figure supplement 3</a> shows density maps separately for correct and incorrect trials. (<b>B</b>) The curves are correlations for individual participants as a function of revealing number with their own maps (left) and the maps generated by BAS (right). The bars are correlations at 25 revealing (see Materials\u00a0and\u00a0methods). Orange shows within image type correlation, ie. correlation between revealing densities obtained for images of the same type, and purple shows across image type correlation. Data are represented as mean <math id=\"inf3\"> <mo>\u00b1 </mo></math> SD for the curves and mean <math id=\"inf4\"> <mo>\u00b1 </mo></math> 95% confidence intervals for the bars."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig3-v1.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-v1.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-12215-fig3-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 1890, 
+                                        "height": 1358
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-v1.jpg", 
+                                    "filename": "elife-12215-fig3-v1.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -659,9 +710,22 @@
                                                 "text": "Revealing density maps in the control (no rescanning) and the average participant in the main experiment (rescanning) in which rescanning was allowed (cf. <a href=\"#fig3\">Figure 3A</a>)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-figsupp1-v1.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-12215-fig3-figsupp1-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1181, 
+                                                "height": 1401
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-figsupp1-v1.jpg", 
+                                            "filename": "elife-12215-fig3-figsupp1-v1.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig3-figsupp1-v1.jpg", 
-                                        "filename": "elife-12215-fig3-figsupp1-v1.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -675,9 +739,22 @@
                                                 "text": "(<b>A</b>) Saccadic standard deviation both along (tangential) and orthogonal to the target direction with linear regression giving SD = 0:13\u00d7distance+0:41\u00b0 and 0:011 distance+0:38\u00b0, respectively. (<b>B</b>) Saccadic bias along the target direction (negative is undershoot) with linear regression giving bias = 0:23\u00d7distance+0:37\u00b0. Error bars are SEM across participants."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-figsupp2-v1.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-12215-fig3-figsupp2-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2008, 
+                                                "height": 922
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-figsupp2-v1.jpg", 
+                                            "filename": "elife-12215-fig3-figsupp2-v1.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig3-figsupp2-v1.jpg", 
-                                        "filename": "elife-12215-fig3-figsupp2-v1.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -685,12 +762,26 @@
                                         "id": "fig3s3", 
                                         "label": "Figure 3\u2014figure supplement 3.", 
                                         "title": "Revealing density maps of the average participant in the main experiment split into correct and incorrect trials, and the BAS revealing maps.", 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-figsupp3-v1.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-12215-fig3-figsupp3-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1181, 
+                                                "height": 968
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig3-figsupp3-v1.jpg", 
+                                            "filename": "elife-12215-fig3-figsupp3-v1.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig3-figsupp3-v1.jpg", 
-                                        "filename": "elife-12215-fig3-figsupp3-v1.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-12215-fig3-v1.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig3-v1.jpg", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -774,8 +865,20 @@
                                         "text": "(<b>A</b>) The operation of BAS in a representative trial for saccades 1\u20138 and 14 (underlying image shown top left). For each fixation (left, panels), BAS computes a score across the image (gray scale, <a href=\"#equ1\">Equation 1</a>). This indicates the expected informativeness of each putative fixation location based on its current belief about the image type, expressed as a posterior distribution (inset, lower left), which in turn is updated at each fixation by incorporating the new observation of the pixel value at that fixated location. Crosses show the fixation locations with maximal score for each saccade, green dots show past fixation locations chosen by the participant and yellow circle shows current fixation location. Percentage values (bottom right) show their information percentile values (the percentage of putative fixation locations with lower BAS scores than the one chosen by the participant). Histogram on the right shows distribution of percentile values across all participants, trials and fixations. (<b>B</b>) Predictions of the maximum entropy variant (the first term in <a href=\"#equ1\">Equation 1</a>) as in (<b>A</b>). For saccades 1\u20133, the fixation locations with maximal score (crosses) are not shown because the maxima comprise a continuous region near the edge of the image instead of discrete points. Note that entropy can be maximal further (eg. fixation 4) or nearer the edges of the image (eg. fixation 1), depending on the tradeoff between the two additive components defining it: the BAS score, which tends to be higher near revealing locations (panel A), and uncertainty due to the stochasticity of the stimulus and perception noise, which tends to be greater away from revealing locations. <a href=\"#fig4s1\">Figure 4\u2014figure supplement 1</a> shows two illustrative examples for this trade-off."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig4-v1.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig4-v1.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-12215-fig4-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2008, 
+                                        "height": 1309
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig4-v1.jpg", 
+                                    "filename": "elife-12215-fig4-v1.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -789,12 +892,26 @@
                                                 "text": "Top row shows entropy (in bits) of the predictive distributions, <math id=\"inf17\"><mi>H</mi><mo>[</mo><mi>z</mi><mo>*</mo><mo>|</mo><mi>x</mi><mo>*</mo><mo>,</mo><mi>D</mi><mo>]</mo></math>, for a grid of locations after one observation. Bottom row shows the corresponding variance decomposition (cf. <a href=\"#equ1\">Equation 1</a>), unexplained (blue) corresponds to \u201cnoise\u201d entropy, <math id=\"inf18\"><msub><mfenced close=\"&gt;\" open=\"&lt;\"><mrow><mi>H</mi><mo>[</mo><mi>z</mi><mo>*</mo><mo>|</mo><mi>x</mi><mo>*</mo><mo>,</mo><mi>c</mi><mo>,</mo><mi>D</mi><mo>]</mo></mrow></mfenced><mrow><mi>\u2119</mi><mo>(</mo><mi>c</mi><mo>|</mo><mi>D</mi><mo>)</mo></mrow></msub></math>, explained (red) correspond to the BAS score, Score<math id=\"inf19\"><mo>(</mo><mi>x</mi><mo>*</mo><mo>|</mo><mi>D</mi><mo>)</mo></math>, and total (black) coresponds to total uncertainty, <math id=\"inf20\"><mi>H</mi><mo>[</mo><mi>z</mi><mo>*</mo><mo>|</mo><mi>x</mi><mo>*</mo><mo>,</mo><mi>D</mi><mo>]</mo></math>. The widths of the gray regions correspond to the three length scales with which the three image types are constructed."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig4-figsupp1-v1.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-12215-fig4-figsupp1-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1772, 
+                                                "height": 1453
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig4-figsupp1-v1.jpg", 
+                                            "filename": "elife-12215-fig4-figsupp1-v1.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig4-figsupp1-v1.jpg", 
-                                        "filename": "elife-12215-fig4-figsupp1-v1.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-12215-fig4-v1.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig4-v1.jpg", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -827,8 +944,20 @@
                                         "text": "(<b>A</b>) Cumulative information gain of an ideal observer (matched to participants\u2019 prior bias and perceptual noise) with different revealing strategies (black, green, and blue) and participants\u2019 own revealings (red). Data are represented as mean <math id=\"inf28\"> <mo>\u00b1 </mo></math> SEM across trials. <a href=\"#fig5s1\">Figure 5\u2014figure supplement 1</a> shows a measure of efficiency extracted from these information curves across sessions. (<b>B</b>) Information gains for three heuristic strategies (See text for details, and Materials\u00a0and\u00a0methods): posterior-independent &amp; order-dependent fixations (orange), posterior-dependent &amp; order-independent fixations (purple), and posterior- &amp; order-dependent fixations (brown). The information gain curves for the three heuristics overlap in all cases. Participants\u2019 active revealings (red lines, as in A) were 1.81 (95% CI, 1.68\u20131.94), 1.85 (95% CI, 1.72\u20131.99), and 1.92 (95% CI, 1.74\u20132.04) times more efficient in gathering information than these heuristics, respectively. Data are represented as mean <math id=\"inf29\"> <mo>\u00b1 </mo></math> SEM across trials."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig5-v1.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig5-v1.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-12215-fig5-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2008, 
+                                        "height": 793
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig5-v1.jpg", 
+                                    "filename": "elife-12215-fig5-v1.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -842,12 +971,26 @@
                                                 "text": "Relative efficiency computed as the ratio of the scale parameter <i>a<sub>s</sub></i> (see Materials\u00a0and\u00a0methods) of each session to that of the last session. Circles and lines show mean and SD obtained by bootstrapping trials within a session 50 times. The revealings on day 2-3 (free-scan sessions) were 0.90\u20131.04 (across participants) times as efficient compared to day 1 revealings (free-scan familiarization sessions). This suggests that participants were already choosing revealing locations on day 1 with near-asymptotic efficiency."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig5-figsupp1-v1.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-12215-fig5-figsupp1-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2008, 
+                                                "height": 718
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-fig5-figsupp1-v1.jpg", 
+                                            "filename": "elife-12215-fig5-figsupp1-v1.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig5-figsupp1-v1.jpg", 
-                                        "filename": "elife-12215-fig5-figsupp1-v1.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-12215-fig5-v1.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-fig5-v1.jpg", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -1240,7 +1383,7 @@
                                         }, 
                                         {
                                             "type": "list", 
-                                            "prefix": "bullet", 
+                                            "prefix": "none", 
                                             "items": [
                                                 [
                                                     {
@@ -1257,20 +1400,6 @@
                                                     }
                                                 ]
                                             ]
-                                        }
-                                    ], 
-                                    [
-                                        {
-                                            "type": "mathml", 
-                                            "id": "equ11", 
-                                            "label": "(11)", 
-                                            "mathml": "<math><mover accent=\"true\"><mi>\u2119</mi><mo>^</mo></mover><mrow><mo>(</mo><mi>c</mi><mo>=</mo><mtext>P</mtext><mo>|</mo><mi>D</mi><mo>)</mo></mrow><mo>=</mo><mrow><mo>(</mo><mn>1</mn><mo>-</mo><mi>\u03ba</mi><mo>)</mo></mrow><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>\u03b2</mi><mo>\u00a0</mo><mo>\u2062</mo><mi>LPR</mi><mo>\u2062</mo><mrow><mo>(</mo><mi>D</mi><mo>)</mo></mrow></mrow></msup></mrow></mfrac><mo>+</mo><mfrac><mi>\u03ba</mi><mn>2</mn></mfrac></math>"
-                                        }
-                                    ], 
-                                    [
-                                        {
-                                            "type": "paragraph", 
-                                            "text": "where <math id=\"inf90\"><mi>\u03ba</mi></math> describes the stimulus-independent decision noise and can be interpreted as the lapse rate, <math id=\"inf91\"><mi>\u03b2</mi></math> is the stimulus-dependent decision noise (larger values of <math id=\"inf92\"><mi>\u03b2</mi></math> result in more deterministic behavior and lower values in more random behavior), and <math id=\"inf93\"><mi>LPR</mi><mo>\u2062</mo><mrow><mo>(</mo><mi>D</mi><mo>)</mo></mrow><mo>=</mo><mi>log</mi><mfrac><mrow><mi>\u2119</mi><mrow><mo>(</mo><mi>c</mi><mo>=</mo><mtext>P</mtext><mo>|</mo><mi>D</mi><mo>)</mo></mrow></mrow><mrow><mi>\u2119</mi><mrow><mo>(</mo><mi>c</mi><mo>=</mo><mtext>S</mtext><mo>|</mo><mi>D</mi><mo>)</mo></mrow></mrow></mfrac></math> is the log posterior ratio under the ideal observer model (<a href=\"#equ3\">Equation 3\u20134</a>)."
                                         }
                                     ]
                                 ]
@@ -1310,7 +1439,7 @@
                                         }, 
                                         {
                                             "type": "list", 
-                                            "prefix": "bullet", 
+                                            "prefix": "none", 
                                             "items": [
                                                 [
                                                     {
@@ -1319,30 +1448,6 @@
                                                     }
                                                 ]
                                             ]
-                                        }
-                                    ], 
-                                    [
-                                        {
-                                            "type": "paragraph", 
-                                            "text": "no prior biases, i.e. the length scales used by the model were identical to those actually used to generate the stimuli;"
-                                        }
-                                    ], 
-                                    [
-                                        {
-                                            "type": "paragraph", 
-                                            "text": "a uniform scaling of all length scales relative to their true values, <math id=\"inf94\"><mi>\u03b1</mi></math>;"
-                                        }
-                                    ], 
-                                    [
-                                        {
-                                            "type": "paragraph", 
-                                            "text": "a fixed offset of all length scales from their true values, <math id=\"inf95\"><mi>\u0394</mi></math>;"
-                                        }
-                                    ], 
-                                    [
-                                        {
-                                            "type": "paragraph", 
-                                            "text": "Thus, the last two models has a single parameter controlling the relation between the extent of misrepresentation."
                                         }
                                     ]
                                 ]
@@ -3679,9 +3784,22 @@
                             "text": "Orange denotes within-type correlation; purple denotes across-type (cf. <a href=\"#fig3\">Figure 3B</a> in the manuscript). Line and shaded area represent mean and SD, respectively."
                         }
                     ], 
-                    "alt": "", 
+                    "image": {
+                        "source": {
+                            "mediaType": "image/jpeg", 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-resp-fig1-v1.jpg/full/full/0/default.jpg", 
+                            "filename": "elife-12215-resp-fig1-v1.jpg"
+                        }, 
+                        "alt": "", 
+                        "size": {
+                            "width": 1535, 
+                            "height": 496
+                        }, 
+                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-resp-fig1-v1.jpg", 
+                        "filename": "elife-12215-resp-fig1-v1.jpg"
+                    }, 
                     "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-resp-fig1-v1.jpg", 
-                    "filename": "elife-12215-resp-fig1-v1.jpg"
+                    "alt": ""
                 }, 
                 {
                     "type": "paragraph", 
@@ -3705,9 +3823,22 @@
                     "id": "fig7", 
                     "label": "Author response image 2.", 
                     "title": "Probability density of saccade angles.", 
-                    "alt": "", 
+                    "image": {
+                        "source": {
+                            "mediaType": "image/jpeg", 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-resp-fig2-v1.jpg/full/full/0/default.jpg", 
+                            "filename": "elife-12215-resp-fig2-v1.jpg"
+                        }, 
+                        "alt": "", 
+                        "size": {
+                            "width": 1417, 
+                            "height": 1025
+                        }, 
+                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:12215/elife-12215-resp-fig2-v1.jpg", 
+                        "filename": "elife-12215-resp-fig2-v1.jpg"
+                    }, 
                     "uri": "https://publishing-cdn.elifesciences.org/12215/elife-12215-resp-fig2-v1.jpg", 
-                    "filename": "elife-12215-resp-fig2-v1.jpg"
+                    "alt": ""
                 }, 
                 {
                     "type": "paragraph", 

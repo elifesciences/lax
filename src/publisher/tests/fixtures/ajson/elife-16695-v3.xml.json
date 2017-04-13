@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-16695-v3.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-16695-v3.xml"
         }, 
         "-history": {
             "received": "2016-04-06T00:00:00Z", 
@@ -437,7 +437,7 @@
                     "preferred": "Joseph G Gleeson", 
                     "index": "Gleeson, Joseph G"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -567,7 +567,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-16695-v3.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-16695-v3.xml", 
             "patched": true
         }, 
         "-history": {
@@ -999,7 +999,7 @@
                     "preferred": "Joseph G Gleeson", 
                     "index": "Gleeson, Joseph G"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
@@ -1206,8 +1206,20 @@
                                         "text": "(<b>A</b>) Pedigree of the family (kindred 50035) segregating the <i>CRY2</i> mutation (A260T). Circles and squares represent women and men, respectively. An asterisk marks the proband. A missense mutation from G to A causes an amino acid conversion from Alanine to Threonine at position 260. (<b>B</b>) Amino acid alignment around the mutation site. The A260T mutation is located in the N-terminal portion of the FAD binding domain in CRY2. This residue is highly conserved among vertebrate species. CC denotes a Coiled-Coil sequence."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig1-v3.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig1-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-16695-fig1-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 1556, 
+                                        "height": 1002
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig1-v3.jpg", 
+                                    "filename": "elife-16695-fig1-v3.jpg"
+                                }, 
                                 "sourceData": [
                                     {
                                         "doi": "10.7554/eLife.16695.004", 
@@ -1225,7 +1237,8 @@
                                         "filename": "elife-16695-fig1-data1-v3.docx"
                                     }
                                 ], 
-                                "filename": "elife-16695-fig1-v3.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig1-v3.jpg", 
+                                "alt": ""
                             }
                         ]
                     }, 
@@ -1250,8 +1263,20 @@
                                         "text": "(<b>A</b>) Mouse movement was tracked by an infrared video camera in LD. The ratio of immobilization time to total daily immobilization time (upper panel) and the ratio of walking distance to total daily distance (bottom panel) were plotted every 10 min. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i>). (<b>B</b>) Peak time of immobility was measured by fitting a quadratic function to data from ZT0 to 13. Representative examples of curve fitting for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i> are shown here. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T,</i> *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Onset and offset of locomotor activity. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i>). (<b>D</b>) Actograms of wheel-running activity for <i>hCRY2-WT</i>, h<i>CRY2-A260T,</i> and littermate transgene-negative mice. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. (<b>E</b>) Phase-shifts in response to a 30-min light exposure at ZT14 indicated by red arrows in (<b>D</b>). *p&lt;0.05 by Tukey\u2019s test (n\u00a0=\u00a07 for h<i>CRY2-WT,</i> n\u00a0=\u00a011 for h<i>CRY2-A260T,</i> n\u00a0=\u00a010 for WT). (<b>F</b>) The distribution of period measurements for BAC transgenic mice and transgene negative controls. Period was determined by line fitting of activity onset and chi-square periodogram from day 7 to day 19 in DD. *p&lt;0.05 (n\u00a0=\u00a015 for h<i>CRY2-WT</i>, n\u00a0=\u00a014 for h<i>CRY2-A260T</i> and n\u00a0=\u00a07 for WT)"
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-v3.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-16695-fig2-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2357, 
+                                        "height": 2204
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-v3.jpg", 
+                                    "filename": "elife-16695-fig2-v3.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1265,9 +1290,22 @@
                                                 "text": "(<b>A</b>) CRY2 expression in total liver lysate at ZT18. CRY2 protein was detected by human CRY2 antibody (Santa Cruz) and mouse CRY2 antibody (<a href=\"#bib10\">Hirano et al., 2013</a>). Copy number was determined by real-time PCR using common sequences in mouse and human <i>Cry2</i> genes. (<b>B</b>) Representative profiles of locomotor activity measured by video recording. Activity onset (black) and offset (red) are indicated by arrows in the figures. The time of onset and offset for all animals of respective genotypes are averaged and plotted in <a href=\"#fig2\">Figure 2C</a>. (<b>C</b>) Locomotor activity and resting behavior of transgenic mice on a m<i>Cry2</i> knockout background. Mouse movement was tracked by an infrared video camera in LD. The ratio of immobilization time to total daily immobilization time (upper panel) and the ratio of walking distance to total daily distance (bottom panel) were plotted every 10 min. Data are shown as means with SEM (n\u00a0=\u00a06 for h<i>CRY2-WT/Cry2</i> KO, n\u00a0=\u00a06 for h<i>CRY2-A260T/Cry2</i> KO). The average of activity offset and onset in LD 12:12 are shown (n\u00a0=\u00a06 for h<i>CRY2-WT/Cry2</i> KO, n\u00a0=\u00a06 for h<i>CRY2-A260T/Cry2</i> KO)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig2-figsupp1-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2268, 
+                                                "height": 2444
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp1-v3.jpg", 
+                                            "filename": "elife-16695-fig2-figsupp1-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp1-v3.jpg", 
-                                        "filename": "elife-16695-fig2-figsupp1-v3.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -1281,9 +1319,22 @@
                                                 "text": "(<b>A</b>) Activity profiles of transgenic mice in LD 12:12. Ratio of wheel-running counts to total daily counts are plotted every 20 min (n\u00a0=\u00a018 for h<i>CRY2-WT</i>, n\u00a0=\u00a014 for h<i>CRY2-A260T</i>). The average of activity offset in LD 12:12 are shown in the right graph. *p&lt;0.05 by Tukey\u2019s test (n\u00a0=\u00a019 for h<i>CRY2-WT</i>, n\u00a0=\u00a019 for h<i>CRY2-A260T</i> and n\u00a0=\u00a07 for WT). (<b>B</b>) Actograms and activity profiles of transgenic mice on a m<i>Cry2</i> knockout background in LD 12:12. Ratio of wheel-running counts to total daily counts are plotted every 5 min (n\u00a0=\u00a05 for h<i>CRY2-WT</i>, n\u00a0=\u00a05 for h<i>CRY2-A260T</i>). The average of activity offset in LD 12:12 are shown in the right graph. *p&lt;0.05 by Tukey\u2019s test (n\u00a0=\u00a05 for h<i>CRY2-WT</i>/m<i>Cry2</i> KO, n\u00a0=\u00a05 for h<i>CRY2-A260T</i>/m<i>Cry2</i> KO and n\u00a0=\u00a06 for m<i>Cry2</i> KO)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp2-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig2-figsupp2-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2398, 
+                                                "height": 2849
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp2-v3.jpg", 
+                                            "filename": "elife-16695-fig2-figsupp2-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp2-v3.jpg", 
-                                        "filename": "elife-16695-fig2-figsupp2-v3.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -1297,9 +1348,22 @@
                                                 "text": "(<b>A</b>) Phase-shift in response to 30-min light exposure at ZT22. Mice were exposed to a 30-min light pulse at ZT22 (indicated by red arrows) and released into DD after the light pulse. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. Phase-shift was determined by line-fitting to activity onset (n\u00a0=\u00a06 for h<i>CRY2-WT</i>, n\u00a0=\u00a07 for h<i>CRY2-A260T</i> and WT)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp3-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig2-figsupp3-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1145, 
+                                                "height": 1486
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp3-v3.jpg", 
+                                            "filename": "elife-16695-fig2-figsupp3-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp3-v3.jpg", 
-                                        "filename": "elife-16695-fig2-figsupp3-v3.jpg"
+                                        "alt": ""
                                     }, 
                                     {
                                         "type": "image", 
@@ -1313,12 +1377,26 @@
                                                 "text": "(<b>A</b>) Circadian period of the transgenic mice on a m<i>Cry2</i> knockout background. Period was determined by chi-square periodgram from day 7 to day 14 in DD. *p&lt;0.05 by Welch\u2019s test (n\u00a0=\u00a06 for h<i>CRY2-WT</i>/m<i>Cry2</i>KO and n\u00a0=\u00a05 for h<i>CRY2-A260T</i>/m<i>Cry2</i>KO). (<b>B</b>) Circadian period and phase-shift of h<i>CRY2-A260T</i> mice line#2. Representative actograms of wheel-running activity of h<i>CRY2-A260T</i> line#2 and littermate controls (<i>WT</i>) are shown. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. Phase-shifts shown here are by 30-min light exposure at ZT14 (left panel, n\u00a0=\u00a07 for h<i>CRY2-A260T</i> line#2, n\u00a0=\u00a03 for <i>WT</i>). Period was determined by line fitting of activity onset from day 7 to day 19 in DD. *p&lt;0.05 by Student\u2019s <i>t</i>-test (right panel, n\u00a0=\u00a07 for h<i>CRY2-A260T</i> line#2, n\u00a0=\u00a03 for <i>WT</i>)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp4-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig2-figsupp4-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2116, 
+                                                "height": 1698
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp4-v3.jpg", 
+                                            "filename": "elife-16695-fig2-figsupp4-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp4-v3.jpg", 
-                                        "filename": "elife-16695-fig2-figsupp4-v3.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-16695-fig2-v3.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-v3.jpg", 
+                                "alt": ""
                             }
                         ]
                     }, 
@@ -1343,9 +1421,22 @@
                                         "text": "(<b>A</b>) Representative rhythms of PER2::LUC bioluminescence in the liver and lung. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. (<b>B</b>) Period measurements of the bioluminescence rhythms in liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver and h<i>CRY2-WT</i> lung, n\u00a0=\u00a03 for h<i>CRY2-A260T</i> lung, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Peak and trough time of PER2::LUC bioluminescence rhythms of mouse liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver). Data are shown as means \u00b1 SD (n\u00a0=\u00a02 to 4 for lung, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>D</b>) Representative rhythms of PER2::LUC bioluminescence in MEFs from h<i>CRY2</i> transgenic mice. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p&lt;0.05 by Tukey\u2019s test). (<b>E</b>)\u00a0Representative examples of bioluminescence rhythms of m<i>Bmal1-luc</i> in MEFs from transgenic mice on a m<i>Cry2</i> knockout background. Cells were transfected with m<i>Bmal1</i>-luc vector 24\u2009hr before the recording. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p&lt;0.05 by Games-Howell test). (<b>F</b>)\u00a0Representative examples of bioluminescence rhythms of <i>Bmal1-luc</i> in NIH3T3 cells stably expressing FLAG-CRY2-WT or FLAG-CRY2-A260T. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test)."
                                     }
                                 ], 
-                                "alt": "", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig3-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-16695-fig3-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2292, 
+                                        "height": 1945
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig3-v3.jpg", 
+                                    "filename": "elife-16695-fig3-v3.jpg"
+                                }, 
                                 "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig3-v3.jpg", 
-                                "filename": "elife-16695-fig3-v3.jpg"
+                                "alt": ""
                             }, 
                             {
                                 "type": "image", 
@@ -1359,8 +1450,20 @@
                                         "text": "(<b>A</b>) Luciferase activity driven by mouse <i>Per1</i> E-box in HEK293 cells. 2, 5, 10 and 20 ng of hCRY2 expression vector (WT or A260T) was transfected into cells cultured in a 24-well plate. Luciferase activity was normalized to Renilla luciferase activity. Data are shown as means with SEM (n\u00a0=\u00a04, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>B</b>) Protein levels of CRY2-WT and CRY2-A260T in the nuclear and cytosolic fractions of HEK293 cells. Data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Degradation assay of CRY2 protein in HEK293 cells. Forty-eight hours after transfection, cells were treated with 100 \u03bcg/ml CHX and fractionated into the nuclear and cytosolic fractions. CRY2 protein levels at the starting point (t\u00a0=\u00a00\u2009hr) were normalized to 1. Data are shown as means with SEM (n\u00a0=\u00a03*, p&lt;0.05 by Student\u2019s <i>t-</i>test)."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-v3.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-16695-fig4-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2082, 
+                                        "height": 808
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-v3.jpg", 
+                                    "filename": "elife-16695-fig4-v3.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1374,12 +1477,26 @@
                                                 "text": "(<b>A</b>) Twenty-four hours after transfection, the culture media was changed to recording media containing 100 \u00b5g/ml CHX, and bioluminescence of CRY2-LUC (WT, A260T or A260D) was recorded continuously. Bioluminescence normalized to the start point was fitted to an exponential curve to determine half-life of CRY2-LUC (right panel). Data are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p&lt;0.05 by Tukey\u2019s test). Left panel shows representative bioluminescence decay of CRY2-LUC. (<b>B</b>) Luciferase activity driven by mouse <i>Per1</i> E-box. 10 or 25 ng of <i>CRY2</i> construct was transfected to HEK293 cells cultured in 24-well plate. Luciferase activity was normalized to Renilla luciferase activity. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Tukey\u2019s test). (<b>C</b>) Degradation assay of CRY1 protein in HEK293 cells. Sixty hours after transfection, cells were treated with 100 \u03bcg/ml CHX and fractionated into the nuclear and cytosolic fractions. CRY1 protein levels at the starting point (t\u00a0=\u00a00\u2009hr) were normalized to 1. Data are shown as means with SEM (n\u00a0=\u00a03*, p&lt;0.05 by Student\u2019s <i>t-</i>test)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig4-figsupp1-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 2121, 
+                                                "height": 1659
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-figsupp1-v3.jpg", 
+                                            "filename": "elife-16695-fig4-figsupp1-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-figsupp1-v3.jpg", 
-                                        "filename": "elife-16695-fig4-figsupp1-v3.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-16695-fig4-v3.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-v3.jpg", 
+                                "alt": ""
                             }
                         ]
                     }, 
@@ -1426,8 +1543,20 @@
                                         "text": "(<b>A</b>) Effect of human <i>FBXL3</i> knockdown on CRY2 protein stability in HEK293 cells. Forty-eight hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX, and bioluminescence of CRY2-LUC was recorded continuously. Bioluminescence normalized to the value at time 0 was fitted to an exponential curve to determine half-life of CRY2-LUC. Data are shown as means with SEM (n\u00a0=\u00a04, *p&lt;0.05 by Welch\u2019s <i>t-</i>test). (<b>B</b>) Effect of FAD on CRY2 protein levels. Forty-two hours after transfection, HEK293 cells were treated with 100 \u03bcM FAD for 6\u2009hr. Data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>)\u00a0FAD and FBXL3 competition assay. CRY2-FBXL3 complex expressed in HEK293 cells was purified using FLAG antibody. FAD was added to CRY2-FBXL3 complex and incubated at 4\u00b0C for 2\u2009hr\u00a0in vitro. (<b>D</b>) CRY2 protein stability in the cells treated with KL001. Twenty-four hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX and KL001. Recording of bioluminescence and calculation of half-life was performed as described above. *p&lt;0.05 by Student\u2019s <i>t-</i>test (n\u00a0=\u00a03). (<b>E</b>) Interaction of CRY2 with FBXL3 in HEK293 cells treated with MG132 for 6\u2009hr prior to harvesting. (<b>F</b>) Ubiquitylation of CRY2. HEK293 cells expressing FLAG-CRY2 were treated with MG132 for 6\u2009hr before harvesting. FLAG-CRY2 was then purified and blotted with anti-Ubiquitin antibody. Quantitative data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test)."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-v3.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-16695-fig5-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2469, 
+                                        "height": 1838
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-v3.jpg", 
+                                    "filename": "elife-16695-fig5-v3.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1441,12 +1570,26 @@
                                                 "text": "(<b>A</b>) CRY2 protein stability in the cells treated with KL001. Twenty-four hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX and KL001 at the indicated concentration. *p&lt;0.05 by Student\u2019s <i>t-</i>test (n\u00a0=\u00a03). (<b>B</b>) Structure of mouse CRY2 bound to FAD (PDB code 4I6G) (orange) or FBXL3 (4I6J) (red). Green represents FBXL3. Short dashed lines indicate the side chain of A259 (A260 of human CRY2). CRY2 bound to FBXL3 is in a more open conformation compared to the FAD-bound CRY2. (<b>C</b>) Structure of mouse CRY2-WT (top) or mouse CRY2-A259T (corresponded to human CRY2-A260T, bottom) bound to FBXL3. The Ala to Thr mutation increases the molecular density and likely changes the conformation of CRY2 from the FAD-bound form to the FBXL3-bound form, in which main chain around A259 moved to left side in this image."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig5-figsupp1-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1837, 
+                                                "height": 2400
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-figsupp1-v3.jpg", 
+                                            "filename": "elife-16695-fig5-figsupp1-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-figsupp1-v3.jpg", 
-                                        "filename": "elife-16695-fig5-figsupp1-v3.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-16695-fig5-v3.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-v3.jpg", 
+                                "alt": ""
                             }, 
                             {
                                 "type": "paragraph", 
@@ -1479,8 +1622,20 @@
                                         "text": "(<b>A</b>) CRY2 protein levels in synchronized MEFs. Cells were treated with 100 nM Dex for 2\u2009hr to synchronize the cellular rhythms. Media was change and MEFs were cultured for 24 or 36\u2009hr before harvesting. Quantified band intensities of CRY2 (mouse CRY2 and human CRY2) are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>B</b>) mRNA levels of clock genes in synchronized MEFs. Cellular rhythms of MEFs were synchronized with 100 nM Dex for 2\u2009hr. mRNA levels were quantified by real-time PCR. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>)\u00a0Temporal expression profiles of PER1, PER2, CRY1 and CRY2 in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. Asterisks mark non-specific bands. (<b>D</b>) Quantification of protein levels in (<b>C</b>). Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<b>E</b>) mRNA levels of indicated clock genes in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. mRNA levels of indicated genes were quantified by real-time PCR using gene specific primers. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<b>F</b>) Model of CRY2 protein regulation. In wild-type, FAD binding to CRY2 acts to stabilize by competing with FBXL3. In h<i>CRY2-A260T</i> transgenic mice or FASP human subjects with CRY2 mutations, FAD does not protect CRY2 from FBXL3-mediated degradation. Destabilization of CRY2 results in shortened period, leading to advanced sleep phase. In <i>Fbxl3</i> knockout mice or mutant mice (<i>Overtime</i>and <i>After-hours</i>)\u00a0(<a href=\"#bib5\">Godinho et al., 2007</a>; <a href=\"#bib36\">Siepka et al., 2007</a>), CRY2 is stabilized in the nucleus, thus lengthening the circadian period."
                                     }
                                 ], 
-                                "alt": "", 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-v3.jpg", 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-v3.jpg/full/full/0/default.jpg", 
+                                        "filename": "elife-16695-fig6-v3.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "size": {
+                                        "width": 2500, 
+                                        "height": 2450
+                                    }, 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-v3.jpg", 
+                                    "filename": "elife-16695-fig6-v3.jpg"
+                                }, 
                                 "supplements": [
                                     {
                                         "type": "image", 
@@ -1494,12 +1649,26 @@
                                                 "text": "(<b>A</b>) mRNA levels of indicated genes in synchronized MEFs. Cellular rhythms of MEFs were synchronized with 100 nM Dex for 2\u2009hr. mRNA levels were quantified by real-time PCR. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>B</b>) Expression patterns of indicated clock genes in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. mRNA levels of indicated genes were quantified by real-time PCR using gene specific primers. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03)."
                                             }
                                         ], 
-                                        "alt": "", 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig6-figsupp1-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "size": {
+                                                "width": 1953, 
+                                                "height": 2143
+                                            }, 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-figsupp1-v3.jpg", 
+                                            "filename": "elife-16695-fig6-figsupp1-v3.jpg"
+                                        }, 
                                         "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-figsupp1-v3.jpg", 
-                                        "filename": "elife-16695-fig6-figsupp1-v3.jpg"
+                                        "alt": ""
                                     }
                                 ], 
-                                "filename": "elife-16695-fig6-v3.jpg"
+                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-v3.jpg", 
+                                "alt": ""
                             }
                         ]
                     }

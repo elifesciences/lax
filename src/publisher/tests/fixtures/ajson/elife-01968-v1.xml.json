@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-01968-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-01968-v1.xml"
         }, 
         "status": "vor", 
         "id": "01968", 
@@ -84,7 +84,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-01968-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-01968-v1.xml", 
             "patched": true
         }, 
         "status": "vor", 

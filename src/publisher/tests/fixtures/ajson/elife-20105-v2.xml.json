@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20105-v2.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20105-v2.xml"
         }, 
         "-history": {
             "received": "2016-07-27T00:00:00Z", 
@@ -47,7 +47,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/5aac79759a440b88c82b263dbd866793307e5300/articles/elife-20105-v2.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20105-v2.xml", 
             "patched": true
         }, 
         "-history": {
@@ -383,7 +383,7 @@
                     "preferred": "Philip A Cole", 
                     "index": "Cole, Philip A"
                 }, 
-                "role": "Reviewing editor", 
+                "role": "Reviewing Editor", 
                 "affiliations": [
                     {
                         "name": [
