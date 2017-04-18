@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . import models
+from . import models, aws_events
 
 class ArticleVersionAdmin(admin.TabularInline):
     list_select_related = ('article',)
@@ -20,6 +20,20 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = [
         ArticleVersionAdmin,
     ]
+
+    def save_model(self, request, art, form, change):
+        super(ArticleAdmin, self).save_model(request, art, form, change)
+        aws_events.notify(art)
+
+    def delete_model(self, request, art):
+        super(ArticleAdmin, self).delete_model(request, art)
+        aws_events.notify(art)
+
+    # this may cause multiple events to be sent
+    def save_related(self, request, form, formsets, change):
+        super(ArticleAdmin, self).save_related(request, form, formsets, change)
+        art = form.instance
+        aws_events.notify(art)
 
 admin_list = [
     (models.Publisher,),
