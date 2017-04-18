@@ -21,9 +21,9 @@ class ArticleAdmin(admin.ModelAdmin):
         ArticleVersionAdmin,
     ]
 
-    def save_model(self, request, art, form, change):
-        super(ArticleAdmin, self).save_model(request, art, form, change)
-        aws_events.notify(art)
+    # def save_model(self, request, art, form, change):
+    #    super(ArticleAdmin, self).save_model(request, art, form, change)
+    #    #aws_events.notify(art) # called in save_related, which is called after save_model()
 
     def delete_model(self, request, art):
         super(ArticleAdmin, self).delete_model(request, art)
