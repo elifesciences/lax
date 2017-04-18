@@ -25,15 +25,15 @@ def formsubgen(art):
         "date_rev1_qc": "",
         "date_rev1_decision": "",
         "rev1_decision": "AF",
-        "date_rev2_qc":"",
-        "date_rev2_decision":"",
-        "rev2_decision":"",
-        "date_rev3_qc":"",
-        "date_rev3_decision":"",
-        "rev3_decision":"",
-        "date_rev4_qc":"",
-        "date_rev4_decision":"",
-        "rev4_decision":"",
+        "date_rev2_qc": "",
+        "date_rev2_decision": "",
+        "rev2_decision": "",
+        "date_rev3_qc": "",
+        "date_rev3_decision": "",
+        "rev3_decision": "",
+        "date_rev4_qc": "",
+        "date_rev4_decision": "",
+        "rev4_decision": "",
         "volume": 4,
         "type": "research-article",
         "ejp_type": "RA",
@@ -44,10 +44,10 @@ def formsubgen(art):
 
         # ?
         # new av stub?
-        
-        "articleversion_set-__prefix__-id":"",
+
+        "articleversion_set-__prefix__-id": "",
         "articleversion_set-__prefix__-article": art.id,
-        "articleversion_set-__prefix__-datetime_published_0":"",
+        "articleversion_set-__prefix__-datetime_published_0": "",
         "articleversion_set-__prefix__-datetime_published_1": ""
     }
     for i, av in enumerate(avl):
@@ -62,10 +62,10 @@ def formsubgen(art):
 class One(BaseCase):
     def setUp(self):
         self.ac = Client()
-        
+
         user = User.objects.create_superuser('john', 'john@example.org', 'password')
         # https://docs.djangoproject.com/en/1.11/topics/testing/tools/#django.test.Client.force_login
-        self.ac.force_login(user) 
+        self.ac.force_login(user)
 
         ingest_these = [
             "elife-16695-v1.xml.json",
@@ -80,17 +80,17 @@ class One(BaseCase):
 
         self.msid = 16695
         self.art = self.avs[-1].article
-            
+
     def tearDown(self):
         pass
 
     @override_settings(DEBUG=False) # get past the early return in aws_events
-    def test_admin_save_sends_event(self):
-        "saving an article through the admin sends an update event to aws"
+    def test_admin_article_save_sends_event(self):
+        "an event is sent when an article is updated from the article admin page"
 
         # we just need a successful form submission to test if an event is sent
         payload = formsubgen(self.art)
-            
+
         # https://docs.djangoproject.com/en/1.10/ref/contrib/admin/#admin-reverse-urls
         url = reverse("admin:publisher_article_change", args=(self.art.id,))
 
@@ -99,6 +99,32 @@ class One(BaseCase):
         with patch('publisher.aws_events.event_bus_conn', return_value=mock):
             resp = self.ac.post(url, payload, follow=False)
             self.assertEqual(resp.status_code, 302) # temp redirect after successful submission
-            print(mock.publish.__dict__)
-            mock.publish.assert_called_with(Message=expected_event)
+            mock.publish.assert_called_once_with(Message=expected_event)
+
+    @override_settings(DEBUG=False)
+    def test_admin_article_delete_sends_event(self):
+        "an event is sent when an article is deleted from the article admin page"
+        url = reverse("admin:publisher_article_delete", args=(self.art.id,))
+        mock = Mock()
+        expected_event = json.dumps({"type": "article", "id": self.msid})
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            payload = {'post': 'yes'} # skips confirmation
+            resp = self.ac.post(url, payload, follow=False)
+            self.assertEqual(resp.status_code, 302) # temp redirect after successful submission
+            mock.publish.assert_called_once_with(Message=expected_event)
+
+    @override_settings(DEBUG=False)
+    def test_admin_articleversion_delete_sends_event(self):
+        "an event is sent when an articleversion is deleted from the article admin page"
+
+        # deleting an articleversion means selecting the 'delete' checkbox and clicking save
+        payload = formsubgen(self.art)
+        payload["articleversion_set-0-DELETE"] = "on" # 'click' the delete checkbox
+
+        url = reverse("admin:publisher_article_change", args=(self.art.id,))
+        mock = Mock()
+        expected_event = json.dumps({"type": "article", "id": self.msid})
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            resp = self.ac.post(url, payload, follow=False)
+            self.assertEqual(resp.status_code, 302) # temp redirect after successful submission
             mock.publish.assert_called_once_with(Message=expected_event)
