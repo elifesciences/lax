@@ -29,7 +29,6 @@ class ArticleAdmin(admin.ModelAdmin):
         super(ArticleAdmin, self).delete_model(request, art)
         aws_events.notify(art)
 
-    # this may cause multiple events to be sent
     def save_related(self, request, form, formsets, change):
         super(ArticleAdmin, self).save_related(request, form, formsets, change)
         art = form.instance
