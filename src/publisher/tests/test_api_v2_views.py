@@ -1,3 +1,4 @@
+from unittest import skip
 from core import middleware as mware
 from datetime import timedelta
 from . import base
@@ -7,7 +8,8 @@ from publisher import ajson_ingestor, models, fragment_logic as fragments, utils
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 from django.conf import settings
-#from unittest import skip
+from unittest.mock import patch, Mock
+
 SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
 class Fragments(base.BaseCase):
@@ -595,6 +597,22 @@ class V2PostContent(base.BaseCase):
 
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 403)
+
+    @skip("no way to test on_commit hooks as transaction is always rolled back")
+    @override_settings(DEBUG=False) # get past the early return in aws_events
+    def test_add_fragment_sends_aws_event(self):
+        "successfully adding a fragment sends an aws event"
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+
+            fragment = {'title': 'Electrostatic selection'}
+            resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
+            self.assertEqual(resp.status_code, 200) # success
+
+            # https://docs.djangoproject.com/en/1.10/topics/db/transactions/#use-in-tests
+            expected_event = json.dumps({"type": "article", "id": self.msid})
+            mock.publish.assert_called_once_with(Message=expected_event)
 
 
 class RequestArgs(base.BaseCase):
