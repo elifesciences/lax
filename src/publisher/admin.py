@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . import models, aws_events
+from . import models, aws_events, fragment_logic
 
 class ArticleVersionAdmin(admin.TabularInline):
     list_select_related = ('article',)
@@ -27,11 +27,13 @@ class ArticleAdmin(admin.ModelAdmin):
 
     def delete_model(self, request, art):
         super(ArticleAdmin, self).delete_model(request, art)
+        fragment_logic.set_all_article_json(art, quiet=True)
         aws_events.notify(art)
 
     def save_related(self, request, form, formsets, change):
         super(ArticleAdmin, self).save_related(request, form, formsets, change)
         art = form.instance
+        fragment_logic.set_all_article_json(art, quiet=True)
         aws_events.notify(art)
 
 admin_list = [
