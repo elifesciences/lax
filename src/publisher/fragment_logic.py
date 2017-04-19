@@ -3,7 +3,7 @@ from functools import partial
 from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
-from . import utils, models
+from . import utils, models, aws_events
 from .utils import create_or_update, ensure, subdict, StateError, atomic, lmap, lfilter
 import logging
 from django.db import transaction
@@ -187,18 +187,26 @@ def set_all_article_json(art, quiet):
 #
 
 def add_fragment_update_article(art, key, fragment):
-    "adds a fragment to an article, re-renders article. if an error occurs, update is rolled back"
+    "adds a fragment to an article, re-renders article, sends update event. if an error occurs, update is rolled back and no event is sent"
     with transaction.atomic():
         # pos=1 ensures we don't ever replace the XML2JSON fragment
         frag, created, updated = add(art, key, fragment, pos=1, update=True)
         ensure(created or updated, "fragment was not created/updated")
+
+        # notify event bus that article change has occurred
+        transaction.on_commit(partial(aws_events.notify, art))
+
         return set_all_article_json(art, quiet=False)
 
 def delete_fragment_update_article(art, key):
-    "removes a fragment from an article, re-renders article. if an error occurs, delete is rolled back"
+    "removes a fragment from an article, re-renders article, sends update event. if an error occurs, delete is rolled back and no event is sent"
     with transaction.atomic():
         # version=None ensures we don't ever remove the XML2JSON fragment
         models.ArticleFragment.objects.get(article=art, type=key, version=None).delete()
+
+        # notify event bus that article change has occurred
+        transaction.on_commit(partial(aws_events.notify, art))
+
         return set_all_article_json(art, quiet=False)
 
 #
