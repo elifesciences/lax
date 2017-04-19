@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.contrib import admin
 from . import models, aws_events, fragment_logic
 
@@ -11,9 +12,26 @@ class ArticleVersionAdmin(admin.TabularInline):
     def has_add_permission(self, request):
         return False
 
+class UnpublishedVersionsFilter(admin.SimpleListFilter):
+    title = 'has unpublished'
+    parameter_name = 'has-unpublished'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('unpublished', 'unpublished')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() != 'unpublished':
+            return
+        return queryset \
+            .annotate(num_avs=Count('articleversion')) \
+            .filter(num_avs__gt=0) \
+            .filter(articleversion__datetime_published=None)
+
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('manuscript_id', 'volume', 'ejp_type', 'date_initial_qc', 'initial_decision', 'doi')
-    list_filter = ('volume', 'ejp_type', 'date_initial_qc', 'initial_decision', 'decision')  # ('is_published', admin.BooleanFieldListFilter))
+    list_filter = (UnpublishedVersionsFilter, 'volume', 'ejp_type', 'date_initial_qc', 'initial_decision', 'decision')  # ('is_published', admin.BooleanFieldListFilter))
     ordering = ('-manuscript_id',)
     show_full_result_count = True
     search_fields = ('manuscript_id', 'doi',)
