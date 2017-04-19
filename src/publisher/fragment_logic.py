@@ -92,10 +92,14 @@ def extract_snippet(merged_result):
         return None
     # TODO: derive these from the schema automatically somehow please
     snippet_keys = [
+        # https://github.com/elifesciences/api-raml/blob/develop/src/snippets/article-vor.v1.yaml
+        # https://github.com/elifesciences/api-raml/blob/develop/src/snippets/article.v1.yaml
+
         # pulled from given xml->json
         'copyright', 'doi', 'elocationId', 'id', 'impactStatement',
         'pdf', 'published', 'researchOrganisms', 'status', 'subjects',
         'title', 'titlePrefix', 'type', 'version', 'volume', 'authorLine',
+        'abstract', 'figuresPdf', 'image',
 
         # added by lax
         'statusDate', 'stage', 'versionDate',
