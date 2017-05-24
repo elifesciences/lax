@@ -171,7 +171,12 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         av.save()
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(aws_events.notify, av.article))
+        def _notify():
+            aws_events.notify(av.article)
+            for related_article in relationships.internal_relationships_for_article_version(av):
+                aws_events.notify(related_article)
+        transaction.on_commit(_notify)
+
 
         return av
 

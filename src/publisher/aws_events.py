@@ -117,7 +117,7 @@ def notify(art, **overrides):
     try:
         msg = {"type": "article", "id": art.manuscript_id}
         msg_json = json.dumps(msg)
-        LOG.debug("writing message to event bus", extra={'bus-message': msg_json})
+        LOG.info("writing message to event bus", extra={'bus-message': msg_json})
         event_bus_conn(**overrides).publish(Message=msg_json)
     except ValueError as err:
         # probably serializing value
