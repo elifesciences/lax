@@ -52,6 +52,13 @@ PUBLISH_EVENTS = [
 #
 #
 
+def _notify(av):
+    "notify event bus of changes to the article and its related articles"
+
+    aws_events.notify(av.article)
+    for related_article in relationships.internal_relationships_for_article_version(av):
+        aws_events.notify(related_article)
+
 def _ingest_objects(data, create, update, force, log_context):
     "ingest helper. returns the journal, article, an article version and a list of article events"
 
@@ -171,11 +178,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         av.save()
 
         # notify event bus that article change has occurred
-        def _notify():
-            aws_events.notify(av.article)
-            for related_article in relationships.internal_relationships_for_article_version(av):
-                aws_events.notify(related_article)
-        transaction.on_commit(_notify)
+        transaction.on_commit(partial(_notify, av))
 
 
         return av
@@ -255,7 +258,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force)
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(aws_events.notify, av.article))
+        transaction.on_commit(partial(_notify, av))
 
         return av
 
