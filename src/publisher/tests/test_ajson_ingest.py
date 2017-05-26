@@ -12,7 +12,6 @@ from jsonschema.exceptions import ValidationError
 from publisher import logic
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
-from unittest.mock import patch, MagicMock
 
 class Ingest(BaseCase):
     def setUp(self):
@@ -240,42 +239,6 @@ class Ingest(BaseCase):
         av = self.freshen(av)
         self.assertEqual(av.article_json_v1, None)
         self.assertEqual(av.article_json_v1_snippet, None)
-
-    @patch('publisher.ajson_ingestor.transaction')
-    @patch('publisher.ajson_ingestor.aws_events')
-    def test_events(self, aws_events, transaction):
-        aws_events.notify = MagicMock()
-        transaction.on_commit = MagicMock()
-
-        # has 2 related
-        self.with_related_explicit = self.load_ajson(join(self.fixture_dir, 'ajson', 'elife-10627-v1.xml.json'), strip_relations=False)
-        ajson_ingestor.ingest(self.with_related_explicit)
-        self._apply(transaction)
-        self.assertEqual(len(aws_events.notify.mock_calls), 3)
-        self.assertEqual(self._event(aws_events, 0), 10627)
-        self.assertEqual(self._event(aws_events, 1), 9561) # linked by 10627
-        self.assertEqual(self._event(aws_events, 2), 9560) # linked by 10627
-
-        # has 1 related, but it's also pointed at by 10627
-        self.with_related_pointing_at_it = self.load_ajson(join(self.fixture_dir, 'ajson', 'elife-09560-v1.xml.json'), strip_relations=False)
-        ajson_ingestor.ingest(self.with_related_pointing_at_it)
-        self._apply(transaction)
-        self.assertEqual(len(aws_events.notify.mock_calls), 3 + 3)
-        self.assertEqual(self._event(aws_events, 3), 9560)
-        self.assertEqual(self._event(aws_events, 4), 10627) # links to 9560
-        self.assertEqual(self._event(aws_events, 5), 9561) # linked by 9560
-
-    def _apply(self, transaction):
-        self.assertEqual(len(transaction.on_commit.mock_calls), self.commits + 1)
-        (on_commit, ) = transaction.on_commit.mock_calls[self.commits][1]
-        on_commit()
-        self.commits = self.commits + 1
-
-    def _event(self, aws_events, index):
-        args = 1
-        first_arg = 0
-        return aws_events.notify.mock_calls[index][args][first_arg].manuscript_id
-
 
 class Publish(BaseCase):
     def setUp(self):

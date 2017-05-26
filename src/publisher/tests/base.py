@@ -1,10 +1,11 @@
 from io import StringIO
 import os, json
-from django.test import TestCase
+from django.test import TestCase as DjangoTestCase, TransactionTestCase
 from publisher import models, utils
 from django.core.management import call_command
+import unittest
 
-class BaseCase(TestCase):
+class SimpleBaseCase(unittest.TestCase):
     this_dir = os.path.dirname(os.path.realpath(__file__))
     fixture_dir = os.path.join(this_dir, 'fixtures')
     maxDiff = None
@@ -42,3 +43,13 @@ class BaseCase(TestCase):
         except SystemExit as err:
             return err.code, stdout.getvalue()
         self.fail("ingest script should always throw a systemexit()")
+
+#
+#
+#
+
+class BaseCase(SimpleBaseCase, DjangoTestCase):
+    pass
+
+class TransactionBaseCase(SimpleBaseCase, TransactionTestCase):
+    pass
