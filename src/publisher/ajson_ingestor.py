@@ -1,5 +1,6 @@
 import copy
-from publisher import models, utils, fragment_logic as fragments, logic, events, aws_events, relation_logic as relationships
+from publisher import models, utils, fragment_logic as fragments, logic, events, aws_events
+from publisher import relation_logic as relationships
 from publisher.models import XML2JSON
 from publisher.utils import create_or_update, StateError, atomic
 import logging
@@ -171,7 +172,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         av.save()
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(aws_events.notify, av.article))
+        transaction.on_commit(partial(aws_events.notify_all, av))
 
         return av
 
@@ -250,7 +251,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force)
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(aws_events.notify, av.article))
+        transaction.on_commit(partial(aws_events.notify_all, av))
 
         return av
 

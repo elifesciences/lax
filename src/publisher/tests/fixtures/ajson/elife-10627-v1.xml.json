@@ -1,0 +1,1186 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/2b1a280ca981a56053d1cd399b529c8e1b30ad4e/articles/elife-10627-v1.xml"
+        }, 
+        "status": "vor", 
+        "id": "10627", 
+        "version": 1, 
+        "type": "insight", 
+        "doi": "10.7554/eLife.10627", 
+        "authorLine": "Chris Stringer", 
+        "title": "The many mysteries of <i>Homo naledi</i>", 
+        "titlePrefix": "Human Evolution", 
+        "published": "2015-09-10T00:00:00Z", 
+        "versionDate": "2015-09-10T00:00:00Z", 
+        "volume": 4, 
+        "elocationId": "e10627", 
+        "pdf": "https://cdn.elifesciences.org/articles/10627/elife-10627-v1.pdf", 
+        "subjects": [
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "More than 1500 fossils from the Rising Star cave system in South Africa have been assigned to a new human species, <i>Homo naledi</i>, which displays a unique combination of primitive and derived traits throughout the skeleton."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Stringer", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Chris Stringer", 
+                    "index": "Stringer, Chris"
+                }, 
+                "orcid": "0000-0002-9183-7337", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Earth Sciences", 
+                            "Natural History Museum"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "London", 
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "London"
+                                ], 
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "c.stringer@nhm.ac.uk"
+                ], 
+                "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
+            }
+        ]
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/2b1a280ca981a56053d1cd399b529c8e1b30ad4e/articles/elife-10627-v1.xml", 
+            "patched": true
+        }, 
+        "status": "vor", 
+        "id": "10627", 
+        "version": 1, 
+        "type": "insight", 
+        "doi": "10.7554/eLife.10627", 
+        "authorLine": "Chris Stringer", 
+        "title": "The many mysteries of <i>Homo naledi</i>", 
+        "titlePrefix": "Human Evolution", 
+        "published": "2015-09-10T00:00:00Z", 
+        "versionDate": "2015-09-10T00:00:00Z", 
+        "volume": 4, 
+        "elocationId": "e10627", 
+        "pdf": "https://cdn.elifesciences.org/articles/10627/elife-10627-v1.pdf", 
+        "subjects": [
+            {
+                "id": "genomics-evolutionary-biology", 
+                "name": "Genomics and Evolutionary Biology"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "More than 1500 fossils from the Rising Star cave system in South Africa have been assigned to a new human species, <i>Homo naledi</i>, which displays a unique combination of primitive and derived traits throughout the skeleton."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Stringer", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Chris Stringer", 
+                    "index": "Stringer, Chris"
+                }, 
+                "orcid": "0000-0002-9183-7337", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Earth Sciences", 
+                            "Natural History Museum"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "London", 
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "London"
+                                ], 
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "c.stringer@nhm.ac.uk"
+                ], 
+                "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
+            }
+        ], 
+        "keywords": [
+            "<i>Homo naledi</i>", 
+            "hominin", 
+            "Dinaledi Chamber", 
+            "paleoanthropology", 
+            "taphonomy"
+        ], 
+        "-related-articles-internal": [
+            "09561", 
+            "09560"
+        ], 
+        "-related-articles-external": [], 
+        "body": [
+            {
+                "type": "section", 
+                "id": "s0", 
+                "title": "Main text", 
+                "content": [
+                    {
+                        "type": "paragraph", 
+                        "text": "When the recovery of fossil hominin remains from the Rising Star cave system near Johannesburg in South Africa was widely publicised in 2013 and 2014, I'm sure I wasn't the only one who thought that the coverage had more hype than substance. But now, in two papers in <i>eLife</i>, we can see what the fuss was all about as Lee Berger of the University of the Witwatersrand, Paul Dirks of James Cook University and an international team of colleagues report the discovery of more than 1500 fossils that represent at least 15 individuals (<a href=\"#bib2\">Berger et al., 2015</a>; <a href=\"#bib5\">Dirks et al., 2015</a>). These remains have now been assigned to a new human species, which has been named <i>Homo naledi</i>. However, despite the wealth of information about the physical characteristics of <i>H. naledi</i> that this collection provides, many mysteries remain. How old are the fossils? Where does <i>H. naledi</i> fit in the scheme of human evolution? And how did the remains arrive deep within the cave system?"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "In the first paper, Berger et al. describe how the collection displays a unique combination of primitive and derived characteristics (<a href=\"#bib2\">Berger et al., 2015</a>). For example, the small brain size, curved fingers and form of the shoulder, trunk and hip joint resemble the prehuman australopithecines and the early human species <i>Homo habilis</i>. Yet the wrist, hands, legs and feet look most like those of Neanderthals and modern humans. The teeth have some primitive features (such as increasing in size towards the back of the tooth row), but they are relatively small and simple, and set in lightly built jawbones (<a href=\"#fig1\">Figure 1</a>). Overall, to my eye, the material looks most similar to the small-bodied examples of <i>Homo erectus</i> from Dmanisi in Georgia, which have been dated at \u223c1.8 million years old (<a href=\"#bib8\">Lordkipanidze et al., 2013</a>). However, the rich <i>H. naledi</i> sample includes bones that are poorly known in other early humans species such as <i>Homo rudolfensis,</i> <i>H. habilis</i> and <i>H. erectus</i>, so it is difficult at the moment to assess how similar these species were throughout the skeleton."
+                    }, 
+                    {
+                        "type": "figure", 
+                        "assets": [
+                            {
+                                "type": "image", 
+                                "id": "fig1", 
+                                "label": "Figure 1", 
+                                "title": "Comparison of skull features of <i>Homo naledi</i> and other early human species.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "Replica crania of (left to right) <i>Homo habilis</i> (KNM-ER 1813, Koobi Fora, Kenya \u223c1.8 million years old), an early <i>Homo erectus</i> (D2700, Dmanisi, Georgia \u223c1.8 million years old) and <i>Homo floresiensis</i> (Liang Bua 1, Indonesia \u223c20,000 years old) are compared with actual fragments of cranial material of <i>H. naledi</i> that have been overlaid on a virtual reconstruction (far right; note some of the images of <i>H. naledi</i> material have been reversed). In each case, the crania are labelled with the typical features of each species. For example, while the adult brain volume of modern humans (<i>Homo sapiens</i>) is typically between 1000 and 1500 cubic centimetres (cc), <i>H. habilis</i> ranged from about 510 to &gt;700 cc, <i>H. erectus</i> from about 550 to &gt;1100 cc, <i>H. floresiensis</i> about 426 cc, and <i>H. naledi</i> between 466 and 560 cc. Furthermore, in modern humans, the occipital bone (at the back of the skull) is typically evenly rounded in profile, whereas in some early humans such as <i>H. erectus</i>, the upper and lower portions of the occipital are sharply angled to each other (i.e., \u2018flexed\u2019), and there is a strong ridge of bone running across the angulated region (called a transverse torus)."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://iiif.elifesciences.org/lax:10627/elife-10627-fig1-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-10627-fig1-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://iiif.elifesciences.org/lax:10627/elife-10627-fig1-v1.tif", 
+                                    "size": {
+                                        "width": 4473, 
+                                        "height": 2241
+                                    }
+                                }
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "If <i>H. naledi</i> is more than 2 million years old, which Berger et al. suggest could be possible, the species might lie close to the very origin of the genus <i>Homo</i>. However, if the <i>H. naledi</i> fossils are less than 100,000 years old, it would mean that it survived until relatively recently, just like <i>Homo floresiensis</i> far away in Indonesia (another species which combines a small brain with small teeth; <a href=\"#bib12\">Stringer, 2014</a>). Because <i>H. naledi</i> is currently only known from one site, it is unclear whether or not it was restricted to southern Africa. If it turns out that <i>H. naledi</i> was more widespread, its moderate body size may lead scientists to re-examine other diminutive fossils from across Africa, which have usually been attributed to a small form of <i>H. erectus</i> (<a href=\"#bib1\">Ant\u00f3n, 2004</a>; <a href=\"#bib10\">Potts et al., 2004</a>; <a href=\"#bib11\">Simpson et al., 2008</a>)."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "In the second paper, Dirks, Berger and colleagues describe the setting of the fossils: the Dinaledi Chamber (<a href=\"#bib5\">Dirks et al., 2015</a>). This cave chamber lies some 80 metres into the Rising Star system, and must have always been in constant darkness. This closely parallels the circumstances of a famous accumulation of \u223c6500 human fossils in the Sima de los Huesos (\u2018Pit of the Bones\u2019) in the Sierra de Atapuerca in Spain. In both cases, there is no associated evidence of human occupation. However, unlike the Dinaledi Chamber, the Sima did contain material from other large mammals. Moreover, the Atapuerca team also recovered numerous bones of the hands, feet and spine that could be articulated (or connected back together as they were in life). This led them to propose that the remains of at least 28 early Neanderthals had been intentionally thrown down into the pit, where the bodies decayed (<a href=\"#bib3\">Carbonell and Mosquera, 2006</a>). After considering the alternative explanations, ranging from whether <i>H. naledi</i> occupied the caves to whether the bodies were left there by predators, Dirks et al. favour a similar scenario to that proposed for the Sima. However, they also recognise that the intentional disposal of the dead bodies is a surprisingly complex behaviour for a creature with a brain no bigger than that of <i>H. habilis</i> or a gorilla"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Frustratingly, the rich and informative <i>H. naledi</i> material remains undated. Given that this hominin material could conceivably even date within the last 100,000 years, I am puzzled by the apparent lack of attempts to estimate its age. This could have been achieved directly via radiocarbon dating (even if only to test whether the material lies beyond the effective range of that method) or indirectly based on ancient DNA samples. For example, after ancient DNA was successfully recovered from the Sima de los Huesos fossils, it was used to date them to about 400,000 years old (<a href=\"#bib9\">Meyer et al., 2014</a>). Moreover, tests on even small fragments of bone and tooth enamel could have narrowed down the possible age range and at least ruled out either a very ancient or very young age (<a href=\"#bib6\">Gr\u00fcn, 2006</a>)."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "Even without date information, the mosaic nature of the <i>H. naledi</i> skeletons provides yet another indication that the genus <i>Homo</i> had complex origins. The individual mix of primitive and derived characteristics in different fossils perhaps even indicates that the genus <i>Homo</i> might be \u2018polyphyletic\u2019: in other words, some members of the genus might have originated independently in different regions of Africa. If this is the case, it would mean that the species currently placed within the genus <i>Homo</i> would need to be reassessed (<a href=\"#bib4\">Dembo et al., 2015</a>; <a href=\"#bib7\">Hublin, 2015</a>). While many have concentrated on East Africa as the key and perhaps sole region for the origins of the genus <i>Homo</i>, the continuing surprises emerging from further south remind us that Africa is a huge continent that even now is largely unexplored for its early human fossils."
+                    }
+                ]
+            }
+        ], 
+        "references": [
+            {
+                "type": "journal", 
+                "id": "bib1", 
+                "date": "2004", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SC Ant\u00f3n", 
+                            "index": "Ant\u00f3n, SC"
+                        }
+                    }
+                ], 
+                "articleTitle": "The face of Olduvai hominid 12", 
+                "journal": "Journal of Human Evolution", 
+                "volume": "46", 
+                "pages": {
+                    "first": "335", 
+                    "last": "345", 
+                    "range": "335\u2013345"
+                }, 
+                "doi": "10.1016/j.jhevol.2003.12.005"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib2", 
+                "date": "2015", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "L Berger", 
+                            "index": "Berger, L"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Hawks", 
+                            "index": "Hawks, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ de Ruiter", 
+                            "index": "de Ruiter, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LK Delezene", 
+                            "index": "Delezene, LK"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TL Kivell", 
+                            "index": "Kivell, TL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "HM Garvin", 
+                            "index": "Garvin, HM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SA Williams", 
+                            "index": "Williams, SA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM DeSilva", 
+                            "index": "DeSilva, JM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MM Skinner", 
+                            "index": "Skinner, MM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CM Musiba", 
+                            "index": "Musiba, CM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "N Cameron", 
+                            "index": "Cameron, N"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TW Holliday", 
+                            "index": "Holliday, TW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "W Harcourt-Smith", 
+                            "index": "Harcourt-Smith, W"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "RR Ackermann", 
+                            "index": "Ackermann, RR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Bastir", 
+                            "index": "Bastir, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Bogin", 
+                            "index": "Bogin, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Bolter", 
+                            "index": "Bolter, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Brophy", 
+                            "index": "Brophy, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "ZD Cofran", 
+                            "index": "Cofran, ZD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KA Congdon", 
+                            "index": "Congdon, KA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AS Deane", 
+                            "index": "Deane, AS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Dembo", 
+                            "index": "Dembo, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Drapeau", 
+                            "index": "Drapeau, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MC Elliott", 
+                            "index": "Elliott, MC"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EM Feuerriegel", 
+                            "index": "Feuerriegel, EM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Garcia-Martinez", 
+                            "index": "Garcia-Martinez, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ Green", 
+                            "index": "Green, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Gurtov", 
+                            "index": "Gurtov, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JD Irish", 
+                            "index": "Irish, JD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Kruger", 
+                            "index": "Kruger, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MF Laird", 
+                            "index": "Laird, MF"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Marchi", 
+                            "index": "Marchi, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MR Meyer", 
+                            "index": "Meyer, MR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Nalla", 
+                            "index": "Nalla, S"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EW Negash", 
+                            "index": "Negash, EW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CM Orr", 
+                            "index": "Orr, CM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Radovcic", 
+                            "index": "Radovcic, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "L Schroeder", 
+                            "index": "Schroeder, L"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JE Scott", 
+                            "index": "Scott, JE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Z Throckmorton", 
+                            "index": "Throckmorton, Z"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MW Tocheri", 
+                            "index": "Tocheri, MW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C VanSickle", 
+                            "index": "VanSickle, C"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CS Walker", 
+                            "index": "Walker, CS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Wei", 
+                            "index": "Wei, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Zipfel", 
+                            "index": "Zipfel, B"
+                        }
+                    }
+                ], 
+                "articleTitle": "<i>Homo naledi</i>, a new species of the genus <i>Homo</i> from the Dinaledi Chamber, South Africa", 
+                "journal": "eLife", 
+                "volume": "4", 
+                "pages": "e09560", 
+                "doi": "10.7554/eLife.09560"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib3", 
+                "date": "2006", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "E Carbonell", 
+                            "index": "Carbonell, E"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Mosquera", 
+                            "index": "Mosquera, M"
+                        }
+                    }
+                ], 
+                "articleTitle": "The emergence of a symbolic behaviour: the sepulchral pit of Sima de los Huesos, Sierra de Atapuerca, Burgos, Spain", 
+                "journal": "Comptes Rendus Pal\u00e9vol", 
+                "volume": "5", 
+                "pages": {
+                    "first": "155", 
+                    "last": "160", 
+                    "range": "155\u2013160"
+                }, 
+                "doi": "10.1016/j.crpv.2005.11.010"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib4", 
+                "date": "2015", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Dembo", 
+                            "index": "Dembo, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "NJ Matzke", 
+                            "index": "Matzke, NJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A\u00d8 Mooers", 
+                            "index": "Mooers, A\u00d8"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Collard", 
+                            "index": "Collard, M"
+                        }
+                    }
+                ], 
+                "articleTitle": "Bayesian analysis of a morphological supermatrix sheds light on controversial fossil hominin relationships", 
+                "journal": "Proceedings of the Royal Society B", 
+                "volume": "282", 
+                "pages": "20150943", 
+                "doi": "10.1098/rspb.2015.0943"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib5", 
+                "date": "2015", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PHGM Dirks", 
+                            "index": "Dirks, PHGM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Berger", 
+                            "index": "Berger, LR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EM Roberts", 
+                            "index": "Roberts, EM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JD Kramers", 
+                            "index": "Kramers, JD"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Hawks", 
+                            "index": "Hawks, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "PS Randolph-Quinney", 
+                            "index": "Randolph-Quinney, PS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Elliott", 
+                            "index": "Elliott, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CM Musiba", 
+                            "index": "Musiba, CM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SE Churchill", 
+                            "index": "Churchill, SE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "DJ de Ruiter", 
+                            "index": "de Ruiter, DJ"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Schmid", 
+                            "index": "Schmid, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "LR Backwell", 
+                            "index": "Backwell, LR"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GA Belyanin", 
+                            "index": "Belyanin, GA"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Boshoff", 
+                            "index": "Boshoff, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "KL Hunter", 
+                            "index": "Hunter, KL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "EM Feuerriegel", 
+                            "index": "Feuerriegel, EM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Gurtov", 
+                            "index": "Gurtov, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JG Harrison", 
+                            "index": "Harrison, JG"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Hunter", 
+                            "index": "Hunter, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Kruger", 
+                            "index": "Kruger, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "H Morris", 
+                            "index": "Morris, H"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "TV Makhubela", 
+                            "index": "Makhubela, TV"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Peixotto", 
+                            "index": "Peixotto, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Tucker", 
+                            "index": "Tucker, S"
+                        }
+                    }
+                ], 
+                "articleTitle": "Geological and taphonomic context for the new hominin species <i>Homo naled</i>i from the Dinaledi Chamber, South Africa", 
+                "journal": "eLife", 
+                "volume": "4", 
+                "pages": "e09561", 
+                "doi": "10.7554/eLife.09561"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib6", 
+                "date": "2006", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Gr\u00fcn", 
+                            "index": "Gr\u00fcn, R"
+                        }
+                    }
+                ], 
+                "articleTitle": "Direct dating of human fossils", 
+                "journal": "American Journal of Physical Anthropology", 
+                "volume": "131", 
+                "pages": {
+                    "first": "2", 
+                    "last": "48", 
+                    "range": "2\u201348"
+                }, 
+                "doi": "10.1002/ajpa.20516"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib7", 
+                "date": "2015", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JJ Hublin", 
+                            "index": "Hublin, JJ"
+                        }
+                    }
+                ], 
+                "articleTitle": "Paleoanthropology: How old is the oldest human?", 
+                "journal": "Current Biology", 
+                "volume": "25", 
+                "pages": {
+                    "first": "R453", 
+                    "last": "R455", 
+                    "range": "R453\u2013R455"
+                }, 
+                "doi": "10.1016/j.cub.2015.04.009"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib8", 
+                "date": "2013", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "D Lordkipanidze", 
+                            "index": "Lordkipanidze, D"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "MS de Le\u00f3n", 
+                            "index": "de Le\u00f3n, MS"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Margvelashvili", 
+                            "index": "Margvelashvili, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Y Rak", 
+                            "index": "Rak, Y"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "GP Rightmire", 
+                            "index": "Rightmire, GP"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Vekua", 
+                            "index": "Vekua, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "CP Zollikofer", 
+                            "index": "Zollikofer, CP"
+                        }
+                    }
+                ], 
+                "articleTitle": "A complete skull from Dmanisi, Georgia, and the evolutionary biology of early <i>Homo</i>", 
+                "journal": "Science", 
+                "volume": "342", 
+                "pages": {
+                    "first": "326", 
+                    "last": "331", 
+                    "range": "326\u2013331"
+                }, 
+                "doi": "10.1126/science.1238484"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib9", 
+                "date": "2014", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Meyer", 
+                            "index": "Meyer, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "Q Fu", 
+                            "index": "Fu, Q"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Aximu-Petri", 
+                            "index": "Aximu-Petri, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "I Glocke", 
+                            "index": "Glocke, I"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "B Nickel", 
+                            "index": "Nickel, B"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JL Arsuaga", 
+                            "index": "Arsuaga, JL"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "I Mart\u00ednez", 
+                            "index": "Mart\u00ednez, I"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Gracia", 
+                            "index": "Gracia, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "JM de Castro", 
+                            "index": "de Castro, JM"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "E Carbonell", 
+                            "index": "Carbonell, E"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S P\u00e4\u00e4bo", 
+                            "index": "P\u00e4\u00e4bo, S"
+                        }
+                    }
+                ], 
+                "articleTitle": "A mitochondrial genome sequence of a hominin from Sima de los Huesos", 
+                "journal": "Nature", 
+                "volume": "505", 
+                "pages": {
+                    "first": "403", 
+                    "last": "406", 
+                    "range": "403\u2013406"
+                }, 
+                "doi": "10.1038/nature12788"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib10", 
+                "date": "2004", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Potts", 
+                            "index": "Potts, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "AK Behrensmeyer", 
+                            "index": "Behrensmeyer, AK"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "A Deino", 
+                            "index": "Deino, A"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "P Ditchfield", 
+                            "index": "Ditchfield, P"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Clark", 
+                            "index": "Clark, J"
+                        }
+                    }
+                ], 
+                "articleTitle": "Small mid-Pleistocene hominin associated with East African Acheulean technology", 
+                "journal": "Science", 
+                "volume": "305", 
+                "pages": {
+                    "first": "75", 
+                    "last": "78", 
+                    "range": "75\u201378"
+                }, 
+                "doi": "10.1126/science.1097661"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib11", 
+                "date": "2008", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "SW Simpson", 
+                            "index": "Simpson, SW"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "J Quade", 
+                            "index": "Quade, J"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "NE Levin", 
+                            "index": "Levin, NE"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "R Butler", 
+                            "index": "Butler, R"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "G Dupont-Nivet", 
+                            "index": "Dupont-Nivet, G"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "M Everett", 
+                            "index": "Everett, M"
+                        }
+                    }, 
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "S Semaw", 
+                            "index": "Semaw, S"
+                        }
+                    }
+                ], 
+                "articleTitle": "A female <i>Homo erectus</i> pelvis from Gona, Ethiopia", 
+                "journal": "Science", 
+                "volume": "322", 
+                "pages": {
+                    "first": "1089", 
+                    "last": "1092", 
+                    "range": "1089\u20131092"
+                }, 
+                "doi": "10.1126/science.1163592"
+            }, 
+            {
+                "type": "journal", 
+                "id": "bib12", 
+                "date": "2014", 
+                "authors": [
+                    {
+                        "type": "person", 
+                        "name": {
+                            "preferred": "C Stringer", 
+                            "index": "Stringer, C"
+                        }
+                    }
+                ], 
+                "articleTitle": "Human evolution: Small remains still pose big problems", 
+                "journal": "Nature", 
+                "volume": "514", 
+                "pages": {
+                    "first": "427", 
+                    "last": "429", 
+                    "range": "427\u2013429"
+                }, 
+                "doi": "10.1038/514427a"
+            }
+        ], 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z"
+    }
+}
