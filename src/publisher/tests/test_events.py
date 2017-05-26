@@ -1,7 +1,7 @@
 from . import base
 from os.path import join
 from publisher import models, ajson_ingestor
-from unittest.mock import patch  # , MagicMock
+from unittest.mock import patch
 
 class One(base.BaseCase):
     def setUp(self):

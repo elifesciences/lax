@@ -25,8 +25,6 @@ class Ingest(BaseCase):
         self.invalid_ajson = self.load_ajson(f3)
         self.invalid_ajson['article']['title'] = '' # ha! my invalid json is now valid. make it explicitly invalid.
 
-        self.commits = 0
-
     def tearDown(self):
         pass
 
