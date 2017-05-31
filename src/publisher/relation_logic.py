@@ -73,7 +73,8 @@ def relate_using_citation_list(av, citation_list):
 #
 
 def internal_relationships_for_article_version(av):
-    "returns a list of Article objects that are related, backward and forwards, by the given article version"
+    """returns a list of Article objects that are related backwards and forwards by the given article version.
+    Ordered by manuscript_id, asc."""
     # could I solve this with clever SQL/Django ORM tricks? almost certainly
     # do I have time to and is it important enough? absolutely not
 
@@ -86,7 +87,7 @@ def internal_relationships_for_article_version(av):
     lst = [r.related_to for r in fwd]
     lst.extend([r.articleversion.article for r in rev])
 
-    return list(set(lst))
+    return sorted(set(lst), key=lambda artobj: artobj.manuscript_id)
 
 def external_relationships_for_article_version(av):
     return models.ArticleVersionExtRelation.objects \

@@ -3,7 +3,7 @@ from os.path import join
 from .base import BaseCase
 from publisher import logic, ajson_ingestor, models, eif_ingestor, utils, relation_logic
 
-class TestLogic0(BaseCase):
+class One(BaseCase):
     def setUp(self):
         self.journal = logic.journal()
         import_all = [
@@ -162,7 +162,7 @@ class TestLogic0(BaseCase):
                 raise
 
 
-class TestLogic(BaseCase):
+class Two(BaseCase):
     def setUp(self):
         ingest_these = [
             "elife-01968-v1.xml.json",
@@ -181,7 +181,7 @@ class TestLogic(BaseCase):
         pass
 
     def test_latest_article_versions(self):
-        # see class `TestLogic0` (above) and `test_rss.py`
+        # see class `One` (above) and `test_rss.py`
         pass
 
     def test_article_version_list(self):
@@ -254,7 +254,33 @@ class TestLogic(BaseCase):
     def test_article_snippet_json_not_found(self):
         pass
 
-class TestRelationshipLogic(BaseCase):
+class Three(BaseCase):
+    def setUp(self):
+        ingest_these = [
+            "elife-16695-v1.xml.json", # research article
+        ]
+        ajson_dir = join(self.fixture_dir, 'ajson')
+        for ingestable in ingest_these:
+            path = join(ajson_dir, ingestable)
+            ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+        self.msid = 16695
+
+    def tearDown(self):
+        pass
+
+    def test_certain_articles_dont_get_accepted_received_dates(self):
+        "received and accepted dates are not returned for certain article types"
+        resp = logic.article_version_history(self.msid)
+        self.assertTrue('received' in resp)
+        self.assertTrue('accepted' in resp)
+
+        for extype in logic.EXCLUDE_RECEIVED_ACCEPTED_DATES:
+            models.Article.objects.filter(manuscript_id=self.msid).update(type=extype)
+            resp = logic.article_version_history(self.msid)
+            self.assertTrue('received' not in resp)
+            self.assertTrue('accepted' not in resp)
+
+class RelationshipLogic(BaseCase):
     def setUp(self):
         ingest_these = [
             "elife-01968-v1.xml.json", # => 01749

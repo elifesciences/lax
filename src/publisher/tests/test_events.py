@@ -84,8 +84,9 @@ class Two(base.TransactionBaseCase):
         self.assertEqual(len(notify_mock.mock_calls), 3)
 
         # ensure the events have the right manuscript id
-        self.assertEqual(event_msid(1), 9561)
-        self.assertEqual(event_msid(2), 9560)
+        # internal relationships, lowest to highest msid
+        self.assertEqual(event_msid(1), 9560)
+        self.assertEqual(event_msid(2), 9561)
 
     def test_related_events2(self):
         """aws_events.notify is called once for the article being ingested and once
@@ -105,5 +106,6 @@ class Two(base.TransactionBaseCase):
 
             # ensure the events have the right manuscript id
             self.assertEqual(event_msid(0), 9560)
-            self.assertEqual(event_msid(1), 10627) # links to 9560
-            self.assertEqual(event_msid(2), 9561) # linked by 9560
+            # internal relationships, lowest to highest msid
+            self.assertEqual(event_msid(1), 9561) # linked by 9560
+            self.assertEqual(event_msid(2), 10627) # links to 9560
