@@ -27,6 +27,13 @@ class Journal(models.Model):
     def __repr__(self):
         return '<Journal %s>' % self.name
 
+# LSH@2017-05-31
+# I've disabled the enforcement of the xml and ejp types in the model
+# * we've had two instances where new ejp types caused lax to break or be hastily updated.
+# * adding new types requires a db migration :(
+# * bot-lax has type wrangling already
+# * ejp-lax has type wrangling already
+
 def ejp_type_choices():
     return [
         ('RA', 'Research article'),
@@ -41,6 +48,26 @@ def ejp_type_choices():
 
 EJP_TYPE_IDX = dict(ejp_type_choices())
 EJP_TYPE_REV_SLUG_IDX = {slugify(str(val), stopwords=['and']): key for key, val in ejp_type_choices()}
+
+
+EDITORIAL, INSIGHT = 'editorial', 'insight'
+def xml_type_choices():
+    return [
+        ('research-article', 'Research article'),
+        ('short-report', 'Short report'),
+        ('research-advance', 'Research advance'),
+        ('registered-report', 'Registered report'),
+        ('tools-resources', 'Tools and resources'),
+        ('replication-study', 'Replication Study'),
+
+        # not present in ejp
+        ('correction', 'Correction'),
+        ('feature', 'Feature article'),
+        (INSIGHT, 'Insight'),
+        (EDITORIAL, 'Editorial'),
+
+        (None, 'not set'),
+    ]
 
 AF = 'AF'
 def decision_codes():
@@ -109,7 +136,7 @@ class Article(models.Model):
     # "NLM article type" then "sub display channel (published)"
     # https://docs.google.com/spreadsheets/d/1FpqQovdxt_VnR70SVVk7k3tjZnQnTAeURnc1PEtkz0k/edit#gid=0
     type = models.CharField(max_length=50, blank=True, null=True, help_text="xml article-type.") # research, editorial, etc
-    ejp_type = models.CharField(max_length=3, choices=ejp_type_choices(), blank=True, null=True,
+    ejp_type = models.CharField(max_length=3, blank=True, null=True,
                                 help_text="article as exported from EJP submission system") # RA, SR, etc
 
     def ejp_rev_type(self):
