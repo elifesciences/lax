@@ -88,7 +88,6 @@ class Two(base.TransactionBaseCase):
         self.assertEqual(event_msid(1), 9560)
         self.assertEqual(event_msid(2), 9561)
 
-
     def test_related_events2(self):
         """aws_events.notify is called once for the article being ingested and once
         each for related articles, including reverse relations"""
