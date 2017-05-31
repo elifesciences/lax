@@ -3,7 +3,7 @@ from . import models
 from django.conf import settings
 import logging
 from publisher import eif_ingestor, utils, relation_logic
-from publisher.utils import ensure, lmap, lfilter, firstnn, second
+from publisher.utils import ensure, lmap, lfilter, firstnn, second, exsubdict
 from django.utils import timezone
 from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
 
@@ -259,6 +259,8 @@ def date_accepted(art):
         (art.rev4_decision, art.date_rev4_decision)]
     return second(firstnn([pair for pair in attrs if pair[0] == models.AF]))
 
+EXCLUDE_RECEIVED_ACCEPTED_DATES = [models.EDITORIAL, models.INSIGHT]
+
 def article_version_history(msid, only_published=True):
     "returns a list of snippets for the history of the given article"
     article = models.Article.objects.get(manuscript_id=msid)
@@ -270,11 +272,16 @@ def article_version_history(msid, only_published=True):
         # no article versions available, fail
         raise models.Article.DoesNotExist()
 
-    return {
+    struct = {
         'received': date_received(article),
         'accepted': date_accepted(article),
         'versions': lmap(article_snippet_json, avl)
     }
+
+    if article.type in EXCLUDE_RECEIVED_ACCEPTED_DATES:
+        struct = exsubdict(struct, ['received', 'accepted'])
+
+    return struct
 
 def bulk_article_version_history(only_published=True):
     for art in models.Article.objects.all():
