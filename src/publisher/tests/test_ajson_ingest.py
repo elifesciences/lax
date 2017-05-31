@@ -238,7 +238,6 @@ class Ingest(BaseCase):
         self.assertEqual(av.article_json_v1, None)
         self.assertEqual(av.article_json_v1_snippet, None)
 
-
 class Publish(BaseCase):
     def setUp(self):
         self.ajson_fixture1 = join(self.fixture_dir, 'ajson', 'elife-01968-v1.xml.json')
