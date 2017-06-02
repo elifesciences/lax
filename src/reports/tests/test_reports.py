@@ -1,7 +1,7 @@
 import re, json
 from os.path import join
 from publisher.tests import base
-from publisher import eif_ingestor, logic as publogic, models, utils
+from publisher import eif_ingestor, logic as publogic, utils
 from reports import logic
 
 from django.test import Client
@@ -98,17 +98,6 @@ class TestReport(base.BaseCase):
         # print(given)
         self.assertTrue(utils.partial_match(expected, given))
 
-    def test_poa_vor_pubdates_data(self):
-        "the report yields the expected data in the expected format"
-        self.assertEqual(models.Article.objects.count(), 10)
-        self.assertEqual(models.ArticleVersion.objects.count(), 15)
-        report = logic.article_poa_vor_pubdates()
-        report = list(report) # result is lazy, force evaluation here
-        # self.assertEqual(len(report), 9) # most (all?) non-research articles are being excluded
-        self.assertEqual(len(report), self.research_art_count)
-        for row in report:
-            self.assertEqual(len(row), 3)
-
     @skip("paw_article_data() now returns a queryset not a lazy list of rows")
     def test_paw_report_data(self):
         "the data is in the structure we expect"
@@ -153,36 +142,9 @@ class TestReport(base.BaseCase):
             self.assertEqual(o.version, expected_version)
             self.assertEqual(utils.ymd(o.datetime_published), expected_pubdate)
 
-    def test_totals_for_year_report_data_structure(self):
-        "DOES NOT TEST CORRECTNESS OF DATA, only structure", # yes, cop out
-        struct = logic.totals_for_year()
-        expected_keys = ['description', 'params', 'results']
-        self.assertTrue(utils.has_all_keys(struct, expected_keys))
-        expected_keys = [
-            'total-published',
-            'poa-published',
-            'vor-published',
-            'percent-poa',
-            'percent-vor',
-            'total-jats-types',
-            'total-ejp-types'
-        ]
-        self.assertTrue(utils.has_all_keys(struct['results'], expected_keys))
-
-    def test_time_to_publication_data_structure(self):
-        "DOES NOT TEST CORRECTNESS OF DATA, only structure" # yes, cop out
-        rows = logic.time_to_publication()
-        self.assertTrue(all([len(row) == 9 for row in rows]))
-
     #
     # views
     #
-
-    def test_poa_vor_pubdates_report_api(self):
-        url = reverse('poa-vor-pubdates')
-        resp = Client().get(url)
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp['Content-Type'], 'text/csv')
 
     def test_paw_recent_report(self):
         url = reverse('paw-recent-report', kwargs={'days_ago': 9999})
