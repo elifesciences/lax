@@ -1,3 +1,5 @@
+# unused code
+'''
 import sys
 from django.core.management.base import BaseCommand
 from publisher import aws_events, models
@@ -29,3 +31,4 @@ class Command(BaseCommand):
             aws_events.notify(art, env=env)
 
         sys.exit(0)
+'''
