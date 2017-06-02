@@ -1,3 +1,5 @@
+# unused code
+'''
 import json
 from publisher import eif_ingestor
 from django.core.management.base import BaseCommand
@@ -22,3 +24,4 @@ class Command(BaseCommand):
             d['versions'] = v
             return d
         lmap(eif_ingestor.patch, lmap(mkpatch, data))
+'''
