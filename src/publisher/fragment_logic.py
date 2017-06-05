@@ -214,6 +214,21 @@ def delete_fragment_update_article(art, key):
         return set_all_article_json(art, quiet=False)
 
 #
+#
+#
+
+def location(av):
+    "returns the location of the article xml stored in the primary fragment"
+    try:
+        obj = get(av, models.XML2JSON)
+        return obj.fragment['-meta']['location']
+    except models.ArticleFragment.DoesNotExist:
+        return 'no-article-fragment'
+    except KeyError as err:
+        return 'no-location-stored'
+
+
+#
 # revalidate logic
 #
 

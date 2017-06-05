@@ -1,71 +1,8 @@
-from collections import OrderedDict
-from publisher import models, fragment_logic
-from publisher.utils import lmap
+from publisher import models
 import logging
 from django.db.models import Min, Max, F, Q
 
 LOG = logging.getLogger(__name__)
-
-'''
-def take(n, iterable):
-    "Return first n items of the iterable as a list"
-    return list(islice(iterable, n))
-'''
-
-#
-#
-#
-
-def status_report():
-    "useful insights into the current state of this lax instance"
-
-    rs = models.ArticleVersion.objects \
-        .select_related('article') \
-        .defer('article_json_v1', 'article_json_v1_snippet') \
-        .order_by('article__manuscript_id', 'version') \
-        .all()
-
-    def get_loc(av):
-        try:
-            obj = fragment_logic.get(av, models.XML2JSON)
-            return obj.fragment['-meta']['location']
-        except models.ArticleFragment.DoesNotExist:
-            return 'no-article-fragment'
-        except KeyError as err:
-            return 'no-location-stored'
-
-    def avi(av): # article-version-info
-        return {
-            'msid': av.article.manuscript_id,
-            'version': av.version,
-            'location': get_loc(av),
-        }
-
-    return OrderedDict([
-        #'articles': {
-        #    'total': al.count(),
-        #    'total-published': ...
-        #}
-        ('article-versions', OrderedDict([
-            ('total', rs.count()),
-            ('total-published', rs.exclude(datetime_published=None).count()),
-            ('invalid-unpublished', OrderedDict([
-                ('desc', 'no article-json set, no datetime-published set',),
-                ('total', rs.filter(article_json_v1=None, datetime_published=None).count()),
-                ('list', lmap(avi, rs.filter(article_json_v1=None, datetime_published=None))),
-            ])),
-            ('invalid', OrderedDict([
-                ('desc', 'no article-json set'),
-                ('total', rs.filter(article_json_v1=None).count()),
-                ('list', lmap(avi, rs.filter(article_json_v1=None))),
-            ])),
-            ('unpublished', OrderedDict([
-                ('desc', 'no datetime-published set'),
-                ('total', rs.filter(datetime_published=None).count()),
-                ('list', lmap(avi, rs.filter(datetime_published=None))),
-            ])),
-        ]))
-    ])
 
 #
 # PAW
