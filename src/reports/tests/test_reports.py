@@ -1,11 +1,10 @@
-import re, json
+import re
 from os.path import join
 from publisher.tests import base
-from publisher import eif_ingestor, logic as publogic, models, utils
+from publisher import eif_ingestor, logic as publogic, utils
 from reports import logic
 
 from django.test import Client
-from unittest import skip
 from django.core.urlresolvers import reverse
 
 class TestReport(base.BaseCase):
@@ -54,79 +53,6 @@ class TestReport(base.BaseCase):
     def tearDown(self):
         pass
 
-    def test_status_report(self):
-        given = logic.status_report()
-        total_av = self.vor_version_count + self.poa_version_count
-        expected = {
-            'article-versions': {
-                'total': total_av,
-                'total-published': total_av,
-                'invalid-unpublished': {
-                    # they're all published
-                    'total': 0,
-                },
-                # ingested via EIF, all considered invalid (not present)
-                'invalid': {
-                    'total': total_av,
-                    'list': [
-                        {'msid': 353, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 385, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 1328, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 2619, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 3401, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 3401, 'version': 2, 'location': 'no-article-fragment'},
-                        {'msid': 3401, 'version': 3, 'location': 'no-article-fragment'},
-                        {'msid': 3665, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 6250, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 6250, 'version': 2, 'location': 'no-article-fragment'},
-                        {'msid': 6250, 'version': 3, 'location': 'no-article-fragment'},
-                        {'msid': 7301, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 8025, 'version': 1, 'location': 'no-article-fragment'},
-                        {'msid': 8025, 'version': 2, 'location': 'no-article-fragment'},
-                        {'msid': 9571, 'version': 1, 'location': 'no-article-fragment'},
-                    ]
-                },
-                'unpublished': {
-                    # all published
-                    'total': 0,
-                },
-            }
-        }
-        expected = json.loads(json.dumps(expected))
-        given = json.loads(json.dumps(given))
-        # print(expected)
-        # print(given)
-        self.assertTrue(utils.partial_match(expected, given))
-
-    def test_poa_vor_pubdates_data(self):
-        "the report yields the expected data in the expected format"
-        self.assertEqual(models.Article.objects.count(), 10)
-        self.assertEqual(models.ArticleVersion.objects.count(), 15)
-        report = logic.article_poa_vor_pubdates()
-        report = list(report) # result is lazy, force evaluation here
-        # self.assertEqual(len(report), 9) # most (all?) non-research articles are being excluded
-        self.assertEqual(len(report), self.research_art_count)
-        for row in report:
-            self.assertEqual(len(row), 3)
-
-    @skip("paw_article_data() now returns a queryset not a lazy list of rows")
-    def test_paw_report_data(self):
-        "the data is in the structure we expect"
-        data = list(logic.paw_article_data())
-        expected_keys = [
-            'title', 'link', 'description', 'author', 'category-list',
-            'guid', 'pub-date', 'transition-date'
-        ]
-        expected_art_count = self.poa_art_count + self.vor_art_count
-        self.assertEqual(len(data), expected_art_count)
-        for row in data:
-            try:
-                self.assertTrue(utils.has_all_keys(row, expected_keys))
-            except AssertionError:
-                print('expecting', expected_keys)
-                print('got keys', list(row.keys()))
-                raise
-
     def test_paw_recent_report_data(self):
         res = logic.paw_recent_report_raw_data(limit=None)
         self.assertEqual(res.count(), self.vor_art_count)
@@ -153,36 +79,9 @@ class TestReport(base.BaseCase):
             self.assertEqual(o.version, expected_version)
             self.assertEqual(utils.ymd(o.datetime_published), expected_pubdate)
 
-    def test_totals_for_year_report_data_structure(self):
-        "DOES NOT TEST CORRECTNESS OF DATA, only structure", # yes, cop out
-        struct = logic.totals_for_year()
-        expected_keys = ['description', 'params', 'results']
-        self.assertTrue(utils.has_all_keys(struct, expected_keys))
-        expected_keys = [
-            'total-published',
-            'poa-published',
-            'vor-published',
-            'percent-poa',
-            'percent-vor',
-            'total-jats-types',
-            'total-ejp-types'
-        ]
-        self.assertTrue(utils.has_all_keys(struct['results'], expected_keys))
-
-    def test_time_to_publication_data_structure(self):
-        "DOES NOT TEST CORRECTNESS OF DATA, only structure" # yes, cop out
-        rows = logic.time_to_publication()
-        self.assertTrue(all([len(row) == 9 for row in rows]))
-
     #
     # views
     #
-
-    def test_poa_vor_pubdates_report_api(self):
-        url = reverse('poa-vor-pubdates')
-        resp = Client().get(url)
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp['Content-Type'], 'text/csv')
 
     def test_paw_recent_report(self):
         url = reverse('paw-recent-report', kwargs={'days_ago': 9999})

@@ -81,6 +81,9 @@ def isint(v):
 def mk_dxdoi_link(doi):
     return "https://dx.doi.org/%s" % doi
 
+def pad_msid(msid):
+    return "%05d" % int(msid)
+
 def doi2msid(doi):
     "doi to manuscript id used in EJP"
     prefix = '10.7554/eLife.'
@@ -88,7 +91,8 @@ def doi2msid(doi):
 
 def msid2doi(msid):
     assert isint(msid), "given msid must be an integer: %r" % msid
-    return '10.7554/eLife.%05d' % int(msid)
+    return '10.7554/eLife.%s' % pad_msid(msid)
+
 
 def compfilter(fnlist):
     "returns true if given val "

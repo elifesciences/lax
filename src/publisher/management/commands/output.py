@@ -1,3 +1,5 @@
+# not working, unused
+'''
 from publisher import logic
 from django.core.management.base import BaseCommand
 from publisher import utils
@@ -29,3 +31,4 @@ class Command(BaseCommand):
 
         for row in output_type_map[output_type]():
             print(utils.json_dumps(row))
+'''

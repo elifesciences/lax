@@ -1,3 +1,5 @@
+# unused code
+"""
 import os
 from publisher.utils import lmap
 from django.core.management.base import BaseCommand
@@ -71,3 +73,4 @@ class Command(BaseCommand):
             return key
 
         lmap(download, sorted(struct_map.values()))
+"""

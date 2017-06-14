@@ -283,8 +283,12 @@ def article_version_history(msid, only_published=True):
 
     return struct
 
+
+'''
+# unused
 def bulk_article_version_history(only_published=True):
     for art in models.Article.objects.all():
         result = article_version_history(art.manuscript_id, only_published)
         result['msid'] = art.manuscript_id
         yield result
+'''
