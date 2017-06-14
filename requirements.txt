@@ -2,6 +2,7 @@ autopep8==1.2.4
 boto3==1.4.4
 coverage==4.1
 Django==1.10.6
+django-admin-view-permission==0.9
 django-annoying==0.10.3
 django-autoslug==1.9.3
 django-db-logger==0.1.6
