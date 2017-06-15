@@ -56,11 +56,11 @@ def atomic(fn):
 def freshen(obj):
     return type(obj).objects.get(pk=obj.pk)
 
-def ensure(assertion, msg, *args):
+def ensure(assertion, msg):
     """intended as a convenient replacement for `assert` statements that
     get compiled away with -O flags"""
     if not assertion:
-        raise LaxAssertionError(msg % args)
+        raise LaxAssertionError(msg)
 
 def resolve_path(p, ext='.json'):
     "returns a list of absolute paths given a file or a directory"
