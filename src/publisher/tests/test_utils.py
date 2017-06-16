@@ -14,6 +14,11 @@ class TestUtils(base.BaseCase):
     def tearDown(self):
         pass
 
+    def test_ensure(self):
+        self.assertRaises(utils.LaxAssertionError, utils.ensure, False, "msg")
+        self.assertRaises(AssertionError, utils.ensure, False, "msg")
+        self.assertRaises(AssertionError, utils.ensure, False, "%s")
+
     def test_dxdoi_link(self):
         cases = [
             ('eLife.09560', 'https://dx.doi.org/eLife.09560'),
