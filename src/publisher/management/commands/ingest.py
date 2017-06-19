@@ -99,7 +99,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     choices = {
         # all these return a models.ArticleVersion object
-        VALIDATE: lambda msid, ver, force, data, dry: ajson_ingestor.validate(data),
+        VALIDATE: lambda msid, ver, force, data, dry: ajson_ingestor.validate(data, force),
         INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry),
         PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
         INGEST_PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry),

@@ -284,5 +284,8 @@ def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
 # VALIDATE requests
 #
 
-def validate(data):
-    return ingest(data, force=False, dry_run=True)
+def validate(data, force=False):
+    """calling `validate` will attempt to INGEST the given data but will not create anything.
+    fails in the same way an INGEST attempt would fail. accepts the `force` flag to attempt
+    ingest on already-published articles (silent corrections)"""
+    return ingest(data, force=force, dry_run=True)

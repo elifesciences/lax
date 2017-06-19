@@ -21,20 +21,47 @@ class One(BaseCase):
         self.assertEqual(errcode, 0)
 
     def test_validate_doesnt_create_anything(self):
-        "a VALIDATE message can be passed without creating any articles"        
+        "a VALIDATE message can be passed without creating any articles"
         args = [self.nom, '--validate', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
         self.call_command(*args)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
-    def test_validate_doesnt_create_anything_on_non_v1(self):
+    def test_validate_non_existant_av(self):
+        "a VALIDATE message can be passed for a non-existant version of an article"
         ajson = json.load(open(self.ajson_fixture_v1, 'r'))
-        ajson_ingestor.ingest_publish(ajson) # *v1* 
+        ajson_ingestor.ingest_publish(ajson) # *v1*
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
-
         args = [self.nom, '--validate', '--id', self.msid, '--version', 2, self.ajson_fixture_v2] # *v2*
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 1) # still just one
+
+    def test_validate_with_force_flag(self):
+        "a VALIDATE message can be sent with a force flag"
+        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+    def test_validate_forced_action(self):
+        "a VALIDATE message can be sent with a force flag to test validity of a silent correction"
+        # article exists
+        ajson = json.load(open(self.ajson_fixture_v1, 'r'))
+        ajson_ingestor.ingest_publish(ajson)
+        # a silent correction happens without problems
+        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+    def test_validate_without_force_flag(self):
+        "a VALIDATE message fails obviously"
+        # article exists
+        ajson = json.load(open(self.ajson_fixture_v1, 'r'))
+        ajson_ingestor.ingest_publish(ajson)
+        # attempt validation of given data
+        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 1) # 1=error
+
 
 class CLI(BaseCase):
     def setUp(self):
