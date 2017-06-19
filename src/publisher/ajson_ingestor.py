@@ -279,3 +279,10 @@ def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
     "convenience. publish an article if it were successfully ingested"
     av = _ingest(data, force=force)
     return _publish(av.article.manuscript_id, av.version, force=force)
+
+#
+# VALIDATE requests
+#
+
+def validate(data):
+    return ingest(data, force=False, dry_run=True)

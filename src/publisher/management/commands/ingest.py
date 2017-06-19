@@ -20,9 +20,9 @@ from .modcommand import ModCommand
 LOG = logging.getLogger(__name__)
 
 INVALID, ERROR = 'invalid', 'error'
-IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
-INGEST, PUBLISH, BOTH = IMPORT_TYPES
-INGESTED, PUBLISHED = 'ingested', 'published'
+IMPORT_TYPES = ['validate', 'ingest', 'publish', 'ingest-publish']
+VALIDATE, INGEST, PUBLISH, INGEST_PUBLISH = IMPORT_TYPES
+VALIDATED, INGESTED, PUBLISHED = 'validated', 'ingested', 'published'
 
 def write(print_queue, out=None):
     if not isinstance(out, str):
@@ -45,7 +45,13 @@ def error(print_queue, errtype, message, log_context):
     sys.exit(1)
 
 def success(print_queue, action, av, log_context, dry_run=False):
-    status = INGESTED if action == INGEST else PUBLISHED
+    lu = {
+        INGEST: INGESTED,
+        PUBLISH: PUBLISHED,
+        INGEST_PUBLISH: PUBLISHED,
+        VALIDATE: VALIDATED
+    }
+    status = lu[action]
     attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
     struct = {
         'status': status,
@@ -71,7 +77,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     # read and check the article-json given, if necessary
     try:
-        if action in [INGEST, BOTH]:
+        if action not in [PUBLISH]:
             raw_data = infile.read()
             log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
             data = json.loads(raw_data)
@@ -93,9 +99,10 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     choices = {
         # all these return a models.ArticleVersion object
+        VALIDATE: lambda msid, ver, force, data, dry: ajson_ingestor.validate(data),
         INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry),
         PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
-        BOTH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry),
+        INGEST_PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry),
     }
 
     try:
@@ -106,7 +113,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         error(print_queue, INVALID, "failed to call action %r: %s" % (action, err.message), log_context)
 
     except Exception as err:
-        msg = "unhandled exception attempting to %r article: %s" % (action, err)
+        msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
         error(print_queue, ERROR, msg, log_context)
 
@@ -140,9 +147,10 @@ class Command(ModCommand):
         parser.add_argument('--force', action='store_true', default=False)
         parser.add_argument('--dry-run', action='store_true', default=False)
 
+        parser.add_argument('--validate', dest='action', action='store_const', const=VALIDATE)
         parser.add_argument('--ingest', dest='action', action='store_const', const=INGEST)
         parser.add_argument('--publish', dest='action', action='store_const', const=PUBLISH)
-        parser.add_argument('--ingest+publish', dest='action', action='store_const', const=BOTH)
+        parser.add_argument('--ingest+publish', dest='action', action='store_const', const=INGEST_PUBLISH)
 
         parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
 

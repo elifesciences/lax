@@ -1,7 +1,40 @@
 import json
 from os.path import join
 from .base import BaseCase
-from publisher import models, utils
+from publisher import models, utils, ajson_ingestor
+
+class One(BaseCase):
+    def setUp(self):
+        self.nom = 'ingest'
+        self.msid = "16695"
+        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json')
+        self.ajson_fixture_v2 = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json')
+
+    def tearDown(self):
+        pass
+
+    def test_validate_from_cli(self):
+        "a VALIDATE message can be passed without error"
+        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
+        errcode, stdout = self.call_command(*args)
+        # there shouldn't be anything wrong with this fixture
+        self.assertEqual(errcode, 0)
+
+    def test_validate_doesnt_create_anything(self):
+        "a VALIDATE message can be passed without creating any articles"        
+        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
+        self.call_command(*args)
+        self.assertEqual(models.ArticleVersion.objects.count(), 0)
+
+    def test_validate_doesnt_create_anything_on_non_v1(self):
+        ajson = json.load(open(self.ajson_fixture_v1, 'r'))
+        ajson_ingestor.ingest_publish(ajson) # *v1* 
+        self.assertEqual(models.ArticleVersion.objects.count(), 1)
+
+        args = [self.nom, '--validate', '--id', self.msid, '--version', 2, self.ajson_fixture_v2] # *v2*
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+        self.assertEqual(models.ArticleVersion.objects.count(), 1) # still just one
 
 class CLI(BaseCase):
     def setUp(self):
