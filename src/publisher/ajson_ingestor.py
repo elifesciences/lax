@@ -279,13 +279,3 @@ def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
     "convenience. publish an article if it were successfully ingested"
     av = _ingest(data, force=force)
     return _publish(av.article.manuscript_id, av.version, force=force)
-
-#
-# VALIDATE requests
-#
-
-def validate(data, force=False):
-    """calling `validate` will attempt to INGEST the given data but will not create anything.
-    fails in the same way an INGEST attempt would fail. accepts the `force` flag to attempt
-    ingest on already-published articles (silent corrections)"""
-    return ingest(data, force=force, dry_run=True)

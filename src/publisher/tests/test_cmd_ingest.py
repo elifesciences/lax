@@ -1,9 +1,9 @@
 import json
 from os.path import join
 from .base import BaseCase
-from publisher import models, utils, ajson_ingestor
+from publisher import models, utils, ajson_ingestor, codes
 
-class One(BaseCase):
+class DryRun(BaseCase):
     def setUp(self):
         self.nom = 'ingest'
         self.msid = "16695"
@@ -14,53 +14,56 @@ class One(BaseCase):
         pass
 
     def test_validate_from_cli(self):
-        "a VALIDATE message can be passed without error"
-        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
+        "an dry ingest can be passed without error"
+        args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
         errcode, stdout = self.call_command(*args)
         # there shouldn't be anything wrong with this fixture
         self.assertEqual(errcode, 0)
 
     def test_validate_doesnt_create_anything(self):
-        "a VALIDATE message can be passed without creating any articles"
-        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
+        "a dry ingest doesn't create any articles"
+        args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
         self.call_command(*args)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
     def test_validate_non_existant_av(self):
-        "a VALIDATE message can be passed for a non-existant version of an article"
+        "a dry ingest can be done for a non-existant article version"
         ajson = json.load(open(self.ajson_fixture_v1, 'r'))
         ajson_ingestor.ingest_publish(ajson) # *v1*
         self.assertEqual(models.ArticleVersion.objects.count(), 1)
-        args = [self.nom, '--validate', '--id', self.msid, '--version', 2, self.ajson_fixture_v2] # *v2*
+        args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 2, self.ajson_fixture_v2] # *v2*
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 1) # still just one
 
     def test_validate_with_force_flag(self):
-        "a VALIDATE message can be sent with a force flag"
-        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
+        "a dry ingest can be given a force flag"
+        args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
 
     def test_validate_forced_action(self):
-        "a VALIDATE message can be sent with a force flag to test validity of a silent correction"
+        "a dry ingest can be sent with a force flag on existing article to test validity of a silent correction"
         # article exists
         ajson = json.load(open(self.ajson_fixture_v1, 'r'))
         ajson_ingestor.ingest_publish(ajson)
         # a silent correction happens without problems
-        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
+        args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 0)
 
     def test_validate_without_force_flag(self):
-        "a VALIDATE message fails obviously"
+        "an invalid dry ingest fails obviously"
         # article exists
         ajson = json.load(open(self.ajson_fixture_v1, 'r'))
         ajson_ingestor.ingest_publish(ajson)
         # attempt validation of given data
-        args = [self.nom, '--validate', '--id', self.msid, '--version', 1, self.ajson_fixture_v1]
+        args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, self.ajson_fixture_v1] # no force flag present
         errcode, stdout = self.call_command(*args)
-        self.assertEqual(errcode, 1) # 1=error
+        self.assertEqual(errcode, 1) # 1 = error
+
+        resp = json.loads(stdout)
+        self.assertEqual(resp['code'], codes.ALREADY_PUBLISHED)
 
 
 class CLI(BaseCase):

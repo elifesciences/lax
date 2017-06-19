@@ -7,7 +7,7 @@ The ingest script DOES obey business rules and will not publish things twice,
 
 """
 import io, re, sys, json, argparse
-from publisher import ajson_ingestor, utils
+from publisher import ajson_ingestor, utils, codes
 from publisher.utils import lfilter
 from publisher.ajson_ingestor import StateError
 import logging
@@ -20,8 +20,8 @@ from .modcommand import ModCommand
 LOG = logging.getLogger(__name__)
 
 INVALID, ERROR = 'invalid', 'error'
-IMPORT_TYPES = ['validate', 'ingest', 'publish', 'ingest-publish']
-VALIDATE, INGEST, PUBLISH, INGEST_PUBLISH = IMPORT_TYPES
+IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
+INGEST, PUBLISH, INGEST_PUBLISH = IMPORT_TYPES
 VALIDATED, INGESTED, PUBLISHED = 'validated', 'ingested', 'published'
 
 def write(print_queue, out=None):
@@ -33,8 +33,9 @@ def clean_up(print_queue):
     print_queue.put('STOP')
     reset_queries()
 
-def error(print_queue, errtype, message, log_context):
+def error(print_queue, code, errtype, message, log_context):
     struct = {
+        'code': code,
         'status': errtype,
         'message': message
     }
@@ -49,9 +50,11 @@ def success(print_queue, action, av, log_context, dry_run=False):
         INGEST: INGESTED,
         PUBLISH: PUBLISHED,
         INGEST_PUBLISH: PUBLISHED,
-        VALIDATE: VALIDATED
     }
     status = lu[action]
+    if dry_run:
+        # this is a dry run, we didn't actually ingest or publish anything
+        status = VALIDATED
     attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
     struct = {
         'status': status,
@@ -91,15 +94,14 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
                 raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
 
     except StateError as err:
-        error(print_queue, INVALID, err.message, log_context)
+        error(print_queue, codes.BAD_REQUEST, INVALID, err.message, log_context)
 
     except ValueError as err:
         msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
-        error(print_queue, INVALID, msg, log_context)
+        error(print_queue, codes.BAD_REQUEST, INVALID, msg, log_context)
 
     choices = {
         # all these return a models.ArticleVersion object
-        VALIDATE: lambda msid, ver, force, data, dry: ajson_ingestor.validate(data, force),
         INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry),
         PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
         INGEST_PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry),
@@ -110,12 +112,12 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         success(print_queue, action, av, log_context, dry_run)
 
     except StateError as err:
-        error(print_queue, INVALID, "failed to call action %r: %s" % (action, err.message), log_context)
+        error(print_queue, codes.UNKNOWN, INVALID, "failed to call action %r: %s" % (action, err.message), log_context)
 
     except Exception as err:
         msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
-        error(print_queue, ERROR, msg, log_context)
+        error(print_queue, codes.UNKNOWN, ERROR, msg, log_context)
 
 
 def job(print_queue, action, path, force, dry_run):
@@ -147,7 +149,7 @@ class Command(ModCommand):
         parser.add_argument('--force', action='store_true', default=False)
         parser.add_argument('--dry-run', action='store_true', default=False)
 
-        parser.add_argument('--validate', dest='action', action='store_const', const=VALIDATE)
+        # might remove this and hide the implementation details in bot-lax ...
         parser.add_argument('--ingest', dest='action', action='store_const', const=INGEST)
         parser.add_argument('--publish', dest='action', action='store_const', const=PUBLISH)
         parser.add_argument('--ingest+publish', dest='action', action='store_const', const=INGEST_PUBLISH)
@@ -158,7 +160,7 @@ class Command(ModCommand):
 
     def invalid_args(self, message):
         self.parser.error(message)
-        sys.exit(1)
+        sys.exit(BAD_REQUEST)
 
     def handle(self, *args, **options):
         action = options['action']
@@ -200,7 +202,7 @@ class Command(ModCommand):
 
         except Exception as err:
             LOG.exception("unhandled exception!")
-            error(print_queue, ERROR, str(err), self.log_context)
+            error(print_queue, codes.UNKNOWN, ERROR, str(err), self.log_context)
 
         finally:
             for msg in iter(print_queue.get, 'STOP'):
