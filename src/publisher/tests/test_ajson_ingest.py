@@ -8,7 +8,6 @@ from publisher import ajson_ingestor, models, utils, codes
 from publisher.ajson_ingestor import StateError
 from publisher.utils import lmap
 from unittest import skip
-from jsonschema.exceptions import ValidationError
 from publisher import logic
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
@@ -413,9 +412,11 @@ class Publish(BaseCase):
         "an article cannot be published if it's article-json is invalid."
         self.ajson['article']['title'] = ''
         # ValidationError is raised during ingest
-        self.assertRaises(ValidationError, ajson_ingestor.ingest_publish, self.ajson)
-        # TODO: affect a valid INGEST but an invalid PUBLISH
-        #self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
+        try:
+            ajson_ingestor.ingest_publish(self.ajson)
+        except StateError as err:
+            self.assertEqual(err.code, codes.INVALID)
+            self.assertEqual(err.trace.strip()[:15], "'' is too short")
 
 class IngestPublish(BaseCase):
     def setUp(self):

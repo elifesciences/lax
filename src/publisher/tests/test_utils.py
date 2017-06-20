@@ -1,3 +1,5 @@
+import json
+from jsonschema import ValidationError
 from os.path import join
 import copy
 from publisher import utils, models, logic
@@ -6,6 +8,52 @@ import pytz
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
+
+class Errors(base.BaseCase):
+    def test_state_error(self):
+        "plain state errors have all the bits we expect"
+        try:
+            raise utils.StateError(1, 'msg')
+        except utils.StateError as err:
+            self.assertEqual(err.message, 'msg')
+            self.assertEqual(err.code, 1)
+            # bit naff
+            self.assertTrue(err.trace.strip().startswith('File "'))
+            self.assertTrue(err.trace.strip().endswith("raise utils.StateError(1, 'msg')"))
+
+    def test_state_error2(self):
+        "optional third argument replaces the 'trace' attribute of state error"
+        expected_msg = 'omg, it happened here <-----'
+        try:
+            raise utils.StateError(1, 'msg', expected_msg)
+        except utils.StateError as err:
+            self.assertEqual(err.message, 'msg')
+            self.assertEqual(err.code, 1)
+            self.assertEqual(err.trace, expected_msg)
+
+    def test_state_error3(self):
+        "if optional third argument is a ValidationError, the details of the error are captured"
+        try:
+            ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json'), 'r'))
+            ajson['statusDate'] = None
+            utils.validate(ajson, settings.SCHEMA_IDX['poa'])
+        except ValidationError as verr:
+            err = utils.StateError(1, 'msg', verr)
+            self.assertEqual(err.message, 'msg')
+            self.assertEqual(err.code, 1)
+
+            # non-deterministic ordering of errors! hooray
+
+            expected1 = """'status' is a required property
+
+Failed validating 'required' in schema['allOf'][0]['allOf'][0]:"""
+
+            expected2 = """None is not of type 'string'
+
+Failed validating 'type' in schema['allOf'][0]['allOf'][0]['properties']['statusDate']:"""
+
+            trace = err.trace.lstrip()
+            self.assertTrue(trace.startswith(expected1) or trace.startswith(expected2))
 
 class TestUtils(base.BaseCase):
     def setUp(self):

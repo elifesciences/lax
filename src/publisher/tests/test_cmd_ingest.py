@@ -61,9 +61,36 @@ class DryRun(BaseCase):
         args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, self.ajson_fixture_v1] # no force flag present
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 1) # 1 = error
+        # error resp has a bucket of info
+        resp = json.loads(stdout)
+        self.assertTrue(utils.has_all_keys(resp, ['code', 'message', 'detail', 'trace']))
+
+class Errors(BaseCase):
+    def setUp(self):
+        self.nom = 'ingest'
+        self.msid = "16695"
+        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json')
+        self.ajson_fixture_v2 = join(self.fixture_dir, 'ajson', 'elife-16695-v2.xml.json')
+
+    def tearDown(self):
+        pass
+
+    def test_error_response(self):
+        "error responses are populated correctly"
+        # will fail validation before it fails business logic (missing a pubdate)
+        args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 2, self.ajson_fixture_v2]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 1) # 1 = error
 
         resp = json.loads(stdout)
-        self.assertEqual(resp['code'], codes.ALREADY_PUBLISHED)
+
+        self.assertEqual(resp['code'], codes.INVALID)
+        # an explanation of the error code
+        self.assertEqual(resp['detail'], codes.explain(codes.INVALID))
+
+        # keys called 'message' and 'trace' exist with values
+        self.assertTrue(resp['message'])
+        self.assertTrue(resp['trace'])
 
 
 class CLI(BaseCase):

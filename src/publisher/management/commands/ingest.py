@@ -6,6 +6,7 @@ The import script does not obey business rules and merrily update published date
 The ingest script DOES obey business rules and will not publish things twice,
 
 """
+from collections import OrderedDict
 import io, re, sys, json, argparse
 from publisher import ajson_ingestor, utils, codes
 from publisher.utils import lfilter
@@ -33,12 +34,18 @@ def clean_up(print_queue):
     print_queue.put('STOP')
     reset_queries()
 
-def error(print_queue, errtype, code, message, log_context):
-    struct = {
-        'code': code, # the error classification (bad request, unknown, parse error, etc)
-        'status': errtype, # final status of request (ingested, published, validated, invalid, error)
-        'message': message # an explanation
-    }
+def error(print_queue, errtype, code, message, log_context, **moar):
+    struct = OrderedDict([
+        ('status', errtype), # final status of request (ingested, published, validated, invalid, error)
+
+        ('code', code), # the error classification (bad request, unknown, parse error, etc)
+        ('detail', codes.explain(code)), # a generic explanation of the error code
+
+        ('message', message), # an explanation of the actual error
+
+        ('trace', None), # optional tracing information. if validation error, it should be error and it's context
+    ])
+    struct.update(moar)
     log_context['status'] = errtype
     LOG.error(message, extra=log_context)
     write(print_queue, struct)
@@ -103,7 +110,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
                 raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
     except StateError as err:
-        error(print_queue, INVALID, err.code, err.message, log_context)
+        error(print_queue, INVALID, err.code, err.message, log_context, trace=err.trace)
 
     except BaseException as err:
         error(print_queue, ERROR, codes.UNKNOWN, err.message, log_context)
@@ -120,7 +127,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         success(print_queue, action, av, log_context, dry_run)
 
     except StateError as err:
-        error(print_queue, INVALID, err.code, "failed to call action %r: %s" % (action, err.message), log_context)
+        error(print_queue, INVALID, err.code, "failed to call action %r: %s" % (action, err.message), log_context, trace=err.trace)
 
     except Exception as err:
         msg = "unhandled exception attempting to %r article: %r" % (action, err)

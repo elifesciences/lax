@@ -13,6 +13,7 @@ from kids.cache import cache
 from rfc3339 import rfc3339
 from django.db import transaction, IntegrityError, connection
 from functools import wraps
+import traceback
 
 LOG = logging.getLogger(__name__)
 
@@ -23,6 +24,7 @@ lfilter = lambda func, *iterable: list(filter(func, *iterable))
 keys = lambda d: list(d.keys())
 
 class StateError(RuntimeError):
+
     @property
     def code(self):
         return self.args[0]
@@ -31,6 +33,12 @@ class StateError(RuntimeError):
     def message(self):
         return self.args[1]
 
+    @property
+    def trace(self):
+        if len(self.args) > 2:
+            trace = self.args[2]
+            return str(trace)
+        return ''.join(traceback.format_tb(self.__traceback__))
 
 class LaxAssertionError(AssertionError):
     @property
