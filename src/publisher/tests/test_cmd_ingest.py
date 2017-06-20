@@ -63,7 +63,7 @@ class DryRun(BaseCase):
         self.assertEqual(errcode, 1) # 1 = error
         # error resp has a bucket of info
         resp = json.loads(stdout)
-        self.assertTrue(utils.has_all_keys(resp, ['code', 'message', 'detail', 'trace']))
+        self.assertTrue(utils.has_all_keys(resp, ['code', 'message', 'comment', 'trace']))
 
 class Errors(BaseCase):
     def setUp(self):
@@ -86,7 +86,7 @@ class Errors(BaseCase):
 
         self.assertEqual(resp['code'], codes.INVALID)
         # an explanation of the error code
-        self.assertEqual(resp['detail'], codes.explain(codes.INVALID))
+        self.assertEqual(resp['comment'], codes.explain(codes.INVALID))
 
         # keys called 'message' and 'trace' exist with values
         self.assertTrue(resp['message'])

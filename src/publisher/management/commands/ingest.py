@@ -39,7 +39,7 @@ def error(print_queue, errtype, code, message, log_context, **moar):
         ('status', errtype), # final status of request (ingested, published, validated, invalid, error)
 
         ('code', code), # the error classification (bad request, unknown, parse error, etc)
-        ('detail', codes.explain(code)), # a generic explanation of the error code
+        ('comment', codes.explain(code)), # a generic explanation about the error code
 
         ('message', message), # an explanation of the actual error
 
