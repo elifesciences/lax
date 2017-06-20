@@ -144,8 +144,8 @@ class CLI(BaseCase):
         result = json.loads(stdout)
         self.assertTrue(utils.has_all_keys(result, ['status', 'id', 'datetime', 'message']))
         # ensure response data is correct
-        self.assertEqual(result['status'], 'published')
+        self.assertEqual(result['status'], 'validated')
+        self.assertEqual(result['message'], "(dry-run)")
 
         ajson = json.load(open(self.ajson_fixture1, 'r'))
         self.assertEqual(result['datetime'], ajson['article']['published'])
-        self.assertEqual(result['message'], "(dry-run)")

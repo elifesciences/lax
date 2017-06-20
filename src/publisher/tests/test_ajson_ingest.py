@@ -4,7 +4,7 @@ import json, copy
 from os.path import join
 from datetime import date, datetime, timedelta
 from .base import BaseCase
-from publisher import ajson_ingestor, models, utils
+from publisher import ajson_ingestor, models, utils, codes
 from publisher.ajson_ingestor import StateError
 from publisher.utils import lmap
 from unittest import skip
@@ -218,7 +218,10 @@ class Ingest(BaseCase):
 
     def test_article_json_fails_on_bad_data(self):
         "INGEST events on bad data (distinct from 'invalid') should fail with a ValueError"
-        self.assertRaises(ValueError, ajson_ingestor.ingest, self.bad_ajson)
+        try:
+            ajson_ingestor.ingest(self.bad_ajson)
+        except StateError as err:
+            self.assertTrue(err.code, codes.PARSE_ERROR)
 
     def test_article_json_stored_if_valid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored

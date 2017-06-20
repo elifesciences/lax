@@ -24,8 +24,13 @@ keys = lambda d: list(d.keys())
 
 class StateError(RuntimeError):
     @property
-    def message(self):
+    def code(self):
         return self.args[0]
+
+    @property
+    def message(self):
+        return self.args[1]
+
 
 class LaxAssertionError(AssertionError):
     @property

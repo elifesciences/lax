@@ -33,11 +33,11 @@ def clean_up(print_queue):
     print_queue.put('STOP')
     reset_queries()
 
-def error(print_queue, code, errtype, message, log_context):
+def error(print_queue, errtype, code, message, log_context):
     struct = {
-        'code': code,
-        'status': errtype,
-        'message': message
+        'code': code, # the error classification (bad request, unknown, parse error, etc)
+        'status': errtype, # final status of request (ingested, published, validated, invalid, error)
+        'message': message # an explanation
     }
     log_context['status'] = errtype
     LOG.error(message, extra=log_context)
@@ -51,14 +51,17 @@ def success(print_queue, action, av, log_context, dry_run=False):
         PUBLISH: PUBLISHED,
         INGEST_PUBLISH: PUBLISHED,
     }
-    status = lu[action]
+    status = orig_status = lu[action]
     if dry_run:
         # this is a dry run, we didn't actually ingest or publish anything
         status = VALIDATED
-    attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
+
+    attr = 'datetime_published' if orig_status == PUBLISHED else 'datetime_record_updated'
     struct = {
+        'code': None,
         'status': status,
-        'id': None if dry_run else av.article.manuscript_id,
+        #'id': None if dry_run else av.article.manuscript_id,
+        'id': log_context['msid'], # good idea?
         'datetime': getattr(av, attr),
         'message': "(dry-run)" if dry_run else None,
     }
@@ -83,22 +86,27 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         if action not in [PUBLISH]:
             raw_data = infile.read()
             log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
-            data = json.loads(raw_data)
+
+            try:
+                data = json.loads(raw_data)
+            except ValueError as err:
+                msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
+                raise StateError(codes.BAD_REQUEST, msg)
+
             # vagary of the CLI interface: article id and version are required
             # these may not match the data given
             data_version = data['article'].get('version')
             if not data_version == version:
-                raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
+                raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match 'version' passed to script (%s)" % (data_version, version))
             data_msid = int(data['article']['id'])
             if not data_msid == msid:
-                raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
+                raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
     except StateError as err:
-        error(print_queue, codes.BAD_REQUEST, INVALID, err.message, log_context)
+        error(print_queue, INVALID, err.code, err.message, log_context)
 
-    except ValueError as err:
-        msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
-        error(print_queue, codes.BAD_REQUEST, INVALID, msg, log_context)
+    except BaseException as err:
+        error(print_queue, ERROR, codes.UNKNOWN, err.message, log_context)
 
     choices = {
         # all these return a models.ArticleVersion object
@@ -112,12 +120,12 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         success(print_queue, action, av, log_context, dry_run)
 
     except StateError as err:
-        error(print_queue, codes.UNKNOWN, INVALID, "failed to call action %r: %s" % (action, err.message), log_context)
+        error(print_queue, INVALID, err.code, "failed to call action %r: %s" % (action, err.message), log_context)
 
     except Exception as err:
         msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
-        error(print_queue, codes.UNKNOWN, ERROR, msg, log_context)
+        error(print_queue, ERROR, codes.UNKNOWN, msg, log_context)
 
 
 def job(print_queue, action, path, force, dry_run):
@@ -160,7 +168,7 @@ class Command(ModCommand):
 
     def invalid_args(self, message):
         self.parser.error(message)
-        sys.exit(BAD_REQUEST)
+        sys.exit(1)
 
     def handle(self, *args, **options):
         action = options['action']
@@ -202,7 +210,7 @@ class Command(ModCommand):
 
         except Exception as err:
             LOG.exception("unhandled exception!")
-            error(print_queue, codes.UNKNOWN, ERROR, str(err), self.log_context)
+            error(print_queue, ERROR, codes.UNKNOWN, str(err), self.log_context)
 
         finally:
             for msg in iter(print_queue.get, 'STOP'):
