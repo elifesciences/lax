@@ -4,8 +4,9 @@ from publisher import models, fragment_logic, utils
 
 LOG = logging.getLogger(__name__)
 
+# all-article-versions-as-csv
 def avl2csv(stdout, stderr):
-
+    import csv
     rs = models.ArticleVersion.objects \
         .select_related('article') \
         .defer('article_json_v1', 'article_json_v1_snippet') \
@@ -13,17 +14,17 @@ def avl2csv(stdout, stderr):
         .all()
 
     def mkrow(av):
-        return [
-            utils.pad_msid(av.article.manuscript_id),
-            av.version,
-            fragment_logic.location(av)
-        ]
-
-    def writerow(row):
-        stdout.write(','.join(map(str, row)))
+        msid = utils.pad_msid(av.article.manuscript_id)
+        version = av.version
+        loc = fragment_logic.location(av)
+        if ',' in loc:
+            # bad data that may screw up consumers
+            LOG.warn("bad data! location for %s, version %s contains a comma: %s", msid, version, loc)
+        return [msid, version, loc]
 
     try:
-        [writerow(mkrow(row)) for row in rs]
+        writer = csv.writer(stdout)
+        [writer.writerow(mkrow(row)) for row in rs]
     except KeyboardInterrupt:
         exit(1)
 
