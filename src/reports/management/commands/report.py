@@ -4,6 +4,30 @@ from publisher import models, fragment_logic, utils
 
 LOG = logging.getLogger(__name__)
 
+# temporary
+def fix_broken_locs(stdout, stderr):
+    # we have a bunch of (70+) articles with paths like:
+    # /opt/bot-lax-adaptor/https:/s3-external-1.amazonaws.com/elife-publishing-expanded/24063.1/7ff76878-4424-48b0-be21-96f8bcfcb55c/elife-24063-v1.xml = /tmp/unpub-article-xml/elife-24063-v1.xml"
+
+    res = models.ArticleFragment.objects \
+        .filter(type=models.XML2JSON) \
+        .defer('fragment') # prevents lockup
+
+    def fix(frag):
+        if not '-meta' in frag.fragment:
+            stderr.write('skipping %s, no meta found' % frag)
+            return
+        loc = frag.fragment['-meta']['location']
+        bit = '/opt/bot-lax-adaptor/https:/'
+        if loc.startswith(bit):
+            newloc = 'https://' + loc[len(bit):]
+            frag.fragment['-meta']['location'] = newloc
+            frag.save()
+            stderr.write('fixed: %s' % newloc)
+
+    utils.lmap(fix, res)
+
+
 # all-article-versions-as-csv
 def avl2csv(stdout, stderr):
     import csv
@@ -45,7 +69,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         cmd = options['report']
         opts = {
-            'all-article-versions-as-csv': avl2csv
+            'all-article-versions-as-csv': avl2csv,
+            'fix-broken-locs': fix_broken_locs,
         }
         try:
             if cmd not in opts:
