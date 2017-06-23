@@ -4,7 +4,7 @@ from publisher import models, fragment_logic, utils
 
 LOG = logging.getLogger(__name__)
 
-def avl2csv():
+def avl2csv(stdout, stderr):
 
     rs = models.ArticleVersion.objects \
         .select_related('article') \
@@ -20,7 +20,7 @@ def avl2csv():
         ]
 
     def writerow(row):
-        print(','.join(map(str, row)))
+        stdout.write(','.join(map(str, row)))
 
     try:
         [writerow(mkrow(row)) for row in rs]
@@ -39,7 +39,6 @@ class Command(BaseCommand):
 
     def die(self, msg, ret=1):
         self.stderr.write(msg)
-        self.stderr.flush()
         exit(ret)
 
     def handle(self, *args, **options):
@@ -47,8 +46,13 @@ class Command(BaseCommand):
         opts = {
             'all-article-versions-as-csv': avl2csv
         }
-        if cmd not in opts:
-            return self.die("report not found")
+        try:
+            if cmd not in opts:
+                self.die("report not found")
 
-        opts[cmd]()
-        exit(0)
+            opts[cmd](self.stdout, self.stderr)
+            exit(0)
+
+        finally:
+            self.stdout.flush()
+            self.stderr.flush()
