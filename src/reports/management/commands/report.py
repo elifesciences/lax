@@ -23,7 +23,7 @@ def avl2csv(stdout, stderr):
         return [msid, version, loc]
 
     try:
-        writer = csv.writer(stdout)
+        writer = csv.writer(stdout, lineterminator="\n")
         [writer.writerow(mkrow(row)) for row in rs]
     except KeyboardInterrupt:
         exit(1)
