@@ -2,10 +2,10 @@ from django.db import connection
 from . import models
 from django.conf import settings
 import logging
-from publisher import eif_ingestor, utils, relation_logic
+from publisher import utils, relation_logic
 from publisher.utils import ensure, lmap, lfilter, firstnn, second, exsubdict
 from django.utils import timezone
-from django.db.models import ObjectDoesNotExist, Max, F  # , Q, When
+from django.db.models import Max, F  # , Q, When
 
 LOG = logging.getLogger(__name__)
 
@@ -23,50 +23,6 @@ def journal(name=None):
         LOG.info("created new Journal %s", obj)
     return obj
 
-def article(doi, version=None):
-    """returns the latest version of the article identified by the
-    doi, or the specific version given.
-    Raises DoesNotExist if article not found."""
-    try:
-        article = models.Article.objects.get(doi__iexact=doi)
-        if version:
-            return article, article.articleversion_set.exclude(datetime_published=None).get(version=version)
-        return article, article.articleversion_set.exclude(datetime_published=None).latest('version')
-    except ObjectDoesNotExist:
-        raise models.Article.DoesNotExist()
-
-def article_versions(doi):
-    "returns all versions of the given article"
-    return models.ArticleVersion.objects.filter(article__doi__iexact=doi).exclude(datetime_published=None)
-
-
-# TODO: move this into `tests/`
-def add_or_update_article(**article_data):
-    """TESTING ONLY. given article data it attempts to find the
-    article and update it, otherwise it will create it, filling
-    any missing keys with dummy data. returns the created article."""
-    assert 'doi' in article_data or 'manuscript_id' in article_data, \
-        "a value for 'doi' or 'manuscript_id' *must* exist"
-
-    if 'manuscript_id' in article_data:
-        article_data['doi'] = utils.msid2doi(article_data['manuscript_id'])
-    elif 'doi' in article_data:
-        article_data['manuscript_id'] = utils.doi2msid(article_data['doi'])
-
-    filler = [
-        'title',
-        'doi',
-        'manuscript_id',
-        ('volume', 1),
-        'path',
-        'article-type',
-        ('ejp_type', 'RA'),
-        ('version', 1),
-        ('pub-date', '2012-01-01'),
-        ('status', 'vor'),
-    ]
-    article_data = utils.filldict(article_data, filler, 'pants-party')
-    return eif_ingestor.import_article(journal(), article_data, create=True, update=True)
 
 #
 #

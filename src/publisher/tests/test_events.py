@@ -64,8 +64,6 @@ class Two(base.TransactionBaseCase):
         self.f2 = join(self.fixture_dir, 'ajson', 'elife-09560-v1.xml.json')
         self.ajson2 = self.load_ajson(self.f2, strip_relations=False)
 
-        self.commits = 0
-
     def tearDown(self):
         pass
 

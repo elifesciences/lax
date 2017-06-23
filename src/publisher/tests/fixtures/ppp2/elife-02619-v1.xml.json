@@ -1,0 +1,191 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-02619-v1.xml"
+        }, 
+        "status": "vor", 
+        "id": "02619", 
+        "version": 1, 
+        "type": "editorial", 
+        "doi": "10.7554/eLife.02619", 
+        "authorLine": "Melissa Harrison", 
+        "title": "Coming soon to a screen near you", 
+        "titlePrefix": "Scientific Publishing", 
+        "published": "2014-04-29T00:00:00Z", 
+        "versionDate": "2014-04-29T00:00:00Z", 
+        "volume": 3, 
+        "elocationId": "e02619", 
+        "pdf": "https://cdn.elifesciences.org/articles/02619/elife-02619-v1.pdf", 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "As <i>eLife</i> starts to publish the accepted versions of certain Research Articles, we explain what happens once a manuscript has been accepted for publication."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Harrison", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Melissa Harrison", 
+                    "index": "Harrison, Melissa"
+                }, 
+                "orcid": "0000-0003-3523-4408", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "<i>eLife</i>"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Cambridge", 
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Cambridge"
+                                ], 
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "production@elifesciences.org"
+                ], 
+                "competingInterests": "The author declares that no competing interests exist."
+            }
+        ], 
+        "impactStatement": "As eLife starts to publish the accepted versions of certain Research Articles, we explain what happens once a manuscript has been accepted for publication."
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-02619-v1.xml", 
+            "patched": true
+        }, 
+        "status": "vor", 
+        "id": "02619", 
+        "version": 1, 
+        "type": "editorial", 
+        "doi": "10.7554/eLife.02619", 
+        "authorLine": "Melissa Harrison", 
+        "title": "Coming soon to a screen near you", 
+        "titlePrefix": "Scientific Publishing", 
+        "published": "2014-04-29T00:00:00Z", 
+        "versionDate": "2014-04-29T00:00:00Z", 
+        "volume": 3, 
+        "elocationId": "e02619", 
+        "pdf": "https://cdn.elifesciences.org/articles/02619/elife-02619-v1.pdf", 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "As <i>eLife</i> starts to publish the accepted versions of certain Research Articles, we explain what happens once a manuscript has been accepted for publication."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Harrison", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Melissa Harrison", 
+                    "index": "Harrison, Melissa"
+                }, 
+                "orcid": "0000-0003-3523-4408", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "<i>eLife</i>"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Cambridge", 
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Cambridge"
+                                ], 
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "production@elifesciences.org"
+                ], 
+                "competingInterests": "The author declares that no competing interests exist."
+            }
+        ], 
+        "impactStatement": "As eLife starts to publish the accepted versions of certain Research Articles, we explain what happens once a manuscript has been accepted for publication.", 
+        "keywords": [
+            "scientific publishing", 
+            "open access", 
+            "eLife", 
+            "xml", 
+            "repositories"
+        ], 
+        "-related-articles-internal": [], 
+        "-related-articles-external": [], 
+        "body": [
+            {
+                "type": "section", 
+                "id": "s0", 
+                "title": "Main text", 
+                "content": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Starting this month <i>eLife</i> authors will have the option of publishing the accepted version of their article\u2014including supplementary figures, videos and source data\u2014on the <i>eLife</i> website within 2\u20133 days of acceptance; see <a href=\"http://elifesciences.org/upcoming\">http://elifesciences.org/upcoming</a>. Each of these \u2018accepted manuscripts\u2019 will have a DOI and will be listed in PubMed. The final \u2018version of record\u2019 will appear a few weeks after the accepted manuscript has been published."
+                    }, 
+                    {
+                        "type": "quote", 
+                        "text": [
+                            {
+                                "type": "paragraph", 
+                                "text": "This move is part of our commitment to improve the publication process by reducing the length of time it takes to get new results into the open."
+                            }
+                        ]
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "This move (which has already been made by a number of other publishers) is part of our commitment to improve the publication process by reducing the length of time it takes to get new results into the open. Authors have always been free to upload the latest version of any manuscript submitted to or accepted by <i>eLife</i> to their own website, or to an institutional or subject repository (such as <a href=\"http://arxiv.org/\">arxiv.org</a> or <a href=\"http://biorxiv.org/\">biorxiv.org</a>): the advantages of taking the accepted manuscript route at <i>eLife</i> are that the article will immediately be more visible via, for example, PubMed, Google and email alerts from <i>eLife</i>, that the article will get a DOI sooner, and that any article-level metrics associated with the article (such as page views and downloads) will include data from both the accepted version and the final version of record. Another advantage is that we will upload the manuscript for the author."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "So what actually happens between a manuscript being accepted and the version of record being published? First, the editorial production team checks the files that have been submitted to our manuscript submission system, and also all the information about the authors and the article (that is, the metadata) that the authors have input during the submission process. This often involves corresponding with authors to clarify points and requesting further information or files. If the authors agree, the decision letter (which is based on the referee reports) and author response to this letter are also prepared for publication. Meanwhile, the <i>eLife</i> features team works with the authors to produce a plain-language summary of the article. The aim of this summary\u2014which is called an <i>eLife</i> Digest\u2014is to make the background and central findings of the article readily understandable by a broad readership. The fact that <i>eLife</i> is an open access journal already ensures that anyone who is interested in an article can read it free of charge."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The next step is to export the article to our content processing vendor. I have deliberately avoided the term typesetter here because producing the PDF version of the article is just a small part of the whole production process today. This vendor converts the Word file submitted by the author, plus all the metadata\u2014such as the author names and affiliations, author contributions, keywords, funding details and so on\u2014into a XML file (see below). The figures, figure supplements, source data, videos and other subsidiary files are also resized and renamed. On completion of this process the content is pushed into an <a href=\"http://www.elifesciences.org/beyond-the-pdf-article-proof-2/\">online proofing service</a>, and authors are sent an email with a link that allows them to check their article. Authors can also download a PDF version of the proof, but all corrections have to be entered via the online proofing service."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The use of XML (short for extensible mark up language) brings many advantages, which is why it is the format of choice for most scientific publishers. First, it is straightforward to generate HTML and PDF versions of the article from the XML file; the XML file is also used to populate the <a href=\"http://www.elifesciences.org/elife-lens-the-back-story/\">Lens view of eLife articles</a>. Second, XML allows us to deliver our content to third-party sites such as PubMed and PubMed Central. Third, the availability of the XML versions of articles supports text and data mining."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "We are currently looking into other ways of using XML and other digital technologies to improve the scientific publication process. For example, we are keen to reduce the time between acceptance and publication of the final version of record. We\u2019d also like to improve the submission process and the presentation of research articles (and their underlying data), so feedback and suggestions are welcome."
+                    }
+                ]
+            }
+        ], 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z"
+    }
+}

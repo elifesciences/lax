@@ -1,7 +1,7 @@
 import re
 from os.path import join
 from publisher.tests import base
-from publisher import eif_ingestor, logic as publogic, utils
+from publisher import logic as publogic, utils, ajson_ingestor, models
 from reports import logic
 
 from django.test import Client
@@ -38,9 +38,21 @@ class TestReport(base.BaseCase):
         ]
         for subdir in import_all:
             fname = subdir.replace('.', '-v')
-            fname = "elife-%s.json" % fname
-            path = join(self.fixture_dir, 'ppp', subdir, fname)
-            eif_ingestor.import_article_from_json_path(self.journal, path)
+            fname = "elife-%s.xml.json" % fname
+            path = join(self.fixture_dir, 'ppp2', fname)
+            ajson_ingestor.ingest_publish(self.load_ajson(path)) # strip relations
+
+        # we need to coerce the data of the non-v1 articles a little
+        # as we removed the eif ingestor that bypassed business logic
+        cases = [
+            # vor
+            (3401, 3, "2014-08-01"),
+            (8025, 2, "2015-06-16"),
+        ]
+        for msid, ver, dtstr in cases:
+            av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=ver)
+            av.datetime_published = utils.todt(dtstr)
+            av.save()
 
         self.vor_version_count = 9
         self.poa_version_count = 6
@@ -48,24 +60,22 @@ class TestReport(base.BaseCase):
         self.poa_art_count = 1
         self.vor_art_count = 9
 
-        self.research_art_count = 6
-
     def tearDown(self):
         pass
 
     def test_paw_recent_report_data(self):
         res = logic.paw_recent_report_raw_data(limit=None)
         self.assertEqual(res.count(), self.vor_art_count)
-        cases = [
-            ("00353", 1, "2012-12-13"), # v1 'pub-date' dates
-            ("03401", 3, "2014-08-01"), # >v1 'update' dates
-            ("08025", 2, "2015-06-16"),
+        vor_cases = [
+            (353, 1, "2012-12-13"), # v1 'pub-date' dates
+            (3401, 3, "2014-08-01"), # >v1 'update' dates
+            (8025, 2, "2015-06-16"),
         ]
-        for msid, expected_version, expected_pubdate in cases:
-            o = res.get(article__doi='10.7554/eLife.' + msid)
-            self.assertEqual(o.status, 'vor')
-            self.assertEqual(o.version, expected_version)
-            self.assertEqual(utils.ymd(o.datetime_published), expected_pubdate)
+        for msid, expected_version, expected_pubdate in vor_cases:
+            av = res.get(article__manuscript_id=msid)
+            self.assertEqual(av.status, 'vor')
+            self.assertEqual(av.version, expected_version)
+            self.assertEqual(utils.ymd(av.datetime_published), expected_pubdate)
 
     def test_paw_ahead_report_data(self):
         res = logic.paw_ahead_report_raw_data(limit=None)

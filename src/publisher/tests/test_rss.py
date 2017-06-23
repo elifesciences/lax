@@ -1,12 +1,12 @@
 import re
-from .base import BaseCase
+import base
 from django.test import Client
 from django.core.urlresolvers import reverse
 from publisher import logic, models, utils
 from datetime import timedelta
 from unittest import skip
 
-class TestLatest(BaseCase):
+class TestLatest(base.BaseCase):
 
     def setUp(self):
         pass
@@ -78,7 +78,7 @@ class TestLatest(BaseCase):
             self.assertEqual(av.version, expected[1])
 
 
-class RSSViews(BaseCase):
+class RSSViews(base.BaseCase):
     def setUp(self):
         self.c = Client()
         self.journal = logic.journal()
@@ -110,7 +110,7 @@ class RSSViews(BaseCase):
              'pub-date': fmt(an_hour_ago),
              }
         ]
-        [logic.add_or_update_article(**article_data) for article_data in self.article_data_list]
+        [base.add_or_update_article(**article_data) for article_data in self.article_data_list]
 
     def tearDown(self):
         pass

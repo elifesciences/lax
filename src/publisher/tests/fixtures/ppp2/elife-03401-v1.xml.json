@@ -1,0 +1,240 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": null
+    }, 
+    "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-03401-v1.xml"
+        }, 
+        "-history": {
+            "received": "2014-05-18T00:00:00Z", 
+            "accepted": "2014-07-09T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "03401", 
+        "version": 1, 
+        "type": "feature", 
+        "doi": "10.7554/eLife.03401", 
+        "authorLine": "Kevin M Esvelt et al.", 
+        "title": "Concerning RNA-guided gene drives for the alteration of wild populations", 
+        "published": "2014-07-17T00:00:00Z", 
+        "versionDate": "2014-07-17T00:00:00Z", 
+        "volume": 3, 
+        "elocationId": "e03401", 
+        "pdf": "https://cdn.elifesciences.org/articles/03401/elife-03401-v1.pdf", 
+        "subjects": [
+            {
+                "id": "ecology", 
+                "name": "Ecology"
+            }, 
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Gene drives may be capable of addressing ecological problems by altering entire populations of wild organisms, but their use has remained largely theoretical due to technical constraints.  Here we consider the potential for RNA-guided gene drives based on the CRISPR nuclease Cas9 to serve as a general method for spreading altered traits through wild populations over many generations.  We detail likely capabilities, discuss limitations, and provide novel precautionary strategies to control the spread of gene drives and reverse genomic changes.  The ability to edit populations of sexual species would offer substantial benefits to humanity and the environment.  For example, RNA-guided gene drives could potentially prevent the spread of disease, support agriculture by reversing pesticide and herbicide resistance in insects and weeds, and control damaging invasive species.  However, the possibility of unwanted ecological effects and near-certainty of spread across political borders demand careful assessment of each potential application.  We call for thoughtful, inclusive, and well-informed public discussions to explore the responsible use of this currently theoretical technology."
+                }
+            ]
+        }
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-03401-v1.xml", 
+            "patched": true
+        }, 
+        "-history": {
+            "received": "2014-05-18T00:00:00Z", 
+            "accepted": "2014-07-09T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "03401", 
+        "version": 1, 
+        "type": "feature", 
+        "doi": "10.7554/eLife.03401", 
+        "authorLine": "Kevin M Esvelt et al.", 
+        "title": "Concerning RNA-guided gene drives for the alteration of wild populations", 
+        "published": "2014-07-17T00:00:00Z", 
+        "versionDate": "2014-07-17T00:00:00Z", 
+        "volume": 3, 
+        "elocationId": "e03401", 
+        "pdf": "https://cdn.elifesciences.org/articles/03401/elife-03401-v1.pdf", 
+        "subjects": [
+            {
+                "id": "ecology", 
+                "name": "Ecology"
+            }, 
+            {
+                "id": "genes-chromosomes", 
+                "name": "Genes and Chromosomes"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Gene drives may be capable of addressing ecological problems by altering entire populations of wild organisms, but their use has remained largely theoretical due to technical constraints.  Here we consider the potential for RNA-guided gene drives based on the CRISPR nuclease Cas9 to serve as a general method for spreading altered traits through wild populations over many generations.  We detail likely capabilities, discuss limitations, and provide novel precautionary strategies to control the spread of gene drives and reverse genomic changes.  The ability to edit populations of sexual species would offer substantial benefits to humanity and the environment.  For example, RNA-guided gene drives could potentially prevent the spread of disease, support agriculture by reversing pesticide and herbicide resistance in insects and weeds, and control damaging invasive species.  However, the possibility of unwanted ecological effects and near-certainty of spread across political borders demand careful assessment of each potential application.  We call for thoughtful, inclusive, and well-informed public discussions to explore the responsible use of this currently theoretical technology."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Esvelt et al.", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Kevin M Esvelt", 
+                    "index": "Esvelt, Kevin M"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Wyss Institute for Biologically Inspired Engineering, Harvard Medical School"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Boston", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Boston"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "kevin.esvelt@wyss.harvard.edu"
+                ], 
+                "competingInterests": "Kevin M Esvelt, Filed for a patent concerning RNA-guided gene drives."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Andrea L Smidler", 
+                    "index": "Smidler, Andrea L"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Harvard School of Public Health"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Boston", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Boston"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "Andrea L Smidler, Filed for a patent concerning RNA-guided gene drives."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Flaminia Catteruccia", 
+                    "index": "Catteruccia, Flaminia"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Harvard School of Public Health"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Boston", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Boston"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "George M Church", 
+                    "index": "Church, George M"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Wyss Institute for Biologically Inspired Engineering, Harvard Medical School"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Boston", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Boston"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "George M Church, Filed for a patent concerning RNA-guided gene drives."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Diethard Tautz", 
+                    "index": "Tautz, Diethard"
+                }, 
+                "role": "Reviewing Editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Max Planck Institute for Evolutionary Biology"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Germany"
+                            ], 
+                            "components": {
+                                "country": "Germany"
+                            }
+                        }
+                    }
+                ]
+            }
+        ], 
+        "additionalFiles": [
+            {
+                "mediaType": "application/zip", 
+                "uri": "https://cdn.elifesciences.org/articles/03401/elife-03401-supp-v1.zip", 
+                "filename": "elife-03401-supp-v1.zip", 
+                "id": "SD1-data", 
+                "title": "Supplementary file 1."
+            }
+        ], 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z"
+    }
+}
