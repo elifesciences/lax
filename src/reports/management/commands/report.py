@@ -25,8 +25,7 @@ def fix_broken_locs(stdout, stderr):
             frag.save()
             stderr.write('fixed: %s' % newloc)
 
-    utils.lmap(fix, res)
-
+    utils.lmap(fix, res.iterator())
 
 # all-article-versions-as-csv
 def avl2csv(stdout, stderr):
