@@ -9,7 +9,7 @@ The ingest script DOES obey business rules and will not publish things twice,
 from collections import OrderedDict
 import io, re, sys, json, argparse
 from publisher import ajson_ingestor, utils, codes
-from publisher.utils import lfilter
+from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
@@ -51,6 +51,9 @@ def error(print_queue, errtype, code, message, log_context, **moar):
     write(print_queue, struct)
     clean_up(print_queue)
     sys.exit(1)
+
+def error_from_err(print_queue, errtype, errobj, log_context):
+    return error(print_queue, errtype, errobj.code, errobj.message, log_context, trace=errobj.trace)
 
 def success(print_queue, action, av, log_context, dry_run=False):
     lu = {
@@ -110,10 +113,11 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
                 raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
     except StateError as err:
-        error(print_queue, INVALID, err.code, err.message, log_context, trace=err.trace)
+        error_from_err(print_queue, INVALID, err, log_context)
 
     except BaseException as err:
-        error(print_queue, ERROR, codes.UNKNOWN, err.message, log_context)
+        LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
+        error(print_queue, ERROR, codes.UNKNOWN, str(err), log_context, trace=ftb(err))
 
     choices = {
         # all these return a models.ArticleVersion object
@@ -127,12 +131,12 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         success(print_queue, action, av, log_context, dry_run)
 
     except StateError as err:
-        error(print_queue, INVALID, err.code, "failed to call action %r: %s" % (action, err.message), log_context, trace=err.trace)
+        error_from_err(print_queue, INVALID, err, log_context)
 
     except Exception as err:
         msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
-        error(print_queue, ERROR, codes.UNKNOWN, msg, log_context)
+        error(print_queue, ERROR, codes.UNKNOWN, msg, log_context, trace=ftb(err))
 
 
 def job(print_queue, action, path, force, dry_run):
@@ -217,7 +221,7 @@ class Command(ModCommand):
 
         except Exception as err:
             LOG.exception("unhandled exception!")
-            error(print_queue, ERROR, codes.UNKNOWN, str(err), self.log_context)
+            error(print_queue, ERROR, codes.UNKNOWN, str(err), self.log_context, trace=ftb(err))
 
         finally:
             for msg in iter(print_queue.get, 'STOP'):

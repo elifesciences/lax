@@ -23,6 +23,9 @@ lfilter = lambda func, *iterable: list(filter(func, *iterable))
 
 keys = lambda d: list(d.keys())
 
+def formatted_traceback(errobj):
+    return ''.join(traceback.format_tb(errobj.__traceback__))
+
 class StateError(RuntimeError):
 
     @property
@@ -38,7 +41,7 @@ class StateError(RuntimeError):
         if len(self.args) > 2:
             trace = self.args[2]
             return str(trace)
-        return ''.join(traceback.format_tb(self.__traceback__))
+        return formatted_traceback(self)
 
 class LaxAssertionError(AssertionError):
     @property
