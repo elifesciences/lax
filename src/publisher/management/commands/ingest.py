@@ -34,7 +34,7 @@ def clean_up(print_queue):
     print_queue.put('STOP')
     reset_queries()
 
-def error(print_queue, errtype, code, message, log_context, **moar):
+def error(print_queue, errtype, code, message, force, dry_run, log_context, **moar):
     struct = OrderedDict([
         ('status', errtype), # final status of request (ingested, published, validated, invalid, error)
 
@@ -44,6 +44,10 @@ def error(print_queue, errtype, code, message, log_context, **moar):
         ('message', message), # an explanation of the actual error
 
         ('trace', None), # optional tracing information. if validation error, it should be error and it's context
+
+        ('dry-run', dry_run),
+        ('force', force),
+
     ])
     struct.update(moar)
     log_context['status'] = errtype
@@ -52,10 +56,10 @@ def error(print_queue, errtype, code, message, log_context, **moar):
     clean_up(print_queue)
     sys.exit(1)
 
-def error_from_err(print_queue, errtype, errobj, log_context):
-    return error(print_queue, errtype, errobj.code, errobj.message, log_context, trace=errobj.trace)
+def error_from_err(print_queue, errtype, errobj, force, dry_run, log_context):
+    return error(print_queue, errtype, errobj.code, errobj.message, force, dry_run, log_context, trace=errobj.trace)
 
-def success(print_queue, action, av, log_context, dry_run=False):
+def success(print_queue, action, av, force, dry_run, log_context):
     lu = {
         INGEST: INGESTED,
         PUBLISH: PUBLISHED,
@@ -67,16 +71,14 @@ def success(print_queue, action, av, log_context, dry_run=False):
         status = VALIDATED
 
     attr = 'datetime_published' if orig_status == PUBLISHED else 'datetime_record_updated'
-    struct = {
-        'code': None,
-        'status': status,
-        #'id': None if dry_run else av.article.manuscript_id,
-        'id': log_context['msid'], # good idea?
-        'datetime': getattr(av, attr),
-        'message': "(dry-run)" if dry_run else None,
-    }
+    struct = OrderedDict([
+        ('status', status),
+        ('id', log_context['msid']), # good idea? #'id': None if dry_run else av.article.manuscript_id,
+        ('datetime', getattr(av, attr)),
+        ('dry-run', dry_run),
+        ('force', force),
+    ])
     log_context.update(struct)
-    log_context.pop('message')
     LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
     write(print_queue, struct)
     clean_up(print_queue)
@@ -113,11 +115,11 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
                 raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
     except StateError as err:
-        error_from_err(print_queue, INVALID, err, log_context)
+        error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
     except BaseException as err:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
-        error(print_queue, ERROR, codes.UNKNOWN, str(err), log_context, trace=ftb(err))
+        error(print_queue, ERROR, codes.UNKNOWN, str(err), force, dry_run, log_context, trace=ftb(err))
 
     choices = {
         # all these return a models.ArticleVersion object
@@ -128,15 +130,15 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     try:
         av = choices[action](msid, version, force, data, dry_run)
-        success(print_queue, action, av, log_context, dry_run)
+        success(print_queue, action, av, force, dry_run, log_context)
 
     except StateError as err:
-        error_from_err(print_queue, INVALID, err, log_context)
+        error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
     except Exception as err:
         msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
-        error(print_queue, ERROR, codes.UNKNOWN, msg, log_context, trace=ftb(err))
+        error(print_queue, ERROR, codes.UNKNOWN, msg, force, dry_run, log_context, trace=ftb(err))
 
 
 def job(print_queue, action, path, force, dry_run):
@@ -221,7 +223,7 @@ class Command(ModCommand):
 
         except Exception as err:
             LOG.exception("unhandled exception!")
-            error(print_queue, ERROR, codes.UNKNOWN, str(err), self.log_context, trace=ftb(err))
+            error(print_queue, ERROR, codes.UNKNOWN, str(err), force, dry_run, self.log_context, trace=ftb(err))
 
         finally:
             for msg in iter(print_queue.get, 'STOP'):
