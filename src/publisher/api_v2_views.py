@@ -25,24 +25,26 @@ def request_args(request, **overrides):
     opts.update(settings.API_OPTS)
     opts.update(overrides)
 
-    def ispositiveint(v):
-        ensure(isint(v) and int(v) > 0, "expecting positive integer, got: %s" % v)
-        return int(v)
+    def ispositiveint(param):
+        def wrap(v):
+            ensure(isint(v) and int(v) > 0, "expecting positive integer for %r parameter" % param)
+            return int(v)
+        return wrap
 
     def inrange(minpp, maxpp):
         def fn(v):
-            ensure(v >= minpp and v <= maxpp, "value must be between %s and %s" % (minpp, maxpp))
+            ensure(v >= minpp and v <= maxpp, "value must be between %s and %s for 'per-page' parameter" % (minpp, maxpp))
             return v
         return fn
 
     def asc_or_desc(val):
-        v = val.strip().upper()
-        ensure(v in ['ASC', 'DESC'], "expecting either 'asc' or 'desc' for 'order' parameter, got: %s" % val)
+        v = val.strip().upper()[:4]
+        ensure(v in ['ASC', 'DESC'], "expecting either 'asc' or 'desc' for 'order' parameter")
         return v
 
     desc = {
-        'page': [p('page', opts['page_num']), ispositiveint],
-        'per_page': [p('per-page', opts['per_page']), ispositiveint, inrange(opts['min_per_page'], opts['max_per_page'])],
+        'page': [p('page', opts['page_num']), ispositiveint('page')],
+        'per_page': [p('per-page', opts['per_page']), ispositiveint('per-page'), inrange(opts['min_per_page'], opts['max_per_page'])],
         'order': [p('order', opts['order_direction']), str, asc_or_desc]
     }
     return render_item(desc, request.GET)
@@ -61,7 +63,6 @@ def is_authenticated(request):
 @renderer_classes((StaticHTMLRenderer,))
 def ping(request):
     "returns a test response for monitoring, *never* to be cached"
-
     return Response('pong', content_type='text/plain; charset=UTF-8', headers={'Cache-Control': 'must-revalidate, no-cache, no-store, private'})
 
 @api_view(['GET'])
