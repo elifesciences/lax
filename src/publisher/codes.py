@@ -29,5 +29,4 @@ idx[NO_RECORD] = "thrown when we can't find something in the database that we ex
 # ---
 
 def explain(code):
-    global idx
     return idx.get(code)
