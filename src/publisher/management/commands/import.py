@@ -20,7 +20,7 @@ def ingest(fn, journal, create, update, path_list):
             return True
         except KeyboardInterrupt:
             raise
-        except:
+        except BaseException:
             LOG.exception("failed to import article")
             return False
     try:
