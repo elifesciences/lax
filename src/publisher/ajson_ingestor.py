@@ -1,6 +1,6 @@
 import copy
 from publisher import models, utils, fragment_logic as fragments, logic, events, aws_events
-from publisher import relation_logic as relationships
+from publisher import relation_logic as relationships, codes
 from publisher.models import XML2JSON
 from publisher.utils import create_or_update, StateError, atomic
 import logging
@@ -70,7 +70,6 @@ def _ingest_objects(data, create, update, force, log_context):
         article, created, updated = \
             create_or_update(models.Article, article_struct, ['manuscript_id', 'journal'], create, update, journal=journal)
 
-        assert isinstance(article, models.Article)
         log_context['article'] = article
 
         previous_article_versions = []
@@ -85,7 +84,6 @@ def _ingest_objects(data, create, update, force, log_context):
             create_or_update(models.ArticleVersion, av_struct, ['article', 'version'],
                              create, update, commit=False, article=article)
 
-        assert isinstance(av, models.ArticleVersion)
         log_context['article-version'] = av
 
         data['article']['forced?'] = force
@@ -97,7 +95,7 @@ def _ingest_objects(data, create, update, force, log_context):
         return av, created, updated, previous_article_versions
 
     except KeyError as err:
-        raise ValueError("failed to scrape article data, couldn't find key %s" % err)
+        raise StateError(codes.PARSE_ERROR, "failed to scrape article data, key not present: %s" % err)
 
 
 #
@@ -118,7 +116,8 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
         fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
-        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force) # article-json validation occurs here
+        # validation of article-json occurs here
+        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force)
 
         # update the relationships
         relationships.remove_relationships(av)
@@ -135,7 +134,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
                     # uhoh. we're attempting to create an article version before previous version of that article has been published.
                     msg = "refusing to ingest new article version when previous article version is still unpublished."
                     LOG.error(msg, extra=log_context)
-                    raise StateError(msg)
+                    raise StateError(codes.PREVIOUS_VERSION_UNPUBLISHED, msg)
 
                 if not last_version.version + 1 == av.version:
                     # uhoh. we're attempting to create an article version out of sequence
@@ -144,7 +143,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
                         'given-version': av.version,
                         'expected-version': last_version.version + 1})
                     LOG.error(msg, extra=log_context)
-                    raise StateError(msg)
+                    raise StateError(codes.PREVIOUS_VERSION_DNE, msg)
 
             # no other versions of article exist
             else:
@@ -155,7 +154,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
                         'given-version': av.version,
                         'expected-version': 1})
                     LOG.error(msg, extra=log_context)
-                    raise StateError(msg)
+                    raise StateError(codes.PREVIOUS_VERSION_DNE, msg)
 
         elif updated:
             # this version of the article already exists
@@ -166,7 +165,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
                     # unless our arm is being twisted, die.
                     msg = "refusing to ingest new article data on an already published article version."
                     LOG.error(msg, extra=log_context)
-                    raise StateError(msg)
+                    raise StateError(codes.ALREADY_PUBLISHED, msg)
 
         # passed all checks, save
         av.save()
@@ -178,10 +177,13 @@ def _ingest(data, force=False) -> models.ArticleVersion:
 
     except KeyError as err:
         # *probably* an error while scraping ...
-        raise StateError("failed to scrape given article data: %s" % err)
+        raise StateError(codes.PARSE_ERROR, "failed to scrape given article data: %r" % err)
 
     except StateError:
         raise
+
+    except ValidationError as err:
+        raise StateError(codes.INVALID, "validation error: %s" % err.cause, err)
 
     except Exception:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
@@ -203,10 +205,9 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         av = models.ArticleVersion.objects.get(article__manuscript_id=msid, version=version)
         if av.published():
             if not force:
-                raise StateError("refusing to publish an already published article version")
+                raise StateError(codes.ALREADY_PUBLISHED, "refusing to publish an already published article version")
 
         # NOTE: we don't use any other article fragments for determining the publication date
-
         # except the xml->json fragment.
         raw_data = fragments.get(av, XML2JSON).fragment
 
@@ -216,7 +217,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
             # and set the pub-date on the ArticleVersion object
             datetime_published = utils.todt(raw_data.get('published'))
             if not datetime_published:
-                raise StateError("found 'published' value in article-json, but it's either null or unparsable as a datetime")
+                raise StateError(codes.PARSE_ERROR, "found 'published' value in article-json, but it's either null or unparsable as a date+time")
 
         else:
             # but *not* if it's > v1. in this case, we generate one.
@@ -229,7 +230,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
                     # won't find it's way here. this is a future-case only.
                     datetime_published = utils.todt(raw_data['versionDate'])
                     if not datetime_published:
-                        raise StateError("found 'versionDate' value in article-json, but it's either null or unparseable as a datetime")
+                        raise StateError(codes.PARSE_ERROR, "found 'versionDate' value in article-json, but it's either null or unparseable as a datetime")
                 else:
                     # CURRENT CASE
                     # preserve the existing pubdate set by lax. ignore anything given in the ajson.
@@ -257,14 +258,14 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
 
     except ValidationError as err:
         # the problem isn't that the ajson is invalid, it's that we've allowed invalid ajson into the system
-        raise StateError("refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err))
+        raise StateError(codes.INVALID, "refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err), err)
 
     except models.ArticleFragment.DoesNotExist:
-        raise StateError("no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")
+        raise StateError(codes.NO_RECORD, "no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")
 
     except models.ArticleVersion.DoesNotExist:
         # attempted to publish an article that doesn't exist ...
-        raise StateError("refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
+        raise StateError(codes.NO_RECORD, "refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
 
 @atomic
 def publish(*args, **kwargs) -> models.ArticleVersion:
