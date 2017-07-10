@@ -157,7 +157,7 @@ class One(BaseCase):
             try:
                 av = latest_idx[msid]
                 self.assertEqual(av.version, expected_version)
-            except:
+            except BaseException:
                 print('failed on', msid, 'version', expected_version)
                 raise
 
