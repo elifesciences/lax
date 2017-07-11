@@ -77,6 +77,9 @@ def success(print_queue, action, av, force, dry_run, log_context):
         ('datetime', getattr(av, attr)),
         ('dry-run', dry_run),
         ('force', force),
+
+        # backwards compatibility while bot-lax catches up
+        ('message', None),
     ])
     log_context.update(struct)
     LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
