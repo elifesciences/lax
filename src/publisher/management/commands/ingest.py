@@ -82,6 +82,9 @@ def success(print_queue, action, av, force, dry_run, log_context):
         ('message', None),
     ])
     log_context.update(struct)
+    # if a 'message' key is present, we need to remove it to avoid
+    #     KeyError: "Attempt to overwrite 'message' in LogRecord"
+    log_context.pop('message')
     LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
     write(print_queue, struct)
     clean_up(print_queue)
