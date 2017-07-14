@@ -70,7 +70,7 @@ class EJPIngest(base.BaseCase):
             {'manuscript_id': 321,
              'journal': self.journal},
         ]
-        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        [self.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(models.Article.objects.count(), 3)
         # this logic (not updating if told not to) is now thoroughly tested as part
         # of the ajson ingestor logic and the utils.create_or_update func
@@ -90,7 +90,7 @@ class EJPIngest(base.BaseCase):
             {'manuscript_id': 321,
              'journal': self.journal},
         ]
-        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        [self.add_or_update_article(**article_data) for article_data in article_data_list]
         self.assertEqual(models.Article.objects.count(), 3)
         ejp_ingestor.import_article_list_from_json_path(self.journal, self.tiny_json_path, update=True)
         self.assertEqual(models.Article.objects.count(), 8)

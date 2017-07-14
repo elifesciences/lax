@@ -218,6 +218,16 @@ def has_all_keys(data, expected_keys):
     actual_keys = keys(data)
     return all([key in actual_keys for key in expected_keys])
 
+def renkey(ddict, oldkey, newkey):
+    "renames a key in ddict from oldkey to newkey"
+    if oldkey in ddict:
+        ddict[newkey] = ddict[oldkey]
+        del ddict[oldkey]
+    return ddict
+
+def renkeys(ddict, pair_list):
+    for oldkey, newkey in pair_list:
+        renkey(ddict, oldkey, newkey)
 
 def to_dict(instance):
     opts = instance._meta
@@ -338,4 +348,3 @@ def create_or_update(Model, orig_data, key_list=None, create=True, update=True, 
     # it is possible to neither create nor update.
     # in this case if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)
-

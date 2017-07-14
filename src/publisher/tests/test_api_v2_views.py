@@ -166,8 +166,7 @@ class V2Content(base.BaseCase):
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
-            path = join(ajson_dir, ingestable)
-            data = json.load(open(path, 'r'))
+            data = self.load_ajson(join(ajson_dir, ingestable))
             # remove these values here so they don't interfere in creation
             utils.delall(data, ['-related-articles-internal', '-related-articles-external'])
             ajson_ingestor.ingest_publish(data)

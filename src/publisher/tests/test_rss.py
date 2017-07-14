@@ -1,5 +1,5 @@
 import re
-import base
+from . import base
 from django.test import Client
 from django.core.urlresolvers import reverse
 from publisher import logic, models, utils
@@ -58,7 +58,7 @@ class TestLatest(base.BaseCase):
              }
 
         ]
-        [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+        [self.add_or_update_article(**article_data) for article_data in article_data_list]
 
         self.assertEqual(models.Article.objects.count(), 3)
         self.assertEqual(models.ArticleVersion.objects.count(), 6)
@@ -81,7 +81,6 @@ class TestLatest(base.BaseCase):
 class RSSViews(base.BaseCase):
     def setUp(self):
         self.c = Client()
-        self.journal = logic.journal()
         an_hour_ago = utils.utcnow() - timedelta(hours=1)
         many_hours_ago = an_hour_ago - timedelta(hours=999)
         fmt = utils.ymdhms
@@ -90,7 +89,6 @@ class RSSViews(base.BaseCase):
              'status': 'vor',
              'version': 1,
              'doi': "10.7554/eLife.00001",
-             'journal': self.journal,
              'pub-date': fmt(an_hour_ago),
              },
 
@@ -98,7 +96,6 @@ class RSSViews(base.BaseCase):
              'status': 'vor',
              'version': 1,
              'doi': "10.7554/eLife.00002",
-             'journal': self.journal,
              'pub-date': fmt(many_hours_ago),
              },
 
@@ -106,11 +103,10 @@ class RSSViews(base.BaseCase):
              'version': 1,
              'status': 'poa', # **
              'doi': "10.7554/eLife.00003",
-             'journal': self.journal,
              'pub-date': fmt(an_hour_ago),
              }
         ]
-        [base.add_or_update_article(**article_data) for article_data in self.article_data_list]
+        [self.add_or_update_article(**article_data) for article_data in self.article_data_list]
 
     def tearDown(self):
         pass
