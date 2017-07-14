@@ -1,5 +1,5 @@
 from functools import partial
-from publisher import models
+from publisher import models, codes
 from publisher.utils import create_or_update, lmap, ensure, first, StateError, msid2doi
 import logging
 from django.conf import settings
@@ -42,7 +42,7 @@ def relate_using_msid(av, msid, quiet=False):
     else:
         msg = "article with msid %r not found (and not created) attempting to relate %r => %s" % (msid, av, msid)
         if not quiet:
-            raise StateError(msg)
+            raise StateError(codes.NO_RECORD, msg)
         LOG.error(msg)
 
 def relate_using_msid_list(av, msid_list, quiet=False):

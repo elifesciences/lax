@@ -6,9 +6,10 @@ The import script does not obey business rules and merrily update published date
 The ingest script DOES obey business rules and will not publish things twice,
 
 """
+from collections import OrderedDict
 import io, re, sys, json, argparse
-from publisher import ajson_ingestor, utils
-from publisher.utils import lfilter
+from publisher import ajson_ingestor, utils, codes
+from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
@@ -21,8 +22,8 @@ LOG = logging.getLogger(__name__)
 
 INVALID, ERROR = 'invalid', 'error'
 IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
-INGEST, PUBLISH, BOTH = IMPORT_TYPES
-INGESTED, PUBLISHED = 'ingested', 'published'
+INGEST, PUBLISH, INGEST_PUBLISH = IMPORT_TYPES
+VALIDATED, INGESTED, PUBLISHED = 'validated', 'ingested', 'published'
 
 def write(print_queue, out=None):
     if not isinstance(out, str):
@@ -33,27 +34,56 @@ def clean_up(print_queue):
     print_queue.put('STOP')
     reset_queries()
 
-def error(print_queue, errtype, message, log_context):
-    struct = {
-        'status': errtype,
-        'message': message
-    }
+def error(print_queue, errtype, code, message, force, dry_run, log_context, **moar):
+    struct = OrderedDict([
+        ('status', errtype), # final status of request (ingested, published, validated, invalid, error)
+
+        ('code', code), # the error classification (bad request, unknown, parse error, etc)
+        ('comment', codes.explain(code)), # a generic explanation about the error code
+
+        ('message', message), # an explanation of the actual error
+
+        ('trace', None), # optional tracing information. if validation error, it should be error and it's context
+
+        ('dry-run', dry_run),
+        ('force', force),
+
+    ])
+    struct.update(moar)
     log_context['status'] = errtype
     LOG.error(message, extra=log_context)
     write(print_queue, struct)
     clean_up(print_queue)
     sys.exit(1)
 
-def success(print_queue, action, av, log_context, dry_run=False):
-    status = INGESTED if action == INGEST else PUBLISHED
-    attr = 'datetime_published' if status == PUBLISHED else 'datetime_record_updated'
-    struct = {
-        'status': status,
-        'id': None if dry_run else av.article.manuscript_id,
-        'datetime': getattr(av, attr),
-        'message': "(dry-run)" if dry_run else None,
+def error_from_err(print_queue, errtype, errobj, force, dry_run, log_context):
+    return error(print_queue, errtype, errobj.code, errobj.message, force, dry_run, log_context, trace=errobj.trace)
+
+def success(print_queue, action, av, force, dry_run, log_context):
+    lu = {
+        INGEST: INGESTED,
+        PUBLISH: PUBLISHED,
+        INGEST_PUBLISH: PUBLISHED,
     }
+    status = orig_status = lu[action]
+    if dry_run:
+        # this is a dry run, we didn't actually ingest or publish anything
+        status = VALIDATED
+
+    attr = 'datetime_published' if orig_status == PUBLISHED else 'datetime_record_updated'
+    struct = OrderedDict([
+        ('status', status),
+        ('id', log_context['msid']), # good idea? #'id': None if dry_run else av.article.manuscript_id,
+        ('datetime', getattr(av, attr)),
+        ('dry-run', dry_run),
+        ('force', force),
+
+        # backwards compatibility while bot-lax catches up
+        ('message', None),
+    ])
     log_context.update(struct)
+    # if a 'message' key is present, we need to remove it to avoid
+    #     KeyError: "Attempt to overwrite 'message' in LogRecord"
     log_context.pop('message')
     LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
     write(print_queue, struct)
@@ -71,44 +101,50 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     # read and check the article-json given, if necessary
     try:
-        if action in [INGEST, BOTH]:
+        if action not in [PUBLISH]:
             raw_data = infile.read()
             log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
-            data = json.loads(raw_data)
+
+            try:
+                data = json.loads(raw_data)
+            except ValueError as err:
+                msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
+                raise StateError(codes.BAD_REQUEST, msg)
+
             # vagary of the CLI interface: article id and version are required
             # these may not match the data given
             data_version = data['article'].get('version')
             if not data_version == version:
-                raise StateError("version in the data (%s) does not match version passed to script (%s)" % (data_version, version))
+                raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match 'version' passed to script (%s)" % (data_version, version))
             data_msid = int(data['article']['id'])
             if not data_msid == msid:
-                raise StateError("manuscript-id in the data (%s) does not match id passed to script (%s)" % (data_msid, msid))
+                raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
     except StateError as err:
-        error(print_queue, INVALID, err.message, log_context)
+        error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
-    except ValueError as err:
-        msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
-        error(print_queue, INVALID, msg, log_context)
+    except BaseException as err:
+        LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
+        error(print_queue, ERROR, codes.UNKNOWN, str(err), force, dry_run, log_context, trace=ftb(err))
 
     choices = {
         # all these return a models.ArticleVersion object
         INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry),
         PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
-        BOTH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry),
+        INGEST_PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry),
     }
 
     try:
         av = choices[action](msid, version, force, data, dry_run)
-        success(print_queue, action, av, log_context, dry_run)
+        success(print_queue, action, av, force, dry_run, log_context)
 
     except StateError as err:
-        error(print_queue, INVALID, "failed to call action %r: %s" % (action, err.message), log_context)
+        error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
     except Exception as err:
-        msg = "unhandled exception attempting to %r article: %s" % (action, err)
+        msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
-        error(print_queue, ERROR, msg, log_context)
+        error(print_queue, ERROR, codes.UNKNOWN, msg, force, dry_run, log_context, trace=ftb(err))
 
 
 def job(print_queue, action, path, force, dry_run):
@@ -140,9 +176,10 @@ class Command(ModCommand):
         parser.add_argument('--force', action='store_true', default=False)
         parser.add_argument('--dry-run', action='store_true', default=False)
 
+        # might remove this and hide the implementation details in bot-lax ...
         parser.add_argument('--ingest', dest='action', action='store_const', const=INGEST)
         parser.add_argument('--publish', dest='action', action='store_const', const=PUBLISH)
-        parser.add_argument('--ingest+publish', dest='action', action='store_const', const=BOTH)
+        parser.add_argument('--ingest+publish', dest='action', action='store_const', const=INGEST_PUBLISH)
 
         parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
 
@@ -192,7 +229,7 @@ class Command(ModCommand):
 
         except Exception as err:
             LOG.exception("unhandled exception!")
-            error(print_queue, ERROR, str(err), self.log_context)
+            error(print_queue, ERROR, codes.UNKNOWN, str(err), force, dry_run, self.log_context, trace=ftb(err))
 
         finally:
             for msg in iter(print_queue.get, 'STOP'):

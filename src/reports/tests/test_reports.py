@@ -1,3 +1,4 @@
+from unittest.mock import patch
 import re
 from os.path import join
 from publisher.tests import base
@@ -6,6 +7,75 @@ from reports import logic
 
 from django.test import Client
 from django.core.urlresolvers import reverse
+
+class CMD1(base.BaseCase):
+    def setUp(self):
+        self.nom = 'report'
+        f1 = join(self.fixture_dir, 'ajson', 'elife-20105-v1.xml.json')
+        self.ajson = self.load_ajson(f1)
+        self.msid = 20105
+        self.version = 1
+
+    def tearDown(self):
+        pass
+
+    def test_cmd1(self):
+        """valid article-json is successfully ingested, creating an article,
+        an article version and storing the ingestion request"""
+        ajson_ingestor.ingest(self.ajson)
+
+        args = [self.nom, 'all-article-versions-as-csv']
+        retcode, stdout = self.call_command(*args)
+        self.assertEqual(retcode, 0)
+        rows = stdout.splitlines()
+        self.assertEqual(len(rows), 1) # 1 article, 1 row
+
+        row = rows[0]
+        bits = row.split(',')
+        self.assertEqual(len(bits), 3) # 3 bits to a row
+
+        # msid
+        self.assertEqual(int(bits[0]), self.msid)
+
+        # version
+        self.assertTrue(bits[1], self.version)
+
+        # location
+        expected_loc = "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20105-v1.xml"
+        self.assertTrue(bits[2], expected_loc)
+
+    @patch('reports.management.commands.report.LOG')
+    def test_cmd1_bad_vals(self, mock):
+        "correct csv is still written despite bad location data"
+        # give article location a horrible value
+        horrible_very_bad_value = """'foo'o"ooo"o'"\"\';,oobarpants"""
+        self.ajson['article']['-meta']['location'] = horrible_very_bad_value
+        ajson_ingestor.ingest(self.ajson)
+
+        args = [self.nom, 'all-article-versions-as-csv']
+
+        retcode, stdout = self.call_command(*args)
+        self.assertEqual(retcode, 0)
+
+        rows = stdout.splitlines()
+        self.assertEqual(len(rows), 1) # 1 article, 1 row
+
+        row = rows[0]
+        bits = row.split(',')
+        # this naive split of a properly encoded csv-escaped value isn't going to work here
+        # self.assertEqual(len(bits), 3) # 3 bits to a row
+        # and consumers will probably choke on this bad data. ensure a warning is emitted
+        self.assertTrue(mock.warn.called_once())
+
+        # msid
+        self.assertEqual(int(bits[0]), self.msid)
+
+        # version
+        self.assertTrue(bits[1], self.version)
+
+        # location
+        self.assertTrue(bits[2], horrible_very_bad_value)
+
 
 class TestReport(base.BaseCase):
     def setUp(self):

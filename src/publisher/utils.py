@@ -12,6 +12,7 @@ from django.db.models.fields.related import ManyToManyField
 from kids.cache import cache
 from rfc3339 import rfc3339
 from django.db import transaction, IntegrityError
+import traceback
 
 LOG = logging.getLogger(__name__)
 
@@ -21,10 +22,25 @@ lfilter = lambda func, *iterable: list(filter(func, *iterable))
 
 keys = lambda d: list(d.keys())
 
+def formatted_traceback(errobj):
+    return ''.join(traceback.format_tb(errobj.__traceback__))
+
 class StateError(RuntimeError):
+
+    @property
+    def code(self):
+        return self.args[0]
+
     @property
     def message(self):
-        return self.args[0]
+        return self.args[1]
+
+    @property
+    def trace(self):
+        if len(self.args) > 2:
+            trace = self.args[2]
+            return str(trace)
+        return formatted_traceback(self)
 
 class LaxAssertionError(AssertionError):
     @property

@@ -3,7 +3,7 @@ from functools import partial
 from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
-from . import utils, models, aws_events
+from . import utils, models, aws_events, codes
 from .utils import create_or_update, ensure, subdict, StateError, atomic, lmap, lfilter
 import logging
 from django.db import transaction
@@ -54,7 +54,7 @@ def merge(av):
         .filter(article=av.article) \
         .filter(Q(version=av.version) | Q(version=None))
     if not fragments:
-        raise StateError("%r has no fragments that can be merged" % av)
+        raise StateError(codes.NO_RECORD, "%r has no fragments that can be merged" % av)
     return utils.merge_all([f.fragment for f in fragments])
 
 def valid(merge_result, quiet=True):

