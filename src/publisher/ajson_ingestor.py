@@ -91,7 +91,6 @@ def _ingest_objects(data, create, update, force, log_context):
         # ignore any events we don't have explicit datetimes for
         [events.add(article, **struct) for struct in ae_structs if 'datetime_event' in struct]
 
-        # return journal, article, av, ael
         return av, created, updated, previous_article_versions
 
     except KeyError as err:

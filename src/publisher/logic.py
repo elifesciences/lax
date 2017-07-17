@@ -9,6 +9,7 @@ from django.db.models import Max, F  # , Q, When
 
 LOG = logging.getLogger(__name__)
 
+# cachable?
 def journal(name=None):
     journal = {'name': name}
     if not name:
@@ -29,6 +30,7 @@ def journal(name=None):
 #
 
 def placeholder(av):
+    "returns a snippet 'stub' for when an ArticleVersion object isn't valid"
     return {
         '-invalid': True,
         'id': av.article.manuscript_id,
@@ -39,11 +41,12 @@ def placeholder(av):
     }
 
 def article_json(av):
-    "returns the *valid* article json for the given article version."
+    "returns the *valid* article json for the given article version or None if invalid."
     return av.article_json_v1 or None
 
 def article_snippet_json(av, placeholder_if_invalid=True):
-    "return the *valid* article snippet json for the given article version"
+    """return the *valid* article snippet json for the given article version.
+    if `placeholder_if_invalid=True` and article is invalid, return a stubby 'placeholder'"""
     return av.article_json_v1_snippet or placeholder(av) if placeholder_if_invalid else None
 
 #
@@ -52,10 +55,9 @@ def article_snippet_json(av, placeholder_if_invalid=True):
 
 def validate_pagination_params(page, per_page, order):
     order = str(order).strip().upper()
-    ensure(str(order).upper() in ['ASC', 'DESC'], "unknown ordering %r" % order)
-
+    # TODO: necessary? this duplicates api_v2_views.request_args a bit ...
+    ensure(str(order).upper() in ['ASC', 'DESC'], "unknown ordering, expecting either 'asc' or 'desc'")
     ensure(all(map(utils.isint, [page, per_page])), "'page' and 'per-page' must be integers")
-
     return page, per_page, order
 
 def latest_published_article_versions(page=1, per_page=-1, order='DESC'):
@@ -238,13 +240,3 @@ def article_version_history(msid, only_published=True):
         struct = exsubdict(struct, ['received', 'accepted'])
 
     return struct
-
-
-'''
-# unused
-def bulk_article_version_history(only_published=True):
-    for art in models.Article.objects.all():
-        result = article_version_history(art.manuscript_id, only_published)
-        result['msid'] = art.manuscript_id
-        yield result
-'''
