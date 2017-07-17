@@ -1,7 +1,7 @@
 import json
 from os.path import join
 from .base import BaseCase
-from publisher import logic, ajson_ingestor, models, eif_ingestor, utils, relation_logic
+from publisher import logic, ajson_ingestor, models, utils, relation_logic
 
 class One(BaseCase):
     def setUp(self):
@@ -34,9 +34,9 @@ class One(BaseCase):
         ]
         for subdir in import_all:
             fname = subdir.replace('.', '-v')
-            fname = "elife-%s.json" % fname
-            path = join(self.fixture_dir, 'ppp', subdir, fname)
-            eif_ingestor.import_article_from_json_path(self.journal, path)
+            fname = "elife-%s.xml.json" % fname
+            path = join(self.fixture_dir, 'ppp2', fname)
+            ajson_ingestor.ingest_publish(self.load_ajson(path)) # strip relations
 
         self.vor_version_count = 9
         self.poa_version_count = 6
@@ -45,8 +45,6 @@ class One(BaseCase):
         self.poa_art_count = 1
         self.vor_art_count = 9
         self.total_art_count = self.poa_art_count + self.vor_art_count
-
-        self.research_art_count = 6
 
     def test_latest_article_version_list(self):
         "ensure only the latest versions of the articles are returned"
@@ -100,7 +98,6 @@ class One(BaseCase):
         for msid, version in unpublish_these:
             self.unpublish(msid, version)
 
-        total, results = logic.latest_article_version_list(only_published=False) # THIS IS THE IMPORTANT BIT
         total, results = logic.latest_unpublished_article_versions()
 
         self.assertEqual(len(results), self.total_art_count)

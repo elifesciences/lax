@@ -1,0 +1,185 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-06250-v2.xml"
+        }, 
+        "-history": {
+            "received": "2014-12-30T00:00:00Z", 
+            "accepted": "2015-03-17T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "06250", 
+        "version": 2, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.06250", 
+        "authorLine": "Jamie Johnston, Leon Lagnado", 
+        "title": "General features of the retinal connectome determine the computation of motion anticipation", 
+        "published": "2015-03-18T00:00:00Z", 
+        "volume": 4, 
+        "elocationId": "e06250", 
+        "pdf": "https://cdn.elifesciences.org/articles/06250/elife-06250-v2.pdf", 
+        "subjects": [
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Motion anticipation allows the visual system to compensate for the slow speed of phototransduction so that a moving object can be accurately located. This correction is already present in the signal that ganglion cells send from the retina but the biophysical mechanisms underlying this computation are not known. Here we demonstrate that motion anticipation is computed autonomously within the dendritic tree of each ganglion cell and relies on feedforward inhibition. The passive and non-linear interaction of excitatory and inhibitory synapses enables the somatic voltage to encode the actual position of a moving object instead of its delayed representation. General rather than specific features of the retinal connectome govern this computation: an excess of inhibitory inputs over excitatory, with both being randomly distributed, allows tracking of all directions of motion, while the average distance between inputs determines the object velocities that can be compensated for."
+                }
+            ]
+        }
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-06250-v2.xml", 
+            "patched": true
+        }, 
+        "-history": {
+            "received": "2014-12-30T00:00:00Z", 
+            "accepted": "2015-03-17T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "06250", 
+        "version": 2, 
+        "type": "research-article", 
+        "doi": "10.7554/eLife.06250", 
+        "authorLine": "Jamie Johnston, Leon Lagnado", 
+        "title": "General features of the retinal connectome determine the computation of motion anticipation", 
+        "published": "2015-03-18T00:00:00Z", 
+        "volume": 4, 
+        "elocationId": "e06250", 
+        "pdf": "https://cdn.elifesciences.org/articles/06250/elife-06250-v2.pdf", 
+        "subjects": [
+            {
+                "id": "neuroscience", 
+                "name": "Neuroscience"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Motion anticipation allows the visual system to compensate for the slow speed of phototransduction so that a moving object can be accurately located. This correction is already present in the signal that ganglion cells send from the retina but the biophysical mechanisms underlying this computation are not known. Here we demonstrate that motion anticipation is computed autonomously within the dendritic tree of each ganglion cell and relies on feedforward inhibition. The passive and non-linear interaction of excitatory and inhibitory synapses enables the somatic voltage to encode the actual position of a moving object instead of its delayed representation. General rather than specific features of the retinal connectome govern this computation: an excess of inhibitory inputs over excitatory, with both being randomly distributed, allows tracking of all directions of motion, while the average distance between inputs determines the object velocities that can be compensated for."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC-BY-4.0", 
+            "holder": "Johnston & Lagnado", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jamie Johnston", 
+                    "index": "Johnston, Jamie"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "School of Life Sciences", 
+                            "University of Sussex"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Brighton", 
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Brighton"
+                                ], 
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "J.johnston@sussex.ac.uk"
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Leon Lagnado", 
+                    "index": "Lagnado, Leon"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "School of Life Sciences", 
+                            "University of Sussex"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Brighton", 
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Brighton"
+                                ], 
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Matteo Carandini", 
+                    "index": "Carandini, Matteo"
+                }, 
+                "role": "Reviewing Editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "University College London"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ]
+            }
+        ], 
+        "ethics": [
+            {
+                "type": "paragraph", 
+                "text": "Animal experimentation: All procedures were carried out in accordance with the UK Animals (Scientific Procedures) act 1986 and approved by the local ethical review committee at the University of Sussex."
+            }
+        ], 
+        "additionalFiles": [
+            {
+                "mediaType": "application/zip", 
+                "uri": "https://cdn.elifesciences.org/articles/06250/elife-06250-supp-v2.zip", 
+                "filename": "elife-06250-supp-v2.zip", 
+                "id": "SD1-data", 
+                "title": "Supplementary file 1."
+            }
+        ], 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z", 
+        "versionDate": "2099-01-01T00:00:00Z"
+    }
+}

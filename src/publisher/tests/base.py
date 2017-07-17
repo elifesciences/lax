@@ -1,9 +1,11 @@
+#from mock import patch
 from io import StringIO
-import os, json
+import os, json  # , copy
 from django.test import TestCase as DjangoTestCase, TransactionTestCase
-from publisher import models, utils
-from django.core.management import call_command
+from publisher import models, utils, ajson_ingestor
+from django.core.management import call_command as dj_call_command
 import unittest
+from publisher.utils import renkeys, delall
 
 class SimpleBaseCase(unittest.TestCase):
     this_dir = os.path.dirname(os.path.realpath(__file__))
@@ -39,10 +41,38 @@ class SimpleBaseCase(unittest.TestCase):
         stdout = StringIO()
         try:
             kwargs['stdout'] = stdout
-            call_command(*args, **kwargs)
+            dj_call_command(*args, **kwargs)
         except SystemExit as err:
             return err.code, stdout.getvalue()
         self.fail("ingest script should always throw a systemexit()")
+
+    def add_or_update_article(self, **adata):
+        "creates article+article-version stubs for testing"
+        replacements = [
+            ('pub-date', 'published'),
+            ('update', 'versionDate'),
+        ]
+        renkeys(adata, replacements)
+
+        struct = {
+            'id': utils.doi2msid(adata['doi']) if 'doi' in adata else adata['manuscript_id'],
+            'volume': 1,
+            'type': 'research-article',
+
+            'title': '[default]',
+            'version': 1,
+            'status': models.VOR,
+            'published': '2012-01-01T00:00:00Z'
+        }
+        struct.update(adata)
+        delall(struct, ['journal']) # can't be serialized, not utilised anyway
+
+        with self.settings(VALIDATE_FAILS_FORCE=False):
+            # bad ajson won't fail ingest
+            av = ajson_ingestor.ingest_publish({'article': struct}, force=True)
+            av.datetime_published = utils.todt(struct['published'])
+            av.save()
+            return av
 
 #
 #

@@ -11,8 +11,7 @@ import logging
 from django.db.models.fields.related import ManyToManyField
 from kids.cache import cache
 from rfc3339 import rfc3339
-from django.db import transaction, IntegrityError, connection
-from functools import wraps
+from django.db import transaction, IntegrityError
 import traceback
 
 LOG = logging.getLogger(__name__)
@@ -186,19 +185,6 @@ def ymdhms(dt):
         dt = todt(dt) # convert to utc, etc
         return rfc3339(dt, utc=True)
 
-def filldict(ddict, keys, default):
-    def filldictslot(ddict, key, val):
-        if key not in ddict:
-            ddict[key] = val
-    data = copy.deepcopy(ddict)
-    for key in keys:
-        if isinstance(key, tuple):
-            key, val = key
-        else:
-            val = default
-        filldictslot(data, key, val)
-    return data
-
 
 # stolen from:
 # http://stackoverflow.com/questions/10823877/what-is-the-fastest-way-to-flatten-arbitrarily-nested-lists-in-python
@@ -232,8 +218,16 @@ def has_all_keys(data, expected_keys):
     actual_keys = keys(data)
     return all([key in actual_keys for key in expected_keys])
 
-def djobj_hasattr(djobj, key):
-    return key in [f.name for f in djobj._meta.get_fields()]
+def renkey(ddict, oldkey, newkey):
+    "renames a key in ddict from oldkey to newkey"
+    if oldkey in ddict:
+        ddict[newkey] = ddict[oldkey]
+        del ddict[oldkey]
+    return ddict
+
+def renkeys(ddict, pair_list):
+    for oldkey, newkey in pair_list:
+        renkey(ddict, oldkey, newkey)
 
 def to_dict(instance):
     opts = instance._meta
@@ -248,11 +242,6 @@ def to_dict(instance):
             data[f.name] = f.value_from_object(instance)
     return data
 
-def updatedict(ddict, **kwargs):
-    newdata = copy.deepcopy(ddict)
-    for key, val in kwargs.items():
-        newdata[key] = val
-    return newdata
 
 def json_loads(data, *args, **kwargs):
     if isinstance(data, bytes):
@@ -359,13 +348,3 @@ def create_or_update(Model, orig_data, key_list=None, create=True, update=True, 
     # it is possible to neither create nor update.
     # in this case if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)
-
-# modified from: https://djangosnippets.org/snippets/2219/
-def check_query_count(func):
-    @wraps(func)
-    def inner(*args, **kwargs):
-        ret = func(*args, **kwargs)
-        LOG.info("queries: %s", len(connection.queries))
-        LOG.debug("%s", connection.queries)
-        return ret
-    return inner

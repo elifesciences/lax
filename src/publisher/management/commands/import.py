@@ -1,15 +1,15 @@
 import pprint
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from publisher import eif_ingestor, logic, ejp_ingestor, utils
+from publisher import logic, ejp_ingestor, utils
 from publisher.utils import lmap
 from functools import partial
 import logging
 
 LOG = logging.getLogger(__name__)
 
-IMPORT_TYPES = ['eif', 'ejp', 'ajson', 'patch']
-EIF, EJP, AJSON, PATCH = IMPORT_TYPES
+IMPORT_TYPES = ['ejp']
+EJP = IMPORT_TYPES[0]
 
 def ingest(fn, journal, create, update, path_list):
     "wrapper around the import function with friendlier handling of problems"
@@ -87,10 +87,7 @@ class Command(BaseCommand):
                 exit(0)
 
         choices = {
-            EIF: eif_ingestor.import_article_from_json_path,
             EJP: ejp_ingestor.import_article_list_from_json_path,
-            PATCH: eif_ingestor.patch_handler,
-            AJSON: None
         }
         fn = partial(ingest, choices[import_type], logic.journal(), create_articles, update_articles, path_list)
         if atomic:

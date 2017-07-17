@@ -250,11 +250,6 @@ EVENT_BUS = {
 # when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, True.
 RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', True)
 
-# when ingesting an article version and the EIF has no 'update' value,
-# should we fail and raise an error? if not, the article pub-date is used instead.
-# NOTE 2017-02-28, I do believe all EIF have been backfilled with an 'update' value now. consider removing this option
-FAIL_ON_NO_UPDATE_DATE = cfg('ingest.fail-on-no-update-date', False)
-
 # when ingesting and publishing article-json with the force=True parameter,
 # should validation failures cause the ingest/publish action to fail?
 VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
@@ -349,7 +344,6 @@ LOGGING = {
 }
 
 module_loggers = [
-    'publisher.eif_ingestor',
     'publisher.ejp_ingestor',
     'publisher.ajson_ingestor',
     'publisher.management.commands.import',

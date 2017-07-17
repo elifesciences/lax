@@ -232,6 +232,11 @@ def location(av):
 # revalidate logic
 #
 
+# NOTE: revalidation turned out to be a bit of a dead end with
+# the easiest solution being a blanket backfill. this is some
+# nice code, and it's possibly useful, but I would tear it out
+# if it's left unused for much longer - lsh, 2017-07-17
+
 SET, RESET, UNSET, NOTSET = 'set', 'reset', 'unset', 'not-set'
 
 def revalidate(av):

@@ -1,0 +1,199 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-01328-v1.xml"
+        }, 
+        "status": "vor", 
+        "id": "01328", 
+        "version": 1, 
+        "type": "correction", 
+        "doi": "10.7554/eLife.01328", 
+        "authorLine": "Yusong Guo et al.", 
+        "title": "Correction: A novel GTP-binding protein\u2013adaptor protein complex responsible for export of Vangl2 from the <i>trans</i> Golgi network", 
+        "published": "2013-08-28T00:00:00Z", 
+        "versionDate": "2013-08-28T00:00:00Z", 
+        "volume": 2, 
+        "elocationId": "e01328", 
+        "subjects": [
+            {
+                "id": "biochemistry", 
+                "name": "Biochemistry"
+            }, 
+            {
+                "id": "cell-biology", 
+                "name": "Cell Biology"
+            }
+        ], 
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Guo et al.", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Yusong Guo", 
+                    "index": "Guo, Yusong"
+                }, 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Giulia Zanetti", 
+                    "index": "Zanetti, Giulia"
+                }, 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Randy Schekman", 
+                    "index": "Schekman, Randy"
+                }, 
+                "competingInterests": "RS: Editor-in-Chief, <i>eLife</i>."
+            }
+        ]
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-01328-v1.xml", 
+            "patched": true
+        }, 
+        "status": "vor", 
+        "id": "01328", 
+        "version": 1, 
+        "type": "correction", 
+        "doi": "10.7554/eLife.01328", 
+        "authorLine": "Yusong Guo et al.", 
+        "title": "Correction: A novel GTP-binding protein\u2013adaptor protein complex responsible for export of Vangl2 from the <i>trans</i> Golgi network", 
+        "published": "2013-08-28T00:00:00Z", 
+        "versionDate": "2013-08-28T00:00:00Z", 
+        "volume": 2, 
+        "elocationId": "e01328", 
+        "subjects": [
+            {
+                "id": "biochemistry", 
+                "name": "Biochemistry"
+            }, 
+            {
+                "id": "cell-biology", 
+                "name": "Cell Biology"
+            }
+        ], 
+        "copyright": {
+            "license": "CC-BY-3.0", 
+            "holder": "Guo et al.", 
+            "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Yusong Guo", 
+                    "index": "Guo, Yusong"
+                }, 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Giulia Zanetti", 
+                    "index": "Zanetti, Giulia"
+                }, 
+                "competingInterests": "No competing interests declared."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Randy Schekman", 
+                    "index": "Schekman, Randy"
+                }, 
+                "competingInterests": "RS: Editor-in-Chief, <i>eLife</i>."
+            }
+        ], 
+        "-related-articles-internal": [
+            "00160"
+        ], 
+        "-related-articles-external": [], 
+        "body": [
+            {
+                "type": "section", 
+                "id": "s0", 
+                "title": "Main text", 
+                "content": [
+                    {
+                        "type": "paragraph", 
+                        "text": "Guo Y, Zanetti G, Schekman R. 2013. A novel GTP-binding protein\u2013adaptor protein complex responsible for export of Vangl2 from the <i>trans</i> Golgi network. <i>eLife</i> <b>2</b>:e00160. doi: <a href=\"http://dx.doi.org/10.7554/eLife.00160\">http://dx.doi.org/10.7554/eLife.00160</a>. Published 08 January 2013"
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "An error was identified in Figure 2. The fourth panel of the original Figure 2C was incorrectly identified as having been probed with an antibody against \u00b51 subunit to AP-1, but was instead mistakenly reproduced in a second, inverted exposure of the panel above."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The filter transfer of a protein gel was processed into three strips, one of which was then probed with an antibody against the \u03b31 subunit of AP-1 (the third panel of Figure 2C). Another strip was probed with an antibody against the \u00b51 subunit of AP-1, but the reaction failed and no signal was produced. Because of a mix up of strips upon repeating the incubation with the anti-\u00b51 antibody, the strip that had been reacted with the anti-\u03b31 antibody was mistakenly used. The fourth panel shows the subsequent exposure, which reflects the signal from the previous probing with the \u03b31 subunit antibody, as we had not removed the previous signal. Because of an error with labeling the molecular weight marker, the panel is also inverted relative to the panel above it."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "We saved all three strips and now show results from probing the third strip with anti-\u00b51 antibody. We apologize for the original mistake."
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The corrected figure is shown here:"
+                    }, 
+                    {
+                        "type": "image", 
+                        "id": "fig1", 
+                        "image": {
+                            "source": {
+                                "mediaType": "image/jpeg", 
+                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:01328/elife-01328-fig1-v1.tif/full/full/0/default.jpg", 
+                                "filename": "elife-01328-fig1-v1.jpg"
+                            }, 
+                            "alt": "", 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:01328/elife-01328-fig1-v1.tif", 
+                            "size": {
+                                "width": 1445, 
+                                "height": 2002
+                            }
+                        }
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The originally published figure is also shown for reference:"
+                    }, 
+                    {
+                        "type": "image", 
+                        "id": "fig2", 
+                        "image": {
+                            "source": {
+                                "mediaType": "image/jpeg", 
+                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:01328/elife-01328-fig2-v1.tif/full/full/0/default.jpg", 
+                                "filename": "elife-01328-fig2-v1.jpg"
+                            }, 
+                            "alt": "", 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:01328/elife-01328-fig2-v1.tif", 
+                            "size": {
+                                "width": 1445, 
+                                "height": 2021
+                            }
+                        }
+                    }, 
+                    {
+                        "type": "paragraph", 
+                        "text": "The article has been corrected accordingly."
+                    }
+                ]
+            }
+        ], 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z"
+    }
+}
