@@ -46,7 +46,6 @@ class One(BaseCase):
         self.vor_art_count = 9
         self.total_art_count = self.poa_art_count + self.vor_art_count
 
-
     def test_latest_article_version_list(self):
         "ensure only the latest versions of the articles are returned"
         self.assertEqual(self.total_version_count, models.ArticleVersion.objects.count())

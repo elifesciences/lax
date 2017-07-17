@@ -64,9 +64,9 @@ class SimpleBaseCase(unittest.TestCase):
             'status': models.VOR,
             'published': '2012-01-01T00:00:00Z'
         }
-        struct.update(adata)        
+        struct.update(adata)
         delall(struct, ['journal']) # can't be serialized, not utilised anyway
-        
+
         with self.settings(VALIDATE_FAILS_FORCE=False):
             # bad ajson won't fail ingest
             av = ajson_ingestor.ingest_publish({'article': struct}, force=True)
