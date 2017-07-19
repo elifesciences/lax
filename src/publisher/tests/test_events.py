@@ -1,6 +1,43 @@
+import json
 from . import base
 from os.path import join
-from publisher import models, ajson_ingestor
+from publisher import logic, models, ajson_ingestor, ejp_ingestor
+
+class EJP(base.BaseCase):
+    def setUp(self):
+        self.journal = logic.journal()
+
+        self.stub = json.loads('''{
+            "manuscript_id": "11384",
+            "ejp_type": "TR",
+            "date_initial_qc": "2015-09-03T00:00:00",
+            "date_initial_decision": "2015-09-06T00:00:00",
+            "initial_decision": "EF",
+            "date_full_qc": "2015-09-09T00:00:00",
+            "date_full_decision": "2015-10-02T00:00:00",
+            "decision": "RVF",
+            "date_rev1_qc": "2015-11-20T00:00:00",
+            "date_rev1_decision": "2015-11-24T00:00:00",
+            "rev1_decision": "RVF",
+            "date_rev2_qc": "2015-12-14T00:00:00",
+            "date_rev2_decision": "2015-12-16T00:00:00",
+            "rev2_decision": "AF",
+            "date_rev3_qc": null,
+            "date_rev3_decision": null,
+            "rev3_decision": null,
+            "date_rev4_qc": null,
+            "date_rev4_decision": null,
+            "rev4_decision": null
+        }''', object_pairs_hook=ejp_ingestor.load_with_datetime)
+
+    def tearDown(self):
+        pass
+
+    def test_ejp_ingest_events(self):
+        self.assertEqual(models.ArticleEvent.objects.count(), 0)
+        ejp_ingestor.import_article(self.journal, self.stub)
+        self.assertEqual(models.ArticleEvent.objects.count(), 12)
+
 
 class One(base.BaseCase):
     def setUp(self):

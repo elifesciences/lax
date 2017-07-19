@@ -324,7 +324,7 @@ class ArticleEvent(models.Model):
         ordering = ('datetime_event', 'event') # least to most recent (ASC), then alphabetically by event type
 
     def __str__(self):
-        return '%s: %s' % (self.event, self.value)
+        return '%s: %s' % (self.event, self.value or self.datetime_event)
 
     def __repr__(self):
         return '<ArticleEvent %s>' % self.event
