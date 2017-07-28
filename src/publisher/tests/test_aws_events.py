@@ -1,6 +1,6 @@
 import json
 from unittest.mock import patch, Mock
-from publisher import ajson_ingestor
+from publisher import ajson_ingestor, aws_events
 from .base import BaseCase
 from os.path import join
 from django.core.urlresolvers import reverse
@@ -128,3 +128,65 @@ class One(BaseCase):
             resp = self.ac.post(url, payload, follow=False)
             self.assertEqual(resp.status_code, 302) # temp redirect after successful submission
             mock.publish.assert_called_once_with(Message=expected_event)
+
+class Foo(BaseCase):
+    def test_defer(self):
+        safeword = 'testme'
+
+        cases = [
+            ('a', 'a'),
+            ('b', 'b'),
+            ('c', 'c'),
+
+            (safeword, None),
+
+            ('a', None),
+            ('b', None),
+            ('c', None),
+
+            (safeword, ['a', 'b', 'c']),
+
+            ('a', 'a'),
+            ('b', 'b'),
+            ('c', 'c'),
+
+        ]
+
+        @aws_events.defer(safeword)
+        def func(arg):
+            return arg
+
+        for arg, expected in cases:
+            self.assertEqual(expected, func(arg))
+
+    '''
+    def test_defer_complex(self):
+        safeword = 'testme'
+
+        cases = [
+            (('foo', {'bar': 'baz'}), ('foo', {'bar': 'baz'})),
+            (('baz', {'bar': 'foo'}), ('baz', {'bar': 'foo'})),
+
+            (safeword, None),
+
+            (('foo', {'bar': 'baz'}), None),
+            ('a', None),
+            (('baz', {'bar': 'foo'}), None),
+
+            (safeword, [
+                ('foo', {'bar': 'baz'}),
+                'a',
+                ('baz', {'bar': 'foo'}),
+            ]),
+
+            ('b', 'b'),
+            (('baz', {'bar': 'foo'}), ('baz', {'bar': 'foo'})),
+        ]
+
+        @aws_events.defer(safeword)
+        def func(arg):
+            return arg
+
+        for arg, expected in cases:
+            self.assertEqual(expected, func(arg))
+    '''
