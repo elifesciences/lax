@@ -148,10 +148,8 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
 
 def job(print_queue, action, path, force, dry_run):
-    _, padded_msid, suffix = os.path.basename(path).split('-')
-    msid = int(padded_msid)
-    version = int(suffix[1])
     try:
+        msid, version = utils.version_from_path(path)
         return handle_single(print_queue, action, io.open(path, 'r', encoding='utf8'), msid, version, force, dry_run)
     except SystemExit:
         LOG.debug("system exit caught", extra={'msid': msid, 'version': version})
