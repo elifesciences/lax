@@ -266,17 +266,17 @@ class ArticleFragment(models.Model):
         # lowest positions first (ASC), earliest creation date first (ASC)
         ordering = ('position', 'datetime_record_created')
 
-DATE_EJP_QC, DATE_EJP_DECISION = 'date-ejp-qc', 'date-ejp-decision'
+DATE_EJP_QC, DATE_EJP_DECISION = 'date-qc', 'date-decision'
 DATE_XML_RECEIVED, DATE_XML_ACCEPTED = 'date-xml-received', 'date-xml-accepted'
 DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = 'datetime-action-ingest', 'datetime-action-publish'
 
 def article_event_choices():
     return [
-        (DATE_EJP_QC, 'date EJP quality check'),
-        (DATE_EJP_DECISION, 'date EJP decision'),
+        (DATE_EJP_QC, 'quality check date'),
+        (DATE_EJP_DECISION, 'decision date'),
 
-        (DATE_XML_RECEIVED, 'date received (XML)'),
-        (DATE_XML_ACCEPTED, 'date accepted (XML)'),
+        (DATE_XML_RECEIVED, 'received date (XML)'),
+        (DATE_XML_ACCEPTED, 'accepted date (XML)'),
 
         (DATETIME_ACTION_INGEST, "'ingest' event"),
         (DATETIME_ACTION_PUBLISH, "'publish' event"),
