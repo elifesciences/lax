@@ -8,7 +8,8 @@ The ingest script DOES obey business rules and will not publish things twice,
 """
 from collections import OrderedDict
 import io, re, sys, json, argparse
-from publisher import ajson_ingestor, utils, codes
+from publisher import ajson_ingestor, utils, codes, aws_events
+from publisher.aws_events import START, STOP
 from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
 import logging
@@ -162,7 +163,12 @@ def handle_many(print_queue, action, path, force, dry_run):
         LOG.info("found no article json at %r" % os.path.abspath(path))
         clean_up(print_queue)
         return
-    Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+    try:
+        aws_events.notify(STOP) # defer sending notifications
+        Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+    finally:
+        aws_events.notify(START) # resume sending notifications, process outstanding
+
 
 class Command(ModCommand):
     help = ''

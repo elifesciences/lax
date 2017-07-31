@@ -28,7 +28,7 @@ def event_bus_conn():
 #
 #
 
-SAFEWORD = 'cacao'
+SAFEWORD = START = STOP = 'cacao'
 
 def defer(fn):
     """calls function normally until safeword is received then buffers all requests until the safeword is called again.
