@@ -129,7 +129,7 @@ class One(BaseCase):
             self.assertEqual(resp.status_code, 302) # temp redirect after successful submission
             mock.publish.assert_called_once_with(Message=expected_event)
 
-class Foo(BaseCase):
+class DeferredEvents(BaseCase):
     def setUp(self):
         self.safeword = aws_events.SAFEWORD
         self.msid = 123
