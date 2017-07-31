@@ -1,4 +1,4 @@
-from collections import OrderedDict
+from ordered_set import OrderedSet
 import json
 from django.conf import settings
 import boto3
@@ -29,12 +29,12 @@ def event_bus_conn():
 #
 
 def defer(safeword):
-    '''
-    a better match would be a sort of programmable cache you could switch on and off
-    I had two attempts at this but couldn't finangle anything that worked as expected
+    """calls function normally until safeword is received then buffers all requests until the safeword is called again.
+    when the safeword is received a second time, the wrapped function is called with the UNIQUE set of arguments - i.e. it won't be called with the same arguments twice.
+    
+    using `defer` limits function arguments to hashable types only.
 
-
-    '''
+    """
     def wrapfn(fn):
         call_queue = SimpleQueue()
         deferring = False
@@ -42,7 +42,7 @@ def defer(safeword):
         @wraps(fn)
         def wrapper(*args):
             arg = args[0]
-            nonlocal deferring
+            nonlocal deferring # stateful!
             
             if arg == safeword:
                 deferring = not deferring
@@ -50,22 +50,26 @@ def defer(safeword):
                     # nothing else to do this turn
                     return
 
+                # we're not deferring and we have stored calls to process
+                if not call_queue.empty():
+                    # input order cannot be guaranteed as we're using multiprocessing
+                    # single-process input order can be guaranteed
+                    calls = OrderedSet()
+                    while not call_queue.empty():
+                        calls.add(call_queue.get())
+                    return [fn(*fnargs) for fnargs in calls]
+
+                else:
+                    # we're not deferring and we have no calls to process
+                    # TODO: empty list or None ?
+                    return
+                
             # store the args if we're deferring and return
             if deferring:
                 call_queue.put(args)
                 return
 
-            # we're not defering and we have stored calls to process
-            if not call_queue.empty():
-                call_map = OrderedDict()
-                while not call_queue.empty():
-                    key = call_queue.get() # key is a tuple
-                    if key in call_map:
-                        print('skipping',key)
-                        continue
-                    call_map[key] = fn(*key)
-                return list(call_map.values())
-
+            # we're not deferring, call wrapped fn as normal
             return fn(*args)
         return wrapper
     return wrapfn

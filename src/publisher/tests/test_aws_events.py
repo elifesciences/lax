@@ -130,63 +130,46 @@ class One(BaseCase):
             mock.publish.assert_called_once_with(Message=expected_event)
 
 class Foo(BaseCase):
-    def test_defer(self):
-        safeword = 'testme'
+    def setUp(self):
+        self.safeword = 'testme'
 
+        @aws_events.defer(self.safeword)
+        def func(arg):
+            return arg
+
+        self.func = func
+        
+    def test_defer(self):
         cases = [
             ('a', 'a'),
             ('b', 'b'),
             ('c', 'c'),
 
-            (safeword, None),
+            (self.safeword, None),
 
             ('a', None),
             ('b', None),
             ('c', None),
 
-            (safeword, ['a', 'b', 'c']),
+            (self.safeword, ['a', 'b', 'c']),
 
             ('a', 'a'),
             ('b', 'b'),
             ('c', 'c'),
-
         ]
 
-        @aws_events.defer(safeword)
-        def func(arg):
-            return arg
-
         for arg, expected in cases:
-            self.assertEqual(expected, func(arg))
+            self.assertEqual(expected, self.func(arg))
 
-    '''
-    def test_defer_complex(self):
-        safeword = 'testme'
 
+    def test_defer_nothing(self):
         cases = [
-            (('foo', {'bar': 'baz'}), ('foo', {'bar': 'baz'})),
-            (('baz', {'bar': 'foo'}), ('baz', {'bar': 'foo'})),
-
-            (safeword, None),
-
-            (('foo', {'bar': 'baz'}), None),
-            ('a', None),
-            (('baz', {'bar': 'foo'}), None),
-
-            (safeword, [
-                ('foo', {'bar': 'baz'}),
-                'a',
-                ('baz', {'bar': 'foo'}),
-            ]),
-
-            ('b', 'b'),
-            (('baz', {'bar': 'foo'}), ('baz', {'bar': 'foo'})),
+            (self.safeword, None),
+            (self.safeword, None),
+            ('a', 'a'),
         ]
 
-        @aws_events.defer(safeword)
-        def func(arg):
-            return arg
-
         for arg, expected in cases:
-            self.assertEqual(expected, func(arg))
-    '''
+            self.assertEqual(expected, self.func(arg))
+
+    
