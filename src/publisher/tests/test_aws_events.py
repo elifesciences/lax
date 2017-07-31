@@ -131,14 +131,15 @@ class One(BaseCase):
 
 class Foo(BaseCase):
     def setUp(self):
-        self.safeword = 'testme'
+        self.safeword = aws_events.SAFEWORD
+        self.msid = 123
 
-        @aws_events.defer(self.safeword)
+        @aws_events.defer
         def func(arg):
             return arg
 
         self.func = func
-        
+
     def test_defer(self):
         cases = [
             ('a', 'a'),
@@ -161,15 +162,39 @@ class Foo(BaseCase):
         for arg, expected in cases:
             self.assertEqual(expected, self.func(arg))
 
-
     def test_defer_nothing(self):
         cases = [
             (self.safeword, None),
             (self.safeword, None),
-            ('a', 'a'),
         ]
-
         for arg, expected in cases:
             self.assertEqual(expected, self.func(arg))
 
-    
+    @override_settings(DEBUG=False)
+    def test_notify_not_deferred(self):
+        cases = [1, 2, 3]
+        mock = Mock()
+        for msid in cases:
+            with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+                expected = json.dumps({"type": "article", "id": msid})
+                self.assertEqual(expected, aws_events.notify(msid))
+
+    @override_settings(DEBUG=False)
+    def test_notify_deferred(self):
+        "a notification is deferred"
+        expected_event = json.dumps({"type": "article", "id": self.msid})
+        cases = [
+            (self.safeword, None),
+
+            # three versions of the same article?
+            (self.msid, None),
+            (self.msid, None),
+            (self.msid, None),
+
+            (self.safeword, [expected_event]),
+        ]
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            for msid, expected in cases:
+                self.assertEqual(expected, aws_events.notify(msid))
+            mock.publish.assert_called_once_with(Message=expected_event)

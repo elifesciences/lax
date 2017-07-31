@@ -28,58 +28,59 @@ def event_bus_conn():
 #
 #
 
-def defer(safeword):
+SAFEWORD = 'cacao'
+
+def defer(fn):
     """calls function normally until safeword is received then buffers all requests until the safeword is called again.
     when the safeword is received a second time, the wrapped function is called with the UNIQUE set of arguments - i.e. it won't be called with the same arguments twice.
-    
+
     using `defer` limits function arguments to hashable types only.
 
     """
-    def wrapfn(fn):
-        call_queue = SimpleQueue()
-        deferring = False
 
-        @wraps(fn)
-        def wrapper(*args):
-            arg = args[0]
-            nonlocal deferring # stateful!
-            
-            if arg == safeword:
-                deferring = not deferring
-                if deferring:
-                    # nothing else to do this turn
-                    return
+    call_queue = SimpleQueue()
+    deferring = False
 
-                # we're not deferring and we have stored calls to process
-                if not call_queue.empty():
-                    # input order cannot be guaranteed as we're using multiprocessing
-                    # single-process input order can be guaranteed
-                    calls = OrderedSet()
-                    while not call_queue.empty():
-                        calls.add(call_queue.get())
-                    return [fn(*fnargs) for fnargs in calls]
+    @wraps(fn)
+    def wrapper(*args):
+        arg = args[0]
+        nonlocal deferring # stateful!
 
-                else:
-                    # we're not deferring and we have no calls to process
-                    # TODO: empty list or None ?
-                    return
-                
-            # store the args if we're deferring and return
+        if arg == SAFEWORD:
+            deferring = not deferring
             if deferring:
-                call_queue.put(args)
+                # nothing else to do this turn
                 return
 
-            # we're not deferring, call wrapped fn as normal
-            return fn(*args)
-        return wrapper
-    return wrapfn
+            # we're not deferring and we have stored calls to process
+            if not call_queue.empty():
+                # input order cannot be guaranteed as we're using multiprocessing
+                # single-process input order can be guaranteed
+                calls = OrderedSet()
+                while not call_queue.empty():
+                    calls.add(call_queue.get())
+                return [fn(*fnargs) for fnargs in calls]
+
+            else:
+                # we're not deferring and we have no calls to process
+                # TODO: empty list or None ?
+                return
+
+        # store the args if we're deferring and return
+        if deferring:
+            call_queue.put(args)
+            return
+
+        # we're not deferring, call wrapped fn as normal
+        return fn(*args)
+    return wrapper
 
 
 #
 #
 #
 
-@defer('cacao')
+@defer
 def notify(msid):
     "notify event bus when this article or one of it's versions has been changed in some way"
     if settings.DEBUG:
@@ -90,6 +91,7 @@ def notify(msid):
         msg_json = json.dumps(msg)
         LOG.debug("writing message to event bus", extra={'bus-message': msg_json})
         event_bus_conn().publish(Message=msg_json)
+        return msg_json # used only for testing
     except ValueError as err:
         # probably serializing value
         LOG.error("failed to serialize event bus payload %s", err, extra={'bus-message': msg_json})
