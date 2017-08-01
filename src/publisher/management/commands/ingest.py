@@ -98,7 +98,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         'msid': msid, 'version': version
     }
 
-    LOG.info('attempting to %s article %s', action, msid, extra=log_context)
+    LOG.info('attempting to %s article %s v%s', action, msid, version, extra=log_context)
 
     # read and check the article-json given, if necessary
     try:
