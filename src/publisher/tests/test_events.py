@@ -67,7 +67,7 @@ class Two(base.TransactionBaseCase):
     def tearDown(self):
         pass
 
-    @patch('publisher.ajson_ingestor.aws_events.notify')
+    @patch('publisher.ajson_ingestor.aws_events.BATCH.notify')
     def test_related_events(self, notify_mock):
         "aws_events.notify is called once for the article being ingested and once each for related articles"
 
@@ -92,7 +92,7 @@ class Two(base.TransactionBaseCase):
 
         ajson_ingestor.ingest(self.ajson1) # has 2 related, 9561 and 9560
 
-        with patch('publisher.ajson_ingestor.aws_events.notify') as notify_mock:
+        with patch('publisher.ajson_ingestor.aws_events.BATCH.notify') as notify_mock:
 
             def event_msid(index):
                 args, first_arg = 1, 0
