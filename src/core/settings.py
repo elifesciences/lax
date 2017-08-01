@@ -247,6 +247,8 @@ EVENT_BUS = {
 
 # Lax settings
 
+# toggle to bypass the creation of relationships between articles internally
+ENABLE_RELATIONS = True
 # when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, True.
 RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', True)
 

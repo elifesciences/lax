@@ -86,7 +86,7 @@ def success(print_queue, action, av, force, dry_run, log_context):
     # if a 'message' key is present, we need to remove it to avoid
     #     KeyError: "Attempt to overwrite 'message' in LogRecord"
     log_context.pop('message')
-    LOG.info("successfully %s article %s", status, log_context['msid'], extra=log_context)
+    LOG.info("successfully %s article %s v%s", status, log_context['msid'], log_context['version'], extra=log_context)
     write(print_queue, struct)
     clean_up(print_queue)
     sys.exit(0)
@@ -109,7 +109,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             try:
                 data = json.loads(raw_data)
             except ValueError as err:
-                msg = "could not decode the json you gave me: %r for data: %r" % (err.message, raw_data)
+                msg = "could not decode the json you gave me: %r for data: %r" % (err.msg, raw_data)
                 raise StateError(codes.BAD_REQUEST, msg)
 
             # vagary of the CLI interface: article id and version are required
@@ -151,21 +151,40 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 def job(print_queue, action, path, force, dry_run):
     try:
         msid, version = utils.version_from_path(path)
-        return handle_single(print_queue, action, io.open(path, 'r', encoding='utf8'), msid, version, force, dry_run)
-    except SystemExit:
+        handle_single(print_queue, action, io.open(path, 'r', encoding='utf8'), msid, version, force, dry_run)
+        return 0
+    except SystemExit as err:
         LOG.debug("system exit caught", extra={'msid': msid, 'version': version})
+        return err.code
 
-def handle_many(print_queue, action, path, force, dry_run):
+def json_files(print_queue, path):
     json_files = utils.resolve_path(path)
     cregex = re.compile(r'^.*/elife-\d{5,}-v\d\.xml\.json$')
     ajson_file_list = lfilter(cregex.match, json_files)
     if not ajson_file_list:
         LOG.info("found no article json at %r" % os.path.abspath(path))
         clean_up(print_queue)
-        return
+        sys.exit(0) # successfully did nothing
+    return ajson_file_list
+
+def handle_many_concurrently(print_queue, action, path, force, dry_run):
     try:
+        ajson_file_list = json_files(print_queue, path)
         aws_events.notify(STOP) # defer sending notifications
+        # order cannot be guaranteed
         Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+        clean_up(print_queue)
+        sys.exit(0) # TODO: return with num failed
+    finally:
+        aws_events.notify(START) # resume sending notifications, process outstanding
+
+def handle_many_serially(print_queue, action, path, force, dry_run):
+    try:
+        ajson_file_list = sorted(json_files(print_queue, path)) # ASC
+        aws_events.notify(STOP) # defer sending notifications
+        num_failed = sum([job(print_queue, action, path, force, dry_run) for path in ajson_file_list])
+        clean_up(print_queue)
+        sys.exit(num_failed)
     finally:
         aws_events.notify(START) # resume sending notifications, process outstanding
 
@@ -179,6 +198,8 @@ class Command(ModCommand):
         parser.add_argument('--dir', dest='dir')
         parser.add_argument('--force', action='store_true', default=False)
         parser.add_argument('--dry-run', action='store_true', default=False)
+
+        parser.add_argument('--serial', action='store_true', default=False)
 
         # might remove this and hide the implementation details in bot-lax ...
         parser.add_argument('--ingest', dest='action', action='store_const', const=INGEST)
@@ -204,6 +225,7 @@ class Command(ModCommand):
 
         # many options:
         path = options['dir']
+        serial = options['serial']
 
         self.log_context = {
             'action': action, 'force?': force, 'dry_run?': dry_run
@@ -223,7 +245,8 @@ class Command(ModCommand):
                 if not os.path.isdir(path):
                     self.invalid_args("the 'dir' option must point to a directory. got %r" % path)
 
-                handle_many(print_queue, action, path, force, dry_run)
+                fn = handle_many_serially if serial else handle_many_concurrently
+                fn(print_queue, action, path, force, dry_run)
 
             else:
                 if not (options['msid'] and options['version']):

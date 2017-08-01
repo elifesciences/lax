@@ -59,6 +59,7 @@ def defer(fn):
                 calls = OrderedSet()
                 while not call_queue.empty():
                     calls.add(call_queue.get())
+                LOG.info("%s notifications to be sent call", len(calls))
                 return [fn(*fnargs) for fnargs in calls]
 
             else:

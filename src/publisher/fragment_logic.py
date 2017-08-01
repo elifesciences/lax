@@ -60,9 +60,10 @@ def merge(av):
 def valid(merge_result, quiet=True):
     "returns True if the merged result is valid article-json"
     msid = merge_result.get('id', '[no id]')
+    version = merge_result.get('version', '[no version]')
     log_context = {
         'msid': msid,
-        'version': merge_result.get('version', '[no version]'),
+        'version': version,
     }
     try:
         schema_key = merge_result['status'] # poa or vor
@@ -77,13 +78,13 @@ def valid(merge_result, quiet=True):
 
     except ValueError as err:
         # either the schema is bad or the struct is bad
-        LOG.exception("validating %s failed to load schema file %s", msid, schema, extra=log_context)
+        LOG.exception("validating %s v%s failed to load schema file %s", msid, version, schema, extra=log_context)
         # this is a legitimate error and needs to break things
         raise
 
     except ValidationError as err:
         # definitely not valid ;)
-        LOG.error("while validating %s with %s, failed to validate with error: %s", msid, schema, err.message)
+        LOG.error("while validating %s v%s with %s, failed to validate with error: %s", msid, version, schema, err.message)
         if not quiet:
             raise
 

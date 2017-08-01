@@ -1,9 +1,11 @@
+from mock import Mock, patch
 import json
 from os.path import join
-from .base import BaseCase
+from . import base
 from publisher import models, utils, ajson_ingestor, codes
+from django.test import override_settings
 
-class DryRun(BaseCase):
+class DryRun(base.BaseCase):
     def setUp(self):
         self.nom = 'ingest'
         self.msid = "16695"
@@ -65,7 +67,7 @@ class DryRun(BaseCase):
         resp = json.loads(stdout)
         self.assertTrue(utils.has_all_keys(resp, ['code', 'message', 'comment', 'trace']))
 
-class Errors(BaseCase):
+class Errors(base.BaseCase):
     def setUp(self):
         self.nom = 'ingest'
         self.msid = "16695"
@@ -93,7 +95,7 @@ class Errors(BaseCase):
         self.assertTrue(resp['trace'])
 
 
-class CLI(BaseCase):
+class CLI(base.BaseCase):
     def setUp(self):
         self.nom = 'ingest'
         self.msid = "01968"
@@ -176,3 +178,38 @@ class CLI(BaseCase):
 
         ajson = json.load(open(self.ajson_fixture1, 'r'))
         self.assertEqual(result['datetime'], ajson['article']['published'])
+
+class MultiCLI(base.TransactionBaseCase):
+    def setUp(self):
+        self.nom = 'ingest'
+
+    @override_settings(DEBUG=False, ENABLE_RELATIONS=False) # get past the early return in aws_events
+    def test_multiple_ingest_from_cli(self):
+        "a directory of article-json can be ingested"
+
+        expected_artv_count = 14
+        expected_art_count = 7
+
+        # ensure all the articles + versions exist before we do a multiprocess run
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            args = [self.nom, '--ingest+publish', '--serial', '--dir', join(self.fixture_dir, 'ajson')]
+            errcode, stdout = self.call_command(*args)
+            self.assertEqual(errcode, 0) # nothing failed
+
+            # articles have been ingested
+            self.assertEqual(models.Article.objects.count(), expected_art_count)
+            self.assertEqual(models.ArticleVersion.objects.count(), expected_artv_count)
+
+            # publish is called once per article (not article version)
+            self.assertEqual(expected_art_count, mock.publish.call_count)
+
+        # simulate a backfill
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            args = [self.nom, '--ingest', '--force', '--dir', join(self.fixture_dir, 'ajson')]
+            errcode, stdout = self.call_command(*args)
+            self.assertEqual(errcode, 0) # nothing failed
+
+            # publish is called once per article (not article version) despite multithreading
+            self.assertEqual(expected_art_count, mock.publish.call_count)
