@@ -110,8 +110,8 @@ def msid2doi(msid):
 
 def version_from_path(path):
     _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
-    ver = int(ver[1]) # "v1.xml" -> 1
-    return msid, ver
+    ver = ver[1] # "v1.xml" -> "1"
+    return int(msid), int(ver)
 
 def compfilter(fnlist):
     "returns true if given val "
