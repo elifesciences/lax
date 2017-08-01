@@ -9,7 +9,6 @@ The ingest script DOES obey business rules and will not publish things twice,
 from collections import OrderedDict
 import io, re, sys, json, argparse
 from publisher import ajson_ingestor, utils, codes, aws_events
-from publisher.aws_events import START, STOP
 from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
 import logging
@@ -170,23 +169,21 @@ def json_files(print_queue, path):
 def handle_many_concurrently(print_queue, action, path, force, dry_run):
     try:
         ajson_file_list = json_files(print_queue, path)
-        aws_events.notify(STOP) # defer sending notifications
         # order cannot be guaranteed
         Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
         clean_up(print_queue)
         sys.exit(0) # TODO: return with num failed
     finally:
-        aws_events.notify(START) # resume sending notifications, process outstanding
+        aws_events.BATCH.commit() # process outstanding notifications
 
 def handle_many_serially(print_queue, action, path, force, dry_run):
     try:
         ajson_file_list = sorted(json_files(print_queue, path)) # ASC
-        aws_events.notify(STOP) # defer sending notifications
         num_failed = sum([job(print_queue, action, path, force, dry_run) for path in ajson_file_list])
         clean_up(print_queue)
         sys.exit(num_failed)
     finally:
-        aws_events.notify(START) # resume sending notifications, process outstanding
+        aws_events.BATCH.commit() # process outstanding notifications
 
 
 class Command(ModCommand):

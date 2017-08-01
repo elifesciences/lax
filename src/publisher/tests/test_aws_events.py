@@ -1,5 +1,5 @@
 import json
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, call
 from publisher import ajson_ingestor, aws_events
 from .base import BaseCase
 from os.path import join
@@ -131,70 +131,46 @@ class One(BaseCase):
 
 class DeferredEvents(BaseCase):
     def setUp(self):
-        self.safeword = aws_events.SAFEWORD
         self.msid = 123
-
-        @aws_events.defer
-        def func(arg):
-            return arg
-
-        self.func = func
+        self.notified = []
+        def target(arg):
+            self.notified.append(arg)
+        self.batch = aws_events.CallsBatch(target)
 
     def test_defer(self):
-        cases = [
-            ('a', 'a'),
-            ('b', 'b'),
-            ('c', 'c'),
-
-            (self.safeword, None),
-
-            ('a', None),
-            ('b', None),
-            ('c', None),
-
-            (self.safeword, ['a', 'b', 'c']),
-
-            ('a', 'a'),
-            ('b', 'b'),
-            ('c', 'c'),
-        ]
-
-        for arg, expected in cases:
-            self.assertEqual(expected, self.func(arg))
+        self.batch.notify('a')
+        self.batch.notify('b')
+        self.batch.notify('c')
+        self.batch.commit()
+        self.assertEquals(self.notified, ['a', 'b', 'c'])
 
     def test_defer_nothing(self):
-        cases = [
-            (self.safeword, None),
-            (self.safeword, None),
-        ]
-        for arg, expected in cases:
-            self.assertEqual(expected, self.func(arg))
+        self.batch.notify('a')
+        self.assertEquals(self.notified, [])
 
     @override_settings(DEBUG=False)
     def test_notify_not_deferred(self):
         cases = [1, 2, 3]
         mock = Mock()
-        for msid in cases:
-            with patch('publisher.aws_events.event_bus_conn', return_value=mock):
-                expected = json.dumps({"type": "article", "id": msid})
-                self.assertEqual(expected, aws_events.notify(msid))
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            for msid in cases:
+                aws_events.BATCH.notify(msid)
+            aws_events.BATCH.commit()
+        mock.assert_has_calls([
+            call.publish(Message=json.dumps({"type": "article", "id": 1})),
+            call.publish(Message=json.dumps({"type": "article", "id": 2})),
+            call.publish(Message=json.dumps({"type": "article", "id": 3})) 
+        ])
 
     @override_settings(DEBUG=False)
     def test_notify_deferred(self):
         "a notification is deferred"
-        expected_event = json.dumps({"type": "article", "id": self.msid})
-        cases = [
-            (self.safeword, None),
-
-            # three versions of the same article?
-            (self.msid, None),
-            (self.msid, None),
-            (self.msid, None),
-
-            (self.safeword, [expected_event]),
-        ]
+        cases = [1, 1, 1]
         mock = Mock()
         with patch('publisher.aws_events.event_bus_conn', return_value=mock):
-            for msid, expected in cases:
-                self.assertEqual(expected, aws_events.notify(msid))
-            mock.publish.assert_called_once_with(Message=expected_event)
+            for msid in cases:
+                aws_events.BATCH.notify(msid)
+            aws_events.BATCH.commit()
+        mock.assert_has_calls([
+            call.publish(Message=json.dumps({"type": "article", "id": 1})),
+        ])

@@ -3,7 +3,6 @@ import json
 from django.conf import settings
 import boto3
 from publisher import relation_logic as relationships
-from functools import wraps
 
 from multiprocessing import SimpleQueue
 
@@ -28,60 +27,29 @@ def event_bus_conn():
 #
 #
 
-SAFEWORD = START = STOP = 'cacao'
+"""
+Stores calls to a function to be performed all together as unique calls - i.e. it won't call the function with the same arguments twice.
 
-def defer(fn):
-    """calls function normally until safeword is received then buffers all requests until the safeword is called again.
-    when the safeword is received a second time, the wrapped function is called with the UNIQUE set of arguments - i.e. it won't be called with the same arguments twice.
+Using `CallsBatch` limits function arguments to hashable types only.
+"""
+class CallsBatch:
+    def __init__(self, target):
+        self.calls = SimpleQueue()
+        self.target = target
 
-    using `defer` limits function arguments to hashable types only.
+    def notify(self, *args):
+        self.calls.put(args)
 
-    """
+    def commit(self):
+        unique_calls = OrderedSet()
+        original_calls = 0
+        while not self.calls.empty():
+            # SimpleQueue does not expose its length 
+            original_calls = original_calls + 1
+            unique_calls.add(self.calls.get())
+        LOG.info("%s unique calls to %s to be performed instead of %s", len(unique_calls), self.target, original_calls)
+        [self.target(*args) for args in unique_calls]
 
-    call_queue = SimpleQueue()
-    deferring = False
-
-    @wraps(fn)
-    def wrapper(*args):
-        arg = args[0]
-        nonlocal deferring # stateful!
-
-        if arg == SAFEWORD:
-            deferring = not deferring
-            if deferring:
-                # nothing else to do this turn
-                return
-
-            # we're not deferring and we have stored calls to process
-            if not call_queue.empty():
-                # input order cannot be guaranteed as we're using multiprocessing
-                # single-process input order can be guaranteed
-                calls = OrderedSet()
-                while not call_queue.empty():
-                    calls.add(call_queue.get())
-                LOG.info("%s notifications to be sent call", len(calls))
-                return [fn(*fnargs) for fnargs in calls]
-
-            else:
-                # we're not deferring and we have no calls to process
-                # TODO: empty list or None ?
-                return
-
-        # store the args if we're deferring and return
-        if deferring:
-            call_queue.put(args)
-            return
-
-        # we're not deferring, call wrapped fn as normal
-        return fn(*args)
-    return wrapper
-
-
-#
-#
-#
-
-@defer
 def notify(msid):
     "notify event bus when this article or one of it's versions has been changed in some way"
     if settings.DEBUG:
@@ -100,10 +68,12 @@ def notify(msid):
     except BaseException as err:
         LOG.exception("unhandled error attempting to notify event bus of article change: %s", err)
 
+BATCH = CallsBatch(notify)
+
 def notify_relations(av):
     "notify event bus of changes to an article version's related articles"
-    [notify(art.manuscript_id) for art in relationships.internal_relationships_for_article_version(av)]
+    [BATCH.notify(art.manuscript_id) for art in relationships.internal_relationships_for_article_version(av)]
 
 def notify_all(av):
-    notify(av.article.manuscript_id)
+    BATCH.notify(av.article.manuscript_id)
     notify_relations(av)
