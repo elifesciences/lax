@@ -46,13 +46,13 @@ class ArticleAdmin(admin.ModelAdmin):
     def delete_model(self, request, art):
         super(ArticleAdmin, self).delete_model(request, art)
         fragment_logic.set_all_article_json(art, quiet=True)
-        aws_events.notify(art)
+        aws_events.notify(art.manuscript_id)
 
     def save_related(self, request, form, formsets, change):
         super(ArticleAdmin, self).save_related(request, form, formsets, change)
         art = form.instance
         fragment_logic.set_all_article_json(art, quiet=True)
-        aws_events.notify(art)
+        aws_events.notify(art.manuscript_id)
 
 admin_list = [
     (models.Publisher,),

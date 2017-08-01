@@ -108,6 +108,10 @@ def msid2doi(msid):
     assert isint(msid), "given msid must be an integer: %r" % msid
     return '10.7554/eLife.%s' % pad_msid(msid)
 
+def version_from_path(path):
+    _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
+    ver = ver[1] # "v1.xml" -> "1"
+    return int(msid), int(ver)
 
 def compfilter(fnlist):
     "returns true if given val "

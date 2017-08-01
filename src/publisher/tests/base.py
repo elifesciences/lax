@@ -12,8 +12,8 @@ class SimpleBaseCase(unittest.TestCase):
     fixture_dir = os.path.join(this_dir, 'fixtures')
     maxDiff = None
 
-    # eh - not sure about this. can I patch entire classes
-    # to turn auto-stubbing off??
+    # NOTE: relationship creation can also be disabled with:
+    # @override_settings(ENABLE_RELATIONS=False)
     def load_ajson(self, path, strip_relations=True):
         "loads an article-json fixture. conveniently strips relations by default"
         data = json.load(open(path, 'r'))

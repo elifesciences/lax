@@ -75,7 +75,7 @@ class Two(base.TransactionBaseCase):
 
         def event_msid(index):
             args, first_arg = 1, 0
-            return notify_mock.mock_calls[index][args][first_arg].manuscript_id
+            return notify_mock.mock_calls[index][args][first_arg]
 
         # 10627 has two relations, 9561 and 9560
         # ensure `notify` called once for each article
@@ -96,7 +96,7 @@ class Two(base.TransactionBaseCase):
 
             def event_msid(index):
                 args, first_arg = 1, 0
-                return notify_mock.mock_calls[index][args][first_arg].manuscript_id
+                return notify_mock.mock_calls[index][args][first_arg]
 
             ajson_ingestor.ingest(self.ajson2) # has 2 related, 10627, 9561
 

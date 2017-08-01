@@ -16,7 +16,9 @@ green==2.9.0
 joblib==0.11
 jsonschema==2.6.0
 kids.cache==0.0.4
+mock==2.0.0
 netaddr==0.7.19
+ordered-set==2.0.2
 prospector==0.12.7
 psycopg2==2.7.1
 pyflakes==1.5.0
