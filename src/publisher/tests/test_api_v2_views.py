@@ -1,4 +1,4 @@
-from unittest import skip
+#from unittest import skip
 from core import middleware as mware
 from datetime import timedelta
 from . import base
@@ -597,7 +597,28 @@ class V2PostContent(base.BaseCase):
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 403)
 
-    @skip("no way to test on_commit hooks as transaction is always rolled back")
+
+class FragmentEvents(base.TransactionBaseCase):
+
+    def setUp(self):
+        path = join(self.fixture_dir, 'ajson', "elife-20105-v1.xml.json")
+        ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+
+        self.msid = 20105
+        self.version = 1
+
+        self.av = models.ArticleVersion.objects.filter(article__manuscript_id=self.msid)[0]
+        self.assertTrue(self.av.published())
+        self.assertTrue(fragments.merge_if_valid(self.av))
+
+        self.c = Client()
+        self.ac = Client(**{
+            mware.CGROUPS: 'admin',
+        })
+
+    def tearDown(self):
+        pass
+
     @override_settings(DEBUG=False) # get past the early return in aws_events
     def test_add_fragment_sends_aws_event(self):
         "successfully adding a fragment sends an aws event"
@@ -608,6 +629,25 @@ class V2PostContent(base.BaseCase):
             fragment = {'title': 'Electrostatic selection'}
             resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
             self.assertEqual(resp.status_code, 200) # success
+
+            # https://docs.djangoproject.com/en/1.10/topics/db/transactions/#use-in-tests
+            expected_event = json.dumps({"type": "article", "id": self.msid})
+            mock.publish.assert_called_once_with(Message=expected_event)
+
+    @override_settings(DEBUG=False) # get past the early return in aws_events
+    def test_delete_fragment_sends_aws_event(self):
+        "sucessfully deleting a fragment sends an aws event"
+        self.key = 'test-frag'
+        fragment = {'title': 'Electrostatic selection'}
+        fragments.add(self.av.article, self.key, fragment) # add it to the *article* not the article *version*
+
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+
+            fragment = {'title': 'Electrostatic selection'}
+            resp = self.ac.delete(url, json.dumps(fragment))
+            self.assertEqual(resp.status_code, 200) # successfully deleted
 
             # https://docs.djangoproject.com/en/1.10/topics/db/transactions/#use-in-tests
             expected_event = json.dumps({"type": "article", "id": self.msid})

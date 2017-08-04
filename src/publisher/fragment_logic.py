@@ -199,7 +199,7 @@ def add_fragment_update_article(art, key, fragment):
         ensure(created or updated, "fragment was not created/updated")
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(aws_events.notify, art))
+        transaction.on_commit(partial(aws_events.notify, art.manuscript_id))
 
         return set_all_article_json(art, quiet=False)
 
@@ -210,7 +210,7 @@ def delete_fragment_update_article(art, key):
         models.ArticleFragment.objects.get(article=art, type=key, version=None).delete()
 
         # notify event bus that article change has occurred
-        transaction.on_commit(partial(aws_events.notify, art))
+        transaction.on_commit(partial(aws_events.notify, art.manuscript_id))
 
         return set_all_article_json(art, quiet=False)
 
