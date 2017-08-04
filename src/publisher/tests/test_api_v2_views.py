@@ -645,7 +645,6 @@ class FragmentEvents(base.TransactionBaseCase):
         with patch('publisher.aws_events.event_bus_conn', return_value=mock):
             url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
 
-            fragment = {'title': 'Electrostatic selection'}
             resp = self.ac.delete(url, json.dumps(fragment))
             self.assertEqual(resp.status_code, 200) # successfully deleted
 
