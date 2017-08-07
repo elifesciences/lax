@@ -169,7 +169,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         raise
 
     except ValidationError as err:
-        raise StateError(codes.INVALID, "validation error: %s" % err.cause, err)
+        raise StateError(codes.INVALID, "validation error: %s" % err.message, err)
 
     except Exception:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)

@@ -25,6 +25,8 @@ def relate(av, a):
     return first(create_or_update(models.ArticleVersionRelation, data, create=True, update=False))
 
 def relate_using_msid(av, msid, quiet=False):
+    if not settings.ENABLE_RELATIONS:
+        return
     try:
         art = models.Article.objects.get(manuscript_id=msid)
     except models.Article.DoesNotExist:

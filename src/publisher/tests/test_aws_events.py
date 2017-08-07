@@ -1,6 +1,6 @@
 import json
 from unittest.mock import patch, Mock
-from publisher import ajson_ingestor
+from publisher import ajson_ingestor, aws_events
 from . import base
 from os.path import join
 from django.core.urlresolvers import reverse
@@ -149,7 +149,7 @@ class Two(base.TransactionBaseCase):
 
         def event_msid(index):
             args, first_arg = 1, 0
-            return notify_mock.mock_calls[index][args][first_arg].manuscript_id
+            return notify_mock.mock_calls[index][args][first_arg]
 
         # 10627 has two relations, 9561 and 9560
         # ensure `notify` called once for each article
@@ -170,7 +170,7 @@ class Two(base.TransactionBaseCase):
 
             def event_msid(index):
                 args, first_arg = 1, 0
-                return notify_mock.mock_calls[index][args][first_arg].manuscript_id
+                return notify_mock.mock_calls[index][args][first_arg]
 
             ajson_ingestor.ingest(self.ajson2) # has 2 related, 10627, 9561
 
@@ -181,3 +181,73 @@ class Two(base.TransactionBaseCase):
             # internal relationships, lowest to highest msid
             self.assertEqual(event_msid(1), 9561) # linked by 9560
             self.assertEqual(event_msid(2), 10627) # links to 9560
+
+class DeferredEvents(base.BaseCase):
+    def setUp(self):
+        self.safeword = aws_events.SAFEWORD
+        self.msid = 123
+
+        @aws_events.defer
+        def func(arg):
+            return arg
+
+        self.func = func
+
+    def test_defer(self):
+        cases = [
+            ('a', 'a'),
+            ('b', 'b'),
+            ('c', 'c'),
+
+            (self.safeword, None),
+
+            ('a', None),
+            ('b', None),
+            ('c', None),
+
+            (self.safeword, ['a', 'b', 'c']),
+
+            ('a', 'a'),
+            ('b', 'b'),
+            ('c', 'c'),
+        ]
+
+        for arg, expected in cases:
+            self.assertEqual(expected, self.func(arg))
+
+    def test_defer_nothing(self):
+        cases = [
+            (self.safeword, None),
+            (self.safeword, None),
+        ]
+        for arg, expected in cases:
+            self.assertEqual(expected, self.func(arg))
+
+    @override_settings(DEBUG=False)
+    def test_notify_not_deferred(self):
+        cases = [1, 2, 3]
+        mock = Mock()
+        for msid in cases:
+            with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+                expected = json.dumps({"type": "article", "id": msid})
+                self.assertEqual(expected, aws_events.notify(msid))
+
+    @override_settings(DEBUG=False)
+    def test_notify_deferred(self):
+        "a notification is deferred"
+        expected_event = json.dumps({"type": "article", "id": self.msid})
+        cases = [
+            (self.safeword, None),
+
+            # three versions of the same article?
+            (self.msid, None),
+            (self.msid, None),
+            (self.msid, None),
+
+            (self.safeword, [expected_event]),
+        ]
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            for msid, expected in cases:
+                self.assertEqual(expected, aws_events.notify(msid))
+            mock.publish.assert_called_once_with(Message=expected_event)

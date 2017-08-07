@@ -1,58 +1,7 @@
-import json
 from . import base
 from os.path import join
-from publisher import logic, models, ajson_ingestor, ejp_ingestor
-
-class EJP(base.BaseCase):
-    def setUp(self):
-        self.journal = logic.journal()
-
-        self.stub = json.loads('''{
-            "manuscript_id": "11384",
-            "ejp_type": "TR",
-
-            "date_initial_qc": "2015-09-03T00:00:00",
-            "date_initial_decision": "2015-09-06T00:00:00",
-            "initial_decision": "EF",
-
-            "date_full_qc": "2015-09-09T00:00:00",
-            "date_full_decision": "2015-10-02T00:00:00",
-            "decision": "RVF",
-
-            "date_rev1_qc": "2015-11-20T00:00:00",
-            "date_rev1_decision": "2015-11-24T00:00:00",
-            "rev1_decision": "RVF",
-
-            "date_rev2_qc": "2015-12-14T00:00:00",
-            "date_rev2_decision": "2015-12-16T00:00:00",
-            "rev2_decision": "AF",
-
-            "date_rev3_qc": null,
-            "date_rev3_decision": null,
-            "rev3_decision": null,
-            "date_rev4_qc": null,
-            "date_rev4_decision": null,
-            "rev4_decision": null
-        }''', object_pairs_hook=ejp_ingestor.load_with_datetime)
-
-    def tearDown(self):
-        pass
-
-    def test_ejp_ingest_events(self):
-        "ensure a single ejp ingest does exactly as we expect"
-        self.assertEqual(models.ArticleEvent.objects.count(), 0)
-        ejp_ingestor.import_article(self.journal, self.stub)
-        #[print(x.datetime_event, x.event, x.value) for x in models.ArticleEvent.objects.all()]
-        # 2xinitial, 2xfull, 2xrev1, 2xrev2
-        self.assertEqual(models.ArticleEvent.objects.count(), 8)
-        # todo: test data
-
-    def test_many_ejp_ingest_events(self):
-        "run a huge list of ejp article data"
-        fixture = join(self.fixture_dir, 'partial-ejp-to-lax-report.json')
-        ejp_ingestor.import_article_list_from_json_path(self.journal, fixture)
-        expected_events = 2208
-        self.assertEqual(models.ArticleEvent.objects.count(), expected_events)
+from publisher import models, ajson_ingestor
+from unittest.mock import patch
 
 class One(base.BaseCase):
     def setUp(self):
@@ -106,3 +55,56 @@ class One(base.BaseCase):
         ajson_ingestor.ingest(self.without_history)
         ael = models.ArticleEvent.objects.all()
         self.assertEqual(ael.count(), len(expected_events))
+
+
+class Two(base.TransactionBaseCase):
+    def setUp(self):
+        self.f1 = join(self.fixture_dir, 'ajson', 'elife-10627-v1.xml.json')
+        self.ajson1 = self.load_ajson(self.f1, strip_relations=False)
+
+        self.f2 = join(self.fixture_dir, 'ajson', 'elife-09560-v1.xml.json')
+        self.ajson2 = self.load_ajson(self.f2, strip_relations=False)
+
+    def tearDown(self):
+        pass
+
+    @patch('publisher.ajson_ingestor.aws_events.notify')
+    def test_related_events(self, notify_mock):
+        "aws_events.notify is called once for the article being ingested and once each for related articles"
+
+        ajson_ingestor.ingest(self.ajson1) # has 2 related
+
+        def event_msid(index):
+            args, first_arg = 1, 0
+            return notify_mock.mock_calls[index][args][first_arg]
+
+        # 10627 has two relations, 9561 and 9560
+        # ensure `notify` called once for each article
+        self.assertEqual(len(notify_mock.mock_calls), 3)
+
+        # ensure the events have the right manuscript id
+        # internal relationships, lowest to highest msid
+        self.assertEqual(event_msid(1), 9560)
+        self.assertEqual(event_msid(2), 9561)
+
+    def test_related_events2(self):
+        """aws_events.notify is called once for the article being ingested and once
+        each for related articles, including reverse relations"""
+
+        ajson_ingestor.ingest(self.ajson1) # has 2 related, 9561 and 9560
+
+        with patch('publisher.ajson_ingestor.aws_events.notify') as notify_mock:
+
+            def event_msid(index):
+                args, first_arg = 1, 0
+                return notify_mock.mock_calls[index][args][first_arg]
+
+            ajson_ingestor.ingest(self.ajson2) # has 2 related, 10627, 9561
+
+            self.assertEqual(len(notify_mock.mock_calls), 3)
+
+            # ensure the events have the right manuscript id
+            self.assertEqual(event_msid(0), 9560)
+            # internal relationships, lowest to highest msid
+            self.assertEqual(event_msid(1), 9561) # linked by 9560
+            self.assertEqual(event_msid(2), 10627) # links to 9560
