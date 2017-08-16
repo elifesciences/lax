@@ -22,6 +22,13 @@ elifePipeline {
                 ]
             )
         }
+
+        stage 'Deploy on continuumtest', {
+            lock('lax--continuumtest') {
+                builderDeployRevision 'lax--continuumtest', commit
+                builderSmokeTests 'lax--continuumtest', '/srv/lax'
+            }
+        }
      
         stage 'Approval', {
             elifeGitMoveToBranch commit, 'approved'
