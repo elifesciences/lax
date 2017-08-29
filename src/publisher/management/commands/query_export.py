@@ -18,7 +18,6 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--query-id', dest='qid', type=int, required=False)
         parser.add_argument('--skip-upload', action='store_false', dest='upload')
-        parser.add_argument('--timestamp-filenames', dest='timestamp_fname', action='store_true')
 
     def _upload(self, key, data):
         # assume boto can find our credentials
@@ -28,26 +27,31 @@ class Command(BaseCommand):
         data = io.BytesIO(data.getvalue().encode())
         s3.Bucket(settings.EXPLORER_S3_BUCKET).put_object(Key=key, Body=data)
 
-    def snapshot_query(self, query_id, upload=True, timestamp_fname=False):
+    def snapshot_query(self, query_id, upload=True):
         q = models.Query.objects.get(pk=query_id)
         exporter = exporters.get_exporter_class('csv')(q)
         safe_title = slugify(q.title)
-        fname = 'query%s--%s.csv' % (q.id, safe_title) # ll: query1--dummy-query.csv
-        if timestamp_fname:
-            # ll: query1--dummy-query--20160131-23:59:59
-            fname = 'query%s--%s--%s.csv' % (q.id, safe_title, date.today().strftime('%Y%m%d-%H:%M:%S'))
-        if upload and settings.EXPLORER_S3_BUCKET:
-            LOG.info("uploading snapshot: %s", fname)
-            res = exporter.query.execute_query_only()
-            data = exporter._get_output(res)
-            self._upload(fname, data)
-            #self._upload(fname, exporter.get_file_output())
-            LOG.info("completed upload of snapshot: %s", fname)
-            self.echo('%s uploaded' % fname)
-        else:
-            LOG.warn("the bucket to upload query result %r hasn't been defined in your app.cfg file. skipping upload" % fname)
 
-        self.echo(fname)
+        # ll: query1--dummy-query.csv
+        daily_fname = 'query%s--%s.csv' % (q.id, safe_title) 
+        
+        # ll: query1--dummy-query--2016-01-31-23-59-59.csv        
+        timestamped_fname = 'query%s--%s--%s.csv' % (q.id, safe_title, date.today().strftime('%Y-%m-%d-%H-%M-%S'))
+
+        res = exporter.query.execute_query_only()
+        data = exporter._get_output(res)
+        
+        for fname in [daily_fname, timestamped_fname]:
+            if upload and settings.EXPLORER_S3_BUCKET:
+                LOG.info("uploading snapshot: %s", fname)
+                self._upload(fname, data)
+                #self._upload(fname, exporter.get_file_output())
+                LOG.info("completed upload of snapshot: %s", fname)
+                self.echo('%s uploaded' % fname)
+            else:
+                LOG.warn("the bucket to upload query result %r hasn't been defined in your app.cfg file. skipping upload" % fname)
+
+        self.echo(daily_fname)
 
     def echo(self, x):
         self.stdout.write(str(x))
@@ -65,7 +69,7 @@ class Command(BaseCommand):
             if not qid_list:
                 LOG.info("no query objects found, nothing to upload")
             else:
-                fnargs = subdict(options, ['upload', 'timestamp_fname'])
+                fnargs = subdict(options, ['upload'])
                 lmap(partial(self.snapshot_query, **fnargs), qid_list)
 
         except Exception as err:

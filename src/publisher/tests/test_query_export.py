@@ -35,13 +35,6 @@ class CLI(BaseCase):
         cregex = re.compile('query.--dummy-query.csv')
         self.assertNotEqual(cregex.match(stdout.getvalue()), None)
 
-    def test_export_specific_from_cli_timestamp_fname(self):
-        args = [self.nom, '--skip-upload', '--query-id', str(self.q.id), '--timestamp-filename']
-        errcode, stdout = self.call_command(*args)
-        cregex = re.compile(r'query.--dummy-query--.{8}-.{8}\.csv')
-        self.assertEqual(errcode, 0)
-        self.assertNotEqual(cregex.match(stdout.getvalue()), None)
-
     def test_export_empty_queryset(self):
         "no queries? no worries."
         args = [self.nom, '--skip-upload']
