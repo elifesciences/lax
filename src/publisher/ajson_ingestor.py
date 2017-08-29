@@ -39,16 +39,6 @@ ARTICLE_VERSION = {
     'datetime_published': [p('published', None), utils.todt],
 }
 
-INGEST_EVENTS = [
-    {'event': [models.DATE_XML_RECEIVED], 'datetime_event': [p('-history.received', render.EXCLUDE_ME)]},
-    {'event': [models.DATE_XML_ACCEPTED], 'datetime_event': [p('-history.accepted', render.EXCLUDE_ME)]},
-    {'event': [models.DATETIME_ACTION_INGEST], 'datetime_event': [None], 'value': [p('forced?'), lambda v: "forced=%s" % v]},
-]
-
-PUBLISH_EVENTS = [
-    {'event': [models.DATETIME_ACTION_PUBLISH], 'value': [p('forced?'), lambda v: "forced=%s" % v]},
-]
-
 #
 #
 #
@@ -86,10 +76,7 @@ def _ingest_objects(data, create, update, force, log_context):
 
         log_context['article-version'] = av
 
-        data['article']['forced?'] = force
-        ae_structs = [render.render_item(desc, data['article']) for desc in INGEST_EVENTS]
-        # ignore any events we don't have explicit datetimes for
-        [events.add(article, **struct) for struct in ae_structs if 'datetime_event' in struct]
+        events.ajson_ingest_events(article, data['article'], force)
 
         return av, created, updated, previous_article_versions
 
@@ -243,8 +230,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         av.datetime_published = datetime_published
         av.save()
 
-        ae_structs = [render.render_item(desc, {'article': av.article, 'forced?': force}) for desc in PUBLISH_EVENTS]
-        [events.add(av.article, **struct) for struct in ae_structs]
+        events.ajson_publish_events(av, force)
 
         # merge the fragments we have available and make them available for serving.
         # allow errors when the publish operation is being forced.

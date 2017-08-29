@@ -4,7 +4,7 @@ from datetime import timedelta
 from . import base
 from os.path import join
 import json
-from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, ejp_ingestor, relation_logic
+from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, relation_logic
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -317,9 +317,12 @@ class V2Content(base.BaseCase):
 
     def test_unpublished_article_versions_list(self):
         "valid json content is returned"
+
+        # 2016-07-21: lax used to depend on certain values from ejp, but these are now pulled from the xml.
         # we need some data that can only come from ejp for this
-        ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
-        ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
+        # import ejp_ingestor
+        # ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
+        # ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
 
         resp = self.ac.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
         self.assertEqual(resp.status_code, 200)

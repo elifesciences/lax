@@ -1,6 +1,6 @@
 import json
 from dateutil import parser
-from . import models, utils
+from . import models, utils, events
 from django.db import transaction
 
 import logging
@@ -16,6 +16,10 @@ def import_article(journal, article_data, create=True, update=False):
             utils.create_or_update(models.Article, article_data, ['manuscript_id', 'journal'], create, update)
         if created or updated:
             LOG.info("%s Article %s", 'created' if created else 'updated', art)
+
+        # no point creating events if nothing to be preserved
+        if create or update:
+            events.ejp_ingest_events(art, article_data)
 
         return art, created, updated
 

@@ -48,6 +48,7 @@ class One(base.BaseCase):
                 self.assertEqual(event_obj.value, "forced=False")
 
     def test_ingest_events_no_history(self):
+        "when article xml has no accepted or received dates, events won't be created for them"
         expected_events = [
             models.DATETIME_ACTION_INGEST,
         ]

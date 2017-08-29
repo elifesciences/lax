@@ -23,7 +23,6 @@ class EJPIngest(base.BaseCase):
     def test_ejp_ingest_with_nocreate(self):
         "ensure ejp ingest doesn't create articles if we've told it not to"
         data = {"manuscript_id": 123}
-        #self.assertRaises(models.Article.DoesNotExist, ejp_ingestor.import_article, self.journal, data, create=False)
         self.assertEqual(models.Article.objects.count(), 0)
         ejp_ingestor.import_article(self.journal, data, create=False)
         self.assertEqual(models.Article.objects.count(), 0)
