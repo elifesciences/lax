@@ -49,19 +49,19 @@ def upgrade(content):
 
     def pred(element):
         if isinstance(element, dict):
-          return 'additionalFiles' in element or 'supplements' in element
+          return 'additionalFiles' in element or element.get('type') == 'figure'
 
     def doit(item):
-        item['label'] = item['title']
-        del item['title']
+        if not 'label' in item:
+            item['label'] = item['title']
         return item
-    
+
     def fn(element):
-        for target in ['additionalFiles', 'supplements']:
+        for target in ['additionalFiles', 'assets']:
             if target in element:
                 element[target] = lmap(doit, element[target])
         return element
-    
+
     return visit(content, pred, fn)
 
 TRANSFORMS = {
