@@ -1,6 +1,8 @@
+import json
 from collections import OrderedDict
 from django.conf import settings
 import logging
+from .utils import lmap
 
 LOG = logging.getLogger(__name__)
 
@@ -35,7 +37,6 @@ def downgrade(content):
     "returns v1-compliant content"
 
     def pred(element):
-        # Figures, Supplementary files
         return True
 
     def fn(element):
@@ -45,7 +46,23 @@ def downgrade(content):
 
 def upgrade(content):
     "returns v2-compliant content"
-    return content
+
+    def pred(element):
+        if isinstance(element, dict):
+          return 'additionalFiles' in element or 'supplements' in element
+
+    def doit(item):
+        item['label'] = item['title']
+        del item['title']
+        return item
+    
+    def fn(element):
+        for target in ['additionalFiles', 'supplements']:
+            if target in element:
+                element[target] = lmap(doit, element[target])
+        return element
+    
+    return visit(content, pred, fn)
 
 TRANSFORMS = {
     '1': downgrade,
@@ -72,7 +89,8 @@ def apiv12transform(get_response_fn):
             accepts = request.META.get('HTTP_ACCEPT', '*/*')
             version = accepts.split(',')[0][-1]
             if version in TRANSFORMS:
-                response.content = TRANSFORMS[version](response.content)
+                content = json.loads(response.content.decode('utf-8'))
+                response.content = json.dumps(TRANSFORMS[version](content), ensure_ascii=False)
                 return response
         return response
 
