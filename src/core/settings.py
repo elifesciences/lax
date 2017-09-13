@@ -171,7 +171,7 @@ STATICFILES_DIRS = (
     os.path.join(SRC_DIR, "static"),
 )
 
-from publisher.negotiation import KNOWN_CLASSES
+#from publisher.negotiation import KNOWN_CLASSES
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -181,10 +181,25 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
     #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
-    'DEFAULT_RENDERER_CLASSES': KNOWN_CLASSES + (
+    'DEFAULT_RENDERER_CLASSES': (
+        'publisher.negotiation.ArticleListVersion1',
+        'publisher.negotiation.ArticleListVersion2',
+        'publisher.negotiation.POAArticleVersion1',
+        'publisher.negotiation.POAArticleVersion2',
+        'publisher.negotiation.VORArticleVersion1',
+        'publisher.negotiation.VORArticleVersion2',
+        'publisher.negotiation.ArticleHistoryVersion1',
+        'publisher.negotiation.ArticleHistoryVersion2',
+        'publisher.negotiation.ArticleRelatedVersion1',
+        'publisher.negotiation.ArticleRelatedVersion2',
         'rest_framework.renderers.JSONRenderer',
-        #'rest_framework.renderers.BrowsableAPIRenderer',
-    )
+    ),
+
+    # no idea why this doesn't work
+    #KNOWN_CLASSES + (
+    #    'rest_framework.renderers.JSONRenderer',
+    #    #'rest_framework.renderers.BrowsableAPIRenderer',
+    #)
 }
 
 SWAGGER_SETTINGS = {

@@ -71,9 +71,9 @@ def apiv12transform(get_response_fn):
             # '1'
             accepts = request.META.get('HTTP_ACCEPT', '*/*')
             version = accepts.split(',')[0][-1]
-            #LOG.info('got %s', accepts)
-            response.content = TRANSFORMS[version](response.content)
-            return response
+            if version in TRANSFORMS:
+                response.content = TRANSFORMS[version](response.content)
+                return response
         return response
 
     return middleware
