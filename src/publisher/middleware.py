@@ -70,18 +70,22 @@ TRANSFORMS = {
     '*': upgrade, # accept ll: */*
 }
 
-def transformable(request):
+def transformable(response):
     "exclude everything but api requests"
     if settings.API_V12_TRANSFORMS:
-        # more checks ...
-        reqpath = request.META['PATH_INFO']
-        return reqpath.startswith('/api/v2/')
+        # target any response of content type:
+        # * application/vnd.elife.article-poa+json
+        # * application/vnd.elife.article-vor+json
+        target = ['application/vnd.elife.article-poa+json',
+                  'application/vnd.elife.article-vor+json']
+        return response.content_type.split(';')[0] in target
 
 def apiv12transform(get_response_fn):
 
     def middleware(request):
         response = get_response_fn(request)
-        if transformable(request):
+        if transformable(response):
+            # figure out the requested version. assumes higher first (v2, v1, anything)
             # 'application/vnd.elife.article-vor+json; version=1, ...' =>
             # ['application/vnd.elife.article-vor+json; version=1', '...'] =>
             # 'application/vnd.elife.article-vor+json; version=1' =>
@@ -95,7 +99,3 @@ def apiv12transform(get_response_fn):
         return response
 
     return middleware
-
-'''
-{'environ': {'wsgi.input': <django.test.client.FakePayload object at 0x7f01da5910f0>, 'PATH_INFO': '/api/v2/articles/16695/versions/1', 'SCRIPT_NAME': '', 'wsgi.errors': <_io.BytesIO object at 0x7f01da931990>, 'HTTP_COOKIE': '', 'SERVER_PROTOCOL': 'HTTP/1.1', 'REMOTE_ADDR': '127.0.0.1', 'wsgi.run_once': False, 'wsgi.multiprocess': True, 'HTTP_ACCEPT': 'application/vnd.elife.article-vor+json; version=1', 'wsgi.multithread': False, 'QUERY_STRING': '', 'KONG-Authenticated': False, 'REQUEST_METHOD': 'GET', 'SERVER_PORT': '80', 'wsgi.url_scheme': 'http', 'SERVER_NAME': 'testserver', 'wsgi.version': (1, 0)}, 'session': <django.contrib.sessions.backends.db.SessionStore object at 0x7f01da5912b0>, '_messages': <django.contrib.messages.storage.fallback.FallbackStorage object at 0x7f01da591198>, 'method': 'GET', 'path_info': '/api/v2/articles/16695/versions/1', '_dont_enforce_csrf_checks': True, '_post_parse_error': False, 'content_type': '', '_stream': <django.core.handlers.wsgi.LimitedStream object at 0x7f01da591358>, 'path': '/api/v2/articles/16695/versions/1', 'user': <SimpleLazyObject: <function AuthenticationMiddleware.process_request.<locals>.<lambda> at 0x7f01da5e4c80>>, '_read_started': False, 'content_params': {}, 'COOKIES': {}, 'resolver_match': None, 'META': {'wsgi.input': <django.test.client.FakePayload object at 0x7f01da5910f0>, 'PATH_INFO': '/api/v2/articles/16695/versions/1', 'SCRIPT_NAME': '', 'wsgi.errors': <_io.BytesIO object at 0x7f01da931990>, 'HTTP_COOKIE': '', 'SERVER_PROTOCOL': 'HTTP/1.1', 'REMOTE_ADDR': '127.0.0.1', 'wsgi.run_once': False, 'wsgi.multiprocess': True, 'HTTP_ACCEPT': 'application/vnd.elife.article-vor+json; version=1', 'wsgi.multithread': False, 'QUERY_STRING': '', 'KONG-Authenticated': False, 'REQUEST_METHOD': 'GET', 'SERVER_PORT': '80', 'wsgi.url_scheme': 'http', 'SERVER_NAME': 'testserver', 'wsgi.version': (1, 0)}}
-'''
