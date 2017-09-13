@@ -95,7 +95,13 @@ def apiv12transform(get_response_fn):
             if version in TRANSFORMS:
                 content = json.loads(response.content.decode('utf-8'))
                 response.content = json.dumps(TRANSFORMS[version](content), ensure_ascii=False)
-                return response
+
+            if version == '1':
+                # TODO: add deprecation header 'warning'
+                # Warning: 299 api.elifesciences.org "Deprecation: Support for version 1 will be removed
+                # see curl -v https://api.elifesciences.org/press-packages/e6156bde -H "Accept: application/vnd.elife.press-package+json; version=1"
+                pass
+                
         return response
 
     return middleware
