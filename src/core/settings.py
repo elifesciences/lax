@@ -183,15 +183,12 @@ REST_FRAMEWORK = {
     #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     'DEFAULT_RENDERER_CLASSES': (
         'publisher.negotiation.ArticleListVersion1',
-        'publisher.negotiation.ArticleListVersion2',
         'publisher.negotiation.POAArticleVersion1',
         'publisher.negotiation.POAArticleVersion2',
         'publisher.negotiation.VORArticleVersion1',
         'publisher.negotiation.VORArticleVersion2',
         'publisher.negotiation.ArticleHistoryVersion1',
-        'publisher.negotiation.ArticleHistoryVersion2',
         'publisher.negotiation.ArticleRelatedVersion1',
-        'publisher.negotiation.ArticleRelatedVersion2',
         'rest_framework.renderers.JSONRenderer',
     ),
 
