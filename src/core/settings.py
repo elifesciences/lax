@@ -93,6 +93,8 @@ MIDDLEWARE = [
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
 
+    'publisher.middleware.apiv12transform', # api v1 and v2 content transformations. temporary.
+
     'core.middleware.DownstreamCaching',
 ]
 
@@ -255,6 +257,9 @@ RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', True)
 # when ingesting and publishing article-json with the force=True parameter,
 # should validation failures cause the ingest/publish action to fail?
 VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
+
+#
+API_V12_TRANSFORMS = True
 
 #
 # logging
