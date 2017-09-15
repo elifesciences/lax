@@ -21,7 +21,7 @@ def sns_topic_arn():
     return arn
 
 def event_bus_conn():
-    sns = boto3.resource('sns')
+    sns = boto3.resource('sns', region=settings.EVENT_BUS['region'])
     return sns.Topic(sns_topic_arn())
 
 #
