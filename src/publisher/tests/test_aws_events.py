@@ -164,7 +164,9 @@ class Two(base.TransactionBaseCase):
         """aws_events.notify is called once for the article being ingested and once
         each for related articles, including reverse relations"""
 
-        ajson_ingestor.ingest(self.ajson1) # has 2 related, 9561 and 9560
+        with patch('publisher.ajson_ingestor.aws_events.notify'):
+            # ensure this ingest doesn't call out to aws
+            ajson_ingestor.ingest(self.ajson1) # has 2 related, 9561 and 9560
 
         with patch('publisher.ajson_ingestor.aws_events.notify') as notify_mock:
 
