@@ -66,17 +66,6 @@ TRANSFORMS = {
     '*': upgrade, # accept ll: */*
 }
 
-def transformable(response):
-    "exclude everything but api requests"
-    if settings.API_V12_TRANSFORMS:
-        # target any response of content type:
-        # * application/vnd.elife.article-poa+json
-        # * application/vnd.elife.article-vor+json
-        target = ['application/vnd.elife.article-poa+json',
-                  'application/vnd.elife.article-vor+json']
-        return getattr(response, 'content_type', False) and \
-            response.content_type.split(';')[0] in target
-
 # adapted from https://djangosnippets.org/snippets/1042/
 def parse_accept_header(accept):
     "returns a list of triples, (media, key, val)"
@@ -84,10 +73,28 @@ def parse_accept_header(accept):
     for media_range in accept.split(","):
         parts = media_range.split(";")
         media_type = parts.pop(0).strip().lower()
+        # content type excluded if no version of media supplied
         for part in parts:
             key, val = part.lstrip().split("=", 1)
             result.append((media_type, key, val))
+        # normalize requests with no version specified
+        if not parts:
+            result.append((media_type, 'version', '*')) # any version
+    result.sort(key=lambda row: row[-1], reverse=True) # sorts rows by parameter values, highest first
     return result
+
+def transformable(response):
+    "exclude everything but api requests"
+    if settings.API_V12_TRANSFORMS and getattr(response, 'content_type', False):
+        # not present in redirects and such
+        # target any response of content type:
+        target = [
+            'application/vnd.elife.article-poa+json',
+            'application/vnd.elife.article-vor+json'
+        ]
+        for row in parse_accept_header(response.content_type):
+            if row[0] in target:
+                return True
 
 def requested_version(request):
     "figures out which content version was requested. "
@@ -96,13 +103,14 @@ def requested_version(request):
         'application/vnd.elife.article-vor+json',
     ]
     bits = parse_accept_header(request.META.get('HTTP_ACCEPT', '*/*'))
-    bits.sort(key=lambda row: row[-1], reverse=True) # sorts rows by parameter values, highest first
     for row in bits:
         if row[0] in targets:
             return row[-1][0] # last element, last character
     return '*'
 
 def deprecated(request):
+    if not settings.API_V12_TRANSFORMS:
+        return False
     targets = [
         ('application/vnd.elife.article-poa+json', 'version', '1'),
         ('application/vnd.elife.article-vor+json', 'version', '1'),

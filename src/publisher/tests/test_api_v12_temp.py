@@ -38,7 +38,7 @@ class One(base.BaseCase):
         # because lax will detect the v2 request and upgrade if necessary
         # many = 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=2'
         v1_only = 'application/vnd.elife.article-poa+json; version=1'
-        
+
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v1_only)
         self.assertEqual(resp.status_code, 200)
 
@@ -71,7 +71,6 @@ class One(base.BaseCase):
         v1_only = 'application/vnd.elife.article-poa+json; version=1'
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v1_only)
         self.assertEqual(resp['warning'], "Deprecation: Support for version 1 will be removed")
-        self.fail()
 
     def test_v2_requests_deprecation_notice_absent(self):
         v2_only = 'application/vnd.elife.article-poa+json; version=2'
