@@ -29,36 +29,40 @@ def visit(data, pred, fn, coll=None):
     # unsupported type/no further matches
     return data
 
-def downgrade(content):
-    "returns v1-compliant content"
-
+def visit_target(content, transformer):
     def pred(element):
-        return True
-
-    def fn(element):
-        return element
-
-    return visit(content, pred, fn)
-
-def upgrade(content):
-    "returns v2-compliant content"
-
-    def pred(element):
+        "returns True if given element is a target for transformation"
         if isinstance(element, dict):
             return 'additionalFiles' in element or element.get('type') == 'figure'
 
-    def doit(item):
-        if not 'label' in item:
-            item['label'] = item['title']
-        return item
-
     def fn(element):
+        "transforms element's contents into something valid"
         for target in ['additionalFiles', 'assets']:
             if target in element:
-                element[target] = lmap(doit, element[target])
+                element[target] = lmap(transformer, element[target])
         return element
 
     return visit(content, pred, fn)
+
+def downgrade(content):
+    "returns v1-compliant content"
+    def transformer(item):
+        if not 'title' in item:
+            if 'label' in item:
+                item['title'] = item['label']
+            else:
+                # what title do we assign if we have no label?
+                pass
+        return item
+    return visit_target(content, transformer)
+
+def upgrade(content):
+    "returns v2-compliant content"
+    def transformer(item):
+        if not 'label' in item:
+            item['label'] = item['title']
+        return item
+    return visit_target(content, transformer)
 
 TRANSFORMS = {
     '1': downgrade,

@@ -22,15 +22,19 @@ from django.core.urlresolvers import reverse
 class One(base.BaseCase):
     def setUp(self):
         self.c = Client()
+
+        # additionalFiles
         self.msid = 21393
         self.ajson_fixture_v1_api1 = join(self.fixture_dir, 'v12', 'api1-elife-21393-v1.xml.json') # poa, v1 ajson
         self.ajson_fixture_v1_api2 = join(self.fixture_dir, 'v12', 'api2-elife-21393-v1.xml.json') # poa, v1 ajson
 
+        # what has a good representation of the other elements we want to target?
+
     def tearDown(self):
         pass
 
-    def test_v1_requests_on_v1_content(self):
-        "v1 requests on v1 content continue to validate"
+    def test_v1_requests_on_v1_content__additionalFiles(self):
+        "v1 requests on v1 content continue to validate. checks articles with additionalFiles content"
         self.publish_ajson(self.ajson_fixture_v1_api1)
         av = models.ArticleVersion.objects.all()[0]
 
@@ -44,6 +48,10 @@ class One(base.BaseCase):
 
         # nothing has changed in the request
         self.assertEqual(resp.json(), logic.article_json(av))
+
+    def test_v1_requests_on_v1_content__everythingelse(self):
+        "v1 requests on v1 content continue to validate. checks articles with figures"
+        self.fail()
 
     def test_v1_requests_on_v2_content(self):
         "v1 requests on v2 content downgrade correctly and validate"
