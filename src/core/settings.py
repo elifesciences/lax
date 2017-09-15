@@ -93,6 +93,7 @@ MIDDLEWARE = [
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
 
+    'publisher.middleware.apiv1_deprecated', # api v1 and v2 content transformations. temporary.
     'publisher.middleware.apiv12transform', # api v1 and v2 content transformations. temporary.
 
     'core.middleware.DownstreamCaching',
@@ -193,7 +194,7 @@ REST_FRAMEWORK = {
     ),
 
     # no idea why this doesn't work
-    #KNOWN_CLASSES + (
+    # KNOWN_CLASSES + (
     #    'rest_framework.renderers.JSONRenderer',
     #    #'rest_framework.renderers.BrowsableAPIRenderer',
     #)
@@ -218,10 +219,10 @@ SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 SCHEMA_IDX = {
     ('poa', 1): join(SCHEMA_PATH, 'model/article-poa.v1.json'),
     'poa': join(SCHEMA_PATH, 'model/article-poa.v1.json'), # todo, switch to v2 when it exists
-    
+
     ('vor', 1): join(SCHEMA_PATH, 'model/article-vor.v1.json'),
     'vor': join(SCHEMA_PATH, 'model/article-vor.v1.json'), # todo, switch to v2 when it exists
-    
+
     'history': join(SCHEMA_PATH, 'model/article-history.v1.json'),
     'list': join(SCHEMA_PATH, 'model/article-list.v1.json')
 }

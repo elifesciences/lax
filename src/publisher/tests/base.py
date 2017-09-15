@@ -22,6 +22,9 @@ class SimpleBaseCase(unittest.TestCase):
             utils.delall(data['article'], ['-related-articles-internal', '-related-articles-external'])
         return data
 
+    def publish_ajson(self, path):
+        return ajson_ingestor.ingest_publish(self.load_ajson(path))
+
     def freshen(self, obj):
         return utils.freshen(obj)
 

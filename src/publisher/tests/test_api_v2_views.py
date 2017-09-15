@@ -12,24 +12,6 @@ from unittest.mock import patch, Mock
 
 SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
-class APIV12Transforms(base.BaseCase):
-    def setUp(self):
-        self.c = Client()
-        self.msid = 21393
-        self.ajson_fixture_v1 = join(self.fixture_dir, 'v12', 'elife-21393-v1.xml.json') # poa
-
-    def tearDown(self):
-        pass
-
-    def test_foo(self):
-        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
-        version2 = 'application/vnd.elife.article-vor+json; version=2'
-        resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=version2)
-        self.assertEqual(resp.status_code, 200)
-
-        self.assertTrue('label' in resp.json()['additionalFiles'][0])
-        #self.fail()
-
 class Fragments(base.BaseCase):
     def setUp(self):
         # unauthenticated
