@@ -78,7 +78,9 @@ def transformable(response):
         # * application/vnd.elife.article-vor+json
         target = ['application/vnd.elife.article-poa+json',
                   'application/vnd.elife.article-vor+json']
-        return response.content_type.split(';')[0] in target
+        return str(response.status_code)[0] == '2' and \
+          getattr(response, 'content_type', False) and \
+          response.content_type.split(';')[0] in target
 
 def apiv12transform(get_response_fn):
 
