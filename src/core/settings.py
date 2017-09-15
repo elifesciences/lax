@@ -216,8 +216,12 @@ EXPLORER_S3_BUCKET = cfg('general.reporting-bucket', None)
 
 SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 SCHEMA_IDX = {
-    'poa': join(SCHEMA_PATH, 'model/article-poa.v1.json'),
-    'vor': join(SCHEMA_PATH, 'model/article-vor.v1.json'),
+    ('poa', 1): join(SCHEMA_PATH, 'model/article-poa.v1.json'),
+    'poa': join(SCHEMA_PATH, 'model/article-poa.v1.json'), # todo, switch to v2 when it exists
+    
+    ('vor', 1): join(SCHEMA_PATH, 'model/article-vor.v1.json'),
+    'vor': join(SCHEMA_PATH, 'model/article-vor.v1.json'), # todo, switch to v2 when it exists
+    
     'history': join(SCHEMA_PATH, 'model/article-history.v1.json'),
     'list': join(SCHEMA_PATH, 'model/article-list.v1.json')
 }

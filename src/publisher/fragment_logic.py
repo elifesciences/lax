@@ -57,8 +57,12 @@ def merge(av):
         raise StateError(codes.NO_RECORD, "%r has no fragments that can be merged" % av)
     return utils.merge_all([f.fragment for f in fragments])
 
-def valid(merge_result, quiet=True):
-    "returns True if the merged result is valid article-json"
+def valid(merge_result, model_version=None, quiet=True):
+    """returns True if the merged result is valid article-json
+    version=1 will validate result against v1 of the article schema
+    version=None will validate result against most recent version of the article schema
+    quiet=True will swallow validation errors and log the error
+    quiet=False will raise a ValidationError"""
     msid = merge_result.get('id', '[no id]')
     version = merge_result.get('version', '[no version]')
     log_context = {
@@ -66,7 +70,8 @@ def valid(merge_result, quiet=True):
         'version': version,
     }
     try:
-        schema_key = merge_result['status'] # poa or vor
+        status = merge_result['status'] # poa or vor
+        schema_key = (status, model_version) if model_version else status # ll: (poa, 1) or 'poa'
         schema = settings.SCHEMA_IDX[schema_key]
         return utils.validate(merge_result, schema)
 
@@ -174,7 +179,7 @@ def set_article_json(av, quiet):
     if invalid, the ArticleVersion instance's article-json will be unset.
     if invalid and quiet=False, a ValidationError will be raised"""
     log_context = {'article-version': av, 'quiet': quiet}
-    result = merge_if_valid(av, quiet)
+    result = merge_if_valid(av, quiet=quiet)
     av.article_json_v1 = result
     av.article_json_v1_snippet = extract_snippet(result)
     av.save()
