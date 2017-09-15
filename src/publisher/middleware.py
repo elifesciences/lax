@@ -77,7 +77,6 @@ def parse_accept_header(accept):
     for media_range in accept.split(","):
         parts = media_range.split(";")
         media_type = parts.pop(0).strip().lower()
-        # content type excluded if no version of media supplied
         for part in parts:
             key, val = part.lstrip().split("=", 1)
             result.append((media_type, key, val))
