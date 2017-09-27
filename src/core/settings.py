@@ -216,16 +216,26 @@ EXPLORER_S3_BUCKET = cfg('general.reporting-bucket', None)
 #
 
 SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
-SCHEMA_IDX = {
-    ('poa', 1): join(SCHEMA_PATH, 'model/article-poa.v1.json'),
-    'poa': join(SCHEMA_PATH, 'model/article-poa.v1.json'), # todo, switch to v2 when it exists
 
-    ('vor', 1): join(SCHEMA_PATH, 'model/article-vor.v1.json'),
-    'vor': join(SCHEMA_PATH, 'model/article-vor.v1.json'), # todo, switch to v2 when it exists
-
-    'history': join(SCHEMA_PATH, 'model/article-history.v1.json'),
-    'list': join(SCHEMA_PATH, 'model/article-list.v1.json')
+# a response is valid if validates under any version of it's schema.
+# order is important. if all attempts to validate fail, the first validation error is re-raised
+ALL_SCHEMA_IDX = {
+    'poa': [
+        (2, join(SCHEMA_PATH, 'model/article-poa.v2.json')),
+        (1, join(SCHEMA_PATH, 'model/article-poa.v1.json')),
+    ],
+    'vor': [
+        (2, join(SCHEMA_PATH, 'model/article-vor.v2.json')),
+        (1, join(SCHEMA_PATH, 'model/article-vor.v1.json')),
+    ],
+    'history': [
+        (1, join(SCHEMA_PATH, 'model/article-history.v1.json')),
+    ],
+    'list': [
+        (1, join(SCHEMA_PATH, 'model/article-list.v1.json')),
+    ],
 }
+SCHEMA_IDX = {tpe: rows[0][1] for tpe, rows in ALL_SCHEMA_IDX.items()}
 API_PATH = join(SCHEMA_PATH, 'api.raml')
 
 def _load_api_raml(path):

@@ -4,7 +4,7 @@ from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
 from . import utils, models, aws_events, codes
-from .utils import create_or_update, ensure, subdict, StateError, atomic, lmap, lfilter
+from .utils import create_or_update, ensure, subdict, StateError, atomic, lmap, lfilter, first
 import logging
 from django.db import transaction
 
@@ -57,10 +57,8 @@ def merge(av):
         raise StateError(codes.NO_RECORD, "%r has no fragments that can be merged" % av)
     return utils.merge_all([f.fragment for f in fragments])
 
-def valid(merge_result, model_version=None, quiet=True):
+def valid(merge_result, quiet=True):
     """returns True if the merged result is valid article-json
-    version=1 will validate result against v1 of the article schema
-    version=None will validate result against most recent version of the article schema
     quiet=True will swallow validation errors and log the error
     quiet=False will raise a ValidationError"""
     msid = merge_result.get('id', '[no id]')
@@ -69,29 +67,35 @@ def valid(merge_result, model_version=None, quiet=True):
         'msid': msid,
         'version': version,
     }
-    try:
-        status = merge_result['status'] # poa or vor
-        schema_key = (status, model_version) if model_version else status # ll: (poa, 1) or 'poa'
-        schema = settings.SCHEMA_IDX[schema_key]
-        return utils.validate(merge_result, schema)
 
-    except KeyError:
-        msg = "merging %s returned a data structure that couldn't be used to determine validation"
-        LOG.exception(msg, msid, extra=log_context)
-        # legitimate error that needs to break things
-        raise
+    status = merge_result['status'] # 'poa' or 'vor'
+    validation_errors = []
+    for version, schema in settings.ALL_SCHEMA_IDX[status]:
+        try:
+            return utils.validate(merge_result, schema)
 
-    except ValueError as err:
-        # either the schema is bad or the struct is bad
-        LOG.exception("validating %s v%s failed to load schema file %s", msid, version, schema, extra=log_context)
-        # this is a legitimate error and needs to break things
-        raise
-
-    except ValidationError as err:
-        # definitely not valid ;)
-        LOG.error("while validating %s v%s with %s, failed to validate with error: %s", msid, version, schema, err.message)
-        if not quiet:
+        except KeyError:
+            msg = "merging %s returned a data structure that couldn't be used to determine validation"
+            LOG.exception(msg, msid, extra=log_context)
+            # legitimate error that needs to break things
             raise
+
+        except ValueError as err:
+            # either the schema is bad or the struct is bad
+            LOG.exception("validating %s v%s failed to load schema file %s", msid, version, schema, extra=log_context)
+            # this is a legitimate error and needs to break things
+            raise
+
+        except ValidationError as err:
+            # not valid under this version
+            LOG.error("while validating %s v%s with %s, failed to validate with error: %s", msid, version, schema, err.message)
+            validation_errors.append(err)
+            # try the next version of the schema (if one exists)
+            continue
+
+    if validation_errors and not quiet:
+        LOG.error("result failed to validate under any version of the schema")
+        raise first(validation_errors)
 
 def extract_snippet(merged_result):
     if not merged_result:
