@@ -25,8 +25,8 @@ class One(base.BaseCase):
 
         # additionalFiles
         self.msid = 21393
-        self.ajson_fixture_v1_api1 = join(self.fixture_dir, 'v12', 'api1-elife-21393-v1.xml.json') # poa, v1 ajson
-        self.ajson_fixture_v1_api2 = join(self.fixture_dir, 'v12', 'api2-elife-21393-v1.xml.json') # poa, v1 ajson
+        self.ajson_fixture_v1_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-21393-v1.xml.json') # poa, v1 ajson
+        self.ajson_fixture_v1_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-21393-v1.xml.json') # poa, v1 ajson
 
         # what has a good representation of the other elements we want to target?
 
@@ -38,15 +38,11 @@ class One(base.BaseCase):
         self.publish_ajson(self.ajson_fixture_v1_api1)
         av = models.ArticleVersion.objects.all()[0]
 
-        # interesting case, what do we do here?
-        # because lax will detect the v2 request and upgrade if necessary
-        # many = 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=2'
         v1_only = 'application/vnd.elife.article-poa+json; version=1'
-
         resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v1_only)
         self.assertEqual(resp.status_code, 200)
 
-        # nothing has changed in the request
+        # ensure nothing has changed in the request
         self.assertEqual(resp.json(), logic.article_json(av))
 
     def test_v1_requests_on_v1_content__everythingelse(self):
@@ -71,6 +67,22 @@ class One(base.BaseCase):
 
     def test_v2_requests_on_v2_content(self):
         "v2 requests on v2 content continue to validate"
+        self.fail()
+
+    def test_multiple_versions_supported_on_v1_content(self):
+        "requests that support both v1 and v2 content will return v2 content"
+        # interesting case when specifying multiple supported versions. what do we do here?
+        # because lax will detect the v2 request and upgrade if necessary
+        # many = 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=2'
+        v1_only = 'application/vnd.elife.article-poa+json; version=1'
+        self.fail()
+
+    def test_multiple_versions_supported_on_v2_content(self):
+        "requests that support both v1 and v2 content will return v2 content"
+        # interesting case when specifying multiple supported versions. what do we do here?
+        # because lax will detect the v2 request and upgrade if necessary
+        # many = 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=2'
+        v1_only = 'application/vnd.elife.article-poa+json; version=1'
         self.fail()
 
     # deprecation notice
