@@ -22,6 +22,28 @@ class SimpleBaseCase(unittest.TestCase):
             utils.delall(data['article'], ['-related-articles-internal', '-related-articles-external'])
         return data
 
+    def load_ajson2(self, path_or_data):
+        "loads an article-json fixture. conveniently strips relations and other troublesome things"
+        if isinstance(path_or_data, str):
+            # assume string is a path to a file
+            path = path_or_data
+            data = json.load(open(path, 'r'))
+        else:
+            # assume data is article-json
+            data = path_or_data
+
+        # remove the 'journal' and 'snippet' sections if present
+        if 'article' in data:
+            data = data['article']
+
+        # remove these values here so they don't interfere in creation
+        utils.delall(data, ['-related-articles-internal', '-related-articles-external', '-history'])
+
+        # remove these values here so they don't interfere with comparison
+        utils.delall(data, ['-meta', 'statusDate'])
+
+        return data
+
     def publish_ajson(self, path):
         return ajson_ingestor.ingest_publish(self.load_ajson(path))
 
