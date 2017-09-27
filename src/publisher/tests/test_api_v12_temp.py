@@ -7,17 +7,12 @@ ensure valid content is returned depending on the version of the api requested.
 
 """
 
-#from unittest import skip
-#from core import middleware as mware
-#from datetime import timedelta
 from . import base
 from os.path import join
-#import json
-from publisher import logic, models, utils
+from publisher import models, utils
 from django.test import Client  # , override_settings
 from django.core.urlresolvers import reverse
 from django.conf import settings
-#from unittest.mock import patch, Mock
 
 class One(base.BaseCase):
     def setUp(self):
@@ -36,66 +31,61 @@ class One(base.BaseCase):
     def tearDown(self):
         pass
 
-    def test_v1_requests_on_v1_content__additionalFiles(self):
-        "v1 requests on v1 content continue to validate. checks articles with additionalFiles content"
-        self.publish_ajson(self.ajson_fixture_api1)
-        av = models.ArticleVersion.objects.all()[0]
+    def test_all(self):
+        v1, v2, v12 = 1, 2, 12
+        
+        cases = [
+            # content, request, response
+            (v1, v1, v1),
+            (v1, v2, v2),
+            
+            (v2, v1, v1),
+            (v2, v2, v2),
 
-        v1_only = 'application/vnd.elife.article-poa+json; version=1'
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v1_only)
-        self.assertEqual(resp.status_code, 200)
+            (v1, v12, v2),
+            (v2, v12, v2),
+        ]
 
-        # ensure nothing has changed in the request
-        self.assertEqual(resp.json(), logic.article_json(av))
+        content_idx = {
+            v1: self.ajson_fixture_api1,
+            v2: self.ajson_fixture_api2
+        }
 
-    def test_v1_requests_on_v1_content__everythingelse(self):
-        "v1 requests on v1 content continue to validate. checks articles with figures"
-        # need a fixture with figures
-        self.fail()
+        request_idx = {
+            v1: 'application/vnd.elife.article-poa+json; version=1',
+            v2: 'application/vnd.elife.article-poa+json; version=2',
+            v12: 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2',
+        }
 
-    def test_v1_requests_on_v2_content(self):
-        "v1 requests on v2 content downgrade correctly and validate"
-        self.publish_ajson(self.ajson_fixture_api2)
+        response_idx = {
+            v1: self.ajson_api1,
+            v2: self.ajson_api2
+        }
 
-        v1_only = 'application/vnd.elife.article-poa+json; version=1'
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v1_only)
-        self.assertEqual(resp.status_code, 200)
+        schema_idx = {
+            v1: settings.ALL_SCHEMA_IDX['poa'][1][1],
+            v2: settings.ALL_SCHEMA_IDX['poa'][0][1],
+        }
 
-        # v2 content has been downgraded to be the same as v1 content
-        self.assertEqual(self.load_ajson2(resp.json()), self.ajson_api1)
+        for ckey, rqkey, rskey in cases:
+            content = content_idx[ckey]
+            request = request_idx[rqkey]
+            response = response_idx[rskey]
 
-        # downgraded v2 content validates under v1
-        self.assertTrue(utils.validate(resp.json(), settings.ALL_SCHEMA_IDX['poa'][1][1]))
+            name = ' '.join(map(str, [ckey, rqkey, rskey]))
+            #print(name)
+            with self.subTest(name): # doesn't seem to do 
+                try:
+                    self.publish_ajson(content)
+                    actual_resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=request)
+                    self.assertEqual(actual_resp.status_code, 200)
+                    # response is valid
+                    self.assertTrue(utils.validate(actual_resp.json(), schema_idx[rskey]))
+                    # response is equal to what we're expecting
+                    self.assertEqual(self.load_ajson2(actual_resp.json()), response)
 
-    def test_v2_requests_on_v1_content(self):
-        "v2 requests on v1 content upgrade correctly and validate"
-        self.publish_ajson(self.ajson_fixture_api1)
-
-        v2_only = 'application/vnd.elife.article-vor+json; version=2'
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v2_only)
-        self.assertEqual(resp.status_code, 200)
-
-        # specific changes have been made ...
-        self.assertTrue('label' in resp.json()['additionalFiles'][0])
-        # test anything that identifies as a 'figure'
-
-    def test_v2_requests_on_v2_content(self):
-        "v2 requests on v2 content continue to validate"
-        self.fail()
-
-    def test_multiple_versions_supported_on_v1_content(self):
-        "requests that support both v1 and v2 content will return v2 content"
-        # interesting case when specifying multiple supported versions. what do we do here?
-        # because lax will detect the v2 request and upgrade if necessary
-        # many = 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=2'
-        self.fail()
-
-    def test_multiple_versions_supported_on_v2_content(self):
-        "requests that support both v1 and v2 content will return v2 content"
-        # interesting case when specifying multiple supported versions. what do we do here?
-        # because lax will detect the v2 request and upgrade if necessary
-        # many = 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=2'
-        self.fail()
+                finally:
+                    models.Article.objects.all().delete()
 
     # deprecation notice
 

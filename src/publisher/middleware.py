@@ -62,6 +62,7 @@ def upgrade(content):
     def transformer(item):
         if not 'label' in item:
             item['label'] = item['title']
+            del item['title']
         return item
     return visit_target(content, transformer)
 
