@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-04718-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-04718-v1.xml"
         }, 
         "-history": {
             "received": "2014-09-11T00:00:00Z", 
@@ -17,13 +17,14 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.04718", 
-        "authorLine": "Olivier Britz et al", 
+        "authorLine": "Olivier Britz et al.", 
         "title": "A genetically defined asymmetry underlies the inhibitory control of flexor\u2013extensor locomotor movements", 
         "published": "2015-10-14T00:00:00Z", 
         "versionDate": "2015-10-14T00:00:00Z", 
         "volume": 4, 
         "elocationId": "e04718", 
-        "pdf": "https://publishing-cdn.elifesciences.org/04718/elife-04718-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/04718/elife-04718-v1.pdf", 
+        "figuresPdf": "https://cdn.elifesciences.org/articles/04718/elife-04718-figures-v1.pdf", 
         "subjects": [
             {
                 "id": "neuroscience", 
@@ -44,7 +45,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Britz et al", 
+            "holder": "Britz et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -362,7 +363,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-04718-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-04718-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -374,13 +375,14 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.04718", 
-        "authorLine": "Olivier Britz et al", 
+        "authorLine": "Olivier Britz et al.", 
         "title": "A genetically defined asymmetry underlies the inhibitory control of flexor\u2013extensor locomotor movements", 
         "published": "2015-10-14T00:00:00Z", 
         "versionDate": "2015-10-14T00:00:00Z", 
         "volume": 4, 
         "elocationId": "e04718", 
-        "pdf": "https://publishing-cdn.elifesciences.org/04718/elife-04718-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/04718/elife-04718-v1.pdf", 
+        "figuresPdf": "https://cdn.elifesciences.org/articles/04718/elife-04718-figures-v1.pdf", 
         "subjects": [
             {
                 "id": "neuroscience", 
@@ -401,7 +403,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Britz et al", 
+            "holder": "Britz et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -779,33 +781,35 @@
                         "text": "Efforts to define the contribution that V1 and V2b INs make to locomotion in awake behaving mice have been thwarted by an inability to selectively manipulate these cells in the spinal cord. Although En1 and Gata3 selectively mark spinal V1 and V2b INs, respectively, both genes are expressed elsewhere in the midbrain, medulla and cerebellum, and in non-neuronal tissues (<a href=\"#bib15\">Davis and Joyner, 1988</a>; <a href=\"#bib71\">van Doorninck et al., 1999</a>). Consequently, genetic protocols that employ <i>En1</i> and <i>Gata3</i> regulatory sequences alone to silence or ablate V1 and V2b INs cause perinatal death (<a href=\"#bib23\">Gosgnach et al., 2006</a>; <a href=\"#bib77\">Zhang et al., 2014</a>). To circumvent this issue, we devised a tripartite intersectional genetic system that utilizes the combined activities of Cre recombinase and FlpO recombinase and allows us to selectively express the diphtheria toxin receptor (DTR; <a href=\"#bib10\">Buch et al., 2005</a>) in V1 or V2b INs that are located in the caudal spinal cord (<a href=\"#fig1\">Figure 1A</a>), thereby making them selectively sensitive to diphtheria toxin (DTX)."
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.04718.003", 
-                        "id": "fig1", 
-                        "label": "Figure 1.", 
-                        "title": "Genetic strategy for targeting DTR expression to V1 and V2b INs neurons in the caudal spinal cord.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "(<b>A</b>) Schematic of the tripartite genetic system used to restrict diphtheria toxin receptor (DTR) expression to caudal V1 and V2b INs. The <i>Tau</i><sup>ds-DTR</sup> and <i>Cdx2-FlpO</i> alleles are shown above. Cre-mediated recombination removes the first stop cassette to activate nuclear \u03b2-galactosidase (\u03b2-gal/nlsLacZ) expression in neurons (light blue). DTR (purple) is only expressed in neurons following Cre- and FlpO-mediated excision of both stop cassettes. (<b>B</b>) Whole mount image of a P15 <i>Cdx2-FlpO</i>; <i>R26</i><sup>FRTstop-nlslacZ</sup> brain and spinal cord viewed from the dorsal aspect showing \u03b2-galactosidase (\u03b2-gal) expression is restricted to the spinal cord and caudal PNS. (<b>C</b>) Whole mount image of the anterior spinal cord from a P15 <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-lacZ</sup> mouse viewed from the ventral aspect showing expression of \u03b2-gal is restricted to caudal V1 INs and is absent at upper cervical levels and in the hindbrain. (<b>D</b>\u2013<b>F</b>) Expression of a Cre- and FlpO-dependent GFP reporter (<i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-HTB</sup>) in V1 INs. Coronal sections from a <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-HTB</sup> spinal cord (<b>D</b>, <b>E</b>) in which V1 INs that have undergone Cre recombination alone express \u03b2-gal (red), and V1 INs cells that have undergone both Cre and FlpO recombinations express GFP (green). FlpO recombination is fully penetrant in lumbar V1 INs (<b>E</b>, <b>F</b>). (<b>G</b>\u2013<b>J</b>) Images from E12.5 embryos showing that the <i>Mapt</i><sup>ds-DTR</sup> and <i>Cdx2-FlpO</i> alleles progressively restrict reporter gene expression to V1 and V2b INs in the caudal spinal cord. There is no \u03b2-gal expression in non-neuronal tissues. The absence of \u03b2-gal expression in the caudal CNS reflects the efficient excision of the nlsLacZ-stop cassette and expression of DTR in V1 and V2b INs."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.04718.003", 
+                                "id": "fig1", 
+                                "label": "Figure 1", 
+                                "title": "Genetic strategy for targeting DTR expression to V1 and V2b INs neurons in the caudal spinal cord.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<b>A</b>) Schematic of the tripartite genetic system used to restrict diphtheria toxin receptor (DTR) expression to caudal V1 and V2b INs. The <i>Tau</i><sup>ds-DTR</sup> and <i>Cdx2-FlpO</i> alleles are shown above. Cre-mediated recombination removes the first stop cassette to activate nuclear \u03b2-galactosidase (\u03b2-gal/nlsLacZ) expression in neurons (light blue). DTR (purple) is only expressed in neurons following Cre- and FlpO-mediated excision of both stop cassettes. (<b>B</b>) Whole mount image of a P15 <i>Cdx2-FlpO</i>; <i>R26</i><sup>FRTstop-nlslacZ</sup> brain and spinal cord viewed from the dorsal aspect showing \u03b2-galactosidase (\u03b2-gal) expression is restricted to the spinal cord and caudal PNS. (<b>C</b>) Whole mount image of the anterior spinal cord from a P15 <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-lacZ</sup> mouse viewed from the ventral aspect showing expression of \u03b2-gal is restricted to caudal V1 INs and is absent at upper cervical levels and in the hindbrain. (<b>D</b>\u2013<b>F</b>) Expression of a Cre- and FlpO-dependent GFP reporter (<i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-HTB</sup>) in V1 INs. Coronal sections from a <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>R26</i><sup>ds-HTB</sup> spinal cord (<b>D</b>, <b>E</b>) in which V1 INs that have undergone Cre recombination alone express \u03b2-gal (red), and V1 INs cells that have undergone both Cre and FlpO recombinations express GFP (green). FlpO recombination is fully penetrant in lumbar V1 INs (<b>E</b>, <b>F</b>). (<b>G</b>\u2013<b>J</b>) Images from E12.5 embryos showing that the <i>Mapt</i><sup>ds-DTR</sup> and <i>Cdx2-FlpO</i> alleles progressively restrict reporter gene expression to V1 and V2b INs in the caudal spinal cord. There is no \u03b2-gal expression in non-neuronal tissues. The absence of \u03b2-gal expression in the caudal CNS reflects the efficient excision of the nlsLacZ-stop cassette and expression of DTR in V1 and V2b INs."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig1-v1.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-04718-fig1-v1.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig1-v1.tif", 
+                                    "size": {
+                                        "width": 3490, 
+                                        "height": 4481
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig1-v1.tif/full/full/0/default.jpg", 
-                                "filename": "elife-04718-fig1-v1.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 3490, 
-                                "height": 4481
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig1-v1.tif", 
-                            "filename": "elife-04718-fig1-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig1-v1.tif", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
@@ -825,37 +829,39 @@
                                 "text": "To determine the efficiency and specificity of this technique, we monitored V1 IN ablation in P1 <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>Mapt</i><sup>ds-DTR</sup> mice treated with a single dose of DTX and analyzed 6 days later. P1 control mice (<i>En1</i><sup>Cre</sup>; <i>Mapt</i><sup>ds-DTR</sup>) were also treated with DTX and analyzed. Because En1 is no longer expressed postnatally, an <i>Ai6</i> Cre-dependent reporter allele (<a href=\"#bib48\">Madisen et al., 2010</a>) was used to independently mark the V1 INs and verify their loss following DTX treatment. Whereas V1 INs were largely spared at upper cervical levels (<a href=\"#fig2\">Figure 2A,B</a>), they were depleted by &gt;90% in the thoracic, lumbar, and sacral spinal cord of <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>Mapt</i><sup>ds-DTR</sup>; <i>Ai6</i> mice (<a href=\"#fig2\">Figure 2C,D</a>). Calbindin<sup>+</sup> Renshaw cells, which are derived from En1<sup>+</sup> progenitors (<a href=\"#bib62\">Sapir et al., 2004</a>), were also largely missing from the caudal spinal cord (<a href=\"#fig2\">Figure 2E,F</a>). By contrast, dorsal calbindin<sup>+</sup> neurons that are not derived from En1<sup>+</sup> progenitors were still present in normal numbers (<a href=\"#fig2s1\">Figure 2\u2014figure supplement 1</a>)."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.04718.004", 
-                                "id": "fig2", 
-                                "label": "Figure 2.", 
-                                "title": "Restricted ablation of V1 and V2b INs following diphtheria toxin treatment.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Immunohistochemical and histological analysis of P7 control, <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO; Mapt</i><sup>ds-DTR</sup> and <i>Gata3</i><sup>Cre</sup>; <i>Cdx2-FlpO; Mapt</i><sup>ds-DTR</sup> animals 6 days after administering DTX. All sections are from the mid-lumbar cord except for those in panels <b>A</b>, <b>B</b>, <b>M</b>, and <b>N</b>, which are from the cervical cord. (<b>A</b>\u2013<b>D</b>) En1-derived V1 INs (green) are selectively ablated in the lumbar spinal cord (c.f. <b>C</b>, <b>D</b>), whereas ChAT<sup>+</sup> motor neurons (red) are spared at lumbar (<b>D</b>) and cervical levels (<b>B</b>). (<b>E</b>, <b>H</b>) Calbindin<sup>+</sup> Renshaw cells (blue) are present in control cords (<b>E</b>, arrow) but not in V1 IN-ablated cords (<b>F</b>). (<b>G</b>, <b>H</b>) Chx10<sup>+</sup> V2a INs are present in normal numbers following V1 IN-ablation. (<b>I</b>, <b>J</b>) Hematoxylin-eosin staining reveals no evidence of widespread neuronal cell loss or gliosis. (<b>K</b>, <b>L</b>) CD86<sup>+</sup> microglia were occasionally observed in close proximity to V1 cell debris (arrowhead). (<b>M</b>\u2013<b>P</b>) Motor neurons are spared at both cervical (<b>M</b>, <b>N</b>) and lumbar (<b>O</b>, <b>P</b>) levels following ablation of the V2b INs. (<b>Q</b>, <b>R</b>) V2b INs (green) are specifically deleted in V2b IN-ablated mice (<b>R</b>) while V0c neurons (red) are spared. (<b>S</b>, <b>T</b>) Chx10<sup>+</sup> V2a INs are present in normal numbers following V2b IN-ablation. (<b>U</b>, <b>V</b>) Hematoxylin-eosin staining. (<b>W</b>, <b>X</b>) Localized CD86 expression (red) in lamina VII is associated with dying V2b INs (green)."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-04718-fig2-v1.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.04718.004", 
+                                        "id": "fig2", 
+                                        "label": "Figure 2", 
+                                        "title": "Restricted ablation of V1 and V2b INs following diphtheria toxin treatment.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Immunohistochemical and histological analysis of P7 control, <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO; Mapt</i><sup>ds-DTR</sup> and <i>Gata3</i><sup>Cre</sup>; <i>Cdx2-FlpO; Mapt</i><sup>ds-DTR</sup> animals 6 days after administering DTX. All sections are from the mid-lumbar cord except for those in panels <b>A</b>, <b>B</b>, <b>M</b>, and <b>N</b>, which are from the cervical cord. (<b>A</b>\u2013<b>D</b>) En1-derived V1 INs (green) are selectively ablated in the lumbar spinal cord (c.f. <b>C</b>, <b>D</b>), whereas ChAT<sup>+</sup> motor neurons (red) are spared at lumbar (<b>D</b>) and cervical levels (<b>B</b>). (<b>E</b>, <b>H</b>) Calbindin<sup>+</sup> Renshaw cells (blue) are present in control cords (<b>E</b>, arrow) but not in V1 IN-ablated cords (<b>F</b>). (<b>G</b>, <b>H</b>) Chx10<sup>+</sup> V2a INs are present in normal numbers following V1 IN-ablation. (<b>I</b>, <b>J</b>) Hematoxylin-eosin staining reveals no evidence of widespread neuronal cell loss or gliosis. (<b>K</b>, <b>L</b>) CD86<sup>+</sup> microglia were occasionally observed in close proximity to V1 cell debris (arrowhead). (<b>M</b>\u2013<b>P</b>) Motor neurons are spared at both cervical (<b>M</b>, <b>N</b>) and lumbar (<b>O</b>, <b>P</b>) levels following ablation of the V2b INs. (<b>Q</b>, <b>R</b>) V2b INs (green) are specifically deleted in V2b IN-ablated mice (<b>R</b>) while V0c neurons (red) are spared. (<b>S</b>, <b>T</b>) Chx10<sup>+</sup> V2a INs are present in normal numbers following V2b IN-ablation. (<b>U</b>, <b>V</b>) Hematoxylin-eosin staining. (<b>W</b>, <b>X</b>) Localized CD86 expression (red) in lamina VII is associated with dying V2b INs (green)."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig2-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-v1.tif", 
+                                            "size": {
+                                                "width": 3497, 
+                                                "height": 2819
+                                            }
+                                        }
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3497, 
-                                        "height": 2819
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-v1.tif", 
-                                    "filename": "elife-04718-fig2-v1.tif"
-                                }, 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.04718.005", 
                                         "id": "fig2s1", 
-                                        "label": "Figure 2\u2014figure supplement 1.", 
+                                        "label": "Figure 2\u2014figure supplement 1", 
                                         "title": "Selective ablation of ventral calbindin-expressing neurons.", 
                                         "caption": [
                                             {
@@ -870,19 +876,14 @@
                                                 "filename": "elife-04718-fig2-figsupp1-v1.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-figsupp1-v1.tif", 
                                             "size": {
                                                 "width": 3148, 
                                                 "height": 2591
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig2-figsupp1-v1.tif", 
-                                            "filename": "elife-04718-fig2-figsupp1-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig2-figsupp1-v1.tif", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig2-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
@@ -904,66 +905,70 @@
                                 "text": "When DTX was administered to postnatal <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>Mapt</i><sup>ds-DTR</sup> pups, it produced a strong hyperflexion phenotype within 3\u20134 days (<a href=\"#fig3\">Figure 3</a>). Whereas control P7 pups flexed and extended their hindlimbs when suspended by their tails (<a href=\"#fig3\">Figure 3A</a>), the hindlimbs of P7 DTX-treated <i>En1</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>Mapt</i><sup>ds-DTR</sup> V1 IN-ablated pups remained flexed (<a href=\"#fig3\">Figure 3B</a>), even though their forelimbs were able to extend and display a full range of stepping movements (<a href=\"#fig3\">Figure 3B</a>, asterisk). In contrast to control mice and V1 IN-ablated mice, P7 <i>Gata3</i><sup>Cre</sup>; <i>Cdx2-FlpO</i>; <i>Mapt</i><sup>ds-DTR</sup> V2b IN-ablated mice maintained their hindlimbs in an extended state when suspended by their tail (<a href=\"#fig3\">Figure 3C</a>), even though they were still able to flex and extend their forelimbs."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.04718.006", 
-                                "id": "fig3", 
-                                "label": "Figure 3.", 
-                                "title": "Mice lacking V1 and V2b INs show abnormal hindlimb movements.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Time-lapse sequence images showing the hindlimb movements of P7 mice suspended by their tails. Mice were photographed 4 days after DTX treatment. The genotypes of the mice are indicated. Control mice were littermates that lacked the <i>Cdx2-FlpO</i> allele. (<b>A</b>) Control mice are able to flex (arrowheads) and extend (arrow) their hindlimbs when suspended by their tail. (<b>B</b>) Following the ablation of V1 INs, P7 mice lose their ability to extend their hindlimbs, which remain clasped to the body in a flexed position (arrowheads). The forelimbs of these mice are able to undergo extension movements (asterisk). (<b>C</b>) Ablation of V2b INs leads to pronounced extension of the hindlimbs (arrows) and impairment of hindlimb flexion movements."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.04718.006", 
+                                        "id": "fig3", 
+                                        "label": "Figure 3", 
+                                        "title": "Mice lacking V1 and V2b INs show abnormal hindlimb movements.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Time-lapse sequence images showing the hindlimb movements of P7 mice suspended by their tails. Mice were photographed 4 days after DTX treatment. The genotypes of the mice are indicated. Control mice were littermates that lacked the <i>Cdx2-FlpO</i> allele. (<b>A</b>) Control mice are able to flex (arrowheads) and extend (arrow) their hindlimbs when suspended by their tail. (<b>B</b>) Following the ablation of V1 INs, P7 mice lose their ability to extend their hindlimbs, which remain clasped to the body in a flexed position (arrowheads). The forelimbs of these mice are able to undergo extension movements (asterisk). (<b>C</b>) Ablation of V2b INs leads to pronounced extension of the hindlimbs (arrows) and impairment of hindlimb flexion movements."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig3-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig3-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig3-v1.tif", 
+                                            "size": {
+                                                "width": 3497, 
+                                                "height": 2687
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig3-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-04718-fig3-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3497, 
-                                        "height": 2687
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig3-v1.tif", 
-                                    "filename": "elife-04718-fig3-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig3-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
                                 "text": "We then analyzed the hindlimb locomotor movements of DTX-treated mice that were induced to airstep by subcutaneous injection with L-DOPA. Kinematic analysis revealed strong rhythmic stepping in both the forelimbs and hindlimbs of control animals (<a href=\"#fig4\">Figure 4</a>). By contrast, V1 IN-ablated animals displayed very little hindlimb movement, in contrast to the forelimbs that showed a normal range of motion. The hindlimbs of V1 IN-ablated animals, while occasionally displaying small rhythmic twitches (<a href=\"#fig4\">Figure 4B</a>, asterisks), remained flexed during stepping (see <a href=\"#fig4\">Figure 4A</a>, middle panel, arrowheads). Moreover, the maximal opening of the ankle joint in these animals was less than 80\u00b0 compared to 145\u00b0 for control animals (<a href=\"#fig4\">Figure 4B,C</a>). In those instances where ankle joint did partially open, the overall change in angle was reduced from 90\u00b0 to less than 30\u00b0 (<a href=\"#fig4\">Figure 4C</a>)."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.04718.007", 
-                                "id": "fig4", 
-                                "label": "Figure 4.", 
-                                "title": "Juvenile mice lacking V1 and V2b INs display abnormal hindlimb movements.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Images of airstepping P7 animals following DTX injection. Flexed limbs are depicted with black arrowheads and extended limbs with white arrows. Control animals (left) flex and extend their hindlimbs. The hindlimbs of V1 IN-ablated animals (middle) remain flexed and those of V2b IN-ablated mice (right) are fully extended. (<b>B</b>) Traces showing the change in ankle (top) and elbow (bottom) joint angle during 5 s of airstepping. Deletion of V1 and V2b INs impairs movement of the ankle joint, whereas rhythmic movements are maintained for the elbow joint. Small rhythmic variations of the ankle joint angle occur in phase with movements of the elbow joint angle (asterisks). (<b>C</b>) Measured changes in joint movement showing the amplitude change (left), the maximal joint angle (filled symbol) and the minimal joint angle (open symbol) joint angle (right). The mean and s.d. is shown for 24 consecutive steps (n = 3 animals for each genotype)."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.04718.007", 
+                                        "id": "fig4", 
+                                        "label": "Figure 4", 
+                                        "title": "Juvenile mice lacking V1 and V2b INs display abnormal hindlimb movements.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Images of airstepping P7 animals following DTX injection. Flexed limbs are depicted with black arrowheads and extended limbs with white arrows. Control animals (left) flex and extend their hindlimbs. The hindlimbs of V1 IN-ablated animals (middle) remain flexed and those of V2b IN-ablated mice (right) are fully extended. (<b>B</b>) Traces showing the change in ankle (top) and elbow (bottom) joint angle during 5 s of airstepping. Deletion of V1 and V2b INs impairs movement of the ankle joint, whereas rhythmic movements are maintained for the elbow joint. Small rhythmic variations of the ankle joint angle occur in phase with movements of the elbow joint angle (asterisks). (<b>C</b>) Measured changes in joint movement showing the amplitude change (left), the maximal joint angle (filled symbol) and the minimal joint angle (open symbol) joint angle (right). The mean and s.d. is shown for 24 consecutive steps (n = 3 animals for each genotype)."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig4-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig4-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig4-v1.tif", 
+                                            "size": {
+                                                "width": 3497, 
+                                                "height": 2910
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig4-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-04718-fig4-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3497, 
-                                        "height": 2910
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig4-v1.tif", 
-                                    "filename": "elife-04718-fig4-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig4-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
@@ -974,66 +979,70 @@
                                 "text": "To delve more deeply into the nature of the motor deficits that underlie the opposing motor phenotypes that arise when V1 and V2b INs are ablated, fine EMG recording electrodes were implanted unilaterally in the tibialis anterior (TA) and gastrocnemius (GS) muscles to measure ankle flexor and extensor motor activity during L-DOPA-induced air-stepping. Control mice displayed a regular alternating pattern of EMG activity in both muscles (<a href=\"#fig5\">Figure 5A</a>) in which there was little or no overlap in TA and GS burst activity. This profile of TA-flexor and GS-extensor activity in control P7 mice is very similar to that seen in adult mice (see also <a href=\"#fig6\">Figure 6</a>), where longer duration GS bursts are interspersed with short TA bursts. The GS extensor phase was also seen to increase proportionately with longer step periods, while the TA flexor burst period was constant across all stepping speeds (<a href=\"#fig5\">Figure 5A,D</a>). This is in strong agreement with previous studies performed in rodents and cats (<a href=\"#bib26\">Grillner, 1975</a>; <a href=\"#bib31\">Halbertsma, 1983</a>; <a href=\"#bib40\">Juvin et al., 2007</a>; <a href=\"#bib20\">Frigon and Gossard, 2009</a>) showing that changes in duration of the extensor/stance phase are preferentially responsible for lengthening or shortening the step cycle."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.04718.008", 
-                                "id": "fig5", 
-                                "label": "Figure 5.", 
-                                "title": "Altered rhythmic muscle activities during airstepping in the absence of V1 or V2b cells.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) EMG recordings from the tibialis anterior (TA, flexor) and gastrocnemius (GS, extensor) muscles during L-DOPA-induced airstepping. Single deleted bursts are indicated by arrowheads. The asterisk marks a prolonged deletion that encompasses two step cycles. (<b>B</b>) Scatter plots show the relationship between ankle flexor (TA) burst duration and the step cycle period (black dots) and between ankle extensor (GS) burst duration and the step cycle period (gray circles). Each point represents the ratio of burst to step cycle duration for a single step. Control and V2b IN-ablated animals display an extensor dominant pattern, whereas V1 IN-ablated animals show a flexor-phase dominant pattern. Mean slope of regression calculations for each experimental group shows that the step cycle period in control mice (aGS = 0.72) is strongly correlated with GS burst duration, while TA bursts remain relatively constant (aTA = 0.12). The increase in step cycle duration in V1 IN-ablated mice is moderately correlated with flexor phase duration (aTA = 0.46). V2b IN-ablated animals display a pronounced increase in step cycle duration that is very highly correlated with the length of the extensor phase (aGS = 0.96). (<b>C</b>) Quantification of step cycle period, flexor and extensor burst duration for control, V1 IN-ablated and V2b IN-ablated mice. (<b>D</b>) Percentage of skipped bursts/deletions as measured during twelve 10-s periods of locomotor activity (n = 3 animals each)."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.04718.008", 
+                                        "id": "fig5", 
+                                        "label": "Figure 5", 
+                                        "title": "Altered rhythmic muscle activities during airstepping in the absence of V1 or V2b cells.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) EMG recordings from the tibialis anterior (TA, flexor) and gastrocnemius (GS, extensor) muscles during L-DOPA-induced airstepping. Single deleted bursts are indicated by arrowheads. The asterisk marks a prolonged deletion that encompasses two step cycles. (<b>B</b>) Scatter plots show the relationship between ankle flexor (TA) burst duration and the step cycle period (black dots) and between ankle extensor (GS) burst duration and the step cycle period (gray circles). Each point represents the ratio of burst to step cycle duration for a single step. Control and V2b IN-ablated animals display an extensor dominant pattern, whereas V1 IN-ablated animals show a flexor-phase dominant pattern. Mean slope of regression calculations for each experimental group shows that the step cycle period in control mice (aGS = 0.72) is strongly correlated with GS burst duration, while TA bursts remain relatively constant (aTA = 0.12). The increase in step cycle duration in V1 IN-ablated mice is moderately correlated with flexor phase duration (aTA = 0.46). V2b IN-ablated animals display a pronounced increase in step cycle duration that is very highly correlated with the length of the extensor phase (aGS = 0.96). (<b>C</b>) Quantification of step cycle period, flexor and extensor burst duration for control, V1 IN-ablated and V2b IN-ablated mice. (<b>D</b>) Percentage of skipped bursts/deletions as measured during twelve 10-s periods of locomotor activity (n = 3 animals each)."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig5-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig5-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig5-v1.tif", 
+                                            "size": {
+                                                "width": 3488, 
+                                                "height": 4313
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig5-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-04718-fig5-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3488, 
-                                        "height": 4313
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig5-v1.tif", 
-                                    "filename": "elife-04718-fig5-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig5-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.04718.009", 
-                                "id": "fig6", 
-                                "label": "Figure 6.", 
-                                "title": "Mice lacking V1 and V2b INs have opposing changes to their gait.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Hindlimb kinematics from control (left), V1 IN-ablated (middle), and V2b IN-ablated (right) mice at 3 weeks post DTX injection, by which time functional recovery was maximal. (<b>A</b>) Representative stick figure diagrams showing one complete step cycle (swing and stance) for the hindlimb. The arrow (middle) indicates hyperflexion during early swing phase in V1 IN-ablated mice. The arrowhead shows hyperextension of the ankle joint during late stance in V2b IN-ablated mice. (<b>B</b>) Comparison of limb positions at the transition from stance to swing (left), at mid-swing (middle), and at the swing to stance transition (right). (<b>C</b>) Representative angular changes to the ankle joint. The arrows indicate when the foot is lifted (stance to swing) and when the foot is planted (swing to stance). (<b>D</b>, <b>E</b>) Simultaneous EMG recordings of the GS and TA muscles in one leg during walking (<b>D</b>) and swimming (<b>E</b>). The bar in <b>D</b> indicates the expansion in TA activity. The asterisks indicate co-activation of the TA and GS muscles. Note the synchronous activity of both muscles during swimming in V1 IN-ablated mice."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-04718-fig6-v1.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.04718.009", 
+                                        "id": "fig6", 
+                                        "label": "Figure 6", 
+                                        "title": "Mice lacking V1 and V2b INs have opposing changes to their gait.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Hindlimb kinematics from control (left), V1 IN-ablated (middle), and V2b IN-ablated (right) mice at 3 weeks post DTX injection, by which time functional recovery was maximal. (<b>A</b>) Representative stick figure diagrams showing one complete step cycle (swing and stance) for the hindlimb. The arrow (middle) indicates hyperflexion during early swing phase in V1 IN-ablated mice. The arrowhead shows hyperextension of the ankle joint during late stance in V2b IN-ablated mice. (<b>B</b>) Comparison of limb positions at the transition from stance to swing (left), at mid-swing (middle), and at the swing to stance transition (right). (<b>C</b>) Representative angular changes to the ankle joint. The arrows indicate when the foot is lifted (stance to swing) and when the foot is planted (swing to stance). (<b>D</b>, <b>E</b>) Simultaneous EMG recordings of the GS and TA muscles in one leg during walking (<b>D</b>) and swimming (<b>E</b>). The bar in <b>D</b> indicates the expansion in TA activity. The asterisks indicate co-activation of the TA and GS muscles. Note the synchronous activity of both muscles during swimming in V1 IN-ablated mice."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig6-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-v1.tif", 
+                                            "size": {
+                                                "width": 3148, 
+                                                "height": 3837
+                                            }
+                                        }
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3148, 
-                                        "height": 3837
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-v1.tif", 
-                                    "filename": "elife-04718-fig6-v1.tif"
-                                }, 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.04718.010", 
                                         "id": "fig6s1", 
-                                        "label": "Figure 6\u2014figure supplement 1.", 
+                                        "label": "Figure 6\u2014figure supplement 1", 
                                         "title": "Phase relationship between TA and GS EMG activity.", 
                                         "caption": [
                                             {
@@ -1048,21 +1057,18 @@
                                                 "filename": "elife-04718-fig6-figsupp1-v1.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp1-v1.tif", 
                                             "size": {
                                                 "width": 2746, 
                                                 "height": 894
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp1-v1.tif", 
-                                            "filename": "elife-04718-fig6-figsupp1-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-figsupp1-v1.tif", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.04718.011", 
                                         "id": "fig6s2", 
-                                        "label": "Figure 6\u2014figure supplement 2.", 
+                                        "label": "Figure 6\u2014figure supplement 2", 
                                         "title": "Progressive changes in EMG activity following V1 IN ablation.", 
                                         "caption": [
                                             {
@@ -1077,21 +1083,18 @@
                                                 "filename": "elife-04718-fig6-figsupp2-v1.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp2-v1.tif", 
                                             "size": {
                                                 "width": 3148, 
                                                 "height": 2221
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp2-v1.tif", 
-                                            "filename": "elife-04718-fig6-figsupp2-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-figsupp2-v1.tif", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.04718.012", 
                                         "id": "fig6s3", 
-                                        "label": "Figure 6\u2014figure supplement 3.", 
+                                        "label": "Figure 6\u2014figure supplement 3", 
                                         "title": "Altered limb and body movements in mice lacking V1 INs.", 
                                         "caption": [
                                             {
@@ -1106,19 +1109,14 @@
                                                 "filename": "elife-04718-fig6-figsupp3-v1.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp3-v1.tif", 
                                             "size": {
                                                 "width": 3148, 
                                                 "height": 2003
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig6-figsupp3-v1.tif", 
-                                            "filename": "elife-04718-fig6-figsupp3-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-figsupp3-v1.tif", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig6-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
@@ -1178,66 +1176,70 @@
                                 "text": "The weakening of ankle extensor inhibition in V2b IN-ablated mice, as indicated by ectopic GS burst activity during the swing phase of the step cycle and hyperextension of the ankle during walking (<a href=\"#fig6\">Figure 6</a>), led us to ask whether V2b INs preferentially inhibit extensor\u2013motor activity. To test this, we took advantage of the neonatal spinal cord preparation, which can be induced to produce fictive locomotion in vitro (<a href=\"#fig7\">Figure 7A</a>, <a href=\"#bib41\">Kiehn, 2006</a>; <a href=\"#bib25\">Goulding, 2009</a>) and is amenable to optogenetic manipulation (<a href=\"#bib30\">Hagglund et al., 2010</a>). Spinal cords from P0-P1 <i>Gata3</i><sup>Cre</sup>; <i>R26</i><sup>lsl-ChR2</sup> (<i>Ai32</i>) pups displayed a characteristic alternating pattern of L2 flexor-related and L5 extensor-related locomotor rhythm in the presence of NMDA and 5-HT (<a href=\"#fig7\">Figure 7B\u2013D</a>, n = 6/6 cords). However, upon activating channelrhodopsin in V2b INs, there was a strong and highly selective decrease in extensor-related motor activity as measured by extracellular recordings from the L5 ventral root (<a href=\"#fig7\">Figure 7B\u2013D</a>, bar). By contrast, L2 flexor-related motor activity remained largely unchanged following V2b IN activation, although there was some disturbance in the coherence of the motor rhythm. Activation of V1 INs had a more pronounced effect on the motor rhythm, in that it completely suppressed L2 flexor-related and L5 extensor-related rhythmic bursting (<a href=\"#fig7\">Figure 7E</a>, bar, n = 5/5 cords). This is likely to be due to the activation of Renshaw cells, which are known to strongly inhibit motor neurons (<a href=\"#bib73\">Windhorst, 1996</a>; <a href=\"#bib8\">Bhumbra et al., 2014</a>). In summary, the suppression of extensor-related L5 motor activity in the in vitro spinal cord preparation when V2b INs are activated provides strong evidence that V2b INs can functionally inhibit extensor-related motor activity during locomotion. This finding is consistent with the expansion of extensor motor neuron activity that we see following V2b IN ablation (<a href=\"#fig5\">Figures 5, 6</a>)."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.04718.015", 
-                                "id": "fig7", 
-                                "label": "Figure 7.", 
-                                "title": "Effect of optogenetic activation of V2b and V1 INs on in vitro locomotion.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Schematic showing the in vitro recording setup used for the localized light activation of ChR2 in V1 and V2b INs. (<b>B</b>\u2013<b>D</b>) Representative ENG recordings from a P0 <i>Gata3</i><sup>Cre</sup>; <i>R26</i><sup>lsl-ChR2</sup> (<i>Ai32</i>) spinal cord showing the suppression of L5 extensor-related activity in the presence of blue light photostimulation (blue bar). The lumbar levels that were photostimulated are indicated as upper (L1\u2013L2), mid (L3\u2013L4), and lower (L5\u2013L6). (<b>E</b>) Representative recording from a P0 <i>En1</i><sup>Cre</sup>; <i>R26</i><sup>lsl-ChR2</sup> (<i>Ai32</i>) spinal cord showing suppression of L2 and L5 ventral root activity following photostimulation of V1 INs at L3\u2013L4. Upper traces represent the raw filtered ENG recordings. Lower traces display the matching online rectified ENG signal."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.04718.015", 
+                                        "id": "fig7", 
+                                        "label": "Figure 7", 
+                                        "title": "Effect of optogenetic activation of V2b and V1 INs on in vitro locomotion.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Schematic showing the in vitro recording setup used for the localized light activation of ChR2 in V1 and V2b INs. (<b>B</b>\u2013<b>D</b>) Representative ENG recordings from a P0 <i>Gata3</i><sup>Cre</sup>; <i>R26</i><sup>lsl-ChR2</sup> (<i>Ai32</i>) spinal cord showing the suppression of L5 extensor-related activity in the presence of blue light photostimulation (blue bar). The lumbar levels that were photostimulated are indicated as upper (L1\u2013L2), mid (L3\u2013L4), and lower (L5\u2013L6). (<b>E</b>) Representative recording from a P0 <i>En1</i><sup>Cre</sup>; <i>R26</i><sup>lsl-ChR2</sup> (<i>Ai32</i>) spinal cord showing suppression of L2 and L5 ventral root activity following photostimulation of V1 INs at L3\u2013L4. Upper traces represent the raw filtered ENG recordings. Lower traces display the matching online rectified ENG signal."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig7-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig7-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig7-v1.tif", 
+                                            "size": {
+                                                "width": 3148, 
+                                                "height": 1972
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig7-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-04718-fig7-v1.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3148, 
-                                        "height": 1972
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig7-v1.tif", 
-                                    "filename": "elife-04718-fig7-v1.tif"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig7-v1.tif", 
-                                "alt": ""
+                                ]
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.04718.013", 
-                                "id": "fig8", 
-                                "label": "Figure 8.", 
-                                "title": "Biased V1 and V2b connections onto flexor- and extensor-related motor neurons.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Schematic of experimental design used for labeling V1 and V2b inhibitory contacts on specific motor pools. Motor neurons (MNs) were retrogradely labeled by injecting Cy5-CTB into individual hindlimb muscles at P11. Interneuron class-specific contacts were labeled with a conditional <i>Thy1</i><sup>lsl-YFP</sup> reporter allele (green) and inhibitory contacts were detected with antibodies to vGAT and GlyT2 (red). (<b>B</b>) Putative V1- and V2b-derived inhibitory contacts (vGAT/GlyT2 (red) and Thy1-YFP reporter (green)) onto CTB-labeled TA and GS motor neurons (blue). Filled arrowheads indicate examples of inhibitory synaptic terminals that co-localize with YFP. YFP-negative inhibitory contacts are marked with open arrowheads. (<b>C</b>) Quantification of V1- or V2b-IN-derived inhibitory contacts on the soma/proximal dendrites of defined hindlimb motor neurons (n = 12 motor neurons per pool). A greater number of putative V1 IN inhibitory synapses contact flexor motor neuron pools as compared to their antagonist extensor-related motor pools. In contrast, V2b-derived contacts represent a greater proportion of the inhibitory synapses onto extensor-related motor neurons as compared to antagonist flexor-related motor neurons. Abbreviations: GS, gastrocnemius; TA, tibialis anterior. Error bars: mean \u00b1 s.d."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-v1.tif/full/full/0/default.jpg", 
-                                        "filename": "elife-04718-fig8-v1.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.04718.013", 
+                                        "id": "fig8", 
+                                        "label": "Figure 8", 
+                                        "title": "Biased V1 and V2b connections onto flexor- and extensor-related motor neurons.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Schematic of experimental design used for labeling V1 and V2b inhibitory contacts on specific motor pools. Motor neurons (MNs) were retrogradely labeled by injecting Cy5-CTB into individual hindlimb muscles at P11. Interneuron class-specific contacts were labeled with a conditional <i>Thy1</i><sup>lsl-YFP</sup> reporter allele (green) and inhibitory contacts were detected with antibodies to vGAT and GlyT2 (red). (<b>B</b>) Putative V1- and V2b-derived inhibitory contacts (vGAT/GlyT2 (red) and Thy1-YFP reporter (green)) onto CTB-labeled TA and GS motor neurons (blue). Filled arrowheads indicate examples of inhibitory synaptic terminals that co-localize with YFP. YFP-negative inhibitory contacts are marked with open arrowheads. (<b>C</b>) Quantification of V1- or V2b-IN-derived inhibitory contacts on the soma/proximal dendrites of defined hindlimb motor neurons (n = 12 motor neurons per pool). A greater number of putative V1 IN inhibitory synapses contact flexor motor neuron pools as compared to their antagonist extensor-related motor pools. In contrast, V2b-derived contacts represent a greater proportion of the inhibitory synapses onto extensor-related motor neurons as compared to antagonist flexor-related motor neurons. Abbreviations: GS, gastrocnemius; TA, tibialis anterior. Error bars: mean \u00b1 s.d."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-v1.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-04718-fig8-v1.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-v1.tif", 
+                                            "size": {
+                                                "width": 3148, 
+                                                "height": 3727
+                                            }
+                                        }
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3148, 
-                                        "height": 3727
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-v1.tif", 
-                                    "filename": "elife-04718-fig8-v1.tif"
-                                }, 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.04718.014", 
                                         "id": "fig8s1", 
-                                        "label": "Figure 8\u2014figure supplement 1.", 
+                                        "label": "Figure 8\u2014figure supplement 1", 
                                         "title": "Axonal projections of V1 and V2b INs.", 
                                         "caption": [
                                             {
@@ -1252,19 +1254,14 @@
                                                 "filename": "elife-04718-fig8-figsupp1-v1.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-figsupp1-v1.tif", 
                                             "size": {
                                                 "width": 3148, 
                                                 "height": 2640
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:04718/elife-04718-fig8-figsupp1-v1.tif", 
-                                            "filename": "elife-04718-fig8-figsupp1-v1.tif"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig8-figsupp1-v1.tif", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/04718/elife-04718-fig8-v1.tif", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }, 

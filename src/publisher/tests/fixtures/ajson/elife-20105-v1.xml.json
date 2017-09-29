@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20105-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-20105-v1.xml"
         }, 
         "-history": {
             "received": "2016-07-27T00:00:00Z", 
@@ -17,13 +17,13 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.20105", 
-        "authorLine": "Neel H Shah et al", 
+        "authorLine": "Neel H Shah et al.", 
         "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
         "published": "2016-10-04T00:00:00Z", 
         "versionDate": "2016-10-04T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e20105", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20105/elife-20105-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20105/elife-20105-v1.pdf", 
         "subjects": [
             {
                 "id": "biophysics-structural-biology", 
@@ -48,7 +48,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20105-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-20105-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -60,13 +60,13 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.20105", 
-        "authorLine": "Neel H Shah et al", 
+        "authorLine": "Neel H Shah et al.", 
         "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", 
         "published": "2016-10-04T00:00:00Z", 
         "versionDate": "2016-10-04T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e20105", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20105/elife-20105-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20105/elife-20105-v1.pdf", 
         "subjects": [
             {
                 "id": "biophysics-structural-biology", 
@@ -90,7 +90,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Shah et al", 
+            "holder": "Shah et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -120,7 +120,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -147,7 +147,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -174,7 +174,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -202,7 +202,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -230,7 +230,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -258,7 +258,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -286,7 +286,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -314,7 +314,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -343,7 +343,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -418,6 +418,13 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Arthur Weiss", 
+                                "index": "Weiss, Arthur"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "John Kuriyan", 
                                 "index": "Kuriyan, John"
                             }
@@ -454,6 +461,13 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Qi Wang", 
+                                "index": "Wang, Qi"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Qingrong Yan", 
                                 "index": "Yan, Qingrong"
                             }
@@ -466,10 +480,16 @@
         "additionalFiles": [
             {
                 "mediaType": "application/zip", 
-                "uri": "https://publishing-cdn.elifesciences.org/20105/elife-20105-supp-v1.zip", 
+                "uri": "https://cdn.elifesciences.org/articles/20105/elife-20105-supp-v1.zip", 
                 "filename": "elife-20105-supp-v1.zip", 
                 "id": "SD1-data", 
-                "title": "Supplementary file 1."
+                "label": "All additional files", 
+                "caption": [
+                    {
+                        "text": "Any figure supplements, source code, source data, videos or supplementary files associated with this article are contained within this zip.", 
+                        "type": "paragraph"
+                    }
+                ]
             }
         ], 
         "stage": "published", 

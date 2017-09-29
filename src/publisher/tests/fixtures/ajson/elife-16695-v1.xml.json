@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-16695-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-16695-v1.xml"
         }, 
         "-history": {
             "received": "2016-04-06T00:00:00Z", 
@@ -17,13 +17,13 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
-        "authorLine": "Arisa Hirano et al", 
+        "authorLine": "Arisa Hirano et al.", 
         "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
         "published": "2016-08-16T00:00:00Z", 
         "versionDate": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 
-        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v1.pdf", 
         "subjects": [
             {
                 "id": "human-biology-medicine", 
@@ -49,7 +49,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-16695-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-16695-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -61,13 +61,13 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
-        "authorLine": "Arisa Hirano et al", 
+        "authorLine": "Arisa Hirano et al.", 
         "title": "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", 
         "published": "2016-08-16T00:00:00Z", 
         "versionDate": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 
-        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v1.pdf", 
         "subjects": [
             {
                 "id": "human-biology-medicine", 
@@ -92,7 +92,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Hirano et al", 
+            "holder": "Hirano et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -122,7 +122,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -150,7 +150,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -178,7 +178,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -206,7 +206,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -234,7 +234,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -263,7 +263,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -292,7 +292,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -320,7 +320,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -348,7 +348,7 @@
                         }
                     }
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -411,7 +411,7 @@
                 "emailAddresses": [
                     "ying-hui.fu@ucsf.edu"
                 ], 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }
         ], 
         "reviewers": [
@@ -512,10 +512,16 @@
         "additionalFiles": [
             {
                 "mediaType": "application/zip", 
-                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-supp-v1.zip", 
+                "uri": "https://cdn.elifesciences.org/articles/16695/elife-16695-supp-v1.zip", 
                 "filename": "elife-16695-supp-v1.zip", 
                 "id": "SD1-data", 
-                "title": "Supplementary file 1."
+                "label": "All additional files", 
+                "caption": [
+                    {
+                        "text": "Any figure supplements, source code, source data, videos or supplementary files associated with this article are contained within this zip.", 
+                        "type": "paragraph"
+                    }
+                ]
             }
         ], 
         "stage": "published", 
