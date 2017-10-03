@@ -84,7 +84,7 @@ def valid(merge_result, quiet=True):
 
     except ValidationError as err:
         # definitely not valid ;)
-        LOG.error("while validating %s v%s with %s, failed to validate with error: %s", msid, version, schema, err.message)
+        LOG.info("while validating %s v%s with %s, failed to validate with error: %s", msid, version, schema, err.message)
         if not quiet:
             raise
 

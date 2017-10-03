@@ -33,14 +33,14 @@ class Command(BaseCommand):
         safe_title = slugify(q.title)
 
         # ll: query1--dummy-query.csv
-        daily_fname = 'query%s--%s.csv' % (q.id, safe_title) 
-        
-        # ll: query1--dummy-query--2016-01-31-23-59-59.csv        
+        daily_fname = 'query%s--%s.csv' % (q.id, safe_title)
+
+        # ll: query1--dummy-query--2016-01-31-23-59-59.csv
         timestamped_fname = 'query%s--%s--%s.csv' % (q.id, safe_title, date.today().strftime('%Y-%m-%d-%H-%M-%S'))
 
         res = exporter.query.execute_query_only()
         data = exporter._get_output(res)
-        
+
         for fname in [daily_fname, timestamped_fname]:
             if upload and settings.EXPLORER_S3_BUCKET:
                 LOG.info("uploading snapshot: %s", fname)
