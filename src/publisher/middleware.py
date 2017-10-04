@@ -33,7 +33,7 @@ def visit_target(content, transformer):
     def pred(element):
         "returns True if given element is a target for transformation"
         if isinstance(element, dict):
-            return 'additionalFiles' in element or element.get('type') == 'figure'
+            return 'additionalFiles' in element or element.get('type') == 'sourceData'
 
     def fn(element):
         "transforms element's contents into something valid"
