@@ -50,7 +50,6 @@ def downgrade(content):
         if not 'title' in item:
             if 'label' in item:
                 item['title'] = item['label']
-                del item['label'] # good idea?
             else:
                 # what title do we assign if we have no label?
                 pass
