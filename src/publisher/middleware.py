@@ -47,12 +47,15 @@ def visit_target(content, transformer):
 def downgrade(content):
     "returns v1-compliant content"
     def transformer(item):
-        if not 'title' in item:
-            if 'label' in item:
+        if not 'title' in item: # it's a v2, as in v1 `title` is required for all assets
+            if 'label' in item: # this must always be true, as in v2 `label` is required for all assets
                 item['title'] = item['label']
-                del item['label'] # good idea?
+                # but we should do this only if the asset
+                # is not from a figure:
+                del item['label']
+                # figure assets have the additional requirement of requiring both `label` and `title`
             else:
-                # what title do we assign if we have no label?
+                # TODO: throw exception
                 pass
         return item
     return visit_target(content, transformer)
@@ -60,9 +63,9 @@ def downgrade(content):
 def upgrade(content):
     "returns v2-compliant content"
     def transformer(item):
-        if not 'label' in item:
-            item['label'] = item['title']
-            del item['title']
+        if not 'label' in item: # it's a v1, as in v2 `label` is required for all assets
+            item['label'] = item['title'] # this is how we fill it in, as in v1 `title` is required for all assets
+            del item['title'] # in v2 `title` is never required, so we can safely strip it
         return item
     return visit_target(content, transformer)
 
