@@ -1,0 +1,253 @@
+{
+    "journal": {
+        "id": "eLife", 
+        "title": "eLife", 
+        "issn": "2050-084X"
+    }, 
+    "snippet": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-21393-v1.xml"
+        }, 
+        "-history": {
+            "received": "2016-09-12T00:00:00Z", 
+            "accepted": "2016-11-11T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "21393", 
+        "version": 1, 
+        "type": "feature", 
+        "doi": "10.7554/eLife.21393", 
+        "authorLine": "Kenneth D Gibbs et al.", 
+        "title": "Decoupling of the minority PhD talent pool and assistant professor hiring in medical school basic science departments in the US", 
+        "published": "2016-11-17T00:00:00Z", 
+        "versionDate": "2016-11-17T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e21393", 
+        "pdf": "https://cdn.elifesciences.org/articles/21393/elife-21393-v1.pdf", 
+        "subjects": [
+            {
+                "id": "epidemiology-global-health", 
+                "name": "Epidemiology and Global Health"
+            }, 
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Faculty diversity is a longstanding challenge in the US. However, we lack a quantitative and systemic understanding of how the career transitions into assistant professor positions of Ph.D. scientists from underrepresented minority (URM) and well-represented (WR) racial/ethnic backgrounds compare. Between 1980 and 2013, the number of PhD graduates from URM backgrounds increased by a factor of 9.3, compared with a 2.6-fold increase in the number of PhD graduates from WR groups. However, the number of scientists from URM backgrounds hired as assistant professors in medical school basic science departments was not related to the number of potential candidates (R2=0.12, p&gt;0.07), whereas there was a strong correlation between these two numbers for scientists from WR backgrounds (R2=0.48, p&lt;0.0001). We built and validated a conceptual system dynamics model based on these data that explained 79% of the variance in the hiring of assistant professors and posited no hiring discrimination. Simulations show that, given current transition rates of scientists from URM backgrounds to faculty positions, faculty diversity would not increase significantly through the year 2080 even in the context of an exponential growth in the population of PhD graduates from URM backgrounds, or significant increases in the number of faculty positions. Instead, the simulations showed that diversity increased as more postdoctoral candidates from URM backgrounds transitioned onto the market and were hired."
+                }
+            ]
+        }
+    }, 
+    "article": {
+        "-meta": {
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-21393-v1.xml", 
+            "patched": true
+        }, 
+        "-history": {
+            "received": "2016-09-12T00:00:00Z", 
+            "accepted": "2016-11-11T00:00:00Z"
+        }, 
+        "status": "poa", 
+        "id": "21393", 
+        "version": 1, 
+        "type": "feature", 
+        "doi": "10.7554/eLife.21393", 
+        "authorLine": "Kenneth D Gibbs et al.", 
+        "title": "Decoupling of the minority PhD talent pool and assistant professor hiring in medical school basic science departments in the US", 
+        "published": "2016-11-17T00:00:00Z", 
+        "versionDate": "2016-11-17T00:00:00Z", 
+        "volume": 5, 
+        "elocationId": "e21393", 
+        "pdf": "https://cdn.elifesciences.org/articles/21393/elife-21393-v1.pdf", 
+        "subjects": [
+            {
+                "id": "epidemiology-global-health", 
+                "name": "Epidemiology and Global Health"
+            }, 
+            {
+                "id": "human-biology-medicine", 
+                "name": "Human Biology and Medicine"
+            }
+        ], 
+        "abstract": {
+            "content": [
+                {
+                    "type": "paragraph", 
+                    "text": "Faculty diversity is a longstanding challenge in the US. However, we lack a quantitative and systemic understanding of how the career transitions into assistant professor positions of Ph.D. scientists from underrepresented minority (URM) and well-represented (WR) racial/ethnic backgrounds compare. Between 1980 and 2013, the number of PhD graduates from URM backgrounds increased by a factor of 9.3, compared with a 2.6-fold increase in the number of PhD graduates from WR groups. However, the number of scientists from URM backgrounds hired as assistant professors in medical school basic science departments was not related to the number of potential candidates (R2=0.12, p&gt;0.07), whereas there was a strong correlation between these two numbers for scientists from WR backgrounds (R2=0.48, p&lt;0.0001). We built and validated a conceptual system dynamics model based on these data that explained 79% of the variance in the hiring of assistant professors and posited no hiring discrimination. Simulations show that, given current transition rates of scientists from URM backgrounds to faculty positions, faculty diversity would not increase significantly through the year 2080 even in the context of an exponential growth in the population of PhD graduates from URM backgrounds, or significant increases in the number of faculty positions. Instead, the simulations showed that diversity increased as more postdoctoral candidates from URM backgrounds transitioned onto the market and were hired."
+                }
+            ]
+        }, 
+        "copyright": {
+            "license": "CC0-1.0", 
+            "statement": "This is an open-access article, free of all copyright, and may be freely reproduced, distributed, transmitted, modified, built upon, or otherwise used by anyone for any lawful purpose. The work is made available under the <a href=\"http://creativecommons.org/publicdomain/zero/1.0/\">Creative Commons CC0</a> public domain dedication."
+        }, 
+        "authors": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Kenneth D Gibbs", 
+                    "index": "Gibbs, Kenneth D"
+                }, 
+                "orcid": "0000-0002-3532-5396", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Office of Program Planning, Analysis and Evaluation", 
+                            "National Institute of General Medical Sciences"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Bethesda", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Bethesda"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "emailAddresses": [
+                    "kgibbsjr@gmail.com"
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Jacob Basson", 
+                    "index": "Basson, Jacob"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Office of Program Planning, Analysis and Evaluation", 
+                            "National Institute of General Medical Sciences"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Bethesda", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Bethesda"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Imam Xierali", 
+                    "index": "Xierali, Imam"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Public Health and Diversity Initiative", 
+                            "Association of American Medical Colleges"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Washington", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Washington"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }, 
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "David A Broniatowski", 
+                    "index": "Broniatowski, David A"
+                }, 
+                "affiliations": [
+                    {
+                        "name": [
+                            "Department of Engineering Management and Systems Engineering", 
+                            "The George Washington University"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "Washington", 
+                                "United States"
+                            ], 
+                            "components": {
+                                "locality": [
+                                    "Washington"
+                                ], 
+                                "country": "United States"
+                            }
+                        }
+                    }
+                ], 
+                "competingInterests": "The authors declare that no competing interests exist."
+            }
+        ], 
+        "reviewers": [
+            {
+                "type": "person", 
+                "name": {
+                    "preferred": "Peter Rodgers", 
+                    "index": "Rodgers, Peter"
+                }, 
+                "role": "Reviewing Editor", 
+                "affiliations": [
+                    {
+                        "name": [
+                            "eLife"
+                        ], 
+                        "address": {
+                            "formatted": [
+                                "United Kingdom"
+                            ], 
+                            "components": {
+                                "country": "United Kingdom"
+                            }
+                        }
+                    }
+                ]
+            }
+        ], 
+        "funding": {
+            "statement": "The funders had no role in study design, data collection and interpretation, or the decision to submit the work for publication."
+        }, 
+        "additionalFiles": [
+            {
+                "mediaType": "application/zip", 
+                "uri": "https://cdn.elifesciences.org/articles/21393/elife-21393-supp-v1.zip", 
+                "filename": "elife-21393-supp-v1.zip", 
+                "id": "SD1-data", 
+                "label": "All additional files", 
+                "caption": [
+                    {
+                        "text": "Any figure supplements, source code, source data, videos or supplementary files associated with this article are contained within this zip.", 
+                        "type": "paragraph"
+                    }
+                ]
+            }
+        ], 
+        "stage": "published", 
+        "statusDate": "2099-01-01T00:00:00Z"
+    }
+}

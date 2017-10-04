@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-01968-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-01968-v1.xml"
         }, 
         "status": "vor", 
         "id": "01968", 
@@ -20,7 +20,7 @@
         "versionDate": "2013-12-31T00:00:00Z", 
         "volume": 2, 
         "elocationId": "e01968", 
-        "pdf": "https://publishing-cdn.elifesciences.org/01968/elife-01968-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/01968/elife-01968-v1.pdf", 
         "subjects": [
             {
                 "id": "developmental-biology-stem-cells", 
@@ -78,13 +78,13 @@
                 "emailAddresses": [
                     "j.mattick@garvan.org.au"
                 ], 
-                "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
+                "competingInterests": "The author declares that no competing interests exist."
             }
         ]
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-01968-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-01968-v1.xml", 
             "patched": true
         }, 
         "status": "vor", 
@@ -99,7 +99,7 @@
         "versionDate": "2013-12-31T00:00:00Z", 
         "volume": 2, 
         "elocationId": "e01968", 
-        "pdf": "https://publishing-cdn.elifesciences.org/01968/elife-01968-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/01968/elife-01968-v1.pdf", 
         "subjects": [
             {
                 "id": "developmental-biology-stem-cells", 
@@ -157,7 +157,7 @@
                 "emailAddresses": [
                     "j.mattick@garvan.org.au"
                 ], 
-                "competingInterests": "<label>Competing interests:</label>The author declares that no competing interests exist."
+                "competingInterests": "The author declares that no competing interests exist."
             }
         ], 
         "keywords": [

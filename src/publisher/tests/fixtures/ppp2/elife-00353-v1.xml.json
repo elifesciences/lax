@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-00353-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-00353-v1.xml"
         }, 
         "status": "vor", 
         "id": "00353", 
@@ -72,7 +72,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/944c3f97d1153a08ab23a1860c30e1177895df9e/articles/elife-00353-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-00353-v1.xml", 
             "patched": true
         }, 
         "status": "vor", 
@@ -185,15 +185,15 @@
                                 "filename": "elife-00353-fig1-v1.jpg"
                             }, 
                             "alt": "", 
+                            "attribution": [
+                                "ILLUSTRATION: BEN MARDER"
+                            ], 
                             "uri": "https://prod--cdn-iiif.elifesciences.org/lax:00353/elife-00353-fig1-v1.tif", 
                             "size": {
                                 "width": 797, 
                                 "height": 914
                             }
-                        }, 
-                        "attribution": [
-                            "ILLUSTRATION: BEN MARDER"
-                        ]
+                        }
                     }, 
                     {
                         "type": "paragraph", 

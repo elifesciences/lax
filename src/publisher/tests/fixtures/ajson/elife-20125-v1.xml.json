@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20125-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-20125-v1.xml"
         }, 
         "-history": {
             "received": "2016-07-28T00:00:00Z", 
@@ -17,13 +17,13 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.20125", 
-        "authorLine": "Andrew T Timberlake et al", 
+        "authorLine": "Andrew T Timberlake et al.", 
         "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
         "published": "2016-09-08T00:00:00Z", 
         "versionDate": "2016-09-08T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e20125", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20125/elife-20125-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-v1.pdf", 
         "subjects": [
             {
                 "id": "genes-chromosomes", 
@@ -48,7 +48,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20125-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-20125-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -60,13 +60,13 @@
         "version": 1, 
         "type": "research-article", 
         "doi": "10.7554/eLife.20125", 
-        "authorLine": "Andrew T Timberlake et al", 
+        "authorLine": "Andrew T Timberlake et al.", 
         "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
         "published": "2016-09-08T00:00:00Z", 
         "versionDate": "2016-09-08T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e20125", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20125/elife-20125-v1.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-v1.pdf", 
         "subjects": [
             {
                 "id": "genes-chromosomes", 
@@ -90,7 +90,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Timberlake et al", 
+            "holder": "Timberlake et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -815,6 +815,20 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Kaya Bilguvar", 
+                                "index": "Bilguvar, Kaya"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Irina Tikhonova", 
+                                "index": "Tikhonova, Irina"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Shrikant Mane", 
                                 "index": "Mane, Shrikant"
                             }
@@ -830,6 +844,13 @@
                     }, 
                     "awardId": "M#M156301", 
                     "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Eric D Brooks", 
+                                "index": "Brooks, Eric D"
+                            }
+                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -851,6 +872,13 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Andrew T Timberlake", 
+                                "index": "Timberlake, Andrew T"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Samir Zaidi", 
                                 "index": "Zaidi, Samir"
                             }
@@ -869,6 +897,41 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Andrew T Timberlake", 
+                                "index": "Timberlake, Andrew T"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Jungmin Choi", 
+                                "index": "Choi, Jungmin"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Samir Zaidi", 
+                                "index": "Zaidi, Samir"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Carol Nelson-Williams", 
+                                "index": "Nelson-Williams, Carol"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Erin Loring", 
+                                "index": "Loring, Erin"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Richard P Lifton", 
                                 "index": "Lifton, Richard P"
                             }
@@ -881,10 +944,16 @@
         "additionalFiles": [
             {
                 "mediaType": "application/zip", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp-v1.zip", 
+                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-supp-v1.zip", 
                 "filename": "elife-20125-supp-v1.zip", 
                 "id": "SD1-data", 
-                "title": "Supplementary file 1."
+                "label": "All additional files", 
+                "caption": [
+                    {
+                        "text": "Any figure supplements, source code, source data, videos or supplementary files associated with this article are contained within this zip.", 
+                        "type": "paragraph"
+                    }
+                ]
             }
         ], 
         "dataSets": {

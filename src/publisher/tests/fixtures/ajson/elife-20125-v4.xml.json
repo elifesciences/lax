@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20125-v4.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-20125-v4.xml"
         }, 
         "-history": {
             "received": "2016-07-28T00:00:00Z", 
@@ -17,12 +17,13 @@
         "version": 4, 
         "type": "research-article", 
         "doi": "10.7554/eLife.20125", 
-        "authorLine": "Andrew T Timberlake et al", 
+        "authorLine": "Andrew T Timberlake et al.", 
         "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
         "published": "2016-09-08T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e20125", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20125/elife-20125-v4.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-v4.pdf", 
+        "figuresPdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-figures-v4.pdf", 
         "subjects": [
             {
                 "id": "genes-chromosomes", 
@@ -47,7 +48,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Timberlake et al", 
+            "holder": "Timberlake et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -1001,6 +1002,13 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Andrew T Timberlake", 
+                                "index": "Timberlake, Andrew T"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Samir Zaidi", 
                                 "index": "Zaidi, Samir"
                             }
@@ -1016,6 +1024,41 @@
                         ]
                     }, 
                     "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Andrew T Timberlake", 
+                                "index": "Timberlake, Andrew T"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Jungmin Choi", 
+                                "index": "Choi, Jungmin"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Samir Zaidi", 
+                                "index": "Zaidi, Samir"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Carol Nelson-Williams", 
+                                "index": "Nelson-Williams, Carol"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Erin Loring", 
+                                "index": "Loring, Erin"
+                            }
+                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -1038,6 +1081,13 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Eric D Brooks", 
+                                "index": "Brooks, Eric D"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "John A Persing", 
                                 "index": "Persing, John A"
                             }
@@ -1056,6 +1106,20 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Kaya Bilguvar", 
+                                "index": "Bilguvar, Kaya"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Irina Tikhonova", 
+                                "index": "Tikhonova, Irina"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Shrikant Mane", 
                                 "index": "Mane, Shrikant"
                             }
@@ -1069,7 +1133,7 @@
             {
                 "doi": "10.7554/eLife.20125.023", 
                 "id": "SD5-data", 
-                "label": "Supplementary file 1.", 
+                "label": "Supplementary file 1", 
                 "title": "Supplementary files for \"Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles\".", 
                 "caption": [
                     {
@@ -1078,13 +1142,13 @@
                     }
                 ], 
                 "mediaType": "application/docx", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp1-v4.docx", 
+                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-supp1-v4.docx", 
                 "filename": "elife-20125-supp1-v4.docx"
             }, 
             {
                 "doi": "10.7554/eLife.20125.024", 
                 "id": "SD6-data", 
-                "label": "Supplementary file 2.", 
+                "label": "Supplementary file 2", 
                 "title": "Exome sequencing quality statistics.", 
                 "caption": [
                     {
@@ -1093,16 +1157,16 @@
                     }
                 ], 
                 "mediaType": "application/xlsx", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp2-v4.xlsx", 
+                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-supp2-v4.xlsx", 
                 "filename": "elife-20125-supp2-v4.xlsx"
             }, 
             {
                 "doi": "10.7554/eLife.20125.025", 
                 "id": "SD7-data", 
-                "label": "Source code 1.", 
+                "label": "Source code 1", 
                 "title": "R script for two locus and single locus linkage analyses.", 
                 "mediaType": "application/octet-stream", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-code1-v4.r", 
+                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-code1-v4.r", 
                 "filename": "elife-20125-code1-v4.r"
             }
         ], 
@@ -1219,7 +1283,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-20125-v4.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-20125-v4.xml", 
             "patched": true
         }, 
         "-history": {
@@ -1231,12 +1295,13 @@
         "version": 4, 
         "type": "research-article", 
         "doi": "10.7554/eLife.20125", 
-        "authorLine": "Andrew T Timberlake et al", 
+        "authorLine": "Andrew T Timberlake et al.", 
         "title": "Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles", 
         "published": "2016-09-08T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e20125", 
-        "pdf": "https://publishing-cdn.elifesciences.org/20125/elife-20125-v4.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-v4.pdf", 
+        "figuresPdf": "https://cdn.elifesciences.org/articles/20125/elife-20125-figures-v4.pdf", 
         "subjects": [
             {
                 "id": "genes-chromosomes", 
@@ -1261,7 +1326,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Timberlake et al", 
+            "holder": "Timberlake et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -2215,6 +2280,13 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Andrew T Timberlake", 
+                                "index": "Timberlake, Andrew T"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Samir Zaidi", 
                                 "index": "Zaidi, Samir"
                             }
@@ -2230,6 +2302,41 @@
                         ]
                     }, 
                     "recipients": [
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Andrew T Timberlake", 
+                                "index": "Timberlake, Andrew T"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Jungmin Choi", 
+                                "index": "Choi, Jungmin"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Samir Zaidi", 
+                                "index": "Zaidi, Samir"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Carol Nelson-Williams", 
+                                "index": "Nelson-Williams, Carol"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Erin Loring", 
+                                "index": "Loring, Erin"
+                            }
+                        }, 
                         {
                             "type": "person", 
                             "name": {
@@ -2252,6 +2359,13 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Eric D Brooks", 
+                                "index": "Brooks, Eric D"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "John A Persing", 
                                 "index": "Persing, John A"
                             }
@@ -2270,6 +2384,20 @@
                         {
                             "type": "person", 
                             "name": {
+                                "preferred": "Kaya Bilguvar", 
+                                "index": "Bilguvar, Kaya"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
+                                "preferred": "Irina Tikhonova", 
+                                "index": "Tikhonova, Irina"
+                            }
+                        }, 
+                        {
+                            "type": "person", 
+                            "name": {
                                 "preferred": "Shrikant Mane", 
                                 "index": "Mane, Shrikant"
                             }
@@ -2283,7 +2411,7 @@
             {
                 "doi": "10.7554/eLife.20125.023", 
                 "id": "SD5-data", 
-                "label": "Supplementary file 1.", 
+                "label": "Supplementary file 1", 
                 "title": "Supplementary files for \"Two locus inheritance of non-syndromic midline craniosynostosis via rare <i>SMAD6</i> and common <i>BMP2</i> alleles\".", 
                 "caption": [
                     {
@@ -2292,13 +2420,13 @@
                     }
                 ], 
                 "mediaType": "application/docx", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp1-v4.docx", 
+                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-supp1-v4.docx", 
                 "filename": "elife-20125-supp1-v4.docx"
             }, 
             {
                 "doi": "10.7554/eLife.20125.024", 
                 "id": "SD6-data", 
-                "label": "Supplementary file 2.", 
+                "label": "Supplementary file 2", 
                 "title": "Exome sequencing quality statistics.", 
                 "caption": [
                     {
@@ -2307,16 +2435,16 @@
                     }
                 ], 
                 "mediaType": "application/xlsx", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-supp2-v4.xlsx", 
+                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-supp2-v4.xlsx", 
                 "filename": "elife-20125-supp2-v4.xlsx"
             }, 
             {
                 "doi": "10.7554/eLife.20125.025", 
                 "id": "SD7-data", 
-                "label": "Source code 1.", 
+                "label": "Source code 1", 
                 "title": "R script for two locus and single locus linkage analyses.", 
                 "mediaType": "application/octet-stream", 
-                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-code1-v4.r", 
+                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-code1-v4.r", 
                 "filename": "elife-20125-code1-v4.r"
             }
         ], 
@@ -2483,33 +2611,35 @@
                         "text": "The cranial sutures are not fused at birth, allowing for doubling of brain volume in the first year of life and continued growth through adolescence (<a href=\"#bib29\">Persing et al., 1989</a>). The metopic suture normally closes between 6 and 12 months, while the sagittal, coronal, and lambdoid sutures typically fuse in adulthood (<a href=\"#bib29\">Persing et al., 1989</a>; <a href=\"#bib44\">Weinzweig et al., 2003</a>). Premature fusion of any of these sutures can result in brain compression and suture-specific craniofacial dysmorphism (<a href=\"#fig1\">Figure 1</a>). Studies of syndromic forms of craniosynostosis, each with prevalence of ~1/60,000 to 1/1,000,000 live births and collectively accounting for 15\u201320% of all cases, have implicated mutations in more than 50 genes (<a href=\"#bib40\">Twigg and Wilkie, 2015</a>; <a href=\"#bib10\">Flaherty et al., 2016</a>). For example, mutations that increase MAPK/ERK signaling (e.g. <i>FGFR1-3</i> (<a href=\"#bib40\">Twigg and Wilkie, 2015</a>; <a href=\"#bib10\">Flaherty et al., 2016</a>), <i>ERF</i> [<a href=\"#bib39\">Twigg et al., 2013</a>]) cause rare syndromic coronal or multisuture craniosynostosis, while mutations that perturb SMAD signaling (e.g. <i>TGFBR1/2</i> [<a href=\"#bib21\">Loeys et al., 2005</a>], <i>SKI</i> [<a href=\"#bib7\">Doyle et al., 2012</a>], <i>RUNX2</i> [<a href=\"#bib24\">Mefford et al., 2010</a>; <a href=\"#bib17\">Javed et al., 2008</a>]) cause rare syndromes involving the midline (sagittal and metopic) sutures. While the detailed pathophysiology of premature suture fusion has not been elucidated, aberrant signaling in cranial neural crest cells during craniofacial development has been suggested as a common mechanism (<a href=\"#bib25\">Mishina and Snider, 2014</a>; <a href=\"#bib19\">Komatsu et al., 2013</a>)."
                     }, 
                     {
-                        "type": "image", 
-                        "doi": "10.7554/eLife.20125.003", 
-                        "id": "fig1", 
-                        "label": "Figure 1.", 
-                        "title": "Phenotypes of midline craniosynostosis.", 
-                        "caption": [
+                        "type": "figure", 
+                        "assets": [
                             {
-                                "type": "paragraph", 
-                                "text": "(<b>a</b>) Normal infant skull with patent sagittal (S) and metopic (M) sutures. (<b>b</b>) Three-dimensional reconstruction of computed tomography (3D CT) demonstrating premature fusion of both the sagittal and metopic sutures. (<b>c</b>) A three-month-old boy with sagittal craniosynostosis featuring scaphocephaly (narrow and elongated cranial vault), and frontal bossing. (<b>d</b>) 3D CT reconstruction of a one-month-old boy found to have sagittal craniosynostosis. (<b>e</b>) A six-month-old boy presenting with trigonocephaly (triangulation of the cranial vault, with prominent forehead ridge resulting from premature fusion of the metopic suture) and hypotelorism (abnormally decreased intercanthal distance, also a result of premature fusion of the metopic suture). 3D CT reconstruction demonstrated metopic craniosynostosis. (<b>f</b>) 3D CT reconstruction demonstrating premature fusion of the metopic suture with characteristic trigonocephaly and hypotelorism."
+                                "type": "image", 
+                                "doi": "10.7554/eLife.20125.003", 
+                                "id": "fig1", 
+                                "label": "Figure 1", 
+                                "title": "Phenotypes of midline craniosynostosis.", 
+                                "caption": [
+                                    {
+                                        "type": "paragraph", 
+                                        "text": "(<b>a</b>) Normal infant skull with patent sagittal (S) and metopic (M) sutures. (<b>b</b>) Three-dimensional reconstruction of computed tomography (3D CT) demonstrating premature fusion of both the sagittal and metopic sutures. (<b>c</b>) A three-month-old boy with sagittal craniosynostosis featuring scaphocephaly (narrow and elongated cranial vault), and frontal bossing. (<b>d</b>) 3D CT reconstruction of a one-month-old boy found to have sagittal craniosynostosis. (<b>e</b>) A six-month-old boy presenting with trigonocephaly (triangulation of the cranial vault, with prominent forehead ridge resulting from premature fusion of the metopic suture) and hypotelorism (abnormally decreased intercanthal distance, also a result of premature fusion of the metopic suture). 3D CT reconstruction demonstrated metopic craniosynostosis. (<b>f</b>) 3D CT reconstruction demonstrating premature fusion of the metopic suture with characteristic trigonocephaly and hypotelorism."
+                                    }
+                                ], 
+                                "image": {
+                                    "source": {
+                                        "mediaType": "image/jpeg", 
+                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig1-v4.tif/full/full/0/default.jpg", 
+                                        "filename": "elife-20125-fig1-v4.jpg"
+                                    }, 
+                                    "alt": "", 
+                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig1-v4.tif", 
+                                    "size": {
+                                        "width": 4588, 
+                                        "height": 1672
+                                    }
+                                }
                             }
-                        ], 
-                        "image": {
-                            "source": {
-                                "mediaType": "image/jpeg", 
-                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig1-v4.jpg/full/full/0/default.jpg", 
-                                "filename": "elife-20125-fig1-v4.jpg"
-                            }, 
-                            "alt": "", 
-                            "size": {
-                                "width": 4588, 
-                                "height": 1672
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig1-v4.jpg", 
-                            "filename": "elife-20125-fig1-v4.jpg"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig1-v4.jpg", 
-                        "alt": ""
+                        ]
                     }, 
                     {
                         "type": "paragraph", 
@@ -2536,39 +2666,49 @@
                                 "text": "We identified a total of 144 de novo mutations, providing a de novo mutation rate of 1.64 \u00d7 10<sup>\u20138</sup> per base pair, and 1.09 de novo mutations in the coding region per offspring, consistent with prior experimental results and expectation (<a href=\"#bib42\">Ware et al., 2015</a>; <a href=\"#bib14\">Homsy et al., 2015</a>) (<a href=\"#tbl1\">Table 1</a>). Comparison of the observed distribution of mutation types to the expected from the Poisson distribution demonstrated significant enrichment of protein-altering mutations, predominantly accounted for by an excess of damaging missense mutations (MetaSVM D-mis; 28 observed D-mis compared to 14.5 expected, p=1.0 \u00d7 10<sup>\u20133</sup>, 1.93-fold enrichment), with a corresponding paucity of silent mutations (21 compared to 40.4 expected, p=3.0 \u00d7 10<sup>\u20134</sup>). From the difference in the observed vs. expected number of de novo protein-altering mutations per subject, we infer that these de novo mutations contribute to ~15% of non-syndromic midline craniosynostosis."
                             }, 
                             {
-                                "type": "table", 
-                                "doi": "10.7554/eLife.20125.004", 
-                                "id": "tbl1", 
-                                "label": "Table 1.", 
-                                "title": "Enrichment of protein-altering de novo mutations in 132 subjects with sagittal and/or metopic craniosynostosis", 
-                                "tables": [
-                                    "<table><thead><tr><th></th><th colspan=\"2\">Observed</th><th colspan=\"2\">Expected</th><th>Enrichment</th><th>p-value</th></tr><tr><th>Class</th><th>#</th><th>#/subject</th><th>#</th><th>#/subject</th><th></th><th></th></tr></thead><tbody><tr><td>All mutations</td><td>144</td><td>1.09</td><td>142.8</td><td>1.08</td><td>1.01</td><td>0.47</td></tr><tr><td>Synonymous</td><td>21</td><td>0.16</td><td>40.4</td><td>0.31</td><td>0.52</td><td>3.0 \u00d7 10<sup>\u22124</sup></td></tr><tr><td>Protein altering</td><td>123</td><td>0.93</td><td>102.4</td><td>0.78</td><td>1.17</td><td>0.03</td></tr><tr><td>Total missense</td><td>110</td><td>0.83</td><td>89.7</td><td>0.68</td><td>1.23</td><td>0.02</td></tr><tr><td>T-mis</td><td>82</td><td>0.62</td><td>75.2</td><td>0.57</td><td>1.09</td><td>0.23</td></tr><tr><td>D-mis</td><td>28</td><td>0.21</td><td>14.5</td><td>0.11</td><td>1.93</td><td>1.0 \u00d7 10<sup>\u22123</sup></td></tr><tr><td>Loss of function (LOF)</td><td>13</td><td>0.10</td><td>12.7</td><td>0.10</td><td>1.03</td><td>0.50</td></tr><tr><td>LOF + D-mis</td><td>41</td><td>0.31</td><td>27.1</td><td>0.21</td><td>1.51</td><td>7.8 \u00d7 10<sup>\u22123</sup></td></tr></tbody></table>"
-                                ], 
-                                "footnotes": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "text": [
-                                            {
-                                                "type": "paragraph", 
-                                                "text": "#, number of de novo mutations in 132 subjects; #/subject, number of de novo mutations per subject; Damaging and tolerated missense called by MetaSVM (D-mis, T-mis respectively); Loss of function denotes premature termination, frameshift, or splice site mutation. For mutation classes with enrichment compared to expectation, p-values represent the upper tail of the Poisson probability density function. For mutation classes in which we observed a paucity of mutations compared to expectation, p-values represent the lower tail."
-                                            }
-                                        ]
-                                    }
-                                ], 
-                                "sourceData": [
-                                    {
-                                        "doi": "10.7554/eLife.20125.005", 
-                                        "id": "SD1-data", 
-                                        "label": "Table 1\u2014source data 1.", 
-                                        "title": "De novo mutations in 132 trios with sagittal and/or metopic craniosynostosis.", 
+                                        "type": "table", 
+                                        "doi": "10.7554/eLife.20125.004", 
+                                        "id": "tbl1", 
+                                        "label": "Table 1", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
-                                                "text": "Mutations highlighted in orange are likely loss of function mutations, those highlighted in blue are likely damaging missense mutations (D-mis) as called by MetaSVM, and those without highlight are predicted to be tolerated (T-mis) or are synonymous (syn)."
+                                                "text": "Enrichment of protein-altering de novo mutations in 132 subjects with sagittal and/or metopic craniosynostosis."
                                             }
                                         ], 
-                                        "mediaType": "application/xlsx", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-table1-data1-v4.xlsx", 
-                                        "filename": "elife-20125-table1-data1-v4.xlsx"
+                                        "tables": [
+                                            "<table><thead><tr><th/><th colspan=\"2\">Observed</th><th colspan=\"2\">Expected</th><th>Enrichment</th><th>p-value</th></tr><tr><th>Class</th><th>#</th><th>#/subject</th><th>#</th><th>#/subject</th><th/><th/></tr></thead><tbody><tr><td>All mutations</td><td>144</td><td>1.09</td><td>142.8</td><td>1.08</td><td>1.01</td><td>0.47</td></tr><tr><td>Synonymous</td><td>21</td><td>0.16</td><td>40.4</td><td>0.31</td><td>0.52</td><td>3.0 \u00d7 10<sup>\u22124</sup></td></tr><tr><td>Protein altering</td><td>123</td><td>0.93</td><td>102.4</td><td>0.78</td><td>1.17</td><td>0.03</td></tr><tr><td>Total missense</td><td>110</td><td>0.83</td><td>89.7</td><td>0.68</td><td>1.23</td><td>0.02</td></tr><tr><td>T-mis</td><td>82</td><td>0.62</td><td>75.2</td><td>0.57</td><td>1.09</td><td>0.23</td></tr><tr><td>D-mis</td><td>28</td><td>0.21</td><td>14.5</td><td>0.11</td><td>1.93</td><td>1.0 \u00d7 10<sup>\u22123</sup></td></tr><tr><td>Loss of function (LOF)</td><td>13</td><td>0.10</td><td>12.7</td><td>0.10</td><td>1.03</td><td>0.50</td></tr><tr><td>LOF + D-mis</td><td>41</td><td>0.31</td><td>27.1</td><td>0.21</td><td>1.51</td><td>7.8 \u00d7 10<sup>\u22123</sup></td></tr></tbody></table>"
+                                        ], 
+                                        "footnotes": [
+                                            {
+                                                "text": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "#, number of de novo mutations in 132 subjects; #/subject, number of de novo mutations per subject; Damaging and tolerated missense called by MetaSVM (D-mis, T-mis respectively); Loss of function denotes premature termination, frameshift, or splice site mutation. For mutation classes with enrichment compared to expectation, p-values represent the upper tail of the Poisson probability density function. For mutation classes in which we observed a paucity of mutations compared to expectation, p-values represent the lower tail."
+                                                    }
+                                                ]
+                                            }
+                                        ], 
+                                        "sourceData": [
+                                            {
+                                                "doi": "10.7554/eLife.20125.005", 
+                                                "id": "SD1-data", 
+                                                "label": "Table 1\u2014source data 1", 
+                                                "title": "De novo mutations in 132 trios with sagittal and/or metopic craniosynostosis.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "Mutations highlighted in orange are likely loss of function mutations, those highlighted in blue are likely damaging missense mutations (D-mis) as called by MetaSVM, and those without highlight are predicted to be tolerated (T-mis) or are synonymous (syn)."
+                                                    }
+                                                ], 
+                                                "mediaType": "application/xlsx", 
+                                                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-table1-data1-v4.xlsx", 
+                                                "filename": "elife-20125-table1-data1-v4.xlsx"
+                                            }
+                                        ]
                                     }
                                 ]
                             }
@@ -2584,69 +2724,71 @@
                                 "text": "Analysis of de novo mutation burden revealed that a single gene, <i>SMAD6</i>, harbored three de novo mutations, including two inferred loss of function (LOF) mutations (p.Q78fs*41 and p.E374*) and one D-mis mutation (p.G390C). All three were heterozygous and occurred in families in which the proband was the sole affected member. Two de novo mutations occurred in probands and one occurred in an unaffected mother of a proband (<a href=\"#fig2\">Figure 2</a>). All three de novo mutations were confirmed by Sanger sequencing of PCR amplicons containing the putative mutation (<a href=\"#fig2s2\">Figure 2\u2014figure supplement 2</a>). <i>TTN</i>, which encodes the largest human protein, was the only other gene with more than one protein altering de novo mutation, and both of these were predicted by MetaSVM to encode tolerated variants (p.I3580M, p.T19373S). From the prior probability of de novo mutation of each base in <i>SMAD6</i> and the impact on the encoded protein (<a href=\"#bib32\">Samocha et al., 2014</a>), the probability of seeing at least two de novo LOFs and one missense mutation by chance in a cohort of this size was 3.6 \u00d7 10<sup>\u20139</sup>\u00a0(<a href=\"#tbl2\">Table 2</a>). Similarly, observing two or more de novo LOF mutations in any gene in this cohort was not expected by chance (p=8.4 \u00d7 10<sup>\u20133</sup>, see Materials and methods). Lastly, <i>SMAD6</i> is not unusually mutable, as we found no de novo <i>SMAD6</i> mutations in 900 control trios comprising healthy siblings of individuals with autism (<a href=\"#bib15\">Iossifov et al., 2014</a>; <a href=\"#bib27\">O'Roak et al., 2011</a>; <a href=\"#bib33\">Sanders et al., 2012</a>). These findings provide highly significant evidence implicating damaging mutations in <i>SMAD6</i> as a cause of midline suture craniosynostosis."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.20125.006", 
-                                "id": "fig2", 
-                                "label": "Figure 2.", 
-                                "title": "Segregation of <i>SMAD6</i> mutations and <i>BMP2</i> SNP genotypes in pedigrees with midline craniosynostosis.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>a</b>) Domain structure of <i>SMAD6</i> showing location of the MH1 and MH2 domains. The MH1 domain mediates DNA binding and negatively regulates the functions of the MH2 domain, while the MH2 domain is responsible for transactivation and mediates phosphorylation-triggered heteromeric assembly with receptor\u00a0SMADs. De novo or rare damaging mutations identified in craniosynostosis probands are indicated. Color of text denotes suture(s) showing premature closure. (<b>b</b>) Pedigrees harboring de novo (denoted by stars within pedigree symbols) or rare transmitted variants in <i>SMAD6</i>. Filled and unfilled symbols denote individuals with and without craniosynostosis, respectively. The <i>SMAD6</i> mutation identified in each kindred is noted above each pedigree. Below each symbol, genotypes are shown first for <i>SMAD6</i> (with 'D' denoting the damaging allele) and for rs1884302 risk locus downstream of <i>BMP2</i>, (with 'T' conferring protection from and 'C' conferring increased risk of craniosynostosis). All 17 subjects with craniosynostosis have <i>SMAD6</i> mutations, and 14/17 have also inherited the risk allele at rs1884302, whereas only 3 of 16 <i>SMAD6</i> mutation carriers without the rs1884302 risk allele have craniosynostosis."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-v4.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-20125-fig2-v4.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3119, 
-                                        "height": 1949
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-v4.jpg", 
-                                    "filename": "elife-20125-fig2-v4.jpg"
-                                }, 
-                                "sourceData": [
-                                    {
-                                        "doi": "10.7554/eLife.20125.007", 
-                                        "id": "SD2-data", 
-                                        "label": "Figure 2\u2014source data 1.", 
-                                        "title": "Variants identified in <i>SMAD6</i>.", 
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.20125.006", 
+                                        "id": "fig2", 
+                                        "label": "Figure 2", 
+                                        "title": "Segregation of <i>SMAD6</i> mutations and <i>BMP2</i> SNP genotypes in pedigrees with midline craniosynostosis.", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
-                                                "text": "Highlighted variants indicate de novo mutations; 'D' and 'T' respectively denote damaging and tolerated missense variants called by MetaSVM."
+                                                "text": "(<b>a</b>) Domain structure of <i>SMAD6</i> showing location of the MH1 and MH2 domains. The MH1 domain mediates DNA binding and negatively regulates the functions of the MH2 domain, while the MH2 domain is responsible for transactivation and mediates phosphorylation-triggered heteromeric assembly with receptor\u00a0SMADs. De novo or rare damaging mutations identified in craniosynostosis probands are indicated. Color of text denotes suture(s) showing premature closure. (<b>b</b>) Pedigrees harboring de novo (denoted by stars within pedigree symbols) or rare transmitted variants in <i>SMAD6</i>. Filled and unfilled symbols denote individuals with and without craniosynostosis, respectively. The <i>SMAD6</i> mutation identified in each kindred is noted above each pedigree. Below each symbol, genotypes are shown first for <i>SMAD6</i> (with 'D' denoting the damaging allele) and for rs1884302 risk locus downstream of <i>BMP2</i>, (with 'T' conferring protection from and 'C' conferring increased risk of craniosynostosis). All 17 subjects with craniosynostosis have <i>SMAD6</i> mutations, and 14/17 have also inherited the risk allele at rs1884302, whereas only 3 of 16 <i>SMAD6</i> mutation carriers without the rs1884302 risk allele have craniosynostosis."
                                             }
                                         ], 
-                                        "mediaType": "application/docx", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-data1-v4.docx", 
-                                        "filename": "elife-20125-fig2-data1-v4.docx"
-                                    }, 
-                                    {
-                                        "doi": "10.7554/eLife.20125.008", 
-                                        "id": "SD3-data", 
-                                        "label": "Figure 2\u2014source data 2.", 
-                                        "title": "PCR primer sequences for Sanger sequencing of reported variants.", 
-                                        "caption": [
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-v4.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig2-v4.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-v4.tif", 
+                                            "size": {
+                                                "width": 3119, 
+                                                "height": 1949
+                                            }
+                                        }, 
+                                        "sourceData": [
                                             {
-                                                "type": "paragraph", 
-                                                "text": "Source Data for <a href=\"#fig2s2\">Figure 2\u2014figure supplement 2</a>."
+                                                "doi": "10.7554/eLife.20125.007", 
+                                                "id": "SD2-data", 
+                                                "label": "Figure 2\u2014source data 1", 
+                                                "title": "Variants identified in <i>SMAD6</i>.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "Highlighted variants indicate de novo mutations; 'D' and 'T' respectively denote damaging and tolerated missense variants called by MetaSVM."
+                                                    }
+                                                ], 
+                                                "mediaType": "application/docx", 
+                                                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-fig2-data1-v4.docx", 
+                                                "filename": "elife-20125-fig2-data1-v4.docx"
+                                            }, 
+                                            {
+                                                "doi": "10.7554/eLife.20125.008", 
+                                                "id": "SD3-data", 
+                                                "label": "Figure 2\u2014source data 2", 
+                                                "title": "PCR primer sequences for Sanger sequencing of reported variants.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "Source Data for <a href=\"#fig2s2\">Figure 2\u2014figure supplement 2</a>."
+                                                    }
+                                                ], 
+                                                "mediaType": "application/docx", 
+                                                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-fig2-data2-v4.docx", 
+                                                "filename": "elife-20125-fig2-data2-v4.docx"
                                             }
-                                        ], 
-                                        "mediaType": "application/docx", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-data2-v4.docx", 
-                                        "filename": "elife-20125-fig2-data2-v4.docx"
-                                    }
-                                ], 
-                                "supplements": [
+                                        ]
+                                    }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.20125.009", 
                                         "id": "fig2s1", 
-                                        "label": "Figure 2\u2014figure supplement 1.", 
+                                        "label": "Figure 2\u2014figure supplement 1", 
                                         "title": "Plots of independent Illumina sequencing reads in a parent-offspring trio showing de novo <i>SMAD6</i> mutation.", 
                                         "caption": [
                                             {
@@ -2657,25 +2799,22 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp1-v4.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp1-v4.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-20125-fig2-figsupp1-v4.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp1-v4.tif", 
                                             "size": {
                                                 "width": 1027, 
                                                 "height": 1344
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp1-v4.jpg", 
-                                            "filename": "elife-20125-fig2-figsupp1-v4.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp1-v4.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.20125.010", 
                                         "id": "fig2s2", 
-                                        "label": "Figure 2\u2014figure supplement 2.", 
+                                        "label": "Figure 2\u2014figure supplement 2", 
                                         "title": "Confirmation of <i>SMAD6</i> mutations by Sanger sequencing of PCR products.", 
                                         "caption": [
                                             {
@@ -2686,39 +2825,44 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp2-v4.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp2-v4.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-20125-fig2-figsupp2-v4.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp2-v4.tif", 
                                             "size": {
                                                 "width": 2060, 
                                                 "height": 1986
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig2-figsupp2-v4.jpg", 
-                                            "filename": "elife-20125-fig2-figsupp2-v4.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-figsupp2-v4.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig2-v4.jpg", 
-                                "alt": ""
+                                ]
                             }, 
                             {
-                                "type": "table", 
-                                "doi": "10.7554/eLife.20125.011", 
-                                "id": "tbl2", 
-                                "label": "Table 2.", 
-                                "title": "Probability of observed de novo mutations in <i>SMAD6</i> and Sprouty genes occurring by chance in 132 subjects using gene-specific mutation probabilities", 
-                                "tables": [
-                                    "<table><thead><tr><th valign=\"top\">Gene(s)</th><th valign=\"top\">Mutations</th><th valign=\"top\">Number of observed mutations</th><th valign=\"top\">Number of expected mutations</th><th valign=\"top\">p value</th></tr></thead><tbody><tr><td valign=\"top\"><i>SMAD6</i></td><td valign=\"top\">Loss of function</td><td valign=\"top\">2</td><td valign=\"top\">0.00026</td><td valign=\"top\">3.31 \u00d7 10<sup>\u22128</sup></td></tr><tr><td valign=\"top\"><i>SMAD6</i></td><td valign=\"top\">Missense</td><td valign=\"top\">1</td><td valign=\"top\">0.0046</td><td valign=\"top\">4.67 \u00d7 10<sup>\u22123</sup></td></tr><tr><td valign=\"top\"><i>SPRY1, SPRY2, SPRY3, SPRY4</i></td><td valign=\"top\">Nonsense, splice site, frameshift</td><td valign=\"top\">2</td><td valign=\"top\">0.001193</td><td valign=\"top\">7.11 \u00d7 10<sup>\u22127</sup></td></tr></tbody></table>"
-                                ], 
-                                "footnotes": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "text": [
+                                        "type": "table", 
+                                        "doi": "10.7554/eLife.20125.011", 
+                                        "id": "tbl2", 
+                                        "label": "Table 2", 
+                                        "caption": [
                                             {
                                                 "type": "paragraph", 
-                                                "text": "Probabilities calculated from the Poisson distribution using DenovolyzeR. The probability of observing at least 2 LOF and 1 missense mutation in <i>SMAD6</i> was 3.6\u00a0\u00d710<sup>\u22129</sup> via Fisher\u2019s method."
+                                                "text": "Probability of observed de novo mutations in <i>SMAD6</i> and Sprouty genes occurring by chance in 132 subjects using gene-specific mutation probabilities."
+                                            }
+                                        ], 
+                                        "tables": [
+                                            "<table><thead><tr><th valign=\"top\">Gene(s)</th><th valign=\"top\">Mutations</th><th valign=\"top\">Number of observed mutations</th><th valign=\"top\">Number of expected mutations</th><th valign=\"top\">p value</th></tr></thead><tbody><tr><td valign=\"top\"><i>SMAD6</i></td><td valign=\"top\">Loss of function</td><td valign=\"top\">2</td><td valign=\"top\">0.00026</td><td valign=\"top\">3.31 \u00d7 10<sup>\u22128</sup></td></tr><tr><td valign=\"top\"><i>SMAD6</i></td><td valign=\"top\">Missense</td><td valign=\"top\">1</td><td valign=\"top\">0.0046</td><td valign=\"top\">4.67 \u00d7 10<sup>\u22123</sup></td></tr><tr><td valign=\"top\"><i>SPRY1, SPRY2, SPRY3, SPRY4</i></td><td valign=\"top\">Nonsense, splice site, frameshift</td><td valign=\"top\">2</td><td valign=\"top\">0.001193</td><td valign=\"top\">7.11 \u00d7 10<sup>\u22127</sup></td></tr></tbody></table>"
+                                        ], 
+                                        "footnotes": [
+                                            {
+                                                "text": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "Probabilities calculated from the Poisson distribution using DenovolyzeR. The probability of observing at least 2 LOF and 1 missense mutation in <i>SMAD6</i> was 3.6\u00a0\u00d710<sup>\u22129</sup> via Fisher\u2019s method."
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
@@ -2729,48 +2873,50 @@
                                 "text": "We next considered the total burden of rare (prospectively specified allele frequency in ExAC database &lt;2 \u00d7 10<sup>\u20135</sup>) LOF and D-mis mutations in each gene in probands. Among 191 probands, we found 1135 rare LOF and 3156 rare damaging (LOF + D-mis) alleles. The probability of the observed number of rare variants in each gene occurring by chance was calculated from the binomial distribution after adjusting for the length of each gene; Q-Q plots comparing the observed and expected P-value distributions are shown in <a href=\"#fig3\">Figure 3</a>. The observed distribution conforms closely to expected with the exception of <i>SMAD6</i>. The expected number of rare LOF alleles in <i>SMAD6</i> in probands was 0.05, and the observed number was 8 (p=1.1 \u00d7 10<sup>\u201315</sup>, 156-fold enrichment). Similarly, there were 13 rare damaging variants in <i>SMAD6</i> compared to 0.14 expected (p=1.3 \u00d7 10<sup>\u201321</sup>, 91.4-fold enrichment). All of these <i>SMAD6</i> variants were confirmed by direct Sanger sequencing (<a href=\"#fig2s2\">Figure 2\u2014figure supplement 2</a>). All were heterozygous and different from one another (<a href=\"#SD2-data\">Figure 2\u2014source data 1</a>); 11 were absent among &gt;10<sup>5</sup> alleles in the ExAC database, while two were previously seen, each once in ExAC (p.E407* and p.R465C, ExAC allele frequencies 9.0\u00a0\u00d7 10<sup>\u20136</sup> and 9.4 \u00d7 10<sup>\u20136</sup> respectively). The results for <i>SMAD6</i> remain highly significant after excluding de novo mutations and only analyzing transmitted variants (<a href=\"#fig3s1\">Figure 3\u2014figure supplement 1</a>), demonstrating a\u00a0significant contribution of both de novo and transmitted variants (<a href=\"#tbl3\">Table 3</a>). The fact that eight of the 13 rare heterozygous damaging variants in <i>SMAD6</i> seen in our cohort are frameshift (n = 5) or premature termination (n = 3) mutations, which are distributed throughout the encoded protein (<a href=\"#fig2\">Figure 2a</a>), strongly supports haploinsufficiency as the mechanism of the genetic contribution of <i>SMAD6</i> to craniosynostosis."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.20125.012", 
-                                "id": "fig3", 
-                                "label": "Figure 3.", 
-                                "title": "Quantile-quantile plots of observed versus expected p-values comparing the burden of rare LOF and damaging (LOF + D-mis) variants in protein-coding genes in craniosynostosis cases.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "Rare (allele frequency &lt;2 \u00d7 10<sup>\u20135</sup>\u00a0in the ExAC03 database) loss of function (LOF) and damaging missense (D-mis) variants were identified in 191 probands. The probability of the observed number of variants in each gene occurring by chance was calculated from the total number of observed variants and the length of the coding region of each gene using the binomial test. The distribution of observed P-values compared to the expected distribution is shown. (<b>a</b>) Q-Q plot for rare LOF variants in each gene from a total of 1135 LOF variants identified in probands. The distribution of observed p-values closely conforms to expectation with the exception of <i>SMAD6</i>, which shows p=1.1 \u00d7 10<sup>\u201315</sup>\u00a0and 156-fold enrichment in cases. (<b>b</b>) Q-Q plot for rare damaging (LOF + D-mis) variants in each gene from a total of 3156 damaging variants in probands. Again, <i>SMAD6</i> deviates greatly from the expected distribution, with p&lt;10<sup>\u201320</sup> and 91-fold enrichment."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-v4.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-20125-fig3-v4.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.20125.012", 
+                                        "id": "fig3", 
+                                        "label": "Figure 3", 
+                                        "title": "Quantile-quantile plots of observed versus expected p-values comparing the burden of rare LOF and damaging (LOF + D-mis) variants in protein-coding genes in craniosynostosis cases.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Rare (allele frequency &lt;2 \u00d7 10<sup>\u20135</sup>\u00a0in the ExAC03 database) loss of function (LOF) and damaging missense (D-mis) variants were identified in 191 probands. The probability of the observed number of variants in each gene occurring by chance was calculated from the total number of observed variants and the length of the coding region of each gene using the binomial test. The distribution of observed P-values compared to the expected distribution is shown. (<b>a</b>) Q-Q plot for rare LOF variants in each gene from a total of 1135 LOF variants identified in probands. The distribution of observed p-values closely conforms to expectation with the exception of <i>SMAD6</i>, which shows p=1.1 \u00d7 10<sup>\u201315</sup>\u00a0and 156-fold enrichment in cases. (<b>b</b>) Q-Q plot for rare damaging (LOF + D-mis) variants in each gene from a total of 3156 damaging variants in probands. Again, <i>SMAD6</i> deviates greatly from the expected distribution, with p&lt;10<sup>\u201320</sup> and 91-fold enrichment."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-v4.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig3-v4.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-v4.tif", 
+                                            "size": {
+                                                "width": 1766, 
+                                                "height": 900
+                                            }
+                                        }, 
+                                        "sourceData": [
+                                            {
+                                                "doi": "10.7554/eLife.20125.013", 
+                                                "id": "SD4-data", 
+                                                "label": "Figure 3\u2014source data 1", 
+                                                "title": "Source data for <a href=\"#fig3s3\">Figure 3\u2014figure supplement 3</a>.", 
+                                                "mediaType": "application/docx", 
+                                                "uri": "https://cdn.elifesciences.org/articles/20125/elife-20125-fig3-data1-v4.docx", 
+                                                "filename": "elife-20125-fig3-data1-v4.docx"
+                                            }
+                                        ]
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 1766, 
-                                        "height": 900
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-v4.jpg", 
-                                    "filename": "elife-20125-fig3-v4.jpg"
-                                }, 
-                                "sourceData": [
-                                    {
-                                        "doi": "10.7554/eLife.20125.013", 
-                                        "id": "SD4-data", 
-                                        "label": "Figure 3\u2014source data 1.", 
-                                        "title": "Source data for <a href=\"#fig3s3\">Figure 3\u2014figure supplement 3</a>.", 
-                                        "mediaType": "application/docx", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-data1-v4.docx", 
-                                        "filename": "elife-20125-fig3-data1-v4.docx"
-                                    }
-                                ], 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.20125.014", 
                                         "id": "fig3s1", 
-                                        "label": "Figure 3\u2014figure supplement 1.", 
+                                        "label": "Figure 3\u2014figure supplement 1", 
                                         "title": "Quantile-quantile plots comparing all transmitted, damaging variants in protein-coding genes in 191 probands with midline craniosynostosis to the expected binomial distribution.", 
                                         "caption": [
                                             {
@@ -2781,25 +2927,22 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp1-v4.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp1-v4.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-20125-fig3-figsupp1-v4.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp1-v4.tif", 
                                             "size": {
                                                 "width": 1950, 
                                                 "height": 900
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp1-v4.jpg", 
-                                            "filename": "elife-20125-fig3-figsupp1-v4.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp1-v4.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.20125.015", 
                                         "id": "fig3s2", 
-                                        "label": "Figure 3\u2014figure supplement 2.", 
+                                        "label": "Figure 3\u2014figure supplement 2", 
                                         "title": "Principal-component analysis of 191 probands and 3337 European autism controls.", 
                                         "caption": [
                                             {
@@ -2810,25 +2953,22 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp2-v4.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp2-v4.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-20125-fig3-figsupp2-v4.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp2-v4.tif", 
                                             "size": {
                                                 "width": 1800, 
                                                 "height": 1200
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp2-v4.jpg", 
-                                            "filename": "elife-20125-fig3-figsupp2-v4.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp2-v4.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.20125.016", 
                                         "id": "fig3s3", 
-                                        "label": "Figure 3\u2014figure supplement 3.", 
+                                        "label": "Figure 3\u2014figure supplement 3", 
                                         "title": "Quantile-quantile plot of observed versus expected p-values comparing the burden of damaging (LOF + D-mis) variants in protein-coding genes in craniosynostosis cases and controls.", 
                                         "caption": [
                                             {
@@ -2839,39 +2979,44 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp3-v4.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp3-v4.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-20125-fig3-figsupp3-v4.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp3-v4.tif", 
                                             "size": {
                                                 "width": 864, 
                                                 "height": 771
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig3-figsupp3-v4.jpg", 
-                                            "filename": "elife-20125-fig3-figsupp3-v4.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-figsupp3-v4.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig3-v4.jpg", 
-                                "alt": ""
+                                ]
                             }, 
                             {
-                                "type": "table", 
-                                "doi": "10.7554/eLife.20125.017", 
-                                "id": "tbl3", 
-                                "label": "Table 3.", 
-                                "title": "Enrichment of de novo and transmitted damaging variants in <i>SMAD6</i> in craniosynostosis", 
-                                "tables": [
-                                    "<table><thead><tr><th valign=\"top\"></th><th valign=\"top\">Observed</th><th valign=\"top\">Expected</th><th valign=\"top\">Enrichment</th><th valign=\"top\">p-value</th></tr></thead><tbody><tr><td valign=\"top\">De novo LOF and D-mis</td><td valign=\"top\">3</td><td valign=\"top\">0.0049</td><td valign=\"top\">612</td><td valign=\"top\">3.6 \u00d7 10<sup>\u22129</sup></td></tr><tr><td valign=\"top\">Transmitted LOF and D-mis</td><td valign=\"top\">10</td><td valign=\"top\">0.1404</td><td valign=\"top\">71.2</td><td valign=\"top\">7.0 \u00d7 10<sup>\u221216</sup></td></tr><tr><td valign=\"top\">Total</td><td valign=\"top\">13</td><td valign=\"top\">0.1453</td><td valign=\"top\">89.5</td><td valign=\"top\">1.4 \u00d7 10<sup>\u221222</sup></td></tr></tbody></table>"
-                                ], 
-                                "footnotes": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "text": [
+                                        "type": "table", 
+                                        "doi": "10.7554/eLife.20125.017", 
+                                        "id": "tbl3", 
+                                        "label": "Table 3", 
+                                        "caption": [
                                             {
                                                 "type": "paragraph", 
-                                                "text": "LOF, loss of function; D-mis, damaging missense variants per MetaSVM; The total number of <i>SMAD6</i> variants expected in this cohort was calculated by summing the expected number of de novo and transmitted variants. P-value combining probabilities from de novo and transmitted protein damaging <i>SMAD6</i> variants was determined by Fisher\u2019s method."
+                                                "text": "Enrichment of de novo and transmitted damaging variants in <i>SMAD6</i> in craniosynostosis."
+                                            }
+                                        ], 
+                                        "tables": [
+                                            "<table><thead><tr><th valign=\"top\"/><th valign=\"top\">Observed</th><th valign=\"top\">Expected</th><th valign=\"top\">Enrichment</th><th valign=\"top\">p-value</th></tr></thead><tbody><tr><td valign=\"top\">De novo LOF and D-mis</td><td valign=\"top\">3</td><td valign=\"top\">0.0049</td><td valign=\"top\">612</td><td valign=\"top\">3.6 \u00d7 10<sup>\u22129</sup></td></tr><tr><td valign=\"top\">Transmitted LOF and D-mis</td><td valign=\"top\">10</td><td valign=\"top\">0.1404</td><td valign=\"top\">71.2</td><td valign=\"top\">7.0 \u00d7 10<sup>\u221216</sup></td></tr><tr><td valign=\"top\">Total</td><td valign=\"top\">13</td><td valign=\"top\">0.1453</td><td valign=\"top\">89.5</td><td valign=\"top\">1.4 \u00d7 10<sup>\u221222</sup></td></tr></tbody></table>"
+                                        ], 
+                                        "footnotes": [
+                                            {
+                                                "text": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "LOF, loss of function; D-mis, damaging missense variants per MetaSVM; The total number of <i>SMAD6</i> variants expected in this cohort was calculated by summing the expected number of de novo and transmitted variants. P-value combining probabilities from de novo and transmitted protein damaging <i>SMAD6</i> variants was determined by Fisher\u2019s method."
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
@@ -2894,13 +3039,23 @@
                                 "text": "<i>SMAD6</i> mutations were significantly more frequent in kindreds with any metopic craniosynostosis (10 of 78, 12.8%) compared to those with isolated sagittal craniosynostosis (3 of 113, 2.7%; p=8.1 \u00d7 10<sup>\u20133</sup> by Fisher\u2019s exact test, odds ratio 5.3). These results suggest that mutations in <i>SMAD6</i> confer greater risk for metopic suture closure. We found no significant correlation between the type of mutation (LOF vs. D-mis) or location within the gene of <i>SMAD6</i> mutation and phenotypic class (<a href=\"#tbl4\">Table 4</a>)."
                             }, 
                             {
-                                "type": "table", 
-                                "doi": "10.7554/eLife.20125.018", 
-                                "id": "tbl4", 
-                                "label": "Table 4.", 
-                                "title": "Distribution of suture involvement in kindreds with and without rare (allele frequency &lt; 2\u00a0\u00d7 10<sup>\u22125</sup>) de novo and transmitted damaging (LOF + D-mis) variants in <i>SMAD6</i>", 
-                                "tables": [
-                                    "<table><thead><tr><th></th><th>Total # kindreds</th><th>Total # <i>SMAD6</i> mutations (%)</th><th># LOF (%)</th></tr></thead><tbody><tr><td>Sagittal</td><td>113</td><td>3 (2.7)</td><td>2 (1.8)</td></tr><tr><td>Metopic</td><td>70</td><td>7 (10)</td><td>3 (3.9)</td></tr><tr><td>Sagittal and Metopic</td><td>8</td><td>3 (37.5)</td><td>3 (37.5)</td></tr><tr><td>Total</td><td>191</td><td>13 (6.8)</td><td>8 (4.2)</td></tr></tbody></table>"
+                                "type": "figure", 
+                                "assets": [
+                                    {
+                                        "type": "table", 
+                                        "doi": "10.7554/eLife.20125.018", 
+                                        "id": "tbl4", 
+                                        "label": "Table 4", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "Distribution of suture involvement in kindreds with and without rare (allele frequency &lt; 2\u00a0\u00d7 10<sup>\u22125</sup>) de novo and transmitted damaging (LOF + D-mis) variants in <i>SMAD6</i>."
+                                            }
+                                        ], 
+                                        "tables": [
+                                            "<table><thead><tr><th/><th>Total # kindreds</th><th>Total # <i>SMAD6</i> mutations (%)</th><th># LOF (%)</th></tr></thead><tbody><tr><td>Sagittal</td><td>113</td><td>3 (2.7)</td><td>2 (1.8)</td></tr><tr><td>Metopic</td><td>70</td><td>7 (10)</td><td>3 (3.9)</td></tr><tr><td>Sagittal and Metopic</td><td>8</td><td>3 (37.5)</td><td>3 (37.5)</td></tr><tr><td>Total</td><td>191</td><td>13 (6.8)</td><td>8 (4.2)</td></tr></tbody></table>"
+                                        ]
+                                    }
                                 ]
                             }, 
                             {
@@ -2912,66 +3067,70 @@
                                 "text": "SMAD6 is a member of the inhibitory-SMAD family. Activation of BMP receptors leads to phosphorylation of receptor SMADs, which can complex with SMAD4, translocate to the nucleus and partner with RUNX2 to induce transcription of genes that promote osteoblast differentiation (<a href=\"#bib17\">Javed et al., 2008</a>; <a href=\"#bib13\">Hata et al., 1998</a>) (<a href=\"#fig4\">Figure 4a</a>). This process is inhibited by SMAD6 binding to phosphorylated receptor SMADs, forming an inactive complex. SMAD6 also inhibits BMP signaling by complexing with the ubiquitin ligase SMURF1, which ubiquitylates BMP receptors, receptor SMADs and RUNX2, leading to their proteasomal degradation (<a href=\"#fig4\">Figure 4b</a>) (<a href=\"#bib26\">Murakami et al., 2003</a>). This pathway plays a well-established role in the\u00a0development of the cranial vault and closure of cranial sutures. In mice, constitutive activity of BMPR1A in cranial neural crest results in SMAD-dependent development of metopic craniosynostosis (<a href=\"#bib19\">Komatsu et al., 2013</a>), and genetic deficiency for the SMAD inhibitor <i>SMURF1</i> causes midline craniosynostosis (<a href=\"#bib34\">Shimazu et al., 2016</a>). Similarly, duplication of <i>RUNX2</i> causes syndromic metopic craniosynostosis in humans (<a href=\"#bib24\">Mefford et al., 2010</a>). Lastly, <i>SMAD6</i> knockout mice are born with domed skulls and show anomalous bone deposition in the metopic suture; they also show an augmented and prolonged response to BMP2 stimulation (<a href=\"#bib8\">Estrada et al., 2011</a>; <a href=\"#bib30\">Retting, 2008</a>). These findings are consistent with haploinsufficiency as the mechanism of <i>SMAD6</i> mutations in craniosynostosis, with loss of the inhibitory effect of SMAD6 promoting increased BMP signaling and premature closure of sutures."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.20125.019", 
-                                "id": "fig4", 
-                                "label": "Figure 4.", 
-                                "title": "SMAD6 inhibits osteoblast differentiation by inhibiting BMP-mediated SMAD signaling (<a href=\"#bib31\">Salazar et al., 2016</a>).", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>a</b>) BMP ligands activate BMP receptors, leading to phosphorylation of receptor-regulated SMADs (R-SMADs), which complex with SMAD4 and enter the nucleus, cooperating with RUNX2 to induce osteoblast differentiation. SMAD6 inhibits this signal by competing with SMAD4 for binding to R-SMADs, preventing nuclear translocation. (<b>b</b>) SMAD6 also cooperates with SMURF1, an E3 ubiquitin ligase, to induce ubiquitin-mediated proteasomal degradation of R-SMADs, BMP receptor complexes, and RUNX2."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.20125.019", 
+                                        "id": "fig4", 
+                                        "label": "Figure 4", 
+                                        "title": "SMAD6 inhibits osteoblast differentiation by inhibiting BMP-mediated SMAD signaling (<a href=\"#bib31\">Salazar et al., 2016</a>).", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>a</b>) BMP ligands activate BMP receptors, leading to phosphorylation of receptor-regulated SMADs (R-SMADs), which complex with SMAD4 and enter the nucleus, cooperating with RUNX2 to induce osteoblast differentiation. SMAD6 inhibits this signal by competing with SMAD4 for binding to R-SMADs, preventing nuclear translocation. (<b>b</b>) SMAD6 also cooperates with SMURF1, an E3 ubiquitin ligase, to induce ubiquitin-mediated proteasomal degradation of R-SMADs, BMP receptor complexes, and RUNX2."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig4-v4.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig4-v4.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig4-v4.tif", 
+                                            "size": {
+                                                "width": 3561, 
+                                                "height": 1983
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig4-v4.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-20125-fig4-v4.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 3561, 
-                                        "height": 1983
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig4-v4.jpg", 
-                                    "filename": "elife-20125-fig4-v4.jpg"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig4-v4.jpg", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
                                 "text": "We explored our kindreds for other mutations in this signaling pathway. Interestingly, we identified one de novo D-mis mutation in <i>SMURF1</i> in a proband with sporadic metopic craniosynostosis (<a href=\"#fig5\">Figure 5</a>)."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.20125.020", 
-                                "id": "fig5", 
-                                "label": "Figure 5.", 
-                                "title": "A de novo variant identified in <i>SMURF1</i>.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>a</b>) Sanger sequence electropherogram of a PCR product amplified from the genomic DNA of a proband with metopic craniosynostosis, confirming a de novo R468W mutation in <i>SMURF1</i>, a <i>SMAD6</i> binding partner. (<b>b</b>) Patient photographs of the proband, who presented with trigonocephaly and mild orbital abnormalities. 3D CT reconstruction demonstrates metopic craniosynostosis, trigonocephaly, and a patent sagittal suture."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.20125.020", 
+                                        "id": "fig5", 
+                                        "label": "Figure 5", 
+                                        "title": "A de novo variant identified in <i>SMURF1</i>.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>a</b>) Sanger sequence electropherogram of a PCR product amplified from the genomic DNA of a proband with metopic craniosynostosis, confirming a de novo R468W mutation in <i>SMURF1</i>, a <i>SMAD6</i> binding partner. (<b>b</b>) Patient photographs of the proband, who presented with trigonocephaly and mild orbital abnormalities. 3D CT reconstruction demonstrates metopic craniosynostosis, trigonocephaly, and a patent sagittal suture."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig5-v4.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig5-v4.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig5-v4.tif", 
+                                            "size": {
+                                                "width": 1124, 
+                                                "height": 481
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig5-v4.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-20125-fig5-v4.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 1124, 
-                                        "height": 481
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig5-v4.jpg", 
-                                    "filename": "elife-20125-fig5-v4.jpg"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig5-v4.jpg", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }, 
@@ -2989,20 +3148,30 @@
                                 "text": "We considered whether inheritance at other genetic loci might account for the striking incomplete penetrance of <i>SMAD6</i> mutations in these kindreds. A previous GWAS of non-syndromic sagittal craniosynostosis implicated common variants ~345 kb downstream of the closest gene, <i>BMP2</i> (encoding bone morphogenetic protein 2), with unusually large effect size (e.g., rs1884302, with risk allele frequency of 0.34 and odds ratio of 4.6). BMP2 is a ligand for BMP receptors upstream of SMAD signaling (<a href=\"#bib31\">Salazar et al., 2016</a>) and is an inducer of osteogenesis. We posited that risk alleles at this locus might increase the penetrance of <i>SMAD6</i> mutations by increasing BMP2 levels and further increasing SMAD signaling. Genotypes for rs1884302 are shown in <a href=\"#fig2\">Figure 2</a> and provide strong evidence of epistatic interaction between <i>SMAD6</i> and <i>BMP2</i> alleles. Fourteen individuals had both a <i>SMAD6</i> mutation and the rs1884302 risk allele; 100% of these had craniosynostosis. In contrast, 16 subjects had a <i>SMAD6</i> mutation but no rs1884302 risk allele; only 3 of these individuals (19%) had craniosynostosis. Lastly, 0 of 18 members of these kindreds who had only the rs1884302 risk allele had craniosynostosis. The relationship of these two genotypes to craniosynostosis in these kindreds was highly significant (p=1.4\u00a0\u00d7 10<sup>\u201310</sup> by the Freeman-Halton extension of Fisher\u2019s exact test; <a href=\"#tbl5\">Table 5</a>)."
                             }, 
                             {
-                                "type": "table", 
-                                "doi": "10.7554/eLife.20125.021", 
-                                "id": "tbl5", 
-                                "label": "Table 5.", 
-                                "title": "Risk of craniosynostosis in <i>SMAD6</i> mutation carriers in the presence or absence of a <i>BMP2</i> risk allele", 
-                                "tables": [
-                                    "<table><thead><tr><th><i>SMAD6/BMP2</i> Genotypes</th><th>Craniosynostosis (+)</th><th>Craniosynostosis (\u2212)</th></tr></thead><tbody><tr><td><i>SMAD6</i> (+) <i>/ BMP2</i> risk allele (+)</td><td>14</td><td>0</td></tr><tr><td><i>SMAD6</i> (+) <i>/ BMP2</i> risk allele (\u2212)</td><td>3</td><td>13</td></tr><tr><td><i>SMAD6</i> (\u2212) <i>/ BMP2</i> risk allele (+)</td><td>0</td><td>18</td></tr></tbody></table>"
-                                ], 
-                                "footnotes": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "text": [
+                                        "type": "table", 
+                                        "doi": "10.7554/eLife.20125.021", 
+                                        "id": "tbl5", 
+                                        "label": "Table 5", 
+                                        "caption": [
                                             {
                                                 "type": "paragraph", 
-                                                "text": "All members of kindreds found to have a mutation in <i>SMAD6</i> were included. <i>SMAD6</i>(+) indicates the presence of a heterozygous LOF or D-mis allele. The reported <i>BMP2</i> risk allele is \u2018C\u2019 at risk locus rs1884302, found within a gene desert ~345kb downstream of <i>BMP2</i>. p=1.4 \u00d7 10<sup>\u221210</sup> by the Freeman-Halton extension of Fisher\u2019s exact test. Odds ratio in favor of disease was incalculable due to the absence of craniosynostosis in <i>SMAD6</i> (\u2212) individuals in these kindreds."
+                                                "text": "Risk of craniosynostosis in <i>SMAD6</i> mutation carriers in the presence or absence of a <i>BMP2</i> risk allele."
+                                            }
+                                        ], 
+                                        "tables": [
+                                            "<table><thead><tr><th><i>SMAD6/BMP2</i> Genotypes</th><th>Craniosynostosis (+)</th><th>Craniosynostosis (\u2212)</th></tr></thead><tbody><tr><td><i>SMAD6</i> (+) <i>/ BMP2</i> risk allele (+)</td><td>14</td><td>0</td></tr><tr><td><i>SMAD6</i> (+) <i>/ BMP2</i> risk allele (\u2212)</td><td>3</td><td>13</td></tr><tr><td><i>SMAD6</i> (\u2212) <i>/ BMP2</i> risk allele (+)</td><td>0</td><td>18</td></tr></tbody></table>"
+                                        ], 
+                                        "footnotes": [
+                                            {
+                                                "text": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "All members of kindreds found to have a mutation in <i>SMAD6</i> were included. <i>SMAD6</i>(+) indicates the presence of a heterozygous LOF or D-mis allele. The reported <i>BMP2</i> risk allele is \u2018C\u2019 at risk locus rs1884302, found within a gene desert ~345kb downstream of <i>BMP2</i>. p=1.4 \u00d7 10<sup>\u221210</sup> by the Freeman-Halton extension of Fisher\u2019s exact test. Odds ratio in favor of disease was incalculable due to the absence of craniosynostosis in <i>SMAD6</i> (\u2212) individuals in these kindreds."
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
@@ -3032,33 +3201,35 @@
                                 "text": "Previous research has implicated increased activity of the MAP kinase/ERK pathway in craniosynostosis (<a href=\"#bib39\">Twigg et al., 2013</a>; <a href=\"#bib36\">Shukla et al., 2007</a>). We identified one de novo LOF in both <i>SPRY1</i> and <i>SPRY4,</i> developmental regulators of the MAP kinase/ERK pathway; these variants comprised two of only 11 de novo LOFs other than those in <i>SMAD6</i>. The <i>SPRY4</i> mutation (p.E160*) arose de novo in a proband with sagittal craniosynostosis and no family history (<a href=\"#fig6\">Figure 6a</a>). The <i>SPRY1</i> mutation (p.Q6fs*8) was de novo in a woman with mild cranial dysmorphism who did not undergo surgery, and was transmitted to both of her children, who both had sagittal craniosynostosis (<a href=\"#fig6\">Figure 6b</a>). The probability of observing two or more de novo LOF mutations in any of the 4 Sprouty genes by chance in this cohort surpassed genome-wide significance (p=7.1 \u00d7 10<sup>\u20137</sup>, <a href=\"#tbl2\">Table 2</a>). Consistent with a role for <i>SPRY1</i> haploinsufficiency, a de novo microdeletion that included <i>SPRY1</i> has previously been reported in a child with sagittal craniosynostosis (<a href=\"#bib9\">Fern\u00e1ndez-Ja\u00e9n et al., 2014</a>). Moreover, in mice with <i>TWIST1</i> haploinsufficiency, a model of syndromic craniosynostosis, overexpression of <i>SPRY1</i> prevents suture fusion (<a href=\"#bib3\">Connerney et al., 2008</a>). Lastly, protein altering de novo mutations were also identified in other regulators and mediators of MAP kinase signaling, including <i>RASAL2, DUSP5, MAP3K8, KSR2, RPS6KA4</i>, and <i>RGS3</i>. 5 of 6 occurred in probands with sagittal craniosynostosis (<a href=\"#SD1-data\">Table 1\u2014source data 1</a>). Determining the significance of these findings will require further study."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.20125.022", 
-                                "id": "fig6", 
-                                "label": "Figure 6.", 
-                                "title": "De novo loss-of-function mutations in Sprouty genes.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>a</b>) Pedigree and Sanger sequencing traces for kindred SAG150, demonstrating a de novo nonsense mutation in <i>SPRY4</i> (p.E160*) in the proband. (<b>b</b>) Pedigree and Sanger sequencing traces in a kindred with a de novo <i>SPRY1</i> frameshift mutation (p.Q6fs*8) that was transmitted to two affected offspring."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.20125.022", 
+                                        "id": "fig6", 
+                                        "label": "Figure 6", 
+                                        "title": "De novo loss-of-function mutations in Sprouty genes.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>a</b>) Pedigree and Sanger sequencing traces for kindred SAG150, demonstrating a de novo nonsense mutation in <i>SPRY4</i> (p.E160*) in the proband. (<b>b</b>) Pedigree and Sanger sequencing traces in a kindred with a de novo <i>SPRY1</i> frameshift mutation (p.Q6fs*8) that was transmitted to two affected offspring."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig6-v4.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-20125-fig6-v4.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig6-v4.tif", 
+                                            "size": {
+                                                "width": 2190, 
+                                                "height": 1362
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig6-v4.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-20125-fig6-v4.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2190, 
-                                        "height": 1362
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:20125/elife-20125-fig6-v4.jpg", 
-                                    "filename": "elife-20125-fig6-v4.jpg"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/20125/elife-20125-fig6-v4.jpg", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }

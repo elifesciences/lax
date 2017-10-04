@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-16695-v3.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-16695-v3.xml"
         }, 
         "-history": {
             "received": "2016-04-06T00:00:00Z", 
@@ -17,12 +17,13 @@
         "version": 3, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
-        "authorLine": "Arisa Hirano et al", 
+        "authorLine": "Arisa Hirano et al.", 
         "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
         "published": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 
-        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v3.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v3.pdf", 
+        "figuresPdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-figures-v3.pdf", 
         "subjects": [
             {
                 "id": "human-biology-medicine", 
@@ -48,7 +49,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Hirano et al", 
+            "holder": "Hirano et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -79,7 +80,7 @@
                     }
                 ], 
                 "contribution": "AH, Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -108,7 +109,7 @@
                     }
                 ], 
                 "contribution": "GS, Acquisition of data, Contributed unpublished essential data or reagents", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -137,7 +138,7 @@
                     }
                 ], 
                 "contribution": "CRJ, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -182,7 +183,7 @@
                     }
                 ], 
                 "contribution": "AL, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -227,7 +228,7 @@
                     }
                 ], 
                 "contribution": "LAP, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -257,7 +258,7 @@
                     }
                 ], 
                 "contribution": "YX, Contributed unpublished essential data or reagents", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -287,7 +288,7 @@
                     }
                 ], 
                 "contribution": "WCH, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -316,7 +317,7 @@
                     }
                 ], 
                 "contribution": "TM, Acquisition of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -345,7 +346,7 @@
                     }
                 ], 
                 "contribution": "MY, Acquisition of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -427,7 +428,7 @@
                     "ying-hui.fu@ucsf.edu"
                 ], 
                 "contribution": "Y-HF, Conception and design, Analysis and interpretation of data, Drafting or revising the article", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }
         ], 
         "reviewers": [
@@ -567,7 +568,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-16695-v3.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-16695-v3.xml", 
             "patched": true
         }, 
         "-history": {
@@ -579,12 +580,13 @@
         "version": 3, 
         "type": "research-article", 
         "doi": "10.7554/eLife.16695", 
-        "authorLine": "Arisa Hirano et al", 
+        "authorLine": "Arisa Hirano et al.", 
         "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
         "published": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 
-        "pdf": "https://publishing-cdn.elifesciences.org/16695/elife-16695-v3.pdf", 
+        "pdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-v3.pdf", 
+        "figuresPdf": "https://cdn.elifesciences.org/articles/16695/elife-16695-figures-v3.pdf", 
         "subjects": [
             {
                 "id": "human-biology-medicine", 
@@ -610,7 +612,7 @@
         }, 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Hirano et al", 
+            "holder": "Hirano et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -641,7 +643,7 @@
                     }
                 ], 
                 "contribution": "AH, Conception and design, Acquisition of data, Analysis and interpretation of data, Drafting or revising the article", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -670,7 +672,7 @@
                     }
                 ], 
                 "contribution": "GS, Acquisition of data, Contributed unpublished essential data or reagents", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -699,7 +701,7 @@
                     }
                 ], 
                 "contribution": "CRJ, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -744,7 +746,7 @@
                     }
                 ], 
                 "contribution": "AL, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -789,7 +791,7 @@
                     }
                 ], 
                 "contribution": "LAP, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -819,7 +821,7 @@
                     }
                 ], 
                 "contribution": "YX, Contributed unpublished essential data or reagents", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -849,7 +851,7 @@
                     }
                 ], 
                 "contribution": "WCH, Acquisition of data, Analysis and interpretation of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -878,7 +880,7 @@
                     }
                 ], 
                 "contribution": "TM, Acquisition of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -907,7 +909,7 @@
                     }
                 ], 
                 "contribution": "MY, Acquisition of data", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }, 
             {
                 "type": "person", 
@@ -989,7 +991,7 @@
                     "ying-hui.fu@ucsf.edu"
                 ], 
                 "contribution": "Y-HF, Conception and design, Analysis and interpretation of data, Drafting or revising the article", 
-                "competingInterests": "The other authors declare that no competing interests exist."
+                "competingInterests": "No competing interests declared."
             }
         ], 
         "reviewers": [
@@ -1140,7 +1142,7 @@
             "content": [
                 {
                     "type": "paragraph", 
-                    "text": "Sleep is an essential process in animals. In humans, the disturbance of normal sleep-wake cycles through shift-work or long-term sleep disorders increases the risk of developing conditions including mental illness, cancer and metabolic syndromes. Understanding how sleep-wake behavior is controlled within cells may help researchers to develop effective therapies to reduce the ill effects of disturbed sleep-wake cycles on health."
+                    "text": "Sleep is an essential process in animals. In humans, the disturbance of normal sleep-wake cycles through shift-work or long-term sleep disorders increases the risk of developing conditions including mental illness, cancer and metabolic syndromes. Understanding how sleep-wake behavior is controlled within cells may help researchers to develop effective therapies to reduce the ill effects of disturbed sleep-wakLouise cycles on health."
                 }, 
                 {
                     "type": "paragraph", 
@@ -1195,50 +1197,52 @@
                                 "text": "Through candidate gene screening in FASP families, we identified a missense mutation in the human <i>CRY2</i> gene, which causes an amino acid conversion from Ala\u2192Thr at position 260 (A260T) (<a href=\"#fig1\">Figure 1A</a>). No other novel mutations were found in ~25 candidate circadian genes that were sequenced. The A260T mutation is associated with the circadian phenotype in this FASP family (<a href=\"#fig1\">Figure 1A</a>) (<a href=\"#bib14\">Jones et al., 1999</a>; <a href=\"#bib41\">Toh et al., 2001</a>; <a href=\"#bib45\">Xu et al., 2005</a>; <a href=\"#bib50\">Zhang et al., 2016</a>). The fraternal twin sisters inherited the mutation from their mother and both reported a strong morning preference (Horne-Ostberg scores of 84 and 72) (<a href=\"#SD1-data\">Figure 1\u2014source data 1</a>). The proband also had a very early melatonin onset (4:41 P.M.), while the averaged melatonin onset of normative samples is 8:50 P.M. (<a href=\"#bib1\">Burgess and Fogg, 2008</a>). Her melatonin onset time is 3.35 standard deviations earlier than expected and among the earliest 0.05% of normative samples (<a href=\"#bib1\">Burgess and Fogg, 2008</a>). Ala260 is located in the FAD binding domain of CRY2 and it is highly conserved in CRY1 and CRY2 proteins of various species (<a href=\"#fig1\">Figure 1B</a>)."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.16695.003", 
-                                "id": "fig1", 
-                                "label": "Figure 1.", 
-                                "title": "A <i>CRY2</i> mutation in FASP kindred 50035.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Pedigree of the family (kindred 50035) segregating the <i>CRY2</i> mutation (A260T). Circles and squares represent women and men, respectively. An asterisk marks the proband. A missense mutation from G to A causes an amino acid conversion from Alanine to Threonine at position 260. (<b>B</b>) Amino acid alignment around the mutation site. The A260T mutation is located in the N-terminal portion of the FAD binding domain in CRY2. This residue is highly conserved among vertebrate species. CC denotes a Coiled-Coil sequence."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig1-v3.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-16695-fig1-v3.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 1556, 
-                                        "height": 1002
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig1-v3.jpg", 
-                                    "filename": "elife-16695-fig1-v3.jpg"
-                                }, 
-                                "sourceData": [
-                                    {
-                                        "doi": "10.7554/eLife.16695.004", 
-                                        "id": "SD1-data", 
-                                        "label": "Figure 1\u2014source data 1.", 
-                                        "title": "Summary of sleep phenotype of human subjects.", 
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.003", 
+                                        "id": "fig1", 
+                                        "label": "Figure 1", 
+                                        "title": "A <i>CRY2</i> mutation in FASP kindred 50035.", 
                                         "caption": [
                                             {
                                                 "type": "paragraph", 
-                                                "text": "Subject IDs correspondence to numbers in <a href=\"#fig1\">Figure 1A</a>."
+                                                "text": "(<b>A</b>) Pedigree of the family (kindred 50035) segregating the <i>CRY2</i> mutation (A260T). Circles and squares represent women and men, respectively. An asterisk marks the proband. A missense mutation from G to A causes an amino acid conversion from Alanine to Threonine at position 260. (<b>B</b>) Amino acid alignment around the mutation site. The A260T mutation is located in the N-terminal portion of the FAD binding domain in CRY2. This residue is highly conserved among vertebrate species. CC denotes a Coiled-Coil sequence."
                                             }
                                         ], 
-                                        "mediaType": "application/docx", 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig1-data1-v3.docx", 
-                                        "filename": "elife-16695-fig1-data1-v3.docx"
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig1-v3.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig1-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig1-v3.tif", 
+                                            "size": {
+                                                "width": 1556, 
+                                                "height": 1002
+                                            }
+                                        }, 
+                                        "sourceData": [
+                                            {
+                                                "doi": "10.7554/eLife.16695.004", 
+                                                "id": "SD1-data", 
+                                                "label": "Figure 1\u2014source data 1", 
+                                                "title": "Summary of sleep phenotype of human subjects.", 
+                                                "caption": [
+                                                    {
+                                                        "type": "paragraph", 
+                                                        "text": "Subject IDs correspondence to numbers in <a href=\"#fig1\">Figure 1A</a>."
+                                                    }
+                                                ], 
+                                                "mediaType": "application/docx", 
+                                                "uri": "https://cdn.elifesciences.org/articles/16695/elife-16695-fig1-data1-v3.docx", 
+                                                "filename": "elife-16695-fig1-data1-v3.docx"
+                                            }
+                                        ]
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig1-v3.jpg", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }, 
@@ -1252,37 +1256,39 @@
                                 "text": "To test whether the A260T mutation causes FASP and has a dominant effect on the circadian sleep-wake cycle, we generated wild-type h<i>CRY2</i> (h<i>CRY2-WT</i>) and mutant h<i>CRY2</i> (h<i>CRY2-A260T)</i> human BAC transgenic (Tg) mice (<a href=\"#fig2s1\">Figure 2\u2014figure\u00a0supplement 1A</a>). Transgenic mice were subjected to locomotor behavioral analysis using a video camera tracking system. Under conditions of 12\u2009hr light and 12\u2009hr dark (LD 12:12), both h<i>CRY2-WT</i> and h<i>CRY2-A260T</i> mice entrained stably to the LD cycle (<a href=\"#fig2\">Figure 2A</a>). However, the peak time of resting behavior, as determined by quadratic-function fitting, was significantly advanced in h<i>CRY2-A260T</i> mutant mice (<a href=\"#fig2\">Figure 2B</a>). The activity offset and onset times were also advanced in h<i>CRY2-A260T</i> mutant mice vs. h<i>CRY2-WT</i> mice (<a href=\"#fig2\">Figure 2C</a> and <a href=\"#fig2s1\">Figure 2\u2014figure\u00a0supplement 1B</a>). Similarly, h<i>CRY2-A260T</i> mutant mice on a <i>Cry2</i> null background demonstrated advanced activity onset and offset, especially around the LD transition (ZT12-13) (<a href=\"#fig2s1\">Figure 2-\u2014figure\u00a0supplement 1C</a>). These results demonstrate that h<i>CRY2-A260T</i> mice recapitulate the advanced sleep phase seen in the human FASP subjects harboring the <i>CRY2</i> mutation."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.16695.005", 
-                                "id": "fig2", 
-                                "label": "Figure 2.", 
-                                "title": "h<i>CRY2-A260T</i> mice have advanced phase of sleep-wake behavior in a light-dark cycle and a shortened circadian period in constant darkness.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Mouse movement was tracked by an infrared video camera in LD. The ratio of immobilization time to total daily immobilization time (upper panel) and the ratio of walking distance to total daily distance (bottom panel) were plotted every 10 min. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i>). (<b>B</b>) Peak time of immobility was measured by fitting a quadratic function to data from ZT0 to 13. Representative examples of curve fitting for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i> are shown here. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T,</i> *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Onset and offset of locomotor activity. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i>). (<b>D</b>) Actograms of wheel-running activity for <i>hCRY2-WT</i>, h<i>CRY2-A260T,</i> and littermate transgene-negative mice. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. (<b>E</b>) Phase-shifts in response to a 30-min light exposure at ZT14 indicated by red arrows in (<b>D</b>). *p&lt;0.05 by Tukey\u2019s test (n\u00a0=\u00a07 for h<i>CRY2-WT,</i> n\u00a0=\u00a011 for h<i>CRY2-A260T,</i> n\u00a0=\u00a010 for WT). (<b>F</b>) The distribution of period measurements for BAC transgenic mice and transgene negative controls. Period was determined by line fitting of activity onset and chi-square periodogram from day 7 to day 19 in DD. *p&lt;0.05 (n\u00a0=\u00a015 for h<i>CRY2-WT</i>, n\u00a0=\u00a014 for h<i>CRY2-A260T</i> and n\u00a0=\u00a07 for WT)"
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-v3.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-16695-fig2-v3.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.005", 
+                                        "id": "fig2", 
+                                        "label": "Figure 2", 
+                                        "title": "h<i>CRY2-A260T</i> mice have advanced phase of sleep-wake behavior in a light-dark cycle and a shortened circadian period in constant darkness.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Mouse movement was tracked by an infrared video camera in LD. The ratio of immobilization time to total daily immobilization time (upper panel) and the ratio of walking distance to total daily distance (bottom panel) were plotted every 10 min. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i>). (<b>B</b>) Peak time of immobility was measured by fitting a quadratic function to data from ZT0 to 13. Representative examples of curve fitting for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i> are shown here. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T,</i> *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Onset and offset of locomotor activity. Data are shown as means with SEM (n\u00a0=\u00a08 for h<i>CRY2-WT</i> and h<i>CRY2-A260T</i>). (<b>D</b>) Actograms of wheel-running activity for <i>hCRY2-WT</i>, h<i>CRY2-A260T,</i> and littermate transgene-negative mice. The blue shadows indicate periods when the lights were on. Red lines were fitted to activity onset using ClockLab analysis software. (<b>E</b>) Phase-shifts in response to a 30-min light exposure at ZT14 indicated by red arrows in (<b>D</b>). *p&lt;0.05 by Tukey\u2019s test (n\u00a0=\u00a07 for h<i>CRY2-WT,</i> n\u00a0=\u00a011 for h<i>CRY2-A260T,</i> n\u00a0=\u00a010 for WT). (<b>F</b>) The distribution of period measurements for BAC transgenic mice and transgene negative controls. Period was determined by line fitting of activity onset and chi-square periodogram from day 7 to day 19 in DD. *p&lt;0.05 (n\u00a0=\u00a015 for h<i>CRY2-WT</i>, n\u00a0=\u00a014 for h<i>CRY2-A260T</i> and n\u00a0=\u00a07 for WT)"
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-v3.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig2-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-v3.tif", 
+                                            "size": {
+                                                "width": 2357, 
+                                                "height": 2204
+                                            }
+                                        }
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2357, 
-                                        "height": 2204
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-v3.jpg", 
-                                    "filename": "elife-16695-fig2-v3.jpg"
-                                }, 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.16695.006", 
                                         "id": "fig2s1", 
-                                        "label": "Figure 2\u2014figure supplement 1.", 
+                                        "label": "Figure 2\u2014figure supplement 1", 
                                         "title": "Locomoter activity of h <i>CRY2</i> BAC Tg mice.", 
                                         "caption": [
                                             {
@@ -1293,25 +1299,22 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp1-v3.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-16695-fig2-figsupp1-v3.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp1-v3.tif", 
                                             "size": {
                                                 "width": 2268, 
                                                 "height": 2444
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp1-v3.jpg", 
-                                            "filename": "elife-16695-fig2-figsupp1-v3.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp1-v3.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.16695.007", 
                                         "id": "fig2s2", 
-                                        "label": "Figure 2\u2014figure supplement 2.", 
+                                        "label": "Figure 2\u2014figure supplement 2", 
                                         "title": "Wheel-running activity of h<i>CRY2</i> BAC Tg mice.", 
                                         "caption": [
                                             {
@@ -1322,25 +1325,22 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp2-v3.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp2-v3.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-16695-fig2-figsupp2-v3.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp2-v3.tif", 
                                             "size": {
                                                 "width": 2398, 
                                                 "height": 2849
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp2-v3.jpg", 
-                                            "filename": "elife-16695-fig2-figsupp2-v3.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp2-v3.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.16695.008", 
                                         "id": "fig2s3", 
-                                        "label": "Figure 2\u2014figure supplement 3.", 
+                                        "label": "Figure 2\u2014figure supplement 3", 
                                         "title": "Light phase-shift of h<i>CRY2</i> BAC Tg mice at ZT22.", 
                                         "caption": [
                                             {
@@ -1351,25 +1351,22 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp3-v3.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp3-v3.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-16695-fig2-figsupp3-v3.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp3-v3.tif", 
                                             "size": {
                                                 "width": 1145, 
                                                 "height": 1486
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp3-v3.jpg", 
-                                            "filename": "elife-16695-fig2-figsupp3-v3.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp3-v3.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }, 
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.16695.009", 
                                         "id": "fig2s4", 
-                                        "label": "Figure 2\u2014figure supplement 4.", 
+                                        "label": "Figure 2\u2014figure supplement 4", 
                                         "title": "Wheel-running activity of h<i>CRY2Cry2</i> BAC Tg mice on a m KO background and another BAC Tg mice line.", 
                                         "caption": [
                                             {
@@ -1380,23 +1377,18 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp4-v3.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp4-v3.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-16695-fig2-figsupp4-v3.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp4-v3.tif", 
                                             "size": {
                                                 "width": 2116, 
                                                 "height": 1698
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig2-figsupp4-v3.jpg", 
-                                            "filename": "elife-16695-fig2-figsupp4-v3.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-figsupp4-v3.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig2-v3.jpg", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }, 
@@ -1410,66 +1402,70 @@
                                 "text": "We next analyzed voluntary wheel-running activity to evaluate phase-shift and free-running period of the circadian clock for the Tg mouse models. Similar to locomotor activity measured by video tracking (<a href=\"#fig2\">Figure 2A</a>), wheel-running activity offset times were advanced in h<i>CRY2-A260T</i> vs. h<i>CRY2-WT</i> in LD on both m<i>Cry2</i> WT and null backgrounds (<a href=\"#fig2\">Figure 2D</a>; <a href=\"#fig2s2\">Figure\u00a02\u2014figure\u00a0supplement 2</a>), while there are no significant differences in activity onset time and acrophase. Interestingly, h<i>CRY2-A260T</i> showed reduced phase-delay when mice were subjected to a 30-min light pulse at ZT14 (<a href=\"#fig2\">Figure 2D,E</a>), whereas phase-advance was normal in response to a light pulse at ZT22 (<a href=\"#fig2s3\">Figure 2\u2014figure\u00a0supplement 3</a>). Thus, mutant mice have reduced sensitivity to entrainment by light at early night compared to control mice. The mice were subsequently released into constant darkness (DD) to determine circadian period. The free-running period of h<i>CRY2-A260T</i> (23.52\u00b10.04\u2009hr) was significantly shorter than that of h<i>CRY2-WT</i> (23.70\u00b10.03\u2009hr) and <i>WT</i> mice (23.74\u00b10.02\u2009hr) (<a href=\"#fig2\">Figure 2F</a>). The period shortening phenotype was further enhanced by crossing Tg mice onto the m<i>Cry2</i> null background (<a href=\"#fig2s4\">Figure 2\u2014figure\u00a0supplement 4A</a>). The shorter circadian period and reduced phase-delay were also observed in another mutant line (23.51\u00b10.06\u2009hr) with a higher mutant transgene copy number (<a href=\"#fig2s1\">Figure 2\u2014figure supplements 1A</a>, <a href=\"#fig2s4\">4B</a>), thus excluding the possibility that the phenotype was due to positional effects of the transgene insertion site in the genome. Of note, there is no significant difference in the periods and phase-shifting of h<i>CRY2-WT</i> transgenic vs. transgene negative mice (<a href=\"#fig2\">Figure 2E,F</a>), indicating that the shortening of circadian period and abnormal phase-delay are not simply due to overexpression of h<i>CRY2</i>. Taken together, these data demonstrate that the phase-advances in mice and humans results from the <i>CRY2</i> mutation. Data from the transgenic mice suggests that the phase advance may be due to a combination of shortened period and altered sensitivity to photic entrainment."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.16695.010", 
-                                "id": "fig3", 
-                                "label": "Figure 3.", 
-                                "title": "Bioluminescence rhythms in tissue cultures from h<i>CRY2-A260T</i> mice and <i>CRY2-A260T</i> stable cell lines.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Representative rhythms of PER2::LUC bioluminescence in the liver and lung. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. (<b>B</b>) Period measurements of the bioluminescence rhythms in liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver and h<i>CRY2-WT</i> lung, n\u00a0=\u00a03 for h<i>CRY2-A260T</i> lung, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Peak and trough time of PER2::LUC bioluminescence rhythms of mouse liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver). Data are shown as means \u00b1 SD (n\u00a0=\u00a02 to 4 for lung, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>D</b>) Representative rhythms of PER2::LUC bioluminescence in MEFs from h<i>CRY2</i> transgenic mice. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p&lt;0.05 by Tukey\u2019s test). (<b>E</b>)\u00a0Representative examples of bioluminescence rhythms of m<i>Bmal1-luc</i> in MEFs from transgenic mice on a m<i>Cry2</i> knockout background. Cells were transfected with m<i>Bmal1</i>-luc vector 24\u2009hr before the recording. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p&lt;0.05 by Games-Howell test). (<b>F</b>)\u00a0Representative examples of bioluminescence rhythms of <i>Bmal1-luc</i> in NIH3T3 cells stably expressing FLAG-CRY2-WT or FLAG-CRY2-A260T. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test)."
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.010", 
+                                        "id": "fig3", 
+                                        "label": "Figure 3", 
+                                        "title": "Bioluminescence rhythms in tissue cultures from h<i>CRY2-A260T</i> mice and <i>CRY2-A260T</i> stable cell lines.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Representative rhythms of PER2::LUC bioluminescence in the liver and lung. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. (<b>B</b>) Period measurements of the bioluminescence rhythms in liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver and h<i>CRY2-WT</i> lung, n\u00a0=\u00a03 for h<i>CRY2-A260T</i> lung, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Peak and trough time of PER2::LUC bioluminescence rhythms of mouse liver and lung tissues. Data are shown as means \u00b1 SEM (n\u00a0=\u00a04 for liver). Data are shown as means \u00b1 SD (n\u00a0=\u00a02 to 4 for lung, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>D</b>) Representative rhythms of PER2::LUC bioluminescence in MEFs from h<i>CRY2</i> transgenic mice. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p&lt;0.05 by Tukey\u2019s test). (<b>E</b>)\u00a0Representative examples of bioluminescence rhythms of m<i>Bmal1-luc</i> in MEFs from transgenic mice on a m<i>Cry2</i> knockout background. Cells were transfected with m<i>Bmal1</i>-luc vector 24\u2009hr before the recording. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a04, *p&lt;0.05 by Games-Howell test). (<b>F</b>)\u00a0Representative examples of bioluminescence rhythms of <i>Bmal1-luc</i> in NIH3T3 cells stably expressing FLAG-CRY2-WT or FLAG-CRY2-A260T. Data were detrended by subtracting the 24\u2009hr average of bioluminescence. Period lengths of the bioluminescence rhythms in the stable cell lines are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test)."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig3-v3.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig3-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig3-v3.tif", 
+                                            "size": {
+                                                "width": 2292, 
+                                                "height": 1945
+                                            }
+                                        }
                                     }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig3-v3.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-16695-fig3-v3.jpg"
-                                    }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2292, 
-                                        "height": 1945
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig3-v3.jpg", 
-                                    "filename": "elife-16695-fig3-v3.jpg"
-                                }, 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig3-v3.jpg", 
-                                "alt": ""
+                                ]
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.16695.011", 
-                                "id": "fig4", 
-                                "label": "Figure 4.", 
-                                "title": "CRY2-A260T is less stable, particularly in nuclei.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Luciferase activity driven by mouse <i>Per1</i> E-box in HEK293 cells. 2, 5, 10 and 20 ng of hCRY2 expression vector (WT or A260T) was transfected into cells cultured in a 24-well plate. Luciferase activity was normalized to Renilla luciferase activity. Data are shown as means with SEM (n\u00a0=\u00a04, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>B</b>) Protein levels of CRY2-WT and CRY2-A260T in the nuclear and cytosolic fractions of HEK293 cells. Data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Degradation assay of CRY2 protein in HEK293 cells. Forty-eight hours after transfection, cells were treated with 100 \u03bcg/ml CHX and fractionated into the nuclear and cytosolic fractions. CRY2 protein levels at the starting point (t\u00a0=\u00a00\u2009hr) were normalized to 1. Data are shown as means with SEM (n\u00a0=\u00a03*, p&lt;0.05 by Student\u2019s <i>t-</i>test)."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-v3.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-16695-fig4-v3.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.011", 
+                                        "id": "fig4", 
+                                        "label": "Figure 4", 
+                                        "title": "CRY2-A260T is less stable, particularly in nuclei.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Luciferase activity driven by mouse <i>Per1</i> E-box in HEK293 cells. 2, 5, 10 and 20 ng of hCRY2 expression vector (WT or A260T) was transfected into cells cultured in a 24-well plate. Luciferase activity was normalized to Renilla luciferase activity. Data are shown as means with SEM (n\u00a0=\u00a04, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>B</b>) Protein levels of CRY2-WT and CRY2-A260T in the nuclear and cytosolic fractions of HEK293 cells. Data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>) Degradation assay of CRY2 protein in HEK293 cells. Forty-eight hours after transfection, cells were treated with 100 \u03bcg/ml CHX and fractionated into the nuclear and cytosolic fractions. CRY2 protein levels at the starting point (t\u00a0=\u00a00\u2009hr) were normalized to 1. Data are shown as means with SEM (n\u00a0=\u00a03*, p&lt;0.05 by Student\u2019s <i>t-</i>test)."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-v3.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig4-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-v3.tif", 
+                                            "size": {
+                                                "width": 2082, 
+                                                "height": 808
+                                            }
+                                        }
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2082, 
-                                        "height": 808
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-v3.jpg", 
-                                    "filename": "elife-16695-fig4-v3.jpg"
-                                }, 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.16695.012", 
                                         "id": "fig4s1", 
-                                        "label": "Figure 4\u2014figure supplement 1.", 
+                                        "label": "Figure 4\u2014figure supplement 1", 
                                         "title": "The effects of mutations at A260 on protein stability, repressor activity.", 
                                         "caption": [
                                             {
@@ -1480,23 +1476,18 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-figsupp1-v3.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-16695-fig4-figsupp1-v3.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-figsupp1-v3.tif", 
                                             "size": {
                                                 "width": 2121, 
                                                 "height": 1659
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig4-figsupp1-v3.jpg", 
-                                            "filename": "elife-16695-fig4-figsupp1-v3.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-figsupp1-v3.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig4-v3.jpg", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }, 
@@ -1532,37 +1523,39 @@
                                 "text": "FBXL3 primarily localizes in the nucleus and promotes proteasomal degradation of CRY2, consequently having a strong impact on the circadian period of mice (<a href=\"#bib2\">Busino et al., 2007</a>; <a href=\"#bib5\">Godinho et al., 2007</a>; <a href=\"#bib36\">Siepka et al., 2007</a>; <a href=\"#bib39\">Stojkovic et al., 2014</a>). A previous structural study demonstrated that C-terminal region of FBXL3 interacts with CRY2 through the FAD binding pocket and mutations in the FAD binding domain alter CRY2-FBXL3 interaction (<a href=\"#bib44\">Xing et al., 2013</a>). We therefore speculated that the A260T mutation affects the FBXL3-CRY2 interaction, thus altering CRY2 protein stability. We first examined WT and mutant CRY2 stability in the absence of FBXL3. As anticipated, h<i>FBXL3</i> knockdown in HEK293 cells increased the stability of both CRY2-WT and CRY2-A260T. Interestingly, the destabilizing effect of the A260T mutation was abrogated by h<i>FBXL3</i> knockdown (<a href=\"#fig5\">Figure 5A</a>), suggesting the effect of the mutation requires FBXL3."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.16695.013", 
-                                "id": "fig5", 
-                                "label": "Figure 5.", 
-                                "title": "CRY2-A260T binds more strongly to FBXL3 leading to faster degradation of mutant CRY2.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) Effect of human <i>FBXL3</i> knockdown on CRY2 protein stability in HEK293 cells. Forty-eight hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX, and bioluminescence of CRY2-LUC was recorded continuously. Bioluminescence normalized to the value at time 0 was fitted to an exponential curve to determine half-life of CRY2-LUC. Data are shown as means with SEM (n\u00a0=\u00a04, *p&lt;0.05 by Welch\u2019s <i>t-</i>test). (<b>B</b>) Effect of FAD on CRY2 protein levels. Forty-two hours after transfection, HEK293 cells were treated with 100 \u03bcM FAD for 6\u2009hr. Data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>)\u00a0FAD and FBXL3 competition assay. CRY2-FBXL3 complex expressed in HEK293 cells was purified using FLAG antibody. FAD was added to CRY2-FBXL3 complex and incubated at 4\u00b0C for 2\u2009hr\u00a0in vitro. (<b>D</b>) CRY2 protein stability in the cells treated with KL001. Twenty-four hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX and KL001. Recording of bioluminescence and calculation of half-life was performed as described above. *p&lt;0.05 by Student\u2019s <i>t-</i>test (n\u00a0=\u00a03). (<b>E</b>) Interaction of CRY2 with FBXL3 in HEK293 cells treated with MG132 for 6\u2009hr prior to harvesting. (<b>F</b>) Ubiquitylation of CRY2. HEK293 cells expressing FLAG-CRY2 were treated with MG132 for 6\u2009hr before harvesting. FLAG-CRY2 was then purified and blotted with anti-Ubiquitin antibody. Quantitative data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test)."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-v3.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-16695-fig5-v3.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.013", 
+                                        "id": "fig5", 
+                                        "label": "Figure 5", 
+                                        "title": "CRY2-A260T binds more strongly to FBXL3 leading to faster degradation of mutant CRY2.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) Effect of human <i>FBXL3</i> knockdown on CRY2 protein stability in HEK293 cells. Forty-eight hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX, and bioluminescence of CRY2-LUC was recorded continuously. Bioluminescence normalized to the value at time 0 was fitted to an exponential curve to determine half-life of CRY2-LUC. Data are shown as means with SEM (n\u00a0=\u00a04, *p&lt;0.05 by Welch\u2019s <i>t-</i>test). (<b>B</b>) Effect of FAD on CRY2 protein levels. Forty-two hours after transfection, HEK293 cells were treated with 100 \u03bcM FAD for 6\u2009hr. Data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>)\u00a0FAD and FBXL3 competition assay. CRY2-FBXL3 complex expressed in HEK293 cells was purified using FLAG antibody. FAD was added to CRY2-FBXL3 complex and incubated at 4\u00b0C for 2\u2009hr\u00a0in vitro. (<b>D</b>) CRY2 protein stability in the cells treated with KL001. Twenty-four hours after transfection, the culture medium was changed to the recording medium containing 100 \u03bcg/ml CHX and KL001. Recording of bioluminescence and calculation of half-life was performed as described above. *p&lt;0.05 by Student\u2019s <i>t-</i>test (n\u00a0=\u00a03). (<b>E</b>) Interaction of CRY2 with FBXL3 in HEK293 cells treated with MG132 for 6\u2009hr prior to harvesting. (<b>F</b>) Ubiquitylation of CRY2. HEK293 cells expressing FLAG-CRY2 were treated with MG132 for 6\u2009hr before harvesting. FLAG-CRY2 was then purified and blotted with anti-Ubiquitin antibody. Quantitative data are shown as means with SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test)."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-v3.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig5-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-v3.tif", 
+                                            "size": {
+                                                "width": 2469, 
+                                                "height": 1838
+                                            }
+                                        }
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2469, 
-                                        "height": 1838
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-v3.jpg", 
-                                    "filename": "elife-16695-fig5-v3.jpg"
-                                }, 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.16695.014", 
                                         "id": "fig5s1", 
-                                        "label": "Figure 5\u2014figure supplement 1.", 
+                                        "label": "Figure 5\u2014figure supplement 1", 
                                         "title": "Structural modeling of A260T CRY2.", 
                                         "caption": [
                                             {
@@ -1573,23 +1566,18 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-figsupp1-v3.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-16695-fig5-figsupp1-v3.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-figsupp1-v3.tif", 
                                             "size": {
                                                 "width": 1837, 
                                                 "height": 2400
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig5-figsupp1-v3.jpg", 
-                                            "filename": "elife-16695-fig5-figsupp1-v3.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-figsupp1-v3.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig5-v3.jpg", 
-                                "alt": ""
+                                ]
                             }, 
                             {
                                 "type": "paragraph", 
@@ -1611,37 +1599,39 @@
                                 "text": "Our in vitro studies demonstrate that CRY2-A260T is less stable than CRY2-WT (<a href=\"#fig4\">Figure 4</a>). To examine the protein levels of mutant vs. wild-type CRY2 under physiological conditions, we used MEFs prepared from transgenic mice. Total protein levels of endogenous CRY2 were significantly lower in synchronized cells derived from h<i>CRY2-A260T</i> vs. h<i>CRY2-WT</i> mice at two different time points (<a href=\"#fig6\">Figure 6A</a>), even though <i>Cry2</i> transcript levels in h<i>CRY2-A260T</i> mice was higher than in h<i>CRY2-WT</i> mice (<a href=\"#fig6\">Figure 6B</a>). Similarly, CRY2 protein levels from liver nuclear extracts were lower in h<i>CRY2-A260T</i> vs. h<i>CRY2-WT</i> mice (<a href=\"#fig6\">Figure 6C,D</a>), while h<i>CRY2</i> mRNA levels were higher in mutant mice (<a href=\"#fig6\">Figure 6E</a>). CRY1 protein levels were also decreased by the mutation in nuclear extracts from liver (<a href=\"#fig6\">Figure 6C,D</a>), suggesting that CRY1 is destabilized in h<i>CRY2-A260T</i> mice. At the same time, we found that nuclear expression of PER1 and PER2 were up-regulated in liver extracts from mutant mice, particularly at ZT14 (<a href=\"#fig6\">Figure 6C,D</a>), suggesting that the timing of nuclear accumulation of PER proteins is advanced in h<i>CRY2-A260T</i> mice. Although PER1 and PER2 protein levels were significantly altered, their mRNA levels were not different (<a href=\"#fig6\">Figure 6E</a>). A similar alteration of PER1 and PER2 protein levels in the absence of noticeable changes in mRNA levels was previously reported for <i>Psttm</i> mutant mouse liver (<a href=\"#bib47\">Yoo et al., 2013</a>). <i>Psttm</i> mice have a mutation in the <i>Fbxl21</i> gene and this mutation decreases the protein level of FBXL21, which functionally competes with FBXL3. The <i>Psttm</i> mutation resulted in CRY1 and CRY2 protein destabilization and a shorter circadian period in mice (<a href=\"#bib47\">Yoo et al., 2013</a>), which parallels the phenotype of our h<i>CRY2-A260T</i> mice (<a href=\"#fig2\">Figure 2E</a>). We found that the expression of clock genes in liver was not significantly altered by the mutation, while the effect was obvious in MEFs (<a href=\"#fig6\">Figure 6B,E</a>, and <a href=\"#fig6s1\">Figure 6\u2014figure\u00a0supplement 1</a>). This is congruent with a previous suggestion that the effect of the CRY2 destabilization has diverged among different tissues (<a href=\"#bib10\">Hirano et al., 2013</a>; <a href=\"#bib47\">Yoo et al., 2013</a>). Collectively, we demonstrated that the A260T mutation destabilizes CRY2 proteins in vivo likely through alteration of FBXL3-mediated CRY2 degradation, leading to perturbation of the circadian clock."
                             }, 
                             {
-                                "type": "image", 
-                                "doi": "10.7554/eLife.16695.015", 
-                                "id": "fig6", 
-                                "label": "Figure 6.", 
-                                "title": "CRY2-A260T expression is down-regulated in h<i>CRY2-A260T</i> mice.", 
-                                "caption": [
+                                "type": "figure", 
+                                "assets": [
                                     {
-                                        "type": "paragraph", 
-                                        "text": "(<b>A</b>) CRY2 protein levels in synchronized MEFs. Cells were treated with 100 nM Dex for 2\u2009hr to synchronize the cellular rhythms. Media was change and MEFs were cultured for 24 or 36\u2009hr before harvesting. Quantified band intensities of CRY2 (mouse CRY2 and human CRY2) are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>B</b>) mRNA levels of clock genes in synchronized MEFs. Cellular rhythms of MEFs were synchronized with 100 nM Dex for 2\u2009hr. mRNA levels were quantified by real-time PCR. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>)\u00a0Temporal expression profiles of PER1, PER2, CRY1 and CRY2 in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. Asterisks mark non-specific bands. (<b>D</b>) Quantification of protein levels in (<b>C</b>). Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<b>E</b>) mRNA levels of indicated clock genes in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. mRNA levels of indicated genes were quantified by real-time PCR using gene specific primers. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<b>F</b>) Model of CRY2 protein regulation. In wild-type, FAD binding to CRY2 acts to stabilize by competing with FBXL3. In h<i>CRY2-A260T</i> transgenic mice or FASP human subjects with CRY2 mutations, FAD does not protect CRY2 from FBXL3-mediated degradation. Destabilization of CRY2 results in shortened period, leading to advanced sleep phase. In <i>Fbxl3</i> knockout mice or mutant mice (<i>Overtime</i>and <i>After-hours</i>)\u00a0(<a href=\"#bib5\">Godinho et al., 2007</a>; <a href=\"#bib36\">Siepka et al., 2007</a>), CRY2 is stabilized in the nucleus, thus lengthening the circadian period."
-                                    }
-                                ], 
-                                "image": {
-                                    "source": {
-                                        "mediaType": "image/jpeg", 
-                                        "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-v3.jpg/full/full/0/default.jpg", 
-                                        "filename": "elife-16695-fig6-v3.jpg"
+                                        "type": "image", 
+                                        "doi": "10.7554/eLife.16695.015", 
+                                        "id": "fig6", 
+                                        "label": "Figure 6", 
+                                        "title": "CRY2-A260T expression is down-regulated in h<i>CRY2-A260T</i> mice.", 
+                                        "caption": [
+                                            {
+                                                "type": "paragraph", 
+                                                "text": "(<b>A</b>) CRY2 protein levels in synchronized MEFs. Cells were treated with 100 nM Dex for 2\u2009hr to synchronize the cellular rhythms. Media was change and MEFs were cultured for 24 or 36\u2009hr before harvesting. Quantified band intensities of CRY2 (mouse CRY2 and human CRY2) are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>B</b>) mRNA levels of clock genes in synchronized MEFs. Cellular rhythms of MEFs were synchronized with 100 nM Dex for 2\u2009hr. mRNA levels were quantified by real-time PCR. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03, *p&lt;0.05 by Student\u2019s <i>t-</i>test). (<b>C</b>)\u00a0Temporal expression profiles of PER1, PER2, CRY1 and CRY2 in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. Asterisks mark non-specific bands. (<b>D</b>) Quantification of protein levels in (<b>C</b>). Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<b>E</b>) mRNA levels of indicated clock genes in mouse liver. Mice were sacrificed every 4\u2009hr on the second day in DD. mRNA levels of indicated genes were quantified by real-time PCR using gene specific primers. Data are shown as means \u00b1 SEM (n\u00a0=\u00a03). (<b>F</b>) Model of CRY2 protein regulation. In wild-type, FAD binding to CRY2 acts to stabilize by competing with FBXL3. In h<i>CRY2-A260T</i> transgenic mice or FASP human subjects with CRY2 mutations, FAD does not protect CRY2 from FBXL3-mediated degradation. Destabilization of CRY2 results in shortened period, leading to advanced sleep phase. In <i>Fbxl3</i> knockout mice or mutant mice (<i>Overtime</i>and <i>After-hours</i>)\u00a0(<a href=\"#bib5\">Godinho et al., 2007</a>; <a href=\"#bib36\">Siepka et al., 2007</a>), CRY2 is stabilized in the nucleus, thus lengthening the circadian period."
+                                            }
+                                        ], 
+                                        "image": {
+                                            "source": {
+                                                "mediaType": "image/jpeg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-v3.tif/full/full/0/default.jpg", 
+                                                "filename": "elife-16695-fig6-v3.jpg"
+                                            }, 
+                                            "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-v3.tif", 
+                                            "size": {
+                                                "width": 2500, 
+                                                "height": 2450
+                                            }
+                                        }
                                     }, 
-                                    "alt": "", 
-                                    "size": {
-                                        "width": 2500, 
-                                        "height": 2450
-                                    }, 
-                                    "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-v3.jpg", 
-                                    "filename": "elife-16695-fig6-v3.jpg"
-                                }, 
-                                "supplements": [
                                     {
                                         "type": "image", 
                                         "doi": "10.7554/eLife.16695.016", 
                                         "id": "fig6s1", 
-                                        "label": "Figure 6\u2014figure supplement 1.", 
+                                        "label": "Figure 6\u2014figure supplement 1", 
                                         "title": "mRNA levels of clock genes in MEF and liver of h<i>CRY2</i> BAC Tg mice.", 
                                         "caption": [
                                             {
@@ -1652,23 +1642,18 @@
                                         "image": {
                                             "source": {
                                                 "mediaType": "image/jpeg", 
-                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-figsupp1-v3.jpg/full/full/0/default.jpg", 
+                                                "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-figsupp1-v3.tif/full/full/0/default.jpg", 
                                                 "filename": "elife-16695-fig6-figsupp1-v3.jpg"
                                             }, 
                                             "alt": "", 
+                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-figsupp1-v3.tif", 
                                             "size": {
                                                 "width": 1953, 
                                                 "height": 2143
-                                            }, 
-                                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:16695/elife-16695-fig6-figsupp1-v3.jpg", 
-                                            "filename": "elife-16695-fig6-figsupp1-v3.jpg"
-                                        }, 
-                                        "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-figsupp1-v3.jpg", 
-                                        "alt": ""
+                                            }
+                                        }
                                     }
-                                ], 
-                                "uri": "https://publishing-cdn.elifesciences.org/16695/elife-16695-fig6-v3.jpg", 
-                                "alt": ""
+                                ]
                             }
                         ]
                     }
@@ -1740,7 +1725,7 @@
                             }, 
                             {
                                 "type": "paragraph", 
-                                "text": "The salivary dim light melatonin onset (DLMO) of the proband was obtained on the last night of the home recordings. DLMO phase was assessed from serial saliva samples (~1\u2009mL) collected at 30 min intervals using \u2018Salivette\u2019 saliva collection tubes (Sarstedt, Inc., Newton, NC) in dim light (<!--=10 lux) confirmed by recording the ambient light level before each sample using a luxmeter (Sinometer, ShenZhen, China). Samples were collected, beginning 6\u2009hr before the subject\u2019s typical bedtime. Saliva samples were frozen overnight and then shipped the next day in an insulated box with frozen coolant to another laboratory (SolidPhase\u00a0Inc., Portland, ME) for radioimmunoassay by test kit (ALPCO Diagnostics, Windham, NH). The lower limit of detection of this assay is 0.2 pg/mL. The salivary dim light melatonin onset (DLMO) in adults was calculated and compared with a population sample not purposely selected for morning or evening preference by the method and data of Burgess and Fogg (<a href=\"#bib1\"-->Burgess and Fogg, 2008). Concurrent sleep logs and Zeo (Zeo Incorporated, Boston, MA) EEG recordings were obtained for ten consecutive nights of sleep at home. DNAs purified from blood samples were used to screen for mutations. For this particular family, a list of candidate genes including <i>CLOCK, BMAL1, PER1-3, CRY1-2, DEC1-2, CSNK1D, CSNK1E, PRKAA2, NPAS2, CSNK2A2, CSNK2B, FBXL3, GSK3B, PKCA, PRKAA1, PRKAA2, RAB3A, RORA, TIMELESS, NR1D1, and PRKCG</i> were screened. CRY2 (Accession number; EAW68030) A260T was identified as a novel variant specific for mutation carriers of this family (at the time of identification in 2008). The prevalence of the A260T allele (rs201220841) is 0.008% and 0.1% in the two sets of public genome databases, of which sample sizes are 121,412 and 1323, respectively."
+                                "text": "The salivary dim light melatonin onset (DLMO) of the proband was obtained on the last night of the home recordings. DLMO phase was assessed from serial saliva samples (~1\u2009mL) collected at 30 min intervals using \u2018Salivette\u2019 saliva collection tubes (Sarstedt, Inc., Newton, NC) in dim light (&lt;/=10 lux) confirmed by recording the ambient light level before each sample using a luxmeter (Sinometer, ShenZhen, China). Samples were collected, beginning 6\u2009hr before the subject\u2019s typical bedtime. Saliva samples were frozen overnight and then shipped the next day in an insulated box with frozen coolant to another laboratory (SolidPhase\u00a0Inc., Portland, ME) for radioimmunoassay by test kit (ALPCO Diagnostics, Windham, NH). The lower limit of detection of this assay is 0.2 pg/mL. The salivary dim light melatonin onset (DLMO) in adults was calculated and compared with a population sample not purposely selected for morning or evening preference by the method and data of Burgess and Fogg (<a href=\"#bib1\">Burgess and Fogg, 2008</a>). Concurrent sleep logs and Zeo (Zeo Incorporated, Boston, MA) EEG recordings were obtained for ten consecutive nights of sleep at home. DNAs purified from blood samples were used to screen for mutations. For this particular family, a list of candidate genes including <i>CLOCK, BMAL1, PER1-3, CRY1-2, DEC1-2, CSNK1D, CSNK1E, PRKAA2, NPAS2, CSNK2A2, CSNK2B, FBXL3, GSK3B, PKCA, PRKAA1, PRKAA2, RAB3A, RORA, TIMELESS, NR1D1, and PRKCG</i> were screened. CRY2 (Accession number; EAW68030) A260T was identified as a novel variant specific for mutation carriers of this family (at the time of identification in 2008). The prevalence of the A260T allele (rs201220841) is 0.008% and 0.1% in the two sets of public genome databases, of which sample sizes are 121,412 and 1323, respectively."
                             }
                         ]
                     }, 

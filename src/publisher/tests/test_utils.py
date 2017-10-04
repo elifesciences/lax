@@ -34,8 +34,8 @@ class Errors(base.BaseCase):
     def test_state_error3(self):
         "if optional third argument is a ValidationError, the details of the error are captured"
         try:
+            # will not validate as-is. this is deliberate, we're testing contents of error message
             ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json'), 'r'))
-            ajson['statusDate'] = None
             utils.validate(ajson, settings.SCHEMA_IDX['poa'])
         except ValidationError as verr:
             err = utils.StateError(1, 'msg', verr)

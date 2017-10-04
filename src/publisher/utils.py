@@ -22,6 +22,8 @@ lfilter = lambda func, *iterable: list(filter(func, *iterable))
 
 keys = lambda d: list(d.keys())
 
+lzip = lambda *iterable: list(zip(*iterable))
+
 def formatted_traceback(errobj):
     return ''.join(traceback.format_tb(errobj.__traceback__))
 

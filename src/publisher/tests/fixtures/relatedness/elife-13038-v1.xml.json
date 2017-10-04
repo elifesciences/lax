@@ -6,14 +6,14 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-13038-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-13038-v1.xml"
         }, 
         "status": "vor", 
         "id": "13038", 
         "version": 1, 
         "type": "correction", 
         "doi": "10.7554/eLife.13038", 
-        "authorLine": "Olivier Britz et al", 
+        "authorLine": "Olivier Britz et al.", 
         "title": "Correction: A genetically defined asymmetry underlies the inhibitory control of flexor\u2013extensor locomotor movements", 
         "published": "2015-11-25T00:00:00Z", 
         "versionDate": "2015-11-25T00:00:00Z", 
@@ -27,7 +27,7 @@
         ], 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Britz et al", 
+            "holder": "Britz et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -99,7 +99,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/694f91de44ebc7cc61aba8be0982b7613cac8c3f/articles/elife-13038-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-13038-v1.xml", 
             "patched": true
         }, 
         "status": "vor", 
@@ -107,7 +107,7 @@
         "version": 1, 
         "type": "correction", 
         "doi": "10.7554/eLife.13038", 
-        "authorLine": "Olivier Britz et al", 
+        "authorLine": "Olivier Britz et al.", 
         "title": "Correction: A genetically defined asymmetry underlies the inhibitory control of flexor\u2013extensor locomotor movements", 
         "published": "2015-11-25T00:00:00Z", 
         "versionDate": "2015-11-25T00:00:00Z", 
@@ -121,7 +121,7 @@
         ], 
         "copyright": {
             "license": "CC-BY-4.0", 
-            "holder": "Britz et al", 
+            "holder": "Britz et al.", 
             "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
         }, 
         "authors": [
@@ -226,15 +226,12 @@
                                 "filename": "elife-13038-fig1-v1.jpg"
                             }, 
                             "alt": "", 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:13038/elife-13038-fig1-v1.tif", 
                             "size": {
                                 "width": 3148, 
                                 "height": 4043
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:13038/elife-13038-fig1-v1.tif", 
-                            "filename": "elife-13038-fig1-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/13038/elife-13038-fig1-v1.tif", 
-                        "alt": ""
+                            }
+                        }
                     }, 
                     {
                         "type": "paragraph", 
@@ -250,15 +247,12 @@
                                 "filename": "elife-13038-fig2-v1.jpg"
                             }, 
                             "alt": "", 
+                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:13038/elife-13038-fig2-v1.tif", 
                             "size": {
                                 "width": 3148, 
                                 "height": 4086
-                            }, 
-                            "uri": "https://prod--cdn-iiif.elifesciences.org/lax:13038/elife-13038-fig2-v1.tif", 
-                            "filename": "elife-13038-fig2-v1.tif"
-                        }, 
-                        "uri": "https://publishing-cdn.elifesciences.org/13038/elife-13038-fig2-v1.tif", 
-                        "alt": ""
+                            }
+                        }
                     }, 
                     {
                         "type": "paragraph", 

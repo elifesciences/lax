@@ -93,6 +93,9 @@ MIDDLEWARE = [
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
 
+    'publisher.middleware.apiv1_deprecated', # api v1 and v2 content transformations. temporary.
+    'publisher.middleware.apiv12transform', # api v1 and v2 content transformations. temporary.
+
     'core.middleware.DownstreamCaching',
 ]
 
@@ -169,6 +172,7 @@ STATICFILES_DIRS = (
     os.path.join(SRC_DIR, "static"),
 )
 
+#from publisher.negotiation import KNOWN_CLASSES
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -181,12 +185,19 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'publisher.negotiation.ArticleListVersion1',
         'publisher.negotiation.POAArticleVersion1',
+        'publisher.negotiation.POAArticleVersion2',
         'publisher.negotiation.VORArticleVersion1',
+        'publisher.negotiation.VORArticleVersion2',
         'publisher.negotiation.ArticleHistoryVersion1',
         'publisher.negotiation.ArticleRelatedVersion1',
         'rest_framework.renderers.JSONRenderer',
-        #'rest_framework.renderers.BrowsableAPIRenderer',
-    )
+    ),
+
+    # no idea why this doesn't work
+    # KNOWN_CLASSES + (
+    #    'rest_framework.renderers.JSONRenderer',
+    #    #'rest_framework.renderers.BrowsableAPIRenderer',
+    #)
 }
 
 SWAGGER_SETTINGS = {
@@ -205,12 +216,26 @@ EXPLORER_S3_BUCKET = cfg('general.reporting-bucket', None)
 #
 
 SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
-SCHEMA_IDX = {
-    'poa': join(SCHEMA_PATH, 'model/article-poa.v1.json'),
-    'vor': join(SCHEMA_PATH, 'model/article-vor.v1.json'),
-    'history': join(SCHEMA_PATH, 'model/article-history.v1.json'),
-    'list': join(SCHEMA_PATH, 'model/article-list.v1.json')
+
+# a response is valid if validates under any version of it's schema.
+# order is important. if all attempts to validate fail, the first validation error is re-raised
+ALL_SCHEMA_IDX = {
+    'poa': [
+        (2, join(SCHEMA_PATH, 'model/article-poa.v2.json')),
+        (1, join(SCHEMA_PATH, 'model/article-poa.v1.json')),
+    ],
+    'vor': [
+        (2, join(SCHEMA_PATH, 'model/article-vor.v2.json')),
+        (1, join(SCHEMA_PATH, 'model/article-vor.v1.json')),
+    ],
+    'history': [
+        (1, join(SCHEMA_PATH, 'model/article-history.v1.json')),
+    ],
+    'list': [
+        (1, join(SCHEMA_PATH, 'model/article-list.v1.json')),
+    ],
 }
+SCHEMA_IDX = {tpe: rows[0][1] for tpe, rows in ALL_SCHEMA_IDX.items()}
 API_PATH = join(SCHEMA_PATH, 'api.raml')
 
 def _load_api_raml(path):
@@ -255,6 +280,9 @@ RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', True)
 # when ingesting and publishing article-json with the force=True parameter,
 # should validation failures cause the ingest/publish action to fail?
 VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
+
+#
+API_V12_TRANSFORMS = True
 
 #
 # logging
