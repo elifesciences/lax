@@ -33,12 +33,12 @@ class One(base.BaseCase):
 
     def test_all(self):
         v1, v2, v12 = 1, 2, 12
-        
+
         cases = [
             # content, request, response
             (v1, v1, v1),
             (v1, v2, v2),
-            
+
             (v2, v1, v1),
             (v2, v2, v2),
 
@@ -73,8 +73,8 @@ class One(base.BaseCase):
             response = response_idx[rskey]
 
             name = ' '.join(map(str, [ckey, rqkey, rskey]))
-            #print(name)
-            with self.subTest(name): # doesn't seem to do 
+            # print(name)
+            with self.subTest(name):
                 try:
                     self.publish_ajson(content)
                     actual_resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=request)
