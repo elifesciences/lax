@@ -19,9 +19,14 @@ class One(base.BaseCase):
         self.c = Client()
 
         # additionalFiles
-        self.msid = 21393
-        self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-21393-v1.xml.json') # poa, v1 ajson
-        self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-21393-v1.xml.json') # poa, v1 ajson
+        #self.msid = 21393
+        #self.status = 'poa'
+        #self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-21393-v1.xml.json') # poa, v1
+        #self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-21393-v1.xml.json') # poa, v1
+        self.msid = 27134
+        self.status = 'vor'
+        self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-27134-v2.xml.json') # vor, v2
+        self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-27134-v2.xml.json') # vor, v2
 
         self.ajson_api1 = self.load_ajson2(self.ajson_fixture_api1)
         self.ajson_api2 = self.load_ajson2(self.ajson_fixture_api2)
@@ -37,12 +42,12 @@ class One(base.BaseCase):
         cases = [
             # content, request, response
             (v1, v1, v1),
-            (v1, v2, v2),
+            (v1, v2, v2), # failing
             
-            (v2, v1, v1),
+            (v2, v1, v1), # failing
             (v2, v2, v2),
 
-            (v1, v12, v2),
+            (v1, v12, v2), # failing
             (v2, v12, v2),
         ]
 
@@ -63,8 +68,8 @@ class One(base.BaseCase):
         }
 
         schema_idx = {
-            v1: settings.ALL_SCHEMA_IDX['poa'][1][1],
-            v2: settings.ALL_SCHEMA_IDX['poa'][0][1],
+            v1: settings.ALL_SCHEMA_IDX[self.status][1][1],
+            v2: settings.ALL_SCHEMA_IDX[self.status][0][1],
         }
 
         for ckey, rqkey, rskey in cases:
@@ -76,6 +81,13 @@ class One(base.BaseCase):
             #print(name)
             with self.subTest(name): # doesn't seem to do 
                 try:
+                    # Lax needs a v1 before a v2 can be published
+                    self.add_or_update_article(**{
+                        'manuscript_id': self.msid,
+                        'version': 1,
+                        'published': '2017-07-11T00:00:00Z'
+                    })
+
                     self.publish_ajson(content)
                     actual_resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=request)
                     self.assertEqual(actual_resp.status_code, 200)
