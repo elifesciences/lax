@@ -33,11 +33,11 @@ def visit_target(content, transformer):
     def pred(element):
         "returns True if given element is a target for transformation"
         if isinstance(element, dict):
-            return 'additionalFiles' in element or element.get('type') == 'sourceData'
+            return 'additionalFiles' in element or 'sourceData' in element
 
     def fn(element):
         "transforms element's contents into something valid"
-        for target in ['additionalFiles', 'assets']:
+        for target in ['additionalFiles', 'assets', 'sourceData']:
             if target in element:
                 element[target] = lmap(transformer, element[target])
         return element
