@@ -94,7 +94,11 @@ class One(base.BaseCase):
                     # response is valid
                     self.assertTrue(utils.validate(actual_resp.json(), schema_idx[rskey]))
                     # response is equal to what we're expecting
-                    self.assertEqual(self.load_ajson2(actual_resp.json()), response)
+                    actual_json = self.load_ajson2(actual_resp.json())
+                    # slightly more isolated error messages
+                    self.assertEqual(actual_json.keys(), response.keys())
+                    for key in response.keys():
+                        self.assertEqual(actual_json.get(key), response.get(key))
 
                 finally:
                     models.Article.objects.all().delete()
