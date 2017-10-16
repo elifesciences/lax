@@ -256,6 +256,15 @@ class Command(ModCommand):
         if not action:
             self.invalid_args("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
 
+        if serial:
+            import queue
+            print_queue = queue.Queue()
+
+        else:
+            import multiprocessing
+            manager = multiprocessing.Manager()
+            print_queue = manager.Queue()
+
         try:
             if path:
                 if options['msid'] or options['version']:
@@ -264,17 +273,10 @@ class Command(ModCommand):
                 if not os.path.isdir(path):
                     self.invalid_args("the 'dir' option must point to a directory. got %r" % path)
 
-                import multiprocessing
-                manager = multiprocessing.Manager()
-                print_queue = manager.Queue()
-
                 fn = handle_many_serially if serial else handle_many_concurrently
                 fn(print_queue, action, path, force, dry_run)
 
             else:
-                import queue
-                print_queue = queue.Queue()
-
                 if not (options['msid'] and options['version']):
                     self.invalid_args("the 'id' and 'version' options are both required when a 'dir' option is not passed")
 
