@@ -93,9 +93,14 @@ def notify(msid):
         LOG.debug("writing message to event bus", extra={'bus-message': msg_json})
         event_bus_conn().publish(Message=msg_json)
         return msg_json # used only for testing
+
     except ValueError as err:
         # probably serializing value
         LOG.error("failed to serialize event bus payload %s", err, extra={'bus-message': msg_json})
+
+    except KeyboardInterrupt:
+        LOG.warn("ctrl-c caught caught during `notify`")
+        raise
 
     except BaseException as err:
         LOG.exception("unhandled error attempting to notify event bus of article change: %s", err)

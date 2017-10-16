@@ -14,11 +14,10 @@ from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
-import multiprocessing
 from django.db import reset_queries
 import os
 from .modcommand import ModCommand
-
+import time
 LOG = logging.getLogger(__name__)
 
 INVALID, ERROR = 'invalid', 'error'
@@ -121,6 +120,10 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             if not data_msid == msid:
                 raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
+    except KeyboardInterrupt as err:
+        LOG.warn("ctrl-c caught during data load")
+        raise
+
     except StateError as err:
         error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
@@ -139,10 +142,21 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         av = choices[action](msid, version, force, data, dry_run)
         success(print_queue, action, av, force, dry_run, log_context)
 
+    except KeyboardInterrupt as err:
+        LOG.warn("ctrl-c caught during ingest/publish")
+        raise
+
+    except SystemExit:
+        # `success` and `error` use `exit` to indicate success or failure with their return code.
+        # this is handled in the `job` function, so re-raise it here and handle it there
+        raise
+
     except StateError as err:
+        # handled error
         error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
-    except Exception as err:
+    except BaseException as err:
+        # unhandled error
         msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
         error(print_queue, ERROR, codes.UNKNOWN, msg, force, dry_run, log_context, trace=ftb(err))
@@ -153,6 +167,14 @@ def job(print_queue, action, path, force, dry_run):
         msid, version = utils.version_from_path(path)
         handle_single(print_queue, action, io.open(path, 'r', encoding='utf8'), msid, version, force, dry_run)
         return 0
+
+    except KeyboardInterrupt:
+        LOG.warn("ctrl-c caught. use ctrl-c again to quit to sending notifications")
+        try:
+            time.sleep(3)
+        except KeyboardInterrupt:
+            raise
+
     except SystemExit as err:
         LOG.debug("system exit caught", extra={'msid': msid, 'version': version})
         return err.code
@@ -234,9 +256,6 @@ class Command(ModCommand):
         if not action:
             self.invalid_args("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
 
-        manager = multiprocessing.Manager()
-        print_queue = manager.Queue()
-
         try:
             if path:
                 if options['msid'] or options['version']:
@@ -245,20 +264,32 @@ class Command(ModCommand):
                 if not os.path.isdir(path):
                     self.invalid_args("the 'dir' option must point to a directory. got %r" % path)
 
+                import multiprocessing
+                manager = multiprocessing.Manager()
+                print_queue = manager.Queue()
+
                 fn = handle_many_serially if serial else handle_many_concurrently
                 fn(print_queue, action, path, force, dry_run)
 
             else:
+                import queue
+                print_queue = queue.Queue()
+
                 if not (options['msid'] and options['version']):
                     self.invalid_args("the 'id' and 'version' options are both required when a 'dir' option is not passed")
 
                 handle_single(print_queue, action, options['infile'], msid, version, force, dry_run)
+
+        except KeyboardInterrupt:
+            LOG.info("ctrl-c caught somewhere, printing buffer")
 
         except Exception as err:
             LOG.exception("unhandled exception!")
             error(print_queue, ERROR, codes.UNKNOWN, str(err), force, dry_run, self.log_context, trace=ftb(err))
 
         finally:
+            self.stdout.write('+' * 20)
             for msg in iter(print_queue.get, 'STOP'):
                 self.stdout.write(msg)
+            self.stdout.write('+' * 20)
             self.stdout.flush()
