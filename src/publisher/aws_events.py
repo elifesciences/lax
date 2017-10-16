@@ -43,6 +43,7 @@ def defer(fn):
 
     @wraps(fn)
     def wrapper(*args):
+        return
         arg = args[0]
         nonlocal deferring # stateful!
 
