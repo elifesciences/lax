@@ -194,7 +194,9 @@ def handle_many_concurrently(print_queue, action, path, force, dry_run):
         ajson_file_list = json_files(print_queue, path)
         aws_events.notify(STOP) # defer sending notifications
         # order cannot be guaranteed
-        Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+        # backend='threading' is a lot less cpu intensive. possibly slower?
+        # timeout=10 # seconds, I presume.
+        Parallel(n_jobs=-1, backend='threading', timeout=10)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
         clean_up(print_queue)
         sys.exit(0) # TODO: return with num failed
     finally:
