@@ -43,7 +43,8 @@ def defer(fn):
 
     @wraps(fn)
     def wrapper(*args):
-        return
+        LOG.info("Deferring %s", args)    
+        #return
         arg = args[0]
         nonlocal deferring # stateful!
 
@@ -70,10 +71,12 @@ def defer(fn):
 
         # store the args if we're deferring and return
         if deferring:
+            LOG.info("Queuing %s", args)
             call_queue.put(args)
             return
 
         # we're not deferring, call wrapped fn as normal
+        LOG.info("Sending %s", args)
         return fn(*args)
     return wrapper
 
