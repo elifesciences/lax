@@ -73,6 +73,7 @@ def defer(fn):
         if deferring:
             LOG.info("Queuing %s", args)
             call_queue.put(args)
+            LOG.info("Enqueued %s", args)
             return
 
         # we're not deferring, call wrapped fn as normal

@@ -144,6 +144,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     except KeyboardInterrupt as err:
         LOG.warn("ctrl-c caught during ingest/publish")
+        LOG.exception("ctrl-c caught during ingest/publish/stack trace")
         raise
 
     except SystemExit:
@@ -170,6 +171,7 @@ def job(print_queue, action, path, force, dry_run):
 
     except KeyboardInterrupt:
         LOG.warn("ctrl-c caught. use ctrl-c again to quit to sending notifications")
+        LOG.exception("ctrl-c caught. use ctrl-c again to quit to sending notifications/stack trace")
         try:
             time.sleep(3)
         except KeyboardInterrupt:
