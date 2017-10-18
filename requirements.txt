@@ -12,7 +12,9 @@ django-rest-swagger==2.1.2
 django-sql-explorer==1.1.1
 djangorestframework==3.6.3
 et3==1.5
-green==2.11.0
+# versions of green > 2.9.0 conflict with kids.cache
+# both are doing command line parsing during installation
+green==2.9.0
 joblib==0.11
 jsonschema==2.6.0
 kids.cache==0.0.4
