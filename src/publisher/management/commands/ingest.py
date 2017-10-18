@@ -7,7 +7,7 @@ The ingest script DOES obey business rules and will not publish things twice,
 
 """
 from collections import OrderedDict
-import io, re, sys, json, argparse
+import os, io, re, sys, json, argparse, time
 from publisher import ajson_ingestor, utils, codes, aws_events
 from publisher.aws_events import START, STOP
 from publisher.utils import lfilter, formatted_traceback as ftb
@@ -15,9 +15,8 @@ from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
 from django.db import reset_queries
-import os
+from django.conf import settings
 from .modcommand import ModCommand
-import time
 LOG = logging.getLogger(__name__)
 
 INVALID, ERROR = 'invalid', 'error'
@@ -194,9 +193,8 @@ def handle_many_concurrently(print_queue, action, path, force, dry_run):
         ajson_file_list = json_files(print_queue, path)
         aws_events.notify(STOP) # defer sending notifications
         # order cannot be guaranteed
-        # backend='threading' is a lot less cpu intensive. possibly slower?
         # timeout=10 # seconds, I presume.
-        Parallel(n_jobs=-1, backend='threading', timeout=10)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+        Parallel(n_jobs=-1, timeout=10)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
         clean_up(print_queue)
         sys.exit(0) # TODO: return with num failed
     finally:
@@ -263,8 +261,9 @@ class Command(ModCommand):
             print_queue = queue.Queue()
 
         else:
-            import multiprocessing
-            manager = multiprocessing.Manager()
+            #import multiprocessing
+            #manager = multiprocessing.Manager()
+            manager = settings.MP_MANAGER
             print_queue = manager.Queue()
 
         try:
@@ -292,8 +291,6 @@ class Command(ModCommand):
             error(print_queue, ERROR, codes.UNKNOWN, str(err), force, dry_run, self.log_context, trace=ftb(err))
 
         finally:
-            self.stdout.write('+' * 20)
             for msg in iter(print_queue.get, 'STOP'):
                 self.stdout.write(msg)
-            self.stdout.write('+' * 20)
             self.stdout.flush()

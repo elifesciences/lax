@@ -6,6 +6,7 @@ example settings can be found in /path/to/lax/elife.cfg
 ./install.sh will create a symlink from dev.cfg -> lax.cfg if lax.cfg not found."""
 
 import os
+import multiprocessing
 from os.path import join
 from datetime import datetime
 import configparser as configparser
@@ -124,6 +125,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
+
+MP_MANAGER = multiprocessing.Manager()
 
 # Testing
 TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'

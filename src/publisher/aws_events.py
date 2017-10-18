@@ -1,12 +1,11 @@
+import os
 from ordered_set import OrderedSet
 import json
 from django.conf import settings
 import boto3
 from publisher import relation_logic as relationships
 from functools import wraps
-
-from multiprocessing import SimpleQueue
-
+import queue
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -28,6 +27,13 @@ def event_bus_conn():
 #
 #
 
+def get_queue():
+    if os.environ.get('MULTIPROCESSING'):
+        mp_manager = settings.MP_MANAGER
+        call_queue = mp_manager.Queue()
+        return call_queue
+    return queue.Queue()
+
 SAFEWORD = START = STOP = 'cacao'
 
 def defer(fn):
@@ -38,12 +44,11 @@ def defer(fn):
 
     """
 
-    call_queue = SimpleQueue()
+    call_queue = get_queue()
     deferring = False
 
     @wraps(fn)
     def wrapper(*args):
-        return
         arg = args[0]
         nonlocal deferring # stateful!
 

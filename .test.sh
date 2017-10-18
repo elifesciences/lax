@@ -20,6 +20,7 @@ find src/ -name '*.pyc' -delete
 # called by test.sh
 rm -f build/junit.xml
 #./src/manage.py test --testrunner=green.djangorunner.DjangoRunner "$@"
+MULTIPROCESSING=1 # testing management commands that require a queue shared between processes
 coverage run --source='src/' --omit='*/tests/*,*/migrations/*' src/manage.py test "$module" --no-input
 echo "* passed tests"
 
