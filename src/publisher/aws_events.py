@@ -28,7 +28,7 @@ def event_bus_conn():
 #
 
 def get_queue():
-    if os.environ.get('MULTIPROCESSING'):
+    if os.environ.get('LAX_MULTIPROCESSING'):
         mp_manager = settings.MP_MANAGER
         call_queue = mp_manager.Queue()
         return call_queue
