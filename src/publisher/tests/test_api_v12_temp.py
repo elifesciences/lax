@@ -21,8 +21,8 @@ class One(base.BaseCase):
         # additionalFiles
         #self.msid = 21393
         #self.status = 'poa'
-        #self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-21393-v1.xml.json') # poa, v1
-        #self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-21393-v1.xml.json') # poa, v1
+        # self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-21393-v1.xml.json') # poa, v1
+        # self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-21393-v1.xml.json') # poa, v1
         self.msid = 27134
         self.status = 'vor'
         self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-27134-v2.xml.json') # vor, v2
@@ -43,7 +43,7 @@ class One(base.BaseCase):
             # content, request, response
             (v1, v1, v1),
             (v1, v2, v2),
-            
+
             (v2, v1, v1),
             (v2, v2, v2),
 

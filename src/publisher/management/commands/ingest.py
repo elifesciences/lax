@@ -7,18 +7,16 @@ The ingest script DOES obey business rules and will not publish things twice,
 
 """
 from collections import OrderedDict
-import io, re, sys, json, argparse
+import os, io, re, sys, json, argparse, time
 from publisher import ajson_ingestor, utils, codes, aws_events
 from publisher.aws_events import START, STOP
 from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
-import multiprocessing
 from django.db import reset_queries
-import os
+from django.conf import settings
 from .modcommand import ModCommand
-
 LOG = logging.getLogger(__name__)
 
 INVALID, ERROR = 'invalid', 'error'
@@ -121,6 +119,10 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             if not data_msid == msid:
                 raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
+    except KeyboardInterrupt as err:
+        LOG.warn("ctrl-c caught during data load")
+        raise
+
     except StateError as err:
         error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
@@ -139,10 +141,21 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         av = choices[action](msid, version, force, data, dry_run)
         success(print_queue, action, av, force, dry_run, log_context)
 
+    except KeyboardInterrupt as err:
+        LOG.warn("ctrl-c caught during ingest/publish")
+        raise
+
+    except SystemExit:
+        # `success` and `error` use `exit` to indicate success or failure with their return code.
+        # this is handled in the `job` function, so re-raise it here and handle it there
+        raise
+
     except StateError as err:
+        # handled error
         error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
-    except Exception as err:
+    except BaseException as err:
+        # unhandled error
         msg = "unhandled exception attempting to %r article: %r" % (action, err)
         LOG.exception(msg, extra=log_context)
         error(print_queue, ERROR, codes.UNKNOWN, msg, force, dry_run, log_context, trace=ftb(err))
@@ -153,6 +166,14 @@ def job(print_queue, action, path, force, dry_run):
         msid, version = utils.version_from_path(path)
         handle_single(print_queue, action, io.open(path, 'r', encoding='utf8'), msid, version, force, dry_run)
         return 0
+
+    except KeyboardInterrupt:
+        LOG.warn("ctrl-c caught. use ctrl-c again to quit to sending notifications")
+        try:
+            time.sleep(3)
+        except KeyboardInterrupt:
+            raise
+
     except SystemExit as err:
         LOG.debug("system exit caught", extra={'msid': msid, 'version': version})
         return err.code
@@ -172,7 +193,8 @@ def handle_many_concurrently(print_queue, action, path, force, dry_run):
         ajson_file_list = json_files(print_queue, path)
         aws_events.notify(STOP) # defer sending notifications
         # order cannot be guaranteed
-        Parallel(n_jobs=-1)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
+        # timeout=10 # seconds, I presume.
+        Parallel(n_jobs=-1, timeout=10)(delayed(job)(print_queue, action, path, force, dry_run) for path in ajson_file_list) # pylint: disable=unexpected-keyword-arg
         clean_up(print_queue)
         sys.exit(0) # TODO: return with num failed
     finally:
@@ -234,8 +256,15 @@ class Command(ModCommand):
         if not action:
             self.invalid_args("no action specified. I need either a 'ingest', 'publish' or 'ingest+publish' action")
 
-        manager = multiprocessing.Manager()
-        print_queue = manager.Queue()
+        if serial:
+            import queue
+            print_queue = queue.Queue()
+
+        else:
+            #import multiprocessing
+            #manager = multiprocessing.Manager()
+            manager = settings.MP_MANAGER
+            print_queue = manager.Queue()
 
         try:
             if path:
@@ -253,6 +282,9 @@ class Command(ModCommand):
                     self.invalid_args("the 'id' and 'version' options are both required when a 'dir' option is not passed")
 
                 handle_single(print_queue, action, options['infile'], msid, version, force, dry_run)
+
+        except KeyboardInterrupt:
+            LOG.info("ctrl-c caught somewhere, printing buffer")
 
         except Exception as err:
             LOG.exception("unhandled exception!")
