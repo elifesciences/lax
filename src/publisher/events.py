@@ -32,8 +32,8 @@ def add_many(article, ae_list, force=False, skip_missing_datestamped=False):
 
 INGEST_EVENTS = [
     # why the list with a single value here? et3.render expects a pipeline of transformations
-    {'event': [models.DATE_XML_RECEIVED], 'datetime_event': [p('-history.received', render.EXCLUDE_ME)]},
-    {'event': [models.DATE_XML_ACCEPTED], 'datetime_event': [p('-history.accepted', render.EXCLUDE_ME)]},
+    {'event': [models.DATE_XML_RECEIVED], 'datetime_event': [p('received', render.EXCLUDE_ME)]},
+    {'event': [models.DATE_XML_ACCEPTED], 'datetime_event': [p('accepted', render.EXCLUDE_ME)]},
     {'event': [models.DATETIME_ACTION_INGEST], 'datetime_event': [None], 'value': [p('forced?'), lambda v: "forced=%s" % v]},
 ]
 

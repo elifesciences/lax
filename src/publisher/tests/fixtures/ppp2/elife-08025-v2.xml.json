@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-08025-v2.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-08025-v2.xml"
         }, 
         "-history": {
             "received": "2015-04-10T00:00:00Z", 
@@ -19,6 +19,8 @@
         "doi": "10.7554/eLife.08025", 
         "authorLine": "Tahnbee Kim et al.", 
         "title": "An excitatory amacrine cell detects object motion and provides feature-selective input to ganglion cells in the mouse retina", 
+        "received": "2015-04-10T00:00:00Z", 
+        "accepted": "2015-05-18T00:00:00Z", 
         "published": "2015-05-19T00:00:00Z", 
         "volume": 4, 
         "elocationId": "e08025", 
@@ -290,7 +292,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-08025-v2.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-08025-v2.xml", 
             "patched": true
         }, 
         "-history": {
@@ -304,6 +306,8 @@
         "doi": "10.7554/eLife.08025", 
         "authorLine": "Tahnbee Kim et al.", 
         "title": "An excitatory amacrine cell detects object motion and provides feature-selective input to ganglion cells in the mouse retina", 
+        "received": "2015-04-10T00:00:00Z", 
+        "accepted": "2015-05-18T00:00:00Z", 
         "published": "2015-05-19T00:00:00Z", 
         "volume": 4, 
         "elocationId": "e08025", 

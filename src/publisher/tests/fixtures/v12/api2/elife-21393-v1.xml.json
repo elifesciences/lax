@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-21393-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-21393-v1.xml"
         }, 
         "-history": {
             "received": "2016-09-12T00:00:00Z", 
@@ -19,6 +19,8 @@
         "doi": "10.7554/eLife.21393", 
         "authorLine": "Kenneth D Gibbs et al.", 
         "title": "Decoupling of the minority PhD talent pool and assistant professor hiring in medical school basic science departments in the US", 
+        "received": "2016-09-12T00:00:00Z", 
+        "accepted": "2016-11-11T00:00:00Z", 
         "published": "2016-11-17T00:00:00Z", 
         "versionDate": "2016-11-17T00:00:00Z", 
         "volume": 5, 
@@ -45,7 +47,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-21393-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-21393-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -59,6 +61,8 @@
         "doi": "10.7554/eLife.21393", 
         "authorLine": "Kenneth D Gibbs et al.", 
         "title": "Decoupling of the minority PhD talent pool and assistant professor hiring in medical school basic science departments in the US", 
+        "received": "2016-09-12T00:00:00Z", 
+        "accepted": "2016-11-11T00:00:00Z", 
         "published": "2016-11-17T00:00:00Z", 
         "versionDate": "2016-11-17T00:00:00Z", 
         "volume": 5, 
