@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-03401-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-03401-v1.xml"
         }, 
         "-history": {
             "received": "2014-05-18T00:00:00Z", 
@@ -19,6 +19,8 @@
         "doi": "10.7554/eLife.03401", 
         "authorLine": "Kevin M Esvelt et al.", 
         "title": "Concerning RNA-guided gene drives for the alteration of wild populations", 
+        "received": "2014-05-18T00:00:00Z", 
+        "accepted": "2014-07-09T00:00:00Z", 
         "published": "2014-07-17T00:00:00Z", 
         "versionDate": "2014-07-17T00:00:00Z", 
         "volume": 3, 
@@ -45,7 +47,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-03401-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-03401-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -59,6 +61,8 @@
         "doi": "10.7554/eLife.03401", 
         "authorLine": "Kevin M Esvelt et al.", 
         "title": "Concerning RNA-guided gene drives for the alteration of wild populations", 
+        "received": "2014-05-18T00:00:00Z", 
+        "accepted": "2014-07-09T00:00:00Z", 
         "published": "2014-07-17T00:00:00Z", 
         "versionDate": "2014-07-17T00:00:00Z", 
         "volume": 3, 

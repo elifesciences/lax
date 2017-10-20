@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-16695-v3.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-16695-v3.xml"
         }, 
         "-history": {
             "received": "2016-04-06T00:00:00Z", 
@@ -19,6 +19,8 @@
         "doi": "10.7554/eLife.16695", 
         "authorLine": "Arisa Hirano et al.", 
         "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
+        "received": "2016-04-06T00:00:00Z", 
+        "accepted": "2016-08-14T00:00:00Z", 
         "published": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 
@@ -568,7 +570,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-16695-v3.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-16695-v3.xml", 
             "patched": true
         }, 
         "-history": {
@@ -582,6 +584,8 @@
         "doi": "10.7554/eLife.16695", 
         "authorLine": "Arisa Hirano et al.", 
         "title": "A Cryptochrome 2 mutation yields advanced sleep phase in humans", 
+        "received": "2016-04-06T00:00:00Z", 
+        "accepted": "2016-08-14T00:00:00Z", 
         "published": "2016-08-16T00:00:00Z", 
         "volume": 5, 
         "elocationId": "e16695", 

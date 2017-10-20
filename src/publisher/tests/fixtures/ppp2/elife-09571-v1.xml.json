@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-09571-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-09571-v1.xml"
         }, 
         "-history": {
             "received": "2015-06-19T00:00:00Z", 
@@ -19,6 +19,8 @@
         "doi": "10.7554/eLife.09571", 
         "authorLine": "Jan J Zylicz et al.", 
         "title": "Chromatin dynamics and the role of G9a in gene regulation and enhancer silencing during early mouse development", 
+        "received": "2015-06-19T00:00:00Z", 
+        "accepted": "2015-11-06T00:00:00Z", 
         "published": "2015-11-09T00:00:00Z", 
         "versionDate": "2015-11-09T00:00:00Z", 
         "volume": 4, 
@@ -48,7 +50,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-09571-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-09571-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -62,6 +64,8 @@
         "doi": "10.7554/eLife.09571", 
         "authorLine": "Jan J Zylicz et al.", 
         "title": "Chromatin dynamics and the role of G9a in gene regulation and enhancer silencing during early mouse development", 
+        "received": "2015-06-19T00:00:00Z", 
+        "accepted": "2015-11-06T00:00:00Z", 
         "published": "2015-11-09T00:00:00Z", 
         "versionDate": "2015-11-09T00:00:00Z", 
         "volume": 4, 

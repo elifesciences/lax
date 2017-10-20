@@ -6,7 +6,7 @@
     }, 
     "snippet": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-13620-v1.xml"
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-13620-v1.xml"
         }, 
         "-history": {
             "received": "2015-12-08T00:00:00Z", 
@@ -19,6 +19,8 @@
         "doi": "10.7554/eLife.13620", 
         "authorLine": "John P Vanden Heuvel et al.", 
         "title": "Registered report: Systematic identification of genomic markers of drug sensitivity in cancer cells", 
+        "received": "2015-12-08T00:00:00Z", 
+        "accepted": "2016-05-25T00:00:00Z", 
         "published": "2016-06-23T00:00:00Z", 
         "versionDate": "2016-06-23T00:00:00Z", 
         "volume": 5, 
@@ -334,7 +336,7 @@
     }, 
     "article": {
         "-meta": {
-            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-13620-v1.xml", 
+            "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/1ce144c38c0991c1c8fd7ec54bdb3aa5e5bbfb0b/articles/elife-13620-v1.xml", 
             "patched": true
         }, 
         "-history": {
@@ -348,6 +350,8 @@
         "doi": "10.7554/eLife.13620", 
         "authorLine": "John P Vanden Heuvel et al.", 
         "title": "Registered report: Systematic identification of genomic markers of drug sensitivity in cancer cells", 
+        "received": "2015-12-08T00:00:00Z", 
+        "accepted": "2016-05-25T00:00:00Z", 
         "published": "2016-06-23T00:00:00Z", 
         "versionDate": "2016-06-23T00:00:00Z", 
         "volume": 5, 

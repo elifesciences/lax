@@ -37,7 +37,7 @@ class SimpleBaseCase(unittest.TestCase):
             data = data['article']
 
         # remove these values here so they don't interfere in creation
-        utils.delall(data, ['-related-articles-internal', '-related-articles-external', '-history'])
+        utils.delall(data, ['-related-articles-internal', '-related-articles-external'])
 
         # remove these values here so they don't interfere with comparison
         utils.delall(data, ['-meta', 'statusDate', 'versionDate'])
