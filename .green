@@ -1,0 +1,4 @@
+verbose = 3
+processes = 2
+#run-coverage = True # prints coverage report at end
+quiet-coverage = True
