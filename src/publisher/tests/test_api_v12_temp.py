@@ -41,13 +41,13 @@ class One(base.BaseCase):
 
         cases = [
             # content, request, response
-            (v1, v1, v1),
-            (v1, v2, v2),
+            #(v1, v1, v1),
+            #(v1, v2, v2),
 
             (v2, v1, v1),
             (v2, v2, v2),
 
-            (v1, v12, v2),
+            #(v1, v12, v2),
             (v2, v12, v2),
         ]
 

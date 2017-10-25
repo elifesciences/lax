@@ -57,6 +57,7 @@ def downgrade(content):
         return item
     return visit_target(content, transformer)
 
+'''
 def upgrade(content):
     "returns v2-compliant content"
     def transformer(item):
@@ -65,11 +66,12 @@ def upgrade(content):
             del item['title']
         return item
     return visit_target(content, transformer)
+'''
 
 TRANSFORMS = {
     '1': downgrade,
-    '2': upgrade,
-    '*': upgrade, # accept ll: */*
+    #'2': upgrade,
+    #'*': upgrade, # accept ll: */*
 }
 
 # adapted from https://djangosnippets.org/snippets/1042/
