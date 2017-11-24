@@ -81,7 +81,7 @@ class One(base.BaseCase):
             # print(name)
             with self.subTest(name):
                 try:
-                    # Lax needs a v1 before a v2 can be published
+                    # Lax needs a v1 of an article before a v2 can be published
                     self.add_or_update_article(**{
                         'manuscript_id': self.msid,
                         'version': 1,
