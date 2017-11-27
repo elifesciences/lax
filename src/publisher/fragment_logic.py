@@ -70,8 +70,10 @@ def valid(merge_result, quiet=True):
 
     status = merge_result['status'] # 'poa' or 'vor'
     validation_errors = []
+    versions_list = []
     for version, schema in settings.ALL_SCHEMA_IDX[status]:
         try:
+            versions_list.append(version)
             return utils.validate(merge_result, schema)
 
         except KeyError:
@@ -94,7 +96,9 @@ def valid(merge_result, quiet=True):
             continue
 
     if validation_errors and not quiet:
-        LOG.error("result failed to validate under any version of the schema")
+        versions_list = ' and '.join(map(str, versions_list))
+        # ll: failed to validate using poa article schema version 1 and 2
+        LOG.error("failed to validate using %s article schema version %s" % (status, versions_list))
         raise first(validation_errors)
 
 def extract_snippet(merged_result):
