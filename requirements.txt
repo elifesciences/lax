@@ -14,6 +14,7 @@ djangorestframework==3.6.3
 et3==1.5
 # versions of green > 2.9.0 conflict with kids.cache
 # both are doing command line parsing during installation
+graphene-django==2.0.0
 green==2.9.0
 joblib==0.11
 jsonschema==2.6.0

@@ -77,6 +77,7 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'rest_framework_swagger', # gui for api
+    'graphene_django',
 
     'reports', # necessary for management commands
     'publisher',
@@ -388,3 +389,8 @@ logger = {
     'propagate': False, # don't propagate up to root logger
 }
 LOGGING['loggers'].update(dict(list(zip(module_loggers, [logger] * len(module_loggers)))))
+
+
+GRAPHENE = {
+    'SCHEMA': 'core.schema.schema'
+}
