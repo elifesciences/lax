@@ -45,13 +45,15 @@ class ArticleAdmin(admin.ModelAdmin):
 
     def delete_model(self, request, art):
         super(ArticleAdmin, self).delete_model(request, art)
-        fragment_logic.set_all_article_json(art, quiet=True)
+        # simpler to disable hash check when updating many articles
+        fragment_logic.set_all_article_json(art, quiet=True, hash_check=False)
         aws_events.notify(art.manuscript_id)
 
     def save_related(self, request, form, formsets, change):
         super(ArticleAdmin, self).save_related(request, form, formsets, change)
         art = form.instance
-        fragment_logic.set_all_article_json(art, quiet=True)
+        # simpler to disable hash check when updating many articles
+        fragment_logic.set_all_article_json(art, quiet=True, hash_check=False)
         aws_events.notify(art.manuscript_id)
 
 admin_list = [

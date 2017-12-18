@@ -4,7 +4,7 @@ import json, copy
 from os.path import join
 from datetime import date, datetime, timedelta
 from .base import BaseCase
-from publisher import ajson_ingestor, models, utils, codes
+from publisher import ajson_ingestor, models, utils, codes, fragment_logic
 from publisher.ajson_ingestor import StateError
 from publisher.utils import lmap
 from unittest import skip
@@ -119,6 +119,7 @@ class Ingest(BaseCase):
 
         expected = "2016-04-13T01:00:00"
         self.ajson['article']['published'] = expected
+        self.ajson['article']['foo'] = 'bar' # avoid failing the hash check
 
         av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(av.datetime_published, None)
@@ -344,6 +345,7 @@ class Publish(BaseCase):
         # don't set a versionDate, just force a publish
         # we expect the v2.datetime_publish to remain unchanged
         del self.ajson['article']['versionDate'] # remember, this was copied from a v1 that had a versionDate!
+        self.ajson['article']['foo'] = 'bar' # avoid failing hash check
         av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
         av2v2 = self.freshen(av2v2)
 
@@ -375,6 +377,7 @@ class Publish(BaseCase):
         # ingest new pubdate, force publication
         new_pubdate = utils.todt('2016-01-01')
         self.ajson['article']['published'] = new_pubdate
+        self.ajson['article']['foo'] = 'bar' # avoid failing the hashcheck
         ajson_ingestor.ingest_publish(self.ajson, force=True)
         av = self.freshen(av)
         self.assertEqual(utils.ymd(new_pubdate), utils.ymd(av.datetime_published))
@@ -455,8 +458,19 @@ class IngestPublish(BaseCase):
         "attempting to do an update without force=True fails"
         # ingest once
         ajson_ingestor.ingest_publish(self.ajson)
+
+        # this doesn't work to avoid the hash check:
+        # data2['article']['title'] = 'bar' # avoid failing the hash check
+        # it doesn't work because the article-json isn't updated once an article is published
+        # *unless* force=True, which it explicitly is not in this case.
+        # instead, create=True and update=False are passed to fragments.add and
+        # the extant fragment is returned without being modified
+
         # attempt second ingest
-        self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
+        #self.assertRaises(StateError, ajson_ingestor.ingest_publish, data2)
+
+        # not ideal. the above disabled check was hitting business logic checks for codes.ALREADY_PUBLISHED
+        self.assertRaises(fragment_logic.Identical, ajson_ingestor.ingest_publish, self.ajson)
 
     def test_ingest_publish_dry_run(self):
         "specifying a dry run does not commit changes to database"

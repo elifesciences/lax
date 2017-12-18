@@ -216,8 +216,10 @@ class ArticleVersion(models.Model):
     # it's only ever correct for the first version of this article
     datetime_published = models.DateTimeField(blank=True, null=True, help_text="Date article first appeared on website")
 
+    # TODO: rename these fields to 'article_json' and 'article_json_snippet'
     article_json_v1 = JSONField(null=True, blank=True, help_text="Valid article-json.")
     article_json_v1_snippet = JSONField(null=True, blank=True, help_text="Valid article-json snippet, extracted from the valid article-json")
+    article_json_hash = models.CharField(max_length=32, help_text='md5 digest of merged result. see `fragment_logic.hash_ajson` for algorithm')
 
     datetime_record_created = models.DateTimeField(auto_now_add=True, help_text="Date this article was created")
     datetime_record_updated = models.DateTimeField(auto_now=True, help_text="Date this article was updated")

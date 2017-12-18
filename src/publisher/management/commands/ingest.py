@@ -7,11 +7,12 @@ The ingest script DOES obey business rules and will not publish things twice,
 
 """
 from collections import OrderedDict
-import os, io, re, sys, json, argparse, time
+import os, io, re, sys, argparse, time
 from publisher import ajson_ingestor, utils, codes, aws_events
 from publisher.aws_events import START, STOP
 from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
+from publisher.fragment_logic import Identical
 import logging
 from joblib import Parallel, delayed
 from django.db import reset_queries
@@ -19,7 +20,7 @@ from django.conf import settings
 from .modcommand import ModCommand
 LOG = logging.getLogger(__name__)
 
-INVALID, ERROR = 'invalid', 'error'
+SKIPPED, INVALID, ERROR = 'skipped', 'invalid', 'error'
 IMPORT_TYPES = ['ingest', 'publish', 'ingest-publish']
 INGEST, PUBLISH, INGEST_PUBLISH = IMPORT_TYPES
 VALIDATED, INGESTED, PUBLISHED = 'validated', 'ingested', 'published'
@@ -105,7 +106,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
 
             try:
-                data = json.loads(raw_data)
+                data = utils.ordered_json_loads(raw_data)
             except ValueError as err:
                 msg = "could not decode the json you gave me: %r for data: %r" % (err.msg, raw_data)
                 raise StateError(codes.BAD_REQUEST, msg)
@@ -122,6 +123,9 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
     except KeyboardInterrupt as err:
         LOG.warn("ctrl-c caught during data load")
         raise
+
+    except Identical as err:
+        error_from_err(print_queue, SKIPPED, err, force, dry_run, log_context)
 
     except StateError as err:
         error_from_err(print_queue, INVALID, err, force, dry_run, log_context)

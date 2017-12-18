@@ -2,7 +2,7 @@ from mock import Mock, patch
 import json
 from os.path import join
 from . import base
-from publisher import models, utils, ajson_ingestor, codes
+from publisher import models, utils, ajson_ingestor, codes, fragment_logic
 from django.test import override_settings
 
 class DryRun(base.BaseCase):
@@ -48,6 +48,7 @@ class DryRun(base.BaseCase):
         "a dry ingest can be sent with a force flag on existing article to test validity of a silent correction"
         # article exists
         ajson = json.load(open(self.ajson_fixture_v1, 'r'))
+        ajson['article']['foo'] = 'bar' # avoid hash check
         ajson_ingestor.ingest_publish(ajson)
         # a silent correction happens without problems
         args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
@@ -203,6 +204,14 @@ class MultiCLI(base.TransactionBaseCase):
 
             # publish is called once per article (not article version)
             self.assertEqual(expected_art_count, mock.publish.call_count)
+
+        # tweak article data to avoid failing hashcheck
+        for af in models.ArticleFragment.objects.filter(type=models.XML2JSON):
+            x = af.fragment
+            x['foo'] = 'bar'
+            af.fragment = x
+            af.save()
+        [fragment_logic.set_article_json(av, quiet=True, hash_check=False) for av in models.ArticleVersion.objects.all()]
 
         # simulate a backfill
         mock = Mock()

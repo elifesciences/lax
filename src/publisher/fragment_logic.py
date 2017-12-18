@@ -1,3 +1,4 @@
+import hashlib
 from collections import OrderedDict
 from functools import partial
 from jsonschema import ValidationError
@@ -11,6 +12,7 @@ from django.db import transaction
 LOG = logging.getLogger(__name__)
 
 def _getids(x):
+    # TODO: this function is poor. split into several smaller ones with well defined signatures
     if utils.isint(x):
         # id is a msid
         return {'article': models.Article.objects.get(manuscript_id=x)}
@@ -24,6 +26,10 @@ def _getids(x):
 def add(x, ftype, fragment, pos=1, update=False):
     "adds given fragment to database. if fragment at this article+type+version exists, it will be overwritten"
     ensure(isinstance(fragment, dict), "all fragments must be a dictionary")
+    # TODO: enable, but perhaps not here
+    # if ftype != models.XML2JSON:
+    #    verboten_keys = ['published', 'versionDate']
+    #    ensure(not subdict(fragment, verboten_keys), "fragment contains illegal keys. illegal keys: %s" % (", ".join(verboten_keys),))
     data = {
         'version': None,
         'type': ftype,
@@ -181,24 +187,37 @@ def merge_if_valid(av, quiet=True):
     if invalid and quiet=False, a ValidationError will be raised"""
     return valid(merge_and_preprocess(av), quiet=quiet)
 
-def set_article_json(av, quiet):
+def hash_ajson(merge_result):
+    string = utils.json_dumps(merge_result, indent=None)
+    return hashlib.md5(string.encode('utf-8')).hexdigest()
+
+class Identical(RuntimeError):
+    pass
+
+# TODO: rename `quiet` to `valid_check` or similar.
+def set_article_json(av, quiet, hash_check=True):
     """updates the article with the result of the merge operation.
     if the result of the merge was valid, the merged result will be saved.
     if invalid, the ArticleVersion instance's article-json will be unset.
     if invalid and quiet=False, a ValidationError will be raised"""
-    log_context = {'article-version': av, 'quiet': quiet}
+    log_context = {'article-version': av, 'quiet': quiet, 'hash_check': hash_check}
     result = merge_if_valid(av, quiet=quiet)
+    newhash, oldhash = hash_ajson(result), av.article_json_hash
+    if hash_check and oldhash == newhash:
+        msg = "this article is identical to the article already stored: %s" % newhash
+        raise Identical(msg)
     av.article_json_v1 = result
     av.article_json_v1_snippet = extract_snippet(result)
+    av.article_json_hash = newhash
     av.save()
     if not result:
         msg = "this article failed to merge it's fragments into a valid result. Any article-json previously set for this version of the article has been removed. This article cannot be published in it's current state."
-        LOG.warn(msg, extra=log_context)
+        LOG.warn(msg, extra=log_context) # TODO: consider upgrading to 'critical' ?
     return result
 
-def set_all_article_json(art, quiet):
+def set_all_article_json(art, **kwargs):
     "like `set_article_json`, but for every version of an article"
-    return lmap(partial(set_article_json, quiet=quiet), art.articleversion_set.all())
+    return lmap(partial(set_article_json, **kwargs), art.articleversion_set.all())
 
 #
 # higher level logic
@@ -214,7 +233,8 @@ def add_fragment_update_article(art, key, fragment):
         # notify event bus that article change has occurred
         transaction.on_commit(partial(aws_events.notify, art.manuscript_id))
 
-        return set_all_article_json(art, quiet=False)
+        # hash check disabled. if fragment added that doesn't alter final article, then fragment should be preserved
+        return set_all_article_json(art, quiet=False, hash_check=False)
 
 def delete_fragment_update_article(art, key):
     "removes a fragment from an article, re-renders article, sends update event. if an error occurs, delete is rolled back and no event is sent"
@@ -225,7 +245,8 @@ def delete_fragment_update_article(art, key):
         # notify event bus that article change has occurred
         transaction.on_commit(partial(aws_events.notify, art.manuscript_id))
 
-        return set_all_article_json(art, quiet=False)
+        # hash check disabled. if removing fragment doesn't alter final article, then fragment should still be removed
+        return set_all_article_json(art, quiet=False, hash_check=False)
 
 #
 #
@@ -256,7 +277,7 @@ SET, RESET, UNSET, NOTSET = 'set', 'reset', 'unset', 'not-set'
 def revalidate(av):
     try:
         had_json = not not av.article_json_v1
-        result = set_article_json(av, quiet=True)
+        result = set_article_json(av, quiet=True, hash_check=False)
         matrix = {
             # had_json?, result?
             (True, True): RESET,
@@ -266,6 +287,7 @@ def revalidate(av):
             (False, False): NOTSET,
         }
         return matrix[utils.boolkey(had_json, result)]
+
     except StateError:
         return NOTSET
 
