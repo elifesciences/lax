@@ -4,19 +4,11 @@ from django.utils.deprecation import MiddlewareMixin
 
 LOG = logging.getLogger(__name__)
 
-# TODO: possibly remove everything different from CGROUPS, these values should not be depended upon by Lax
-CGROUPS, CID, CUSER = 'HTTP_X_CONSUMER_GROUPS', 'HTTP_X_CONSUMER_ID', 'HTTP_X_CONSUMER_USERNAME'
+CGROUPS = 'HTTP_X_CONSUMER_GROUPS'
 EXPECTED_HEADERS = (CGROUPS, )
 
-def set_authenticated(request, state=False):
+def set_authenticated(request, state):
     request.META[settings.KONG_AUTH_HEADER] = state
-
-def strip_auth_headers(request, authenticated=False):
-    "strips the KONG auth headers, set authentication status"
-    for header in EXPECTED_HEADERS:
-        if header in request.META:
-            del request.META[header]
-    set_authenticated(request, authenticated)
 
 class KongAuthentication(MiddlewareMixin):
     def process_response(self, request, response):
@@ -28,23 +20,23 @@ class KongAuthentication(MiddlewareMixin):
         headers = {}
 
         # if request doesn't have all expected headers, strip auth
-        for header in EXPECTED_HEADERS:
-            if header not in request.META:
-                # no auth or invalid auth request, return immediately
-                LOG.debug('header %r not found, refusing auth', header)
-                strip_auth_headers(request)
-                return
-            headers[header] = str(request.META[header])
+        header = CGROUPS
+        if CGROUPS not in request.META:
+            # no auth or invalid auth request, return immediately
+            LOG.debug('header %r not found, refusing auth', CGROUPS)
+            set_authenticated(request, state=False)
+            return
+        headers[CGROUPS] = str(request.META[CGROUPS])
 
         groups = [h.strip() for h in headers[CGROUPS].split(',')]
 
         LOG.debug('user groups: %s', groups)
         if 'admin' in groups or 'view-unpublished-content' in groups:
             LOG.debug('user groups: %s', groups)
-            strip_auth_headers(request, authenticated=True)
+            set_authenticated(request, state=True)
         else:
             LOG.debug('setting request as not authenticated')
-            strip_auth_headers(request)
+            set_authenticated(request, state=False)
 
 #
 #
