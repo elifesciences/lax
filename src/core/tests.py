@@ -23,6 +23,13 @@ class KongAuthMiddleware(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
 
+    def test_authenticated_request_multiple_groups(self):
+        "ensure an authenticated request is marked as such"
+        self.extra[mware.CGROUPS] = 'user, view-unpublished-content'
+        resp = self.c.get('/', **self.extra)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
+
     def test_bad_authentication_request2(self):
         "client is trying to authenticate but the user group doesn't have any special permissions"
         self.extra[mware.CGROUPS] = 'user'
@@ -37,7 +44,7 @@ class KongAuthMiddleware(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'False')
 
-class DownstreamCachine(TestCase):
+class DownstreamCaching(TestCase):
     def setUp(self):
         self.c = Client()
         self.url = '/' # we could hit more urls but it's applied application-wide

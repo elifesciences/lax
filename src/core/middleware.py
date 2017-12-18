@@ -36,8 +36,10 @@ class KongAuthentication(MiddlewareMixin):
                 return
             headers[header] = str(request.META[header])
 
+        groups = [h.strip() for h in headers[CGROUPS].split(',')]
+
         # if request has expected headers, but their values are invalid, strip auth
-        if headers[CGROUPS] not in ['user', 'admin', 'view-unpublished-content']:
+        if not 'admin' in groups and not 'view-unpublished-content' in groups:
             strip_auth_headers(request)
             LOG.debug("unknown user group, refusing auth")
             return
