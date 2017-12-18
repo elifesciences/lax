@@ -38,20 +38,13 @@ class KongAuthentication(MiddlewareMixin):
 
         groups = [h.strip() for h in headers[CGROUPS].split(',')]
 
-        # if request has expected headers, but their values are invalid, strip auth
-        if not 'admin' in groups and not 'view-unpublished-content' in groups:
+        LOG.debug('user groups: %s', groups)
+        if 'admin' in groups or 'view-unpublished-content' in groups:
+            LOG.debug('user groups: %s', groups)
+            strip_auth_headers(request, authenticated=True)
+        else:
+            LOG.debug('setting request as not authenticated')
             strip_auth_headers(request)
-            LOG.debug("unknown user group, refusing auth")
-            return
-
-        # if user is 'just' a user
-        if headers[CGROUPS] == 'user':
-            strip_auth_headers(request)
-            LOG.debug("'user' group receives has no special permissions")
-            return
-
-        strip_auth_headers(request, authenticated=True)
-        LOG.debug("authenticated!")
 
 #
 #
