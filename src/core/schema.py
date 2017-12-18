@@ -8,4 +8,4 @@ class RootQuery(PublisherQuery, graphene.ObjectType):
     pass
 
 
-schema = graphene.Schema(query=RootQuery, mutation=None)
+schema = graphene.Schema(query=RootQuery, mutation=None, auto_camelcase=False)
