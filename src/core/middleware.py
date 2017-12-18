@@ -20,7 +20,6 @@ class KongAuthentication(MiddlewareMixin):
         headers = {}
 
         # if request doesn't have all expected headers, strip auth
-        header = CGROUPS
         if CGROUPS not in request.META:
             # no auth or invalid auth request, return immediately
             LOG.debug('header %r not found, refusing auth', CGROUPS)
