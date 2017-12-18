@@ -8,7 +8,7 @@ class KongAuthMiddleware(TestCase):
         self.c = Client()
         self.extra = {
             'REMOTE_ADDR': '10.0.2.6',
-            mware.CGROUPS: 'admin',
+            mware.CGROUPS: 'view-unpublished-content',
         }
 
     def test_unauthenticated_request(self):
