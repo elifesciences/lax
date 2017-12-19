@@ -10,6 +10,7 @@ django-filter==1.0.4
 django-markdown2==0.3.0
 django-rest-swagger==2.1.2
 django-sql-explorer==1.1.1
+django-tqdm==0.0.3
 djangorestframework==3.6.3
 et3==1.5
 # versions of green > 2.9.0 conflict with kids.cache
