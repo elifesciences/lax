@@ -12,9 +12,13 @@ urlpatterns = [
     url(r'^explorer/', include('explorer.urls')),
 
     url(r'^reports/', include(reports.urls)), # deprecated, moving logic to Observer project
-    url(r'^graphql', GraphQLView.as_view(graphiql=True, schema=schema)),
     url(r'^', include('publisher.urls')),
 ]
+
+if settings.GRAPHQL_ENABLED:
+    urlpatterns += [
+        url(r'^graphql', GraphQLView.as_view(graphiql=True, schema=schema)),
+    ]
 
 if settings.ENV == settings.DEV:
     from django.conf.urls.static import static

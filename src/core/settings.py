@@ -264,6 +264,15 @@ KONG_AUTH_HEADER = 'KONG-Authenticated'
 INTERNAL_NETWORKS = ['10.0.0.0/16', '127.0.0.0/8']
 
 #
+# Graphql/Graphene
+#
+
+GRAPHQL_ENABLED = cfg('graphql.enabled', False)
+GRAPHENE = {
+    'SCHEMA': 'core.schema.schema'
+}
+
+#
 # notification events
 #
 
@@ -389,8 +398,3 @@ logger = {
     'propagate': False, # don't propagate up to root logger
 }
 LOGGING['loggers'].update(dict(list(zip(module_loggers, [logger] * len(module_loggers)))))
-
-
-GRAPHENE = {
-    'SCHEMA': 'core.schema.schema'
-}
