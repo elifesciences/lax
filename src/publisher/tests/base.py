@@ -99,6 +99,9 @@ class SimpleBaseCase(unittest.TestCase):
             av.save()
             return av
 
+    def assertJSONEqual(self, x, y, *args):
+        self.assertEqual(json.dumps(x, indent=2), json.dumps(y, indent=2), *args)
+
 #
 #
 #

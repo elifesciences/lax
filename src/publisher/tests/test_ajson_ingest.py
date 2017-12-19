@@ -12,6 +12,22 @@ from publisher import logic
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 
+class IngestIdentical(BaseCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_incoming_ajson_structure_preserved(self):
+        "article-json is reconstituted with it's ordering preserved"
+        f1 = join(self.fixture_dir, 'ajson', 'elife-20105-v1.xml.json')
+        ajson = self.load_ajson(f1)
+        av = ajson_ingestor.ingest(ajson, force=False)
+        af = models.ArticleFragment.objects.get(type=models.XML2JSON, article=av.article)
+
+        self.assertJSONEqual(af.fragment, ajson['article'])
+
 class Ingest(BaseCase):
     def setUp(self):
         f1 = join(self.fixture_dir, 'ajson', 'elife-20105-v1.xml.json')
