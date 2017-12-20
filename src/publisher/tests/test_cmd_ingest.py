@@ -2,7 +2,7 @@ from mock import Mock, patch
 import json
 from os.path import join
 from . import base
-from publisher import models, utils, ajson_ingestor, codes, fragment_logic
+from publisher import models, utils, ajson_ingestor, codes
 from django.test import override_settings
 
 class DryRun(base.BaseCase):
@@ -253,12 +253,9 @@ class MultiCLI(base.TransactionBaseCase):
             self.assertEqual(expected_art_count, mock.publish.call_count)
 
         # tweak article data to avoid failing hashcheck
-        for af in models.ArticleFragment.objects.filter(type=models.XML2JSON):
-            x = af.fragment
-            x['foo'] = 'bar'
-            af.fragment = x
-            af.save()
-        [fragment_logic.set_article_json(av, quiet=True, hash_check=False) for av in models.ArticleVersion.objects.all()]
+        for av in models.ArticleVersion.objects.all():
+            av.article_json_hash = 'pants'
+            av.save()
 
         # simulate a backfill
         mock = Mock()
