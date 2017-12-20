@@ -266,3 +266,29 @@ class MultiCLI(base.TransactionBaseCase):
 
             # publish is called once per article (not article version) despite multithreading
             self.assertEqual(expected_art_count, mock.publish.call_count)
+
+    @override_settings(DEBUG=False, ENABLE_RELATIONS=False) # get past the early return in aws_events
+    def test_multiple_identical_ingest_from_cli(self):
+        "a directory of article-json can be ingested many times with events only sent once"
+
+        expected_artv_count = 14
+        expected_call_count = 7 # 1 for each article
+
+        # ensure all the articles + versions exist before we do a multiprocess run
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            args = [self.nom, '--ingest+publish', '--serial', '--dir', join(self.fixture_dir, 'ajson')]
+            errcode, _ = self.call_command(*args)
+            self.assertEqual(errcode, 0) # nothing failed
+            self.assertEqual(models.ArticleVersion.objects.count(), expected_artv_count)
+
+            # publish is called once per article (not article version)
+            self.assertEqual(expected_call_count, mock.publish.call_count)
+
+            # simulate a backfill
+            args = [self.nom, '--ingest', '--force', '--dir', join(self.fixture_dir, 'ajson')]
+            errcode, stdout = self.call_command(*args)
+            self.assertEqual(errcode, 0) # nothing failed
+
+            # publish is not called again (data hasn't changed)
+            self.assertEqual(expected_call_count, mock.publish.call_count)
