@@ -252,7 +252,7 @@ class MultiCLI(base.TransactionBaseCase):
             # publish is called once per article (not article version)
             self.assertEqual(expected_art_count, mock.publish.call_count)
 
-        # tweak article data to avoid failing hashcheck
+        # tweak article hashes to avoid failing hashcheck
         for av in models.ArticleVersion.objects.all():
             av.article_json_hash = 'pants'
             av.save()
