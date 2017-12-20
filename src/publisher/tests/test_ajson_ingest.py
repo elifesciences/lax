@@ -475,13 +475,6 @@ class IngestPublish(BaseCase):
         # ingest once
         ajson_ingestor.ingest_publish(self.ajson)
 
-        # this doesn't work to avoid the hash check:
-        # data2['article']['title'] = 'bar' # avoid failing the hash check
-        # it doesn't work because the article-json isn't updated once an article is published
-        # *unless* force=True, which it explicitly is not in this case.
-        # instead, create=True and update=False are passed to fragments.add and
-        # the extant fragment is returned without being modified
-
         # attempt second ingest
         self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 
