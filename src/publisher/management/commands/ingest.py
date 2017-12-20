@@ -94,7 +94,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
     data = None
 
     log_context = {
-        'msid': msid, 'version': version
+        'msid': msid, 'version': version, 'identical': False
     }
 
     LOG.info('attempting to %s article %s v%s', action, msid, version, extra=log_context)
@@ -124,9 +124,6 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         LOG.warn("ctrl-c caught during data load")
         raise
 
-    except Identical as err:
-        error_from_err(print_queue, SKIPPED, err, force, dry_run, log_context)
-
     except StateError as err:
         error_from_err(print_queue, INVALID, err, force, dry_run, log_context)
 
@@ -144,6 +141,11 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
     try:
         av = choices[action](msid, version, force, data, dry_run)
         success(print_queue, action, av, force, dry_run, log_context)
+
+    except Identical as err:
+        # this shouldn't be an error. return 'INGESTED' instead. is another type of success code required?
+        log_context['identical'] = True
+        success(print_queue, INGEST, err.av, force, dry_run, log_context)
 
     except KeyboardInterrupt as err:
         LOG.warn("ctrl-c caught during ingest/publish")

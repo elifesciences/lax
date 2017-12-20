@@ -104,14 +104,6 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         update_fragment = not av.published() or force
         fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
 
-        # validation and hash check of article-json occurs here
-        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force, hash_check=True)
-
-        # update the relationships
-        relationships.remove_relationships(av)
-        relationships.relate_using_msid_list(av, data['article'].get('-related-articles-internal', []), quiet=force)
-        relationships.relate_using_citation_list(av, data['article'].get('-related-articles-external', []))
-
         # enforce business rules
         if created:
             if previous_article_versions:
@@ -154,6 +146,20 @@ def _ingest(data, force=False) -> models.ArticleVersion:
                     msg = "refusing to ingest new article data on an already published article version."
                     LOG.error(msg, extra=log_context)
                     raise StateError(codes.ALREADY_PUBLISHED, msg)
+
+        # 2017-12-20: shifted this block below the business rules checks.
+        # this is so business rules (attempting to ingest out of order) are checked before
+        # identity (this data already exists) and validity (this data is malformed)
+
+        # validation and hash check of article-json occurs here
+        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force, hash_check=True)
+
+        # update the relationships
+        relationships.remove_relationships(av)
+        relationships.relate_using_msid_list(av, data['article'].get('-related-articles-internal', []), quiet=force)
+        relationships.relate_using_citation_list(av, data['article'].get('-related-articles-external', []))
+
+        # 2017-12-20: end section
 
         # passed all checks, save
         av.save()

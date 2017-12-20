@@ -192,7 +192,10 @@ def hash_ajson(merge_result):
     return hashlib.md5(string.encode('utf-8')).hexdigest()
 
 class Identical(RuntimeError):
-    pass
+    def __init__(self, msg, av, hashval):
+        super(Identical, self).__init__(msg)
+        self.av = av
+        self.hashval = hashval
 
 # TODO: rename `quiet` to `valid_check` or similar.
 def set_article_json(av, quiet, hash_check=True):
@@ -204,8 +207,7 @@ def set_article_json(av, quiet, hash_check=True):
     result = merge_if_valid(av, quiet=quiet)
     newhash, oldhash = hash_ajson(result), av.article_json_hash
     if hash_check and oldhash == newhash:
-        msg = "this article is identical to the article already stored: %s" % newhash
-        raise Identical(msg)
+        raise Identical("article data is identical to the article data already stored", av, newhash)
     av.article_json_v1 = result
     av.article_json_v1_snippet = extract_snippet(result)
     av.article_json_hash = newhash

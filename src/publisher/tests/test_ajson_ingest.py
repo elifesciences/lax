@@ -4,7 +4,7 @@ import json, copy
 from os.path import join
 from datetime import date, datetime, timedelta
 from .base import BaseCase
-from publisher import ajson_ingestor, models, utils, codes, fragment_logic
+from publisher import ajson_ingestor, models, utils, codes
 from publisher.ajson_ingestor import StateError
 from publisher.utils import lmap
 from unittest import skip
@@ -483,10 +483,7 @@ class IngestPublish(BaseCase):
         # the extant fragment is returned without being modified
 
         # attempt second ingest
-        #self.assertRaises(StateError, ajson_ingestor.ingest_publish, data2)
-
-        # not ideal. the above disabled check was hitting business logic checks for codes.ALREADY_PUBLISHED
-        self.assertRaises(fragment_logic.Identical, ajson_ingestor.ingest_publish, self.ajson)
+        self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 
     def test_ingest_publish_dry_run(self):
         "specifying a dry run does not commit changes to database"
