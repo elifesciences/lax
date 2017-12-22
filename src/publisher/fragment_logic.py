@@ -214,7 +214,7 @@ def set_article_json(av, quiet, hash_check=True):
     av.save()
     if not result:
         msg = "this article failed to merge it's fragments into a valid result. Any article-json previously set for this version of the article has been removed. This article cannot be published in it's current state."
-        LOG.warn(msg, extra=log_context) # TODO: consider upgrading to 'critical' ?
+        LOG.critical(msg, extra=log_context)
     return result
 
 def set_all_article_json(art, **kwargs):
