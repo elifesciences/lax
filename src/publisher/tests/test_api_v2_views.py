@@ -114,7 +114,7 @@ class V2Content(base.BaseCase):
         self.c = Client()
         # an authenticated client
         self.ac = Client(**{
-            mware.CGROUPS: 'admin',
+            mware.CGROUPS: 'view-unpublished-content',
         })
 
     def test_ping(self):
@@ -424,7 +424,7 @@ class AddFragment(base.BaseCase):
 
         self.c = Client()
         self.ac = Client(**{
-            mware.CGROUPS: 'admin',
+            mware.CGROUPS: 'view-unpublished-content',
         })
 
     def test_add_fragment(self):
@@ -559,7 +559,7 @@ class DeleteFragment(base.BaseCase):
         self.c = Client()
         # authenticated
         self.ac = Client(**{
-            mware.CGROUPS: 'admin',
+            mware.CGROUPS: 'view-unpublished-content',
         })
 
         self.msid = 16695
@@ -636,7 +636,7 @@ class FragmentEvents(base.TransactionBaseCase):
 
         self.c = Client()
         self.ac = Client(**{
-            mware.CGROUPS: 'admin',
+            mware.CGROUPS: 'view-unpublished-content',
         })
 
     def tearDown(self):
@@ -707,7 +707,7 @@ class RequestArgs(base.BaseCase):
 
         self.c = Client()
         self.ac = Client(**{
-            mware.CGROUPS: 'admin',
+            mware.CGROUPS: 'view-unpublished-content',
         })
     #
     # Pagination
