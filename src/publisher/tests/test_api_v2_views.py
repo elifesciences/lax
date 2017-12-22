@@ -12,73 +12,6 @@ from unittest.mock import patch, Mock
 
 SCHEMA_IDX = settings.SCHEMA_IDX # weird, can't import directly from settigns ??
 
-class Fragments(base.BaseCase):
-    def setUp(self):
-        # unauthenticated
-        self.c = Client()
-        # authenticated
-        self.ac = Client(**{
-            mware.CGROUPS: 'admin',
-        })
-
-        self.msid = 16695
-        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json') # poa
-        self.av = ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
-
-        self.key = 'test-frag'
-        fragment = {'title': 'Electrostatic selection'}
-        fragments.add(self.av.article, self.key, fragment) # add it to the *article* not the article *version*
-
-    def tearDown(self):
-        pass
-
-    def test_delete_fragment(self):
-        expected_fragments = 2 # XML2JSON + 'test-frag'
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
-        resp = self.ac.delete(url)
-        self.assertEqual(200, resp.status_code)
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments - 1)
-
-    def test_delete_fragment_not_authenticated(self):
-        expected_fragments = 2 # XML2JSON + 'test-frag'
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
-        resp = self.c.delete(url) # .c vs .ac
-        self.assertEqual(403, resp.status_code)
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-
-    def test_delete_fragment_doesnt_exist(self):
-        expected_fragments = 2 # XML2JSON + 'test-frag'
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'pants-party'})
-        resp = self.ac.delete(url)
-        self.assertEqual(resp.status_code, 404)
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-
-    def test_delete_protected_fragment(self):
-        expected_fragments = 2 # XML2JSON + 'test-frag'
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': models.XML2JSON})
-        resp = self.ac.delete(url)
-        self.assertEqual(resp.status_code, 400) # client error, bad request
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-
-    def test_delete_fragment_fails_if_result_is_invalid(self):
-        "if the result of deleting a fragment is invalid article-json, the fragment will not be deleted"
-        # modify the XML2JSON fragment so 'title' is None (invalid)
-        # the test fragment {'title': 'whatever'} makes it valid
-        # deleting the test fragment should fail
-        fobj = models.ArticleFragment.objects.get(type=models.XML2JSON)
-        fobj.fragment['title'] = None
-        fobj.save()
-        self.assertTrue(fragments.merge_if_valid(self.av)) # returns None if invalid
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
-        resp = self.ac.delete(url)
-        self.assertEqual(resp.status_code, 400)
-        expected_fragments = 2 # XML2JSON + 'test-frag'
-        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-
 
 class V2ContentTypes(base.BaseCase):
     def setUp(self):
@@ -476,10 +409,11 @@ class V2Content(base.BaseCase):
         self.assertEqual(data, expected)
 
 
-class V2PostContent(base.BaseCase):
+class AddFragment(base.BaseCase):
     def setUp(self):
         path = join(self.fixture_dir, 'ajson', "elife-20105-v1.xml.json")
-        ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
+        self.ajson = json.load(open(path, 'r'))
+        ajson_ingestor.ingest_publish(self.ajson)
 
         self.msid = 20105
         self.version = 1
@@ -514,6 +448,15 @@ class V2PostContent(base.BaseCase):
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
         self.assertEqual(data['versions'][0]['title'], fragment['title'])
+
+    def test_fragment_needs_authentication(self):
+        "only admin users can modify content"
+        key = 'test-frag'
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        fragment = {'title': 'Electrostatic selection'}
+
+        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(resp.status_code, 403)
 
     def test_add_fragment_multiple_versions(self):
         path = join(self.fixture_dir, 'ajson', "elife-20105-v2.xml.json")
@@ -591,14 +534,91 @@ class V2PostContent(base.BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
         self.assertEqual(resp.status_code, 400) # bad client request
 
-    def test_fragment_needs_authentication(self):
-        "only admin users can modify content"
-        key = 'test-frag'
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
-        fragment = {'title': 'Electrostatic selection'}
+    def test_add_invalid_fragment(self):
+        "request with fragment that would fail the ArticleFragment schema is refused"
+        self.assertEqual(models.ArticleFragment.objects.count(), 1) # xml->json
+        fragment = {} # empty
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
+        self.assertEqual(resp.status_code, 400) # bad client request
 
-        resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
-        self.assertEqual(resp.status_code, 403)
+    def test_add_fragment_causes_no_change(self):
+        "request with fragment that would cause no change in the merged article json is accepted."
+        # behind the scenes the hash check is disabled so the Identical exception is not raised
+        fragment = {'title': self.ajson['article']['title']}
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(models.ArticleFragment.objects.count(), 2) # 'xml->json', 'test-frag'
+
+
+class DeleteFragment(base.BaseCase):
+    def setUp(self):
+        # unauthenticated
+        self.c = Client()
+        # authenticated
+        self.ac = Client(**{
+            mware.CGROUPS: 'admin',
+        })
+
+        self.msid = 16695
+        self.ajson_fixture_v1 = join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json') # poa
+        self.av = ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+
+        self.key = 'test-frag'
+        fragment = {'title': 'Electrostatic selection'}
+        fragments.add(self.av.article, self.key, fragment) # add it to the *article* not the article *version*
+
+    def tearDown(self):
+        pass
+
+    def test_delete_fragment(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.ac.delete(url)
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments - 1)
+
+    def test_delete_fragment_not_authenticated(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.c.delete(url) # .c vs .ac
+        self.assertEqual(403, resp.status_code)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_fragment_doesnt_exist(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'pants-party'})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 404)
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_protected_fragment(self):
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': models.XML2JSON})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 400) # client error, bad request
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
+
+    def test_delete_fragment_fails_if_result_is_invalid(self):
+        "if the result of deleting a fragment is invalid article-json, the fragment will not be deleted"
+        # modify the XML2JSON fragment so 'title' is None (invalid)
+        # the test fragment {'title': 'whatever'} makes it valid
+        # deleting the test fragment should fail
+        fobj = models.ArticleFragment.objects.get(type=models.XML2JSON)
+        fobj.fragment['title'] = None
+        fobj.save()
+        self.assertTrue(fragments.merge_if_valid(self.av)) # returns None if invalid
+        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        resp = self.ac.delete(url)
+        self.assertEqual(resp.status_code, 400)
+        expected_fragments = 2 # XML2JSON + 'test-frag'
+        self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
 
 
 class FragmentEvents(base.TransactionBaseCase):
