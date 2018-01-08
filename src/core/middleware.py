@@ -30,7 +30,7 @@ class KongAuthentication(MiddlewareMixin):
         groups = [h.strip() for h in headers[CGROUPS].split(',')]
 
         LOG.debug('user groups: %s', groups)
-        if 'admin' in groups or 'view-unpublished-content' in groups:
+        if 'view-unpublished-content' in groups:
             LOG.debug('user groups: %s', groups)
             set_authenticated(request, state=True)
         else:
