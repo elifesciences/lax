@@ -10,7 +10,7 @@ from collections import OrderedDict
 import os, io, re, sys, json, argparse, time
 from publisher import ajson_ingestor, utils, codes, aws_events
 from publisher.aws_events import START, STOP
-from publisher.utils import lfilter, formatted_traceback as ftb, ensure
+from publisher.utils import lfilter, formatted_traceback as ftb
 from publisher.ajson_ingestor import StateError
 import logging
 from joblib import Parallel, delayed
@@ -265,7 +265,8 @@ class Command(ModCommand):
             # this tweaks settings.py during django setup and allows other modules to
             # share a multiprocessing.Manager
             # NOTE: this sucks, I'm open to suggestions to fixing this mess
-            ensure(os.environ.get('LAX_MULTIPROCESSING'), "we want to ingest articles in parallel but LAX_MULTIPROCESSING must be set")
+            if not os.environ.get('LAX_MULTIPROCESSING'):
+                LOG.warning("we want to ingest articles in parallel but LAX_MULTIPROCESSING must be set. Args %s, options %s", args, options)
             manager = settings.MP_MANAGER
             print_queue = manager.Queue()
 
