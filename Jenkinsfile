@@ -19,7 +19,8 @@ elifePipeline {
                     stackname: 'lax--end2end',
                     revision: commit,
                     folder: '/srv/lax'
-                ]
+                ],
+                marker: 'lax'
             )
         }
 
