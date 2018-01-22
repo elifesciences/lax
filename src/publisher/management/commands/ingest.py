@@ -261,8 +261,12 @@ class Command(ModCommand):
             print_queue = queue.Queue()
 
         else:
-            #import multiprocessing
-            #manager = multiprocessing.Manager()
+            # if not serial, ensure LAX_MULTIPROCESSING env is set.
+            # this tweaks settings.py during django setup and allows other modules to
+            # share a multiprocessing.Manager
+            # NOTE: this sucks, I'm open to suggestions to fixing this mess
+            if not os.environ.get('LAX_MULTIPROCESSING'):
+                LOG.warning("we want to ingest articles in parallel but LAX_MULTIPROCESSING must be set. Args %s, options %s", args, options)
             manager = settings.MP_MANAGER
             print_queue = manager.Queue()
 
