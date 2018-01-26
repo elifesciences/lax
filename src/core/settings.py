@@ -126,7 +126,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-MP_MANAGER = multiprocessing.Manager()
+# a process-wide manager is only available if lax is called with LAX_MULTIPROCESSING=1
+# this manager is not available from uwsgi-started process or a fork
+MP_MANAGER = multiprocessing.Manager() if os.environ.get('LAX_MULTIPROCESSING') else None
 
 # Testing
 TEST_RUNNER = 'xmlrunner.extra.djangotestrunner.XMLTestRunner'
