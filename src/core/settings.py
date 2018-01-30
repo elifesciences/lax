@@ -151,8 +151,17 @@ DATABASES = {
         'PASSWORD': cfg('database.password'),
         'HOST': cfg('database.host'),
         'PORT': cfg('database.port')
-    }
+    },
 }
+
+# exactly the same during development,
+# used to run migrations outside of development.
+DATABASES['privileged'] = copy.deepcopy(DATABASES['default'])
+if not DEBUG:
+    DATABASES['privileged'].update({
+        'USER': cfg('database.root-user'),
+        'PASSWORD': cfg('database.root-password'),
+    })
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

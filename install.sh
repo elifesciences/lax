@@ -24,6 +24,6 @@ fi
 pip install -r requirements.txt --no-cache-dir
 NEW_RELIC_EXTENSIONS=false pip install --no-binary :all: newrelic==2.82.0.62
 
-python src/manage.py migrate --no-input
+python src/manage.py migrate --no-input --database=privileged
 
 echo "[✓] install.sh"
