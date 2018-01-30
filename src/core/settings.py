@@ -5,7 +5,7 @@ example settings can be found in /path/to/lax/elife.cfg
 
 ./install.sh will create a symlink from dev.cfg -> lax.cfg if lax.cfg not found."""
 
-import os
+import os, copy
 import multiprocessing
 from os.path import join
 from datetime import datetime
