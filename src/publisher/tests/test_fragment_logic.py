@@ -125,20 +125,18 @@ class FragmentMerge(BaseCase):
 
     def test_valid_merge_updates_article_version_fields(self):
         "when a fragment is added, if the merge results in valid article-json, the results of the merge are stored"
-        # setUp inserts article snippet that should be valid
-        av = self.freshen(self.av)
-
-        # TODO: remove this once xml validates
-        # layer in enough to make it validate
-        placeholders = {
-            'statusDate': '2001-01-01T00:00:00Z',
-        }
+        # add fragment
+        placeholders = {'title': 'bar'}
         logic.add(self.msid, 'foo', placeholders)
 
-        self.assertTrue(logic.set_article_json(self.av, quiet=True))
+        # merge fragments
+        self.assertTrue(logic.set_article_json(self.av, quiet=False))
+
+        # re-fetch av
         av = self.freshen(self.av)
         self.assertTrue(av.article_json_v1)
         self.assertTrue(av.article_json_v1_snippet)
+        self.assertTrue(av.article_json_hash)
 
     def test_merge_sets_status_date_correctly_poa_v1(self):
         "statusDate for a v1 poa is correctly set: earliest POA if POA, earliest VOR if VOR"

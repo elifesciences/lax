@@ -167,6 +167,7 @@ class IngestPublish(base.BaseCase):
         data = json.load(open(join(self.fixture_dir, 'relatedness', 'elife-13038-v1.xml.json')))
         # point to 13620
         data['article']['-related-articles-internal'] = ['13620']
+        data['article']['foo'] = 'bar' # tweak article data to avoid failing hashcheck
         ajson_ingestor.ingest(data, force=True)
         avr = models.ArticleVersionRelation.objects.all()
         self.assertEqual(1, avr.count()) # still have just the one relationship ...

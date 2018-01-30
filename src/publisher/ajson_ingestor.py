@@ -48,6 +48,7 @@ def _ingest_objects(data, create, update, force, log_context):
 
     # WARN: log_context is a mutable dict
 
+    # et3 won't mutate data but there may be a function in the pipeline that does. this is safest.
     data = copy.deepcopy(data)
 
     # this *could* be scraped from the provided data, but we have no time to
@@ -102,13 +103,6 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
         fragments.add(av, XML2JSON, data['article'], pos=0, update=update_fragment)
-        # validation of article-json occurs here
-        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force)
-
-        # update the relationships
-        relationships.remove_relationships(av)
-        relationships.relate_using_msid_list(av, data['article'].get('-related-articles-internal', []), quiet=force)
-        relationships.relate_using_citation_list(av, data['article'].get('-related-articles-external', []))
 
         # enforce business rules
         if created:
@@ -153,6 +147,20 @@ def _ingest(data, force=False) -> models.ArticleVersion:
                     LOG.error(msg, extra=log_context)
                     raise StateError(codes.ALREADY_PUBLISHED, msg)
 
+        # 2017-12-20: shifted this block below the business rules checks.
+        # this is so business rules (attempting to ingest out of order) are checked before
+        # identity (this data already exists) and validity (this data is malformed)
+
+        # validation and hash check of article-json occurs here
+        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force, hash_check=True)
+
+        # update the relationships
+        relationships.remove_relationships(av)
+        relationships.relate_using_msid_list(av, data['article'].get('-related-articles-internal', []), quiet=force)
+        relationships.relate_using_citation_list(av, data['article'].get('-related-articles-external', []))
+
+        # 2017-12-20: end section
+
         # passed all checks, save
         av.save()
 
@@ -164,6 +172,10 @@ def _ingest(data, force=False) -> models.ArticleVersion:
     except KeyError as err:
         # *probably* an error while scraping ...
         raise StateError(codes.PARSE_ERROR, "failed to scrape given article data: %r" % err)
+
+    except fragments.Identical:
+        # hashes match, transaction would result in identical article and unnecessary event being emitted. rollback
+        raise
 
     except StateError:
         raise
@@ -193,7 +205,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
             if not force:
                 raise StateError(codes.ALREADY_PUBLISHED, "refusing to publish an already published article version")
 
-        # NOTE: we don't use any other article fragments for determining the publication date
+        # RULE: we won't use any other article fragments for determining the publication date
         # except the xml->json fragment.
         raw_data = fragments.get(av, XML2JSON).fragment
 
@@ -234,7 +246,8 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
 
         # merge the fragments we have available and make them available for serving.
         # allow errors when the publish operation is being forced.
-        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force)
+        # NOTE: hash checks will always fail on publish events as we modify the `versionDate`.
+        fragments.set_article_json(av, quiet=False if settings.VALIDATE_FAILS_FORCE else force, hash_check=False)
 
         # notify event bus that article change has occurred
         transaction.on_commit(partial(aws_events.notify_all, av))

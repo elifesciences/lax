@@ -12,6 +12,22 @@ from publisher import logic
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 
+class IngestIdentical(BaseCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_incoming_ajson_structure_preserved(self):
+        "article-json is reconstituted with it's ordering preserved"
+        f1 = join(self.fixture_dir, 'ajson', 'elife-20105-v1.xml.json')
+        ajson = self.load_ajson(f1)
+        av = ajson_ingestor.ingest(ajson, force=False)
+        af = models.ArticleFragment.objects.get(type=models.XML2JSON, article=av.article)
+
+        self.assertJSONEqual(af.fragment, ajson['article'])
+
 class Ingest(BaseCase):
     def setUp(self):
         f1 = join(self.fixture_dir, 'ajson', 'elife-20105-v1.xml.json')
@@ -119,6 +135,7 @@ class Ingest(BaseCase):
 
         expected = "2016-04-13T01:00:00"
         self.ajson['article']['published'] = expected
+        self.ajson['article']['foo'] = 'bar' # avoid failing the hash check
 
         av = ajson_ingestor.ingest(self.ajson)
         self.assertEqual(av.datetime_published, None)
@@ -344,6 +361,7 @@ class Publish(BaseCase):
         # don't set a versionDate, just force a publish
         # we expect the v2.datetime_publish to remain unchanged
         del self.ajson['article']['versionDate'] # remember, this was copied from a v1 that had a versionDate!
+        self.ajson['article']['foo'] = 'bar' # avoid failing hash check
         av2v2 = ajson_ingestor.ingest_publish(self.ajson, force=True)
         av2v2 = self.freshen(av2v2)
 
@@ -375,6 +393,7 @@ class Publish(BaseCase):
         # ingest new pubdate, force publication
         new_pubdate = utils.todt('2016-01-01')
         self.ajson['article']['published'] = new_pubdate
+        self.ajson['article']['foo'] = 'bar' # avoid failing the hashcheck
         ajson_ingestor.ingest_publish(self.ajson, force=True)
         av = self.freshen(av)
         self.assertEqual(utils.ymd(new_pubdate), utils.ymd(av.datetime_published))
@@ -455,6 +474,7 @@ class IngestPublish(BaseCase):
         "attempting to do an update without force=True fails"
         # ingest once
         ajson_ingestor.ingest_publish(self.ajson)
+
         # attempt second ingest
         self.assertRaises(StateError, ajson_ingestor.ingest_publish, self.ajson)
 

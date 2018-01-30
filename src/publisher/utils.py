@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from functools import reduce
 from jsonschema import validate as validator
 from jsonschema import ValidationError
@@ -254,6 +255,10 @@ def json_loads(data, *args, **kwargs):
         data = data.decode('utf-8')
     return json.loads(data, *args, **kwargs)
 
+def ordered_json_loads(data):
+    "same as json_loads, just ensures order is preserved when loading maps"
+    return json_loads(data, object_pairs_hook=OrderedDict)
+
 def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
     def _handler(obj):
@@ -352,5 +357,6 @@ def create_or_update(Model, orig_data, key_list=None, create=True, update=True, 
         inst.save()
 
     # it is possible to neither create nor update.
-    # in this case if the model cannot be found then None is returned: (None, False, False)
+    # if create=True and update=False and object already exists, you'll get: (obj, False, False)
+    # if the model cannot be found then None is returned: (None, False, False)
     return (inst, created, updated)

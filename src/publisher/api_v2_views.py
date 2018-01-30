@@ -1,4 +1,5 @@
-from jsonschema import ValidationError
+import jsonschema
+from django.core import exceptions as django_errors
 from . import models, logic, fragment_logic
 from .utils import ensure, isint, lmap
 from rest_framework import status
@@ -154,7 +155,11 @@ def article_fragment(request, art_id, fragment_id):
 
         return Response(resp_data)
 
-    except ValidationError as err:
+    except django_errors.ValidationError:
+        # failed model validation somehow. can happen on empty fragments
+        return Response("that fragment is invalid and has been refused", status=400)
+
+    except jsonschema.ValidationError as err:
         # client submitted json that would generate invalid article-json
         return Response("that fragment creates invalid article-json. refused: %s" % err.message, status=400)
 

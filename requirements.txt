@@ -3,13 +3,14 @@ boto3==1.4.4
 coverage==4.1
 Django==1.11.3
 django-admin-view-permission==1.0
-django-annoying==0.10.3
+django-annoying==0.10.4
 django-autoslug==1.9.3
 django-db-logger==0.1.6
 django-filter==1.0.4
 django-markdown2==0.3.0
 django-rest-swagger==2.1.2
 django-sql-explorer==1.1.1
+django-tqdm==0.0.3
 djangorestframework==3.6.3
 et3==1.5
 # versions of green > 2.9.0 conflict with kids.cache

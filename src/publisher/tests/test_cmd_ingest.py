@@ -48,6 +48,7 @@ class DryRun(base.BaseCase):
         "a dry ingest can be sent with a force flag on existing article to test validity of a silent correction"
         # article exists
         ajson = json.load(open(self.ajson_fixture_v1, 'r'))
+        ajson['article']['foo'] = 'bar' # avoid hash check
         ajson_ingestor.ingest_publish(ajson)
         # a silent correction happens without problems
         args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 1, '--force', self.ajson_fixture_v1]
@@ -78,21 +79,23 @@ class Errors(base.BaseCase):
         pass
 
     def test_error_response(self):
-        "error responses are populated correctly"
-        # will fail validation before it fails business logic (missing a pubdate)
+        "errors exit correctly and responses are structured correctly"
         args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 2, self.ajson_fixture_v2]
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 1) # 1 = error
 
         resp = json.loads(stdout)
 
-        self.assertEqual(resp['code'], codes.INVALID)
-        # an explanation of the error code
-        self.assertEqual(resp['comment'], codes.explain(codes.INVALID))
+        # 2017-12-20: test changed from expecting an 'INVALID' response to
+        # expecting a 'DOES NOT EXIST' response as order of checks changed.
 
+        # a simple error identifier
+        self.assertEqual(resp['code'], codes.PREVIOUS_VERSION_DNE)
+        # an explanation of the error code
+        self.assertEqual(resp['comment'], codes.explain(codes.PREVIOUS_VERSION_DNE))
         # keys called 'message' and 'trace' exist with values
-        self.assertTrue(resp['message'])
-        self.assertTrue(resp['trace'])
+        self.assertTrue(resp['message']) # a friendly error message
+        self.assertTrue(resp['trace']) # a traceback for developers
 
 
 class CLI(base.BaseCase):
@@ -179,6 +182,51 @@ class CLI(base.BaseCase):
         ajson = json.load(open(self.ajson_fixture1, 'r'))
         self.assertEqual(result['datetime'], ajson['article']['published'])
 
+    def test_ingest_identical_from_cli(self):
+        "ingesting an article whose identical data already exists gives a 'success' response"
+        args = [self.nom, '--ingest', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+        dummy_dt = '2001-01-01T00:00:00Z'
+        models.ArticleVersion.objects.all().update(datetime_record_updated=dummy_dt) # bypasses auto_now=True in field
+
+        # do it again, same command, same data
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+        resp = json.loads(stdout)
+
+        # attempting to ingest the same article twice results in the error being
+        # swallowed and a simple 'ingested' status being returned
+        self.assertEqual(resp['status'], 'ingested')
+        # the date of the original ingest is returned
+        self.assertEqual(resp['datetime'], dummy_dt)
+
+    def test_forced_identical_ingest_from_cli_when_already_published(self):
+        "forcing an ingest of a published article (backfill) when article data is identical returns a success response"
+        # publish an article
+        args = [self.nom, '--ingest+publish', '--id', self.msid, '--version', self.version, self.ajson_fixture1]
+        self.call_command(*args)
+
+        # fudge date
+        dummy_dt = '2001-01-01T00:00:00Z'
+        models.ArticleVersion.objects.all().update(datetime_record_updated=dummy_dt) # bypasses auto_now=True in field
+
+        # force ingest the same article data
+        args = [self.nom, '--ingest', '--id', self.msid, '--version', self.version, '--force', self.ajson_fixture1]
+        errcode, stdout = self.call_command(*args)
+        self.assertEqual(errcode, 0)
+
+        resp = json.loads(stdout)
+
+        # attempting to ingest the same article twice results in the error being
+        # swallowed and a simple 'ingested' status being returned
+        self.assertEqual(resp['status'], 'ingested')
+        # the date of the original ingest is returned
+        self.assertEqual(resp['datetime'], dummy_dt)
+
+
 class MultiCLI(base.TransactionBaseCase):
     def setUp(self):
         self.nom = 'ingest'
@@ -204,6 +252,11 @@ class MultiCLI(base.TransactionBaseCase):
             # publish is called once per article (not article version)
             self.assertEqual(expected_art_count, mock.publish.call_count)
 
+        # tweak article hashes to avoid failing hashcheck
+        for av in models.ArticleVersion.objects.all():
+            av.article_json_hash = 'pants'
+            av.save()
+
         # simulate a backfill
         mock = Mock()
         with patch('publisher.aws_events.event_bus_conn', return_value=mock):
@@ -213,3 +266,29 @@ class MultiCLI(base.TransactionBaseCase):
 
             # publish is called once per article (not article version) despite multithreading
             self.assertEqual(expected_art_count, mock.publish.call_count)
+
+    @override_settings(DEBUG=False, ENABLE_RELATIONS=False) # get past the early return in aws_events
+    def test_multiple_identical_ingest_from_cli(self):
+        "a directory of article-json can be ingested many times with events only sent once"
+
+        expected_artv_count = 14
+        expected_call_count = 7 # 1 for each article
+
+        # ensure all the articles + versions exist before we do a multiprocess run
+        mock = Mock()
+        with patch('publisher.aws_events.event_bus_conn', return_value=mock):
+            args = [self.nom, '--ingest+publish', '--serial', '--dir', join(self.fixture_dir, 'ajson')]
+            errcode, _ = self.call_command(*args)
+            self.assertEqual(errcode, 0) # nothing failed
+            self.assertEqual(models.ArticleVersion.objects.count(), expected_artv_count)
+
+            # publish is called once per article (not article version)
+            self.assertEqual(expected_call_count, mock.publish.call_count)
+
+            # simulate a backfill
+            args = [self.nom, '--ingest', '--force', '--dir', join(self.fixture_dir, 'ajson')]
+            errcode, stdout = self.call_command(*args)
+            self.assertEqual(errcode, 0) # nothing failed
+
+            # publish is not called again (data hasn't changed)
+            self.assertEqual(expected_call_count, mock.publish.call_count)
