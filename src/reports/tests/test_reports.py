@@ -4,7 +4,7 @@ from os.path import join
 from publisher.tests import base
 from publisher import logic as publogic, utils, ajson_ingestor, models
 from reports import logic
-
+import xml.etree.ElementTree as ET
 from django.test import Client
 from django.core.urlresolvers import reverse
 
@@ -176,3 +176,23 @@ class TestReport(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
         xml = resp.content.decode('utf-8')
         self.assertEqual(len(re.findall('<item>', xml)), self.poa_art_count)
+
+    def test_paw_recent_report_date_updated(self):
+        # give our target a predictable date
+        dummy = '2018-01-01T00:00:00Z'
+        models.ArticleVersion.objects.filter(article__manuscript_id=6250, version=3).update(datetime_published=dummy)
+
+        # fetch the xml
+        resp = Client().get(reverse('paw-recent-report', kwargs={'days_ago': 9999}))
+        self.assertEqual(resp.status_code, 200)
+        xml = resp.content.decode('utf-8')
+
+        # find our article, check it's dates
+        root = ET.fromstring(xml)
+        item = root.find("./channel/item[guid='https://dx.doi.org/10.7554/eLife.06250']")
+        cases = [
+            ("{http://purl.org/dc/elements/1.1/}date.earliest", "2015-03-18T00:00:00Z"),
+            ("{http://purl.org/dc/elements/1.1/}date", dummy),
+        ]
+        for path, expected in cases:
+            self.assertEqual(item.find(path).text, expected)

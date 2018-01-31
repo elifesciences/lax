@@ -27,6 +27,10 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
             LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
 
         if item.get('obj') and isinstance(item['obj'], models.ArticleVersion):
+            # adds a dc:date.earliest
+            earliest_pubdate = item['obj'].article.earliest_version.datetime_published
+            handler.addQuickElement("dc:date.earliest", utils.ymdhms(earliest_pubdate))
+
             # adds a <subj-group><subject>foo</subject></subj-group>
             handler.startElement('jats:subj-group', {'subj-group-type': 'display-channel'})
             handler.startElement('jats:subject', {})
@@ -126,6 +130,7 @@ class RecentArticleFeed(AbstractArticleFeed):
 
         total, results = logic.latest_article_version_list()
         return lfilter(compfilter([status_in, published_since]), results)
+
 
 class AbstractReportFeed(AbstractArticleFeed):
     feed_type = RSSArticleFeedGenerator
