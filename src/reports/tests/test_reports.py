@@ -215,7 +215,6 @@ class TestReport(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
         xml = resp.content.decode('utf-8')
 
-        # we should have ONE item with two dates
         root = ET.fromstring(xml)
         item = root.find("./channel/item[guid='https://dx.doi.org/10.7554/eLife.06250']")
         cases = [
