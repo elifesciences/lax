@@ -147,6 +147,27 @@ class TestReport(base.BaseCase):
             self.assertEqual(av.version, expected_version)
             self.assertEqual(utils.ymd(av.datetime_published), expected_pubdate)
 
+    def test_paw_recent_report_data2(self):
+        "recent report returns the earliest vor version of every article version"
+        # we have no articles with a POA and two VORs
+        # but we do have on with two POAs and one VOR
+        # so lets convert a POA for some variety
+        models.ArticleVersion.objects.filter(article__manuscript_id=6250, version=2).update(status=models.VOR)
+
+        # msid, earliest vor, latest vor
+        cases = [
+            (353, 1, 1), (385, 1, 1),
+            (1328, 1, 1), (2619, 1, 1),
+            (3401, 3, 3), (3665, 1, 1),
+            (6250, 2, 3), # altered
+            (7301, 1, 1), (8025, 2, 2)
+        ]
+
+        results = logic.paw_recent_report_raw_data(limit=None)
+        for msid, earliest_vor, latest_vor in cases:
+            av = results.get(article__manuscript_id=msid, version=earliest_vor)
+            self.assertEqual(av.article.latest_version.version, latest_vor)
+
     def test_paw_ahead_report_data(self):
         res = logic.paw_ahead_report_raw_data(limit=None)
         self.assertEqual(res.count(), self.poa_art_count)
@@ -178,21 +199,31 @@ class TestReport(base.BaseCase):
         self.assertEqual(len(re.findall('<item>', xml)), self.poa_art_count)
 
     def test_paw_recent_report_date_updated(self):
-        # give our target a predictable date
-        dummy = '2018-01-01T00:00:00Z'
-        models.ArticleVersion.objects.filter(article__manuscript_id=6250, version=3).update(datetime_published=dummy)
+        # we have no articles with a POA and two VORs
+        # but we do have on with two POAs and one VOR
+        # so lets convert a POA
+        models.ArticleVersion.objects.filter(article__manuscript_id=6250, version=2).update(status=models.VOR)
+
+        # and give our targets a predictable date
+        dummy1 = '2018-01-01T00:00:00Z'
+        dummy2 = '2018-02-01T00:00:00Z'
+        models.ArticleVersion.objects.filter(article__manuscript_id=6250, version=2).update(datetime_published=dummy1)
+        models.ArticleVersion.objects.filter(article__manuscript_id=6250, version=3).update(datetime_published=dummy2)
 
         # fetch the xml
         resp = Client().get(reverse('paw-recent-report', kwargs={'days_ago': 9999}))
         self.assertEqual(resp.status_code, 200)
         xml = resp.content.decode('utf-8')
 
-        # find our article, check it's dates
+        # we should have ONE item with two dates
         root = ET.fromstring(xml)
         item = root.find("./channel/item[guid='https://dx.doi.org/10.7554/eLife.06250']")
         cases = [
-            ("{http://purl.org/dc/elements/1.1/}date.earliest", "2015-03-18T00:00:00Z"),
-            ("{http://purl.org/dc/elements/1.1/}date", dummy),
+            # dc:date.latest is the most recent VOR pubdate
+            ("{http://purl.org/dc/elements/1.1/}date.latest", dummy2),
+            # dc:date is the earliest VOR pubdate
+            ("{http://purl.org/dc/elements/1.1/}date", dummy1),
         ]
         for path, expected in cases:
-            self.assertEqual(item.find(path).text, expected)
+            actual = item.find(path).text
+            self.assertEqual(actual, expected, "expecting {0} for path {1} got {2}".format(expected, path, actual))

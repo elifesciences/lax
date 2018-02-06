@@ -1,6 +1,7 @@
 from publisher import models
 import logging
 from django.db.models import Min, Max, F, Q
+from django.db.models import OuterRef, Subquery
 
 LOG = logging.getLogger(__name__)
 
@@ -29,13 +30,17 @@ def mkrow(av):
 
 def paw_recent_report_raw_data(limit=None):
     "returns the SQL query used to generate the data for the 'recent' report"
+    min_vor_subquery = models.ArticleVersion.objects \
+        .filter(article=OuterRef('article')) \
+        .filter(status='vor') \
+        .annotate(min_vor=Min('version')) \
+        .values_list('min_vor', flat=True)
+
     query = models.ArticleVersion.objects \
         .select_related('article') \
         .defer('article_json_v1', 'article_json_v1_snippet') \
-        .annotate(min_vor=Min('article__articleversion__version')) \
-        .filter(article__articleversion__version=F('min_vor')) \
-        .filter(status='vor') \
-        .order_by('-datetime_published')
+        .filter(version=Subquery(min_vor_subquery)) \
+        .order_by('article__manuscript_id')
 
     if limit:
         assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
