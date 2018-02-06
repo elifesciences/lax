@@ -116,7 +116,7 @@ class TestReport(base.BaseCase):
         # as we removed the eif ingestor that bypassed business logic
         cases = [
             # vor
-            (3401, 3, "2014-08-01"),
+            (3401, 3, "2014-08-01"), # give 3401v3 an older pubdate
             (8025, 2, "2015-06-16"),
         ]
         for msid, ver, dtstr in cases:

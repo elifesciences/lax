@@ -27,8 +27,10 @@ class RSSArticleFeedGenerator(Rss201rev2Feed):
             LOG.warn("no pubdate, skipping added a 'dc:date' element to rss feed", extra=item)
 
         if item.get('obj') and isinstance(item['obj'], models.ArticleVersion):
-            # adds a dc:date.latest
-            latest_pubdate = item['obj'].article.latest_version.datetime_published
+            # this is a rss.report feed
+
+            # adds a dc:date.latest element
+            latest_pubdate = item['updateddate']
             handler.addQuickElement("dc:date.latest", utils.ymdhms(latest_pubdate))
 
             # adds a <subj-group><subject>foo</subject></subj-group>

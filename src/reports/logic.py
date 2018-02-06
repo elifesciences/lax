@@ -9,11 +9,15 @@ LOG = logging.getLogger(__name__)
 # PAW
 #
 
-def dt(av):
-    if av and hasattr(av, 'datetime_published'):
-        return av.datetime_published
-
 def mkrow(av):
+    pubdate = av.datetime_published
+    update = None
+
+    if av.status == models.VOR:
+        # recent report
+        pubdate = av.min_vor
+        update = av.datetime_published
+
     return {
         'title': av.title,
         'link': av.get_absolute_url(),
@@ -21,14 +25,16 @@ def mkrow(av):
         'author': {'name': 'N/A', 'email': 'N/A'},
         'category-list': [],
         'guid': av.get_absolute_url(),
-        'pub-date': dt(av),
+
+        'pub-date': pubdate,
+        'update-date': update,
 
         'obj': av
     }
 
 # 'recent' report (VOR)
 
-def paw_recent_report_raw_data(limit=None):
+def paw_recent_report_raw_data1(limit=None):
     "returns the SQL query used to generate the data for the 'recent' report"
     min_vor_subquery = models.ArticleVersion.objects \
         .filter(article=OuterRef('article')) \
@@ -40,7 +46,7 @@ def paw_recent_report_raw_data(limit=None):
         .select_related('article') \
         .defer('article_json_v1', 'article_json_v1_snippet') \
         .filter(version=Subquery(min_vor_subquery)) \
-        .order_by('article__manuscript_id')
+        .order_by('-datetime_published')
 
     if limit:
         assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
@@ -48,6 +54,47 @@ def paw_recent_report_raw_data(limit=None):
         query = query.filter(limit)
 
     return query
+
+def paw_recent_report_raw_data2(limit=None):
+    query = models.ArticleVersion.objects \
+        .select_related('article') \
+        .defer('article_json_v1', 'article_json_v1_snippet') \
+        .filter(status='vor') \
+        .order_by('-datetime_published')
+
+    if limit:
+        assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
+        # may want to .exclude at some point, until then, .filter
+        query = query.filter(limit)
+
+    return query
+
+def paw_recent_report_raw_data3(limit=None):
+    "returns the SQL query used to generate the data for the 'recent' report"
+    min_vor_subquery = models.ArticleVersion.objects \
+        .filter(article=OuterRef('article')) \
+        .filter(status='vor') \
+        .values('datetime_published')[:1]
+
+    query = models.ArticleVersion.objects \
+        .select_related('article') \
+        .defer('article_json_v1', 'article_json_v1_snippet') \
+        .filter(status='vor') \
+        .annotate(min_vor=Subquery(min_vor_subquery)) \
+        .order_by('-datetime_published')
+
+    if limit:
+        assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
+        # may want to .exclude at some point, until then, .filter
+        query = query.filter(limit)
+
+    #from publisher.utils import ymdhms as y
+    #print([(q.article.manuscript_id, y(q.min_vor), y(q.datetime_published)) for q in query])
+
+    return query
+
+
+paw_recent_report_raw_data = paw_recent_report_raw_data3
 
 def paw_recent_data(limit=None):
     "turns the raw SQL results data into rows suitable for a report"
