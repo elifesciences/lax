@@ -32,7 +32,7 @@ class V2ContentTypes(base.BaseCase):
             "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
         ]
         for header in cases:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
+            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=header)
             self.assertEqual(resp.status_code, 200, "failed on case %r, got: %s" % (header, resp.status_code))
 
     def test_unacceptable_types(self):
@@ -46,7 +46,7 @@ class V2ContentTypes(base.BaseCase):
             "application/foo.bar.baz; version=1"
         ]
         for header in cases:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}), HTTP_ACCEPT=header)
+            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=header)
             self.assertEqual(resp.status_code, 406, "failed on case %r, got: %s" % (header, resp.status_code))
 
     def test_response_types(self):
@@ -63,11 +63,11 @@ class V2ContentTypes(base.BaseCase):
 
         case_list = {
             reverse('v2:article-list'): art_list_type,
-            reverse('v2:article', kwargs={'id': self.msid}): art_vor_type,
-            reverse('v2:article-version-list', kwargs={'id': self.msid}): art_history_type,
-            reverse('v2:article-version', kwargs={'id': self.msid, 'version': 1}): art_poa_type,
-            reverse('v2:article-version', kwargs={'id': self.msid, 'version': 2}): art_vor_type,
-            reverse('v2:article-relations', kwargs={'id': self.msid}): art_related_type,
+            reverse('v2:article', kwargs={'msid': self.msid}): art_vor_type,
+            reverse('v2:article-version-list', kwargs={'msid': self.msid}): art_history_type,
+            reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}): art_poa_type,
+            reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 2}): art_vor_type,
+            reverse('v2:article-relations', kwargs={'msid': self.msid}): art_related_type,
         }
 
         # test
@@ -163,7 +163,7 @@ class V2Content(base.BaseCase):
 
     def test_article_poa(self):
         "the latest version of the requested article is returned"
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
+        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
         data = utils.json_loads(resp.content)
@@ -176,7 +176,7 @@ class V2Content(base.BaseCase):
 
     def test_article_poa_unpublished(self):
         "the latest version of the requested article is returned"
-        resp = self.ac.get(reverse('v2:article', kwargs={'id': self.msid2}))
+        resp = self.ac.get(reverse('v2:article', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
         data = utils.json_loads(resp.content)
@@ -189,7 +189,7 @@ class V2Content(base.BaseCase):
 
     def test_article_vor(self):
         "the latest version of the requested article is returned"
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid1}))
+        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, "application/vnd.elife.article-vor+json;version=1")
 
@@ -205,7 +205,7 @@ class V2Content(base.BaseCase):
         "unpublished article versions are not returned"
         self.unpublish(self.msid2, version=3)
         self.assertEqual(models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).exclude(datetime_published=None).count(), 2)
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid2}))
+        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         data = utils.json_loads(resp.content)
 
@@ -216,23 +216,23 @@ class V2Content(base.BaseCase):
         self.assertEqual(data['version'], 2) # third version was unpublished
 
         # list of versions
-        version_list = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        version_list = self.c.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(version_list.status_code, 200)
         version_list_data = utils.json_loads(version_list.content)
         self.assertEqual(len(version_list_data['versions']), 2)
 
         # directly trying to access the unpublished version
-        unpublished_version = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 3}))
+        unpublished_version = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid2, 'version': 3}))
         self.assertEqual(unpublished_version.status_code, 404)
 
     def test_article_does_not_exist(self):
         fake_msid = 123
-        resp = self.c.get(reverse('v2:article', kwargs={'id': fake_msid}))
+        resp = self.c.get(reverse('v2:article', kwargs={'msid': fake_msid}))
         self.assertEqual(resp.status_code, 404)
 
     def test_article_versions_list(self):
         "valid json content is returned"
-        resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        resp = self.c.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
         data = utils.json_loads(resp.content)
@@ -257,7 +257,7 @@ class V2Content(base.BaseCase):
         # ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
         # ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
 
-        resp = self.ac.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        resp = self.ac.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
         data = utils.json_loads(resp.content)
@@ -277,7 +277,7 @@ class V2Content(base.BaseCase):
         "request the list of versions for an article that doesn't exist returns a 404"
         models.Article.objects.all().delete()
         self.assertEqual(models.Article.objects.count(), 0)
-        resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid2}))
+        resp = self.c.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 404)
 
     @override_settings(VALIDATE_FAILS_FORCE=False)
@@ -290,7 +290,7 @@ class V2Content(base.BaseCase):
 
         # we now have a published article in lax with invalid article-json
 
-        resp = self.c.get(reverse('v2:article-version-list', kwargs={'id': self.msid1}))
+        resp = self.c.get(reverse('v2:article-version-list', kwargs={'msid': self.msid1}))
         data = utils.json_loads(resp.content)
 
         # the invalid-but-published culprit
@@ -309,30 +309,30 @@ class V2Content(base.BaseCase):
     def test_article_version(self):
         versions = [1, 2, 3]
         for ver in versions:
-            resp = self.ac.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': ver}))
+            resp = self.ac.get(reverse('v2:article-version', kwargs={'msid': self.msid2, 'version': ver}))
             self.assertEqual(resp.status_code, 200)
 
     def test_article_version_art_does_not_exist(self):
         "returns 404 when an article doesn't exist for the article-version endpoint"
         models.Article.objects.all().delete()
         self.assertEqual(models.Article.objects.count(), 0)
-        resp = self.c.get(reverse('v2:article-version', kwargs={'id': '123', 'version': 1}))
+        resp = self.c.get(reverse('v2:article-version', kwargs={'msid': '123', 'version': 1}))
         self.assertEqual(resp.status_code, 404)
 
     def test_article_version_artver_does_not_exist(self):
         "returns 404 when a version of the article doesn't exist for the article-version endpoint"
-        resp = self.c.get(reverse('v2:article-version', kwargs={'id': self.msid2, 'version': 9}))
+        resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid2, 'version': 9}))
         self.assertEqual(resp.status_code, 404)
 
     def test_related_articles(self):
         "related articles endpoint exists and returns a 200 response for published article"
-        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'msid': self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(utils.json_loads(resp.content), [])
 
     def test_related_articles_of_an_article_that_does_not_exist(self):
         "related articles endpoint returns a 404 response for missing article"
-        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': 42}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'msid': 42}))
         self.assertEqual(resp.status_code, 404)
 
     def test_related_articles_on_unpublished_article(self):
@@ -343,11 +343,11 @@ class V2Content(base.BaseCase):
         self.unpublish(self.msid2, version=1)
 
         # auth
-        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid2}))
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
 
         # no auth
-        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid2}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 404)
 
     def test_related_articles_expected_data(self):
@@ -358,7 +358,7 @@ class V2Content(base.BaseCase):
         expected = [
             logic.article_snippet_json(logic.most_recent_article_version(self.msid2))
         ]
-        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'msid': self.msid1}))
         data = utils.json_loads(resp.content)
         self.assertEqual(expected, data)
 
@@ -366,7 +366,7 @@ class V2Content(base.BaseCase):
         expected = [
             logic.article_snippet_json(logic.most_recent_article_version(self.msid2, only_published=False))
         ]
-        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'msid': self.msid1}))
         data = utils.json_loads(resp.content)
         self.assertEqual(expected, data)
 
@@ -378,7 +378,7 @@ class V2Content(base.BaseCase):
 
         # no auth
         expected = [] # empty response
-        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'msid': self.msid1}))
         data = utils.json_loads(resp.content)
         self.assertEqual(data, expected)
 
@@ -386,7 +386,7 @@ class V2Content(base.BaseCase):
         expected = [
             logic.article_snippet_json(logic.most_recent_article_version(self.msid2, only_published=False))
         ]
-        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'msid': self.msid1}))
         data = utils.json_loads(resp.content)
         self.assertEqual(data, expected)
 
@@ -398,13 +398,13 @@ class V2Content(base.BaseCase):
 
         # no auth
         expected = [] # empty response
-        resp = self.c.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        resp = self.c.get(reverse('v2:article-relations', kwargs={'msid': self.msid1}))
         data = utils.json_loads(resp.content)
         self.assertEqual(data, expected)
 
         # auth
         expected = [] # also an empty response (nothing to serve up)
-        resp = self.ac.get(reverse('v2:article-relations', kwargs={'id': self.msid1}))
+        resp = self.ac.get(reverse('v2:article-relations', kwargs={'msid': self.msid1}))
         data = utils.json_loads(resp.content)
         self.assertEqual(data, expected)
 
@@ -430,7 +430,7 @@ class AddFragment(base.BaseCase):
     def test_add_fragment(self):
         "a POST request can be sent that adds an article fragment"
         key = 'test-frag'
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': key})
         fragment = {'title': 'Electrostatic selection'}
         q = models.ArticleFragment.objects.filter(article__manuscript_id=self.msid)
 
@@ -444,7 +444,7 @@ class AddFragment(base.BaseCase):
         self.assertEqual(frag.fragment, fragment)
 
         # fragment is served into the article
-        article_url = reverse('v2:article-version-list', kwargs={'id': self.msid})
+        article_url = reverse('v2:article-version-list', kwargs={'msid': self.msid})
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
         self.assertEqual(data['versions'][0]['title'], fragment['title'])
@@ -452,7 +452,7 @@ class AddFragment(base.BaseCase):
     def test_fragment_needs_authentication(self):
         "only admin users can modify content"
         key = 'test-frag'
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': key})
         fragment = {'title': 'Electrostatic selection'}
 
         resp = self.c.post(url, json.dumps(fragment), content_type="application/json")
@@ -463,14 +463,14 @@ class AddFragment(base.BaseCase):
         ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         key = 'test-frag'
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': key})
         fragment = {'title': 'Electrostatic selection'}
 
         resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
 
         # fragment is served into all article versions
-        article_url = reverse('v2:article-version-list', kwargs={'id': self.msid})
+        article_url = reverse('v2:article-version-list', kwargs={'msid': self.msid})
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
         self.assertEquals(len(data['versions']), 2)
@@ -479,7 +479,7 @@ class AddFragment(base.BaseCase):
 
     def test_add_fragment_twice(self):
         key = 'test-frag'
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': key})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': key})
 
         # POST fragment into lax
         fragment1 = {'title': 'pants-party'}
@@ -501,7 +501,7 @@ class AddFragment(base.BaseCase):
 
     def test_add_fragment_for_non_article(self):
         # POST fragment into lax
-        url = reverse('v2:article-fragment', kwargs={'art_id': 99999, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'msid': 99999, 'fragment_id': 'test-frag'})
         resp = self.ac.post(url, json.dumps({}), content_type="application/json")
         self.assertEqual(resp.status_code, 404)
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
@@ -514,13 +514,13 @@ class AddFragment(base.BaseCase):
         self.assertFalse(av.published())
 
         # post to unpublished article
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': 'test-frag'})
         fragment = {'more-article-content': 'pants'}
         resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
 
     def test_add_fragment_fails_unknown_content_type(self):
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': 'test-frag'})
         resp = self.ac.post(url, json.dumps({}), content_type="application/PAAAAAAANTSss")
         self.assertEqual(resp.status_code, 415) # unsupported media type
 
@@ -529,7 +529,7 @@ class AddFragment(base.BaseCase):
         to become invalid is refused"""
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # xml->json
         fragment = {'doi': 'this is no doi!'}
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': 'test-frag'})
         resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
         self.assertEqual(resp.status_code, 400) # bad client request
@@ -538,7 +538,7 @@ class AddFragment(base.BaseCase):
         "request with fragment that would fail the ArticleFragment schema is refused"
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # xml->json
         fragment = {} # empty
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': 'test-frag'})
         resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(models.ArticleFragment.objects.count(), 1) # 'xml->json'
         self.assertEqual(resp.status_code, 400) # bad client request
@@ -547,7 +547,7 @@ class AddFragment(base.BaseCase):
         "request with fragment that would cause no change in the merged article json is accepted."
         # behind the scenes the hash check is disabled so the Identical exception is not raised
         fragment = {'title': self.ajson['article']['title']}
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': 'test-frag'})
         resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(models.ArticleFragment.objects.count(), 2) # 'xml->json', 'test-frag'
@@ -576,7 +576,7 @@ class DeleteFragment(base.BaseCase):
     def test_delete_fragment(self):
         expected_fragments = 2 # XML2JSON + 'test-frag'
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': self.key})
         resp = self.ac.delete(url)
         self.assertEqual(200, resp.status_code)
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments - 1)
@@ -584,7 +584,7 @@ class DeleteFragment(base.BaseCase):
     def test_delete_fragment_not_authenticated(self):
         expected_fragments = 2 # XML2JSON + 'test-frag'
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': self.key})
         resp = self.c.delete(url) # .c vs .ac
         self.assertEqual(403, resp.status_code)
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
@@ -592,7 +592,7 @@ class DeleteFragment(base.BaseCase):
     def test_delete_fragment_doesnt_exist(self):
         expected_fragments = 2 # XML2JSON + 'test-frag'
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'pants-party'})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': 'pants-party'})
         resp = self.ac.delete(url)
         self.assertEqual(resp.status_code, 404)
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
@@ -600,7 +600,7 @@ class DeleteFragment(base.BaseCase):
     def test_delete_protected_fragment(self):
         expected_fragments = 2 # XML2JSON + 'test-frag'
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': models.XML2JSON})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': models.XML2JSON})
         resp = self.ac.delete(url)
         self.assertEqual(resp.status_code, 400) # client error, bad request
         self.assertEqual(models.ArticleFragment.objects.count(), expected_fragments)
@@ -614,7 +614,7 @@ class DeleteFragment(base.BaseCase):
         fobj.fragment['title'] = None
         fobj.save()
         self.assertTrue(fragments.merge_if_valid(self.av)) # returns None if invalid
-        url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+        url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': self.key})
         resp = self.ac.delete(url)
         self.assertEqual(resp.status_code, 400)
         expected_fragments = 2 # XML2JSON + 'test-frag'
@@ -647,7 +647,7 @@ class FragmentEvents(base.TransactionBaseCase):
         "successfully adding a fragment sends an aws event"
         mock = Mock()
         with patch('publisher.aws_events.event_bus_conn', return_value=mock):
-            url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': 'test-frag'})
+            url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': 'test-frag'})
 
             fragment = {'title': 'Electrostatic selection'}
             resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
@@ -666,7 +666,7 @@ class FragmentEvents(base.TransactionBaseCase):
 
         mock = Mock()
         with patch('publisher.aws_events.event_bus_conn', return_value=mock):
-            url = reverse('v2:article-fragment', kwargs={'art_id': self.msid, 'fragment_id': self.key})
+            url = reverse('v2:article-fragment', kwargs={'msid': self.msid, 'fragment_id': self.key})
 
             resp = self.ac.delete(url, json.dumps(fragment))
             self.assertEqual(resp.status_code, 200) # successfully deleted
