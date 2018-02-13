@@ -89,7 +89,7 @@ class One(base.BaseCase):
                     })
 
                     self.publish_ajson(content)
-                    actual_resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=request)
+                    actual_resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}), HTTP_ACCEPT=request)
                     self.assertEqual(actual_resp.status_code, 200)
                     # response is valid
                     self.assertTrue(utils.validate(actual_resp.json(), schema_idx[rskey]))
@@ -107,12 +107,12 @@ class One(base.BaseCase):
 
     def test_v1_requests_deprecation_notice_present(self):
         v1_only = 'application/vnd.elife.article-poa+json; version=1'
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v1_only)
+        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}), HTTP_ACCEPT=v1_only)
         self.assertEqual(resp['warning'], "Deprecation: Support for version 1 will be removed")
 
     def test_v2_requests_deprecation_notice_absent(self):
         v2_only = 'application/vnd.elife.article-poa+json; version=2'
-        resp = self.c.get(reverse('v2:article', kwargs={'id': self.msid}), HTTP_ACCEPT=v2_only)
+        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}), HTTP_ACCEPT=v2_only)
         self.assertFalse(resp.has_header('warning'))
 
     def test_requests_deprecation_notice_absent(self):

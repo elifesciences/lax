@@ -14,8 +14,8 @@ pyflakes ./src/
 
 echo "pylint"
 pylint -E ./src/publisher/** --load-plugins=pylint_django --disable=E1103 2> /dev/null
-# specific warning we're interested in, comma separated no spaces
-# presence of these warnings are a failure 
+# specific warnings we're interested in, comma separated with no spaces
+# presence of these warnings are a failure
 pylint ./src/publisher/** --load-plugins=pylint_django --disable=all --reports=n --score=n \
     --enable=redefined-builtin
 
