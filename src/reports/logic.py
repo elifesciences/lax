@@ -1,6 +1,6 @@
 from publisher import models
 import logging
-from django.db.models import Min, Max, F, Q
+from django.db.models import Max, F, Q
 from django.db.models import OuterRef, Subquery
 
 LOG = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ def mkrow(av):
     update = None
 
     if av.status == models.VOR:
-        # recent report
+        # 'recent' report
         pubdate = av.min_vor
         update = av.datetime_published
 
@@ -34,42 +34,7 @@ def mkrow(av):
 
 # 'recent' report (VOR)
 
-def paw_recent_report_raw_data1(limit=None):
-    "returns the SQL query used to generate the data for the 'recent' report"
-    min_vor_subquery = models.ArticleVersion.objects \
-        .filter(article=OuterRef('article')) \
-        .filter(status='vor') \
-        .annotate(min_vor=Min('version')) \
-        .values_list('min_vor', flat=True)
-
-    query = models.ArticleVersion.objects \
-        .select_related('article') \
-        .defer('article_json_v1', 'article_json_v1_snippet') \
-        .filter(version=Subquery(min_vor_subquery)) \
-        .order_by('-datetime_published')
-
-    if limit:
-        assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
-        # may want to .exclude at some point, until then, .filter
-        query = query.filter(limit)
-
-    return query
-
-def paw_recent_report_raw_data2(limit=None):
-    query = models.ArticleVersion.objects \
-        .select_related('article') \
-        .defer('article_json_v1', 'article_json_v1_snippet') \
-        .filter(status='vor') \
-        .order_by('-datetime_published')
-
-    if limit:
-        assert isinstance(limit, Q), "the report can only be limited with a django 'Q' object"
-        # may want to .exclude at some point, until then, .filter
-        query = query.filter(limit)
-
-    return query
-
-def paw_recent_report_raw_data3(limit=None):
+def paw_recent_report_raw_data(limit=None):
     "returns the SQL query used to generate the data for the 'recent' report"
     min_vor_subquery = models.ArticleVersion.objects \
         .filter(article=OuterRef('article')) \
@@ -88,13 +53,7 @@ def paw_recent_report_raw_data3(limit=None):
         # may want to .exclude at some point, until then, .filter
         query = query.filter(limit)
 
-    #from publisher.utils import ymdhms as y
-    #print([(q.article.manuscript_id, y(q.min_vor), y(q.datetime_published)) for q in query])
-
     return query
-
-
-paw_recent_report_raw_data = paw_recent_report_raw_data3
 
 def paw_recent_data(limit=None):
     "turns the raw SQL results data into rows suitable for a report"
