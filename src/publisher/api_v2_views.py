@@ -83,33 +83,33 @@ def article_list(request):
         return Response(err.message, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def article(request, id):
+def article(request, msid):
     "return the article-json for the most recent version of the given article ID"
     authenticated = is_authenticated(request)
     try:
-        av = logic.most_recent_article_version(id, only_published=not authenticated)
+        av = logic.most_recent_article_version(msid, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.Article.DoesNotExist:
         raise Http404()
 
 @api_view(['GET'])
-def article_version_list(request, id):
+def article_version_list(request, msid):
     "returns a list of versions for the given article ID"
     authenticated = is_authenticated(request)
     try:
-        resp = logic.article_version_history(id, only_published=not authenticated)
+        resp = logic.article_version_history(msid, only_published=not authenticated)
         return Response(resp, content_type='application/vnd.elife.article-history+json;version=1')
     except models.Article.DoesNotExist:
         raise Http404()
 
 
 @api_view(['GET'])
-def article_version(request, id, version):
+def article_version(request, msid, version):
     "returns the article-json for a specific version of the given article ID"
     authenticated = is_authenticated(request)
     try:
         # TODO: test at the HTTP level also the other requests
-        av = logic.article_version(id, version, only_published=not authenticated)
+        av = logic.article_version(msid, version, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.ArticleVersion.DoesNotExist:
         raise Http404()
@@ -117,11 +117,11 @@ def article_version(request, id, version):
 # TODO: test Content-Type
 # TODO: test 404
 @api_view(['GET'])
-def article_related(request, id):
+def article_related(request, msid):
     "return the related articles for a given article ID"
     authenticated = is_authenticated(request)
     try:
-        rl = logic.relationships(id, only_published=not authenticated)
+        rl = logic.relationships(msid, only_published=not authenticated)
         return Response(rl, content_type="application/vnd.elife.article-related+json;version=1")
     except models.Article.DoesNotExist:
         raise Http404()
@@ -132,13 +132,13 @@ def article_related(request, id):
 #
 
 @api_view(['POST', 'DELETE'])
-def article_fragment(request, art_id, fragment_id):
+def article_fragment(request, msid, fragment_id):
     # authenticated
     if not is_authenticated(request):
         return Response("not authenticated. only authenticated admin users can modify content", status=403)
 
     # article exists
-    article = get_object_or_404(models.Article, manuscript_id=art_id)
+    article = get_object_or_404(models.Article, manuscript_id=msid)
 
     try:
         reserved_keys = [XML2JSON]
