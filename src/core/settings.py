@@ -5,7 +5,7 @@ example settings can be found in /path/to/lax/elife.cfg
 
 ./install.sh will create a symlink from dev.cfg -> lax.cfg if lax.cfg not found."""
 
-import os
+import os, copy
 import multiprocessing
 from os.path import join
 from datetime import datetime
@@ -151,8 +151,17 @@ DATABASES = {
         'PASSWORD': cfg('database.password'),
         'HOST': cfg('database.host'),
         'PORT': cfg('database.port')
-    }
+    },
 }
+
+# exactly the same during development,
+# used to run migrations outside of development.
+DATABASES['privileged'] = copy.deepcopy(DATABASES['default'])
+if not DEBUG:
+    DATABASES['privileged'].update({
+        'USER': cfg('database.root-user'),
+        'PASSWORD': cfg('database.root-password'),
+    })
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
