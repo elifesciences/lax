@@ -21,7 +21,7 @@ find src/ -name '*.pyc' -delete
 rm -f build/junit.xml
 
 # testing management commands that require a queue shared between processes
-LAX_MULTIPROCESSING=1 coverage run --source='src/' --omit='*/tests/*,*/migrations/*' src/manage.py test "$module" --no-input
+LAX_MULTIPROCESSING=1 coverage run --source='src/' src/manage.py test "$module" --no-input
 echo "* passed tests"
 
 # run coverage test

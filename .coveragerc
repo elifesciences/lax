@@ -1,4 +1,6 @@
 [run]
-omit = 
+omit =
+    */tests/*
+    */migrations/*
     src/core/wsgi.py
     src/publisher/admin.py
