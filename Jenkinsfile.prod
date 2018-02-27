@@ -6,7 +6,7 @@ elifePipeline {
     }
 
     stage 'Backup', {
-        builderCmdNode 'lax--prod', 1, "./backup_prune.sh 3", "/srv/lax"
+        builderCmdNode 'lax--prod', 1, "./backup_prune.sh 2", "/srv/lax"
         builderCmdNode 'lax--prod', 1, "./backup.sh ${env.BUILD_TAG}", "/srv/lax"
     }
 
