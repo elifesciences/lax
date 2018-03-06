@@ -77,6 +77,7 @@ INSTALLED_APPS = (
 
     'rest_framework',
     'rest_framework_swagger', # gui for api
+    'graphene_django',
 
     'reports', # necessary for management commands
     'publisher',
@@ -263,6 +264,15 @@ API_OPTS = render_item({
 
 KONG_AUTH_HEADER = 'KONG-Authenticated'
 INTERNAL_NETWORKS = ['10.0.0.0/16', '127.0.0.0/8']
+
+#
+# Graphql/Graphene
+#
+
+GRAPHQL_ENABLED = cfg('graphql.enabled', False)
+GRAPHENE = {
+    'SCHEMA': 'core.schema.schema'
+}
 
 #
 # notification events
