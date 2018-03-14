@@ -390,3 +390,5 @@ logger = {
     'propagate': False, # don't propagate up to root logger
 }
 LOGGING['loggers'].update(dict(list(zip(module_loggers, [logger] * len(module_loggers)))))
+
+CACHE_HEADERS_TTL = cfg('general.cache-headers-ttl', 60 * 5) # 5 minutes, 300 seconds by default

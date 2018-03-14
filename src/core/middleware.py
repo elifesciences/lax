@@ -51,8 +51,8 @@ class DownstreamCaching(object):
     def __call__(self, request):
         public_headers = {
             'public': True,
-            'max-age': 60 * 5, # 5 minutes, 300 seconds
-            'stale-while-revalidate': 60 * 5, # 5 minutes, 300 seconds
+            'max-age': settings.CACHE_HEADERS_TTL,
+            'stale-while-revalidate': settings.CACHE_HEADERS_TTL,
             'stale-if-error': (60 * 60) * 24, # 1 day, 86400 seconds
         }
         private_headers = {
