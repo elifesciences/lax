@@ -1,8 +1,7 @@
 from django.conf import settings
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 #from django.core.urlresolvers import reverse
 from core import middleware as mware
-from mock import patch
 
 class KongAuthMiddleware(TestCase):
     def setUp(self):
@@ -66,9 +65,8 @@ class DownstreamCaching(TestCase):
         for header in cases:
             self.assertFalse(resp.has_header(header), "header %r present in response" % header)
 
-    @patch('core.middleware.settings')
-    def test_custom_ttl_in_configuration(self, stub_settings):
-        stub_settings.CACHE_HEADERS_TTL = 30
+    @override_settings(CACHE_HEADERS_TTL=30)
+    def test_custom_ttl_in_configuration(self):
         resp = self.c.get(self.url)
         cache_control = self._parse_cache_control(resp)
         self.assertIn('max-age=30', cache_control)
