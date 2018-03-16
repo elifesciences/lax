@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 #from django.core.urlresolvers import reverse
 from core import middleware as mware
 
@@ -64,3 +64,13 @@ class DownstreamCaching(TestCase):
         resp = self.c.get(self.url)
         for header in cases:
             self.assertFalse(resp.has_header(header), "header %r present in response" % header)
+
+    @override_settings(CACHE_HEADERS_TTL=30)
+    def test_custom_ttl_in_configuration(self):
+        resp = self.c.get(self.url)
+        cache_control = self._parse_cache_control(resp)
+        self.assertIn('max-age=30', cache_control)
+        self.assertIn('stale-while-revalidate=30', cache_control)
+
+    def _parse_cache_control(self, resp):
+        return [directive.strip() for directive in resp.get('Cache-Control', '').split(',')]
