@@ -291,6 +291,13 @@ def boolkey(*args):
 #
 #
 
+
+def format_error_path(path):
+    return ' >> '.join([str(item) for item in path])
+
+def generate_error_string(message, instance, path):
+    return '{0} \n\n* path to field *: {1} = {2}'.format(message, format_error_path(path), instance)
+
 @cache
 def load_schema(schema_path):
     return json.load(open(schema_path, 'r', encoding='utf-8'))
@@ -316,7 +323,11 @@ def validate(struct, schema_path):
     except ValidationError as err:
         # your json is incorrect
         #LOG.error("struct failed to validate against schema: %s" % err.message)
-        raise
+
+        output = generate_error_string(message=err.message,
+                                       instance=err.instance,
+                                       path=err.path)
+        raise ValidationError(output)
 
 # modified from:
 # http://stackoverflow.com/questions/9323749/python-check-if-one-dictionary-is-a-subset-of-another-larger-dictionary
