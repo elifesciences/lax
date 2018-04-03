@@ -44,9 +44,7 @@ class Errors(base.BaseCase):
 
             # non-deterministic ordering of errors! hooray
 
-            expected1 = """'status' is a required property
-
-Failed validating 'required' in schema['allOf'][0]['allOf'][0]:"""
+            expected1 = """'status' is a required property"""
 
             expected2 = """None is not of type 'string'
 
@@ -54,6 +52,22 @@ Failed validating 'type' in schema['allOf'][0]['allOf'][0]['properties']['status
 
             trace = err.trace.lstrip()
             self.assertTrue(trace.startswith(expected1) or trace.startswith(expected2))
+
+    def test_state_error4(self):
+        """Will fail validation due to:
+
+        funding.awards.1.source.funderId = '0000'
+
+        which does not match the required '^10[.][0-9]{4,}[^\\s"/<>]*/[^\\s"]+$' format.
+        """
+        try:
+            ajson = json.load(open(join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json'), 'r'))
+            utils.validate(ajson['article'], settings.SCHEMA_IDX['poa'])
+        except ValidationError as verr:
+            expected1 = """funding.awards.1.source.funderId = '0000' does not match '^10[.][0-9]{4,}[^\\s"/<>]*/[^\\s"]+$'"""
+
+            self.assertTrue(verr.startswith(expected1))
+
 
 class TestUtils(base.BaseCase):
     def setUp(self):

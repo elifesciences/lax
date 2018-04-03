@@ -435,7 +435,8 @@ class Publish(BaseCase):
             ajson_ingestor.ingest_publish(self.ajson)
         except StateError as err:
             self.assertEqual(err.code, codes.INVALID)
-            self.assertEqual(err.trace.strip()[:15], "'' is too short")
+            # self.assertEqual(err.trace.strip()[:15], "'' is too short")
+            self.assertEqual(err.trace.strip()[:23], "title = '' is too short")
 
 class IngestPublish(BaseCase):
     def setUp(self):
