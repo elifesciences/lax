@@ -51,7 +51,8 @@ def error(print_queue, errtype, code, message, force, dry_run, log_context, **mo
     ])
     struct.update(moar)
     log_context['status'] = errtype
-    LOG.error(message, extra=log_context)
+    logfn = LOG.warn if code == codes.INVALID else LOG.error
+    logfn(message, extra=log_context)
     write(print_queue, struct)
     clean_up(print_queue)
     sys.exit(1)

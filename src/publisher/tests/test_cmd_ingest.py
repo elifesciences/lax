@@ -4,6 +4,7 @@ from os.path import join
 from . import base
 from publisher import models, utils, ajson_ingestor, codes
 from django.test import override_settings
+from publisher.management.commands import ingest as IngestCommand
 
 class DryRun(base.BaseCase):
     def setUp(self):
@@ -80,6 +81,7 @@ class Errors(base.BaseCase):
 
     def test_error_response(self):
         "errors exit correctly and responses are structured correctly"
+        # publishing a v2 before a v1
         args = [self.nom, '--ingest', '--dry-run', '--id', self.msid, '--version', 2, self.ajson_fixture_v2]
         errcode, stdout = self.call_command(*args)
         self.assertEqual(errcode, 1) # 1 = error
@@ -97,6 +99,19 @@ class Errors(base.BaseCase):
         self.assertTrue(resp['message']) # a friendly error message
         self.assertTrue(resp['trace']) # a traceback for developers
 
+    def test_error_response_invalid(self):
+        "article data failing validation emit a WARNING rather than an ERROR"
+        bad_msid = '15507' # ...?
+        bad_ajson = join(self.fixture_dir, 'ajson', 'elife-01968-v1-bad.xml.json')
+
+        with patch.object(IngestCommand, 'LOG') as mocklog:
+            args = [self.nom, '--ingest', '--dry-run', '--id', bad_msid, '--version', 1, bad_ajson]
+            errcode, stdout = self.call_command(*args)
+
+        resp = json.loads(stdout)
+        self.assertEqual(resp['code'], codes.INVALID)
+        self.assertEqual(errcode, 1) # 1 = error
+        self.assertTrue(mocklog.warn.called)
 
 class CLI(base.BaseCase):
     def setUp(self):
