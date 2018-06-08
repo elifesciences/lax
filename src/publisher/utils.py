@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from functools import reduce
-from jsonschema import validate as validator
+import jsonschema
 from jsonschema import ValidationError
 import os, copy, json, glob
 import pytz
@@ -291,10 +291,11 @@ def boolkey(*args):
 #
 #
 
-
+# TODO: remove
 def format_error_path(path):
     return '.'.join([str(item) for item in path])
 
+# TODO: remove
 def generate_error_string(message, path):
     if len(path):
         equals_str = ' = '
@@ -317,20 +318,25 @@ def validate(struct, schema_path):
 
     try:
         schema = load_schema(schema_path)
-        validator(struct, schema)
+        jsonschema.validate(struct, schema)
         return struct
 
     except ValueError as err:
-        # your json schema is broken
+        # json schema is broken
         #raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
         raise
 
     except ValidationError as err:
-        # your json is incorrect
+        # json is incorrect
         #LOG.error("struct failed to validate against schema: %s" % err.message)
 
-        output = generate_error_string(message=err.message, path=err.path)
-        raise ValidationError(output)
+        #output = generate_error_string(message=err.message, path=err.path)
+        #raise ValidationError(output)
+
+        v = jsonschema.Draft4Validator(schema)
+        err.more = list(v.iter_errors(struct))
+        
+        raise err
 
 # modified from:
 # http://stackoverflow.com/questions/9323749/python-check-if-one-dictionary-is-a-subset-of-another-larger-dictionary

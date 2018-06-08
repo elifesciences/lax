@@ -576,3 +576,49 @@ class UnicodePreserved(BaseCase):
 
         given = av.article_json_v1['authors'][1]['name']['preferred']
         self.assertEqual(expected, given)
+
+from django.conf import settings
+import jsonschema
+from jsonschema.exceptions import best_match
+
+class X(BaseCase):
+    def setUp(self):
+        self.valid_fixture = self.load_ajson(join(self.fixture_dir, "ajson", "elife-20125-v1.xml.json"))
+        self.poa_schema = settings.SCHEMA_IDX['poa']
+
+        # before any test uses this fixture, prove it actually is valid ...
+        utils.validate(self.valid_fixture['article'], self.poa_schema)
+
+    def test_n_failures_detected(self):
+        invalid_fixture = copy.deepcopy(self.valid_fixture)
+
+        # two errors:
+        # jsonschema.exceptions.ValidationError: volume = -1 is less than the minimum of 1(
+        invalid_fixture['article']['volume'] = -1
+        # jsonschema.exceptions.ValidationError: doi = 'asdf' does not match '^10[.][0-9]{4,}[^\\s"/<>]*/[^\\s"]+$'
+        invalid_fixture['article']['doi'] = 'asdf'
+
+        # multi-schema failure
+        invalid_fixture['article']['authors'][0]["type"] = "monster" # from 'person'
+        
+        try:
+            ajson_ingestor.ingest(invalid_fixture)
+        except StateError as err:
+            # when ingesting we wrap the validationerror in a stateerror
+            
+            errinst = err.args[2]
+
+            #print('moar:',errinst.more)
+            for error in errinst.more:
+                print('-'*80)
+                print("(err)",error.message)
+
+                suberror_list = sorted(error.context, key=lambda e: e.schema_path)
+                for suberror in suberror_list:
+                    print("(sub)",list(suberror.schema_path), suberror.message, sep=", ")
+
+                if suberror_list:
+                    print("(best)",best_match(suberror_list).message)
+
+        self.fail()
+
