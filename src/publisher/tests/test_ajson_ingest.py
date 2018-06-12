@@ -578,8 +578,7 @@ class UnicodePreserved(BaseCase):
         self.assertEqual(expected, given)
 
 from django.conf import settings
-import jsonschema
-from jsonschema.exceptions import best_match
+from jsonschema.exceptions import ErrorTree
 
 class X(BaseCase):
     def setUp(self):
@@ -607,18 +606,22 @@ class X(BaseCase):
             # when ingesting we wrap the validationerror in a stateerror
             
             errinst = err.args[2]
+            
+            error_list = errinst.more['error-list']
+            schema_file = errinst.more['schema-path']
 
-            #print('moar:',errinst.more)
-            for error in errinst.more:
-                print('-'*80)
-                print("(err)",error.message)
+            for error in error_list:
+                msg, detail = utils.format_validation_error(error, schema_file)
+                print(msg)
+                if detail:
+                    #print("(more detail available)")
+                    print("** (sub) **")
+                    for det in detail:
+                        print(det)
 
-                suberror_list = sorted(error.context, key=lambda e: e.schema_path)
-                for suberror in suberror_list:
-                    print("(sub)",list(suberror.schema_path), suberror.message, sep=", ")
-
-                if suberror_list:
-                    print("(best)",best_match(suberror_list).message)
+                print()
+                print('-' * 80)
+                print()
 
         self.fail()
 

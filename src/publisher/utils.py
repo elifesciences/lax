@@ -334,10 +334,90 @@ def validate(struct, schema_path):
         #raise ValidationError(output)
 
         v = jsonschema.Draft4Validator(schema)
-        err.more = list(v.iter_errors(struct))
+        err.more = {
+            'error-list': list(v.iter_errors(struct)),
+            'schema-path': schema_path
+        }
         
         raise err
 
+#import jsonschema
+from jsonschema.exceptions import best_match, relevance, ErrorTree
+from pprint import pformat
+import os
+
+
+def errs(error):
+    rt = []
+    for suberror in error.context:
+        res = errs(suberror)
+        rt.extend(res)
+
+    # finally, add parent to bottom of list
+    rt.append(error)
+    return rt
+    
+def error_detail(err, schema_file):
+    error = '''This:
+
+{instance}
+
+is not valid because: {message}
+
+It fails the schema:
+
+{schema}
+
+found at: {schema_path}
+
+in the schema file: {schema_file}'''
+    return error.format(**{
+        'instance': json.dumps(err.instance, indent=4),
+        'message': err.message,
+        'schema': json.dumps(err.schema, indent=4),
+        'schema_path': ' > '.join(map(str, list(err.relative_schema_path))),
+        'schema_file': os.path.basename(schema_file)})
+
+def error_summary(sorted_error_list):
+    error = '''Data fails to validate against multiple schemas. 
+Possible reasons (smallest, most relevant, errors first):
+
+{enumerated_error_list}
+
+The full errors including their schema are attached below this error, indexed by their number above.
+'''
+    sub_error_list = '\n\n'.join('{idx}. {message}'.format(idx=i+1, message=err.message) for i, err in enumerate(sorted_error_list))
+
+    return error.format(enumerated_error_list=sub_error_list)
+
+def format_validation_error(error, schema_file):
+    #print("(err)",error)
+    #print("message:",error.message)
+    #print("instance:",error.instance)
+    #print("path:",error.path)
+    #print("schema:",json.dumps(error.schema, indent=4))
+    #print("schema-path:",error.schema_path)
+    #print("validator:",error.validator)
+    #print("validator-value:",error.validator_value)
+    #print("context:",error.context)
+    #print("cause:",error.cause)
+    
+    if not error.context:
+        # no suberrors, return early
+        return error_detail(error, schema_file), []
+    
+    suberror_list = errs(error)
+
+    def sorter(ve):
+        neg_path_len, weak_ve, strong_ve = relevance(ve)
+        # smaller error messages are easier and faster to read together
+        # however, I'm still err'ing on the side of heuristic
+        big_message = len(ve.message) > 75
+        new_relevance = (big_message, neg_path_len, weak_ve, strong_ve)
+        return new_relevance
+    suberror_list = sorted(suberror_list, key=sorter)
+    return error_summary(suberror_list), [error_detail(err, schema_file) for err in suberror_list]
+    
 # modified from:
 # http://stackoverflow.com/questions/9323749/python-check-if-one-dictionary-is-a-subset-of-another-larger-dictionary
 def partial_match(patn, real):
