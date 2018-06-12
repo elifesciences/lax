@@ -435,8 +435,7 @@ class Publish(BaseCase):
             ajson_ingestor.ingest_publish(self.ajson)
         except StateError as err:
             self.assertEqual(err.code, codes.INVALID)
-            # self.assertEqual(err.trace.strip()[:15], "'' is too short")
-            self.assertEqual(err.trace.strip()[:23], "title = '' is too short")
+            self.assertTrue("'' is too short" in err.trace)
 
 class IngestPublish(BaseCase):
     def setUp(self):
@@ -578,7 +577,7 @@ class UnicodePreserved(BaseCase):
         self.assertEqual(expected, given)
 
 from django.conf import settings
-from jsonschema.exceptions import ErrorTree
+from jsonschema.exceptions import ValidationError
 
 class X(BaseCase):
     def setUp(self):
@@ -599,29 +598,26 @@ class X(BaseCase):
 
         # multi-schema failure
         invalid_fixture['article']['authors'][0]["type"] = "monster" # from 'person'
-        
+
         try:
             ajson_ingestor.ingest(invalid_fixture)
         except StateError as err:
             # when ingesting we wrap the validationerror in a stateerror
-            
+            # ensure we still have access to this instance of ValidationError
+            self.assertTrue(isinstance(err.args[2], ValidationError))
+
             errinst = err.args[2]
-            
-            error_list = errinst.more['error-list']
-            schema_file = errinst.more['schema-path']
 
-            for error in error_list:
-                msg, detail = utils.format_validation_error(error, schema_file)
-                print(msg)
-                if detail:
-                    #print("(more detail available)")
-                    print("** (sub) **")
-                    for det in detail:
-                        print(det)
+            poa_failures = 3
+            snippet_failures = 2
+            self.assertEqual(errinst.count, poa_failures + snippet_failures)
+            self.assertEqual(len(errinst.error_list), poa_failures + snippet_failures)
 
-                print()
-                print('-' * 80)
-                print()
+            self.assertTrue("(error 5 of 5)" in err.message)
+            self.assertTrue("(error 5 of 5)" in err.trace)
 
-        self.fail()
+            # the `trace` also contains the full dump of all sub-errors ('possibilities')
+            self.assertTrue("(error 3, possibility 7)" in err.trace)
 
+            # print(err.trace)
+            # print(err.message)

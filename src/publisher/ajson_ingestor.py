@@ -181,7 +181,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         raise
 
     except ValidationError as err:
-        raise StateError(codes.INVALID, "validation error: %s" % err.message, err)
+        raise StateError(codes.INVALID, err.message, err)
 
     except Exception:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
@@ -256,7 +256,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
 
     except ValidationError as err:
         # the problem isn't that the ajson is invalid, it's that we've allowed invalid ajson into the system
-        raise StateError(codes.INVALID, "refusing to publish an article '%sv%s' with invalid article-json: %s" % (msid, version, err), err)
+        raise StateError(codes.INVALID, "refusing to publish an article '%sv%s' with invalid article-json" % (msid, version), err)
 
     except models.ArticleFragment.DoesNotExist:
         raise StateError(codes.NO_RECORD, "no 'xml->json' fragment found. being strict and failing this publish. please INGEST!")
