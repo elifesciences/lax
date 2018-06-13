@@ -11,6 +11,8 @@ from unittest import skip
 from publisher import logic
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
+from django.conf import settings
+from jsonschema.exceptions import ValidationError
 
 class IngestIdentical(BaseCase):
     def setUp(self):
@@ -576,10 +578,7 @@ class UnicodePreserved(BaseCase):
         given = av.article_json_v1['authors'][1]['name']['preferred']
         self.assertEqual(expected, given)
 
-from django.conf import settings
-from jsonschema.exceptions import ValidationError
-
-class X(BaseCase):
+class ValidationFailureError(BaseCase):
     def setUp(self):
         self.valid_fixture = self.load_ajson(join(self.fixture_dir, "ajson", "elife-20125-v1.xml.json"))
         self.poa_schema = settings.SCHEMA_IDX['poa']
