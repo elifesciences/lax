@@ -590,8 +590,9 @@ class ValidationFailureError(BaseCase):
         invalid_fixture = copy.deepcopy(self.valid_fixture)
 
         # two errors:
-        # jsonschema.exceptions.ValidationError: volume = -1 is less than the minimum of 1(
-        invalid_fixture['article']['volume'] = -1
+        # jsonschema.exceptions.ValidationError: volume = 0 is less than the minimum of 1
+        # *and* it bypasses the PositiveSmallIntegerField integrity check in sqlite+psql
+        invalid_fixture['article']['volume'] = 0
         # jsonschema.exceptions.ValidationError: doi = 'asdf' does not match '^10[.][0-9]{4,}[^\\s"/<>]*/[^\\s"]+$'
         invalid_fixture['article']['doi'] = 'asdf'
 
