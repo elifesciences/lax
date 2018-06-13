@@ -53,7 +53,7 @@ class StateError(RuntimeError):
 
         # if exception object has a 'trace' attribute, use that,
         # else just stringify the thing
-        return getattr(traceobj, 'trace') or str(traceobj)
+        return getattr(traceobj, 'trace', None) or str(traceobj)
 
 class LaxAssertionError(AssertionError):
     @property
