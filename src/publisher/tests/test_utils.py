@@ -42,16 +42,25 @@ class Errors(base.BaseCase):
             self.assertEqual(err.message, 'msg')
             self.assertEqual(err.code, 1)
 
+            # test update 2018-06-13:
+            # trace is now the complete list of errors, which can be very long for very invalid data
+            # ordering may still be non-deterministic as two errors can have the same 'weight'
+            # the error messages have changed
+            # I can't find any mention of `expected2`, it's possible the schema or the fixture has changed
+            # during the life of this test. The `or` would have hidden it.
+            
+            #expected1 = """'status' is a required property"""
+            #expected2 = """None is not of type 'string'
+            #Failed validating 'type' in schema['allOf'][0]['allOf'][0]['properties']['statusDate']:"""
+            #trace = err.trace.lstrip()
             # non-deterministic ordering of errors! hooray
+            #self.assertTrue(trace.startswith(expected1) or trace.startswith(expected2))
 
-            expected1 = """'status' is a required property"""
+            expected1 = "'status' is a required property"
+            self.assertTrue(expected1 in err.trace)
 
-            expected2 = """None is not of type 'string'
-
-Failed validating 'type' in schema['allOf'][0]['allOf'][0]['properties']['statusDate']:"""
-
-            trace = err.trace.lstrip()
-            self.assertTrue(trace.startswith(expected1) or trace.startswith(expected2))
+            # we still have access to the original error message if we need it
+            self.assertTrue(expected1 in verr.message)
 
     def test_state_error4(self):
         """Will fail validation due to:

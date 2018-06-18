@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from functools import reduce
-from jsonschema import validate as validator
-from jsonschema import ValidationError
+import jsonschema
+from jsonschema.exceptions import relevance, ValidationError
 import os, copy, json, glob
 import pytz
 from dateutil import parser
@@ -30,20 +30,30 @@ def formatted_traceback(errobj):
 
 class StateError(RuntimeError):
 
+    idx_code = 0
+    idx_message = 1
+    idx_trace = 2
+
     @property
     def code(self):
-        return self.args[0]
+        return self.args[self.idx_code]
 
     @property
     def message(self):
-        return self.args[1]
+        return self.args[self.idx_message]
 
     @property
     def trace(self):
-        if len(self.args) > 2:
-            trace = self.args[2]
-            return str(trace)
-        return formatted_traceback(self)
+        # we have no explicit error object to work with
+        # just return a standard stacktrace
+        if len(self.args) < 3:
+            return formatted_traceback(self)
+
+        traceobj = self.args[self.idx_trace]
+
+        # if exception object has a 'trace' attribute, use that,
+        # else just stringify the thing
+        return getattr(traceobj, 'trace', None) or str(traceobj)
 
 class LaxAssertionError(AssertionError):
     @property
@@ -291,18 +301,6 @@ def boolkey(*args):
 #
 #
 
-
-def format_error_path(path):
-    return '.'.join([str(item) for item in path])
-
-def generate_error_string(message, path):
-    if len(path):
-        equals_str = ' = '
-    else:
-        equals_str = ''
-
-    return '{0}{1}{2}'.format(format_error_path(path), equals_str, message)
-
 @cache
 def load_schema(schema_path):
     return json.load(open(schema_path, 'r', encoding='utf-8'))
@@ -317,20 +315,127 @@ def validate(struct, schema_path):
 
     try:
         schema = load_schema(schema_path)
-        validator(struct, schema)
+        jsonschema.validate(struct, schema)
         return struct
 
     except ValueError as err:
-        # your json schema is broken
+        # json schema is broken
         #raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
         raise
 
     except ValidationError as err:
-        # your json is incorrect
-        #LOG.error("struct failed to validate against schema: %s" % err.message)
+        # json is incorrect
+        v = jsonschema.Draft4Validator(schema)
+        err.error_list = list(v.iter_errors(struct))
+        err.count = len(err.error_list)
+        err.message, err.trace = format_validation_error_list(err.error_list, schema_path)
+        raise err
 
-        output = generate_error_string(message=err.message, path=err.path)
-        raise ValidationError(output)
+def flatten_validation_errors(error):
+    """an error can have sub-errors and each sub-error can have it's own errors (a tree).
+    two nodes at different depths may be equally important in determining failure.
+    this visits each node depth-first, returning a single list of errors that can be sorted."""
+    rt = []
+    for suberror in error.context:
+        res = flatten_validation_errors(suberror)
+        rt.extend(res)
+
+    # finally, add parent to bottom of list
+    rt.append(error)
+    return rt
+
+def validation_error_detail(err, schema_file):
+    "returns a rendered template using the given error and origin schema file"
+    error = '''This:
+
+{instance}
+
+is not valid because: {message}
+
+It fails the schema:
+
+{schema}
+
+found at: {schema_path}
+
+in the schema file: {schema_file}'''
+    instance = json.dumps(err.instance, indent=4)
+    if '\n' not in instance:
+        instance = '    %s' % instance # give the simple value an indent
+    return error.format(**{
+        'instance': instance,
+        'message': err.message,
+        'schema': json.dumps(err.schema, indent=4),
+        'schema_path': ' > '.join(map(str, list(err.relative_schema_path))),
+        'schema_file': os.path.basename(schema_file)})
+
+def validation_error_summary(sorted_error_list):
+    "returns a rendered template for the given error list"
+    error = '''Data fails to validate against multiple schemas.
+Possible reasons (smallest, most relevant, errors first):
+
+{enumerated_error_list}
+
+The full errors including their schema are attached to this error as a 'trace', indexed by their number above.'''
+    sub_error_list = '\n\n'.join('{idx}. {message}'.format(idx=i + 1, message=err.message) for i, err in enumerate(sorted_error_list))
+    return error.format(enumerated_error_list=sub_error_list)
+
+def format_validation_error(error, schema_file):
+    """formats the given error. if error is one of many failures, a summary formatted error is returned.
+    return value is a pair of (error-msg, sub-error-msg-list)."""
+
+    # https://python-jsonschema.readthedocs.io/en/latest/errors/?#jsonschema.exceptions.ValidationError
+
+    if not error.context:
+        # error is not composed of sub-errors, return early
+        return validation_error_detail(error, schema_file), []
+
+    # each of these failed, only author knows which one they were trying to validate against
+    suberror_list = flatten_validation_errors(error)
+
+    def sorter(ve):
+        """smaller error messages are easier and faster to read together
+        however, I'm still err'ing on the side of heuristic"""
+        neg_path_len, weak_ve, strong_ve = relevance(ve)
+        big_message = len(ve.message) > 75
+        new_relevance = (big_message, neg_path_len, weak_ve, strong_ve)
+        return new_relevance
+    suberror_list = sorted(suberror_list, key=sorter)
+
+    return validation_error_summary(suberror_list), [validation_error_detail(err, schema_file) for err in suberror_list]
+
+def format_validation_error_list(error_list, schema_file):
+    """same as `format_validation_error` but applied to a list of them.
+    returns a pair of (top-level-errors, complete-error-list-including-subs)"""
+
+    msg_list = []
+    trace_list = []
+    sep = "\n%s\n" % ("-" * 40,)
+
+    for i, error in enumerate(error_list):
+        msg, sub_msg_list = format_validation_error(error, schema_file)
+        # (error 1 of 2) ...
+        msg = "(error %s of %s)\n\n%s\n" % (i + 1, len(error_list), msg)
+
+        # note: sub_msg will be an empty string if no sub-errors exist
+        _subs = []
+        for j, sub_msg in enumerate(sub_msg_list):
+            # (error 1, possibility 2) ... This: foo ... is not valid because: ...
+            _subs.append("(error %s, possibility %s)\n\n%s\n" % (i + 1, j + 1, sub_msg))
+        sub_msg = sep.join(_subs)
+
+        msg_list.append(msg)
+        trace_list.append(msg + sub_msg)
+
+    msg = sep.join(msg_list)
+    trace = sep.join(trace_list)
+
+    return msg, trace
+
+
+#
+#
+#
 
 # modified from:
 # http://stackoverflow.com/questions/9323749/python-check-if-one-dictionary-is-a-subset-of-another-larger-dictionary
