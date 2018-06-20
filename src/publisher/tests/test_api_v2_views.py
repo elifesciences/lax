@@ -22,25 +22,74 @@ class V2ContentTypes(base.BaseCase):
 
     def test_accept_types(self):
         "various accept headers return expected response"
-        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r'))) # POA
         cases = [
-            "*/*",
-            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
-            "application/vnd.elife.article-poa+json; version=1",
-            "application/vnd.elife.article-vor+json; version=1", # yes, even though the returned result is a poa
-            # vor v1 or v2
-            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+            # (given accepted types, accepted media type)
+
+            # accepts anything
+            ("*/*",
+             "application/vnd.elife.article-poa+json; version=2"),
+
+            # poa or vor, no versions
+            ("application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
+             "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
+
+
+            # poa, no version
+            ("application/vnd.elife.article-poa+json",
+             "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
+            
+            # poa v1 or vor v1 (both deprecated)
+            ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
+             "application/vnd.elife.article-poa+json; version=1"), # with a deprecated header
+
+            # poa v1 (deprecated)
+            ("application/vnd.elife.article-poa+json; version=1",
+             "application/vnd.elife.article-poa+json; version=1"), # with a deprecated header
+
+            # poa v2
+            ("application/vnd.elife.article-poa+json; version=2",
+             "application/vnd.elife.article-poa+json; version=2"),
+
+            # poa v1 or v2
+            ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
+             "application/vnd.elife.article-poa+json; version=2"), # with a v1 deprecated header
         ]
-        for header in cases:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=header)
-            self.assertEqual(resp.status_code, 200, "failed on case %r, got: %s" % (header, resp.status_code))
+
+        foo = [
+            # these cases seems weird. if client has explicitly asked for vor,
+            # and result is poa, it should get an error, right?
+
+            # vor, no version
+            ("application/vnd.elife.article-vor+json",
+             "application/vnd.elife.article-vor+json; version=2"),
+            
+            # vor v1 (deprecated)
+            ("application/vnd.elife.article-vor+json; version=1",
+             "application/vnd.elife.article-vor+json; version=1"), # with a v1 deprecated header
+
+            # vor v2
+            ("application/vnd.elife.article-vor+json; version=2",
+             "application/vnd.elife.article-vor+json; version=2"),
+
+            # vor v1 or v2
+            ("application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+             "application/vnd.elife.article-vor+json; version=2"), # with a v1 deprecation header
+
+        ]
+        foo = foo
+        for client_accepts, expected_accepted in cases:
+            with self.subTest(client_accepts):
+                resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=client_accepts)
+                self.assertEqual(200, resp.status_code, "failed case %r, got: %s" % (client_accepts, resp.status_code))
+                self.assertEqual(expected_accepted, resp.accepted_media_type, "failed case %r, got: %s" % (client_accepts, resp.accepted_media_type))
 
     def test_unacceptable_types(self):
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
         cases = [
-            # vor v2 or v3
+            # vor v3 or v4
             "application/vnd.elife.article-vor+json; version=3, application/vnd.elife.article-vor+json; version=4",
-            # poa v2
+            # poa v3
             "application/vnd.elife.article-poa+json; version=3",
             # ??
             "application/foo.bar.baz; version=1"

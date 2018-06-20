@@ -76,7 +76,14 @@ TRANSFORMS = {
 
 # adapted from https://djangosnippets.org/snippets/1042/
 def parse_accept_header(accept):
-    "returns a list of triples, (media, key, val)"
+    """returns a list of triples, (media, key, val)
+    for example: "application/vnd.elife.article-vor+json; version=2"
+    returns: [("application/vnd.elife.article-vor+json", "version", "2")]
+
+    and this: "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2"
+    returns: [("application/vnd.elife.article-vor+json", "version", "2"),
+              ("application/vnd.elife.article-vor+json", "version", "1")]
+    """
     result = []
     for media_range in accept.split(","):
         parts = media_range.split(";")
@@ -110,10 +117,12 @@ def requested_version(request):
         'application/vnd.elife.article-vor+json',
     ]
     bits = parse_accept_header(request.META.get('HTTP_ACCEPT', '*/*'))
+    versions = []
     for row in bits:
         if row[0] in targets:
-            return row[-1][0] # last element, last character
-    return '*'
+            # TODO: fragile, don't leave as-is
+            versions.append(int(row[-1][0])) # last element, last character
+    return '*' if not versions else max(versions)
 
 def deprecated(request):
     if not settings.API_V12_TRANSFORMS:
