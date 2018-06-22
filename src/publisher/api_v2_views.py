@@ -90,7 +90,7 @@ def article_list(request):
             'total': total,
             'items': lmap(logic.article_snippet_json, results)
         }
-        return Response(struct, content_type='application/vnd.elife.article-list+json;version=1')
+        return Response(struct, content_type='application/vnd.elife.article-list+json; version=1')
     except AssertionError as err:
         return ErrorResponse(err.message, status=status.HTTP_400_BAD_REQUEST)
 
@@ -110,7 +110,7 @@ def article_version_list(request, msid):
     authenticated = is_authenticated(request)
     try:
         resp = logic.article_version_history(msid, only_published=not authenticated)
-        return Response(resp, content_type='application/vnd.elife.article-history+json;version=1')
+        return Response(resp, content_type='application/vnd.elife.article-history+json; version=1')
     except models.Article.DoesNotExist:
         raise Http404()
 
@@ -134,7 +134,7 @@ def article_related(request, msid):
     authenticated = is_authenticated(request)
     try:
         rl = logic.relationships(msid, only_published=not authenticated)
-        return Response(rl, content_type="application/vnd.elife.article-related+json;version=1")
+        return Response(rl, content_type="application/vnd.elife.article-related+json; version=1")
     except models.Article.DoesNotExist:
         raise Http404()
 

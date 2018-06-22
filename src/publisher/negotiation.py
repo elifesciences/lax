@@ -30,8 +30,8 @@ def mktype(row):
 _dynamic_types = [
     # prefix of the global variable name to create, media type, known version list
     ('ArticleList', 'application/vnd.elife.article-list+json', [1]),
-    ('POAArticle', 'application/vnd.elife.article-poa+json', [1, 2]),
-    ('VORArticle', 'application/vnd.elife.article-vor+json', [1, 2]),
+    ('POAArticle', 'application/vnd.elife.article-poa+json', [2]),
+    ('VORArticle', 'application/vnd.elife.article-vor+json', [2]),
     ('ArticleHistory', 'application/vnd.elife.article-history+json', [1]),
     ('ArticleRelated', 'application/vnd.elife.article-related+json', [1]),
 ]

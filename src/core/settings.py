@@ -189,9 +189,7 @@ REST_FRAMEWORK = {
     #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     'DEFAULT_RENDERER_CLASSES': (
         'publisher.negotiation.ArticleListVersion1',
-        'publisher.negotiation.POAArticleVersion1',
         'publisher.negotiation.POAArticleVersion2',
-        'publisher.negotiation.VORArticleVersion1',
         'publisher.negotiation.VORArticleVersion2',
         'publisher.negotiation.ArticleHistoryVersion1',
         'publisher.negotiation.ArticleRelatedVersion1',
@@ -227,11 +225,9 @@ SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 ALL_SCHEMA_IDX = {
     'poa': [
         (2, join(SCHEMA_PATH, 'model/article-poa.v2.json')),
-        (1, join(SCHEMA_PATH, 'model/article-poa.v1.json')),
     ],
     'vor': [
         (2, join(SCHEMA_PATH, 'model/article-vor.v2.json')),
-        (1, join(SCHEMA_PATH, 'model/article-vor.v1.json')),
     ],
     'history': [
         (1, join(SCHEMA_PATH, 'model/article-history.v1.json')),

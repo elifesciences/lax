@@ -87,10 +87,17 @@ class V2ContentTypes(base.BaseCase):
     def test_unacceptable_types(self):
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
         cases = [
+            # vor v1 or poa v1 (were valid, then deprecated, now obsolete)
+            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-poa+json; version=1",
+
+            # fictious (for now)
+
             # vor v3 or v4
             "application/vnd.elife.article-vor+json; version=3, application/vnd.elife.article-vor+json; version=4",
+
             # poa v3
             "application/vnd.elife.article-poa+json; version=3",
+
             # ??
             "application/foo.bar.baz; version=1"
         ]
@@ -104,16 +111,17 @@ class V2ContentTypes(base.BaseCase):
             ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         # map the known types to expected types
-        art_list_type = 'application/vnd.elife.article-list+json;version=1'
-        art_poa_type = 'application/vnd.elife.article-poa+json;version=1'
-        art_vor_type = 'application/vnd.elife.article-vor+json;version=1'
-        art_history_type = 'application/vnd.elife.article-history+json;version=1'
-        art_related_type = 'application/vnd.elife.article-related+json;version=1'
+        art_list_type = 'application/vnd.elife.article-list+json; version=1'
+        art_poa_type = 'application/vnd.elife.article-poa+json; version=2'
+        art_vor_type = 'application/vnd.elife.article-vor+json; version=2'
+        art_history_type = 'application/vnd.elife.article-history+json; version=1'
+        art_related_type = 'application/vnd.elife.article-related+json; version=1'
 
         case_list = {
             reverse('v2:article-list'): art_list_type,
             reverse('v2:article', kwargs={'msid': self.msid}): art_vor_type,
             reverse('v2:article-version-list', kwargs={'msid': self.msid}): art_history_type,
+            # TODO: this case should be failing? 
             reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}): art_poa_type,
             reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 2}): art_vor_type,
             reverse('v2:article-relations', kwargs={'msid': self.msid}): art_related_type,
