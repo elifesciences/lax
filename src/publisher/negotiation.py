@@ -15,7 +15,12 @@ import itertools
 
 def mktype(row):
     nom, mime, version_list = row
-    klass_list = lmap(lambda ver: ("%sVersion%s" % (nom, ver), "%s; version=%s" % (mime, ver)), version_list)
+    def gen_klass_name(version):
+        if version:
+            return "%sVersion%s" % (nom, version), "%s; version=%s" % (mime, version)
+        return nom, mime
+    klass_list = lmap(gen_klass_name, version_list)
+
     global_scope = globals()
 
     def gen_klass(klass_row):
@@ -24,16 +29,17 @@ def mktype(row):
         # ll: ('publisher.negotiation.ArticleListVersion1', 'application/vnd.elife.article-list+json; version=1')
         # we use the return type in settings.py
         return 'publisher.negotiation.%s' % nom, mime
+
     return lmap(gen_klass, klass_list)
 
 
 _dynamic_types = [
     # prefix of the global variable name to create, media type, known version list
-    ('ArticleList', 'application/vnd.elife.article-list+json', [1]),
-    ('POAArticle', 'application/vnd.elife.article-poa+json', [2]),
-    ('VORArticle', 'application/vnd.elife.article-vor+json', [2]),
-    ('ArticleHistory', 'application/vnd.elife.article-history+json', [1]),
-    ('ArticleRelated', 'application/vnd.elife.article-related+json', [1]),
+    ('ArticleList', 'application/vnd.elife.article-list+json', [None, 1]),
+    ('POAArticle', 'application/vnd.elife.article-poa+json', [None, 2]),
+    ('VORArticle', 'application/vnd.elife.article-vor+json', [None, 2]),
+    ('ArticleHistory', 'application/vnd.elife.article-history+json', [None, 1]),
+    ('ArticleRelated', 'application/vnd.elife.article-related+json', [None, 1]),
 ]
 
 # create two lists from the pair returned in mktype.gen_klass

@@ -34,18 +34,10 @@ class V2ContentTypes(base.BaseCase):
             ("application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
              "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
 
-
             # poa, no version
             ("application/vnd.elife.article-poa+json",
              "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
             
-            # poa v1 or vor v1 (both deprecated)
-            ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
-             "application/vnd.elife.article-poa+json; version=1"), # with a deprecated header
-
-            # poa v1 (deprecated)
-            ("application/vnd.elife.article-poa+json; version=1",
-             "application/vnd.elife.article-poa+json; version=1"), # with a deprecated header
 
             # poa v2
             ("application/vnd.elife.article-poa+json; version=2",
@@ -53,31 +45,20 @@ class V2ContentTypes(base.BaseCase):
 
             # poa v1 or v2
             ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
-             "application/vnd.elife.article-poa+json; version=2"), # with a v1 deprecated header
-        ]
-
-        foo = [
-            # these cases seems weird. if client has explicitly asked for vor,
-            # and result is poa, it should get an error, right?
+             "application/vnd.elife.article-poa+json; version=2"),
 
             # vor, no version
             ("application/vnd.elife.article-vor+json",
              "application/vnd.elife.article-vor+json; version=2"),
             
-            # vor v1 (deprecated)
-            ("application/vnd.elife.article-vor+json; version=1",
-             "application/vnd.elife.article-vor+json; version=1"), # with a v1 deprecated header
-
             # vor v2
             ("application/vnd.elife.article-vor+json; version=2",
              "application/vnd.elife.article-vor+json; version=2"),
 
             # vor v1 or v2
             ("application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
-             "application/vnd.elife.article-vor+json; version=2"), # with a v1 deprecation header
-
+             "application/vnd.elife.article-vor+json; version=2"),
         ]
-        foo = foo
         for client_accepts, expected_accepted in cases:
             with self.subTest(client_accepts):
                 resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=client_accepts)
@@ -87,8 +68,14 @@ class V2ContentTypes(base.BaseCase):
     def test_unacceptable_types(self):
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
         cases = [
-            # vor v1 or poa v1 (were valid, then deprecated, now obsolete)
-            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-poa+json; version=1",
+            # poa v1 or vor v1 (both obsolete)
+            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
+
+            # poa v1 (obsolete)
+            "application/vnd.elife.article-poa+json; version=1",
+
+            # vor v1 (obsolete)
+            "application/vnd.elife.article-vor+json; version=1",
 
             # fictious (for now)
 
@@ -119,9 +106,9 @@ class V2ContentTypes(base.BaseCase):
 
         case_list = {
             reverse('v2:article-list'): art_list_type,
-            reverse('v2:article', kwargs={'msid': self.msid}): art_vor_type,
             reverse('v2:article-version-list', kwargs={'msid': self.msid}): art_history_type,
-            # TODO: this case should be failing? 
+            reverse('v2:article', kwargs={'msid': self.msid}): art_vor_type,
+            # 'version' here is the article version, not api or mime version ...
             reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}): art_poa_type,
             reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 2}): art_vor_type,
             reverse('v2:article-relations', kwargs={'msid': self.msid}): art_related_type,
@@ -130,10 +117,9 @@ class V2ContentTypes(base.BaseCase):
         # test
         for url, expected_type in case_list.items():
             resp = self.c.get(url)
-            self.assertEqual(resp.status_code, 200,
-                             "url %r failed to complete: %s" % (url, resp.status_code))
-            self.assertEqual(resp.content_type, expected_type,
-                             "%r failed to return %r: %s" % (url, expected_type, resp.content_type))
+            expected_pair = (200, expected_type)
+            actual_pair = (resp.status_code, resp.content_type)
+            self.assertEqual(expected_pair, actual_pair)
 
 class V2Content(base.BaseCase):
     def setUp(self):
