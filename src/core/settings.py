@@ -98,6 +98,8 @@ MIDDLEWARE = [
     #'publisher.middleware.apiv1_deprecated', # api v1 and v2 content transformations. temporary.
     #'publisher.middleware.apiv12transform', # api v1 and v2 content transformations. temporary.
 
+    'publisher.middleware.content_check',
+
     'core.middleware.DownstreamCaching',
 ]
 
@@ -188,26 +190,26 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 
-    # doesn't work. fml
-    #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
+    'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.Foo',
+
+    # order is really important here
     'DEFAULT_RENDERER_CLASSES': (
 
         'publisher.negotiation.ArticleListVersion1',
-
         'publisher.negotiation.POAArticleVersion2',
 
-
         'publisher.negotiation.VORArticleVersion2',
-
+        
 
         'publisher.negotiation.ArticleHistoryVersion1',
         'publisher.negotiation.ArticleRelatedVersion1',
-        
+
+        'publisher.negotiation.VORArticle',
+        'publisher.negotiation.POAArticle',
+
         'publisher.negotiation.ArticleRelated',
         'publisher.negotiation.ArticleHistory',
-        'publisher.negotiation.VORArticle',
         'publisher.negotiation.ArticleList',
-        'publisher.negotiation.POAArticle',
 
         'rest_framework.renderers.JSONRenderer',
     ),

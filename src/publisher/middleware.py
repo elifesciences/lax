@@ -158,3 +158,75 @@ def apiv1_deprecated(get_response_fn):
             response['warning'] = "Deprecation: Support for version 1 will be removed"
         return response
     return middleware
+
+
+#
+#
+#
+from django.http.multipartparser import parse_header
+
+def flatten_accept(header):
+    lst = []
+    for mime in header.split(','):
+        parsed_mime, parsed_params = parse_header(mime.encode())
+        # ll: ('*/*', 'version', None)
+        # ll: ('application/json', 'version', None)
+        # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
+        lst.append((parsed_mime, 'version', parsed_params.pop('version', None)))
+
+        
+    return lst
+        
+#from rest_framework.response import Response
+#from rest_framework.exceptions import NotAcceptable
+from django.http import HttpResponse
+
+def content_check(get_response_fn):
+    def middleware(request):
+        request_accept_header = request.META.get('HTTP_ACCEPT', '*/*')
+
+        # REST Framework will block unacceptable types up to a point.
+        # it will not discriminate on the *value* of a parameter (like 'version')
+
+        client_accepts_list = flatten_accept(request_accept_header)
+
+        # TODO: if unsupported version requested, raise 406 immediately
+        # traversing a short list must be faster than querying a database
+        # if we don't check here, it will be checked in the response
+
+        response = get_response_fn(request)
+        if response.status_code != 200:
+            # unsuccessful response, ignore
+            return response
+
+        # successful response
+        response_accept_header = response.content_type
+
+        response_mime = flatten_accept(response_accept_header)[0]
+        response_mime_general_case = response_mime[:2] + (None,)
+
+        anything = ('*/*', 'version', None)
+        almost_anything = ('application/*', 'version', None)
+
+        acceptable = response_mime in client_accepts_list \
+            or response_mime_general_case in client_accepts_list \
+            or anything in client_accepts_list \
+            or almost_anything in client_accepts_list
+
+        #print(response_mime)
+        #print(response_mime_general_case)
+        #print(client_accepts_list)
+        #print('acceptable?',acceptable)
+        #print()
+
+        if not acceptable:
+            return HttpResponse("", content_type="application/problem+json", status=406)
+            #res = Response("", status=406, content_type="application/problem+json")
+            #res.render()
+            #return res
+            #raise NotAcceptable("asdf")
+            response.status = 406
+            return response
+
+        return response
+    return middleware

@@ -30,6 +30,15 @@ class V2ContentTypes(base.BaseCase):
             ("*/*",
              "application/vnd.elife.article-poa+json; version=2"),
 
+            # accepts application/anything
+            ("application/*",
+             "application/vnd.elife.article-poa+json; version=2"),
+
+            # accepts json
+            # should this be acceptable?
+            #("application/json",
+            # "application/vnd.elife.article-poa+json; version=2"),            
+
             # poa or vor, no versions
             ("application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
              "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
@@ -38,7 +47,6 @@ class V2ContentTypes(base.BaseCase):
             ("application/vnd.elife.article-poa+json",
              "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
             
-
             # poa v2
             ("application/vnd.elife.article-poa+json; version=2",
              "application/vnd.elife.article-poa+json; version=2"),
@@ -47,36 +55,38 @@ class V2ContentTypes(base.BaseCase):
             ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
              "application/vnd.elife.article-poa+json; version=2"),
 
-            # vor, no version
-            ("application/vnd.elife.article-vor+json",
-             "application/vnd.elife.article-vor+json; version=2"),
-            
-            # vor v2
-            ("application/vnd.elife.article-vor+json; version=2",
-             "application/vnd.elife.article-vor+json; version=2"),
+            # poa v2 or vor v2
+            ("application/vnd.elife.article-poa+json; version=2, application/vnd.elife.article-vor+json; version=2",
+             "application/vnd.elife.article-poa+json; version=2"),
 
-            # vor v1 or v2
-            ("application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
-             "application/vnd.elife.article-vor+json; version=2"),
         ]
         for client_accepts, expected_accepted in cases:
-            with self.subTest(client_accepts):
-                resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=client_accepts)
-                self.assertEqual(200, resp.status_code, "failed case %r, got: %s" % (client_accepts, resp.status_code))
-                self.assertEqual(expected_accepted, resp.accepted_media_type, "failed case %r, got: %s" % (client_accepts, resp.accepted_media_type))
+            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=client_accepts)
+            self.assertEqual(200, resp.status_code, "failed case %r, got: %s" % (client_accepts, resp.status_code))
+            #self.assertEqual(expected_accepted, resp.accepted_media_type, "failed case %r, got: %s" % (client_accepts, resp.accepted_media_type))
+            self.assertEqual(expected_accepted, resp.content_type, "failed case %r, got: %s" % (client_accepts, resp.content_type))
 
     def test_unacceptable_types(self):
-        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r'))) # POA
         cases = [
-            # poa v1 or vor v1 (both obsolete)
-            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
-
             # poa v1 (obsolete)
             "application/vnd.elife.article-poa+json; version=1",
 
-            # vor v1 (obsolete)
+            # vor v1 (obsolete, vor)
             "application/vnd.elife.article-vor+json; version=1",
 
+            # poa v1 or vor v1 (both obsolete)
+            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
+
+            # vor, no version (POA article)
+            "application/vnd.elife.article-vor+json",
+
+            # vor v2 (POA article)
+            "application/vnd.elife.article-vor+json; version=2",
+
+            # vor v1 or v2 (still a POA article)
+            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+            
             # fictious (for now)
 
             # vor v3 or v4
@@ -89,8 +99,10 @@ class V2ContentTypes(base.BaseCase):
             "application/foo.bar.baz; version=1"
         ]
         for header in cases:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=header)
-            self.assertEqual(resp.status_code, 406, "failed on case %r, got: %s" % (header, resp.status_code))
+            # NOTE: 'version' here is article version, not mime version
+            url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1})
+            resp = self.c.get(url, HTTP_ACCEPT=header)
+            self.assertEqual(406, resp.status_code, "failed on case %r, got: %s" % (header, resp.status_code))
 
     def test_response_types(self):
         # ingest the poa and vor versions

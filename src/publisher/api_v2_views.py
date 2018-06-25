@@ -12,7 +12,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import POA, VOR, XML2JSON
 from et3.extract import path as p
 from et3.render import render_item
-
+from .negotiation import POAArticle, POAArticleVersion2, VORArticle, VORArticleVersion2, JSONRenderer
 import logging
 LOG = logging.getLogger(__name__)
 
@@ -94,13 +94,19 @@ def article_list(request):
     except AssertionError as err:
         return ErrorResponse(err.message, status=status.HTTP_400_BAD_REQUEST)
 
+@renderer_classes((POAArticle, POAArticleVersion2, VORArticle, VORArticleVersion2, JSONRenderer,))
 @api_view(['GET'])
 def article(request, msid):
     "return the article-json for the most recent version of the given article ID"
     authenticated = is_authenticated(request)
     try:
         av = logic.most_recent_article_version(msid, only_published=not authenticated)
-        return Response(logic.article_json(av), content_type=ctype(av.status))
+        # now that we know the returned content type, we need to check the client accepts that type.
+        # for example, they might accept POA but not VOR.
+        # fml. I could be doing something worthwhile
+        mime_type = ctype(av.status)
+        #ensure(mime_type in request.accepted_media_types, "cannot negotiate content", NotAcceptable)
+        return Response(logic.article_json(av), content_type=mime_type)
     except models.Article.DoesNotExist:
         raise Http404()
 
