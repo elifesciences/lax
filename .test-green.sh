@@ -4,7 +4,7 @@ set -e # everything must pass
 
 echo "[-] .test-green.sh"
 
-#pyflakes src/
+pyflakes src/
 
 args="$@"
 module="src"

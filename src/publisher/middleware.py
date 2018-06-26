@@ -4,7 +4,6 @@ from django.conf import settings
 import logging
 from .utils import lmap
 from rest_framework.response import Response as RESTResponse
-#from rest_framework.exceptions import NotAcceptable
 from django.http import HttpResponse
 from django.http.multipartparser import parse_header
 LOG = logging.getLogger(__name__)
@@ -196,6 +195,7 @@ def content_check(get_response_fn):
         anything = '*/*'
         response_accept_header = get_content_type(response) or anything
 
+        # response accept header will always be a list with a single row
         response_mime = flatten_accept(response_accept_header)[0]
         response_mime_general_case = response_mime[:2] + (None,)
 
@@ -214,6 +214,7 @@ def content_check(get_response_fn):
         # print()
 
         if not acceptable:
+            # TODO
             return HttpResponse("", content_type="application/problem+json", status=406)
         return response
     return middleware

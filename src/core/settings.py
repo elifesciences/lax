@@ -191,12 +191,8 @@ REST_FRAMEWORK = {
     #],
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
-
-    #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.Foo',
-
-    # order is really important here
+    #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     'DEFAULT_RENDERER_CLASSES': (
-
         'publisher.negotiation.ArticleListVersion1',
         'publisher.negotiation.POAArticleVersion2',
         'publisher.negotiation.POAArticleVersion1',

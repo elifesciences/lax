@@ -99,12 +99,7 @@ def article(request, msid):
     authenticated = is_authenticated(request)
     try:
         av = logic.most_recent_article_version(msid, only_published=not authenticated)
-        # now that we know the returned content type, we need to check the client accepts that type.
-        # for example, they might accept POA but not VOR.
-        # fml. I could be doing something worthwhile
-        mime_type = ctype(av.status)
-        #ensure(mime_type in request.accepted_media_types, "cannot negotiate content", NotAcceptable)
-        return Response(logic.article_json(av), content_type=mime_type)
+        return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.Article.DoesNotExist:
         raise Http404()
 
