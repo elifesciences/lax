@@ -4,6 +4,7 @@ from django.conf import settings
 import logging
 from .utils import lmap
 from rest_framework.response import Response as RESTResponse
+from .api_v2_views import ErrorResponse
 from django.http import HttpResponse
 from django.http.multipartparser import parse_header
 LOG = logging.getLogger(__name__)
@@ -187,6 +188,20 @@ def apiv1_deprecated(get_response_fn):
 #
 #
 
+def error_content_check(get_response_fn):
+    """REST Framework may refuse requests before we can ever handle them.
+    this middleware ensures all unsuccessful responses have the correct structure"""
+    def middleware(request):
+        response = get_response_fn(request)
+        if response.status_code > 399:
+            body = json.loads(response.content.decode('utf-8'))
+            if not 'title' in body and 'detail' in body:
+                body['title'] = body['detail']
+                del body['detail']
+                response.content = bytes(json.dumps(body, ensure_ascii=False), 'utf-8')
+        return response
+    return middleware
+
 def content_check(get_response_fn):
     def middleware(request):
         request_accept_header = request.META.get('HTTP_ACCEPT', '*/*')
@@ -230,7 +245,6 @@ def content_check(get_response_fn):
         # print()
 
         if not acceptable:
-            # TODO
-            return HttpResponse("", content_type="application/problem+json", status=406)
+            return ErrorResponse(406, "not acceptable", "could not negotiate an acceptable response type")
         return response
     return middleware

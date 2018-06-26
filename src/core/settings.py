@@ -94,6 +94,8 @@ MIDDLEWARE = [
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
 
+    'publisher.middleware.error_content_check',
+
     # order is important here. the content response is checked
     # *after* the api v1/2 transformation (if any)
     'publisher.middleware.content_check',

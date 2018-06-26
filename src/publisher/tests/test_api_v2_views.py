@@ -141,6 +141,20 @@ class V2ContentTypes(base.BaseCase):
             actual_pair = (resp.status_code, resp.content_type)
             self.assertEqual(expected_pair, actual_pair)
 
+    def test_error_response_type(self):
+        "all error responses have the same structure"
+        cases = [
+            # (request url, params, args, status code)
+            (reverse('v2:article-list'), {'per-page': -1}, {}, 400),
+            (reverse('v2:article', kwargs={'msid': 9999999}), {}, {}, 404),
+            (reverse('v2:article-list'), {}, {'HTTP_ACCEPT': 'application/party'}, 406),
+        ]
+        for url, params, args, expected_status_code in cases:
+            resp = self.c.get(url, params, **args)
+            self.assertEqual(expected_status_code, resp.status_code)
+            body = resp.json()
+            self.assertTrue('title' in body) # 'detail' is optional
+
 class V2Content(base.BaseCase):
     def setUp(self):
         ingest_these = [

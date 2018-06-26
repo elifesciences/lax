@@ -1,14 +1,14 @@
-import jsonschema
+import json, jsonschema
 from django.core import exceptions as django_errors
 from . import models, logic, fragment_logic
 from .utils import ensure, isint, lmap
-from rest_framework import status
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
-from django.shortcuts import Http404 as DjHttp404, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from .models import POA, VOR, XML2JSON
 from et3.extract import path as p
 from et3.render import render_item
@@ -21,16 +21,17 @@ def ctype(status):
     return {
         POA: 'application/vnd.elife.article-poa+json; version=2',
         VOR: 'application/vnd.elife.article-vor+json; version=2',
-        ERR: 'application/problem+json',
+        ERR: 'application/json', # text/plain as well?
     }[status]
 
-def ErrorResponse(*args, **kwargs):
-    kwargs['content_type'] = ctype(ERR)
-    return Response(*args, **kwargs)
+def ErrorResponse(code, title, detail=None):
+    body = {'title': title, 'detail': detail}
+    if not detail:
+        del body['detail']
+    return HttpResponse(status=code, content_type=ctype(ERR), content=json.dumps(body))
 
-class Http404(DjHttp404):
-    # TODO: set content_type for not found?
-    pass
+def Http404(detail=None):
+    return ErrorResponse(404, "not found", detail)
 
 def request_args(request, **overrides):
     opts = {}
@@ -91,7 +92,7 @@ def article_list(request):
         }
         return Response(struct, content_type='application/vnd.elife.article-list+json; version=1')
     except AssertionError as err:
-        return ErrorResponse(err.message, status=status.HTTP_400_BAD_REQUEST)
+        return ErrorResponse(400, "bad request", err.message)
 
 @api_view(['GET'])
 def article(request, msid):
@@ -101,7 +102,7 @@ def article(request, msid):
         av = logic.most_recent_article_version(msid, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.Article.DoesNotExist:
-        raise Http404()
+        return Http404()
 
 @api_view(['GET'])
 def article_version_list(request, msid):
@@ -111,7 +112,7 @@ def article_version_list(request, msid):
         resp = logic.article_version_history(msid, only_published=not authenticated)
         return Response(resp, content_type='application/vnd.elife.article-history+json; version=1')
     except models.Article.DoesNotExist:
-        raise Http404()
+        return Http404()
 
 
 @api_view(['GET'])
@@ -123,7 +124,7 @@ def article_version(request, msid, version):
         av = logic.article_version(msid, version, only_published=not authenticated)
         return Response(logic.article_json(av), content_type=ctype(av.status))
     except models.ArticleVersion.DoesNotExist:
-        raise Http404()
+        return Http404()
 
 # TODO: test Content-Type
 # TODO: test 404
@@ -135,7 +136,7 @@ def article_related(request, msid):
         rl = logic.relationships(msid, only_published=not authenticated)
         return Response(rl, content_type="application/vnd.elife.article-related+json; version=1")
     except models.Article.DoesNotExist:
-        raise Http404()
+        return Http404()
 
 #
 # Fragments
@@ -146,7 +147,7 @@ def article_related(request, msid):
 def article_fragment(request, msid, fragment_id):
     # authenticated
     if not is_authenticated(request):
-        return ErrorResponse("not authenticated. only authenticated admin users can modify content", status=403)
+        return ErrorResponse(403, "not authenticated", "only authenticated admin users can modify content")
 
     # article exists
     article = get_object_or_404(models.Article, manuscript_id=msid)
@@ -168,16 +169,16 @@ def article_fragment(request, msid, fragment_id):
 
     except django_errors.ValidationError:
         # failed model validation somehow. can happen on empty fragments
-        return ErrorResponse("that fragment is invalid and has been refused", status=400)
+        return ErrorResponse(400, "refused: bad data", "that fragment is invalid and has been refused")
 
     except jsonschema.ValidationError as err:
         # client submitted json that would generate invalid article-json
-        return ErrorResponse("that fragment creates invalid article-json. refused: %s" % err.message, status=400)
+        return ErrorResponse(400, "refused: bad data", "that fragment creates invalid article-json. refused: %s" % err.message)
 
     except AssertionError as err:
         # client broke business rules somehow
-        return ErrorResponse(err.message, status=status.HTTP_400_BAD_REQUEST)
+        return ErrorResponse(400, "bad request", err.message)
 
     except ObjectDoesNotExist:
         # article/articleversion/fragment with given ID doesn't exist
-        raise Http404()
+        return Http404()
