@@ -193,7 +193,7 @@ def error_content_check(get_response_fn):
     this middleware ensures all unsuccessful responses have the correct structure"""
     def middleware(request):
         response = get_response_fn(request)
-        if response.status_code > 399:
+        if response.status_code > 399 and 'json' in get_content_type(response):
             body = json.loads(response.content.decode('utf-8'))
             if not 'title' in body and 'detail' in body:
                 body['title'] = body['detail']

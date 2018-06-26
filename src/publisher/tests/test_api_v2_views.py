@@ -155,6 +155,15 @@ class V2ContentTypes(base.BaseCase):
             body = resp.json()
             self.assertTrue('title' in body) # 'detail' is optional
 
+class Ping(base.BaseCase):
+    def test_ping(self):
+        self.c = Client()
+        resp = self.c.get(reverse('v2:ping'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'text/plain; charset=UTF-8')
+        self.assertEqual(resp['Cache-Control'], 'must-revalidate, no-cache, no-store, private')
+        self.assertEqual(resp.content.decode('utf-8'), 'pong')
+
 class V2Content(base.BaseCase):
     def setUp(self):
         ingest_these = [
@@ -194,12 +203,19 @@ class V2Content(base.BaseCase):
             mware.CGROUPS: 'view-unpublished-content',
         })
 
-    def test_ping(self):
-        resp = self.c.get(reverse('v2:ping'))
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'text/plain; charset=UTF-8')
-        self.assertEqual(resp['Cache-Control'], 'must-revalidate, no-cache, no-store, private')
-        self.assertEqual(resp.content.decode('utf-8'), 'pong')
+    def test_head_request(self):
+        cases = [
+            reverse('v2:article', kwargs={'msid': self.msid1}),
+            reverse('v2:article-list'),
+            reverse('v2:ping'),
+            reverse('v2:article-version', kwargs={'msid': self.msid1, 'version': 1}),
+            reverse('v2:article-version-list', kwargs={'msid': self.msid1}),
+            reverse('v2:article-relations', kwargs={'msid': self.msid1}),
+        ]
+        for url in cases:
+            resp = self.c.head(url)
+            expected_status_code = 200
+            self.assertEqual(expected_status_code, resp.status_code)
 
     def test_article_list(self):
         "a list of published articles are returned to an unauthenticated response"

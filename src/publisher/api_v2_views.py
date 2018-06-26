@@ -72,13 +72,13 @@ def is_authenticated(request):
     #LOG.info("authenticated? %s type %s" % (val, type(val)))
     return val or False
 
-@api_view(['GET'])
+@api_view(['HEAD', 'GET'])
 @renderer_classes((StaticHTMLRenderer,))
 def ping(request):
     "returns a test response for monitoring, *never* to be cached"
     return Response('pong', content_type='text/plain; charset=UTF-8', headers={'Cache-Control': 'must-revalidate, no-cache, no-store, private'})
 
-@api_view(['GET'])
+@api_view(['HEAD', 'GET'])
 def article_list(request):
     "returns a list of snippets"
     authenticated = is_authenticated(request)
@@ -94,7 +94,7 @@ def article_list(request):
     except AssertionError as err:
         return ErrorResponse(400, "bad request", err.message)
 
-@api_view(['GET'])
+@api_view(['HEAD', 'GET'])
 def article(request, msid):
     "return the article-json for the most recent version of the given article ID"
     authenticated = is_authenticated(request)
@@ -104,7 +104,7 @@ def article(request, msid):
     except models.Article.DoesNotExist:
         return Http404()
 
-@api_view(['GET'])
+@api_view(['HEAD', 'GET'])
 def article_version_list(request, msid):
     "returns a list of versions for the given article ID"
     authenticated = is_authenticated(request)
@@ -115,7 +115,7 @@ def article_version_list(request, msid):
         return Http404()
 
 
-@api_view(['GET'])
+@api_view(['HEAD', 'GET'])
 def article_version(request, msid, version):
     "returns the article-json for a specific version of the given article ID"
     authenticated = is_authenticated(request)
@@ -126,9 +126,8 @@ def article_version(request, msid, version):
     except models.ArticleVersion.DoesNotExist:
         return Http404()
 
-# TODO: test Content-Type
 # TODO: test 404
-@api_view(['GET'])
+@api_view(['HEAD', 'GET'])
 def article_related(request, msid):
     "return the related articles for a given article ID"
     authenticated = is_authenticated(request)
