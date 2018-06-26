@@ -30,7 +30,7 @@ class V2ContentTypes(base.BaseCase):
             ("*/*",
              "application/vnd.elife.article-poa+json; version=2"),
 
-            # accepts application/anything
+            # accepts almost anything
             ("application/*",
              "application/vnd.elife.article-poa+json; version=2"),
 
@@ -47,6 +47,10 @@ class V2ContentTypes(base.BaseCase):
             ("application/vnd.elife.article-poa+json",
              "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
 
+            # poa v1, deprecated, v2 content will be downgraded
+            ("application/vnd.elife.article-poa+json; version=1",
+             "application/vnd.elife.article-poa+json; version=1"),
+
             # poa v2
             ("application/vnd.elife.article-poa+json; version=2",
              "application/vnd.elife.article-poa+json; version=2"),
@@ -54,6 +58,10 @@ class V2ContentTypes(base.BaseCase):
             # poa v1 or v2
             ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
              "application/vnd.elife.article-poa+json; version=2"),
+
+            # poa v1 or vor
+            ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json",
+             "application/vnd.elife.article-poa+json; version=1"),
 
             # poa v2 or vor v2
             ("application/vnd.elife.article-poa+json; version=2, application/vnd.elife.article-vor+json; version=2",
@@ -69,14 +77,14 @@ class V2ContentTypes(base.BaseCase):
     def test_unacceptable_types(self):
         ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r'))) # POA
         cases = [
-            # poa v1 (obsolete)
-            "application/vnd.elife.article-poa+json; version=1",
+            # poa v1 (deprecated but acceptable, for now)
+            # "application/vnd.elife.article-poa+json; version=1",
 
-            # vor v1 (obsolete, vor)
+            # vor v1 (it's a vor, not a poa)
             "application/vnd.elife.article-vor+json; version=1",
 
-            # poa v1 or vor v1 (both obsolete)
-            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
+            # poa v1 or vor v1 (deprecated but acceptable, for now)
+            # "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
 
             # vor, no version (POA article)
             "application/vnd.elife.article-vor+json",

@@ -119,18 +119,16 @@ def transformable(response):
             if row[0] in target:
                 return True
 
-def requested_version(request):
-    "figures out which content version was requested. "
-    targets = [
-        'application/vnd.elife.article-poa+json',
-        'application/vnd.elife.article-vor+json',
-    ]
+def requested_version(request, response):
+    """given a list of client-accepted mimes and the actual mime returned in the response,
+    returns the max supported version or '*' if no version specified"""
+    response_mime = flatten_accept(get_content_type(response))[0]
     bits = flatten_accept(request.META.get('HTTP_ACCEPT', '*/*'))
     versions = []
-    for row in bits:
-        if row[0] in targets and row[-1]: # row[-1] may be None
-            versions.append(int(row[-1]))
-    return '*' if not versions else max(versions)
+    for acceptable_mime in bits:
+        if acceptable_mime[0] == response_mime[0] and acceptable_mime[-1]:
+            versions.append(int(acceptable_mime[-1]))
+    return (response_mime[0], '*' if not versions else max(versions))
 
 def deprecated(request):
     if not settings.API_V12_TRANSFORMS:
@@ -152,10 +150,28 @@ def apiv12transform(get_response_fn):
     def middleware(request):
         response = get_response_fn(request)
         if transformable(response):
-            version = requested_version(request)
+            mime, version = requested_version(request, response)
             if version in TRANSFORMS:
                 content = json.loads(response.content.decode('utf-8'))
-                response.content = bytes(json.dumps(TRANSFORMS[version](content), ensure_ascii=False), 'utf-8')
+                content = bytes(json.dumps(TRANSFORMS[version](content), ensure_ascii=False), 'utf-8')
+                new_content_type = "%s; version=%s" % (mime, version)
+
+                new_response = HttpResponse(content, content_type=new_content_type)
+                # this is where RESTResponses keep it
+                # keeps some wrangling out of tests
+                new_response.content_type = new_content_type
+
+                # nothing here works: https://github.com/encode/django-rest-framework/blob/master/rest_framework/response.py
+                #print('new content type', new_content_type)
+                #response.content_type = new_content_type
+                #response.__dict__['content_type'] = new_content_type
+                #response.__dict__['Content-Type'] = new_content_type
+                #setattr(response, 'Content-Type', new_content_type)
+                # response.render()
+                # print('>>',response) # should equal new content type, doesn't
+
+                # not great, but I can't affect the content_type of the existing RESTResponse for some reason
+                response = new_response
         return response
     return middleware
 
