@@ -12,7 +12,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import POA, VOR, XML2JSON
 from et3.extract import path as p
 from et3.render import render_item
-from .negotiation import POAArticle, POAArticleVersion2, VORArticle, VORArticleVersion2, JSONRenderer
 import logging
 LOG = logging.getLogger(__name__)
 
@@ -25,9 +24,9 @@ def ctype(status):
         ERR: 'application/problem+json',
     }[status]
 
-def ErrorResponse(**kwargs):
+def ErrorResponse(*args, **kwargs):
     kwargs['content_type'] = ctype(ERR)
-    return Response(**kwargs)
+    return Response(*args, **kwargs)
 
 class Http404(DjHttp404):
     # TODO: set content_type for not found?
@@ -94,7 +93,6 @@ def article_list(request):
     except AssertionError as err:
         return ErrorResponse(err.message, status=status.HTTP_400_BAD_REQUEST)
 
-@renderer_classes((POAArticle, POAArticleVersion2, VORArticle, VORArticleVersion2, JSONRenderer,))
 @api_view(['GET'])
 def article(request, msid):
     "return the article-json for the most recent version of the given article ID"

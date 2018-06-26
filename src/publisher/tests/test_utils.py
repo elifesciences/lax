@@ -48,10 +48,10 @@ class Errors(base.BaseCase):
             # the error messages have changed
             # I can't find any mention of `expected2`, it's possible the schema or the fixture has changed
             # during the life of this test. The `or` would have hidden it.
-            
-            #expected1 = """'status' is a required property"""
-            #expected2 = """None is not of type 'string'
-            #Failed validating 'type' in schema['allOf'][0]['allOf'][0]['properties']['statusDate']:"""
+
+            # expected1 = """'status' is a required property"""
+            # expected2 = """None is not of type 'string'
+            # Failed validating 'type' in schema['allOf'][0]['allOf'][0]['properties']['statusDate']:"""
             #trace = err.trace.lstrip()
             # non-deterministic ordering of errors! hooray
             #self.assertTrue(trace.startswith(expected1) or trace.startswith(expected2))

@@ -94,11 +94,13 @@ MIDDLEWARE = [
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
 
-    # v1 poa+vor are now obsolete
-    #'publisher.middleware.apiv1_deprecated', # api v1 and v2 content transformations. temporary.
-    #'publisher.middleware.apiv12transform', # api v1 and v2 content transformations. temporary.
-
+    # order is important here. the content response is checked
+    # *after* the api v1/2 transformation (if any)
     'publisher.middleware.content_check',
+
+    # v1 poa+vor are now obsolete and will be removed
+    'publisher.middleware.apiv1_deprecated', # api v1 and v2 content transformations. temporary.
+    'publisher.middleware.apiv12transform', # api v1 and v2 content transformations. temporary.
 
     'core.middleware.DownstreamCaching',
 ]
@@ -190,23 +192,22 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
 
-    'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.Foo',
+    #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.Foo',
 
     # order is really important here
     'DEFAULT_RENDERER_CLASSES': (
 
         'publisher.negotiation.ArticleListVersion1',
         'publisher.negotiation.POAArticleVersion2',
-
+        'publisher.negotiation.POAArticleVersion1',
         'publisher.negotiation.VORArticleVersion2',
-        
-
+        'publisher.negotiation.VORArticleVersion1',
         'publisher.negotiation.ArticleHistoryVersion1',
         'publisher.negotiation.ArticleRelatedVersion1',
 
+        # general cases
         'publisher.negotiation.VORArticle',
         'publisher.negotiation.POAArticle',
-
         'publisher.negotiation.ArticleRelated',
         'publisher.negotiation.ArticleHistory',
         'publisher.negotiation.ArticleList',
@@ -243,9 +244,11 @@ SCHEMA_PATH = join(PROJECT_DIR, 'schema/api-raml/dist')
 ALL_SCHEMA_IDX = {
     'poa': [
         (2, join(SCHEMA_PATH, 'model/article-poa.v2.json')),
+        (1, join(SCHEMA_PATH, 'model/article-poa.v1.json')),
     ],
     'vor': [
         (2, join(SCHEMA_PATH, 'model/article-vor.v2.json')),
+        (1, join(SCHEMA_PATH, 'model/article-vor.v1.json')),
     ],
     'history': [
         (1, join(SCHEMA_PATH, 'model/article-history.v1.json')),

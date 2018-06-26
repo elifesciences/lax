@@ -57,9 +57,11 @@ class One(base.BaseCase):
         }
 
         request_idx = {
-            v1: 'application/vnd.elife.article-poa+json; version=1',
-            v2: 'application/vnd.elife.article-poa+json; version=2',
-            v12: 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2',
+            # the '*/*' is required, because requesting *just* v1 types will result in a 406
+            v1: 'application/vnd.elife.article-vor+json; version=1, */*',
+            # no '*/*' required for these cases as no transformations will be happening
+            v2: 'application/vnd.elife.article-vor+json; version=2',
+            v12: 'application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2',
         }
 
         response_idx = {

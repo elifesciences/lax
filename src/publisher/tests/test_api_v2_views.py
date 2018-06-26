@@ -37,7 +37,7 @@ class V2ContentTypes(base.BaseCase):
             # accepts json
             # should this be acceptable?
             #("application/json",
-            # "application/vnd.elife.article-poa+json; version=2"),            
+            # "application/vnd.elife.article-poa+json; version=2"),
 
             # poa or vor, no versions
             ("application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
@@ -46,7 +46,7 @@ class V2ContentTypes(base.BaseCase):
             # poa, no version
             ("application/vnd.elife.article-poa+json",
              "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
-            
+
             # poa v2
             ("application/vnd.elife.article-poa+json; version=2",
              "application/vnd.elife.article-poa+json; version=2"),
@@ -86,7 +86,7 @@ class V2ContentTypes(base.BaseCase):
 
             # vor v1 or v2 (still a POA article)
             "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
-            
+
             # fictious (for now)
 
             # vor v3 or v4
@@ -183,7 +183,7 @@ class V2Content(base.BaseCase):
         "a list of published articles are returned to an unauthenticated response"
         resp = self.c.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -203,7 +203,7 @@ class V2Content(base.BaseCase):
         "a list of published and unpublished articles are returned to an authorized response"
         resp = self.ac.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
         data = utils.json_loads(resp.content)
         idx = {int(item['id']): item for item in data['items']}
@@ -220,7 +220,7 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json; version=2")
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -233,7 +233,7 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.ac.get(reverse('v2:article', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json; version=2")
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -246,7 +246,7 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid1}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, "application/vnd.elife.article-vor+json;version=1")
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-vor+json; version=2")
 
         data = utils.json_loads(resp.content)
 
@@ -289,7 +289,7 @@ class V2Content(base.BaseCase):
         "valid json content is returned"
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -314,7 +314,7 @@ class V2Content(base.BaseCase):
 
         resp = self.ac.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -773,7 +773,7 @@ class RequestArgs(base.BaseCase):
         url = reverse('v2:article-list') + "?per-page=1"
         resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -788,7 +788,7 @@ class RequestArgs(base.BaseCase):
         "a list of articles are returned, paginated by 1"
         resp = self.c.get(reverse('v2:article-list') + "?per-page=1&page=2")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -804,7 +804,7 @@ class RequestArgs(base.BaseCase):
         url = reverse('v2:article-list') + "?page=2"
         resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -814,7 +814,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_asc(self):
         resp = self.c.get(reverse('v2:article-list') + "?order=asc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -827,7 +827,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_desc(self):
         resp = self.c.get(reverse('v2:article-list') + "?order=desc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -840,7 +840,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_asc_unpublished(self):
         resp = self.ac.get(reverse('v2:article-list') + "?order=asc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -853,7 +853,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_desc_unpublished(self):
         resp = self.ac.get(reverse('v2:article-list') + "?order=desc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)

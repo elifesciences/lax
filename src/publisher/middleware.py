@@ -3,8 +3,15 @@ from collections import OrderedDict
 from django.conf import settings
 import logging
 from .utils import lmap
-
+from rest_framework.response import Response as RESTResponse
+#from rest_framework.exceptions import NotAcceptable
+from django.http import HttpResponse
+from django.http.multipartparser import parse_header
 LOG = logging.getLogger(__name__)
+
+#
+# utils
+#
 
 # temporarily borrowed from bot-lax-adaptor...
 def visit(data, pred, fn, coll=None):
@@ -44,6 +51,29 @@ def visit_target(content, transformer):
 
     return visit(content, pred, fn)
 
+def get_content_type(resp):
+    if isinstance(resp, HttpResponse):
+        # Django response object used outside of REST framework
+        return resp.get('Content-Type')
+    elif isinstance(resp, RESTResponse):
+        return resp.content_type
+
+def flatten_accept(header, just_elife=False):
+    lst = []
+    for mime in header.split(','):
+        parsed_mime, parsed_params = parse_header(mime.encode())
+        # ll: ('*/*', 'version', None)
+        # ll: ('application/json', 'version', None)
+        # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
+        if just_elife and 'elife' not in parsed_mime:
+            continue
+        lst.append((parsed_mime, 'version', parsed_params.pop('version', None)))
+    return lst
+
+#
+#
+#
+
 def downgrade(content):
     "returns v1-compliant content"
     def transformer(item):
@@ -69,44 +99,24 @@ def upgrade(content):
 '''
 
 TRANSFORMS = {
-    '1': downgrade,
+    1: downgrade,
+
+    # all content has now been upgraded to v2.
     #'2': upgrade,
     #'*': upgrade, # accept ll: */*
 }
 
-# adapted from https://djangosnippets.org/snippets/1042/
-def parse_accept_header(accept):
-    """returns a list of triples, (media, key, val)
-    for example: "application/vnd.elife.article-vor+json; version=2"
-    returns: [("application/vnd.elife.article-vor+json", "version", "2")]
-
-    and this: "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2"
-    returns: [("application/vnd.elife.article-vor+json", "version", "2"),
-              ("application/vnd.elife.article-vor+json", "version", "1")]
-    """
-    result = []
-    for media_range in accept.split(","):
-        parts = media_range.split(";")
-        media_type = parts.pop(0).strip().lower()
-        for part in parts:
-            key, val = part.lstrip().split("=", 1)
-            result.append((media_type, key, val))
-        # normalize requests with no version specified
-        if not parts:
-            result.append((media_type, 'version', '*')) # any version
-    result.sort(key=lambda row: row[-1], reverse=True) # sorts rows by parameter values, highest first
-    return result
-
 def transformable(response):
     "exclude everything but api requests"
-    if settings.API_V12_TRANSFORMS and getattr(response, 'content_type', False):
+    content_type = get_content_type(response)
+    if settings.API_V12_TRANSFORMS and content_type:
         # not present in redirects and such
         # target any response of content type:
         target = [
             'application/vnd.elife.article-poa+json',
             'application/vnd.elife.article-vor+json'
         ]
-        for row in parse_accept_header(response.content_type):
+        for row in flatten_accept(content_type, just_elife=True):
             if row[0] in target:
                 return True
 
@@ -116,22 +126,21 @@ def requested_version(request):
         'application/vnd.elife.article-poa+json',
         'application/vnd.elife.article-vor+json',
     ]
-    bits = parse_accept_header(request.META.get('HTTP_ACCEPT', '*/*'))
+    bits = flatten_accept(request.META.get('HTTP_ACCEPT', '*/*'))
     versions = []
     for row in bits:
-        if row[0] in targets:
-            # TODO: fragile, don't leave as-is
-            versions.append(int(row[-1][0])) # last element, last character
+        if row[0] in targets and row[-1]: # row[-1] may be None
+            versions.append(int(row[-1]))
     return '*' if not versions else max(versions)
 
 def deprecated(request):
     if not settings.API_V12_TRANSFORMS:
         return False
     targets = [
-        ('application/vnd.elife.article-poa+json', 'version', '1'),
-        ('application/vnd.elife.article-vor+json', 'version', '1'),
+        ('application/vnd.elife.article-poa+json', 'version', b'1'),
+        ('application/vnd.elife.article-vor+json', 'version', b'1'),
     ]
-    accepts = parse_accept_header(request.META.get('HTTP_ACCEPT', '*/*'))
+    accepts = flatten_accept(request.META.get('HTTP_ACCEPT', '*/*'))
     for target in targets:
         if target in accepts:
             return True
@@ -159,27 +168,9 @@ def apiv1_deprecated(get_response_fn):
         return response
     return middleware
 
-
 #
 #
 #
-from django.http.multipartparser import parse_header
-
-def flatten_accept(header):
-    lst = []
-    for mime in header.split(','):
-        parsed_mime, parsed_params = parse_header(mime.encode())
-        # ll: ('*/*', 'version', None)
-        # ll: ('application/json', 'version', None)
-        # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
-        lst.append((parsed_mime, 'version', parsed_params.pop('version', None)))
-
-        
-    return lst
-        
-#from rest_framework.response import Response
-#from rest_framework.exceptions import NotAcceptable
-from django.http import HttpResponse
 
 def content_check(get_response_fn):
     def middleware(request):
@@ -187,6 +178,8 @@ def content_check(get_response_fn):
 
         # REST Framework will block unacceptable types up to a point.
         # it will not discriminate on the *value* of a parameter (like 'version')
+        # this means, we can't automatically refuse version=1 of a particular mime
+        # without rewriting or undermining a big chunk of their logic
 
         client_accepts_list = flatten_accept(request_accept_header)
 
@@ -200,7 +193,8 @@ def content_check(get_response_fn):
             return response
 
         # successful response
-        response_accept_header = response.content_type
+        anything = '*/*'
+        response_accept_header = get_content_type(response) or anything
 
         response_mime = flatten_accept(response_accept_header)[0]
         response_mime_general_case = response_mime[:2] + (None,)
@@ -213,20 +207,13 @@ def content_check(get_response_fn):
             or anything in client_accepts_list \
             or almost_anything in client_accepts_list
 
-        #print(response_mime)
-        #print(response_mime_general_case)
-        #print(client_accepts_list)
-        #print('acceptable?',acceptable)
-        #print()
+        # print(response_mime)
+        # print(response_mime_general_case)
+        # print(client_accepts_list)
+        # print('acceptable?',acceptable)
+        # print()
 
         if not acceptable:
             return HttpResponse("", content_type="application/problem+json", status=406)
-            #res = Response("", status=406, content_type="application/problem+json")
-            #res.render()
-            #return res
-            #raise NotAcceptable("asdf")
-            response.status = 406
-            return response
-
         return response
     return middleware
