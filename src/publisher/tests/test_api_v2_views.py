@@ -22,32 +22,95 @@ class V2ContentTypes(base.BaseCase):
 
     def test_accept_types(self):
         "various accept headers return expected response"
-        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r'))) # POA
         cases = [
-            "*/*",
-            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
-            "application/vnd.elife.article-poa+json; version=1",
-            "application/vnd.elife.article-vor+json; version=1", # yes, even though the returned result is a poa
-            # vor v1 or v2
-            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+            # (given accepted types, accepted media type)
+
+            # accepts anything
+            ("*/*",
+             "application/vnd.elife.article-poa+json; version=2"),
+
+            # accepts almost anything
+            ("application/*",
+             "application/vnd.elife.article-poa+json; version=2"),
+
+            # accepts json
+            # should this be acceptable?
+            #("application/json",
+            # "application/vnd.elife.article-poa+json; version=2"),
+
+            # poa or vor, no versions
+            ("application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
+             "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
+
+            # poa, no version
+            ("application/vnd.elife.article-poa+json",
+             "application/vnd.elife.article-poa+json; version=2"), # explicit latest version
+
+            # poa v1, deprecated, v2 content will be downgraded
+            ("application/vnd.elife.article-poa+json; version=1",
+             "application/vnd.elife.article-poa+json; version=1"),
+
+            # poa v2
+            ("application/vnd.elife.article-poa+json; version=2",
+             "application/vnd.elife.article-poa+json; version=2"),
+
+            # poa v1 or v2
+            ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
+             "application/vnd.elife.article-poa+json; version=2"),
+
+            # poa v1 or vor
+            ("application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json",
+             "application/vnd.elife.article-poa+json; version=1"),
+
+            # poa v2 or vor v2
+            ("application/vnd.elife.article-poa+json; version=2, application/vnd.elife.article-vor+json; version=2",
+             "application/vnd.elife.article-poa+json; version=2"),
+
         ]
-        for header in cases:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=header)
-            self.assertEqual(resp.status_code, 200, "failed on case %r, got: %s" % (header, resp.status_code))
+        for client_accepts, expected_accepted in cases:
+            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=client_accepts)
+            self.assertEqual(200, resp.status_code, "failed case %r, got: %s" % (client_accepts, resp.status_code))
+            #self.assertEqual(expected_accepted, resp.accepted_media_type, "failed case %r, got: %s" % (client_accepts, resp.accepted_media_type))
+            self.assertEqual(expected_accepted, resp.content_type, "failed case %r, got: %s" % (client_accepts, resp.content_type))
 
     def test_unacceptable_types(self):
-        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r')))
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, 'r'))) # POA
         cases = [
-            # vor v2 or v3
+            # poa v1 (deprecated but acceptable, for now)
+            # "application/vnd.elife.article-poa+json; version=1",
+
+            # vor v1 (it's a vor, not a poa)
+            "application/vnd.elife.article-vor+json; version=1",
+
+            # poa v1 or vor v1 (deprecated but acceptable, for now)
+            # "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json; version=1",
+
+            # vor, no version (POA article)
+            "application/vnd.elife.article-vor+json",
+
+            # vor v2 (POA article)
+            "application/vnd.elife.article-vor+json; version=2",
+
+            # vor v1 or v2 (still a POA article)
+            "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+
+            # fictious (for now)
+
+            # vor v3 or v4
             "application/vnd.elife.article-vor+json; version=3, application/vnd.elife.article-vor+json; version=4",
-            # poa v2
+
+            # poa v3
             "application/vnd.elife.article-poa+json; version=3",
+
             # ??
             "application/foo.bar.baz; version=1"
         ]
         for header in cases:
-            resp = self.c.get(reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}), HTTP_ACCEPT=header)
-            self.assertEqual(resp.status_code, 406, "failed on case %r, got: %s" % (header, resp.status_code))
+            # NOTE: 'version' here is article version, not mime version
+            url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1})
+            resp = self.c.get(url, HTTP_ACCEPT=header)
+            self.assertEqual(406, resp.status_code, "failed on case %r, got: %s" % (header, resp.status_code))
 
     def test_response_types(self):
         # ingest the poa and vor versions
@@ -55,16 +118,17 @@ class V2ContentTypes(base.BaseCase):
             ajson_ingestor.ingest_publish(json.load(open(path, 'r')))
 
         # map the known types to expected types
-        art_list_type = 'application/vnd.elife.article-list+json;version=1'
-        art_poa_type = 'application/vnd.elife.article-poa+json;version=1'
-        art_vor_type = 'application/vnd.elife.article-vor+json;version=1'
-        art_history_type = 'application/vnd.elife.article-history+json;version=1'
-        art_related_type = 'application/vnd.elife.article-related+json;version=1'
+        art_list_type = 'application/vnd.elife.article-list+json; version=1'
+        art_poa_type = 'application/vnd.elife.article-poa+json; version=2'
+        art_vor_type = 'application/vnd.elife.article-vor+json; version=2'
+        art_history_type = 'application/vnd.elife.article-history+json; version=1'
+        art_related_type = 'application/vnd.elife.article-related+json; version=1'
 
         case_list = {
             reverse('v2:article-list'): art_list_type,
-            reverse('v2:article', kwargs={'msid': self.msid}): art_vor_type,
             reverse('v2:article-version-list', kwargs={'msid': self.msid}): art_history_type,
+            reverse('v2:article', kwargs={'msid': self.msid}): art_vor_type,
+            # 'version' here is the article version, not api or mime version ...
             reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 1}): art_poa_type,
             reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 2}): art_vor_type,
             reverse('v2:article-relations', kwargs={'msid': self.msid}): art_related_type,
@@ -73,10 +137,32 @@ class V2ContentTypes(base.BaseCase):
         # test
         for url, expected_type in case_list.items():
             resp = self.c.get(url)
-            self.assertEqual(resp.status_code, 200,
-                             "url %r failed to complete: %s" % (url, resp.status_code))
-            self.assertEqual(resp.content_type, expected_type,
-                             "%r failed to return %r: %s" % (url, expected_type, resp.content_type))
+            expected_pair = (200, expected_type)
+            actual_pair = (resp.status_code, resp.content_type)
+            self.assertEqual(expected_pair, actual_pair)
+
+    def test_error_response_type(self):
+        "all error responses have the same structure"
+        cases = [
+            # (request url, params, args, status code)
+            (reverse('v2:article-list'), {'per-page': -1}, {}, 400),
+            (reverse('v2:article', kwargs={'msid': 9999999}), {}, {}, 404),
+            (reverse('v2:article-list'), {}, {'HTTP_ACCEPT': 'application/party'}, 406),
+        ]
+        for url, params, args, expected_status_code in cases:
+            resp = self.c.get(url, params, **args)
+            self.assertEqual(expected_status_code, resp.status_code)
+            body = resp.json()
+            self.assertTrue('title' in body) # 'detail' is optional
+
+class Ping(base.BaseCase):
+    def test_ping(self):
+        self.c = Client()
+        resp = self.c.get(reverse('v2:ping'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.content_type, 'text/plain; charset=UTF-8')
+        self.assertEqual(resp['Cache-Control'], 'must-revalidate, no-cache, no-store, private')
+        self.assertEqual(resp.content.decode('utf-8'), 'pong')
 
 class V2Content(base.BaseCase):
     def setUp(self):
@@ -117,18 +203,25 @@ class V2Content(base.BaseCase):
             mware.CGROUPS: 'view-unpublished-content',
         })
 
-    def test_ping(self):
-        resp = self.c.get(reverse('v2:ping'))
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'text/plain; charset=UTF-8')
-        self.assertEqual(resp['Cache-Control'], 'must-revalidate, no-cache, no-store, private')
-        self.assertEqual(resp.content.decode('utf-8'), 'pong')
+    def test_head_request(self):
+        cases = [
+            reverse('v2:article', kwargs={'msid': self.msid1}),
+            reverse('v2:article-list'),
+            reverse('v2:ping'),
+            reverse('v2:article-version', kwargs={'msid': self.msid1, 'version': 1}),
+            reverse('v2:article-version-list', kwargs={'msid': self.msid1}),
+            reverse('v2:article-relations', kwargs={'msid': self.msid1}),
+        ]
+        for url in cases:
+            resp = self.c.head(url)
+            expected_status_code = 200
+            self.assertEqual(expected_status_code, resp.status_code)
 
     def test_article_list(self):
         "a list of published articles are returned to an unauthenticated response"
         resp = self.c.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -148,7 +241,7 @@ class V2Content(base.BaseCase):
         "a list of published and unpublished articles are returned to an authorized response"
         resp = self.ac.get(reverse('v2:article-list'))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         self.assertEqual(resp[settings.KONG_AUTH_HEADER], 'True')
         data = utils.json_loads(resp.content)
         idx = {int(item['id']): item for item in data['items']}
@@ -165,7 +258,7 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json; version=2")
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -178,7 +271,7 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.ac.get(reverse('v2:article', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json;version=1")
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-poa+json; version=2")
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -191,7 +284,7 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid1}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, "application/vnd.elife.article-vor+json;version=1")
+        self.assertEqual(resp.content_type, "application/vnd.elife.article-vor+json; version=2")
 
         data = utils.json_loads(resp.content)
 
@@ -234,7 +327,7 @@ class V2Content(base.BaseCase):
         "valid json content is returned"
         resp = self.c.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -259,7 +352,7 @@ class V2Content(base.BaseCase):
 
         resp = self.ac.get(reverse('v2:article-version-list', kwargs={'msid': self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-history+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -718,7 +811,7 @@ class RequestArgs(base.BaseCase):
         url = reverse('v2:article-list') + "?per-page=1"
         resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -733,7 +826,7 @@ class RequestArgs(base.BaseCase):
         "a list of articles are returned, paginated by 1"
         resp = self.c.get(reverse('v2:article-list') + "?per-page=1&page=2")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # valid data
@@ -749,7 +842,7 @@ class RequestArgs(base.BaseCase):
         url = reverse('v2:article-list') + "?page=2"
         resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -759,7 +852,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_asc(self):
         resp = self.c.get(reverse('v2:article-list') + "?order=asc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -772,7 +865,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_desc(self):
         resp = self.c.get(reverse('v2:article-list') + "?order=desc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -785,7 +878,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_asc_unpublished(self):
         resp = self.ac.get(reverse('v2:article-list') + "?order=asc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)
@@ -798,7 +891,7 @@ class RequestArgs(base.BaseCase):
     def test_article_list_ordering_desc_unpublished(self):
         resp = self.ac.get(reverse('v2:article-list') + "?order=desc")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json;version=1')
+        self.assertEqual(resp.content_type, 'application/vnd.elife.article-list+json; version=1')
         data = utils.json_loads(resp.content)
 
         # correct data (too few to hit next page)

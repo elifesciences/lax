@@ -57,9 +57,11 @@ class One(base.BaseCase):
         }
 
         request_idx = {
-            v1: 'application/vnd.elife.article-poa+json; version=1',
-            v2: 'application/vnd.elife.article-poa+json; version=2',
-            v12: 'application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2',
+            # the '*/*' is required, because requesting *just* v1 types will result in a 406
+            v1: 'application/vnd.elife.article-vor+json; version=1, */*',
+            # no '*/*' required for these cases as no transformations will be happening
+            v2: 'application/vnd.elife.article-vor+json; version=2',
+            v12: 'application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2',
         }
 
         response_idx = {
@@ -115,7 +117,14 @@ class One(base.BaseCase):
         resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}), HTTP_ACCEPT=v2_only)
         self.assertFalse(resp.has_header('warning'))
 
-    def test_requests_deprecation_notice_absent(self):
-        v1_only = 'application/vnd.elife.article-poa+json; version=1'
-        resp = self.c.get(reverse('v2:article-list'), HTTP_ACCEPT=v1_only)
-        self.assertEqual(resp['warning'], "Deprecation: Support for version 1 will be removed")
+    # 2018-06-26: with stricter accepts handling, this request no longer succeeds.
+    # it says it only accepts v1 POA articles but will get an article-list mime type
+    # def test_requests_deprecation_notice_absent_from_article_list(self):
+    #    v1_only = 'application/vnd.elife.article-poa+json; version=1'
+    #    resp = self.c.get(reverse('v2:article-list'), HTTP_ACCEPT=v1_only)
+    #    self.assertEqual(resp['warning'], "Deprecation: Support for version 1 will be removed")
+
+    # 2018-06-26: slightly better version
+    def test_requests_deprecation_notice_absent_from_non_article_views(self):
+        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}))
+        self.assertFalse(resp.has_header('warning'))

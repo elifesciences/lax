@@ -94,6 +94,13 @@ MIDDLEWARE = [
 
     'core.middleware.KongAuthentication', # sets a header if it looks like an authenticated request
 
+    'publisher.middleware.error_content_check',
+
+    # order is important here. the content response is checked
+    # *after* the api v1/2 transformation (if any)
+    'publisher.middleware.content_check',
+
+    # v1 poa+vor are now obsolete and will be removed
     'publisher.middleware.apiv1_deprecated', # api v1 and v2 content transformations. temporary.
     'publisher.middleware.apiv12transform', # api v1 and v2 content transformations. temporary.
 
@@ -189,12 +196,20 @@ REST_FRAMEWORK = {
     #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     'DEFAULT_RENDERER_CLASSES': (
         'publisher.negotiation.ArticleListVersion1',
-        'publisher.negotiation.POAArticleVersion1',
         'publisher.negotiation.POAArticleVersion2',
-        'publisher.negotiation.VORArticleVersion1',
+        'publisher.negotiation.POAArticleVersion1',
         'publisher.negotiation.VORArticleVersion2',
+        'publisher.negotiation.VORArticleVersion1',
         'publisher.negotiation.ArticleHistoryVersion1',
         'publisher.negotiation.ArticleRelatedVersion1',
+
+        # general cases
+        'publisher.negotiation.VORArticle',
+        'publisher.negotiation.POAArticle',
+        'publisher.negotiation.ArticleRelated',
+        'publisher.negotiation.ArticleHistory',
+        'publisher.negotiation.ArticleList',
+
         'rest_framework.renderers.JSONRenderer',
     ),
 
