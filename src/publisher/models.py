@@ -33,9 +33,9 @@ class Journal(models.Model):
 # LSH@2017-05-31
 # I've disabled the enforcement of the xml and ejp types in the model
 # * we've had two instances where new ejp types caused lax to break or be hastily updated.
-# * adding new types requires a db migration :(
-# * bot-lax has type wrangling already
-# * ejp-lax has type wrangling already
+# * because adding new types requires a db migration
+# * there is type wrangling in bot-lax
+# * there is type wrangling in ejp-lax
 
 def ejp_type_choices():
     return [
@@ -44,9 +44,10 @@ def ejp_type_choices():
         ('AV', 'Research advance'),
         ('RR', 'Registered report'),
         ('TR', 'Tools and resources'),
-        ('RE', 'Research exchange'),
+        ('RE', 'Research exchange'), # deprecated in favour of SC
         ('SC', 'Scientific Correspondence'),
         ('RS', 'Replication Study'),
+        ('RC', 'Research Communication'),
     ]
 
 EJP_TYPE_IDX = dict(ejp_type_choices())
@@ -54,6 +55,8 @@ EJP_TYPE_REV_SLUG_IDX = {slugify(str(val), stopwords=['and']): key for key, val 
 
 
 EDITORIAL, INSIGHT = 'editorial', 'insight'
+
+# TODO: this mapping is unused and can be removed
 def xml_type_choices():
     return [
         ('research-article', 'Research article'),
