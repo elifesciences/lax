@@ -418,10 +418,10 @@ def format_validation_error_list(error_list, schema_file):
     for i, error in enumerate(error_list[:settings.NUM_SCHEMA_ERRORS]):
         _msg, sub_msg_list = format_validation_error(error, schema_file)
 
-        # (error 1/2) ...
+        # (error 1 of 2) ...
         msg = "(error %s of %s)\n\n%s\n" % (i + 1, total_errors, _msg)
         if many_errors:
-            # (error 1/10, 190 total)
+            # (error 1 of 10, 190 total)
             msg = "(error %s of %s, %s total)\n\n%s\n" % (i + 1, settings.NUM_SCHEMA_ERRORS, total_errors, _msg)
 
         # note: sub_msg will be an empty string if no sub-errors exist
