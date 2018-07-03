@@ -586,13 +586,6 @@ class ValidationFailureError(BaseCase):
         # before any test uses this fixture, prove it actually is valid ...
         utils.validate(self.valid_fixture['article'], self.poa_schema)
 
-    def test_heaps_of_failures_detected(self):
-        invalid_fixture = {'party': 'pants'}
-        try:
-            utils.validate(invalid_fixture, settings.SCHEMA_IDX['poa'])
-        except ValidationError as err:
-            self.assertTrue("(error 10 of 10, 19 total)" in err.message)
-
     def test_n_failures_detected(self):
         invalid_fixture = copy.deepcopy(self.valid_fixture)
 
