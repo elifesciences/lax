@@ -13,6 +13,7 @@ from django.db.models.fields.related import ManyToManyField
 from kids.cache import cache
 from rfc3339 import rfc3339
 from django.db import transaction, IntegrityError
+from django.conf import settings
 import traceback
 
 LOG = logging.getLogger(__name__)
@@ -412,14 +413,20 @@ def format_validation_error_list(error_list, schema_file):
     trace_list = []
     sep = "\n%s\n" % ("-" * 40,)
 
-    for i, error in enumerate(error_list):
-        msg, sub_msg_list = format_validation_error(error, schema_file)
+    total_errors = len(error_list) # realises lazy list
+    many_errors = total_errors > settings.NUM_SCHEMA_ERRORS
+    for i, error in enumerate(error_list[:settings.NUM_SCHEMA_ERRORS]):
+        _msg, sub_msg_list = format_validation_error(error, schema_file)
+
         # (error 1 of 2) ...
-        msg = "(error %s of %s)\n\n%s\n" % (i + 1, len(error_list), msg)
+        msg = "(error %s of %s)\n\n%s\n" % (i + 1, total_errors, _msg)
+        if many_errors:
+            # (error 1 of 10, 190 total)
+            msg = "(error %s of %s, %s total)\n\n%s\n" % (i + 1, settings.NUM_SCHEMA_ERRORS, total_errors, _msg)
 
         # note: sub_msg will be an empty string if no sub-errors exist
         _subs = []
-        for j, sub_msg in enumerate(sub_msg_list):
+        for j, sub_msg in enumerate(sub_msg_list[:settings.NUM_SCHEMA_ERROR_SUBS]):
             # (error 1, possibility 2) ... This: foo ... is not valid because: ...
             _subs.append("(error %s, possibility %s)\n\n%s\n" % (i + 1, j + 1, sub_msg))
         sub_msg = sep.join(_subs)
