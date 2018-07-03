@@ -258,6 +258,10 @@ ALL_SCHEMA_IDX = {
 SCHEMA_IDX = {tpe: rows[0][1] for tpe, rows in ALL_SCHEMA_IDX.items()}
 API_PATH = join(SCHEMA_PATH, 'api.raml')
 
+# a schema failure may have multiple independent failures and each failure
+# may have multiple possibilities.
+NUM_SCHEMA_ERRORS = NUM_SCHEMA_ERROR_SUBS = 10
+
 def _load_api_raml(path):
     # load the api.raml file, ignoring any "!include" commands
     yaml.add_multi_constructor('', lambda *args: '[disabled]')
