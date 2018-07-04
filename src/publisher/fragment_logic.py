@@ -1,11 +1,10 @@
 import hashlib
-from collections import OrderedDict
 from functools import partial
 from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
 from . import utils, models, aws_events, codes
-from .utils import create_or_update, ensure, subdict, StateError, atomic, lmap, lfilter, first
+from .utils import create_or_update, ensure, subdict, StateError, lmap, first
 import logging
 from django.db import transaction
 
@@ -263,91 +262,3 @@ def location(av):
         return 'no-article-fragment'
     except KeyError as err:
         return 'no-location-stored'
-
-
-#
-# revalidate logic
-#
-
-# NOTE: revalidation turned out to be a bit of a dead end with
-# the easiest solution being a blanket backfill. this is some
-# nice code, and it's possibly useful, but I would tear it out
-# if it's left unused for much longer - lsh, 2017-07-17
-
-SET, RESET, UNSET, NOTSET = 'set', 'reset', 'unset', 'not-set'
-
-def revalidate(av):
-    try:
-        had_json = not not av.article_json_v1
-        result = set_article_json(av, quiet=True, hash_check=False)
-        matrix = {
-            # had_json?, result?
-            (True, True): RESET,
-            (True, False): UNSET,
-
-            (False, True): SET,
-            (False, False): NOTSET,
-        }
-        return matrix[utils.boolkey(had_json, result)]
-
-    except StateError:
-        return NOTSET
-
-def revalidate_many(avl):
-    def do(av):
-        return {
-            'msid': av.article.manuscript_id,
-            'version': av.version,
-            'result': revalidate(av),
-        }
-    return lmap(do, avl)
-
-#
-
-def revalidate_report(results):
-    def instate(state):
-        def wrapper(row):
-            return row['result'] == state
-        return wrapper
-
-    _not_set = lfilter(instate(NOTSET), results)
-    _set = lfilter(instate(SET), results)
-    _unset = lfilter(instate(UNSET), results)
-    _reset = lfilter(instate(RESET), results)
-
-    report = OrderedDict([
-        (NOTSET, "had no article-json before, has *no* article-json *now*"),
-        (SET, "had no article-json *before*, has article-json *now*"),
-        (UNSET, "*had* article-json before, *no longer* has article-json"),
-        (RESET, "*had* article-json before, *has* article-json now"),
-        ('total-not-set', len(_not_set)),
-        ('total-set', len(_set)),
-        ('total-reset', len(_reset)),
-        ('total-unset', len(_unset)),
-
-        ('total-with-article-json', len(_set) + len(_reset)),
-        ('total-without-article-json', len(_not_set) + len(_unset)),
-
-        ('raw-set', _set),
-        ('raw-unset', _unset),
-    ])
-    return report
-
-#
-
-@atomic
-def revalidate_specific_article_version(msid, ver):
-    LOG.debug('revalidating article version %s %s', msid, ver)
-    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid, version=ver)
-    return revalidate_many(avl)
-
-@atomic
-def revalidate_all_versions_of_article(msid):
-    LOG.debug('revalidating all versions of %s', msid)
-    avl = models.ArticleVersion.objects.filter(article__manuscript_id=msid)
-    return revalidate_many(avl)
-
-@atomic
-def revalidate_all_article_versions():
-    LOG.debug('revalidating ALL articles, this may take a while')
-    return revalidate_many(models.ArticleVersion.objects.all())
