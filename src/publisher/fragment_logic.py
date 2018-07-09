@@ -94,7 +94,7 @@ def valid(merge_result, quiet=True):
             raise
 
         except ValidationError as err:
-            # not valid under this version
+            # not valid under this schema version
             LOG.info("while validating %s v%s with %s, failed to validate with error: %s", msid, version, schema, err.message)
             validation_errors.append(err)
             # try the next version of the schema (if one exists)
@@ -102,8 +102,8 @@ def valid(merge_result, quiet=True):
 
     if validation_errors and not quiet:
         versions_list = ' and '.join(map(str, versions_list))
-        # ll: failed to validate using poa article schema version 1 and 2
-        LOG.error("failed to validate using %s article schema version %s" % (status, versions_list))
+        # "failed to validate using poa article schema version 1 and 2"
+        LOG.warn("failed to validate using %s article schema version %s" % (status, versions_list))
         raise first(validation_errors)
 
 def extract_snippet(merged_result):
