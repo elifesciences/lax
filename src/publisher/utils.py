@@ -379,6 +379,7 @@ Possible reasons (smallest, most relevant, errors first):
 
 The full errors including their schema are attached to this error as a 'trace', indexed by their number above.'''
     sub_error_list = '\n\n'.join('{idx}. {message}'.format(idx=i + 1, message=err.message) for i, err in enumerate(sorted_error_list))
+    sub_error_list = set(sub_error_list)[:10] # cap the number to something sensible.
     return error.format(enumerated_error_list=sub_error_list)
 
 def format_validation_error(error, schema_file):
