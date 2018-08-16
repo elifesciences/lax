@@ -298,6 +298,13 @@ def boolkey(*args):
     for example: boolkey(0, 1, 2) => (False, True, True)"""
     return tuple([not not v for v in args])
 
+# https://www.peterbe.com/plog/fastest-way-to-uniquify-a-list-in-python-3.6
+# def f12(seq):
+def unique(seq):
+    # Raymond Hettinger
+    # https://twitter.com/raymondh/status/944125570534621185
+    return list(dict.fromkeys(seq))
+
 #
 #
 #
@@ -378,8 +385,10 @@ Possible reasons (smallest, most relevant, errors first):
 {enumerated_error_list}
 
 The full errors including their schema are attached to this error as a 'trace', indexed by their number above.'''
-    sub_error_list = '\n\n'.join('{idx}. {message}'.format(idx=i + 1, message=err.message) for i, err in enumerate(sorted_error_list))
-    return error.format(enumerated_error_list=sub_error_list)
+    sub_error_list = ['{idx}. {message}'.format(idx=i + 1, message=err.message) for i, err in enumerate(sorted_error_list)]
+    sub_error_list = unique(sub_error_list)[:10] # cap the number to something sensible, remove dupes.
+    sub_error_str = '\n\n'.join(sub_error_list)
+    return error.format(enumerated_error_list=sub_error_str)
 
 def format_validation_error(error, schema_file):
     """formats the given error. if error is one of many failures, a summary formatted error is returned.
@@ -438,7 +447,6 @@ def format_validation_error_list(error_list, schema_file):
     trace = sep.join(trace_list)
 
     return msg, trace
-
 
 #
 #
