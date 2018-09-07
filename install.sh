@@ -4,17 +4,15 @@ echo "[-] install.sh"
 
 . download-api-raml.sh
 
-python=/usr/bin/python3.5
-py=${python##*/} # ll: python3.5
-
-# check for exact version of python3
-if [ ! -e "venv/bin/$py" ]; then
-    echo "could not find venv/bin/$py, recreating venv"
+if [ ! -e "venv/bin/python3" ]; then
+    echo "could not find venv/bin/python3, recreating venv"
     rm -rf venv
-    $python -m venv venv
+    python3 -m venv venv
 fi
 
 source venv/bin/activate
+
+# 'python' becomes whatever python3 system is pointing to
 
 if [ ! -e app.cfg ]; then
     echo "* no app.cfg found! using the example settings (elife.cfg) by default."
