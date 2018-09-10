@@ -4,15 +4,29 @@ echo "[-] install.sh"
 
 . download-api-raml.sh
 
-if [ ! -e "venv/bin/python3" ]; then
-    echo "could not find venv/bin/python3, recreating venv"
+python=''
+pybinlist=("python3.6" "python3.5" "python3.4")
+
+for pybin in ${pybinlist[*]}; do
+    which "$pybin" &> /dev/null || continue
+    python=$pybin
+    break
+done
+
+if [ -z "$python" ]; then
+    echo "no usable python found, exiting"
+    exit 1
+fi
+
+if [ ! -e "venv/bin/$python" ]; then
+    echo "could not find venv/bin/$python, recreating venv"
     rm -rf venv
-    python3 -m venv venv
+    $python -m venv venv
+else
+    echo "using $python"
 fi
 
 source venv/bin/activate
-
-# 'python' becomes whatever python3 system is pointing to
 
 if [ ! -e app.cfg ]; then
     echo "* no app.cfg found! using the example settings (elife.cfg) by default."
