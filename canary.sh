@@ -15,3 +15,4 @@ pip-review --pre # preview the upgrades
 echo "[any key to continue ...]"
 read -p "$*"
 pip-review --auto --pre # update everything
+pip freeze > new-requirements.txt
