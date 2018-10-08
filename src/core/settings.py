@@ -73,7 +73,7 @@ INSTALLED_APPS = (
 
     'django_markdown2', # landing page is rendered markdown
     'explorer', # sql creation
-    #'django_db_logger', # logs certain entries to the database
+    # 'django_db_logger', # logs certain entries to the database
 
     'rest_framework',
     'rest_framework_swagger', # gui for api
@@ -188,12 +188,12 @@ STATICFILES_DIRS = (
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    #'DEFAULT_PERMISSION_CLASSES': [
+    # 'DEFAULT_PERMISSION_CLASSES': [
     #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    #],
+    # ],
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
-    #'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
+    # 'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     'DEFAULT_RENDERER_CLASSES': (
         'publisher.negotiation.ArticleListVersion1',
         'publisher.negotiation.POAArticleVersion2',
@@ -217,7 +217,7 @@ REST_FRAMEWORK = {
     # KNOWN_CLASSES + (
     #    'rest_framework.renderers.JSONRenderer',
     #    #'rest_framework.renderers.BrowsableAPIRenderer',
-    #)
+    # )
 }
 
 SWAGGER_SETTINGS = {
@@ -230,6 +230,8 @@ SWAGGER_SETTINGS = {
 #
 
 EXPLORER_S3_BUCKET = cfg('general.reporting-bucket', None)
+EXPLORER_CONNECTIONS = {'default': 'default'}
+EXPLORER_DEFAULT_CONNECTION = 'default'
 
 #
 # API opts

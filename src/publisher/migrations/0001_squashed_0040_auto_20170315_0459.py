@@ -75,14 +75,14 @@ class Migration(migrations.Migration):
         #    model_name='article',
         #    name='doi',
         #    field=models.CharField(help_text=b"Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255),
-        #),
+        # ),
 
         # again, bad optimization
         # migrations.AlterField(
         #    model_name='article',
         #    name='slug',
         #    field=autoslug.fields.AutoSlugField(always_update=True, blank=True, editable=False, help_text=b'A friendlier version of the title for machines', null=True, populate_from=b'title'),
-        #),
+        # ),
         migrations.AlterField(
             model_name='article',
             name='version',
@@ -153,7 +153,7 @@ class Migration(migrations.Migration):
         # migrations.RemoveField(
         #    model_name='article',
         #    name='slug',
-        #),
+        # ),
         migrations.AddField(
             model_name='articleversion',
             name='article',
@@ -163,7 +163,7 @@ class Migration(migrations.Migration):
         # migrations.RemoveField(
         #    model_name='ArticleVersion',
         #    name='doi',
-        #),
+        # ),
         migrations.AddField(
             model_name='articleversion',
             name='article_json_v1',

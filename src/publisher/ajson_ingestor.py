@@ -28,7 +28,7 @@ ARTICLE = {
     'doi': [p('id'), utils.msid2doi], # remove when apiv1 is turned off
     'date_received': [p('-history.received', None), utils.todt, exclude_if_empty],
     'date_accepted': [p('-history.accepted', None), utils.todt, exclude_if_empty],
-    #'ejp_type': [p('type'), models.EJP_TYPE_REV_SLUG_IDX.get]
+    # 'ejp_type': [p('type'), models.EJP_TYPE_REV_SLUG_IDX.get]
 }
 
 ARTICLE_VERSION = {

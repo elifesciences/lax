@@ -178,7 +178,7 @@ class TestUtils(base.BaseCase):
         bad_list = [
             ({}, 0),
             ({'a': 1}, 0),
-            #(None, 0), # attempting to access something in a None now gives you None
+            # (None, 0), # attempting to access something in a None now gives you None
         ]
         for val, idx in bad_list:
             self.assertRaises(TypeError, utils.nth, idx, val)
