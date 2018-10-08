@@ -326,7 +326,7 @@ def validate(struct, schema_path):
         jsonschema.validate(struct, schema)
         return struct
 
-    except ValueError as err:
+    except ValueError:
         # json schema is broken
         #raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
         raise

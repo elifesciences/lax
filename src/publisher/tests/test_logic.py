@@ -148,7 +148,7 @@ class One(BaseCase):
             (6250, 2), # from 3 to 2
             (7301, 1),
             (8025, 1), # from 2 to 1
-            #(9571, 1) # from 1 to None
+            # (9571, 1) # from 1 to None
         ]
         for msid, expected_version in expected_latest:
             try:
@@ -282,9 +282,9 @@ class RelationshipLogic(BaseCase):
         ingest_these = [
             "elife-01968-v1.xml.json", # => 01749
             "elife-16695-v1.xml.json", # => []
-            #"elife-16695-v2.xml.json",
+            # "elife-16695-v2.xml.json",
             "elife-20125-v1.xml.json", # poa
-            #"elife-16695-v3.xml.json"
+            # "elife-16695-v3.xml.json"
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:

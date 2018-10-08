@@ -102,8 +102,8 @@ TRANSFORMS = {
     1: downgrade,
 
     # all content has now been upgraded to v2.
-    #'2': upgrade,
-    #'*': upgrade, # accept ll: */*
+    # '2': upgrade,
+    # '*': upgrade, # accept ll: */*
 }
 
 def transformable(response):

@@ -69,8 +69,8 @@ class One(base.BaseCase):
 
         ingest_these = [
             "elife-16695-v1.xml.json",
-            #"elife-16695-v2.xml.json",
-            #"elife-16695-v3.xml.json",
+            # "elife-16695-v2.xml.json",
+            # "elife-16695-v3.xml.json",
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         self.avs = []

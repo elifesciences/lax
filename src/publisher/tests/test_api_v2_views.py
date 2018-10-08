@@ -36,7 +36,7 @@ class V2ContentTypes(base.BaseCase):
 
             # accepts json
             # should this be acceptable?
-            #("application/json",
+            # ("application/json",
             # "application/vnd.elife.article-poa+json; version=2"),
 
             # poa or vor, no versions
@@ -167,17 +167,17 @@ class Ping(base.BaseCase):
 class V2Content(base.BaseCase):
     def setUp(self):
         ingest_these = [
-            #"elife-01968-v1.xml.json",
+            # "elife-01968-v1.xml.json",
 
             "elife-20125-v1.xml.json", # poa
             "elife-20125-v2.xml.json", # poa
             "elife-20125-v3.xml.json", # vor, related to 21162
 
-            #"elife-21162-v1.xml.json", # vor, related to 20125
+            # "elife-21162-v1.xml.json", # vor, related to 20125
 
-            #"elife-16695-v1.xml.json",
-            #"elife-16695-v2.xml.json",
-            #"elife-16695-v3.xml.json", # vor
+            # "elife-16695-v1.xml.json",
+            # "elife-16695-v2.xml.json",
+            # "elife-16695-v3.xml.json", # vor
 
             "elife-20105-v1.xml.json", # poa
             "elife-20105-v2.xml.json", # poa
@@ -772,15 +772,15 @@ class FragmentEvents(base.TransactionBaseCase):
 class RequestArgs(base.BaseCase):
     def setUp(self):
         ingest_these = [
-            #"elife-01968-v1.xml.json",
+            # "elife-01968-v1.xml.json",
 
             "elife-20125-v1.xml.json", # poa
             "elife-20125-v2.xml.json", # poa
             "elife-20125-v3.xml.json", # vor
 
-            #"elife-16695-v1.xml.json",
-            #"elife-16695-v2.xml.json",
-            #"elife-16695-v3.xml.json", # vor
+            # "elife-16695-v1.xml.json",
+            # "elife-16695-v2.xml.json",
+            # "elife-16695-v3.xml.json", # vor
 
             "elife-20105-v1.xml.json", # poa
             "elife-20105-v2.xml.json", # poa

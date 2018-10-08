@@ -11,7 +11,7 @@ class RelatedInternally(base.BaseCase):
             "elife-16695-v1.xml.json",
             "elife-16695-v2.xml.json",
             "elife-20125-v1.xml.json",
-            #"elife-16695-v3.xml.json"
+            # "elife-16695-v3.xml.json"
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:
@@ -83,7 +83,7 @@ class RelatedExternally(base.BaseCase):
             "elife-16695-v1.xml.json",
             "elife-16695-v2.xml.json",
             "elife-20125-v1.xml.json",
-            #"elife-16695-v3.xml.json"
+            # "elife-16695-v3.xml.json"
         ]
         ajson_dir = join(self.fixture_dir, 'ajson')
         for ingestable in ingest_these:

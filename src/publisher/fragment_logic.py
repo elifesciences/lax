@@ -87,7 +87,7 @@ def valid(merge_result, quiet=True):
             # legitimate error that needs to break things
             raise
 
-        except ValueError as err:
+        except ValueError:
             # either the schema is bad or the struct is bad
             LOG.exception("validating %s v%s failed to load schema file %s", msid, version, schema, extra=log_context)
             # this is a legitimate error and needs to break things
@@ -260,5 +260,5 @@ def location(av):
         return obj.fragment['-meta']['location']
     except models.ArticleFragment.DoesNotExist:
         return 'no-article-fragment'
-    except KeyError as err:
+    except KeyError:
         return 'no-location-stored'

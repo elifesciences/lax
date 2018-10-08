@@ -121,7 +121,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             if not data_msid == msid:
                 raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
-    except KeyboardInterrupt as err:
+    except KeyboardInterrupt:
         LOG.warn("ctrl-c caught during data load")
         raise
 
@@ -148,7 +148,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         log_context['identical'] = True
         success(print_queue, INGEST, err.av, force, dry_run, log_context)
 
-    except KeyboardInterrupt as err:
+    except KeyboardInterrupt:
         LOG.warn("ctrl-c caught during ingest/publish")
         raise
 
