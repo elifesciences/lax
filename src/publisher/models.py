@@ -259,6 +259,7 @@ class ArticleFragment(models.Model):
     position = models.PositiveSmallIntegerField(default=1, help_text="position in the merge order with lower fragments merged first")
 
     datetime_record_created = models.DateTimeField(auto_now_add=True)
+    datetime_record_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         if self.version:
