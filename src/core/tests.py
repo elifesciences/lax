@@ -67,7 +67,8 @@ class DownstreamCaching(TestCase):
 
     def test_error_responses_are_not_cached(self):
         resp = self.c.get('/does-not-exist')
-        self.assertEqual(resp['Cache-Control'], 'no-store, must-revalidate, no-cache')
+        for expected in ['no-store', 'must-revalidate', 'no-cache']:
+            self.assertTrue(expected in resp['Cache-Control'])
 
     @override_settings(CACHE_HEADERS_TTL=30)
     def test_custom_ttl_in_configuration(self):
