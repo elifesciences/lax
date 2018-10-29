@@ -49,32 +49,32 @@ class DownstreamCaching(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        public_cache_values = {
+        public_directives = {
             'public': True,
             'max-age': settings.CACHE_HEADERS_TTL,
             'stale-while-revalidate': settings.CACHE_HEADERS_TTL,
             'stale-if-error': (60 * 60) * 24, # 1 day, 86400 seconds
         }
-        private_cache_values = {
+        private_directives = {
             'private': True,
             'max-age': 0, # seconds
             'must-revalidate': True,
         }
-        error_cache_values = {
+        error_directives = {
             'must-revalidate': True,
-            'no-cache': True,
+            'no-cache': True, # redundant but harmless
             'no-store': True
         }
 
         authenticated = request.META[settings.KONG_AUTH_HEADER]
-        headers = public_cache_values if not authenticated else private_cache_values
+        directives = public_directives if not authenticated else private_directives
 
         response = self.get_response(request)
         if response.status_code > 399:
-            headers = error_cache_values
+            directives = error_directives
 
         if not response.get('Cache-Control'):
-            patch_cache_control(response, **headers)
+            patch_cache_control(response, **directives)
         patch_vary_headers(response, ['Accept'])
 
         return response
