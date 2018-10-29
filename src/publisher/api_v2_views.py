@@ -7,6 +7,7 @@ from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import POA, VOR, XML2JSON
 from et3.extract import path as p
@@ -23,14 +24,12 @@ def ctype(status):
         ERR: 'application/json', # text/plain as well?
     }[status]
 
-def ErrorResponse(code, title, detail=None, extra_headers=None):
+def ErrorResponse(code, title, detail=None):
     body = {'title': title, 'detail': detail}
     if not detail:
         del body['detail']
 
-    headers = {'Cache-Control': 'must-revalidate, no-cache, no-store'}
-    headers.update(extra_headers or {})
-    return Response(json.dumps(body), status=code, content_type=ctype(ERR), headers=headers)
+    return HttpResponse(status=code, content_type=ctype(ERR), content=json.dumps(body))
 
 def Http404(detail=None):
     return ErrorResponse(404, "not found", detail)
