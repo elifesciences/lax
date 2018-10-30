@@ -7,8 +7,8 @@ from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from .models import POA, VOR, XML2JSON
 from et3.extract import path as p
 from et3.render import render_item
@@ -28,6 +28,7 @@ def ErrorResponse(code, title, detail=None):
     body = {'title': title, 'detail': detail}
     if not detail:
         del body['detail']
+
     return HttpResponse(status=code, content_type=ctype(ERR), content=json.dumps(body))
 
 def Http404(detail=None):
