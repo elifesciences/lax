@@ -33,7 +33,7 @@ python-json-logger==0.1.9
 python-slugify==1.2.6
 pytz==2018.5
 PyYAML==4.2b4
-requests==2.19.1
+requests==2.20.0
 requirements-detector==0.6
 rfc3339==6.0
 unittest-xml-reporting==2.2.0
