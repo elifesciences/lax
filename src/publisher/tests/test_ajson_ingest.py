@@ -159,12 +159,13 @@ class Ingest(BaseCase):
         # edit data directly
         av.datetime_published = '2001-01-01'
         av.save()
+        av = self.freshen(av)
         self.assertTrue(av.published())
 
         # attempt another ingest
         attrs = {
             'title': 'foo',
-            'published': datetime(year=2012, month=2, day=2),
+            'published': utils.todt('2012-2-2')
         }
         self.ajson['article'].update(attrs)
         av = ajson_ingestor.ingest(self.ajson, force=True)
@@ -326,8 +327,7 @@ class Publish(BaseCase):
     def test_article_publish_v2_forced(self):
         "an unpublished v2 article can be successfully published again, if forced"
         # ingest and publish the v1
-        av = ajson_ingestor.ingest(self.ajson)
-        ajson_ingestor.publish(self.msid, self.version)
+        av = ajson_ingestor.ingest_publish(self.ajson)
         av = self.freshen(av)
         self.assertTrue(av.published())
 
@@ -352,8 +352,7 @@ class Publish(BaseCase):
 
     def test_article_publish_v2_forced2(self):
         "a PUBLISHED v2 article can be successfully published (again), if forced"
-        av = ajson_ingestor.ingest(self.ajson)
-        ajson_ingestor.publish(self.msid, self.version)
+        av = ajson_ingestor.ingest_publish(self.ajson)
         av = self.freshen(av)
         self.assertTrue(av.published())
 
@@ -378,8 +377,7 @@ class Publish(BaseCase):
 
     def test_article_publish_fails_if_already_published(self):
         "a published article CANNOT be published again"
-        av = ajson_ingestor.ingest(self.ajson)
-        av = ajson_ingestor.publish(self.msid, self.version)
+        av = ajson_ingestor.ingest_publish(self.ajson)
         av = self.freshen(av)
         self.assertTrue(av.published())
 
@@ -388,8 +386,7 @@ class Publish(BaseCase):
 
     def test_article_publish_succeeds_for_published_article_if_forced(self):
         "publication of an already published article can occur only if forced"
-        av = ajson_ingestor.ingest(self.ajson)
-        av = ajson_ingestor.publish(self.msid, self.version)
+        av = ajson_ingestor.ingest_publish(self.ajson)
         av = self.freshen(av)
         expected_pubdate = utils.ymd(utils.todt(self.ajson['article']['published']))
         self.assertEqual(expected_pubdate, utils.ymd(av.datetime_published))
@@ -410,8 +407,7 @@ class Publish(BaseCase):
     def test_out_of_sequence_publish_fails(self):
         "attempting to ingest an article with a version greater than another *published* version fails"
         # ingest and publish a v1
-        av = ajson_ingestor.ingest(self.ajson) # v1
-        ajson_ingestor.publish(self.msid, self.version)
+        av = ajson_ingestor.ingest_publish(self.ajson) # v1
 
         # now attempt to ingest a v3
         self.ajson['article']['version'] = 3
