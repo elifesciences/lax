@@ -162,10 +162,17 @@ class Ingest(BaseCase):
         self.assertTrue(av.published())
 
         # attempt another ingest
-        expected_title = 'foo'
-        self.ajson['article']['title'] = expected_title
+        attrs = {
+            'title': 'foo',
+            'published': datetime(year=2012, month=2, day=2),
+        }
+        self.ajson['article'].update(attrs)
         av = ajson_ingestor.ingest(self.ajson, force=True)
-        self.assertEqual(av.title, expected_title)
+
+        utils.renkey(attrs, 'published', 'datetime_published')
+
+        for key, expected_val in attrs.items():
+            self.assertEqual(getattr(av, key), expected_val)
 
     @skip("we don't scrape journal data any more. we may in future")
     def test_article_ingest_bad_journal(self):
@@ -625,6 +632,3 @@ class ValidationFailureError(BaseCase):
 
             # the `trace` also contains the full dump of all sub-errors ('possibilities')
             self.assertTrue("(error 3, possibility 7)" in err.trace)
-
-            # print(err.trace)
-            # print(err.message)
