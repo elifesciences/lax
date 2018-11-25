@@ -69,6 +69,8 @@ def _ingest_objects(data, create, update, force, log_context):
 
         av_struct = render.render_item(ARTICLE_VERSION, data['article'])
         # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
+        # 2018-11-22: not strictly true anymore, forced INGEST events are expected to change pubdates
+        # we'll handle that further down in _ingest though
         del av_struct['datetime_published']
 
         av, created, updated = \
@@ -146,6 +148,15 @@ def _ingest(data, force=False) -> models.ArticleVersion:
                     msg = "refusing to ingest new article data on an already published article version."
                     LOG.error(msg, extra=log_context)
                     raise StateError(codes.ALREADY_PUBLISHED, msg)
+                else:
+                    # this is a forced INGEST event on a published article
+                    # aka a 'silent correction'
+                    if av.version == 1:
+                        # the expectation is that v1 publication dates will be updated here rather than
+                        # sending a forced PUBLISH or INGEST+PUBLISH event
+                        # note: v2 pub dates cannot be altered yet because they don't exist in the xml
+                        datetime_published = utils.todt(data['article']['published'])
+                        av.datetime_published = datetime_published
 
         # 2017-12-20: shifted this block below the business rules checks.
         # this is so business rules (attempting to ingest out of order) are checked before
@@ -214,6 +225,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
             # pull that published date from the stored (but unpublished) article-json
             # and set the pub-date on the ArticleVersion object
             datetime_published = utils.todt(raw_data.get('published'))
+            # todo: can this check be removed in favour of ajson validation?
             if not datetime_published:
                 raise StateError(codes.PARSE_ERROR, "found 'published' value in article-json, but it's either null or unparsable as a date+time")
 
@@ -231,7 +243,8 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
                         raise StateError(codes.PARSE_ERROR, "found 'versionDate' value in article-json, but it's either null or unparseable as a datetime")
                 else:
                     # CURRENT CASE
-                    # preserve the existing pubdate set by lax. ignore anything given in the ajson.
+                    # this is a non-v1 forced PUBLISH event
+                    # ignore anything given in the ajson and preserve the existing pubdate set by lax.
                     # if the pubdate for an article is to change, it must come from the xml (see above case)
                     datetime_published = av.datetime_published
             else:
