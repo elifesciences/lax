@@ -1,7 +1,7 @@
 import json, jsonschema
 from django.core import exceptions as django_errors
-from . import models, logic, fragment_logic
-from .utils import ensure, isint, lmap
+from . import models, logic, fragment_logic, ajson_ingestor
+from .utils import ensure, isint, lmap, subdict
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
@@ -56,10 +56,16 @@ def request_args(request, **overrides):
         ensure(v in ['ASC', 'DESC'], "expecting either 'asc' or 'desc' for 'order' parameter")
         return v
 
+    def tobool(val):
+        return val.strip().lower()[:4] == 'true'
+
     desc = {
         'page': [p('page', opts['page_num']), ispositiveint('page')],
         'per_page': [p('per-page', opts['per_page']), ispositiveint('per-page'), inrange(opts['min_per_page'], opts['max_per_page'])],
-        'order': [p('order', opts['order_direction']), str, asc_or_desc]
+        'order': [p('order', opts['order_direction']), str, asc_or_desc],
+
+        'force': [p('force', False), tobool],
+        'dry_run': [p('dry-run', False), tobool]
     }
     return render_item(desc, request.GET)
 
@@ -116,16 +122,45 @@ def article_version_list(request, msid):
         return Http404()
 
 
-@api_view(['HEAD', 'GET'])
+@api_view(['HEAD', 'GET', 'PUT', 'POST'])
 def article_version(request, msid, version):
     "returns the article-json for a specific version of the given article ID"
     authenticated = is_authenticated(request)
     try:
         # TODO: test at the HTTP level also the other requests
         av = logic.article_version(msid, version, only_published=not authenticated)
-        return Response(logic.article_json(av), content_type=ctype(av.status))
+        content_type = ctype(av.status)
+        method = request.method.lower()
+
+        if method == 'head':
+            # todo: test for this?
+            return Response(None, content_type=content_type)
+
+        elif method == 'get':
+            pass
+
+        elif method == 'put': # 'ingest'
+            raw_data = request.POST.body # todo, DJANGO_REST might have other ways of doing things
+            force, dry_run = subdict(request_args(request), ['force', 'dry_run'])
+            ajson_ingestor.safe_ingest(msid, version, raw_data, force, dry_run)
+
+        elif method == 'post': # 'publish'
+            raw_data = request.PUT.body # todo: request has no PUT
+            force, dry_run = subdict(request_args(request), ['force', 'dry_run'])
+            ajson_ingestor.safe_publish(msid, version, raw_data, force, dry_run)
+
+        else:
+            return ErrorResponse(400, "unsupported HTTP method", "shouldn't get this far")
+
+        content = logic.article_json(av)
+        return Response(content, content_type=content_type)
+
     except models.ArticleVersion.DoesNotExist:
         return Http404()
+
+    except BaseException as err:
+        # unhandled
+        return ErrorResponse(500, "unhandled server error", str(err))
 
 # TODO: test 404
 @api_view(['HEAD', 'GET'])

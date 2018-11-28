@@ -198,9 +198,9 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         LOG.exception("unhandled exception attempting to ingest article-json", extra=log_context)
         raise
 
-@atomic
-def ingest(*args, **kwargs) -> models.ArticleVersion:
-    return _ingest(*args, **kwargs)
+@atomic # uses 'dry_run' if present to roll back transaction when True
+def ingest(data, force=False, dry_run=False) -> models.ArticleVersion:
+    return _ingest(data, force)
 
 
 #
@@ -278,16 +278,54 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         # attempted to publish an article that doesn't exist ...
         raise StateError(codes.NO_RECORD, "refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
 
-@atomic
-def publish(*args, **kwargs) -> models.ArticleVersion:
-    return _publish(*args, **kwargs)
+@atomic # uses 'dry_run' if present to roll back transaction if True
+def publish(msid, version, force=False, dry_run=False) -> models.ArticleVersion:
+    return _publish(msid, version, force)
 
 #
 # INGEST+PUBLISH requests
 #
 
-@atomic
+@atomic # uses 'dry_run' if present to roll back transaction if True
 def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
     "convenience. publish an article if it were successfully ingested"
     av = _ingest(data, force=force)
     return _publish(av.article.manuscript_id, av.version, force=force)
+
+#
+# generic wrangling
+#
+
+def handle(msid, version, raw_data, force, dry_run):
+    "handles user data, ensures the raw data and parameters are all correct."
+
+    try:
+        data = utils.ordered_json_loads(raw_data)
+    except ValueError as err:
+        msg = "could not decode the json you gave me: %r for data: %r" % (err.msg, raw_data) # todo: log this?
+        raise StateError(codes.BAD_REQUEST, msg)
+
+    # article id and version in url path may not match those in given data
+    data_version = data['article'].get('version')
+    if not data_version == version:
+        msg = "'version' in the payload does not match 'version' in request (%s)" % version
+        raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match 'version' passed to script (%s)" % (data_version, version))
+
+    data_msid = int(data['article']['id']) # todo: shouldn't trust this value
+    if not data_msid == msid:
+        msg = "'id' in the payload does not match 'id' in request (%s)" % msid
+        raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
+
+    # todo: validate?
+
+    return data
+
+def safe_ingest(msid, version, raw_data, force, dry_run):
+    "like `ingest`, but validates inputs first"
+    data = handle(msid, version, raw_data, force, dry_run)
+    return ingest(data, force, dry_run)
+
+def safe_publish(msid, version, raw_data, force, dry_run):
+    "like `publish`, but validates inputs first"
+    # ... ? check raw_data for some sort of explicit message to ingest?
+    return publish(msid, version, force, dry_run)

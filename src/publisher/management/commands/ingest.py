@@ -105,7 +105,9 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
         if action not in [PUBLISH]:
             raw_data = infile.read()
             log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
+            data = ajson_ingestor.handle(msid, version, raw_data, force, dry_run)
 
+            '''
             try:
                 data = utils.ordered_json_loads(raw_data)
             except ValueError as err:
@@ -120,8 +122,12 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             data_msid = int(data['article']['id'])
             if not data_msid == msid:
                 raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
+            '''
 
     except KeyboardInterrupt:
+        # usually caught when spamming ctrl-c to stop the load.
+        # cascades: handle_single -> job -> handle_many_serially
+        #                                -> handle_many_concurrently
         LOG.warn("ctrl-c caught during data load")
         raise
 
@@ -134,9 +140,9 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     choices = {
         # all these return a models.ArticleVersion object
-        INGEST: lambda msid, ver, force, data, dry: ajson_ingestor.ingest(data, force, dry_run=dry),
-        PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.publish(msid, ver, force, dry_run=dry),
-        INGEST_PUBLISH: lambda msid, ver, force, data, dry: ajson_ingestor.ingest_publish(data, force, dry_run=dry),
+        INGEST: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest(data, force, dry_run),
+        PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.publish(msid, ver, force, dry_run),
+        INGEST_PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest_publish(data, force, dry_run),
     }
 
     try:
