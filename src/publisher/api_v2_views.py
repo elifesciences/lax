@@ -1,7 +1,7 @@
 import json, jsonschema
 from django.core import exceptions as django_errors
 from . import models, logic, fragment_logic, ajson_ingestor
-from .utils import ensure, isint, lmap, subdict
+from .utils import ensure, isint, lmap
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
@@ -56,14 +56,23 @@ def request_args(request, **overrides):
         ensure(v in ['ASC', 'DESC'], "expecting either 'asc' or 'desc' for 'order' parameter")
         return v
 
-    def tobool(val):
-        return val.strip().lower()[:4] == 'true'
-
     desc = {
         'page': [p('page', opts['page_num']), ispositiveint('page')],
         'per_page': [p('per-page', opts['per_page']), ispositiveint('per-page'), inrange(opts['min_per_page'], opts['max_per_page'])],
         'order': [p('order', opts['order_direction']), str, asc_or_desc],
+    }
+    return render_item(desc, request.GET)
 
+def put_post_request_args(request, **overrides):
+    opts = {}
+    opts.update(overrides)
+
+    def tobool(val):
+        if not isinstance(val, bool):
+            val = str(val).strip().lower()[:4] == 'true'
+        return val
+
+    desc = {
         'force': [p('force', False), tobool],
         'dry_run': [p('dry-run', False), tobool]
     }
@@ -141,13 +150,13 @@ def article_version(request, msid, version):
 
         elif method == 'put': # 'ingest'
             raw_data = request.POST.body # todo, DJANGO_REST might have other ways of doing things
-            force, dry_run = subdict(request_args(request), ['force', 'dry_run'])
-            ajson_ingestor.safe_ingest(msid, version, raw_data, force, dry_run)
+            kwargs = put_post_request_args(request)
+            ajson_ingestor.safe_ingest(msid, version, raw_data, **kwargs)
 
         elif method == 'post': # 'publish'
             raw_data = request.PUT.body # todo: request has no PUT
-            force, dry_run = subdict(request_args(request), ['force', 'dry_run'])
-            ajson_ingestor.safe_publish(msid, version, raw_data, force, dry_run)
+            kwargs = put_post_request_args(request)
+            ajson_ingestor.safe_publish(msid, version, raw_data, **kwargs)
 
         else:
             return ErrorResponse(400, "unsupported HTTP method", "shouldn't get this far")
