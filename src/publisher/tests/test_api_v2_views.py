@@ -943,12 +943,25 @@ class Ingest(base.BaseCase):
 
     def test_ingest(self):
         "bog standard ingest"
-        import json
-        resp = self.ac.put(self.url, json.dumps(self.ajson, indent=4), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(resp.status_code, 200)
+        self.assertEqual(1, models.Article.objects.count())
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+        a = models.Article.objects.get(manuscript_id=self.msid)
+        self.assertFalse(a.datetime_published)
 
     def test_ingest_forced(self):
-        pass
+        self.publish_ajson(join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json'))
+        a = models.Article.objects.get(manuscript_id=self.msid)
+        self.assertTrue(a.datetime_published) # simply that it has a pubdate, don't care what it is
+
+        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(400, resp.status_code) # bad request, published (needs to be forced)
+
+        # params = {'force': True} # urgh, django has no support for PUT + parameters
+        self.ajson['article']['foo'] = 'bar' # bypass identity check
+        resp = self.ac.put(self.url + "?force=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(200, resp.status_code)
 
     def test_ingest_dryrun(self):
         pass

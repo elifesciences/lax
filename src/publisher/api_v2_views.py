@@ -1,7 +1,7 @@
 import json, jsonschema
 from django.core import exceptions as django_errors
-from . import models, logic, fragment_logic, ajson_ingestor
-from .utils import ensure, isint, lmap
+from . import models, logic, fragment_logic, ajson_ingestor, codes
+from .utils import ensure, isint, lmap, StateError
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
@@ -180,9 +180,15 @@ def article_version(request, msid, version):
     except models.ArticleVersion.DoesNotExist:
         return Http404()
 
+    except StateError as err:
+        if err.code == codes.ALREADY_PUBLISHED:
+            return ErrorResponse(400, codes.ALREADY_PUBLISHED, codes.explain(codes.ALREADY_PUBLISHED))
+
+        return ErrorResponse(500, "unhandled server error", str(err))
+
     except BaseException as err:
         # unhandled
-        #import traceback
+        # import traceback
         # traceback.print_exc()
         #print('hit 5xx', err)
 

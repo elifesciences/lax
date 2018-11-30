@@ -9,6 +9,7 @@ Creates a series of objects in the publisher.negotiation module with names such 
 
 etc"""
 
+from rest_framework import parsers
 from rest_framework.renderers import JSONRenderer
 from .utils import lmap, lzip
 import itertools
@@ -51,8 +52,6 @@ KNOWN_CLASSES, KNOWN_MIMES = lzip(*itertools.chain(*lmap(mktype, _dynamic_types)
 
 
 # ---
-
-from rest_framework import parsers
 
 class POAParser(parsers.JSONParser):
     media_type = 'application/vnd.elife.article-poa+json'
