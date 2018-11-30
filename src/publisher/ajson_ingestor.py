@@ -321,9 +321,9 @@ def handle(msid, version, raw_data, force, dry_run):
 def safe_ingest(msid, version, raw_data, force, dry_run):
     "like `ingest`, but validates inputs first"
     data = handle(msid, version, raw_data, force, dry_run)
-    return ingest(data, force, dry_run)
+    return ingest(data, force, dry_run=dry_run)
 
 def safe_publish(msid, version, raw_data, force, dry_run):
     "like `publish`, but validates inputs first"
     # ... ? check raw_data for some sort of explicit message to ingest?
-    return publish(msid, version, force, dry_run)
+    return publish(msid, version, force, dry_run=dry_run)
