@@ -941,6 +941,10 @@ class Ingest(base.BaseCase):
         self.ajson, self.msid, self.version = self.slurp_fixture("elife-16695-v1.xml.json")
         self.url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': self.version})
 
+    def skitch_identity(self):
+        # bypass identity check
+        self.ajson['article']['foo'] = 'bar'
+
     def test_ingest(self):
         "bog standard ingest"
         resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
@@ -951,6 +955,7 @@ class Ingest(base.BaseCase):
         self.assertFalse(a.datetime_published)
 
     def test_ingest_forced(self):
+        "ingest after publication fails unless forced"
         self.publish_ajson(join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json'))
         a = models.Article.objects.get(manuscript_id=self.msid)
         self.assertTrue(a.datetime_published) # simply that it has a pubdate, don't care what it is
@@ -959,12 +964,28 @@ class Ingest(base.BaseCase):
         self.assertEqual(400, resp.status_code) # bad request, published (needs to be forced)
 
         # params = {'force': True} # urgh, django has no support for PUT + parameters
-        self.ajson['article']['foo'] = 'bar' # bypass identity check
+        self.skitch_identity()
         resp = self.ac.put(self.url + "?force=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(200, resp.status_code)
 
     def test_ingest_dryrun(self):
-        pass
+        "ingest is rolled back when dryrun"
+        resp = self.ac.put(self.url + "?dry-run=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+
+        # interesting edge case here: should a dry-run ingest of a v1 article return anything?
+        #self.assertEqual(resp.status_code, 200)
+        # a 204? (successful but no content)
+        self.assertEqual(resp.status_code, 404)
+
+        self.assertEqual(0, models.Article.objects.count(), "articles found")
+        self.assertEqual(0, models.ArticleVersion.objects.count(), "article versions found")
+
+        # dry-run ingest on present-but-unpublished article
+        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(200, resp.status_code)
+        self.skitch_identity()
+        resp = self.ac.put(self.url + "?dry-run=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(200, resp.status_code)
 
     def test_ingest_forced_dryrun(self):
         pass
