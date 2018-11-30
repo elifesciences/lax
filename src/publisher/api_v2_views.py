@@ -135,40 +135,62 @@ def article_version_list(request, msid):
 def article_version(request, msid, version):
     "returns the article-json for a specific version of the given article ID"
     authenticated = is_authenticated(request)
+    method = request.method.lower()
     try:
-        # TODO: test at the HTTP level also the other requests
-        av = logic.article_version(msid, version, only_published=not authenticated)
-        content_type = ctype(av.status)
-        method = request.method.lower()
-
         if method == 'head':
             # todo: test for this?
+            av = logic.article_version(msid, version, only_published=not authenticated)
+            content_type = ctype(av.status)
             return Response(None, content_type=content_type)
 
         elif method == 'get':
-            pass
+            av = logic.article_version(msid, version, only_published=not authenticated)
+            content = logic.article_json(av)
+            content_type = ctype(av.status)
+            return Response(content, content_type=content_type)
 
         elif method == 'put': # 'ingest'
-            raw_data = request.POST.body # todo, DJANGO_REST might have other ways of doing things
+            if not authenticated:
+                return ErrorResponse(403, "not authenticated", "only authenticated users can modify content")
+
+            # article and article-version may not exist yet!
+            raw_data = request.read().decode('utf8')
             kwargs = put_post_request_args(request)
             ajson_ingestor.safe_ingest(msid, version, raw_data, **kwargs)
+            av = logic.article_version(msid, version, only_published=not authenticated)
+            content = logic.article_json(av)
+            content_type = ctype(av.status)
+            return Response(content, content_type=content_type)
 
         elif method == 'post': # 'publish'
+            if not authenticated:
+                return ErrorResponse(403, "not authenticated", "only authenticated users can modify content")
+
             raw_data = request.PUT.body # todo: request has no PUT
             kwargs = put_post_request_args(request)
             ajson_ingestor.safe_publish(msid, version, raw_data, **kwargs)
+            av = logic.article_version(msid, version, only_published=not authenticated)
+            content = logic.article_json(av)
+            content_type = ctype(av.status)
+            return Response(content, content_type=content_type)
 
         else:
             return ErrorResponse(400, "unsupported HTTP method", "shouldn't get this far")
-
-        content = logic.article_json(av)
-        return Response(content, content_type=content_type)
 
     except models.ArticleVersion.DoesNotExist:
         return Http404()
 
     except BaseException as err:
         # unhandled
+        #import traceback
+        # traceback.print_exc()
+        #print('hit 5xx', err)
+
+        # logging is useless during testing
+        # I don't know what the test runners are doing.
+        # LOG.error(err)
+        #from logging_tree import printout
+        # printout()
         return ErrorResponse(500, "unhandled server error", str(err))
 
 # TODO: test 404
@@ -191,7 +213,7 @@ def article_related(request, msid):
 def article_fragment(request, msid, fragment_id):
     # authenticated
     if not is_authenticated(request):
-        return ErrorResponse(403, "not authenticated", "only authenticated admin users can modify content")
+        return ErrorResponse(403, "not authenticated", "only authenticated users can modify content")
 
     # article exists
     article = get_object_or_404(models.Article, manuscript_id=msid)

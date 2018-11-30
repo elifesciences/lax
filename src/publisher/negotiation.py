@@ -48,3 +48,14 @@ def mktype(row):
 # creates two lists from the pair returned in mktype.gen_klass
 # these are used in core.settings
 KNOWN_CLASSES, KNOWN_MIMES = lzip(*itertools.chain(*lmap(mktype, _dynamic_types)))
+
+
+# ---
+
+from rest_framework import parsers
+
+class POAParser(parsers.JSONParser):
+    media_type = 'application/vnd.elife.article-poa+json'
+
+class VORParser(parsers.JSONParser):
+    media_type = 'application/vnd.elife.article-vor+json'

@@ -44,6 +44,11 @@ class SimpleBaseCase(unittest.TestCase):
 
         return data
 
+    def slurp_fixture(self, name):
+        ajson = self.load_ajson(os.path.join(self.fixture_dir, 'ajson', name))
+        _, msid, ver = os.path.basename(name)[:14].split('-')
+        return ajson, int(msid), int(ver.strip('v'))
+
     def publish_ajson(self, path):
         return ajson_ingestor.ingest_publish(self.load_ajson(path))
 

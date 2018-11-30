@@ -307,13 +307,11 @@ def handle(msid, version, raw_data, force, dry_run):
 
     # article id and version in url path may not match those in given data
     data_version = data['article'].get('version')
-    if not data_version == version:
-        msg = "'version' in the payload does not match 'version' in request (%s)" % version
+    if not str(data_version) == str(version):
         raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match 'version' passed to script (%s)" % (data_version, version))
 
     data_msid = int(data['article']['id']) # todo: shouldn't trust this value
-    if not data_msid == msid:
-        msg = "'id' in the payload does not match 'id' in request (%s)" % msid
+    if not str(data_msid) == str(msid):
         raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
     # todo: validate?

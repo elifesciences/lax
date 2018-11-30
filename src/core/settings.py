@@ -194,6 +194,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
     # 'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'publisher.negotiation.POAParser',
+        'publisher.negotiation.VORParser',
+    ),
     'DEFAULT_RENDERER_CLASSES': (
         'publisher.negotiation.ArticleListVersion1',
         'publisher.negotiation.POAArticleVersion2',
@@ -410,6 +415,7 @@ logger = {
     'handlers': ['ingestion.log', 'lax.log', 'stderr'],
     'propagate': False, # don't propagate up to root logger
 }
-LOGGING['loggers'].update(dict(list(zip(module_loggers, [logger] * len(module_loggers)))))
+for module in module_loggers:
+    LOGGING['loggers'][module] = logger
 
 CACHE_HEADERS_TTL = cfg('general.cache-headers-ttl', 60 * 5) # 5 minutes, 300 seconds by default
