@@ -140,9 +140,9 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     choices = {
         # all these return a models.ArticleVersion object
-        INGEST: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest(data, force, dry_run),
-        PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.publish(msid, ver, force, dry_run),
-        INGEST_PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest_publish(data, force, dry_run),
+        INGEST: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest(data, force, dry_run=dry_run),
+        PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.publish(msid, ver, force, dry_run=dry_run),
+        INGEST_PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest_publish(data, force, dry_run=dry_run),
     }
 
     try:
