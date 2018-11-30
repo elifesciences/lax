@@ -69,7 +69,7 @@ def put_post_request_args(request, **overrides):
 
     def tobool(val):
         if not isinstance(val, bool):
-            val = str(val).strip().lower()[:4] == 'true'
+            val = str(val)[:4].lower() == 'true'
         return val
 
     desc = {
