@@ -4,7 +4,7 @@ from datetime import timedelta
 from . import base
 from os.path import join
 import json
-from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, relation_logic
+from publisher import ajson_ingestor, models, fragment_logic as fragments, utils, logic, relation_logic, codes
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -994,11 +994,37 @@ class Ingest(base.BaseCase):
         self.assertEqual(200, resp.status_code)
 
     def test_ingest_forced_dryrun(self):
-        pass
+        av = self.publish_ajson(join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json'))
+
+        old_date = av.datetime_published
+        fakedate = utils.todt('2001-01-01')
+
+        av.datetime_published = fakedate
+        av.save()
+        av = self.freshen(av)
+
+        self.skitch_identity()
+        resp = self.ac.put(self.url + "?force=True&dry-run=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(200, resp.status_code)
+
+        # check date hasn't changed (which we can do now that forced ingests alter v1 pubdates)
+        av = self.freshen(av)
+        self.assertEqual(fakedate, av.datetime_published)
+
+        # and just to be thorough, test that without dry-run=True, the fake date is replaced
+        resp = self.ac.put(self.url + "?force=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(200, resp.status_code)
+        av = self.freshen(av)
+        self.assertEqual(old_date, av.datetime_published)
 
     def test_ingest_bad_ajson(self):
         "ajson is malformed"
-        pass
+        self.ajson['article']['status'] = 'pants'
+        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        body = json.loads(resp.content.decode('utf8'))
+        self.assertEqual(400, resp.status_code)
+        self.assertEqual(codes.BAD_REQUEST, body['title'])
+        self.assertEqual(codes.explain(codes.PARSE_ERROR), body['detail'])
 
     def test_ingest_bad_state(self):
         "breaks business rules"

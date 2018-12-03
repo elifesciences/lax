@@ -146,8 +146,9 @@ def _article_version_put(request, msid, version, authenticated):
         return Response(content, content_type=content_type)
 
     except StateError as err:
-        if err.code == codes.ALREADY_PUBLISHED:
-            return ErrorResponse(400, codes.ALREADY_PUBLISHED, codes.explain(codes.ALREADY_PUBLISHED))
+        if err.code in [codes.ALREADY_PUBLISHED, codes.PARSE_ERROR]:
+            return ErrorResponse(400, codes.BAD_REQUEST, codes.explain(err.code))
+
         raise
 
     except BaseException as err:
