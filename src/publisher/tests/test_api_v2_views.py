@@ -945,8 +945,14 @@ class Ingest(base.BaseCase):
         # bypass identity check
         self.ajson['article']['foo'] = 'bar'
 
+    def test_unauthenticated_ingest(self):
+        "PUT fails when not authenticated"
+        resp = self.c.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.assertEqual(403, resp.status_code) # verboten!
+        self.assertEqual(0, models.Article.objects.count())
+
     def test_ingest(self):
-        "bog standard ingest"
+        "bog standard (authenticated) ingest"
         resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(1, models.Article.objects.count())
@@ -1008,6 +1014,9 @@ class Ingest(base.BaseCase):
 
 class Publish(base.BaseCase):
     def setUp(self):
+        pass
+
+    def test_unauthenticated_publish(self):
         pass
 
     def test_publish(self):
