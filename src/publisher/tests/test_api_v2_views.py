@@ -1092,13 +1092,40 @@ class Ingest(base.BaseCase):
 
 class Publish(base.BaseCase):
     def setUp(self):
-        pass
+        # an unauthenticated client
+        self.c = Client()
+        # an authenticated client
+        self.ac = Client(**{
+            mware.CGROUPS: 'view-unpublished-content',
+        })
+        self.adata, self.msid, self.version = self.slurp_fixture("elife-16695-v1.xml.json")
+        self.url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': self.version})
+        self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
+
+        # token can be anything. mostly exists to prevent accidental POSTs
+        self.token = ajson_ingestor.publish_token()
+
+    @property
+    def ajson(self):
+        return json.dumps(self.adata)
+
+    def skitch_identity(self):
+        # bypass identity check
+        self.adata['article']['foo'] = 'bar'
 
     def test_unauthenticated_publish(self):
-        pass
+        resp = self.c.post(self.url, self.token)
+        self.assertEqual(403, resp.status_code)
 
     def test_publish(self):
-        pass
+        "regular PUBLISH"
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
+        self.assertEqual(None, av.datetime_published)
+        resp = self.ac.post(self.url, self.token, content_type="application/x-www-form-urlencoded")
+        self.assertEqual(200, resp.status_code)
+        av = self.freshen(av)
+        body = json.loads(resp.content.decode('utf-8'))
+        self.assertEqual(av.datetime_published, utils.todt(body['published']))
 
     def test_publish_forced(self):
         pass

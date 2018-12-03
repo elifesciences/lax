@@ -196,6 +196,7 @@ REST_FRAMEWORK = {
     # 'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
         'publisher.negotiation.POAParser',
         'publisher.negotiation.VORParser',
     ),

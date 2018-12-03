@@ -1,4 +1,4 @@
-import copy
+import copy, uuid
 from publisher import models, utils, fragment_logic as fragments, logic, events, aws_events
 from publisher import relation_logic as relationships, codes
 from publisher.models import XML2JSON
@@ -296,6 +296,10 @@ def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
 # generic wrangling
 #
 
+def publish_token():
+    return {'token': str(uuid.uuid4())}
+
+# TODO: merge into safe_ingest
 def handle(msid, version, raw_data, force, dry_run):
     "handles user data, ensures the raw data and parameters are all correct."
 
