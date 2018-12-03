@@ -69,8 +69,10 @@ def put_post_request_args(request, **overrides):
 
     def tobool(val):
         if not isinstance(val, bool):
-            val = str(val)[:4].lower() == 'true'
-        return val
+            val = str(val).lower()
+            if not val in ['true', 'false']:
+                raise ValueError("exact values of 'true' or 'false' (any case) are required when parameters with boolean values provided")
+        return val == 'true'
 
     desc = {
         'force': [p('force', False), tobool],
@@ -136,9 +138,14 @@ def _article_version_put(request, msid, version, authenticated):
         return ErrorResponse(403, "not authenticated", "only authenticated users can modify content")
 
     try:
+        kwargs = put_post_request_args(request)
+    except ValueError as err:
+        return ErrorResponse(400, codes.BAD_REQUEST, str(err))
+
+    try:
         # article and article-version may not exist yet!
         raw_data = request.read().decode('utf8')
-        kwargs = put_post_request_args(request)
+
         ajson_ingestor.safe_ingest(msid, version, raw_data, **kwargs)
         av = logic.article_version(msid, version, only_published=not authenticated)
         content = logic.article_json(av)

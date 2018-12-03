@@ -938,22 +938,26 @@ class Ingest(base.BaseCase):
         self.ac = Client(**{
             mware.CGROUPS: 'view-unpublished-content',
         })
-        self.ajson, self.msid, self.version = self.slurp_fixture("elife-16695-v1.xml.json")
+        self.adata, self.msid, self.version = self.slurp_fixture("elife-16695-v1.xml.json")
         self.url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': self.version})
+
+    @property
+    def ajson(self):
+        return json.dumps(self.adata)
 
     def skitch_identity(self):
         # bypass identity check
-        self.ajson['article']['foo'] = 'bar'
+        self.adata['article']['foo'] = 'bar'
 
     def test_unauthenticated_ingest(self):
         "PUT fails when not authenticated"
-        resp = self.c.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.c.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(403, resp.status_code) # verboten!
         self.assertEqual(0, models.Article.objects.count())
 
     def test_ingest(self):
         "bog standard (authenticated) ingest"
-        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(1, models.Article.objects.count())
         self.assertEqual(1, models.ArticleVersion.objects.count())
@@ -966,17 +970,17 @@ class Ingest(base.BaseCase):
         a = models.Article.objects.get(manuscript_id=self.msid)
         self.assertTrue(a.datetime_published) # simply that it has a pubdate, don't care what it is
 
-        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(400, resp.status_code) # bad request, published (needs to be forced)
 
         # params = {'force': True} # urgh, django has no support for PUT + parameters
         self.skitch_identity()
-        resp = self.ac.put(self.url + "?force=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url + "?force=True", self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(200, resp.status_code)
 
     def test_ingest_dryrun(self):
         "ingest is rolled back when dryrun"
-        resp = self.ac.put(self.url + "?dry-run=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url + "?dry-run=True", self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
 
         # interesting edge case here: should a dry-run ingest of a v1 article return anything?
         #self.assertEqual(resp.status_code, 200)
@@ -987,10 +991,10 @@ class Ingest(base.BaseCase):
         self.assertEqual(0, models.ArticleVersion.objects.count(), "article versions found")
 
         # dry-run ingest on present-but-unpublished article
-        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(200, resp.status_code)
         self.skitch_identity()
-        resp = self.ac.put(self.url + "?dry-run=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url + "?dry-run=True", self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(200, resp.status_code)
 
     def test_ingest_forced_dryrun(self):
@@ -1004,7 +1008,7 @@ class Ingest(base.BaseCase):
         av = self.freshen(av)
 
         self.skitch_identity()
-        resp = self.ac.put(self.url + "?force=True&dry-run=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url + "?force=True&dry-run=True", self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(200, resp.status_code)
 
         # check date hasn't changed (which we can do now that forced ingests alter v1 pubdates)
@@ -1012,15 +1016,15 @@ class Ingest(base.BaseCase):
         self.assertEqual(fakedate, av.datetime_published)
 
         # and just to be thorough, test that without dry-run=True, the fake date is replaced
-        resp = self.ac.put(self.url + "?force=True", json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url + "?force=True", self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(200, resp.status_code)
         av = self.freshen(av)
         self.assertEqual(old_date, av.datetime_published)
 
     def test_ingest_bad_ajson(self):
         "ajson is malformed"
-        self.ajson['article']['status'] = 'pants'
-        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.adata['article']['status'] = 'pants'
+        resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         body = json.loads(resp.content.decode('utf8'))
         self.assertEqual(400, resp.status_code)
         self.assertEqual(codes.BAD_REQUEST, body['title'])
@@ -1029,10 +1033,10 @@ class Ingest(base.BaseCase):
     def test_ingest_bad_state(self):
         "breaks business rules"
         # ingest a v2 before a v1
-        self.ajson['article']['version'] = 2
+        self.adata['article']['version'] = 2
         # we need a new url
         url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 2})
-        resp = self.ac.put(url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         body = json.loads(resp.content.decode('utf8'))
         self.assertEqual(400, resp.status_code)
         self.assertEqual(codes.BAD_REQUEST, body['title'])
@@ -1041,31 +1045,40 @@ class Ingest(base.BaseCase):
     def test_ingest_mismatched_parameters(self):
         "the article-version URI msid and version number *must* match those found in the article-json"
         # mismatched version number
-        self.ajson['article']['version'] = 2
-        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.adata['article']['version'] = 2
+        resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         body = json.loads(resp.content.decode('utf8'))
         self.assertEqual(400, resp.status_code)
         self.assertEqual(codes.BAD_REQUEST, body['title'])
 
         # both mismatched
-        self.ajson['article']['id'] = '123'
-        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        self.adata['article']['id'] = '123'
+        resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         body = json.loads(resp.content.decode('utf8'))
         self.assertEqual(400, resp.status_code)
         self.assertEqual(codes.BAD_REQUEST, body['title'])
 
         # (reset)
-        self.ajson['article']['version'] = 1
+        self.adata['article']['version'] = 1
 
         # just mismatched msid
-        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         body = json.loads(resp.content.decode('utf8'))
         self.assertEqual(400, resp.status_code)
         self.assertEqual(codes.BAD_REQUEST, body['title'])
 
     def test_ingest_bad_http_request(self):
         "breaks http api"
-        pass
+        bad_bools = [
+            '', 'pants',
+            'f', 'fals', 'falsee', 'ffalse',
+            't', 'tru', 'truee', 'ttrue', ' true ',
+        ]
+        for bb in bad_bools:
+            resp = self.ac.put(self.url + "?dry-run=" + bb, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
+            self.assertEqual(400, resp.status_code, resp.content)
+            resp = self.ac.put(self.url + "?force=" + bb, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
+            self.assertEqual(400, resp.status_code, resp.content)
 
     def test_ingest_bad_something(self):
         "unhandled failure"
