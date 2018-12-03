@@ -219,10 +219,13 @@ def article_version(request, msid, version):
         return Http404()
 
     except StateError as err:
-        return ErrorResponse(500, "unhandled server error", str(err))
+        # for anything not caught higher up
+        LOG.error(str(err))
+        return ErrorResponse(500, codes.UNKNOWN, codes.explain(codes.UNKNOWN))
 
     except BaseException as err:
-        return ErrorResponse(500, "unhandled server error", str(err))
+        LOG.exception(str(err))
+        return ErrorResponse(500, codes.UNKNOWN, codes.explain(codes.UNKNOWN))
 
 # TODO: test 404
 @api_view(['HEAD', 'GET'])
