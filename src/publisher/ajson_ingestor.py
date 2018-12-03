@@ -84,7 +84,7 @@ def _ingest_objects(data, create, update, force, log_context):
         return av, created, updated, previous_article_versions
 
     except KeyError as err:
-        raise StateError(codes.PARSE_ERROR, "failed to scrape article data, key not present: %s" % err)
+        raise StateError(codes.PARSE_ERROR, "failed to read article data, key not present: %s" % err)
 
 
 #
@@ -182,7 +182,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
 
     except KeyError as err:
         # *probably* an error while scraping ...
-        raise StateError(codes.PARSE_ERROR, "failed to scrape given article data: %r" % err)
+        raise StateError(codes.PARSE_ERROR, "failed to read given article data: %r" % err)
 
     except fragments.Identical:
         # hashes match, transaction would result in identical article and unnecessary event being emitted. rollback
@@ -314,7 +314,9 @@ def handle(msid, version, raw_data, force, dry_run):
     if not str(data_msid) == str(msid):
         raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
 
-    # todo: validate?
+    # todo: validate? this would severely slow a backfill.
+    # perhaps we need to start a specialised instance of lax for a backfill?
+    # that would solve some of the multiprocessing wrangling in the ingest management command ...
 
     return data
 
