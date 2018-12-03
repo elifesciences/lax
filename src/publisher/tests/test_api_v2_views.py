@@ -1103,7 +1103,7 @@ class Publish(base.BaseCase):
         self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
 
         # token can be anything. mostly exists to prevent accidental POSTs
-        self.token = ajson_ingestor.publish_token()
+        self.token = json.dumps(ajson_ingestor.publish_token())
 
     @property
     def ajson(self):
@@ -1114,21 +1114,43 @@ class Publish(base.BaseCase):
         self.adata['article']['foo'] = 'bar'
 
     def test_unauthenticated_publish(self):
-        resp = self.c.post(self.url, self.token)
+        resp = self.c.post(self.url, self.token, content_type="application/json")
         self.assertEqual(403, resp.status_code)
+
+    def test_publish_missing_token(self):
+        resp = self.ac.post(self.url, "{}", content_type="application/json")
+        self.assertEqual(400, resp.status_code)
 
     def test_publish(self):
         "regular PUBLISH"
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
         self.assertEqual(None, av.datetime_published)
-        resp = self.ac.post(self.url, self.token, content_type="application/x-www-form-urlencoded")
+        resp = self.ac.post(self.url, self.token, content_type="application/json")
         self.assertEqual(200, resp.status_code)
         av = self.freshen(av)
         body = json.loads(resp.content.decode('utf-8'))
         self.assertEqual(av.datetime_published, utils.todt(body['published']))
 
     def test_publish_forced(self):
-        pass
+        "force a PUBLISH event for whatever reason"
+        actual_dt = utils.todt('2016-08-16')
+        fake_dt = utils.todt('2001-01-01')
+
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
+        av.datetime_published = fake_dt
+        av.save()
+        self.assertTrue(av.published())
+
+        # complains about already being published
+        resp = self.ac.post(self.url, self.token, content_type="application/json")
+        self.assertEqual(400, resp.status_code)
+        body = json.loads(resp.content.decode('utf-8'))
+        self.assertEqual(codes.explain(codes.ALREADY_PUBLISHED), body['detail'])
+
+        resp = self.ac.post(self.url + "?force=true", self.token, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        av = self.freshen(av)
+        self.assertEqual(av.datetime_published, actual_dt)
 
     def test_publish_dryrun(self):
         pass

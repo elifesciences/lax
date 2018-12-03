@@ -220,7 +220,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         # except the xml->json fragment.
         raw_data = fragments.get(av, XML2JSON).fragment
 
-        # the json *will always* have a published date if v1 ...
+        # the json will *always* have a published date when v1 ...
         if version == 1:
             # pull that published date from the stored (but unpublished) article-json
             # and set the pub-date on the ArticleVersion object
@@ -305,8 +305,9 @@ def handle(msid, version, raw_data, force, dry_run):
 
     try:
         data = utils.ordered_json_loads(raw_data)
-    except ValueError as err:
-        msg = "could not decode the json you gave me: %r for data: %r" % (err.msg, raw_data) # todo: log this?
+    except ValueError:
+        # msg = "could not decode the json you gave me: %r for data: %r" % (err.msg, raw_data) # todo: log this?
+        msg = "failed to decode json data"
         raise StateError(codes.BAD_REQUEST, msg)
 
     # article id and version in url path may not match those in given data
@@ -331,5 +332,13 @@ def safe_ingest(msid, version, raw_data, force, dry_run):
 
 def safe_publish(msid, version, raw_data, force, dry_run):
     "like `publish`, but validates inputs first"
-    # ... ? check raw_data for some sort of explicit message to ingest?
+    try:
+        data = utils.ordered_json_loads(raw_data.decode('utf-8'))
+    except ValueError:
+        print('given', raw_data)
+        raise StateError(codes.BAD_REQUEST, "failed to decode json")
+
+    if not 'token' in data:
+        raise StateError(codes.BAD_REQUEST, "'token' missing from POST body")
+
     return publish(msid, version, force, dry_run=dry_run)

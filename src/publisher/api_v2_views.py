@@ -153,14 +153,14 @@ def _article_version_put(request, msid, version, authenticated):
         return Response(content, content_type=content_type)
 
     except StateError as err:
-        bad_request_codes = [
+        handled_codes = [
             codes.ALREADY_PUBLISHED,
             codes.PARSE_ERROR,
             codes.PREVIOUS_VERSION_DNE,
             codes.INVALID,
             codes.PREVIOUS_VERSION_UNPUBLISHED,
         ]
-        if err.code in bad_request_codes:
+        if err.code in handled_codes:
             return ErrorResponse(400, codes.BAD_REQUEST, codes.explain(err.code))
 
         if err.code == codes.BAD_REQUEST:
@@ -181,12 +181,28 @@ def _article_version_post(request, msid, version, authenticated):
         return ErrorResponse(400, codes.BAD_REQUEST, str(err))
 
     try:
-        raw_data = request.POST # todo: request has no PUT
+        raw_data = request.body
         ajson_ingestor.safe_publish(msid, version, raw_data, **kwargs)
+
         av = logic.article_version(msid, version, only_published=not authenticated)
         content = logic.article_json(av)
         content_type = ctype(av.status)
         return Response(content, content_type=content_type)
+
+    except StateError as err:
+        handled_codes = [
+            codes.ALREADY_PUBLISHED,
+        ]
+        if err.code in handled_codes:
+            return ErrorResponse(400, codes.BAD_REQUEST, codes.explain(err.code))
+
+        if err.code == codes.BAD_REQUEST:
+            return ErrorResponse(400, codes.BAD_REQUEST, err.message)
+
+        #import traceback
+        # traceback.print_exc()
+
+        raise
 
     except BaseException:
         # unhandled
@@ -199,6 +215,7 @@ def article_version(request, msid, version):
     "returns the article-json for a specific version of the given article ID"
     authenticated = is_authenticated(request)
     method = request.method.lower()
+    msid, version = int(msid), int(version) # validated as ints by url
     try:
         if method == 'head':
             # todo: test for this?
