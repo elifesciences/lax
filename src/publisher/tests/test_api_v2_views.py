@@ -1028,14 +1028,47 @@ class Ingest(base.BaseCase):
 
     def test_ingest_bad_state(self):
         "breaks business rules"
-        pass
+        # ingest a v2 before a v1
+        self.ajson['article']['version'] = 2
+        # we need a new url
+        url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': 2})
+        resp = self.ac.put(url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        body = json.loads(resp.content.decode('utf8'))
+        self.assertEqual(400, resp.status_code)
+        self.assertEqual(codes.BAD_REQUEST, body['title'])
+        self.assertEqual(codes.explain(codes.PREVIOUS_VERSION_DNE), body['detail'])
+
+    def test_ingest_mismatched_parameters(self):
+        "the article-version URI msid and version number *must* match those found in the article-json"
+        # mismatched version number
+        self.ajson['article']['version'] = 2
+        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        body = json.loads(resp.content.decode('utf8'))
+        self.assertEqual(400, resp.status_code)
+        self.assertEqual(codes.BAD_REQUEST, body['title'])
+
+        # both mismatched
+        self.ajson['article']['id'] = '123'
+        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        body = json.loads(resp.content.decode('utf8'))
+        self.assertEqual(400, resp.status_code)
+        self.assertEqual(codes.BAD_REQUEST, body['title'])
+
+        # (reset)
+        self.ajson['article']['version'] = 1
+
+        # just mismatched msid
+        resp = self.ac.put(self.url, json.dumps(self.ajson), content_type='application/vnd.elife.article-poa+json; version=2')
+        body = json.loads(resp.content.decode('utf8'))
+        self.assertEqual(400, resp.status_code)
+        self.assertEqual(codes.BAD_REQUEST, body['title'])
 
     def test_ingest_bad_http_request(self):
         "breaks http api"
         pass
 
     def test_ingest_bad_something(self):
-        "unknown failure"
+        "unhandled failure"
         pass
 
 class Publish(base.BaseCase):

@@ -146,16 +146,26 @@ def _article_version_put(request, msid, version, authenticated):
         return Response(content, content_type=content_type)
 
     except StateError as err:
-        if err.code in [codes.ALREADY_PUBLISHED, codes.PARSE_ERROR]:
+        bad_request_codes = [
+            codes.ALREADY_PUBLISHED,
+            codes.PARSE_ERROR,
+            codes.PREVIOUS_VERSION_DNE,
+            codes.INVALID,
+            codes.PREVIOUS_VERSION_UNPUBLISHED,
+        ]
+        if err.code in bad_request_codes:
             return ErrorResponse(400, codes.BAD_REQUEST, codes.explain(err.code))
+
+        if err.code == codes.BAD_REQUEST:
+            return ErrorResponse(400, codes.BAD_REQUEST, err.message)
 
         raise
 
-    except BaseException as err:
+    except BaseException: # as err:
         # unhandled
-        print('hit 5xx', err)
-        import traceback
-        traceback.print_exc()
+        #print('hit 5xx', err)
+        #import traceback
+        # traceback.print_exc()
         raise
 
 
