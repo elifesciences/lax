@@ -1082,7 +1082,13 @@ class Ingest(base.BaseCase):
 
     def test_ingest_bad_something(self):
         "unhandled failure"
-        pass
+        with patch('ajson_ingestor.safe_ingest') as mock:
+            mock.side_effect = RuntimeError('oops')
+            resp = self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
+            body = json.loads(resp.content.decode('utf8'))
+            self.assertEqual(500, resp)
+            self.assertEqual(codes.UNKNOWN, body['title'])
+            self.assertEqual(codes.explain(codes.UNKNOWN), body['detail'])
 
 class Publish(base.BaseCase):
     def setUp(self):
