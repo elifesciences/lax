@@ -102,7 +102,7 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     # read and check the article-json given, if necessary
     try:
-        if action not in [PUBLISH]:
+        if action in [INGEST, INGEST_PUBLISH]:
             raw_data = infile.read()
             log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
             data = ajson_ingestor.handle(msid, version, raw_data, force, dry_run)
@@ -140,8 +140,14 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
 
     choices = {
         # all these return a models.ArticleVersion object
+        # TODO: change to `safe_ingest`
         INGEST: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest(data, force, dry_run=dry_run),
+        # TODO: add arg to pass token. assuming we keep this management command
+        # TODO: change to `safe_publish`
         PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.publish(msid, ver, force, dry_run=dry_run),
+
+        # TODO: deprecate this interface, it's not used externally. when have we ever ingested+published at the same time?
+        # keep internal logic
         INGEST_PUBLISH: lambda msid, ver, force, data, dry_run: ajson_ingestor.ingest_publish(data, force, dry_run=dry_run),
     }
 
