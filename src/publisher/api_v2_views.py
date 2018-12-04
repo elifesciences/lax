@@ -200,15 +200,6 @@ def _article_version_post(request, msid, version, authenticated):
         if err.code == codes.BAD_REQUEST:
             return ErrorResponse(400, codes.BAD_REQUEST, err.message)
 
-        #import traceback
-        # traceback.print_exc()
-
-        raise
-
-    except BaseException:
-        # unhandled
-        import traceback
-        traceback.print_exc()
         raise
 
 @api_view(['HEAD', 'GET', 'PUT', 'POST'])
