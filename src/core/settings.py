@@ -50,13 +50,6 @@ SECRET_KEY = cfg('general.secret-key')
 DEBUG = cfg('general.debug')
 assert isinstance(DEBUG, bool), "'debug' must be either True or False as a boolean, not %r" % (DEBUG, )
 
-DEV, VAGRANT, TEST, PROD = 'dev', 'vagrant', 'test', 'prod'
-ENV = cfg('general.env', DEV)
-
-# temporary until the 'vagrant' env is more formalised
-if os.path.exists('/vagrant'):
-    ENV = VAGRANT
-
 ALLOWED_HOSTS = cfg('general.allowed-hosts', '').split(',')
 
 # Application definition
@@ -318,7 +311,7 @@ LOG_NAME = '%s.log' % PROJECT_NAME # ll: lax.log
 
 INGESTION_LOG_NAME = 'ingestion-%s.log' % PROJECT_NAME
 
-LOG_DIR = PROJECT_DIR if ENV == DEV else '/var/log/'
+LOG_DIR = PROJECT_DIR if DEBUG else '/var/log/'
 LOG_FILE = join(LOG_DIR, LOG_NAME) # ll: /var/log/lax.log
 INGESTION_LOG_FILE = join(LOG_DIR, INGESTION_LOG_NAME) # ll: /var/log/lax.log
 
