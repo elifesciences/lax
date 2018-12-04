@@ -1185,8 +1185,23 @@ class Publish(base.BaseCase):
 
     def test_publish_bad_http_request(self):
         "breaks http api"
-        pass
+        bad_bools = [
+            '', 'pants',
+            'f', 'fals', 'falsee', 'ffalse',
+            't', 'tru', 'truee', 'ttrue', ' true ',
+        ]
+        for bb in bad_bools:
+            resp = self.ac.post(self.url + "?dry-run=" + bb, self.token, content_type='application/json')
+            self.assertEqual(400, resp.status_code, resp.content)
+            resp = self.ac.post(self.url + "?force=" + bb, self.token, content_type='application/json')
+            self.assertEqual(400, resp.status_code, resp.content)
 
     def test_publish_bad_something(self):
         "unknown failure"
-        pass
+        with patch('publisher.ajson_ingestor.safe_publish') as mock:
+            mock.side_effect = RuntimeError('whoa')
+            resp = self.ac.post(self.url, self.token, content_type='application/json')
+            self.assertEqual(500, resp.status_code)
+            body = json.loads(resp.content.decode('utf-8'))
+            self.assertEqual(codes.UNKNOWN, body['title'])
+            self.assertEqual(codes.explain(codes.UNKNOWN), body['detail'])
