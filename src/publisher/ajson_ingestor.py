@@ -224,9 +224,12 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         if version == 1:
             # pull that published date from the stored (but unpublished) article-json
             # and set the pub-date on the ArticleVersion object
-            datetime_published = utils.todt(raw_data.get('published'))
-            # todo: can this check be removed in favour of ajson validation?
-            if not datetime_published:
+            try:
+                datetime_published = utils.todt(raw_data.get('published'))
+                if not datetime_published:
+                    raise ValueError()
+            except ValueError:
+                LOG.error("bad value for article %s publication date: %r" % (msid, raw_data.get('published')))
                 raise StateError(codes.PARSE_ERROR, "found 'published' value in article-json, but it's either null or unparsable as a date+time")
 
         else:

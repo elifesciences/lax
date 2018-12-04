@@ -177,7 +177,7 @@ def todt(val):
         return None
     dt = val
     if not isinstance(dt, datetime):
-        dt = parser.parse(val, fuzzy=False)
+        dt = parser.parse(val, fuzzy=False) # raises ValueError
     dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
 
     if not dt.tzinfo:

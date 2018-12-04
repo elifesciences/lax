@@ -997,7 +997,7 @@ class Ingest(base.BaseCase):
         resp = self.ac.put(self.url + "?dry-run=True", self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
         self.assertEqual(200, resp.status_code)
 
-    def test_ingest_forced_dryrun(self):
+    def test_ingest_force_dryrun(self):
         av = self.publish_ajson(join(self.fixture_dir, 'ajson', 'elife-16695-v1.xml.json'))
 
         old_date = av.datetime_published
@@ -1101,7 +1101,7 @@ class Publish(base.BaseCase):
         self.adata, self.msid, self.version = self.slurp_fixture("elife-16695-v1.xml.json")
         self.url = reverse('v2:article-version', kwargs={'msid': self.msid, 'version': self.version})
         self.ac.put(self.url, self.ajson, content_type='application/vnd.elife.article-poa+json; version=2')
-
+        self.av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
         # token can be anything. mostly exists to prevent accidental POSTs
         self.token = json.dumps(ajson_ingestor.publish_token())
 
@@ -1123,12 +1123,11 @@ class Publish(base.BaseCase):
 
     def test_publish(self):
         "regular PUBLISH"
-        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
-        self.assertEqual(None, av.datetime_published)
+        self.assertEqual(None, self.av.datetime_published)
         resp = self.ac.post(self.url, self.token, content_type="application/json")
         self.assertEqual(200, resp.status_code)
-        av = self.freshen(av)
         body = json.loads(resp.content.decode('utf-8'))
+        av = self.freshen(self.av)
         self.assertEqual(av.datetime_published, utils.todt(body['published']))
 
     def test_publish_forced(self):
@@ -1136,10 +1135,9 @@ class Publish(base.BaseCase):
         actual_dt = utils.todt('2016-08-16')
         fake_dt = utils.todt('2001-01-01')
 
-        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
-        av.datetime_published = fake_dt
-        av.save()
-        self.assertTrue(av.published())
+        self.av.datetime_published = fake_dt
+        self.av.save()
+        self.assertTrue(self.av.published())
 
         # complains about already being published
         resp = self.ac.post(self.url, self.token, content_type="application/json")
@@ -1149,18 +1147,41 @@ class Publish(base.BaseCase):
 
         resp = self.ac.post(self.url + "?force=true", self.token, content_type="application/json")
         self.assertEqual(200, resp.status_code)
-        av = self.freshen(av)
+        av = self.freshen(self.av)
         self.assertEqual(av.datetime_published, actual_dt)
 
     def test_publish_dryrun(self):
-        pass
+        resp = self.ac.post(self.url + "?dry-run=True", self.token, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        self.assertFalse(self.av.published())
 
-    def test_publish_forced_dryrun(self):
-        pass
+    def test_publish_force_dryrun(self):
+        "like test_publish_force, but we expect the changes to be rolled back"
+        fake_dt = utils.todt('2001-01-01')
+        self.av.datetime_published = fake_dt
+        self.av.save()
+        self.assertTrue(self.av.published())
+
+        resp = self.ac.post(self.url + "?force=true&dry-run=true", self.token, content_type="application/json")
+        self.assertEqual(200, resp.status_code)
+        av = self.freshen(self.av)
+
+        self.assertEqual(av.datetime_published, fake_dt) # date not changed
 
     def test_publish_bad_state(self):
         "breaks business rules"
-        pass
+        # the only business rule we can break for a v1 during PUBLISH is that the pubdate is fubar
+        # so lets fubar it
+        af = fragments.get(self.av, models.XML2JSON)
+        raw_data = af.fragment
+        raw_data['published'] = 'pants' # skitch the pubdate
+        af.fragment = raw_data
+        af.save()
+
+        resp = self.ac.post(self.url, self.token, content_type="application/json")
+        self.assertEqual(400, resp.status_code)
+        body = json.loads(resp.content.decode('utf-8'))
+        self.assertEqual(codes.explain(codes.PARSE_ERROR), body['detail'])
 
     def test_publish_bad_http_request(self):
         "breaks http api"

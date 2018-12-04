@@ -192,6 +192,7 @@ def _article_version_post(request, msid, version, authenticated):
     except StateError as err:
         handled_codes = [
             codes.ALREADY_PUBLISHED,
+            codes.PARSE_ERROR,
         ]
         if err.code in handled_codes:
             return ErrorResponse(400, codes.BAD_REQUEST, codes.explain(err.code))
