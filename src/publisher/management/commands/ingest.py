@@ -107,23 +107,6 @@ def handle_single(print_queue, action, infile, msid, version, force, dry_run):
             log_context['data'] = str(raw_data[:25]) + "... (truncated)" if raw_data else ''
             data = ajson_ingestor.handle(msid, version, raw_data, force, dry_run)
 
-            '''
-            try:
-                data = utils.ordered_json_loads(raw_data)
-            except ValueError as err:
-                msg = "could not decode the json you gave me: %r for data: %r" % (err.msg, raw_data)
-                raise StateError(codes.BAD_REQUEST, msg)
-
-            # vagary of the CLI interface: article id and version are required
-            # these may not match the data given
-            data_version = data['article'].get('version')
-            if not data_version == version:
-                raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match 'version' passed to script (%s)" % (data_version, version))
-            data_msid = int(data['article']['id'])
-            if not data_msid == msid:
-                raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
-            '''
-
     except KeyboardInterrupt:
         # usually caught when spamming ctrl-c to stop the load.
         # cascades: handle_single -> job -> handle_many_serially

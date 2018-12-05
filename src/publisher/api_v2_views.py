@@ -143,9 +143,7 @@ def _article_version_put(request, msid, version, authenticated):
         return ErrorResponse(400, codes.BAD_REQUEST, str(err))
 
     try:
-        # article and article-version may not exist yet!
         raw_data = request.read().decode('utf8')
-
         ajson_ingestor.safe_ingest(msid, version, raw_data, **kwargs)
         av = logic.article_version(msid, version, only_published=not authenticated)
         content = logic.article_json(av)
@@ -168,9 +166,6 @@ def _article_version_put(request, msid, version, authenticated):
 
         raise
 
-    except BaseException: # as err:
-        raise
-
 def _article_version_post(request, msid, version, authenticated):
     if not authenticated:
         return ErrorResponse(403, "not authenticated", "only authenticated users can modify content")
@@ -183,7 +178,6 @@ def _article_version_post(request, msid, version, authenticated):
     try:
         raw_data = request.body
         ajson_ingestor.safe_publish(msid, version, raw_data, **kwargs)
-
         av = logic.article_version(msid, version, only_published=not authenticated)
         content = logic.article_json(av)
         content_type = ctype(av.status)
@@ -210,7 +204,6 @@ def article_version(request, msid, version):
     msid, version = int(msid), int(version) # validated as ints by url
     try:
         if method == 'head':
-            # todo: test for this?
             av = logic.article_version(msid, version, only_published=not authenticated)
             content_type = ctype(av.status)
             return Response(None, content_type=content_type)

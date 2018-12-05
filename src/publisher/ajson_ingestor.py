@@ -281,7 +281,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         # attempted to publish an article that doesn't exist ...
         raise StateError(codes.NO_RECORD, "refusing to publish an article '%sv%s' that doesn't exist" % (msid, version))
 
-@atomic # uses 'dry_run' if present to roll back transaction if True
+@atomic # uses 'dry_run' if present to roll back transaction when True
 def publish(msid, version, force=False, dry_run=False) -> models.ArticleVersion:
     return _publish(msid, version, force)
 
@@ -289,7 +289,7 @@ def publish(msid, version, force=False, dry_run=False) -> models.ArticleVersion:
 # INGEST+PUBLISH requests
 #
 
-@atomic # uses 'dry_run' if present to roll back transaction if True
+@atomic # uses 'dry_run' if present to roll back transaction when True
 def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
     "convenience. publish an article if it were successfully ingested"
     av = _ingest(data, force=force)
@@ -302,7 +302,7 @@ def ingest_publish(data, force=False, dry_run=False) -> models.ArticleVersion:
 def publish_token():
     return {'token': str(uuid.uuid4())}
 
-# TODO: merge into safe_ingest
+# TODO: merge into safe_ingest. referenced by ingest management command
 def handle(msid, version, raw_data, force, dry_run):
     "handles user data, ensures the raw data and parameters are all correct."
 
@@ -316,11 +316,11 @@ def handle(msid, version, raw_data, force, dry_run):
     # article id and version in url path may not match those in given data
     data_version = data['article'].get('version')
     if not str(data_version) == str(version):
-        raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match 'version' passed to script (%s)" % (data_version, version))
+        raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match given 'version' (%s)" % (data_version, version))
 
-    data_msid = int(data['article']['id']) # todo: shouldn't trust this value
+    data_msid = data['article'].get('id')
     if not str(data_msid) == str(msid):
-        raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match 'msid' passed to script (%s)" % (data_msid, msid))
+        raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match give 'msid' (%s)" % (data_msid, msid))
 
     # todo: validate? this would severely slow a backfill.
     # perhaps we need to start a specialised instance of lax for a backfill?

@@ -303,8 +303,6 @@ class MultiCLI(base.TransactionBaseCase):
             # simulate a backfill
             args = [self.nom, '--ingest', '--force', '--dir', join(self.fixture_dir, 'ajson')]
             errcode, stdout = self.call_command(*args)
-            print(stdout)
-            #self.assertEqual(stdout, None)
             self.assertEqual(errcode, 0) # nothing failed
 
             # publish is not called again (data hasn't changed)
