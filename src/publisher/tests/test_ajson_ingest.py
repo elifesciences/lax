@@ -4,10 +4,11 @@ import json, copy
 from os.path import join
 from datetime import date, datetime, timedelta
 from .base import BaseCase
-from publisher import ajson_ingestor, models, utils, codes
+from publisher import ajson_ingestor, models, utils, codes, fragment_logic
 from publisher.ajson_ingestor import StateError
 from publisher.utils import lmap
 from unittest import skip
+from unittest.mock import patch
 from publisher import logic
 from django.test import Client, override_settings
 from django.core.urlresolvers import reverse
@@ -16,10 +17,45 @@ from jsonschema.exceptions import ValidationError
 
 class IngestIdentical(BaseCase):
     def setUp(self):
-        pass
+        self.fixture = join(self.fixture_dir, 'ajson', 'elife-20105-v1.xml.json')
+        self.ajson = self.load_ajson(self.fixture)
 
-    def tearDown(self):
-        pass
+    def test_ingest_identical(self):
+        "ingesting an article whose identical data already exists raises an Identical exception"
+        ajson_ingestor.ingest(self.ajson)
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+        self.assertRaises(fragment_logic.Identical, ajson_ingestor.ingest, self.ajson)
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+
+    def test_ingest_identical_force(self):
+        "ingesting an article whose identical data already exists raises an Identical exception, even when forced"
+        # a backfill is thousands of forced INGEST events. if the data is identical it should be skipped
+        ajson_ingestor.ingest(self.ajson)
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+        self.assertRaises(fragment_logic.Identical, ajson_ingestor.ingest, self.ajson, force=True)
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+
+    @override_settings(DEBUG=False) #
+    def test_ingest_identical_doesnt_send_event(self):
+        "an ingest event that fails because of identical data does not send an aws event"
+        with patch('publisher.aws_events.notify') as mock:
+            ajson_ingestor.ingest(self.ajson)
+            self.assertEqual(1, models.ArticleVersion.objects.count())
+            self.assertRaises(fragment_logic.Identical, ajson_ingestor.ingest, self.ajson, force=True)
+            self.assertFalse(mock.called)
+
+    def test_ingest_identical_except_pubdate(self):
+        "common case, another ingest or silent correction (forced ingest) with just the pubdate changed"
+        ajson_ingestor.ingest(self.ajson)
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+
+        self.ajson['article']['published'] = '2019-01-01'
+
+        ajson_ingestor.ingest(self.ajson)
+        av = models.ArticleVersion.objects.get(article__manuscript_id=20105)
+        print(av)
+
+    # handy test but may not belong in this test suite
 
     def test_incoming_ajson_structure_preserved(self):
         "article-json is reconstituted with it's ordering preserved"

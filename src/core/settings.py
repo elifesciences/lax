@@ -296,9 +296,11 @@ ENABLE_RELATIONS = True
 # when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, True.
 RELATED_ARTICLE_STUBS = cfg('general.related-article-stubs', True)
 
+# DEPRECATED: failure to validate article-json should always fail an ingest/publish
 # when ingesting and publishing article-json with the force=True parameter,
 # should validation failures cause the ingest/publish action to fail?
-VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
+#VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
+VALIDATE_FAILS_FORCE = True
 
 #
 API_V12_TRANSFORMS = True
