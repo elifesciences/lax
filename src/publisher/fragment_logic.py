@@ -128,7 +128,7 @@ def extract_snippet(merged_result):
 def pre_process(av, result):
     "supplements the merged fragments with more article data required for validating"
     # we need to inspect this value later in `hashcheck` before it gets nullified
-    result['-published'] = result['published'] # bit of a hack. this value is used later to determine identity
+    result['-published'] = result['published']
 
     # 'published' is when the v1 article was published
     # if unpublished, this value will be None

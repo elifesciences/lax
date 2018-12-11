@@ -35,7 +35,7 @@ class IngestIdentical(BaseCase):
         self.assertRaises(fragment_logic.Identical, ajson_ingestor.ingest, self.ajson, force=True)
         self.assertEqual(1, models.ArticleVersion.objects.count())
 
-    @override_settings(DEBUG=False) #
+    @override_settings(DEBUG=False)
     def test_ingest_identical_doesnt_send_event(self):
         "an ingest event that fails because of identical data does not send an aws event"
         with patch('publisher.aws_events.notify') as mock:
@@ -51,9 +51,9 @@ class IngestIdentical(BaseCase):
 
         self.ajson['article']['published'] = '2019-01-01'
 
-        ajson_ingestor.ingest(self.ajson)
+        ajson_ingestor.ingest_publish(self.ajson)
         av = models.ArticleVersion.objects.get(article__manuscript_id=20105)
-        print(av)
+        self.assertEqual(utils.todt('2019-01-01'), av.datetime_published)
 
     # handy test but may not belong in this test suite
 
