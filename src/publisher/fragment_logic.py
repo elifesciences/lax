@@ -196,6 +196,7 @@ def hash_ajson(merge_result):
 class Identical(RuntimeError):
     def __init__(self, msg, av, hashval):
         super(Identical, self).__init__(msg)
+        LOG.info(msg, extra={'hash': hashval, 'msid': av.article.manuscript_id, 'version': av.version})
         self.av = av
         self.hashval = hashval
 

@@ -259,7 +259,7 @@ class RelationList(base.BaseCase):
             (self.msid3, [self.msid1, self.msid2]), # 3 => [1, 2]
         ]
 
-        relation_logic._print_relations()
+        #relation_logic._print_relations()
 
         for msid, expected_relations in expected_relationships:
             av = models.Article.objects.get(manuscript_id=msid).latest_version
