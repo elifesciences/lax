@@ -101,7 +101,7 @@ class Errors(base.BaseCase):
 
     def test_error_response_invalid(self):
         "article data failing validation emit a WARNING rather than an ERROR"
-        bad_msid = '15507' # ...?
+        bad_msid = '15507' # not consistent with pathname
         bad_ajson = join(self.fixture_dir, 'ajson', 'elife-01968-v1-bad.xml.json')
 
         with patch.object(IngestCommand, 'LOG') as mocklog:

@@ -292,6 +292,9 @@ class Command(ModCommand):
         except KeyboardInterrupt:
             LOG.info("ctrl-c caught somewhere, printing buffer")
 
+        except (TypeError, ValueError) as err:
+            self.invalid_args(str(err))
+
         except Exception as err:
             LOG.exception("unhandled exception!")
             error(print_queue, ERROR, codes.UNKNOWN, str(err), force, dry_run, self.log_context, trace=ftb(err))

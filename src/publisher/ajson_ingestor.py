@@ -313,14 +313,19 @@ def handle(msid, version, raw_data, force, dry_run):
         msg = "failed to decode json data"
         raise StateError(codes.BAD_REQUEST, msg)
 
+    data_version = int(data['article'].get('version'))
+    data_msid = int(data['article'].get('id'))
+
+    # raises ValueError on None/TypeError
+    msid, version, data_msid, data_version = map(utils.toint, [msid, version, data_msid, data_version])
+
     # article id and version in url path may not match those in given data
-    data_version = data['article'].get('version')
-    if not str(data_version) == str(version):
+
+    if not data_version == version:
         raise StateError(codes.BAD_REQUEST, "'version' in the data (%s) does not match given 'version' (%s)" % (data_version, version))
 
-    data_msid = data['article'].get('id')
-    if not str(data_msid) == str(msid):
-        raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match give 'msid' (%s)" % (data_msid, msid))
+    if not data_msid == msid:
+        raise StateError(codes.BAD_REQUEST, "'id' in the data (%s) does not match given 'msid' (%s)" % (data_msid, msid))
 
     # todo: validate? this would severely slow a backfill.
     # perhaps we need to start a specialised instance of lax for a backfill?
