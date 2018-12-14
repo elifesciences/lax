@@ -127,6 +127,9 @@ def extract_snippet(merged_result):
 
 def pre_process(av, result):
     "supplements the merged fragments with more article data required for validating"
+    # we need to inspect this value later in `hashcheck` before it gets nullified
+    result['-published'] = result['published']
+
     # 'published' is when the v1 article was published
     # if unpublished, this value will be None
     if av.version == 1:
@@ -193,24 +196,63 @@ def hash_ajson(merge_result):
 class Identical(RuntimeError):
     def __init__(self, msg, av, hashval):
         super(Identical, self).__init__(msg)
+        LOG.info(msg, extra={'hash': hashval, 'msid': av.article.manuscript_id, 'version': av.version})
         self.av = av
         self.hashval = hashval
 
-# TODO: rename `quiet` to `valid_check` or similar.
-def set_article_json(av, quiet, hash_check=True):
+# TODO: 'quiet' (validation-check), 'hash_check' and 'update_fragment' are all symptoms of spaghetti logic and need to be removed.
+def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment=True):
     """updates the article with the result of the merge operation.
     if the result of the merge was valid, the merged result will be saved.
-    if invalid, the ArticleVersion instance's article-json will be unset.
-    if invalid and quiet=False, a ValidationError will be raised"""
-    log_context = {'article-version': av, 'quiet': quiet, 'hash_check': hash_check}
-    result = merge_if_valid(av, quiet=quiet)
+    if invalid, a ValidationError will be raised"""
+    log_context = {'article-version': av, 'hash_check': hash_check}
+
+    # todo: only necessary if hashcheck is being done
+    try:
+        # merge -> *merges current fragment set*
+        # adding new fragment data must wait until we have what we need from the old
+        raw_original = merge(av)
+    except StateError:
+        # NO RECORD: nothing has been ingested yet, no previous article data to compare to
+        raw_original = {}
+
+    if data:
+        add(av, models.XML2JSON, data['article'], pos=0, update=update_fragment)
+
+    # merge_if_valid -> merge -> preprocess - *merges current fragment set*
+    # TODO: inline the above and remove those intermediate functions, it's too obfuscated here
+    result = merge_if_valid(av, quiet=quiet) # raises ValidationError
     newhash, oldhash = hash_ajson(result), av.article_json_hash
-    if hash_check and oldhash == newhash:
-        raise Identical("article data is identical to the article data already stored", av, newhash)
+
+    if hash_check:
+        # if old is identical to new, then skip commit and roll the transaction back
+        # backfills (thousands of forced ingest) require skipping when identical
+        # day-to-day INGEST and PUBLISH events require this too. happens on multiple deliveries
+        # silent corrections (forced ingest) where only pubdate has changed now requires this
+
+        if oldhash == newhash:
+            # article data is identical
+            # compare pubdates
+            # `preprocess` will alter the publication date value if it hasn't been published yet
+            oldpubdate = raw_original.get('published')
+            newpubdate = result.get('-published')
+
+            if oldpubdate == newpubdate:
+                raise Identical("article data is identical to the article data already stored", av, newhash)
+
+    # postprocess
+    # result is None when VALIDATE_FAILS_FORCE = False and validation fails
+    # this is some old logic that will be removed in a later PR
+    if result:
+        del result['-published'] # set in preprocess
+
+    # save
     av.article_json_v1 = result
     av.article_json_v1_snippet = extract_snippet(result)
     av.article_json_hash = newhash
     av.save()
+
+    # todo: more bad old logic that silently fails on validation errors. remove.
     if not result:
         msg = "this article failed to merge it's fragments into a valid result. Any article-json previously set for this version of the article has been removed. This article cannot be published in it's current state."
         LOG.critical(msg, extra=log_context)
