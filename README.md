@@ -18,7 +18,7 @@ Documentation can be found here:
 
 For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) article:
 
-* [https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/](https://lax.elifesciences.org/api/v1/api/v1/article/10.7554/eLife.09560/)
+* [https://lax.elifesciences.org/api/v2/articles/09560](https://lax.elifesciences.org/api/v2/articles/09560)
 
 ## RSS
 
