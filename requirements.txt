@@ -16,7 +16,7 @@ djangorestframework==3.8.2
 et3==1.5.1
 # versions of green > 2.9.0 conflict with kids.cache
 # both are doing command line parsing during installation
-green==2.13.0
+green==2.15.0
 joblib==0.12.5
 jsonschema==2.6.0
 kids.cache==0.0.7
