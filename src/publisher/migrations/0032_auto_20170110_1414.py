@@ -7,14 +7,15 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0031_auto_20170109_1514'),
-    ]
+    dependencies = [("publisher", "0031_auto_20170109_1514")]
 
     operations = [
         migrations.AlterField(
-            model_name='article',
-            name='manuscript_id',
-            field=models.BigIntegerField(help_text=b'article identifier from beginning of submission process right through to end of publication.', unique=True),
-        ),
+            model_name="article",
+            name="manuscript_id",
+            field=models.BigIntegerField(
+                help_text=b"article identifier from beginning of submission process right through to end of publication.",
+                unique=True,
+            ),
+        )
     ]

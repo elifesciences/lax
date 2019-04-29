@@ -8,18 +8,19 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0020_auto_20160908_1806'),
-    ]
+    dependencies = [("publisher", "0020_auto_20160908_1806")]
 
     operations = [
         migrations.RemoveField(
-            model_name='articleversion',
-            name='article_json_v1_valid',
+            model_name="articleversion", name="article_json_v1_valid"
         ),
         migrations.AddField(
-            model_name='articleversion',
-            name='article_json_v1_snippet',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, help_text=b'Valid v1 article-json for this article version.', null=True),
+            model_name="articleversion",
+            name="article_json_v1_snippet",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True,
+                help_text=b"Valid v1 article-json for this article version.",
+                null=True,
+            ),
         ),
     ]

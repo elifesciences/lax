@@ -9,17 +9,34 @@ import annoying.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0025_auto_20161011_1330'),
-    ]
+    dependencies = [("publisher", "0025_auto_20161011_1330")]
 
     operations = [
         migrations.CreateModel(
-            name='ArticleFragment',
+            name="ArticleFragment",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fragment', annoying.fields.JSONField(help_text=b'partial piece of article data to be merged in')),
-                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publisher.Article')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "fragment",
+                    annoying.fields.JSONField(
+                        help_text=b"partial piece of article data to be merged in"
+                    ),
+                ),
+                (
+                    "article",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="publisher.Article",
+                    ),
+                ),
             ],
-        ),
+        )
     ]

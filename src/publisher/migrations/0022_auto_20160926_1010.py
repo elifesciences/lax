@@ -8,24 +8,30 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0021_auto_20160913_1454'),
-    ]
+    dependencies = [("publisher", "0021_auto_20160913_1454")]
 
     operations = [
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, help_text=b'Valid article-json.', null=True),
+            model_name="articleversion",
+            name="article_json_v1",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True, help_text=b"Valid article-json.", null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1_raw',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, help_text=b'raw input article json we receive from different places', null=True),
+            model_name="articleversion",
+            name="article_json_v1_raw",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True,
+                help_text=b"raw input article json we receive from different places",
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1_snippet',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, help_text=b'Valid article-json snippet.', null=True),
+            model_name="articleversion",
+            name="article_json_v1_snippet",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True, help_text=b"Valid article-json snippet.", null=True
+            ),
         ),
     ]

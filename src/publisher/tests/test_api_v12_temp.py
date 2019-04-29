@@ -14,19 +14,24 @@ from django.test import Client  # , override_settings
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
+
 class One(base.BaseCase):
     def setUp(self):
         self.c = Client()
 
         # additionalFiles
-        #self.msid = 21393
-        #self.status = 'poa'
+        # self.msid = 21393
+        # self.status = 'poa'
         # self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-21393-v1.xml.json') # poa, v1
         # self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-21393-v1.xml.json') # poa, v1
         self.msid = 27134
-        self.status = 'vor'
-        self.ajson_fixture_api1 = join(self.fixture_dir, 'v12', 'api1', 'elife-27134-v2.xml.json') # vor, v2
-        self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-27134-v2.xml.json') # vor, v2
+        self.status = "vor"
+        self.ajson_fixture_api1 = join(
+            self.fixture_dir, "v12", "api1", "elife-27134-v2.xml.json"
+        )  # vor, v2
+        self.ajson_fixture_api2 = join(
+            self.fixture_dir, "v12", "api2", "elife-27134-v2.xml.json"
+        )  # vor, v2
 
         self.ajson_api1 = self.load_ajson2(self.ajson_fixture_api1)
         self.ajson_api2 = self.load_ajson2(self.ajson_fixture_api2)
@@ -41,33 +46,25 @@ class One(base.BaseCase):
 
         cases = [
             # content, request, response
-            #(v1, v1, v1),
-            #(v1, v2, v2),
-
+            # (v1, v1, v1),
+            # (v1, v2, v2),
             (v2, v1, v1),
             (v2, v2, v2),
-
-            #(v1, v12, v2),
+            # (v1, v12, v2),
             (v2, v12, v2),
         ]
 
-        content_idx = {
-            v1: self.ajson_fixture_api1,
-            v2: self.ajson_fixture_api2
-        }
+        content_idx = {v1: self.ajson_fixture_api1, v2: self.ajson_fixture_api2}
 
         request_idx = {
             # the '*/*' is required, because requesting *just* v1 types will result in a 406
-            v1: 'application/vnd.elife.article-vor+json; version=1, */*',
+            v1: "application/vnd.elife.article-vor+json; version=1, */*",
             # no '*/*' required for these cases as no transformations will be happening
-            v2: 'application/vnd.elife.article-vor+json; version=2',
-            v12: 'application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2',
+            v2: "application/vnd.elife.article-vor+json; version=2",
+            v12: "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
         }
 
-        response_idx = {
-            v1: self.ajson_api1,
-            v2: self.ajson_api2
-        }
+        response_idx = {v1: self.ajson_api1, v2: self.ajson_api2}
 
         schema_idx = {
             v1: settings.ALL_SCHEMA_IDX[self.status][1][1],
@@ -79,22 +76,29 @@ class One(base.BaseCase):
             request = request_idx[rqkey]
             response = response_idx[rskey]
 
-            name = ' '.join(map(str, [ckey, rqkey, rskey]))
+            name = " ".join(map(str, [ckey, rqkey, rskey]))
             # print(name)
             with self.subTest(name):
                 try:
                     # Lax needs a v1 of an article before a v2 can be published
-                    self.add_or_update_article(**{
-                        'manuscript_id': self.msid,
-                        'version': 1,
-                        'published': '2017-07-11T00:00:00Z'
-                    })
+                    self.add_or_update_article(
+                        **{
+                            "manuscript_id": self.msid,
+                            "version": 1,
+                            "published": "2017-07-11T00:00:00Z",
+                        }
+                    )
 
                     self.publish_ajson(content)
-                    actual_resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}), HTTP_ACCEPT=request)
+                    actual_resp = self.c.get(
+                        reverse("v2:article", kwargs={"msid": self.msid}),
+                        HTTP_ACCEPT=request,
+                    )
                     self.assertEqual(actual_resp.status_code, 200)
                     # response is valid
-                    self.assertTrue(utils.validate(actual_resp.json(), schema_idx[rskey]))
+                    self.assertTrue(
+                        utils.validate(actual_resp.json(), schema_idx[rskey])
+                    )
                     # response is equal to what we're expecting
                     actual_json = self.load_ajson2(actual_resp.json())
                     # slightly more isolated error messages
@@ -108,14 +112,20 @@ class One(base.BaseCase):
     # deprecation notice
 
     def test_v1_requests_deprecation_notice_present(self):
-        v1_only = 'application/vnd.elife.article-poa+json; version=1'
-        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}), HTTP_ACCEPT=v1_only)
-        self.assertEqual(resp['warning'], "Deprecation: Support for version 1 will be removed")
+        v1_only = "application/vnd.elife.article-poa+json; version=1"
+        resp = self.c.get(
+            reverse("v2:article", kwargs={"msid": self.msid}), HTTP_ACCEPT=v1_only
+        )
+        self.assertEqual(
+            resp["warning"], "Deprecation: Support for version 1 will be removed"
+        )
 
     def test_v2_requests_deprecation_notice_absent(self):
-        v2_only = 'application/vnd.elife.article-poa+json; version=2'
-        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}), HTTP_ACCEPT=v2_only)
-        self.assertFalse(resp.has_header('warning'))
+        v2_only = "application/vnd.elife.article-poa+json; version=2"
+        resp = self.c.get(
+            reverse("v2:article", kwargs={"msid": self.msid}), HTTP_ACCEPT=v2_only
+        )
+        self.assertFalse(resp.has_header("warning"))
 
     # 2018-06-26: with stricter accepts handling, this request no longer succeeds.
     # it says it only accepts v1 POA articles but will get an article-list mime type
@@ -126,5 +136,5 @@ class One(base.BaseCase):
 
     # 2018-06-26: slightly better version
     def test_requests_deprecation_notice_absent_from_non_article_views(self):
-        resp = self.c.get(reverse('v2:article', kwargs={'msid': self.msid}))
-        self.assertFalse(resp.has_header('warning'))
+        resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid}))
+        self.assertFalse(resp.has_header("warning"))

@@ -9,38 +9,48 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0028_auto_20161011_1627'),
-    ]
+    dependencies = [("publisher", "0028_auto_20161011_1627")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='articleversion',
-            name='article_json_v1_raw',
-        ),
+        migrations.RemoveField(model_name="articleversion", name="article_json_v1_raw"),
         migrations.AddField(
-            model_name='articleversion',
-            name='article_json_v1_snippet',
-            field=annoying.fields.JSONField(blank=True, help_text=b'Valid article-json snippet, extracted from the valid article-json', null=True),
+            model_name="articleversion",
+            name="article_json_v1_snippet",
+            field=annoying.fields.JSONField(
+                blank=True,
+                help_text=b"Valid article-json snippet, extracted from the valid article-json",
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='articlefragment',
-            name='article',
-            field=models.ForeignKey(help_text=b'all fragments belong to an article, only some fragments belong to an article version', on_delete=django.db.models.deletion.CASCADE, to='publisher.Article'),
+            model_name="articlefragment",
+            name="article",
+            field=models.ForeignKey(
+                help_text=b"all fragments belong to an article, only some fragments belong to an article version",
+                on_delete=django.db.models.deletion.CASCADE,
+                to="publisher.Article",
+            ),
         ),
         migrations.AlterField(
-            model_name='articlefragment',
-            name='fragment',
-            field=annoying.fields.JSONField(help_text=b'partial piece of article data to be merged in'),
+            model_name="articlefragment",
+            name="fragment",
+            field=annoying.fields.JSONField(
+                help_text=b"partial piece of article data to be merged in"
+            ),
         ),
         migrations.AlterField(
-            model_name='articlefragment',
-            name='version',
-            field=models.PositiveSmallIntegerField(help_text=b'if null, fragment applies only to a specific version of article', null=True),
+            model_name="articlefragment",
+            name="version",
+            field=models.PositiveSmallIntegerField(
+                help_text=b"if null, fragment applies only to a specific version of article",
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1',
-            field=annoying.fields.JSONField(blank=True, help_text=b'Valid article-json.', null=True),
+            model_name="articleversion",
+            name="article_json_v1",
+            field=annoying.fields.JSONField(
+                blank=True, help_text=b"Valid article-json.", null=True
+            ),
         ),
     ]

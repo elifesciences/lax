@@ -18,12 +18,13 @@ LOG = logging.getLogger(__name__)
 
 _dynamic_types = [
     # prefix of the global variable name to create, media type, known version list
-    ('ArticleList', 'application/vnd.elife.article-list+json', [None, 1]),
-    ('POAArticle', 'application/vnd.elife.article-poa+json', [None, 1, 2]),
-    ('VORArticle', 'application/vnd.elife.article-vor+json', [None, 1, 2]),
-    ('ArticleHistory', 'application/vnd.elife.article-history+json', [None, 1]),
-    ('ArticleRelated', 'application/vnd.elife.article-related+json', [None, 1]),
+    ("ArticleList", "application/vnd.elife.article-list+json", [None, 1]),
+    ("POAArticle", "application/vnd.elife.article-poa+json", [None, 1, 2]),
+    ("VORArticle", "application/vnd.elife.article-vor+json", [None, 1, 2]),
+    ("ArticleHistory", "application/vnd.elife.article-history+json", [None, 1]),
+    ("ArticleRelated", "application/vnd.elife.article-related+json", [None, 1]),
 ]
+
 
 def mktype(row):
     nom, mime, version_list = row
@@ -32,18 +33,20 @@ def mktype(row):
         if version:
             return "%sVersion%s" % (nom, version), "%s; version=%s" % (mime, version)
         return nom, mime
+
     klass_list = lmap(gen_klass_name, version_list)
 
     global_scope = globals()
 
     def gen_klass(klass_row):
         nom, mime = klass_row
-        global_scope[nom] = type(nom, (JSONRenderer,), {'media_type': mime})
+        global_scope[nom] = type(nom, (JSONRenderer,), {"media_type": mime})
         # ll: ('publisher.negotiation.ArticleListVersion1', 'application/vnd.elife.article-list+json; version=1')
         # we use the return type in settings.py
-        return 'publisher.negotiation.%s' % nom, mime
+        return "publisher.negotiation.%s" % nom, mime
 
     return lmap(gen_klass, klass_list)
+
 
 # creates two lists from the pair returned in mktype.gen_klass
 # these are used in core.settings

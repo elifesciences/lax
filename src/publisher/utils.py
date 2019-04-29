@@ -26,8 +26,10 @@ keys = lambda d: list(d.keys())
 
 lzip = lambda *iterable: list(zip(*iterable))
 
+
 def formatted_traceback(errobj):
-    return ''.join(traceback.format_tb(errobj.__traceback__))
+    return "".join(traceback.format_tb(errobj.__traceback__))
+
 
 class StateError(RuntimeError):
 
@@ -54,18 +56,20 @@ class StateError(RuntimeError):
 
         # if exception object has a 'trace' attribute, use that,
         # else just stringify the thing
-        return getattr(traceobj, 'trace', None) or str(traceobj)
+        return getattr(traceobj, "trace", None) or str(traceobj)
+
 
 class LaxAssertionError(AssertionError):
     @property
     def message(self):
         return self.args[0]
 
+
 def atomic(fn):
     def wrapper(*args, **kwargs):
-        result, rollback_key = None, 'dry run rollback'
+        result, rollback_key = None, "dry run rollback"
         # NOTE: dry_run must always be passed as keyword parameter (dry_run=True)
-        dry_run = kwargs.pop('dry_run', False)
+        dry_run = kwargs.pop("dry_run", False)
         try:
             with transaction.atomic():
                 result = fn(*args, **kwargs)
@@ -80,10 +84,13 @@ def atomic(fn):
                 return result
             # this was some other IntegrityError
             raise
+
     return wrapper
+
 
 def freshen(obj):
     return type(obj).objects.get(pk=obj.pk)
+
 
 def ensure(assertion, msg):
     """intended as a convenient replacement for `assert` statements that
@@ -91,14 +98,16 @@ def ensure(assertion, msg):
     if not assertion:
         raise LaxAssertionError(msg)
 
-def resolve_path(p, ext='.json'):
+
+def resolve_path(p, ext=".json"):
     "returns a list of absolute paths given a file or a directory"
     p = os.path.abspath(p)
     if os.path.isdir(p):
-        paths = glob.glob("%s/*%s" % (p.rstrip('/'), ext))
+        paths = glob.glob("%s/*%s" % (p.rstrip("/"), ext))
         paths.sort(reverse=True)
         return paths
     return [p]
+
 
 def isint(v):
     try:
@@ -107,31 +116,42 @@ def isint(v):
     except (ValueError, TypeError):
         return False
 
+
 def mk_dxdoi_link(doi):
     return "https://dx.doi.org/%s" % doi
+
 
 def pad_msid(msid):
     return "%05d" % int(msid)
 
+
 def doi2msid(doi):
     "doi to manuscript id used in EJP"
-    prefix = '10.7554/eLife.'
-    return doi[len(prefix):].lstrip('0')
+    prefix = "10.7554/eLife."
+    return doi[len(prefix) :].lstrip("0")
+
 
 def msid2doi(msid):
     assert isint(msid), "given msid must be an integer: %r" % msid
-    return '10.7554/eLife.%s' % pad_msid(msid)
+    return "10.7554/eLife.%s" % pad_msid(msid)
+
 
 def version_from_path(path):
-    _, msid, ver = os.path.split(path)[-1].split('-') # ll: ['elife', '09560', 'v1.xml']
-    ver = ver[1] # "v1.xml" -> "1"
+    _, msid, ver = os.path.split(path)[-1].split(
+        "-"
+    )  # ll: ['elife', '09560', 'v1.xml']
+    ver = ver[1]  # "v1.xml" -> "1"
     return int(msid), int(ver)
+
 
 def compfilter(fnlist):
     "returns true if given val "
+
     def fn(val):
         return all([fn(val) for fn in fnlist])
+
     return fn
+
 
 def nth(idx, x):
     # 'nth' implies a sequential collection
@@ -146,30 +166,38 @@ def nth(idx, x):
     except TypeError:
         raise
 
+
 def first(x):
     return nth(0, x)
 
+
 def second(x):
     return nth(1, x)
+
 
 def firstnn(x):
     "given sequential `x`, returns the first non-nil value"
     return first(lfilter(None, x))
 
+
 def delall(ddict, lst):
     "mutator. "
+
     def delkey(key):
         try:
             del ddict[key]
             return True
         except KeyError:
             return False
+
     return list(zip(lst, lmap(delkey, lst)))
+
 
 def ymd(dt):
     "returns a simple YYYY-MM-DD representation of a datetime object"
     if dt:
         return dt.strftime("%Y-%m-%d")
+
 
 def todt(val):
     "turn almost any formatted datetime string into a UTC datetime object"
@@ -178,7 +206,7 @@ def todt(val):
     dt = val
     if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
-    dt.replace(microsecond=0) # not useful, never been useful, will never be useful.
+    dt.replace(microsecond=0)  # not useful, never been useful, will never be useful.
 
     if not dt.tzinfo:
         # no timezone (naive), assume UTC and make it explicit
@@ -192,15 +220,17 @@ def todt(val):
             return dt.astimezone(pytz.utc)
     return dt
 
+
 def utcnow():
     "returns a UTC datetime stamp with a UTC timezone object attached"
     # there is a datetime.utcnow(), but it doesn't attach a timezone object
     return datetime.now(pytz.utc).replace(microsecond=0)
 
+
 def ymdhms(dt):
     "returns an rfc3339 representation of a datetime object"
     if dt:
-        dt = todt(dt) # convert to utc, etc
+        dt = todt(dt)  # convert to utc, etc
         return rfc3339(dt, utc=True)
 
 
@@ -214,17 +244,21 @@ def flatten(container):
         else:
             yield i
 
+
 def future_date(date):
     "predicate. returns True if given timezone-aware date is in the future"
     return date > timezone.now()
+
 
 def subdict(dt, ks):
     "returns a copy of the given dictionary `dt` with only the keys `ks` included"
     return {k: v for k, v in dt.items() if k in ks}
 
+
 def exsubdict(dt, ks):
     "same as subdict, but exclusionary"
     return {k: v for k, v in dt.items() if k not in ks}
+
 
 def dictmap(func, data, **funcargs):
     "applies the given function over the values of the given data map. optionally passes any keyword args"
@@ -232,9 +266,11 @@ def dictmap(func, data, **funcargs):
         func = partial(func, **funcargs)
     return {k: func(v) for k, v in data.items()}
 
+
 def has_all_keys(data, expected_keys):
     actual_keys = keys(data)
     return all([key in actual_keys for key in expected_keys])
+
 
 def renkey(ddict, oldkey, newkey):
     "renames a key in ddict from oldkey to newkey"
@@ -243,9 +279,11 @@ def renkey(ddict, oldkey, newkey):
         del ddict[oldkey]
     return ddict
 
+
 def renkeys(ddict, pair_list):
     for oldkey, newkey in pair_list:
         renkey(ddict, oldkey, newkey)
+
 
 def to_dict(instance):
     opts = instance._meta
@@ -255,7 +293,9 @@ def to_dict(instance):
             if instance.pk is None:
                 data[f.name] = []
             else:
-                data[f.name] = list(f.value_from_object(instance).values_list('pk', flat=True))
+                data[f.name] = list(
+                    f.value_from_object(instance).values_list("pk", flat=True)
+                )
         else:
             data[f.name] = f.value_from_object(instance)
     return data
@@ -263,21 +303,29 @@ def to_dict(instance):
 
 def json_loads(data, *args, **kwargs):
     if isinstance(data, bytes):
-        data = data.decode('utf-8')
+        data = data.decode("utf-8")
     return json.loads(data, *args, **kwargs)
+
 
 def ordered_json_loads(data):
     "same as json_loads, just ensures order is preserved when loading maps"
     return json_loads(data, object_pairs_hook=OrderedDict)
 
+
 def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
+
     def _handler(obj):
-        if hasattr(obj, 'isoformat'):
+        if hasattr(obj, "isoformat"):
             return ymdhms(obj)
         else:
-            raise TypeError('Object of type %s with value of %s is not JSON serializable' % (type(obj), repr(obj)))
+            raise TypeError(
+                "Object of type %s with value of %s is not JSON serializable"
+                % (type(obj), repr(obj))
+            )
+
     return json.dumps(obj, default=_handler, **kwargs)
+
 
 # http://stackoverflow.com/questions/29847098/the-best-way-to-merge-multi-nested-dictionaries-in-python-2-7
 def deepmerge(d1, d2):
@@ -289,14 +337,20 @@ def deepmerge(d1, d2):
             d1[k] = d2[k]
     return d1
 
+
 def merge_all(dict_list):
-    ensure(all([isinstance(r, dict) for r in dict_list]), "not all given values are dictionaries!")
+    ensure(
+        all([isinstance(r, dict) for r in dict_list]),
+        "not all given values are dictionaries!",
+    )
     return reduce(deepmerge, dict_list)
+
 
 def boolkey(*args):
     """given N values, returns a tuple of their truthiness.
     for example: boolkey(0, 1, 2) => (False, True, True)"""
     return tuple([not not v for v in args])
+
 
 # https://www.peterbe.com/plog/fastest-way-to-uniquify-a-list-in-python-3.6
 # def f12(seq):
@@ -305,13 +359,16 @@ def unique(seq):
     # https://twitter.com/raymondh/status/944125570534621185
     return list(dict.fromkeys(seq))
 
+
 #
 #
 #
 
+
 @cache
 def load_schema(schema_path):
-    return json.load(open(schema_path, 'r', encoding='utf-8'))
+    return json.load(open(schema_path, "r", encoding="utf-8"))
+
 
 def validate(struct, schema_path):
     try:
@@ -328,7 +385,7 @@ def validate(struct, schema_path):
 
     except ValueError:
         # json schema is broken
-        #raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
+        # raise ValidationError("validation error: '%s' for: %s" % (err.message, struct))
         raise
 
     except ValidationError as err:
@@ -336,8 +393,11 @@ def validate(struct, schema_path):
         v = jsonschema.Draft4Validator(schema)
         err.error_list = list(v.iter_errors(struct))
         err.count = len(err.error_list)
-        err.message, err.trace = format_validation_error_list(err.error_list, schema_path)
+        err.message, err.trace = format_validation_error_list(
+            err.error_list, schema_path
+        )
         raise err
+
 
 def flatten_validation_errors(error):
     """an error can have sub-errors and each sub-error can have it's own errors (a tree).
@@ -352,9 +412,10 @@ def flatten_validation_errors(error):
     rt.append(error)
     return rt
 
+
 def validation_error_detail(err, schema_file):
     "returns a rendered template using the given error and origin schema file"
-    error = '''This:
+    error = """This:
 
 {instance}
 
@@ -366,29 +427,39 @@ It fails the schema:
 
 found at: {schema_path}
 
-in the schema file: {schema_file}'''
+in the schema file: {schema_file}"""
     instance = json.dumps(err.instance, indent=4)
-    if '\n' not in instance:
-        instance = '    %s' % instance # give the simple value an indent
-    return error.format(**{
-        'instance': instance,
-        'message': err.message,
-        'schema': json.dumps(err.schema, indent=4),
-        'schema_path': ' > '.join(map(str, list(err.relative_schema_path))),
-        'schema_file': os.path.basename(schema_file)})
+    if "\n" not in instance:
+        instance = "    %s" % instance  # give the simple value an indent
+    return error.format(
+        **{
+            "instance": instance,
+            "message": err.message,
+            "schema": json.dumps(err.schema, indent=4),
+            "schema_path": " > ".join(map(str, list(err.relative_schema_path))),
+            "schema_file": os.path.basename(schema_file),
+        }
+    )
+
 
 def validation_error_summary(sorted_error_list):
     "returns a rendered template for the given error list"
-    error = '''Data fails to validate against multiple schemas.
+    error = """Data fails to validate against multiple schemas.
 Possible reasons (smallest, most relevant, errors first):
 
 {enumerated_error_list}
 
-The full errors including their schema are attached to this error as a 'trace', indexed by their number above.'''
-    sub_error_list = ['{idx}. {message}'.format(idx=i + 1, message=err.message) for i, err in enumerate(sorted_error_list)]
-    sub_error_list = unique(sub_error_list)[:10] # cap the number to something sensible, remove dupes.
-    sub_error_str = '\n\n'.join(sub_error_list)
+The full errors including their schema are attached to this error as a 'trace', indexed by their number above."""
+    sub_error_list = [
+        "{idx}. {message}".format(idx=i + 1, message=err.message)
+        for i, err in enumerate(sorted_error_list)
+    ]
+    sub_error_list = unique(sub_error_list)[
+        :10
+    ]  # cap the number to something sensible, remove dupes.
+    sub_error_str = "\n\n".join(sub_error_list)
     return error.format(enumerated_error_list=sub_error_str)
+
 
 def format_validation_error(error, schema_file):
     """formats the given error. if error is one of many failures, a summary formatted error is returned.
@@ -410,9 +481,14 @@ def format_validation_error(error, schema_file):
         big_message = len(ve.message) > 75
         new_relevance = (big_message, neg_path_len, weak_ve, strong_ve)
         return new_relevance
+
     suberror_list = sorted(suberror_list, key=sorter)
 
-    return validation_error_summary(suberror_list), [validation_error_detail(err, schema_file) for err in suberror_list]
+    return (
+        validation_error_summary(suberror_list),
+        [validation_error_detail(err, schema_file) for err in suberror_list],
+    )
+
 
 def format_validation_error_list(error_list, schema_file):
     """same as `format_validation_error` but applied to a list of them.
@@ -422,20 +498,25 @@ def format_validation_error_list(error_list, schema_file):
     trace_list = []
     sep = "\n%s\n" % ("-" * 40,)
 
-    total_errors = len(error_list) # realises lazy list
+    total_errors = len(error_list)  # realises lazy list
     many_errors = total_errors > settings.NUM_SCHEMA_ERRORS
-    for i, error in enumerate(error_list[:settings.NUM_SCHEMA_ERRORS]):
+    for i, error in enumerate(error_list[: settings.NUM_SCHEMA_ERRORS]):
         _msg, sub_msg_list = format_validation_error(error, schema_file)
 
         # (error 1 of 2) ...
         msg = "(error %s of %s)\n\n%s\n" % (i + 1, total_errors, _msg)
         if many_errors:
             # (error 1 of 10, 190 total)
-            msg = "(error %s of %s, %s total)\n\n%s\n" % (i + 1, settings.NUM_SCHEMA_ERRORS, total_errors, _msg)
+            msg = "(error %s of %s, %s total)\n\n%s\n" % (
+                i + 1,
+                settings.NUM_SCHEMA_ERRORS,
+                total_errors,
+                _msg,
+            )
 
         # note: sub_msg will be an empty string if no sub-errors exist
         _subs = []
-        for j, sub_msg in enumerate(sub_msg_list[:settings.NUM_SCHEMA_ERROR_SUBS]):
+        for j, sub_msg in enumerate(sub_msg_list[: settings.NUM_SCHEMA_ERROR_SUBS]):
             # (error 1, possibility 2) ... This: foo ... is not valid because: ...
             _subs.append("(error %s, possibility %s)\n\n%s\n" % (i + 1, j + 1, sub_msg))
         sub_msg = sep.join(_subs)
@@ -448,6 +529,7 @@ def format_validation_error_list(error_list, schema_file):
 
     return msg, trace
 
+
 #
 #
 #
@@ -458,16 +540,20 @@ def partial_match(patn, real):
     """does real dict match pattern?"""
     for pkey, pvalue in patn.items():
         if isinstance(pvalue, dict):
-            partial_match(pvalue, real[pkey]) # recurse
+            partial_match(pvalue, real[pkey])  # recurse
         else:
             ensure(real[pkey] == pvalue, "%s != %s" % (real[pkey], pvalue))
     return True
 
+
 #
 #
 #
 
-def create_or_update(Model, orig_data, key_list=None, create=True, update=True, commit=True, **overrides):
+
+def create_or_update(
+    Model, orig_data, key_list=None, create=True, update=True, commit=True, **overrides
+):
     inst = None
     created = updated = False
     data = {}

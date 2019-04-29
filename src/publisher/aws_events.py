@@ -10,6 +10,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+
 def sns_topic_arn():
     "returns an arn path to an AWS event bus. this is used to connect and send/receive events"
     vals = {}
@@ -19,22 +20,27 @@ def sns_topic_arn():
     LOG.info("using topic arn: %s", arn)
     return arn
 
+
 def event_bus_conn():
-    sns = boto3.resource('sns')
+    sns = boto3.resource("sns")
     return sns.Topic(sns_topic_arn())
 
+
 #
 #
 #
 
+
 def get_queue():
-    if os.environ.get('LAX_MULTIPROCESSING'):
+    if os.environ.get("LAX_MULTIPROCESSING"):
         mp_manager = settings.MP_MANAGER
         call_queue = mp_manager.Queue()
         return call_queue
     return queue.Queue()
 
-SAFEWORD = START = STOP = 'cacao'
+
+SAFEWORD = START = STOP = "cacao"
+
 
 def defer(fn):
     """calls function normally until safeword is received then buffers all requests until the safeword is called again.
@@ -50,7 +56,7 @@ def defer(fn):
     @wraps(fn)
     def wrapper(*args):
         arg = args[0]
-        nonlocal deferring # stateful!
+        nonlocal deferring  # stateful!
 
         if arg == SAFEWORD:
             deferring = not deferring
@@ -80,12 +86,14 @@ def defer(fn):
 
         # we're not deferring, call wrapped fn as normal
         return fn(*args)
+
     return wrapper
 
 
 #
 #
 #
+
 
 @defer
 def notify(msid):
@@ -96,24 +104,35 @@ def notify(msid):
     try:
         msg = {"type": "article", "id": msid}
         msg_json = json.dumps(msg)
-        LOG.debug("writing message to event bus", extra={'bus-message': msg_json})
+        LOG.debug("writing message to event bus", extra={"bus-message": msg_json})
         event_bus_conn().publish(Message=msg_json)
-        return msg_json # used only for testing
+        return msg_json  # used only for testing
 
     except ValueError as err:
         # probably serializing value
-        LOG.error("failed to serialize event bus payload %s", err, extra={'bus-message': msg_json})
+        LOG.error(
+            "failed to serialize event bus payload %s",
+            err,
+            extra={"bus-message": msg_json},
+        )
 
     except KeyboardInterrupt:
         LOG.warn("ctrl-c caught caught during `notify`")
         raise
 
     except BaseException as err:
-        LOG.exception("unhandled error attempting to notify event bus of article change: %s", err)
+        LOG.exception(
+            "unhandled error attempting to notify event bus of article change: %s", err
+        )
+
 
 def notify_relations(av):
     "notify event bus of changes to an article version's related articles"
-    [notify(art.manuscript_id) for art in relationships.internal_relationships_for_article_version(av)]
+    [
+        notify(art.manuscript_id)
+        for art in relationships.internal_relationships_for_article_version(av)
+    ]
+
 
 def notify_all(av):
     notify(av.article.manuscript_id)

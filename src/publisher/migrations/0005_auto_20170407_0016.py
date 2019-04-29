@@ -7,14 +7,27 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0004_auto_20170323_2350'),
-    ]
+    dependencies = [("publisher", "0004_auto_20170323_2350")]
 
     operations = [
         migrations.AlterField(
-            model_name='article',
-            name='ejp_type',
-            field=models.CharField(blank=True, choices=[('RA', 'Research article'), ('SR', 'Short report'), ('AV', 'Research advance'), ('RR', 'Registered report'), ('TR', 'Tools and resources'), ('RE', 'Research exchange'), ('SC', 'Scientific Correspondence'), ('RS', 'Replication Study')], help_text='article as exported from EJP submission system', max_length=3, null=True),
-        ),
+            model_name="article",
+            name="ejp_type",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("RA", "Research article"),
+                    ("SR", "Short report"),
+                    ("AV", "Research advance"),
+                    ("RR", "Registered report"),
+                    ("TR", "Tools and resources"),
+                    ("RE", "Research exchange"),
+                    ("SC", "Scientific Correspondence"),
+                    ("RS", "Replication Study"),
+                ],
+                help_text="article as exported from EJP submission system",
+                max_length=3,
+                null=True,
+            ),
+        )
     ]

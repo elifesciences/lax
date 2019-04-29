@@ -8,26 +8,55 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0002_auto_20170321_0226'),
-    ]
+    dependencies = [("publisher", "0002_auto_20170321_0226")]
 
     operations = [
         migrations.CreateModel(
-            name='ArticleEvent',
+            name="ArticleEvent",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('event', models.CharField(choices=[('date-xml-received', 'date received (XML)'), ('date-xml-accepted', 'date accepted (XML)'), ('datetime-action-ingest', "'ingest' event"), ('datetime-action-publish', "'publish' event")], max_length=25)),
-                ('datetime_event', models.DateTimeField()),
-                ('value', models.CharField(blank=True, help_text='a value, if any, associated with this event', max_length=50, null=True)),
-                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publisher.Article')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "event",
+                    models.CharField(
+                        choices=[
+                            ("date-xml-received", "date received (XML)"),
+                            ("date-xml-accepted", "date accepted (XML)"),
+                            ("datetime-action-ingest", "'ingest' event"),
+                            ("datetime-action-publish", "'publish' event"),
+                        ],
+                        max_length=25,
+                    ),
+                ),
+                ("datetime_event", models.DateTimeField()),
+                (
+                    "value",
+                    models.CharField(
+                        blank=True,
+                        help_text="a value, if any, associated with this event",
+                        max_length=50,
+                        null=True,
+                    ),
+                ),
+                (
+                    "article",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="publisher.Article",
+                    ),
+                ),
             ],
-            options={
-                'ordering': ('datetime_event', 'event'),
-            },
+            options={"ordering": ("datetime_event", "event")},
         ),
         migrations.AlterUniqueTogether(
-            name='articleevent',
-            unique_together=set([('article', 'event', 'datetime_event')]),
+            name="articleevent",
+            unique_together=set([("article", "event", "datetime_event")]),
         ),
     ]

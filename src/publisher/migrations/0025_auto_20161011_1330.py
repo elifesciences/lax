@@ -8,24 +8,30 @@ import annoying.fields
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0024_auto_20161006_1745'),
-    ]
+    dependencies = [("publisher", "0024_auto_20161006_1745")]
 
     operations = [
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1',
-            field=annoying.fields.JSONField(blank=True, help_text=b'Valid article-json.', null=True),
+            model_name="articleversion",
+            name="article_json_v1",
+            field=annoying.fields.JSONField(
+                blank=True, help_text=b"Valid article-json.", null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1_raw',
-            field=annoying.fields.JSONField(blank=True, help_text=b'raw input article json we receive from different places', null=True),
+            model_name="articleversion",
+            name="article_json_v1_raw",
+            field=annoying.fields.JSONField(
+                blank=True,
+                help_text=b"raw input article json we receive from different places",
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1_snippet',
-            field=annoying.fields.JSONField(blank=True, help_text=b'Valid article-json snippet.', null=True),
+            model_name="articleversion",
+            name="article_json_v1_snippet",
+            field=annoying.fields.JSONField(
+                blank=True, help_text=b"Valid article-json snippet.", null=True
+            ),
         ),
     ]

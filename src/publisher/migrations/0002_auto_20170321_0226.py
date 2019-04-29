@@ -7,19 +7,21 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0001_squashed_0040_auto_20170315_0459'),
-    ]
+    dependencies = [("publisher", "0001_squashed_0040_auto_20170315_0459")]
 
     operations = [
         migrations.AlterField(
-            model_name='article',
-            name='doi',
-            field=models.CharField(help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum", max_length=255, unique=True),
+            model_name="article",
+            name="doi",
+            field=models.CharField(
+                help_text="Article's unique ID in the wider world. All articles must have one as an absolute minimum",
+                max_length=255,
+                unique=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='articlefragment',
-            name='datetime_record_created',
+            model_name="articlefragment",
+            name="datetime_record_created",
             field=models.DateTimeField(auto_now_add=True),
         ),
     ]

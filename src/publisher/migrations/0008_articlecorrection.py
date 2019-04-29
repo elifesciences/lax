@@ -8,18 +8,42 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0007_auto_20150923_1519'),
-    ]
+    dependencies = [("publisher", "0007_auto_20150923_1519")]
 
     operations = [
         migrations.CreateModel(
-            name='ArticleCorrection',
+            name="ArticleCorrection",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.TextField(blank=True, help_text=b'free text to describe what the correction was. optional.', null=True)),
-                ('datetime_corrected', models.DateTimeField(help_text=b'Date and time a correction was made to this article.')),
-                ('article', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publisher.Article')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        blank=True,
+                        help_text=b"free text to describe what the correction was. optional.",
+                        null=True,
+                    ),
+                ),
+                (
+                    "datetime_corrected",
+                    models.DateTimeField(
+                        help_text=b"Date and time a correction was made to this article."
+                    ),
+                ),
+                (
+                    "article",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="publisher.Article",
+                    ),
+                ),
             ],
-        ),
+        )
     ]

@@ -7,13 +7,8 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0016_auto_20160905_1603'),
-    ]
+    dependencies = [("publisher", "0016_auto_20160905_1603")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='article',
-            name='datetime_submitted',
-        ),
+        migrations.RemoveField(model_name="article", name="datetime_submitted")
     ]

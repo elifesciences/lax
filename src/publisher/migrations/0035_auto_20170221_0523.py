@@ -9,22 +9,44 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0034_auto_20170220_0714'),
-    ]
+    dependencies = [("publisher", "0034_auto_20170220_0714")]
 
     operations = [
         migrations.CreateModel(
-            name='ArticleVersionExtRelation',
+            name="ArticleVersionExtRelation",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uri', models.URLField(help_text='location of external object', max_length=2000)),
-                ('citation', annoying.fields.JSONField(help_text='snippet of json describing the external link')),
-                ('articleversion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publisher.ArticleVersion')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "uri",
+                    models.URLField(
+                        help_text="location of external object", max_length=2000
+                    ),
+                ),
+                (
+                    "citation",
+                    annoying.fields.JSONField(
+                        help_text="snippet of json describing the external link"
+                    ),
+                ),
+                (
+                    "articleversion",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="publisher.ArticleVersion",
+                    ),
+                ),
             ],
         ),
         migrations.AlterUniqueTogether(
-            name='articleversionextrelation',
-            unique_together=set([('articleversion', 'uri')]),
+            name="articleversionextrelation",
+            unique_together=set([("articleversion", "uri")]),
         ),
     ]
