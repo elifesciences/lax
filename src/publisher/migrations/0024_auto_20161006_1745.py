@@ -7,27 +7,14 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0023_auto_20160926_1038'),
-    ]
+    dependencies = [("publisher", "0023_auto_20160926_1038")]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='articleattribute',
-            unique_together=set([]),
+            name="articleattribute", unique_together=set([])
         ),
-        migrations.RemoveField(
-            model_name='articleattribute',
-            name='article',
-        ),
-        migrations.RemoveField(
-            model_name='articleattribute',
-            name='key',
-        ),
-        migrations.DeleteModel(
-            name='ArticleAttribute',
-        ),
-        migrations.DeleteModel(
-            name='AttributeType',
-        ),
+        migrations.RemoveField(model_name="articleattribute", name="article"),
+        migrations.RemoveField(model_name="articleattribute", name="key"),
+        migrations.DeleteModel(name="ArticleAttribute"),
+        migrations.DeleteModel(name="AttributeType"),
     ]

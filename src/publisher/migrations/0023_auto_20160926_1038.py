@@ -7,14 +7,14 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0022_auto_20160926_1010'),
-    ]
+    dependencies = [("publisher", "0022_auto_20160926_1010")]
 
     operations = [
         migrations.AlterField(
-            model_name='journal',
-            name='name',
-            field=models.CharField(help_text=b'Name of the journal.', max_length=255, unique=True),
-        ),
+            model_name="journal",
+            name="name",
+            field=models.CharField(
+                help_text=b"Name of the journal.", max_length=255, unique=True
+            ),
+        )
     ]

@@ -9,34 +9,57 @@ import publisher.utils
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0007_auto_20170721_0857'),
-    ]
+    dependencies = [("publisher", "0007_auto_20170721_0857")]
 
     operations = [
         migrations.AddField(
-            model_name='articleversion',
-            name='article_json_hash',
-            field=models.CharField(blank=True, help_text='md5 digest of merged result. see `fragment_logic.hash_ajson` for algorithm', max_length=32, null=True),
+            model_name="articleversion",
+            name="article_json_hash",
+            field=models.CharField(
+                blank=True,
+                help_text="md5 digest of merged result. see `fragment_logic.hash_ajson` for algorithm",
+                max_length=32,
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='articlefragment',
-            name='fragment',
-            field=annoying.fields.JSONField(deserializer=publisher.utils.ordered_json_loads, help_text='partial piece of article data to be merged in', serializer=publisher.utils.json_dumps),
+            model_name="articlefragment",
+            name="fragment",
+            field=annoying.fields.JSONField(
+                deserializer=publisher.utils.ordered_json_loads,
+                help_text="partial piece of article data to be merged in",
+                serializer=publisher.utils.json_dumps,
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1',
-            field=annoying.fields.JSONField(blank=True, deserializer=publisher.utils.ordered_json_loads, help_text='Valid article-json.', null=True, serializer=publisher.utils.json_dumps),
+            model_name="articleversion",
+            name="article_json_v1",
+            field=annoying.fields.JSONField(
+                blank=True,
+                deserializer=publisher.utils.ordered_json_loads,
+                help_text="Valid article-json.",
+                null=True,
+                serializer=publisher.utils.json_dumps,
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversion',
-            name='article_json_v1_snippet',
-            field=annoying.fields.JSONField(blank=True, deserializer=publisher.utils.ordered_json_loads, help_text='Valid article-json snippet, extracted from the valid article-json', null=True, serializer=publisher.utils.json_dumps),
+            model_name="articleversion",
+            name="article_json_v1_snippet",
+            field=annoying.fields.JSONField(
+                blank=True,
+                deserializer=publisher.utils.ordered_json_loads,
+                help_text="Valid article-json snippet, extracted from the valid article-json",
+                null=True,
+                serializer=publisher.utils.json_dumps,
+            ),
         ),
         migrations.AlterField(
-            model_name='articleversionextrelation',
-            name='citation',
-            field=annoying.fields.JSONField(deserializer=publisher.utils.ordered_json_loads, help_text='snippet of json describing the external link', serializer=publisher.utils.json_dumps),
+            model_name="articleversionextrelation",
+            name="citation",
+            field=annoying.fields.JSONField(
+                deserializer=publisher.utils.ordered_json_loads,
+                help_text="snippet of json describing the external link",
+                serializer=publisher.utils.json_dumps,
+            ),
         ),
     ]

@@ -10,17 +10,19 @@ from django.db import transaction
 
 LOG = logging.getLogger(__name__)
 
+
 def _getids(x):
     # TODO: this function is poor. split into several smaller ones with well defined signatures
     if utils.isint(x):
         # id is a msid
-        return {'article': models.Article.objects.get(manuscript_id=x)}
+        return {"article": models.Article.objects.get(manuscript_id=x)}
     elif isinstance(x, models.Article):
-        return {'article': x}
+        return {"article": x}
     elif isinstance(x, models.ArticleVersion):
-        return {'article': x.article, 'version': x.version}
+        return {"article": x.article, "version": x.version}
     else:
         raise TypeError("failed to add article fragment, unhandled type %r" % type(x))
+
 
 def add(x, ftype, fragment, pos=1, update=False):
     "adds given fragment to database. if fragment at this article+type+version exists, it will be overwritten"
@@ -29,51 +31,49 @@ def add(x, ftype, fragment, pos=1, update=False):
     # if ftype != models.XML2JSON:
     #    verboten_keys = ['published', 'versionDate']
     #    ensure(not subdict(fragment, verboten_keys), "fragment contains illegal keys. illegal keys: %s" % (", ".join(verboten_keys),))
-    data = {
-        'version': None,
-        'type': ftype,
-        'fragment': fragment,
-        'position': pos
-    }
+    data = {"version": None, "type": ftype, "fragment": fragment, "position": pos}
     data.update(_getids(x))
-    key = ['article', 'type', 'version']
-    frag, created, updated = create_or_update(models.ArticleFragment, data, key, update=update)
+    key = ["article", "type", "version"]
+    frag, created, updated = create_or_update(
+        models.ArticleFragment, data, key, update=update
+    )
     return frag, created, updated
 
+
 def rm(msid, ftype):
-    fragment = models.ArticleFragment.objects.get(article__manuscript_id=msid, type=ftype)
+    fragment = models.ArticleFragment.objects.get(
+        article__manuscript_id=msid, type=ftype
+    )
     fragment.delete()
 
+
 def get(x, ftype):
-    kwargs = {
-        'type': ftype
-    }
+    kwargs = {"type": ftype}
     kwargs.update(_getids(x))
     return models.ArticleFragment.objects.get(**kwargs)
+
 
 def merge(av):
     """returns the merged result for a particlar article version"""
     # all fragments belonging to this specific article version or
     # to this article in general
-    fragments = models.ArticleFragment.objects \
-        .filter(article=av.article) \
-        .filter(Q(version=av.version) | Q(version=None))
+    fragments = models.ArticleFragment.objects.filter(article=av.article).filter(
+        Q(version=av.version) | Q(version=None)
+    )
     if not fragments:
         raise StateError(codes.NO_RECORD, "%r has no fragments that can be merged" % av)
     return utils.merge_all([f.fragment for f in fragments])
+
 
 def valid(merge_result, quiet=True):
     """returns True if the merged result is valid article-json
     quiet=True will swallow validation errors and log the error
     quiet=False will raise a ValidationError"""
-    msid = merge_result.get('id', '[no id]')
-    version = merge_result.get('version', '[no version]')
-    log_context = {
-        'msid': msid,
-        'version': version,
-    }
+    msid = merge_result.get("id", "[no id]")
+    version = merge_result.get("version", "[no version]")
+    log_context = {"msid": msid, "version": version}
 
-    status = merge_result['status'] # 'poa' or 'vor'
+    status = merge_result["status"]  # 'poa' or 'vor'
     validation_errors = []
     versions_list = []
     for version, schema in settings.ALL_SCHEMA_IDX[status]:
@@ -89,22 +89,38 @@ def valid(merge_result, quiet=True):
 
         except ValueError:
             # either the schema is bad or the struct is bad
-            LOG.exception("validating %s v%s failed to load schema file %s", msid, version, schema, extra=log_context)
+            LOG.exception(
+                "validating %s v%s failed to load schema file %s",
+                msid,
+                version,
+                schema,
+                extra=log_context,
+            )
             # this is a legitimate error and needs to break things
             raise
 
         except ValidationError as err:
             # not valid under this schema version
-            LOG.info("while validating %s v%s with %s, failed to validate with error: %s", msid, version, schema, err.message)
+            LOG.info(
+                "while validating %s v%s with %s, failed to validate with error: %s",
+                msid,
+                version,
+                schema,
+                err.message,
+            )
             validation_errors.append(err)
             # try the next version of the schema (if one exists)
             continue
 
     if validation_errors and not quiet:
-        versions_list = ' and '.join(map(str, versions_list))
+        versions_list = " and ".join(map(str, versions_list))
         # "failed to validate using poa article schema version 1 and 2"
-        LOG.warn("failed to validate using %s article schema version %s" % (status, versions_list))
+        LOG.warn(
+            "failed to validate using %s article schema version %s"
+            % (status, versions_list)
+        )
         raise first(validation_errors)
+
 
 def extract_snippet(merged_result):
     if not merged_result:
@@ -113,74 +129,92 @@ def extract_snippet(merged_result):
     snippet_keys = [
         # https://github.com/elifesciences/api-raml/blob/develop/src/snippets/article-vor.v1.yaml
         # https://github.com/elifesciences/api-raml/blob/develop/src/snippets/article.v1.yaml
-
         # pulled from given xml->json
-        'copyright', 'doi', 'elocationId', 'id', 'impactStatement',
-        'pdf', 'published', 'researchOrganisms', 'status', 'subjects',
-        'title', 'titlePrefix', 'type', 'version', 'volume', 'authorLine',
-        'abstract', 'figuresPdf', 'image',
-
+        "copyright",
+        "doi",
+        "elocationId",
+        "id",
+        "impactStatement",
+        "pdf",
+        "published",
+        "researchOrganisms",
+        "status",
+        "subjects",
+        "title",
+        "titlePrefix",
+        "type",
+        "version",
+        "volume",
+        "authorLine",
+        "abstract",
+        "figuresPdf",
+        "image",
         # added by lax
-        'statusDate', 'stage', 'versionDate',
+        "statusDate",
+        "stage",
+        "versionDate",
     ]
     return subdict(merged_result, snippet_keys)
+
 
 def pre_process(av, result):
     "supplements the merged fragments with more article data required for validating"
     # we need to inspect this value later in `hashcheck` before it gets nullified
-    result['-published'] = result['published']
+    result["-published"] = result["published"]
 
     # 'published' is when the v1 article was published
     # if unpublished, this value will be None
     if av.version == 1:
-        result['published'] = av.datetime_published
+        result["published"] = av.datetime_published
     else:
-        result['published'] = av.article.datetime_published
+        result["published"] = av.article.datetime_published
 
-    result['versionDate'] = av.datetime_published
+    result["versionDate"] = av.datetime_published
 
     # 'statusDate' is when the 'status' (poa/vor) value changed to the status being
     # served up in *this* result.
     if av.version == 1 or av.status == models.POA:
         # we're a POA or a version 1, statusDate is easy :)
-        result['statusDate'] = result['published']
+        result["statusDate"] = result["published"]
     else:
         # we're a non-v1 VOR, statusDate is a little harder
         # we can't tell which previous version was a vor so consult our version history
         earliest_vor = av.article.earliest_vor()
         if earliest_vor:
             # article has a vor in it's version history! use it's version date
-            result['statusDate'] = earliest_vor.datetime_published # may be None
+            result["statusDate"] = earliest_vor.datetime_published  # may be None
         else:
             # no VORs found AT ALL
             # this means our av == earliest_vor and it *hasn't been saved yet*
-            result['statusDate'] = av.datetime_published # may be/probably None
+            result["statusDate"] = av.datetime_published  # may be/probably None
 
     if av.datetime_published:
-        result['stage'] = 'published'
+        result["stage"] = "published"
     else:
         # unpublished! tweak the results
         # https://github.com/elifesciences/api-raml/blob/develop/src/snippets/article.v1.yaml
-        result['stage'] = 'preview'
-        del result['versionDate']
-        del result['statusDate']
+        result["stage"] = "preview"
+        del result["versionDate"]
+        del result["statusDate"]
         if av.version == 1:
-            del result['published']
+            del result["published"]
 
     # these keys are not part of the article-json spec and shouldn't be made public
     delete_these = [
-        '-related-articles-internal',
-        '-related-articles-external',
-        '-meta',
-        '-history',
+        "-related-articles-internal",
+        "-related-articles-external",
+        "-meta",
+        "-history",
     ]
     utils.delall(result, delete_these)
 
     return result
 
+
 def merge_and_preprocess(av):
     "merges fragments AND pre-processes them for saving"
     return pre_process(av, merge(av))
+
 
 def merge_if_valid(av, quiet=True):
     """merges, pre-processes and validates the fragments of the given ArticleVersion instance.
@@ -189,23 +223,33 @@ def merge_if_valid(av, quiet=True):
     if invalid and quiet=False, a ValidationError will be raised"""
     return valid(merge_and_preprocess(av), quiet=quiet)
 
+
 def hash_ajson(merge_result):
     string = utils.json_dumps(merge_result, indent=None)
-    return hashlib.md5(string.encode('utf-8')).hexdigest()
+    return hashlib.md5(string.encode("utf-8")).hexdigest()
+
 
 class Identical(RuntimeError):
     def __init__(self, msg, av, hashval):
         super(Identical, self).__init__(msg)
-        LOG.info(msg, extra={'hash': hashval, 'msid': av.article.manuscript_id, 'version': av.version})
+        LOG.info(
+            msg,
+            extra={
+                "hash": hashval,
+                "msid": av.article.manuscript_id,
+                "version": av.version,
+            },
+        )
         self.av = av
         self.hashval = hashval
+
 
 # TODO: 'quiet' (validation-check), 'hash_check' and 'update_fragment' are all symptoms of spaghetti logic and need to be removed.
 def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment=True):
     """updates the article with the result of the merge operation.
     if the result of the merge was valid, the merged result will be saved.
     if invalid, a ValidationError will be raised"""
-    log_context = {'article-version': av, 'hash_check': hash_check}
+    log_context = {"article-version": av, "hash_check": hash_check}
 
     # todo: only necessary if hashcheck is being done
     try:
@@ -217,11 +261,11 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
         raw_original = {}
 
     if data:
-        add(av, models.XML2JSON, data['article'], pos=0, update=update_fragment)
+        add(av, models.XML2JSON, data["article"], pos=0, update=update_fragment)
 
     # merge_if_valid -> merge -> preprocess - *merges current fragment set*
     # TODO: inline the above and remove those intermediate functions, it's too obfuscated here
-    result = merge_if_valid(av, quiet=quiet) # raises ValidationError
+    result = merge_if_valid(av, quiet=quiet)  # raises ValidationError
     newhash, oldhash = hash_ajson(result), av.article_json_hash
 
     if hash_check:
@@ -234,17 +278,21 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
             # article data is identical
             # compare pubdates
             # `preprocess` will alter the publication date value if it hasn't been published yet
-            oldpubdate = raw_original.get('published')
-            newpubdate = result.get('-published')
+            oldpubdate = raw_original.get("published")
+            newpubdate = result.get("-published")
 
             if oldpubdate == newpubdate:
-                raise Identical("article data is identical to the article data already stored", av, newhash)
+                raise Identical(
+                    "article data is identical to the article data already stored",
+                    av,
+                    newhash,
+                )
 
     # postprocess
     # result is None when VALIDATE_FAILS_FORCE = False and validation fails
     # this is some old logic that will be removed in a later PR
     if result:
-        del result['-published'] # set in preprocess
+        del result["-published"]  # set in preprocess
 
     # save
     av.article_json_v1 = result
@@ -258,13 +306,16 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
         LOG.critical(msg, extra=log_context)
     return result
 
+
 def set_all_article_json(art, **kwargs):
     "like `set_article_json`, but for every version of an article"
     return lmap(partial(set_article_json, **kwargs), art.articleversion_set.all())
 
+
 #
 # higher level logic
 #
+
 
 def add_fragment_update_article(art, key, fragment):
     "adds a fragment to an article, re-renders article, sends update event. if an error occurs, update is rolled back and no event is sent"
@@ -279,6 +330,7 @@ def add_fragment_update_article(art, key, fragment):
         # hash check disabled. if fragment added that doesn't alter final article, then fragment should be preserved
         return set_all_article_json(art, quiet=False, hash_check=False)
 
+
 def delete_fragment_update_article(art, key):
     "removes a fragment from an article, re-renders article, sends update event. if an error occurs, delete is rolled back and no event is sent"
     with transaction.atomic():
@@ -291,16 +343,18 @@ def delete_fragment_update_article(art, key):
         # hash check disabled. if removing fragment doesn't alter final article, then fragment should still be removed
         return set_all_article_json(art, quiet=False, hash_check=False)
 
+
 #
 #
 #
+
 
 def location(av):
     "returns the location of the article xml stored in the primary fragment"
     try:
         obj = get(av, models.XML2JSON)
-        return obj.fragment['-meta']['location']
+        return obj.fragment["-meta"]["location"]
     except models.ArticleFragment.DoesNotExist:
-        return 'no-article-fragment'
+        return "no-article-fragment"
     except KeyError:
-        return 'no-location-stored'
+        return "no-location-stored"

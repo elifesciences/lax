@@ -8,21 +8,40 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0033_auto_20170115_1343'),
-    ]
+    dependencies = [("publisher", "0033_auto_20170115_1343")]
 
     operations = [
         migrations.CreateModel(
-            name='ArticleVersionRelation',
+            name="ArticleVersionRelation",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('articleversion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='publisher.ArticleVersion')),
-                ('related_to', models.ForeignKey(help_text='the Article this ArticleVersion is related to', on_delete=django.db.models.deletion.CASCADE, to='publisher.Article')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "articleversion",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="publisher.ArticleVersion",
+                    ),
+                ),
+                (
+                    "related_to",
+                    models.ForeignKey(
+                        help_text="the Article this ArticleVersion is related to",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="publisher.Article",
+                    ),
+                ),
             ],
         ),
         migrations.AlterUniqueTogether(
-            name='articleversionrelation',
-            unique_together=set([('articleversion', 'related_to')]),
+            name="articleversionrelation",
+            unique_together=set([("articleversion", "related_to")]),
         ),
     ]

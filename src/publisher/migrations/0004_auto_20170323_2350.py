@@ -7,19 +7,25 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0003_auto_20170322_0529'),
-    ]
+    dependencies = [("publisher", "0003_auto_20170322_0529")]
 
     operations = [
         migrations.AddField(
-            model_name='article',
-            name='date_accepted',
-            field=models.DateField(blank=True, help_text="xml 'accepted' date. not all articles types have this. ", null=True),
+            model_name="article",
+            name="date_accepted",
+            field=models.DateField(
+                blank=True,
+                help_text="xml 'accepted' date. not all articles types have this. ",
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='article',
-            name='date_received',
-            field=models.DateField(blank=True, help_text="xml 'received' date. not all article types have this.", null=True),
+            model_name="article",
+            name="date_received",
+            field=models.DateField(
+                blank=True,
+                help_text="xml 'received' date. not all article types have this.",
+                null=True,
+            ),
         ),
     ]

@@ -7,24 +7,29 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0026_articlefragment'),
-    ]
+    dependencies = [("publisher", "0026_articlefragment")]
 
     operations = [
         migrations.AddField(
-            model_name='articlefragment',
-            name='position',
-            field=models.PositiveSmallIntegerField(default=1, help_text=b'position in the merge order with lower fragments merged first'),
+            model_name="articlefragment",
+            name="position",
+            field=models.PositiveSmallIntegerField(
+                default=1,
+                help_text=b"position in the merge order with lower fragments merged first",
+            ),
         ),
         migrations.AddField(
-            model_name='articlefragment',
-            name='type',
-            field=models.CharField(default=None, help_text=b'the type of fragment, eg "xml", "content-header", etc', max_length=25, unique=True),
+            model_name="articlefragment",
+            name="type",
+            field=models.CharField(
+                default=None,
+                help_text=b'the type of fragment, eg "xml", "content-header", etc',
+                max_length=25,
+                unique=True,
+            ),
             preserve_default=False,
         ),
         migrations.AlterUniqueTogether(
-            name='articlefragment',
-            unique_together=set([('article', 'type')]),
+            name="articlefragment", unique_together=set([("article", "type")])
         ),
     ]

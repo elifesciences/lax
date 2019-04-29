@@ -7,13 +7,6 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0018_auto_20160906_1018'),
-    ]
+    dependencies = [("publisher", "0018_auto_20160906_1018")]
 
-    operations = [
-        migrations.RemoveField(
-            model_name='article',
-            name='website_path',
-        ),
-    ]
+    operations = [migrations.RemoveField(model_name="article", name="website_path")]

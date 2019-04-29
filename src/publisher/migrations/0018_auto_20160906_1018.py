@@ -7,16 +7,9 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0017_remove_article_datetime_submitted'),
-    ]
+    dependencies = [("publisher", "0017_remove_article_datetime_submitted")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='articlecorrection',
-            name='article',
-        ),
-        migrations.DeleteModel(
-            name='ArticleCorrection',
-        ),
+        migrations.RemoveField(model_name="articlecorrection", name="article"),
+        migrations.DeleteModel(name="ArticleCorrection"),
     ]

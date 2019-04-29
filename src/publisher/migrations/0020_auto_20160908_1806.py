@@ -8,24 +8,33 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('publisher', '0019_remove_article_website_path'),
-    ]
+    dependencies = [("publisher", "0019_remove_article_website_path")]
 
     operations = [
         migrations.AddField(
-            model_name='articleversion',
-            name='article_json_v1',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, help_text=b'Valid v1 article-json for this article version.', null=True),
+            model_name="articleversion",
+            name="article_json_v1",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True,
+                help_text=b"Valid v1 article-json for this article version.",
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='articleversion',
-            name='article_json_v1_raw',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, help_text=b'the raw v1 article json we receive from different places', null=True),
+            model_name="articleversion",
+            name="article_json_v1_raw",
+            field=django.contrib.postgres.fields.jsonb.JSONField(
+                blank=True,
+                help_text=b"the raw v1 article json we receive from different places",
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='articleversion',
-            name='article_json_v1_valid',
-            field=models.BooleanField(default=False, help_text=b'True if article-json in article_json_v1 field validates'),
+            model_name="articleversion",
+            name="article_json_v1_valid",
+            field=models.BooleanField(
+                default=False,
+                help_text=b"True if article-json in article_json_v1 field validates",
+            ),
         ),
     ]
