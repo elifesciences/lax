@@ -12,7 +12,7 @@ django-markdown2==0.3.1
 django-rest-swagger==2.2.0
 django-sql-explorer==1.1.2
 django-tqdm==0.0.3
-djangorestframework==3.8.2
+djangorestframework==3.9.4
 et3==1.5.1
 # versions of green > 2.9.0 conflict with kids.cache
 # both are doing command line parsing during installation
