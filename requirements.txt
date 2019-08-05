@@ -14,9 +14,6 @@ django-sql-explorer==1.1.2
 django-tqdm==0.0.3
 djangorestframework==3.9.4
 et3==1.5.1
-# versions of green > 2.9.0 conflict with kids.cache
-# both are doing command line parsing during installation
-green==2.13.0
 joblib==0.12.5
 jsonschema==2.6.0
 kids.cache==0.0.7
@@ -28,6 +25,9 @@ psycopg2==2.8.3
 pyflakes==2.0.0
 pylint==1.9.3
 pylint-django==0.11.1
+pytest
+pytest-cov
+pytest-django
 python-dateutil==2.7.3
 python-json-logger==0.1.9
 python-slugify==1.2.6

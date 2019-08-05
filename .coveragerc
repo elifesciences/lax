@@ -2,3 +2,8 @@
 omit = 
     src/core/wsgi.py
     src/publisher/admin.py
+
+[report]
+omit =
+    */tests/*
+    */migrations/*
