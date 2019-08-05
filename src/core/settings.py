@@ -134,6 +134,7 @@ MP_MANAGER = (
 )
 
 # Testing
+# lsh@2019-08-05: pytest doesn't use this but the output path is the same
 TEST_RUNNER = "xmlrunner.extra.djangotestrunner.XMLTestRunner"
 TEST_OUTPUT_DIR = "build"
 TEST_OUTPUT_FILE_NAME = "junit.xml"
