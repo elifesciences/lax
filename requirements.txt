@@ -2,7 +2,7 @@ astroid==1.6.5
 black==19.3b0
 boto3==1.9.18
 coverage==4.5.1
-Django==1.11.22
+Django==1.11.23
 django-admin-view-permission==1.8
 django-annoying==0.10.4
 django-autoslug==1.9.3
