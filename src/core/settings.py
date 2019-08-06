@@ -94,6 +94,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.KongAuthentication",  # sets a header if it looks like an authenticated request
     "publisher.middleware.error_content_check",
+    "publisher.middleware.incompatible_v2_check",
     # order is important here. the content response is checked
     # *after* the api v1/2 transformation (if any)
     "publisher.middleware.content_check",
@@ -193,6 +194,7 @@ REST_FRAMEWORK = {
         "publisher.negotiation.ArticleListVersion1",
         "publisher.negotiation.POAArticleVersion2",
         "publisher.negotiation.POAArticleVersion1",
+        "publisher.negotiation.VORArticleVersion3",
         "publisher.negotiation.VORArticleVersion2",
         "publisher.negotiation.VORArticleVersion1",
         "publisher.negotiation.ArticleHistoryVersion1",

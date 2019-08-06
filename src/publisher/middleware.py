@@ -1,3 +1,4 @@
+from datetime import date
 import json
 from collections import OrderedDict
 from django.conf import settings
@@ -65,12 +66,13 @@ def get_content_type(resp):
 def flatten_accept(header, just_elife=False):
     lst = []
     for mime in header.split(","):
+        # ('application/vnd.elife.article-vor+json', {'version': 2})
         parsed_mime, parsed_params = parse_header(mime.encode())
+        if just_elife and "elife" not in parsed_mime:
+            continue
         # ll: ('*/*', 'version', None)
         # ll: ('application/json', 'version', None)
         # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
-        if just_elife and "elife" not in parsed_mime:
-            continue
         lst.append((parsed_mime, "version", parsed_params.pop("version", None)))
     return lst
 
@@ -275,5 +277,90 @@ def content_check(get_response_fn):
                 406, "not acceptable", "could not negotiate an acceptable response type"
             )
         return response
+
+    return middleware
+
+
+#
+#
+#
+
+# TODO: this is an arbitrary date in the past and will be changed
+# once we start publishing vor valid-for-v3-only content
+V3_INCEPTION = date(year=2019, month=1, day=1)
+
+
+def v3_vor_valid_under_v2(ajson):
+    return True # TODO
+
+
+def incompatible_v2_check(get_response_fn):
+    def middleware(request):
+        request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
+        response = get_response_fn(request)
+
+        if response.status_code != 200:
+            # unsuccessful response, ignore
+            return response
+
+        # have we started publishing v3-only content?
+        today = date.today()
+        if today < V3_INCEPTION:
+            return response  # nope, ignore
+
+        # are we returning VOR content?
+        vor_ctype = "application/vnd.elife.article-vor+json"
+        resp_ctype = get_content_type(response)
+        if vor_ctype not in resp_ctype:
+            return response  # nope, ignore
+
+        client_accepts_list = flatten_accept(request_accept_header)
+        client_accepts_vor_list = [
+            row
+            for row in client_accepts_list
+            if row[0] == "application/vnd.elife.article-vor+json"
+        ]
+
+        # are they flexible in what they accept?
+        anything = ("*/*", "version", None)
+        almost_anything = ("application/*", "version", None)
+        any_vor = ("application/vnd.elife.article-vor+json", "version", None)
+        acceptable = (
+            anything in client_accepts_list
+            or almost_anything in client_accepts_list
+            or any_vor in client_accepts_vor_list
+        )
+        if acceptable:
+            # yup, we meet some fuzzy catch-all condition of theirs
+            return response
+
+        # at this point the request is:
+        # * is requesting a specific version of VOR content
+        # * or doesn't accept VOR content at all
+
+        if not client_accepts_vor_list:
+            # whatever is in their accept header, they're not specifying VOR types at all
+            # ('application/json' may end up here?)
+            return response
+
+        supported_vor_versions = [
+            row[-1] for row in client_accepts_vor_list
+        ]  # [1, 2, 3, ...]
+
+        if supported_vor_versions and max(supported_vor_versions) >= 3:
+            # they say they support VOR v3 or higher (future proof check)
+            return response
+
+        # client specifically accepts v1 or v2 VOR only
+        # we might be ok if the content is valid under v2 (v1 is now obsolete and due to be removed)
+        body = json.loads(response.content.decode("utf-8"))
+        if v3_vor_valid_under_v2(body):
+            # all good
+            return response
+
+        # nuts, we have a v3-only article, sorry buddy
+        return ErrorResponse(
+            406, "not acceptable", "could not negotiate an acceptable response type"
+        )
 
     return middleware
