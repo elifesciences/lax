@@ -243,6 +243,7 @@ ALL_SCHEMA_IDX = {
         (1, join(SCHEMA_PATH, "model/article-poa.v1.json")),
     ],
     "vor": [
+        (3, join(SCHEMA_PATH, "model/article-vor.v3.json")),
         (2, join(SCHEMA_PATH, "model/article-vor.v2.json")),
         (1, join(SCHEMA_PATH, "model/article-vor.v1.json")),
     ],
