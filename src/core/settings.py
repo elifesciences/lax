@@ -94,10 +94,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "core.middleware.KongAuthentication",  # sets a header if it looks like an authenticated request
     "publisher.middleware.error_content_check",
-    "publisher.middleware.incompatible_v2_check",
     # order is important here. the content response is checked
     # *after* the api v1/2 transformation (if any)
     "publisher.middleware.content_check",
+    "publisher.middleware.incompatible_v2_check",
     # v1 poa+vor are now obsolete and will be removed
     "publisher.middleware.apiv1_deprecated",  # api v1 and v2 content transformations. temporary.
     "publisher.middleware.apiv12transform",  # api v1 and v2 content transformations. temporary.
