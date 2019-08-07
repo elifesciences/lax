@@ -21,7 +21,7 @@ class Errors(base.BaseCase):
             # bit naff
             self.assertTrue(err.trace.strip().startswith('File "'))
             self.assertTrue(
-                err.trace.strip().endswith("raise utils.StateError(1, \"msg\")")
+                err.trace.strip().endswith("""raise utils.StateError(1, \"msg\")""")
             )
 
     def test_state_error2(self):
