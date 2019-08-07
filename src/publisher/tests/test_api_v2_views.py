@@ -38,7 +38,7 @@ class V2ContentTypes(base.BaseCase):
         # max version spec for POA is v2 (VOR is v3)
         # (client accepted types, expected accepted type)
         cases = [
-            # accepts anything, is given v3
+            # accepts anything
             ("*/*", "application/vnd.elife.article-poa+json; version=2"),
             # accepts almost anything
             ("application/*", "application/vnd.elife.article-poa+json; version=2"),
@@ -76,9 +76,9 @@ class V2ContentTypes(base.BaseCase):
                 "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json",
                 "application/vnd.elife.article-poa+json; version=1",
             ),
-            # poa v2 or vor v2
+            # poa v2 or vor v3
             (
-                "application/vnd.elife.article-poa+json; version=2, application/vnd.elife.article-vor+json; version=2",
+                "application/vnd.elife.article-poa+json; version=2, application/vnd.elife.article-vor+json; version=3",
                 "application/vnd.elife.article-poa+json; version=2",
             ),
         ]
@@ -328,7 +328,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-vor+json; version=2"
+            resp.content_type, "application/vnd.elife.article-vor+json; version=3"
         )
 
         data = utils.json_loads(resp.content)

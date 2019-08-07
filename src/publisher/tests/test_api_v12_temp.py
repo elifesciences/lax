@@ -2,7 +2,7 @@
 requests for ajson during the transition will have their response bodies tweaked to
 ensure valid content is returned depending on the version of the api requested.
 
-* once all content is backfilled, the middleware.upgrade code can be removed
+* once all content is backfilled, the `middleware.upgrade` code can be removed
 * once the deprecation period ends, the middleware can be removed entirely
 
 """
@@ -42,7 +42,7 @@ class One(base.BaseCase):
         pass
 
     def test_all(self):
-        v1, v2, v12 = 1, 2, 12
+        v1, v2, v3, v12, v123 = 1, 2, 3, 12, 123
 
         cases = [
             # content, request, response
@@ -52,23 +52,38 @@ class One(base.BaseCase):
             (v2, v2, v2),
             # (v1, v12, v2),
             (v2, v12, v2),
+            # lsh@2019-08-06: introducing vor v3
+            (v2, v3, v3),  # valid VOR v2 content is valid VOR v3 content
+            (v3, v3, v3),
+            (v3, v123, v3),
+            # this test is using a valid VOR v2 fixture
+            # this means we can safely 'downgrade' the response type to VOR v2
+            (v3, v2, v2),
+            (v3, v12, v2),
         ]
 
-        content_idx = {v1: self.ajson_fixture_api1, v2: self.ajson_fixture_api2}
+        content_idx = {
+            v1: self.ajson_fixture_api1,
+            v2: self.ajson_fixture_api2,
+            v3: self.ajson_fixture_api2,
+        }
 
         request_idx = {
             # the '*/*' is required, because requesting *just* v1 types will result in a 406
             v1: "application/vnd.elife.article-vor+json; version=1, */*",
             # no '*/*' required for these cases as no transformations will be happening
             v2: "application/vnd.elife.article-vor+json; version=2",
+            v3: "application/vnd.elife.article-vor+json; version=3",
             v12: "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
+            v123: "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2, application/vnd.elife.article-vor+json; version=3",
         }
 
-        response_idx = {v1: self.ajson_api1, v2: self.ajson_api2}
+        response_idx = {v1: self.ajson_api1, v2: self.ajson_api2, v3: self.ajson_api2}
 
         schema_idx = {
             v1: settings.ALL_SCHEMA_IDX[self.status][1][1],
             v2: settings.ALL_SCHEMA_IDX[self.status][0][1],
+            v3: settings.ALL_SCHEMA_IDX[self.status][0][1],  # TODO: point this to v3
         }
 
         for ckey, rqkey, rskey in cases:
