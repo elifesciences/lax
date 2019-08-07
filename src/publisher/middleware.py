@@ -3,7 +3,7 @@ import json
 from collections import OrderedDict
 from django.conf import settings
 import logging
-from .utils import lmap
+from .utils import lmap, isint
 from rest_framework.response import Response as RESTResponse
 from .api_v2_views import ErrorResponse
 from django.http import HttpResponse
@@ -291,7 +291,7 @@ V3_INCEPTION = date(year=2019, month=1, day=1)
 
 
 def v3_vor_valid_under_v2(ajson):
-    return True # TODO
+    return True  # TODO
 
 
 def incompatible_v2_check(get_response_fn):
@@ -344,7 +344,7 @@ def incompatible_v2_check(get_response_fn):
             return response
 
         supported_vor_versions = [
-            row[-1] for row in client_accepts_vor_list
+            int(row[-1]) for row in client_accepts_vor_list if isint(row[-1])
         ]  # [1, 2, 3, ...]
 
         if supported_vor_versions and max(supported_vor_versions) >= 3:
@@ -356,7 +356,13 @@ def incompatible_v2_check(get_response_fn):
         body = json.loads(response.content.decode("utf-8"))
         if v3_vor_valid_under_v2(body):
             # all good
-            return response
+            # TODO: change response content type to vor v2 (default is v3)
+            new_content_type = "application/vnd.elife.article-vor+json; version=2"
+            new_response = HttpResponse(response.content, content_type=new_content_type)
+            # this is where RESTResponses keep it
+            # keeps some wrangling out of tests
+            new_response.content_type = new_content_type
+            return new_response
 
         # nuts, we have a v3-only article, sorry buddy
         return ErrorResponse(
