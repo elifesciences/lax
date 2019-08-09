@@ -26,17 +26,23 @@ class One(base.BaseCase):
         # self.ajson_fixture_api2 = join(self.fixture_dir, 'v12', 'api2', 'elife-21393-v1.xml.json') # poa, v1
         self.msid = 27134
         self.status = "vor"
+        # vor, v2
         self.ajson_fixture_api1 = join(
             self.fixture_dir, "v12", "api1", "elife-27134-v2.xml.json"
-        )  # vor, v2
+        )
+        # vor, v2
         self.ajson_fixture_api2 = join(
             self.fixture_dir, "v12", "api2", "elife-27134-v2.xml.json"
-        )  # vor, v2
+        )
+        # vor, v3
+        # in this fixture, the decisionLetter doi has been removed
+        self.ajson_fixture_vor3 = join(
+            self.fixture_dir, "v12", "api2", "elife-27134-v2-vor3.xml.json"
+        )
 
+        # these are not good names
         self.ajson_api1 = self.load_ajson2(self.ajson_fixture_api1)
         self.ajson_api2 = self.load_ajson2(self.ajson_fixture_api2)
-
-        # what has a good representation of the other elements we want to target?
 
     def tearDown(self):
         pass
@@ -65,7 +71,7 @@ class One(base.BaseCase):
         content_idx = {
             v1: self.ajson_fixture_api1,
             v2: self.ajson_fixture_api2,
-            v3: self.ajson_fixture_api2,
+            v3: self.ajson_fixture_api2,  # v2 is the same as v3 but not vice versa
         }
 
         request_idx = {
@@ -81,9 +87,9 @@ class One(base.BaseCase):
         response_idx = {v1: self.ajson_api1, v2: self.ajson_api2, v3: self.ajson_api2}
 
         schema_idx = {
-            v1: settings.ALL_SCHEMA_IDX[self.status][1][1],
-            v2: settings.ALL_SCHEMA_IDX[self.status][0][1],
-            v3: settings.ALL_SCHEMA_IDX[self.status][0][1],  # TODO: point this to v3
+            v1: settings.ALL_SCHEMA_IDX[self.status][2][1],
+            v2: settings.ALL_SCHEMA_IDX[self.status][1][1],
+            v3: settings.ALL_SCHEMA_IDX[self.status][0][1],
         }
 
         for ckey, rqkey, rskey in cases:
@@ -153,3 +159,30 @@ class One(base.BaseCase):
     def test_requests_deprecation_notice_absent_from_non_article_views(self):
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid}))
         self.assertFalse(resp.has_header("warning"))
+
+    def test_incompatible_vor_v3(self):
+        "requesting an article with a VORv2 Accept header causes a 406 response when article is invalid against VORv2"
+
+        # Lax needs a v1 of an article before a v2 can be published
+        self.add_or_update_article(
+            **{
+                "manuscript_id": self.msid,
+                "version": 1,
+                "published": "2017-07-11T00:00:00Z",
+            }
+        )
+        self.publish_ajson(self.ajson_fixture_vor3)
+
+        v2_only = "application/vnd.elife.article-vor+json; version=2"
+        resp = self.c.get(
+            reverse("v2:article", kwargs={"msid": self.msid}), HTTP_ACCEPT=v2_only
+        )
+        expected_status_code = 406
+        self.assertEqual(expected_status_code, resp.status_code)
+
+        v3_only = "application/vnd.elife.article-vor+json; version=3"
+        resp = self.c.get(
+            reverse("v2:article", kwargs={"msid": self.msid}), HTTP_ACCEPT=v3_only
+        )
+        expected_status_code = 200
+        self.assertEqual(expected_status_code, resp.status_code)

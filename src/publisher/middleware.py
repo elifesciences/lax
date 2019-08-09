@@ -291,7 +291,20 @@ V3_INCEPTION = date(year=2019, month=1, day=1)
 
 
 def v3_vor_valid_under_v2(ajson):
-    return True  # TODO
+    "returns True if given article-json is valid under both version 2 and version 3 of the VOR spec"
+    if ajson["status"] != "vor":
+        return False
+
+    path_list = [
+        ("authorResponse", "doi"),
+        ("decisionLetter", "doi"),
+        ("digest", "doi"),
+    ]
+    for bit1, bit2 in path_list:
+        if bit1 in ajson:
+            if bit2 not in ajson[bit1]:
+                return False
+    return True
 
 
 def incompatible_v2_check(get_response_fn):
