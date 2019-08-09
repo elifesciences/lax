@@ -1,4 +1,3 @@
-from datetime import date
 import json
 from collections import OrderedDict
 from django.conf import settings
@@ -285,10 +284,6 @@ def content_check(get_response_fn):
 #
 #
 
-# TODO: this is an arbitrary date in the past and will be changed
-# once we start publishing vor valid-for-v3-only content
-V3_INCEPTION = date(year=2019, month=1, day=1)
-
 
 def v3_vor_valid_under_v2(ajson):
     "returns True if given article-json is valid under both version 2 and version 3 of the VOR spec"
@@ -316,11 +311,6 @@ def incompatible_v2_check(get_response_fn):
             # unsuccessful response, ignore
             return response
 
-        # have we started publishing v3-only content?
-        today = date.today()
-        if today < V3_INCEPTION:
-            return response  # nope, ignore
-
         # are we returning VOR content?
         vor_ctype = "application/vnd.elife.article-vor+json"
         resp_ctype = get_content_type(response)
@@ -329,9 +319,7 @@ def incompatible_v2_check(get_response_fn):
 
         client_accepts_list = flatten_accept(request_accept_header)
         client_accepts_vor_list = [
-            row
-            for row in client_accepts_list
-            if row[0] == "application/vnd.elife.article-vor+json"
+            row for row in client_accepts_list if row[0] == vor_ctype
         ]
 
         # are they flexible in what they accept?
@@ -369,15 +357,14 @@ def incompatible_v2_check(get_response_fn):
         body = json.loads(response.content.decode("utf-8"))
         if v3_vor_valid_under_v2(body):
             # all good
-            # TODO: change response content type to vor v2 (default is v3)
+            # we have to recreate the response because the Django/REST library response is immutable or something
             new_content_type = "application/vnd.elife.article-vor+json; version=2"
             new_response = HttpResponse(response.content, content_type=new_content_type)
             # this is where RESTResponses keep it
-            # keeps some wrangling out of tests
             new_response.content_type = new_content_type
             return new_response
 
-        # nuts, we have a v3-only article, sorry buddy
+        # nuts, we have a v3-only article and client had a very limited Accept header
         return ErrorResponse(
             406, "not acceptable", "could not negotiate an acceptable response type"
         )
