@@ -97,6 +97,7 @@ MIDDLEWARE = [
     # order is important here. the content response is checked
     # *after* the api v1/2 transformation (if any)
     "publisher.middleware.content_check",
+    "publisher.middleware.incompatible_v2_check",
     # v1 poa+vor are now obsolete and will be removed
     "publisher.middleware.apiv1_deprecated",  # api v1 and v2 content transformations. temporary.
     "publisher.middleware.apiv12transform",  # api v1 and v2 content transformations. temporary.
@@ -193,6 +194,7 @@ REST_FRAMEWORK = {
         "publisher.negotiation.ArticleListVersion1",
         "publisher.negotiation.POAArticleVersion2",
         "publisher.negotiation.POAArticleVersion1",
+        "publisher.negotiation.VORArticleVersion3",
         "publisher.negotiation.VORArticleVersion2",
         "publisher.negotiation.VORArticleVersion1",
         "publisher.negotiation.ArticleHistoryVersion1",
@@ -241,6 +243,7 @@ ALL_SCHEMA_IDX = {
         (1, join(SCHEMA_PATH, "model/article-poa.v1.json")),
     ],
     "vor": [
+        (3, join(SCHEMA_PATH, "model/article-vor.v3.json")),
         (2, join(SCHEMA_PATH, "model/article-vor.v2.json")),
         (1, join(SCHEMA_PATH, "model/article-vor.v1.json")),
     ],

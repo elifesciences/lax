@@ -76,7 +76,7 @@ class IngestIdentical(BaseCase):
 
 class Ingest(BaseCase):
     def setUp(self):
-        f1 = join(self.fixture_dir, "ajson", "elife-20105-v1.xml.json")
+        f1 = join(self.fixture_dir, "ajson", "elife-20105-v1.xml.json")  # poa
         self.ajson = self.load_ajson(f1)
 
         f2 = join(self.fixture_dir, "ajson", "elife-01968-v1-bad.xml.json")
@@ -84,9 +84,9 @@ class Ingest(BaseCase):
 
         f3 = join(self.fixture_dir, "ajson", "elife-01968-v1.xml.json")
         self.invalid_ajson = self.load_ajson(f3)
-        self.invalid_ajson["article"][
-            "title"
-        ] = ""  # ha! my invalid json is now valid. make it explicitly invalid.
+
+        # make article-json explicitly invalid
+        self.invalid_ajson["article"]["title"] = ""
 
     def tearDown(self):
         pass
@@ -260,7 +260,7 @@ class Ingest(BaseCase):
     @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails(self):
         "attempting to ingest an article with a version greater than 1 when no article versions currently exists fails"
-        # no article exists, attempt to ingest a v2
+        # no article exists, attempt to ingest v2
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
         self.ajson["article"]["version"] = 2
         # force=True to get it past the validation errors.

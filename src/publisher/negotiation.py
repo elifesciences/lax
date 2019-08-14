@@ -20,7 +20,7 @@ _dynamic_types = [
     # prefix of the global variable name to create, media type, known version list
     ("ArticleList", "application/vnd.elife.article-list+json", [None, 1]),
     ("POAArticle", "application/vnd.elife.article-poa+json", [None, 1, 2]),
-    ("VORArticle", "application/vnd.elife.article-vor+json", [None, 1, 2]),
+    ("VORArticle", "application/vnd.elife.article-vor+json", [None, 1, 2, 3]),
     ("ArticleHistory", "application/vnd.elife.article-history+json", [None, 1]),
     ("ArticleRelated", "application/vnd.elife.article-related+json", [None, 1]),
 ]

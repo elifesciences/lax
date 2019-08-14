@@ -1,4 +1,3 @@
-# from unittest import skip
 from core import middleware as mware
 from datetime import timedelta
 from . import base
@@ -17,7 +16,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from unittest.mock import patch, Mock
 
-SCHEMA_IDX = settings.SCHEMA_IDX  # weird, can't import directly from settigns ??
+SCHEMA_IDX = settings.SCHEMA_IDX  # weird, can't import directly from settings ??
 
 
 class V2ContentTypes(base.BaseCase):
@@ -33,11 +32,11 @@ class V2ContentTypes(base.BaseCase):
 
     def test_accept_types(self):
         "various accept headers return expected response"
-        ajson_ingestor.ingest_publish(
-            json.load(open(self.ajson_fixture_v1, "r"))
-        )  # POA
+        # POA fixture
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, "r")))
+        # max version spec for POA is v2 (VOR is v3)
+        # (client accepted types, expected accepted type)
         cases = [
-            # (given accepted types, accepted media type)
             # accepts anything
             ("*/*", "application/vnd.elife.article-poa+json; version=2"),
             # accepts almost anything
@@ -76,9 +75,9 @@ class V2ContentTypes(base.BaseCase):
                 "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-vor+json",
                 "application/vnd.elife.article-poa+json; version=1",
             ),
-            # poa v2 or vor v2
+            # poa v2 or vor v3
             (
-                "application/vnd.elife.article-poa+json; version=2, application/vnd.elife.article-vor+json; version=2",
+                "application/vnd.elife.article-poa+json; version=2, application/vnd.elife.article-vor+json; version=3",
                 "application/vnd.elife.article-poa+json; version=2",
             ),
         ]
@@ -100,9 +99,8 @@ class V2ContentTypes(base.BaseCase):
             )
 
     def test_unacceptable_types(self):
-        ajson_ingestor.ingest_publish(
-            json.load(open(self.ajson_fixture_v1, "r"))
-        )  # POA
+        # POA fixture
+        ajson_ingestor.ingest_publish(json.load(open(self.ajson_fixture_v1, "r")))
         cases = [
             # poa v1 (deprecated but acceptable, for now)
             # "application/vnd.elife.article-poa+json; version=1",
@@ -117,8 +115,8 @@ class V2ContentTypes(base.BaseCase):
             # vor v1 or v2 (still a POA article)
             "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
             # fictious (for now)
-            # vor v3 or v4
-            "application/vnd.elife.article-vor+json; version=3, application/vnd.elife.article-vor+json; version=4",
+            # vor v4 or vor v5
+            "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-vor+json; version=5",
             # poa v3
             "application/vnd.elife.article-poa+json; version=3",
             # ??
@@ -144,7 +142,7 @@ class V2ContentTypes(base.BaseCase):
         # map the known types to expected types
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=2"
-        art_vor_type = "application/vnd.elife.article-vor+json; version=2"
+        art_vor_type = "application/vnd.elife.article-vor+json; version=3"
         art_history_type = "application/vnd.elife.article-history+json; version=1"
         art_related_type = "application/vnd.elife.article-related+json; version=1"
 
@@ -154,10 +152,12 @@ class V2ContentTypes(base.BaseCase):
                 "v2:article-version-list", kwargs={"msid": self.msid}
             ): art_history_type,
             reverse("v2:article", kwargs={"msid": self.msid}): art_vor_type,
-            # 'version' here is the article version, not api or mime version ...
+            # 'version' here is the article version, not api or mime version
+            # v1 of this article fixture is a POA
             reverse(
                 "v2:article-version", kwargs={"msid": self.msid, "version": 1}
             ): art_poa_type,
+            # v2 of this fixture is a VOR
             reverse(
                 "v2:article-version", kwargs={"msid": self.msid, "version": 2}
             ): art_vor_type,
@@ -327,7 +327,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-vor+json; version=2"
+            resp.content_type, "application/vnd.elife.article-vor+json; version=3"
         )
 
         data = utils.json_loads(resp.content)

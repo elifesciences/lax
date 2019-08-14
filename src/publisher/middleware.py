@@ -2,7 +2,7 @@ import json
 from collections import OrderedDict
 from django.conf import settings
 import logging
-from .utils import lmap
+from .utils import lmap, isint
 from rest_framework.response import Response as RESTResponse
 from .api_v2_views import ErrorResponse
 from django.http import HttpResponse
@@ -65,12 +65,13 @@ def get_content_type(resp):
 def flatten_accept(header, just_elife=False):
     lst = []
     for mime in header.split(","):
+        # ('application/vnd.elife.article-vor+json', {'version': 2})
         parsed_mime, parsed_params = parse_header(mime.encode())
+        if just_elife and "elife" not in parsed_mime:
+            continue
         # ll: ('*/*', 'version', None)
         # ll: ('application/json', 'version', None)
         # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
-        if just_elife and "elife" not in parsed_mime:
-            continue
         lst.append((parsed_mime, "version", parsed_params.pop("version", None)))
     return lst
 
@@ -274,6 +275,78 @@ def content_check(get_response_fn):
             return ErrorResponse(
                 406, "not acceptable", "could not negotiate an acceptable response type"
             )
+        return response
+
+    return middleware
+
+
+#
+#
+#
+
+
+def v3_vor_valid_under_v2(ajson):
+    "returns True if given article-json is valid under both version 2 and version 3 of the VOR spec"
+    if ajson["status"] != "vor":
+        return False
+
+    path_list = [
+        ("authorResponse", "doi"),
+        ("decisionLetter", "doi"),
+        ("digest", "doi"),
+    ]
+    for bit1, bit2 in path_list:
+        if bit1 in ajson:
+            if bit2 not in ajson[bit1]:
+                return False
+    return True
+
+
+def incompatible_v2_check(get_response_fn):
+    def middleware(request):
+        request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
+        response = get_response_fn(request)
+
+        if response.status_code != 200:
+            # unsuccessful response, ignore
+            return response
+
+        # are we returning VOR content?
+        vor_ctype = "application/vnd.elife.article-vor+json"
+        resp_ctype = get_content_type(response)
+
+        if vor_ctype in resp_ctype:
+            client_accepts_list = flatten_accept(request_accept_header)
+            client_accepts_vor_list = [
+                row for row in client_accepts_list if row[0] == vor_ctype
+            ]
+            client_accepts_vor_versions = [
+                int(row[-1]) for row in client_accepts_vor_list if isint(row[-1])
+            ]  # [1, 2, 3, ...]
+            if client_accepts_vor_versions and max(client_accepts_vor_versions) <= 2:
+                # client specifically accepts v1 or v2 VOR only
+                # we might be ok if the content is valid under v2 (v1 is now obsolete and due to be removed)
+                body = json.loads(response.content.decode("utf-8"))
+                if v3_vor_valid_under_v2(body):
+                    # all good, drop content-type returned to VOR v2
+                    # we have to recreate the response because the Django/REST library response is immutable or something
+                    new_content_type = (
+                        "application/vnd.elife.article-vor+json; version=2"
+                    )
+                    new_response = HttpResponse(
+                        response.content, content_type=new_content_type
+                    )
+                    # this is where RESTResponses keep it
+                    new_response.content_type = new_content_type
+                    return new_response
+
+                # nuts, we have a v3-only article and client had a very limited Accept header
+                return ErrorResponse(
+                    406,
+                    "not acceptable",
+                    "could not negotiate an acceptable response type",
+                )
+
         return response
 
     return middleware
