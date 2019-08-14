@@ -314,59 +314,39 @@ def incompatible_v2_check(get_response_fn):
         # are we returning VOR content?
         vor_ctype = "application/vnd.elife.article-vor+json"
         resp_ctype = get_content_type(response)
-        if vor_ctype not in resp_ctype:
-            return response  # nope, ignore
 
-        client_accepts_list = flatten_accept(request_accept_header)
-        client_accepts_vor_list = [
-            row for row in client_accepts_list if row[0] == vor_ctype
-        ]
+        if vor_ctype in resp_ctype:
+            client_accepts_list = flatten_accept(request_accept_header)
+            client_accepts_vor_list = [
+                row for row in client_accepts_list if row[0] == vor_ctype
+            ]
+            client_accepts_vor_versions = [
+                int(row[-1]) for row in client_accepts_vor_list if isint(row[-1])
+            ]  # [1, 2, 3, ...]
+            if client_accepts_vor_versions and max(client_accepts_vor_versions) <= 2:
+                # client specifically accepts v1 or v2 VOR only
+                # we might be ok if the content is valid under v2 (v1 is now obsolete and due to be removed)
+                body = json.loads(response.content.decode("utf-8"))
+                if v3_vor_valid_under_v2(body):
+                    # all good, drop content-type returned to VOR v2
+                    # we have to recreate the response because the Django/REST library response is immutable or something
+                    new_content_type = (
+                        "application/vnd.elife.article-vor+json; version=2"
+                    )
+                    new_response = HttpResponse(
+                        response.content, content_type=new_content_type
+                    )
+                    # this is where RESTResponses keep it
+                    new_response.content_type = new_content_type
+                    return new_response
 
-        # are they flexible in what they accept?
-        anything = ("*/*", "version", None)
-        almost_anything = ("application/*", "version", None)
-        any_vor = ("application/vnd.elife.article-vor+json", "version", None)
-        acceptable = (
-            anything in client_accepts_list
-            or almost_anything in client_accepts_list
-            or any_vor in client_accepts_vor_list
-        )
-        if acceptable:
-            # yup, we meet some fuzzy catch-all condition of theirs
-            return response
+                # nuts, we have a v3-only article and client had a very limited Accept header
+                return ErrorResponse(
+                    406,
+                    "not acceptable",
+                    "could not negotiate an acceptable response type",
+                )
 
-        # at this point the request is:
-        # * is requesting a specific version of VOR content
-        # * or doesn't accept VOR content at all
-
-        if not client_accepts_vor_list:
-            # whatever is in their accept header, they're not specifying VOR types at all
-            # ('application/json' may end up here?)
-            return response
-
-        supported_vor_versions = [
-            int(row[-1]) for row in client_accepts_vor_list if isint(row[-1])
-        ]  # [1, 2, 3, ...]
-
-        if supported_vor_versions and max(supported_vor_versions) >= 3:
-            # they say they support VOR v3 or higher (future proof check)
-            return response
-
-        # client specifically accepts v1 or v2 VOR only
-        # we might be ok if the content is valid under v2 (v1 is now obsolete and due to be removed)
-        body = json.loads(response.content.decode("utf-8"))
-        if v3_vor_valid_under_v2(body):
-            # all good
-            # we have to recreate the response because the Django/REST library response is immutable or something
-            new_content_type = "application/vnd.elife.article-vor+json; version=2"
-            new_response = HttpResponse(response.content, content_type=new_content_type)
-            # this is where RESTResponses keep it
-            new_response.content_type = new_content_type
-            return new_response
-
-        # nuts, we have a v3-only article and client had a very limited Accept header
-        return ErrorResponse(
-            406, "not acceptable", "could not negotiate an acceptable response type"
-        )
+        return response
 
     return middleware
