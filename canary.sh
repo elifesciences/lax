@@ -16,3 +16,6 @@ echo "[any key to continue ...]"
 read -p "$*"
 pip-review --auto --pre # update everything
 pip freeze > new-requirements.txt
+
+echo
+echo "wrote 'new-requirements.txt'"

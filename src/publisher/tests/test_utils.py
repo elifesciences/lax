@@ -118,21 +118,23 @@ class TestUtils(base.BaseCase):
         self.assertEqual(utils.json_dumps(struct), expected)
 
     def test_json_dumps_rfc3339_on_non_utc(self):
-        tz = pytz.timezone(
-            "Australia/Adelaide"
-        )  # +9.5 hours ahead, but pytz thinks it's only +9
+        # nice, but don't do this. the timezone changes with DST
+        # tz = pytz.timezone(
+        #    "Australia/Adelaide"
+        # )
+        fixed_offset = pytz.FixedOffset(9.5 * 60)  # ACST or Australia/Adelaide sans DST
         dt = datetime(
             year=2001,
             month=1,
             day=1,
             hour=9,
-            minute=59,
+            minute=30,
             second=59,
             microsecond=123,
-            tzinfo=tz,
+            tzinfo=fixed_offset,
         )
         struct = {"dt": dt}
-        expected = '{"dt": "2001-01-01T00:59:59Z"}'
+        expected = '{"dt": "2001-01-01T00:00:59Z"}'
         self.assertEqual(utils.json_dumps(struct), expected)
 
     def test_resolve_paths(self):
