@@ -13,8 +13,8 @@ the [Django web framework](https://www.djangoproject.com/) and a
 
 Documentation can be found here:
 
+* [API GUI](https://api.elifesciences.org/documentation/#articles)
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
-* [Swagger](https://lax.elifesciences.org/api/docs/) (or your [local version](/api/docs/))
 
 For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) article:
 
