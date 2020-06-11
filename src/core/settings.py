@@ -78,7 +78,6 @@ INSTALLED_APPS = (
     "explorer",  # sql creation
     # 'django_db_logger', # logs certain entries to the database
     "rest_framework",
-    "rest_framework_swagger",  # gui for api
     "reports",  # necessary for management commands
     "publisher",
 )
@@ -214,12 +213,6 @@ REST_FRAMEWORK = {
     # )
 }
 
-SWAGGER_SETTINGS = {
-    "api_version": "1",
-    "exclude_namespaces": [
-        "proxied"
-    ],  # swagger docs are broken, but this gives them the right namespace
-}
 
 #
 # sql explorer
