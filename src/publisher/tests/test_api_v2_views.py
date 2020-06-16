@@ -23,12 +23,14 @@ class V2ContentTypes(base.BaseCase):
     def setUp(self):
         self.c = Client()
         self.msid = 16695
+        # poa
         self.ajson_fixture_v1 = join(
             self.fixture_dir, "ajson", "elife-16695-v1.xml.json"
-        )  # poa
+        )
+        # vor
         self.ajson_fixture_v2 = join(
             self.fixture_dir, "ajson", "elife-16695-v2.xml.json"
-        )  # vor
+        )
 
     def test_accept_types(self):
         "various accept headers return expected response"
@@ -188,16 +190,12 @@ class V2ContentTypes(base.BaseCase):
             self.assertTrue("title" in body)  # 'detail' is optional
 
 
-class Ping(base.BaseCase):
-    def test_ping(self):
-        self.c = Client()
-        resp = self.c.get(reverse("v2:ping"))
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.content_type, "text/plain; charset=UTF-8")
-        self.assertEqual(
-            resp["Cache-Control"], "must-revalidate, no-cache, no-store, private"
-        )
-        self.assertEqual(resp.content.decode("utf-8"), "pong")
+def test_ping():
+    resp = Client().get(reverse("v2:ping"))
+    assert resp.status_code == 200
+    assert resp.content_type == "text/plain; charset=UTF-8"
+    assert resp["Cache-Control"] == "must-revalidate, no-cache, no-store, private"
+    assert resp.content.decode("utf-8") == "pong"
 
 
 class V2Content(base.BaseCase):
@@ -1061,10 +1059,9 @@ class RequestArgs(base.BaseCase):
         self.assertEqual(len(data["items"]), 2)
         self.assertEqual(data["total"], 2)
 
+        # numbers descend 20125, 20105 <-
         id_list = [int(row["id"]) for row in data["items"]]
-        self.assertEqual(
-            id_list, [self.msid1, self.msid2]
-        )  # numbers descend 20125, 20105 <-
+        self.assertEqual(id_list, [self.msid1, self.msid2])
 
     #
     # bad requests

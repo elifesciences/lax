@@ -1,6 +1,6 @@
 from os.path import join
 import json
-from .base import BaseCase
+from . import base
 from publisher import fragment_logic as logic, ajson_ingestor, models
 from datetime import datetime
 
@@ -15,7 +15,7 @@ the result is valid article json
 """
 
 
-class ArticleIngestFragmentLogic(BaseCase):
+class ArticleIngestFragmentLogic(base.BaseCase):
     def setUp(self):
         self.ajson_fixture = join(self.fixture_dir, "ajson", "elife-01968-v1.xml.json")
         self.ajson = json.load(open(self.ajson_fixture, "r"))
@@ -28,7 +28,7 @@ class ArticleIngestFragmentLogic(BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
 
 
-class FragmentLogic(BaseCase):
+class FragmentLogic(base.BaseCase):
     def setUp(self):
         self.ajson_fixture = join(self.fixture_dir, "ajson", "elife-01968-v1.xml.json")
         self.ajson = json.load(open(self.ajson_fixture, "r"))
@@ -76,7 +76,7 @@ class FragmentLogic(BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1)
 
 
-class FragmentMerge(BaseCase):
+class FragmentMerge(base.BaseCase):
     def setUp(self):
         # poa, published 2016-08-16T00:00:00Z
         self.ajson_fixture = join(self.fixture_dir, "ajson", "elife-16695-v1.xml.json")
@@ -242,3 +242,35 @@ class FragmentMerge(BaseCase):
         av = self.freshen(self.av)
         expected_version_date = "2001-01-01T01:01:01Z"  # no microsecond component
         self.assertEqual(expected_version_date, av.article_json_v1["versionDate"])
+
+
+"""
+an article snippet is a subset of article data defined by the api-raml.
+
+it is created at ingestion and stored alongside the complete article-json.
+
+it is used in article listing responses.
+"""
+
+
+def test_extract_snippet():
+    ajson_fixture = join(base.FIXTURE_DIR, "ajson", "elife-01968-v1.xml.json")
+    ajson_snippet_fixture = join(
+        base.FIXTURE_DIR, "ajson", "elife-01968-v1.snippet.xml.json"
+    )
+    merged_ajson = json.load(open(ajson_fixture, "r"))
+    expected = json.load(open(ajson_snippet_fixture, "r"))
+
+    # the article-json at this point has just finished pre-processing, all of the hidden fields
+    # have been stripped, extra fields added, etc and it's about to be inserted into the db.
+    # the fixture we use comes from bot-lax and contains a snippet and journal information that
+    # lax discards early on.
+    merged_ajson = merged_ajson["article"]
+    assert expected == logic.extract_snippet(merged_ajson)
+
+
+def test_extract_snippet_empty_cases():
+    case_list = [None, {}, [], ""]
+    expected = None
+    for case in case_list:
+        assert expected == logic.extract_snippet(case)

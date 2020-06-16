@@ -146,7 +146,8 @@ def extract_snippet(merged_result):
         "version",
         "volume",
         "authorLine",
-        "abstract",
+        # lsh@2020-06: removed as part of introduction of structured abstracts
+        # "abstract",
         "figuresPdf",
         "image",
         # added by lax

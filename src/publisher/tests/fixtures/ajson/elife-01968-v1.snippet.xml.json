@@ -1,0 +1,35 @@
+{
+    "status": "vor",
+    "id": "01968",
+    "version": 1,
+    "type": "insight",
+    "doi": "10.7554/eLife.01968",
+    "authorLine": "John S Mattick",
+    "title": "Probing the phenomics of noncoding RNA",
+    "titlePrefix": "Genetics",
+    "published": "2013-12-31T00:00:00Z",
+    "versionDate": "2013-12-31T00:00:00Z",
+    "volume": 2,
+    "elocationId": "e01968",
+    "pdf": "https://cdn.elifesciences.org/articles/01968/elife-01968-v1.pdf",
+    "subjects": [
+        {
+            "id": "developmental-biology-stem-cells",
+            "name": "Developmental Biology and Stem Cells"
+        },
+        {
+            "id": "genes-chromosomes",
+            "name": "Genes and Chromosomes"
+        }
+    ],
+    "researchOrganisms": [
+        "Mouse"
+    ],
+    "copyright": {
+        "license": "CC-BY-3.0",
+        "holder": "Mattick",
+        "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution License</a>, which permits unrestricted use and redistribution provided that the original author and source are credited."
+    },
+    "stage": "published",
+    "statusDate": "2099-01-01T00:00:00Z"
+}
