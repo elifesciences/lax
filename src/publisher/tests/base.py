@@ -7,6 +7,9 @@ from django.core.management import call_command as dj_call_command
 import unittest
 from publisher.utils import renkeys, delall
 
+THIS_DIR = os.path.dirname(os.path.realpath(__file__))
+FIXTURE_DIR = os.path.join(THIS_DIR, "fixtures")
+
 
 class SimpleBaseCase(unittest.TestCase):
     this_dir = os.path.dirname(os.path.realpath(__file__))
