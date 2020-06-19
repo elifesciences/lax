@@ -21,8 +21,8 @@ ERR = "error"
 
 def ctype(status):
     return {
-        POA: "application/vnd.elife.article-poa+json; version=2",
-        VOR: "application/vnd.elife.article-vor+json; version=3",
+        POA: "application/vnd.elife.article-poa+json; version=3",
+        VOR: "application/vnd.elife.article-vor+json; version=4",
         ERR: "application/json",  # text/plain as well?
     }[status]
 
