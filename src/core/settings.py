@@ -82,6 +82,8 @@ INSTALLED_APPS = (
     "publisher",
 )
 
+# order is tricky here.
+# the request descends this list and responses ascend.
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -91,15 +93,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # content types are deprecated before being removed entirely
+    "publisher.middleware.deprecated",
     "core.middleware.KongAuthentication",  # sets a header if it looks like an authenticated request
     "publisher.middleware.error_content_check",
     # order is important here.
     "publisher.middleware.content_check",
     "publisher.middleware.downgrade_poa_content_type",
     "publisher.middleware.downgrade_vor_content_type",
-    # content types are deprecated before being removed entirely
-    # order is important here, middleware may downgrade to a deprecated content type
-    "publisher.middleware.deprecated",
     "core.middleware.DownstreamCaching",
 ]
 
@@ -192,11 +193,11 @@ REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": (
         # order is important, most to least specific
         "publisher.negotiation.ArticleListVersion1",
-        "publisher.negotiation.POAArticleVersion3",  # experimental, structured abstracts
+        "publisher.negotiation.POAArticleVersion3",
         "publisher.negotiation.POAArticleVersion2",
-        "publisher.negotiation.VORArticleVersion4",  # experimental, structured abstracts
+        "publisher.negotiation.VORArticleVersion4",
         "publisher.negotiation.VORArticleVersion3",
-        "publisher.negotiation.VORArticleVersion2",  # 2020-06: deprecated
+        "publisher.negotiation.VORArticleVersion2",
         "publisher.negotiation.ArticleHistoryVersion1",
         "publisher.negotiation.ArticleRelatedVersion1",
         # general cases
@@ -230,13 +231,11 @@ ALL_SCHEMA_IDX = {
     "poa": [
         (3, join(SCHEMA_PATH, "model/article-poa.v3.json")),
         (2, join(SCHEMA_PATH, "model/article-poa.v2.json")),
-        (1, join(SCHEMA_PATH, "model/article-poa.v1.json")),
     ],
     "vor": [
         (4, join(SCHEMA_PATH, "model/article-vor.v4.json")),
         (3, join(SCHEMA_PATH, "model/article-vor.v3.json")),
         (2, join(SCHEMA_PATH, "model/article-vor.v2.json")),
-        (1, join(SCHEMA_PATH, "model/article-vor.v1.json")),
     ],
     "history": [(1, join(SCHEMA_PATH, "model/article-history.v1.json"))],
     "list": [(1, join(SCHEMA_PATH, "model/article-list.v1.json"))],

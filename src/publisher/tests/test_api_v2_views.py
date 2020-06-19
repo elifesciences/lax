@@ -164,6 +164,22 @@ def test_structured_abstract_not_downgraded_poa():
         assert 406 == resp.status_code
 
 
+def test_deprecated_header_present():
+    "requests for deprecated content received a deprecated header in the response"
+    msid = 16695
+    fixture_path = join(base.FIXTURE_DIR, "ajson", "elife-16695-v1.xml.json")
+    fixture = json.load(open(fixture_path, "r"))["article"]
+    mock = Mock(article_json_v1=fixture, status="poa")
+    deprecated_ctype = "application/vnd.elife.article-poa+json; version=2"
+
+    with patch("publisher.logic.article_version", return_value=mock):
+        url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+        resp = Client().get(url, HTTP_ACCEPT=deprecated_ctype)
+        assert 200 == resp.status_code
+        msg = "Deprecation: Support for this Content-Type version will be removed"
+        assert msg == resp["warning"]
+
+
 #
 #
 #

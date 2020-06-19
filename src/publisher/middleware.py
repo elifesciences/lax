@@ -1,3 +1,4 @@
+from django.conf import settings
 import json
 import logging
 from .utils import isint
@@ -56,15 +57,25 @@ def requested_version(request, response):
     return (response_mime[0], "*" if not versions else max(versions))
 
 
+# deprecated content-types are simply the oldest ones
+
+DEPRECATED_VOR = (
+    "application/vnd.elife.article-vor+json",
+    "version",
+    bytes(str(settings.ALL_SCHEMA_IDX["vor"][-1][0]), "utf-8"),
+)
+DEPRECATED_POA = (
+    "application/vnd.elife.article-poa+json",
+    "version",
+    bytes(str(settings.ALL_SCHEMA_IDX["poa"][-1][0]), "utf-8"),
+)
+
+DEPRECATED_CONTENT_TYPES = [DEPRECATED_VOR, DEPRECATED_POA]
+
+
 def is_deprecated(request):
-    targets = [
-        ("application/vnd.elife.article-poa+json", "version", b"1"),
-        ("application/vnd.elife.article-vor+json", "version", b"1"),
-        # 2020-06
-        ("application/vnd.elife.article-vor+json", "version", b"2"),
-    ]
     accepts = flatten_accept(request.META.get("HTTP_ACCEPT", "*/*"))
-    for target in targets:
+    for target in DEPRECATED_CONTENT_TYPES:
         if target in accepts:
             return True
 
@@ -78,7 +89,7 @@ def deprecated(get_response_fn):
     def middleware(request):
         response = get_response_fn(request)
         if is_deprecated(request):
-            msg = "Deprecation: Support for this version will be removed"
+            msg = "Deprecation: Support for this Content-Type version will be removed"
             response["warning"] = msg
         return response
 
@@ -108,7 +119,7 @@ def error_content_check(get_response_fn):
 
 
 def content_check(get_response_fn):
-    "compares content-type requests against what is supported."
+    "compares content-type in request against those that are supported."
 
     def middleware(request):
         request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
@@ -174,7 +185,7 @@ def vor_valid_under_v3(ajson):
     return not has_structured_abstract(ajson)
 
 
-def vor_valid_under_v2(ajson):
+def vor_valid_under_v3_and_v2(ajson):
     "returns True if given article-json is valid under both version 2 and version 3 of the VOR spec"
 
     # when would this be the case ...?
@@ -198,7 +209,8 @@ def vor_valid_under_v2(ajson):
 
 
 def downgrade_vor_content_type(get_response_fn):
-    """if a content-type less than the current VOR version is requested, downgrade content-type if possible or return a 406"""
+    """if a content-type less than the current VOR version is requested, downgrade content-type if possible 
+    or return a 406"""
 
     def middleware(request):
         request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
@@ -231,13 +243,19 @@ def downgrade_vor_content_type(get_response_fn):
             return response
 
         max_accepted_vor = max(client_accepts_vor_versions)
+        current_vor_version = settings.ALL_SCHEMA_IDX["vor"][0][0]
+
+        if max_accepted_vor == current_vor_version:
+            # user requested the current latest VOR version
+            return response
+
         body = json.loads(response.content.decode("utf-8"))
 
         if max_accepted_vor == 3:
             # client specifically accepts a v3 VOR only
             # we might be ok if the content is valid under v3
             if vor_valid_under_v3(body):
-                # all good, drop content-type returned to VOR v2
+                # all good, drop content-type returned to VOR v3
                 # we have to recreate the response because the Django/REST library response is immutable or something
                 new_content_type = "application/vnd.elife.article-vor+json; version=3"
                 new_response = HttpResponse(
@@ -250,7 +268,7 @@ def downgrade_vor_content_type(get_response_fn):
         if max_accepted_vor == 2:
             # client specifically accepts a v2 VOR only (deprecated)
             # we might be ok if the content is valid under v3 and v2
-            if vor_valid_under_v2(body):
+            if vor_valid_under_v3_and_v2(body):
                 # all good, drop content-type returned to VOR v2
                 # we have to recreate the response because the Django/REST library response is immutable or something
                 new_content_type = "application/vnd.elife.article-vor+json; version=2"
@@ -261,7 +279,7 @@ def downgrade_vor_content_type(get_response_fn):
                 new_response.content_type = new_content_type
                 return new_response
 
-        # nuts, we have a v4-only article and client had a very limited Accept header
+        # an unsupported VOR version was requested.
         return ErrorResponse(
             406, "not acceptable", "could not negotiate an acceptable response type",
         )
@@ -285,7 +303,7 @@ def downgrade_poa_content_type(get_response_fn):
             # unsuccessful response, ignore
             return response
 
-        # are we returning VOR content?
+        # are we returning POA content?
         poa_ctype = "application/vnd.elife.article-poa+json"
         resp_ctype = get_content_type(response)
 
@@ -308,13 +326,11 @@ def downgrade_poa_content_type(get_response_fn):
             return response
 
         max_accepted_poa = max(client_accepts_poa_versions)
-        current_poa_version = 3  # TODO: fix
+        current_poa_version = settings.ALL_SCHEMA_IDX["poa"][0][0]
 
         if max_accepted_poa == current_poa_version:
-            # user requested the current latest version of
+            # user requested the current latest POA version
             return response
-
-        body = json.loads(response.content.decode("utf-8"))
 
         if max_accepted_poa == 2:
             # client specifically accepts a v2 POA only (deprecated)
@@ -331,7 +347,7 @@ def downgrade_poa_content_type(get_response_fn):
                 new_response.content_type = new_content_type
                 return new_response
 
-        # nuts, we have a v4-only article and client had a very limited Accept header
+        # an unsupported POA version was requested
         return ErrorResponse(
             406, "not acceptable", "could not negotiate an acceptable response type",
         )

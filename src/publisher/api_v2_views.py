@@ -18,12 +18,15 @@ LOG = logging.getLogger(__name__)
 
 ERR = "error"
 
+CURRENT_POA_VERSION = str(settings.ALL_SCHEMA_IDX["poa"][0][0])
+CURRENT_VOR_VERSION = str(settings.ALL_SCHEMA_IDX["vor"][0][0])
+
 
 def ctype(status):
     return {
-        POA: "application/vnd.elife.article-poa+json; version=3",
-        VOR: "application/vnd.elife.article-vor+json; version=4",
-        ERR: "application/json",  # text/plain as well?
+        POA: "application/vnd.elife.article-poa+json; version=" + CURRENT_POA_VERSION,
+        VOR: "application/vnd.elife.article-vor+json; version=" + CURRENT_VOR_VERSION,
+        ERR: "application/json",
     }[status]
 
 
