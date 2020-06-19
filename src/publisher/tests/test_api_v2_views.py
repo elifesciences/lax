@@ -23,8 +23,16 @@ SCHEMA_IDX = settings.SCHEMA_IDX  # weird, can't import directly from settings ?
 #
 
 
+def test_ping():
+    resp = Client().get(reverse("v2:ping"))
+    assert resp.status_code == 200
+    assert resp.content_type == "text/plain; charset=UTF-8"
+    assert resp["Cache-Control"] == "must-revalidate, no-cache, no-store, private"
+    assert resp.content.decode("utf-8") == "pong"
+
+
 def test_accept_types():
-    "valid HTTP 'Accept' headers return expected responses"
+    "valid HTTP 'Accept' headers return expected 'Content-Type' responses"
     # (client accepts, expected accepts)
     cases = [
         # 1, typical case. accepts anything, gets latest POA spec version
@@ -123,12 +131,37 @@ def test_unacceptable_types():
             assert 406 == resp.status_code, msg
 
 
-def test_ping():
-    resp = Client().get(reverse("v2:ping"))
-    assert resp.status_code == 200
-    assert resp.content_type == "text/plain; charset=UTF-8"
-    assert resp["Cache-Control"] == "must-revalidate, no-cache, no-store, private"
-    assert resp.content.decode("utf-8") == "pong"
+def test_structured_abstract_not_downgraded_vor():
+    "a vor with a structured abstract cannot be downgraded to vor v3"
+    msid = 31549  # vor spec version 4, our first
+    fixture_path = join(
+        base.FIXTURE_DIR, "structured-abstracts", "elife-31549-v1.xml.json"
+    )
+    fixture = json.load(open(fixture_path, "r"))["article"]
+    mock = Mock(article_json_v1=fixture, status="vor")
+    vor_v3_ctype = "application/vnd.elife.article-vor+json; version=3"
+
+    with patch("publisher.logic.article_version", return_value=mock):
+        url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+        resp = Client().get(url, HTTP_ACCEPT=vor_v3_ctype)
+        assert 406 == resp.status_code
+
+
+def test_structured_abstract_not_downgraded_poa():
+    "a poa with a structured abstract cannot be downgraded to poa v2"
+    msid = 31549  # vor spec version 4, our first
+    fixture_path = join(
+        base.FIXTURE_DIR, "structured-abstracts", "elife-31549-v1.xml.json"
+    )
+    fixture = json.load(open(fixture_path, "r"))["article"]
+    fixture["status"] = "poa"
+    mock = Mock(article_json_v1=fixture, status="poa")
+    poa_v2_ctype = "application/vnd.elife.article-poa+json; version=2"
+
+    with patch("publisher.logic.article_version", return_value=mock):
+        url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+        resp = Client().get(url, HTTP_ACCEPT=poa_v2_ctype)
+        assert 406 == resp.status_code
 
 
 #

@@ -190,14 +190,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [],
     # 'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     "DEFAULT_RENDERER_CLASSES": (
+        # order is important, most to least specific
         "publisher.negotiation.ArticleListVersion1",
         "publisher.negotiation.POAArticleVersion3",  # experimental, structured abstracts
         "publisher.negotiation.POAArticleVersion2",
-        # "publisher.negotiation.POAArticleVersion1", # 2020-06: disabled
         "publisher.negotiation.VORArticleVersion4",  # experimental, structured abstracts
         "publisher.negotiation.VORArticleVersion3",
         "publisher.negotiation.VORArticleVersion2",  # 2020-06: deprecated
-        # "publisher.negotiation.VORArticleVersion1", # 2020-06: disabled
         "publisher.negotiation.ArticleHistoryVersion1",
         "publisher.negotiation.ArticleRelatedVersion1",
         # general cases
@@ -208,11 +207,6 @@ REST_FRAMEWORK = {
         "publisher.negotiation.ArticleList",
         "rest_framework.renderers.JSONRenderer",
     ),
-    # no idea why this doesn't work
-    # KNOWN_CLASSES + (
-    #    'rest_framework.renderers.JSONRenderer',
-    #    #'rest_framework.renderers.BrowsableAPIRenderer',
-    # )
 }
 
 
@@ -295,7 +289,7 @@ ENABLE_RELATIONS = True
 # when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, True.
 RELATED_ARTICLE_STUBS = cfg("general.related-article-stubs", True)
 
-# DEPRECATED: failure to validate article-json should always fail an ingest/publish
+# DEPRECATED: failure to validate article-json should always fail an ingest/publish.
 # when ingesting and publishing article-json with the force=True parameter,
 # should validation failures cause the ingest/publish action to fail?
 # VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)

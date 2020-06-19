@@ -1,56 +1,12 @@
 import json
-from collections import OrderedDict
 import logging
-from .utils import lmap, isint
+from .utils import isint
 from rest_framework.response import Response as RESTResponse
 from .api_v2_views import ErrorResponse
 from django.http import HttpResponse
 from django.http.multipartparser import parse_header
 
 LOG = logging.getLogger(__name__)
-
-#
-# utils
-#
-
-# temporarily borrowed from bot-lax-adaptor...
-def visit(data, pred, fn, coll=None):
-    "visits every value in the given data and applies `fn` when `pred` is true "
-    if pred(data):
-        if coll is not None:
-            data = fn(data, coll)
-        else:
-            data = fn(data)
-        # why don't we return here after matching?
-        # the match may contain matches within child elements (lists, dicts)
-        # we want to visit them, too
-    if isinstance(data, OrderedDict):
-        results = OrderedDict()
-        for key, val in data.items():
-            results[key] = visit(val, pred, fn, coll)
-        return results
-    elif isinstance(data, dict):
-        return {key: visit(val, pred, fn, coll) for key, val in data.items()}
-    elif isinstance(data, list):
-        return [visit(row, pred, fn, coll) for row in data]
-    # unsupported type/no further matches
-    return data
-
-
-def visit_target(content, transformer):
-    def pred(element):
-        "returns True if given element is a target for transformation"
-        if isinstance(element, dict):
-            return "additionalFiles" in element or "sourceData" in element
-
-    def fn(element):
-        "transforms element's contents into something valid"
-        for target in ["additionalFiles", "assets", "sourceData"]:
-            if target in element:
-                element[target] = lmap(transformer, element[target])
-        return element
-
-    return visit(content, pred, fn)
 
 
 def get_content_type(resp):
@@ -73,6 +29,14 @@ def flatten_accept(header, just_elife=False):
         # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
         lst.append((parsed_mime, "version", parsed_params.pop("version", None)))
     return lst
+
+
+def has_structured_abstract(ajson):
+    "returns True if ajson contains a structured abstract"
+    if "abstract" in ajson:
+        # a regular abstract is just the keys 'type' and 'text'
+        # a structured abstract also has an 'id' field
+        return "id" in ajson["abstract"]["content"][0]
 
 
 #
@@ -204,9 +168,10 @@ def content_check(get_response_fn):
 # downgrade response content-type if possible
 #
 
-# TODO: how to test for structured abstract?
+
 def vor_valid_under_v3(ajson):
-    return True
+    "returns True if given article-json is valid under version 3 of the VOR spec (no structured abstract)"
+    return not has_structured_abstract(ajson)
 
 
 def vor_valid_under_v2(ajson):
@@ -306,7 +271,7 @@ def downgrade_vor_content_type(get_response_fn):
 
 def poa_valid_under_v2(ajson):
     "returns True if the given article-json is valid POA v2 (no structured abstract)"
-    return True
+    return not has_structured_abstract(ajson)
 
 
 def downgrade_poa_content_type(get_response_fn):
