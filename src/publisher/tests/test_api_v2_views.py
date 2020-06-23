@@ -77,9 +77,9 @@ def test_accept_types():
     poa_fixture = json.load(open(ajson_fixture_v1, "r"))["article"]
     mock = Mock(article_json_v1=poa_fixture, status="poa")
 
-    with patch("publisher.logic.article_version", return_value=mock):
+    with patch("publisher.logic.most_recent_article_version", return_value=mock):
         for i, (client_accepts, expected_accepted) in enumerate(cases):
-            url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+            url = reverse("v2:article", kwargs={"msid": msid})
             resp = Client().get(url, HTTP_ACCEPT=client_accepts)
             msg = "failed case %s %r, got: %s" % (
                 i + 1,
@@ -110,9 +110,9 @@ def test_unacceptable_types():
         "application/vnd.elife.article-vor+json",
         # 5, cannot fulfill request (fixture is still a poa)
         "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
-        # 6, fictious content versions (for now)
+        # 6, fictitious content versions (for now)
         "application/vnd.elife.article-vor+json; version=8, application/vnd.elife.article-vor+json; version=9",
-        # 7. fictious content versions (for now)
+        # 7. fictitious content versions (for now)
         "application/vnd.elife.article-poa+json; version=9",
         # 8. unrecognised content types
         "application/foo.bar.baz; version=1",
@@ -123,9 +123,9 @@ def test_unacceptable_types():
     poa_fixture = json.load(open(ajson_fixture_v1, "r"))["article"]
     mock = Mock(article_json_v1=poa_fixture, status="poa")
 
-    with patch("publisher.logic.article_version", return_value=mock):
+    with patch("publisher.logic.most_recent_article_version", return_value=mock):
         for i, client_accepts in enumerate(cases):
-            url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+            url = reverse("v2:article", kwargs={"msid": msid})
             resp = Client().get(url, HTTP_ACCEPT=client_accepts)
             msg = "failed case %s, got: %s" % (i + 1, resp.status_code,)
             assert 406 == resp.status_code, msg
@@ -141,8 +141,8 @@ def test_structured_abstract_not_downgraded_vor():
     mock = Mock(article_json_v1=fixture, status="vor")
     vor_v3_ctype = "application/vnd.elife.article-vor+json; version=3"
 
-    with patch("publisher.logic.article_version", return_value=mock):
-        url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+    with patch("publisher.logic.most_recent_article_version", return_value=mock):
+        url = reverse("v2:article", kwargs={"msid": msid})
         resp = Client().get(url, HTTP_ACCEPT=vor_v3_ctype)
         assert 406 == resp.status_code
 
@@ -158,8 +158,8 @@ def test_structured_abstract_not_downgraded_poa():
     mock = Mock(article_json_v1=fixture, status="poa")
     poa_v2_ctype = "application/vnd.elife.article-poa+json; version=2"
 
-    with patch("publisher.logic.article_version", return_value=mock):
-        url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+    with patch("publisher.logic.most_recent_article_version", return_value=mock):
+        url = reverse("v2:article", kwargs={"msid": msid})
         resp = Client().get(url, HTTP_ACCEPT=poa_v2_ctype)
         assert 406 == resp.status_code
 
@@ -172,8 +172,8 @@ def test_deprecated_header_present():
     mock = Mock(article_json_v1=fixture, status="poa")
     deprecated_ctype = "application/vnd.elife.article-poa+json; version=2"
 
-    with patch("publisher.logic.article_version", return_value=mock):
-        url = reverse("v2:article-version", kwargs={"msid": msid, "version": 1})
+    with patch("publisher.logic.most_recent_article_version", return_value=mock):
+        url = reverse("v2:article", kwargs={"msid": msid})
         resp = Client().get(url, HTTP_ACCEPT=deprecated_ctype)
         assert 200 == resp.status_code
         msg = "Deprecation: Support for this Content-Type version will be removed"
@@ -307,7 +307,6 @@ class V2Content(base.BaseCase):
         "a list of published articles are returned to an unauthenticated response"
         resp = self.c.get(reverse("v2:article-list"))
         self.assertEqual(resp.status_code, 200)
-        # TODO: fix
         self.assertEqual(
             resp.content_type, "application/vnd.elife.article-list+json; version=1"
         )
@@ -330,7 +329,6 @@ class V2Content(base.BaseCase):
         "a list of published and unpublished articles are returned to an authorized response"
         resp = self.ac.get(reverse("v2:article-list"))
         self.assertEqual(resp.status_code, 200)
-        # TODO: fix
         self.assertEqual(
             resp.content_type, "application/vnd.elife.article-list+json; version=1"
         )
@@ -352,7 +350,6 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        # TODO: fix
         self.assertEqual(
             resp.content_type, "application/vnd.elife.article-poa+json; version=3"
         )
@@ -368,7 +365,6 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.ac.get(reverse("v2:article", kwargs={"msid": self.msid2}))
         self.assertEqual(resp.status_code, 200)
-        # TODO: fix
         self.assertEqual(
             resp.content_type, "application/vnd.elife.article-poa+json; version=3"
         )
@@ -384,7 +380,6 @@ class V2Content(base.BaseCase):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
-        # TODO: fix
         self.assertEqual(
             resp.content_type, "application/vnd.elife.article-vor+json; version=4"
         )
@@ -442,7 +437,6 @@ class V2Content(base.BaseCase):
         )
         self.assertEqual(resp.status_code, 200)
 
-        # TODO: fix
         self.assertEqual(
             resp.content_type, "application/vnd.elife.article-history+json; version=1"
         )
@@ -475,7 +469,6 @@ class V2Content(base.BaseCase):
         )
         self.assertEqual(resp.status_code, 200)
 
-        # TODO: fix
         self.assertEqual(
             resp.content_type, "application/vnd.elife.article-history+json; version=1"
         )
