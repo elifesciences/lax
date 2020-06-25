@@ -82,6 +82,8 @@ INSTALLED_APPS = (
     "publisher",
 )
 
+# order is tricky here.
+# the request descends this list and responses ascend.
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -91,15 +93,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # content types are deprecated before being removed entirely
+    "publisher.middleware.deprecated",
     "core.middleware.KongAuthentication",  # sets a header if it looks like an authenticated request
     "publisher.middleware.error_content_check",
-    # order is important here. the content response is checked
-    # *after* the api v1/2 transformation (if any)
+    # order is important here.
     "publisher.middleware.content_check",
-    "publisher.middleware.incompatible_v2_check",
-    # v1 poa+vor are now obsolete and will be removed
-    "publisher.middleware.apiv1_deprecated",  # api v1 and v2 content transformations. temporary.
-    "publisher.middleware.apiv12transform",  # api v1 and v2 content transformations. temporary.
+    "publisher.middleware.downgrade_poa_content_type",
+    "publisher.middleware.downgrade_vor_content_type",
     "core.middleware.DownstreamCaching",
 ]
 
@@ -190,12 +191,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [],
     # 'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
     "DEFAULT_RENDERER_CLASSES": (
+        # order is important, most to least specific
         "publisher.negotiation.ArticleListVersion1",
+        "publisher.negotiation.POAArticleVersion3",
         "publisher.negotiation.POAArticleVersion2",
-        "publisher.negotiation.POAArticleVersion1",
+        "publisher.negotiation.VORArticleVersion4",
         "publisher.negotiation.VORArticleVersion3",
         "publisher.negotiation.VORArticleVersion2",
-        "publisher.negotiation.VORArticleVersion1",
         "publisher.negotiation.ArticleHistoryVersion1",
         "publisher.negotiation.ArticleRelatedVersion1",
         # general cases
@@ -206,11 +208,6 @@ REST_FRAMEWORK = {
         "publisher.negotiation.ArticleList",
         "rest_framework.renderers.JSONRenderer",
     ),
-    # no idea why this doesn't work
-    # KNOWN_CLASSES + (
-    #    'rest_framework.renderers.JSONRenderer',
-    #    #'rest_framework.renderers.BrowsableAPIRenderer',
-    # )
 }
 
 
@@ -228,17 +225,17 @@ EXPLORER_DEFAULT_CONNECTION = "default"
 
 SCHEMA_PATH = join(PROJECT_DIR, "schema/api-raml/dist")
 
-# a response is valid if validates under any version of it's schema.
+# a response is valid if it validates under any version of it's schema.
 # order is important. if all attempts to validate fail, the first validation error is re-raised
 ALL_SCHEMA_IDX = {
     "poa": [
+        (3, join(SCHEMA_PATH, "model/article-poa.v3.json")),
         (2, join(SCHEMA_PATH, "model/article-poa.v2.json")),
-        (1, join(SCHEMA_PATH, "model/article-poa.v1.json")),
     ],
     "vor": [
+        (4, join(SCHEMA_PATH, "model/article-vor.v4.json")),
         (3, join(SCHEMA_PATH, "model/article-vor.v3.json")),
         (2, join(SCHEMA_PATH, "model/article-vor.v2.json")),
-        (1, join(SCHEMA_PATH, "model/article-vor.v1.json")),
     ],
     "history": [(1, join(SCHEMA_PATH, "model/article-history.v1.json"))],
     "list": [(1, join(SCHEMA_PATH, "model/article-list.v1.json"))],
@@ -291,14 +288,11 @@ ENABLE_RELATIONS = True
 # when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, True.
 RELATED_ARTICLE_STUBS = cfg("general.related-article-stubs", True)
 
-# DEPRECATED: failure to validate article-json should always fail an ingest/publish
+# DEPRECATED: failure to validate article-json should always fail an ingest/publish.
 # when ingesting and publishing article-json with the force=True parameter,
 # should validation failures cause the ingest/publish action to fail?
 # VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
 VALIDATE_FAILS_FORCE = True
-
-#
-API_V12_TRANSFORMS = True
 
 #
 # logging

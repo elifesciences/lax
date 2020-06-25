@@ -1,57 +1,13 @@
-import json
-from collections import OrderedDict
 from django.conf import settings
+import json
 import logging
-from .utils import lmap, isint
+from .utils import isint
 from rest_framework.response import Response as RESTResponse
 from .api_v2_views import ErrorResponse
 from django.http import HttpResponse
 from django.http.multipartparser import parse_header
 
 LOG = logging.getLogger(__name__)
-
-#
-# utils
-#
-
-# temporarily borrowed from bot-lax-adaptor...
-def visit(data, pred, fn, coll=None):
-    "visits every value in the given data and applies `fn` when `pred` is true "
-    if pred(data):
-        if coll is not None:
-            data = fn(data, coll)
-        else:
-            data = fn(data)
-        # why don't we return here after matching?
-        # the match may contain matches within child elements (lists, dicts)
-        # we want to visit them, too
-    if isinstance(data, OrderedDict):
-        results = OrderedDict()
-        for key, val in data.items():
-            results[key] = visit(val, pred, fn, coll)
-        return results
-    elif isinstance(data, dict):
-        return {key: visit(val, pred, fn, coll) for key, val in data.items()}
-    elif isinstance(data, list):
-        return [visit(row, pred, fn, coll) for row in data]
-    # unsupported type/no further matches
-    return data
-
-
-def visit_target(content, transformer):
-    def pred(element):
-        "returns True if given element is a target for transformation"
-        if isinstance(element, dict):
-            return "additionalFiles" in element or "sourceData" in element
-
-    def fn(element):
-        "transforms element's contents into something valid"
-        for target in ["additionalFiles", "assets", "sourceData"]:
-            if target in element:
-                element[target] = lmap(transformer, element[target])
-        return element
-
-    return visit(content, pred, fn)
 
 
 def get_content_type(resp):
@@ -76,59 +32,17 @@ def flatten_accept(header, just_elife=False):
     return lst
 
 
+def has_structured_abstract(ajson):
+    "returns True if ajson contains a structured abstract"
+    if "abstract" in ajson:
+        # a regular abstract is just the keys 'type' and 'text'
+        # a structured abstract also has an 'id' field
+        return "id" in ajson["abstract"]["content"][0]
+
+
 #
 #
 #
-
-
-def downgrade(content):
-    "returns v1-compliant content"
-
-    def transformer(item):
-        if not "title" in item:
-            if "label" in item:
-                item["title"] = item["label"]
-                del item["label"]  # good idea?
-            else:
-                # what title do we assign if we have no label?
-                pass
-        return item
-
-    return visit_target(content, transformer)
-
-
-"""
-def upgrade(content):
-    "returns v2-compliant content"
-    def transformer(item):
-        if not 'label' in item:
-            item['label'] = item['title']
-            del item['title']
-        return item
-    return visit_target(content, transformer)
-"""
-
-TRANSFORMS = {
-    1: downgrade,
-    # all content has now been upgraded to v2.
-    # '2': upgrade,
-    # '*': upgrade, # accept ll: */*
-}
-
-
-def transformable(response):
-    "exclude everything but api requests"
-    content_type = get_content_type(response)
-    if settings.API_V12_TRANSFORMS and content_type:
-        # not present in redirects and such
-        # target any response of content type:
-        target = [
-            "application/vnd.elife.article-poa+json",
-            "application/vnd.elife.article-vor+json",
-        ]
-        for row in flatten_accept(content_type, just_elife=True):
-            if row[0] in target:
-                return True
 
 
 def requested_version(request, response):
@@ -143,15 +57,25 @@ def requested_version(request, response):
     return (response_mime[0], "*" if not versions else max(versions))
 
 
-def deprecated(request):
-    if not settings.API_V12_TRANSFORMS:
-        return False
-    targets = [
-        ("application/vnd.elife.article-poa+json", "version", b"1"),
-        ("application/vnd.elife.article-vor+json", "version", b"1"),
-    ]
+# deprecated content-types are simply the oldest ones
+
+DEPRECATED_VOR = (
+    "application/vnd.elife.article-vor+json",
+    "version",
+    bytes(str(settings.ALL_SCHEMA_IDX["vor"][-1][0]), "utf-8"),
+)
+DEPRECATED_POA = (
+    "application/vnd.elife.article-poa+json",
+    "version",
+    bytes(str(settings.ALL_SCHEMA_IDX["poa"][-1][0]), "utf-8"),
+)
+
+DEPRECATED_CONTENT_TYPES = [DEPRECATED_VOR, DEPRECATED_POA]
+
+
+def is_deprecated(request):
     accepts = flatten_accept(request.META.get("HTTP_ACCEPT", "*/*"))
-    for target in targets:
+    for target in DEPRECATED_CONTENT_TYPES:
         if target in accepts:
             return True
 
@@ -161,45 +85,12 @@ def deprecated(request):
 #
 
 
-def apiv12transform(get_response_fn):
+def deprecated(get_response_fn):
     def middleware(request):
         response = get_response_fn(request)
-        if transformable(response):
-            mime, version = requested_version(request, response)
-            if version in TRANSFORMS:
-                content = json.loads(response.content.decode("utf-8"))
-                content = bytes(
-                    json.dumps(TRANSFORMS[version](content), ensure_ascii=False),
-                    "utf-8",
-                )
-                new_content_type = "%s; version=%s" % (mime, version)
-
-                new_response = HttpResponse(content, content_type=new_content_type)
-                # this is where RESTResponses keep it
-                # keeps some wrangling out of tests
-                new_response.content_type = new_content_type
-
-                # nothing here works: https://github.com/encode/django-rest-framework/blob/master/rest_framework/response.py
-                # print('new content type', new_content_type)
-                # response.content_type = new_content_type
-                # response.__dict__['content_type'] = new_content_type
-                # response.__dict__['Content-Type'] = new_content_type
-                # setattr(response, 'Content-Type', new_content_type)
-                # response.render()
-                # print('>>',response) # should equal new content type, doesn't
-
-                # not great, but I can't affect the content_type of the existing RESTResponse for some reason
-                response = new_response
-        return response
-
-    return middleware
-
-
-def apiv1_deprecated(get_response_fn):
-    def middleware(request):
-        response = get_response_fn(request)
-        if deprecated(request):
-            response["warning"] = "Deprecation: Support for version 1 will be removed"
+        if is_deprecated(request):
+            msg = "Deprecation: Support for this Content-Type version will be removed"
+            response["warning"] = msg
         return response
 
     return middleware
@@ -228,6 +119,8 @@ def error_content_check(get_response_fn):
 
 
 def content_check(get_response_fn):
+    "compares content-type in request against those that are supported."
+
     def middleware(request):
         request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
 
@@ -281,13 +174,26 @@ def content_check(get_response_fn):
 
 
 #
-#
+# downgrade VOR
+# when a content-type less than the current VOR version is requested,
+# downgrade response content-type if possible
 #
 
 
-def v3_vor_valid_under_v2(ajson):
+def vor_valid_under_v3(ajson):
+    "returns True if given article-json is valid under version 3 of the VOR spec (no structured abstract)"
+    return not has_structured_abstract(ajson)
+
+
+def vor_valid_under_v3_and_v2(ajson):
     "returns True if given article-json is valid under both version 2 and version 3 of the VOR spec"
+
+    # when would this be the case ...?
     if ajson["status"] != "vor":
+        return False
+
+    # vor must be a valid v3 as well
+    if not vor_valid_under_v3(ajson):
         return False
 
     path_list = [
@@ -302,7 +208,10 @@ def v3_vor_valid_under_v2(ajson):
     return True
 
 
-def incompatible_v2_check(get_response_fn):
+def downgrade_vor_content_type(get_response_fn):
+    """if a content-type less than the current VOR version is requested, downgrade content-type if possible 
+    or return a 406"""
+
     def middleware(request):
         request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
         response = get_response_fn(request)
@@ -315,38 +224,132 @@ def incompatible_v2_check(get_response_fn):
         vor_ctype = "application/vnd.elife.article-vor+json"
         resp_ctype = get_content_type(response)
 
-        if vor_ctype in resp_ctype:
-            client_accepts_list = flatten_accept(request_accept_header)
-            client_accepts_vor_list = [
-                row for row in client_accepts_list if row[0] == vor_ctype
-            ]
-            client_accepts_vor_versions = [
-                int(row[-1]) for row in client_accepts_vor_list if isint(row[-1])
-            ]  # [1, 2, 3, ...]
-            if client_accepts_vor_versions and max(client_accepts_vor_versions) <= 2:
-                # client specifically accepts v1 or v2 VOR only
-                # we might be ok if the content is valid under v2 (v1 is now obsolete and due to be removed)
-                body = json.loads(response.content.decode("utf-8"))
-                if v3_vor_valid_under_v2(body):
-                    # all good, drop content-type returned to VOR v2
-                    # we have to recreate the response because the Django/REST library response is immutable or something
-                    new_content_type = (
-                        "application/vnd.elife.article-vor+json; version=2"
-                    )
-                    new_response = HttpResponse(
-                        response.content, content_type=new_content_type
-                    )
-                    # this is where RESTResponses keep it
-                    new_response.content_type = new_content_type
-                    return new_response
+        if vor_ctype not in resp_ctype:
+            # this isn't a vor
+            return response
 
-                # nuts, we have a v3-only article and client had a very limited Accept header
-                return ErrorResponse(
-                    406,
-                    "not acceptable",
-                    "could not negotiate an acceptable response type",
+        client_accepts_list = flatten_accept(request_accept_header)
+        client_accepts_vor_list = [
+            row for row in client_accepts_list if row[0] == vor_ctype
+        ]
+
+        # [1, 2, 3, ...]
+        client_accepts_vor_versions = [
+            int(row[-1]) for row in client_accepts_vor_list if isint(row[-1])
+        ]
+
+        if not client_accepts_vor_versions:
+            # no specific version specified, return latest version
+            return response
+
+        max_accepted_vor = max(client_accepts_vor_versions)
+        current_vor_version = settings.ALL_SCHEMA_IDX["vor"][0][0]
+
+        if max_accepted_vor == current_vor_version:
+            # user requested the current latest VOR version
+            return response
+
+        body = json.loads(response.content.decode("utf-8"))
+
+        if max_accepted_vor == 3:
+            # client specifically accepts a v3 VOR only
+            # we might be ok if the content is valid under v3
+            if vor_valid_under_v3(body):
+                # all good, drop content-type returned to VOR v3
+                # we have to recreate the response because the Django/REST library response is immutable or something
+                new_content_type = "application/vnd.elife.article-vor+json; version=3"
+                new_response = HttpResponse(
+                    response.content, content_type=new_content_type
                 )
+                # this is where RESTResponses keep it
+                new_response.content_type = new_content_type
+                return new_response
 
-        return response
+        if max_accepted_vor == 2:
+            # client specifically accepts a v2 VOR only (deprecated)
+            # we might be ok if the content is valid under v3 and v2
+            if vor_valid_under_v3_and_v2(body):
+                # all good, drop content-type returned to VOR v2
+                # we have to recreate the response because the Django/REST library response is immutable or something
+                new_content_type = "application/vnd.elife.article-vor+json; version=2"
+                new_response = HttpResponse(
+                    response.content, content_type=new_content_type
+                )
+                # this is where RESTResponses keep it
+                new_response.content_type = new_content_type
+                return new_response
+
+        # an unsupported VOR version was requested.
+        return ErrorResponse(
+            406, "not acceptable", "could not negotiate an acceptable response type",
+        )
+
+    return middleware
+
+
+def poa_valid_under_v2(ajson):
+    "returns True if the given article-json is valid POA v2 (no structured abstract)"
+    return not has_structured_abstract(ajson)
+
+
+def downgrade_poa_content_type(get_response_fn):
+    """if a content-type less than the current VOR version is requested, downgrade content-type if possible or return a 406"""
+
+    def middleware(request):
+        request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
+        response = get_response_fn(request)
+
+        if response.status_code != 200:
+            # unsuccessful response, ignore
+            return response
+
+        # are we returning POA content?
+        poa_ctype = "application/vnd.elife.article-poa+json"
+        resp_ctype = get_content_type(response)
+
+        if poa_ctype not in resp_ctype:
+            # this isn't a poa
+            return response
+
+        client_accepts_list = flatten_accept(request_accept_header)
+        client_accepts_poa_list = [
+            row for row in client_accepts_list if row[0] == poa_ctype
+        ]
+
+        # [1, 2, 3, ...]
+        client_accepts_poa_versions = [
+            int(row[-1]) for row in client_accepts_poa_list if isint(row[-1])
+        ]
+
+        if not client_accepts_poa_versions:
+            # no specific version specified, return latest version
+            return response
+
+        max_accepted_poa = max(client_accepts_poa_versions)
+        current_poa_version = settings.ALL_SCHEMA_IDX["poa"][0][0]
+
+        if max_accepted_poa == current_poa_version:
+            # user requested the current latest POA version
+            return response
+
+        if max_accepted_poa == 2:
+            # client specifically accepts a v2 POA only (deprecated)
+            # we might be ok if the content is valid under v3 and v2
+            body = json.loads(response.content.decode("utf-8"))
+            if poa_valid_under_v2(body):
+                # all good, drop content-type returned to POA v2
+                # we have to recreate the response because the Django/REST library response is immutable or something
+                new_content_type = "application/vnd.elife.article-poa+json; version=2"
+                new_response = HttpResponse(
+                    response.content, content_type=new_content_type
+                )
+                # this is where RESTResponses keep it
+                new_response.content_type = new_content_type
+                return new_response
+
+        # an unsupported POA version was requested
+        return ErrorResponse(
+            406, "not acceptable", "could not negotiate an acceptable response type",
+        )
 
     return middleware
