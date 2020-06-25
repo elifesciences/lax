@@ -35,9 +35,10 @@ def flatten_accept(header, just_elife=False):
 def has_structured_abstract(ajson):
     "returns True if ajson contains a structured abstract"
     if "abstract" in ajson:
-        # a regular abstract is just the keys 'type' and 'text'
-        # a structured abstract also has an 'id' field
-        return "id" in ajson["abstract"]["content"][0]
+        # a regular abstract has the keys 'type' and 'text'
+        # a structured abstract has the keys 'type', 'id', 'title', 'content'
+        # a structured abstract will *not* have the 'text' key
+        return 'text' not in ajson["abstract"]["content"][0]
 
 
 #
