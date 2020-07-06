@@ -197,7 +197,6 @@ REST_FRAMEWORK = {
         "publisher.negotiation.POAArticleVersion2",
         "publisher.negotiation.VORArticleVersion4",
         "publisher.negotiation.VORArticleVersion3",
-        "publisher.negotiation.VORArticleVersion2",
         "publisher.negotiation.ArticleHistoryVersion1",
         "publisher.negotiation.ArticleRelatedVersion1",
         # general cases
@@ -235,7 +234,6 @@ ALL_SCHEMA_IDX = {
     "vor": [
         (4, join(SCHEMA_PATH, "model/article-vor.v4.json")),
         (3, join(SCHEMA_PATH, "model/article-vor.v3.json")),
-        (2, join(SCHEMA_PATH, "model/article-vor.v2.json")),
     ],
     "history": [(1, join(SCHEMA_PATH, "model/article-history.v1.json"))],
     "list": [(1, join(SCHEMA_PATH, "model/article-list.v1.json"))],

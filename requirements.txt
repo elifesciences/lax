@@ -13,6 +13,8 @@ django-sql-explorer==1.1.3
 django-tqdm==1.0.0
 djangorestframework==3.11.0
 et3==1.5.1
+# lsh@2020-07 - pinned, isort==5.0.3 has changed it's api
+isort==4.3.21
 joblib==0.14.1
 jsonschema==3.2.0
 kids.cache==0.0.7

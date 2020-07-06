@@ -38,7 +38,7 @@ def has_structured_abstract(ajson):
         # a regular abstract has the keys 'type' and 'text'
         # a structured abstract has the keys 'type', 'id', 'title', 'content'
         # a structured abstract will *not* have the 'text' key
-        return 'text' not in ajson["abstract"]["content"][0]
+        return "text" not in ajson["abstract"]["content"][0]
 
 
 #
@@ -186,29 +186,6 @@ def vor_valid_under_v3(ajson):
     return not has_structured_abstract(ajson)
 
 
-def vor_valid_under_v3_and_v2(ajson):
-    "returns True if given article-json is valid under both version 2 and version 3 of the VOR spec"
-
-    # when would this be the case ...?
-    if ajson["status"] != "vor":
-        return False
-
-    # vor must be a valid v3 as well
-    if not vor_valid_under_v3(ajson):
-        return False
-
-    path_list = [
-        ("authorResponse", "doi"),
-        ("decisionLetter", "doi"),
-        ("digest", "doi"),
-    ]
-    for bit1, bit2 in path_list:
-        if bit1 in ajson:
-            if bit2 not in ajson[bit1]:
-                return False
-    return True
-
-
 def downgrade_vor_content_type(get_response_fn):
     """if a content-type less than the current VOR version is requested, downgrade content-type if possible 
     or return a 406"""
@@ -259,20 +236,6 @@ def downgrade_vor_content_type(get_response_fn):
                 # all good, drop content-type returned to VOR v3
                 # we have to recreate the response because the Django/REST library response is immutable or something
                 new_content_type = "application/vnd.elife.article-vor+json; version=3"
-                new_response = HttpResponse(
-                    response.content, content_type=new_content_type
-                )
-                # this is where RESTResponses keep it
-                new_response.content_type = new_content_type
-                return new_response
-
-        if max_accepted_vor == 2:
-            # client specifically accepts a v2 VOR only (deprecated)
-            # we might be ok if the content is valid under v3 and v2
-            if vor_valid_under_v3_and_v2(body):
-                # all good, drop content-type returned to VOR v2
-                # we have to recreate the response because the Django/REST library response is immutable or something
-                new_content_type = "application/vnd.elife.article-vor+json; version=2"
                 new_response = HttpResponse(
                     response.content, content_type=new_content_type
                 )
