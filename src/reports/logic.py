@@ -70,7 +70,7 @@ def paw_recent_data(limit=None):
 
 
 def paw_ahead_report_raw_data(limit=None):
-    # only select max version ArticleVersions where the Article has no POA versions
+    # only select max version ArticleVersions where the Article has no VOR versions
     query = (
         models.ArticleVersion.objects.select_related("article")
         .defer("article_json_v1", "article_json_v1_snippet")
