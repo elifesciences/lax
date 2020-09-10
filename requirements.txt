@@ -10,7 +10,7 @@ chardet==3.0.4
 click==7.1.2
 colorama==0.4.3
 coverage==5.2.1
-Django==2.0.13
+Django==2.1.15
 django-admin-view-permission==1.9
 django-annoying==0.10.6
 django-autoslug==1.9.6
