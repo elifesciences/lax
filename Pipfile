@@ -38,7 +38,7 @@ rfc3339 = "~=6.2"
 # django doesn't use semver properly.
 # minor releases may introduce breaking and backwards incompatible changes:
 # https://docs.djangoproject.com/el/3.0/internals/release-process/
-Django = "==2.1.*"
+Django = "==2.2.*"
 PyYAML = "~=5.3"
 uWSGI = "~=2.0"
 
