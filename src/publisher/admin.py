@@ -15,7 +15,8 @@ class ArticleVersionAdmin(admin.TabularInline):
     model = models.ArticleVersion
     extra = 0
 
-    def has_add_permission(self, request):
+    # https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#django.contrib.admin.InlineModelAdmin.has_add_permission
+    def has_add_permission(self, request, obj):
         return False
 
 

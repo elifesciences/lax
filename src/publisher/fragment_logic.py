@@ -115,7 +115,7 @@ def valid(merge_result, quiet=True):
     if validation_errors and not quiet:
         versions_list = " and ".join(map(str, versions_list))
         # "failed to validate using poa article schema version 1 and 2"
-        LOG.warn(
+        LOG.warning(
             "failed to validate using %s article schema version %s"
             % (status, versions_list)
         )

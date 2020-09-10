@@ -715,7 +715,7 @@ class AddFragment(base.BaseCase):
         article_url = reverse("v2:article-version-list", kwargs={"msid": self.msid})
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
-        self.assertEquals(len(data["versions"]), 2)
+        self.assertEqual(len(data["versions"]), 2)
         self.assertEqual(data["versions"][0]["title"], fragment["title"])
         self.assertEqual(data["versions"][1]["title"], fragment["title"])
 

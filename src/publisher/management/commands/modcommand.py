@@ -13,10 +13,10 @@ class ModCommand(BaseCommand):
         parse the arguments to this command.
         """
         parser = CommandParser(
-            self,
             prog="%s %s" % (os.path.basename(prog_name), subcommand),
             description=self.help or None,
         )
+        # lsh@2020-09: this whole ModCommand thing appears to exist soley to exclude `--version` here so it can be redefined in ./ingest.py
         # parser.add_argument('--version', action='version', version=self.get_version())
         parser.add_argument(
             "-v",
