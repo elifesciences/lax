@@ -35,7 +35,10 @@ pytz = "*"
 requests = "~=2.22"
 #requirements-detector = "==0.6" # ?
 rfc3339 = "~=6.2"
-Django = "~=1.11"
+# django doesn't use semver properly.
+# minor releases may introduce breaking and backwards incompatible changes:
+# https://docs.djangoproject.com/el/3.0/internals/release-process/
+Django = "==2.0.*"
 PyYAML = "~=5.3"
 uWSGI = "~=2.0"
 
