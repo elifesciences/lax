@@ -4,7 +4,7 @@ from django.conf import settings
 import reports.urls
 
 urlpatterns = [
-    url(r"^admin/", include(admin.site.urls)),
+    url(r"^admin/", admin.site.urls),
     url(r"^explorer/", include("explorer.urls")),
     url(
         r"^reports/", include(reports.urls)

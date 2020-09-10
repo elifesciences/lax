@@ -1,7 +1,7 @@
 import re
 from . import base
 from django.test import Client
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from publisher import logic, models, utils
 from datetime import timedelta
 from unittest import skip

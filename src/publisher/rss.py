@@ -2,7 +2,7 @@ from functools import partial
 from .utils import compfilter, lfilter
 from django.conf.urls import url
 from django.contrib.syndication.views import Feed
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from . import models, logic, utils
 from datetime import timedelta  # , datetime
 from django.utils.feedgenerator import Rss201rev2Feed

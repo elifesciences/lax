@@ -1,7 +1,5 @@
 from django.conf import settings
 from django.test import TestCase, Client, override_settings
-
-# from django.core.urlresolvers import reverse
 from core import middleware as mware
 
 
