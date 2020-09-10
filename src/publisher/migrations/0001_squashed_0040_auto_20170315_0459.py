@@ -12,49 +12,6 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    replaces = [
-        ("publisher", "0001_initial"),
-        ("publisher", "0002_auto_20150806_2254"),
-        ("publisher", "0003_auto_20150914_0955"),
-        ("publisher", "0004_auto_20150917_0832"),
-        ("publisher", "0005_auto_20150922_1307"),
-        ("publisher", "0006_auto_20150922_1621"),
-        ("publisher", "0007_auto_20150923_1519"),
-        ("publisher", "0008_articlecorrection"),
-        ("publisher", "0009_journal_inception"),
-        ("publisher", "0010_articleversion"),
-        ("publisher", "0011_auto_20160405_1628"),
-        ("publisher", "0012_auto_20160405_1746"),
-        ("publisher", "0013_auto_20160411_1143"),
-        ("publisher", "0014_auto_20160411_1145"),
-        ("publisher", "0015_auto_20160412_1021"),
-        ("publisher", "0016_auto_20160905_1603"),
-        ("publisher", "0017_remove_article_datetime_submitted"),
-        ("publisher", "0018_auto_20160906_1018"),
-        ("publisher", "0019_remove_article_website_path"),
-        ("publisher", "0020_auto_20160908_1806"),
-        ("publisher", "0021_auto_20160913_1454"),
-        ("publisher", "0022_auto_20160926_1010"),
-        ("publisher", "0023_auto_20160926_1038"),
-        ("publisher", "0024_auto_20161006_1745"),
-        ("publisher", "0025_auto_20161011_1330"),
-        ("publisher", "0026_articlefragment"),
-        ("publisher", "0027_auto_20161011_1539"),
-        ("publisher", "0028_auto_20161011_1627"),
-        ("publisher", "0029_auto_20161014_1533"),
-        ("publisher", "0030_auto_20161216_1154"),
-        ("publisher", "0031_auto_20170109_1514"),
-        ("publisher", "0032_auto_20170110_1414"),
-        ("publisher", "0033_auto_20170115_1343"),
-        ("publisher", "0034_auto_20170220_0714"),
-        ("publisher", "0035_auto_20170221_0523"),
-        ("publisher", "0036_auto_20170221_0559"),
-        ("publisher", "0037_auto_20170228_2318"),
-        ("publisher", "0038_auto_20170302_2304"),
-        ("publisher", "0039_auto_20170303_0029"),
-        ("publisher", "0040_auto_20170315_0459"),
-    ]
-
     initial = True
 
     dependencies = [migrations.swappable_dependency(settings.AUTH_USER_MODEL)]
