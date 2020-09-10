@@ -54,7 +54,7 @@ class Command(BaseCommand):
                 LOG.info("completed upload of snapshot: %s", fname)
                 self.echo("%s uploaded" % fname)
             else:
-                LOG.warn(
+                LOG.warning(
                     "the bucket to upload query result %r hasn't been defined in your app.cfg file. skipping upload"
                     % fname
                 )

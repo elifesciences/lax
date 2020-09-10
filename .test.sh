@@ -26,7 +26,7 @@ if [ $print_coverage -eq 0 ]; then
     # a *specific* test file or test has been given, don't bother with coverage et al
     pytest "$module" -vvv
 else
-    pytest "$module" -vvv --cov=src --cov-config=.coveragerc --junitxml=build/junit.xml
+    pytest "$module" -vvv --cov=src --cov-config=.coveragerc --junitxml=build/junit.xml --override-ini junit_family=xunit1
     coverage report
 
     # is only run if tests pass
