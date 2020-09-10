@@ -3,7 +3,7 @@ from unittest.mock import patch, Mock
 from publisher import ajson_ingestor, aws_events
 from . import base
 from os.path import join
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client, override_settings
 

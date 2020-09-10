@@ -90,7 +90,6 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.SessionAuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # content types are deprecated before being removed entirely
@@ -249,7 +248,9 @@ NUM_SCHEMA_ERRORS = NUM_SCHEMA_ERROR_SUBS = 10
 def _load_api_raml(path):
     # load the api.raml file, ignoring any "!include" commands
     yaml.add_multi_constructor("", lambda *args: "[disabled]")
-    return yaml.load(open(path, "r"))["traits"]["paged"]["queryParameters"]
+    return yaml.load(open(path, "r"), Loader=yaml.FullLoader)["traits"]["paged"][
+        "queryParameters"
+    ]
 
 
 API_OPTS = render_item(

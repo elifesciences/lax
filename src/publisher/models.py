@@ -11,7 +11,7 @@ JSONField = partial(JSONField, serializer=json_dumps, deserializer=ordered_json_
 
 POA, VOR = "poa", "vor"
 
-
+# lsh@2020-09: todo, remove. should have been removed years ago
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
 
@@ -22,10 +22,12 @@ class Publisher(models.Model):
         return "<Publisher %s>" % self.name
 
 
+# lsh@2020-09: todo, remove. should have been removed years ago
 class Journal(models.Model):
     publisher = models.ForeignKey(
         Publisher,
         null=True,
+        on_delete=models.SET_NULL,
         help_text="A publisher may have many journals. A journal doesn't necessarily need a Publisher.",
     )
     name = models.CharField(
@@ -105,7 +107,7 @@ def decision_codes():
 
 
 class Article(models.Model):
-    journal = models.ForeignKey(Journal)
+    journal = models.ForeignKey(Journal, on_delete=models.CASCADE)
     manuscript_id = models.BigIntegerField(
         unique=True,
         help_text="article identifier from beginning of submission process right through to end of publication.",
@@ -274,7 +276,8 @@ class Article(models.Model):
 
 
 class ArticleVersion(models.Model):
-    article = models.ForeignKey(Article)  # , related_name='articleversion_set')
+    # when the Article is deleted, delete this article version (never happens)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
 
     title = models.CharField(
         max_length=255, null=True, blank=True, help_text="The title of the article"
@@ -340,8 +343,10 @@ XML2JSON = "xml->json"
 
 
 class ArticleFragment(models.Model):
+    # when the Article is deleted, delete this article fragment
     article = models.ForeignKey(
         Article,
+        on_delete=models.CASCADE,
         help_text="all fragments belong to an article, only some fragments belong to an article version",
     )
     version = models.PositiveSmallIntegerField(
@@ -397,7 +402,8 @@ def article_event_choices():
 
 
 class ArticleEvent(models.Model):
-    article = models.ForeignKey(Article)
+    # when the Article is deleted, delete this article event
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
     event = models.CharField(max_length=25, choices=article_event_choices())
     datetime_event = models.DateTimeField()
     value = models.CharField(
@@ -423,9 +429,13 @@ class ArticleEvent(models.Model):
 
 
 class ArticleVersionRelation(models.Model):
-    articleversion = models.ForeignKey(ArticleVersion)
+    # when the ArticleVersion is deleted, delete this internal relationship
+    articleversion = models.ForeignKey(ArticleVersion, on_delete=models.CASCADE)
+    # when the related Article is deleted, delete this internal relationship
     related_to = models.ForeignKey(
-        Article, help_text="the Article this ArticleVersion is related to"
+        Article,
+        on_delete=models.CASCADE,
+        help_text="the Article this ArticleVersion is related to",
     )
 
     class Meta:
@@ -439,7 +449,8 @@ class ArticleVersionRelation(models.Model):
 
 
 class ArticleVersionExtRelation(models.Model):
-    articleversion = models.ForeignKey(ArticleVersion)
+    # when the ArticleVersion is deleted, delete this external relationship
+    articleversion = models.ForeignKey(ArticleVersion, on_delete=models.CASCADE)
     uri = models.URLField(max_length=2000, help_text="location of external object")
     citation = JSONField(help_text="snippet of json describing the external link")
 

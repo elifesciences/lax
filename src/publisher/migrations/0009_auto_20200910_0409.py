@@ -9,13 +9,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('publisher', '0008_articleversion_article_json_hash'),
+        ("publisher", "0008_articleversion_article_json_hash"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='journal',
-            name='publisher',
-            field=models.ForeignKey(help_text="A publisher may have many journals. A journal doesn't necessarily need a Publisher.", null=True, on_delete=django.db.models.deletion.SET_NULL, to='publisher.Publisher'),
+            model_name="journal",
+            name="publisher",
+            field=models.ForeignKey(
+                help_text="A publisher may have many journals. A journal doesn't necessarily need a Publisher.",
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="publisher.Publisher",
+            ),
         ),
     ]

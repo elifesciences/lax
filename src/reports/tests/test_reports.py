@@ -6,7 +6,7 @@ from publisher import logic as publogic, utils, ajson_ingestor, models
 from reports import logic
 import xml.etree.ElementTree as ET
 from django.test import Client
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 class CMD1(base.BaseCase):
