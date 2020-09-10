@@ -106,7 +106,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = "core.urls"
 
 # https://docs.djangoproject.com/en/1.10/ref/middleware/#module-django.middleware.common
-USE_ETAGS = True
+# USE_ETAGS = True # lsh@2020-09: deprecated in Django 2.1, not sure we actually use it
 
 TEMPLATES = [
     {
