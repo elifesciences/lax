@@ -6,6 +6,9 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
+# lsh@2020-09: this whole ModCommand thing appears to exist soley to exclude `--version` so it can be redefined in ./ingest.py
+# we may be able to remove a chunk of this now:
+# - https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/#django.core.management.BaseCommand.create_parser
 class ModCommand(BaseCommand):
     def create_parser(self, prog_name, subcommand):
         """
@@ -16,7 +19,6 @@ class ModCommand(BaseCommand):
             prog="%s %s" % (os.path.basename(prog_name), subcommand),
             description=self.help or None,
         )
-        # lsh@2020-09: this whole ModCommand thing appears to exist soley to exclude `--version` here so it can be redefined in ./ingest.py
         # parser.add_argument('--version', action='version', version=self.get_version())
         parser.add_argument(
             "-v",
@@ -49,6 +51,11 @@ class ModCommand(BaseCommand):
             dest="no_color",
             default=False,
             help="Don't colorize the command output.",
+        )
+        parser.add_argument(
+            "--force-color",
+            action="store_true",
+            help="Force colorization of the command output.",
         )
         self.add_arguments(parser)
         return parser
