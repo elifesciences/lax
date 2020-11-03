@@ -77,7 +77,6 @@ INSTALLED_APPS = (
     "explorer",  # sql creation
     # 'django_db_logger', # logs certain entries to the database
     "rest_framework",
-    "reports",  # necessary for management commands
     "publisher",
 )
 
