@@ -26,6 +26,8 @@ urlpatterns = (
             name="article-relations",
         ),
         # not part of Public API
+        # why the odd fragment regex? to support models.XML2JSON 'xml->json' fragment ID
+        # simplifying it to alpha-numeric + hyphen may remove a class of problems
         url(
             r"^articles/(?P<msid>\d+)/fragments/(?P<fragment_id>[>\-\w]{3,25})$",
             views.article_fragment,

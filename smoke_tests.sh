@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-for path in / /api/v2/articles /rss/articles/poa+vor/last-28-days/ /reports/paw/recent.xml; do
+for path in / /api/v2/articles; do
     [ $(curl --write-out %{http_code} --silent --output /dev/null https://$(hostname)$path) == 200 ]
 done
 

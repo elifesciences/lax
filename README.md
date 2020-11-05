@@ -20,21 +20,6 @@ For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) articl
 
 * [https://lax.elifesciences.org/api/v2/articles/09560](https://lax.elifesciences.org/api/v2/articles/09560)
 
-## RSS
-
-RSS feeds are available here:
-
-* [code](https://github.com/elifesciences/lax/blob/master/src/publisher/rss.py)
-* [articles published in the last day](https://lax.elifesciences.org/rss/articles/poa+vor/last-1-days/) \[[POA](https://lax.elifesciences.org/rss/articles/poa/last-1-days/)\] \[[VOR](https://lax.elifesciences.org/rss/articles/vor/last-1-days/)\], or [last week](https://lax.elifesciences.org/rss/articles/poa+vor/last-7-days/) \[[POA](https://lax.elifesciences.org/rss/articles/poa/last-7-days/)\] \[[VOR](https://lax.elifesciences.org/rss/articles/vor/last-7-days/)\]
-
-The URLs look like:
-
-    https://lax.elifesciences.org/rss/articles/<status[+status]>/last-<n>-days/
-
-For example, if you wanted all articles published in the last month:
-
-    https://lax.elifesciences.org/rss/articles/poa+vor/last-28-days/
-
 ## installation
 
 [code](https://github.com/elifesciences/lax/blob/master/install.sh)  

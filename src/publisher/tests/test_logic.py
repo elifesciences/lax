@@ -167,10 +167,6 @@ class Two(BaseCase):
     def tearDown(self):
         pass
 
-    def test_latest_article_versions(self):
-        # see class `One` (above) and `test_rss.py`
-        pass
-
     def test_article_version_list(self):
         "all versions of an article are returned"
         expected_published_versions = 3
