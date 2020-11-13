@@ -214,19 +214,6 @@ def pre_process(av, result):
 
     return result
 
-'''
-def merge_and_preprocess(av):
-    "merges fragments AND pre-processes them for saving"
-    return pre_process(av, merge(av))
-
-
-def merge_if_valid(av, quiet=True):
-    """merges, pre-processes and validates the fragments of the given ArticleVersion instance.
-    if the result is valid, returns the merge result.
-    if invalid, returns nothing.
-    if invalid and quiet=False, a ValidationError will be raised"""
-    return valid(merge_and_preprocess(av), quiet=quiet)
-'''
 
 def hash_ajson(merge_result):
     string = utils.json_dumps(merge_result, indent=None)
@@ -247,13 +234,14 @@ class Identical(RuntimeError):
         self.av = av
         self.hashval = hashval
 
+
 # TODO: 'quiet' (validation-check), 'hash_check' and 'update_fragment' are all symptoms of spaghetti logic and need to be removed.
 def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment=True):
     """updates the article with the result of the merge operation.
     if the result of the merge was valid, the merged result will be saved.
     if invalid, a ValidationError will be raised"""
     log_context = {"article-version": av, "hash_check": hash_check}
-   
+
     # todo: only necessary if hashcheck is being done
     try:
         # merge -> *merges current fragment set*
@@ -275,35 +263,44 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
     # if invalid, returns nothing.
     # if invalid and quiet=False, a ValidationError will be raised
     result = valid(result, quiet=quiet)
-    
+
     newhash, oldhash = hash_ajson(result), av.article_json_hash
-    identical_hash = oldhash == newhash
+    if hash_check and result:
+        # if the result is invalid, don't bother with the hash check.
 
-    # compare pubdates
-    # `preprocess` will alter the publication date value if it hasn't been published yet.
-    old_pubdate = raw_original.get("published")
-    new_pubdate = result.get("-published")
-    identical_pubdate = old_pubdate == new_pubdate
+        identical_hash = oldhash == newhash
 
-    # compare metadata
-    # metadata are any attributes prefixed with a hyphen, for example "-related-articles-internal".
-    # no metadata is present in the final rendered article-json and is used solely for other logic,
-    # like related articles creating new relations in the database.
-    meta_key_list = ["-related-articles-internal", "-related-articles-external", "-history"]
+        # compare pubdates
+        # `preprocess` will alter the publication date value if it hasn't been published yet.
+        old_pubdate = raw_original.get("published")
+        new_pubdate = result.get("-published")
+        identical_pubdate = old_pubdate == new_pubdate
 
-    identical_meta = all(raw_original.get(meta_key) == raw_new.get(meta_key) for meta_key in meta_key_list)
-    
-    if hash_check and identical_hash and identical_pubdate and identical_meta:
-        # if old is identical to new, then skip commit and roll the transaction back.
-        # backfills (thousands of forced ingest) require skipping when identical
-        # day-to-day INGEST and PUBLISH events require this too.
-        # happens on multiple deliveries and silent corrections (forced ingest) where only pubdate
-        # has changed now requires this.
-        raise Identical(
-            "article data is identical to the article data already stored",
-            av,
-            newhash,
+        # compare metadata
+        # metadata are any attributes prefixed with a hyphen, for example "-related-articles-internal".
+        # no metadata is present in the final rendered article-json and is used solely for other logic,
+        # like related articles creating new relations in the database.
+        meta_key_list = [
+            "-related-articles-internal",
+            "-related-articles-external",
+            "-history",
+        ]
+        identical_meta = all(
+            raw_original.get(meta_key) == raw_new.get(meta_key)
+            for meta_key in meta_key_list
         )
+
+        if identical_hash and identical_pubdate and identical_meta:
+            # if old is identical to new, then skip commit and roll the transaction back.
+            # backfills (thousands of forced ingest) require skipping when identical
+            # day-to-day INGEST and PUBLISH events require this too.
+            # happens on multiple deliveries and silent corrections (forced ingest) where only pubdate
+            # has changed now requires this.
+            raise Identical(
+                "article data is identical to the article data already stored",
+                av,
+                newhash,
+            )
 
     # postprocess
     # result is None when VALIDATE_FAILS_FORCE = False and validation fails
