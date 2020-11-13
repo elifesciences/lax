@@ -18,8 +18,9 @@ from jsonschema.exceptions import ValidationError
 
 class IngestIdentical(BaseCase):
     def setUp(self):
-        self.fixture = join(self.fixture_dir, "ajson", "elife-20105-v1.xml.json")
-        self.ajson = self.load_ajson(self.fixture)
+        self.msid = 1968
+        self.fixture = join(self.fixture_dir, "ajson", "elife-01968-v1.xml.json")
+        self.ajson = json.load(open(self.fixture, 'r'))
 
     def test_ingest_identical(self):
         "ingesting an article whose identical data already exists raises an Identical exception"
@@ -54,11 +55,11 @@ class IngestIdentical(BaseCase):
         ajson_ingestor.ingest(self.ajson)
         self.assertEqual(1, models.ArticleVersion.objects.count())
 
-        self.ajson["article"]["published"] = "2019-01-01"
+        self.ajson["article"]["published"] = "2016-10-04"
 
         ajson_ingestor.ingest_publish(self.ajson)
-        av = models.ArticleVersion.objects.get(article__manuscript_id=20105)
-        self.assertEqual(utils.todt("2019-01-01"), av.datetime_published)
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
+        self.assertEqual(utils.todt("2016-10-04"), av.datetime_published)
 
     # handy test but may not belong in this test suite
 
