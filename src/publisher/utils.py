@@ -327,7 +327,8 @@ def json_dumps(obj, **kwargs):
     return json.dumps(obj, default=_handler, **kwargs)
 
 
-def deepcopy(data):
+def deepcopy_data(data):
+    "a faster `deepcopy` for standard data. No support for objects."
     return json.loads(json.dumps(data))
 
 

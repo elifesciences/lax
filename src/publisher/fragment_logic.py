@@ -1,3 +1,4 @@
+import copy
 import hashlib
 from functools import partial
 from jsonschema import ValidationError
@@ -161,7 +162,8 @@ def extract_snippet(merged_result):
 def pre_process(av, result):
     "supplements the merged fragments with more article data required for validating"
     # don't modify what we were given
-    result = utils.deepcopy(result)
+    # result = utils.deepcopy_data(result) # passes tests
+    result = copy.deepcopy(result)  # safer
 
     # we need to inspect this value later in `hashcheck` before it gets nullified
     result["-published"] = result["published"]
@@ -235,12 +237,19 @@ class Identical(RuntimeError):
         self.hashval = hashval
 
 
-def identical_articles(av, raw_original, raw_new, final_new, newhash):
+# function was split out to please complexity checker
+def _identical_articles(raw_original, raw_new, final_new, oldhash, newhash):
+    """compares the previous article version with the new article version.
+    returns `True` if the two are identical.
+    `raw_original` is the raw, merged, fragment data that hasn't been pre-processed yet.
+    `raw_new` is the raw, merged, fragment data that hasn't been pre-processed yet.
+    `final_new` is the new, pre-processed, fragment data.
+    `oldhash` is the hash of the old data.
+    `newhash` is the hash of the new data."""
     if not final_new:
         # no data, probably because it's invalid.
         return False
 
-    oldhash = av.article_json_hash
     identical_hash = oldhash == newhash
 
     # compare pubdates
@@ -256,17 +265,16 @@ def identical_articles(av, raw_original, raw_new, final_new, newhash):
     meta_key_list = [
         "-related-articles-internal",
         "-related-articles-external",
-        "-history",
+        # "-history", # unused for now
     ]
     identical_meta = all(
         raw_original.get(meta_key) == raw_new.get(meta_key)
         for meta_key in meta_key_list
     )
-
     return identical_hash and identical_pubdate and identical_meta
 
 
-# TODO: 'quiet' (validation-check), 'hash_check' and 'update_fragment' are all symptoms of spaghetti logic and need to be removed.
+# TODO: 'quiet' (validation-check) and 'update_fragment' are symptoms of spaghetti logic and need to be removed.
 def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment=True):
     """updates the article with the result of the merge operation.
     if the result of the merge was valid, the merged result will be saved.
@@ -294,17 +302,18 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
     # if invalid and quiet=False, a ValidationError will be raised
     result = valid(result, quiet=quiet)
 
+    oldhash = av.article_json_hash
     newhash = hash_ajson(result)
+
     if (
         hash_check
         and result
-        and identical_articles(av, raw_original, raw_new, result, newhash)
+        and _identical_articles(raw_original, raw_new, result, oldhash, newhash)
     ):
         # if old is identical to new, then skip commit and roll the transaction back.
         # backfills (thousands of forced ingest) require skipping when identical
         # day-to-day INGEST and PUBLISH events require this too.
-        # happens on multiple deliveries and silent corrections (forced ingest) where only pubdate
-        # has changed now requires this.
+        # happens on multiple deliveries and silent corrections (forced ingest).
         raise Identical(
             "article data is identical to the article data already stored", av, newhash,
         )
