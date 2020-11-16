@@ -215,7 +215,9 @@ class FragmentMerge(base.BaseCase):
         fragment.save()
 
         # ensure fragment is now invalid.
-        self.assertFalse(logic.merge_if_valid(self.av))
+        result = logic.merge(self.av)
+        result = logic.pre_process(self.av, result)
+        self.assertFalse(logic.valid(result))
 
         # article is still serving up invalid content :(
         self.assertTrue(self.av.article_json_v1)

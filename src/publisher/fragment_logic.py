@@ -1,3 +1,4 @@
+import copy
 import hashlib
 from functools import partial
 from jsonschema import ValidationError
@@ -160,6 +161,10 @@ def extract_snippet(merged_result):
 
 def pre_process(av, result):
     "supplements the merged fragments with more article data required for validating"
+    # don't modify what we were given
+    # result = utils.deepcopy_data(result) # passes tests
+    result = copy.deepcopy(result)  # safer
+
     # we need to inspect this value later in `hashcheck` before it gets nullified
     result["-published"] = result["published"]
 
@@ -212,19 +217,6 @@ def pre_process(av, result):
     return result
 
 
-def merge_and_preprocess(av):
-    "merges fragments AND pre-processes them for saving"
-    return pre_process(av, merge(av))
-
-
-def merge_if_valid(av, quiet=True):
-    """merges, pre-processes and validates the fragments of the given ArticleVersion instance.
-    if the result is valid, returns the merge result.
-    if invalid, returns nothing.
-    if invalid and quiet=False, a ValidationError will be raised"""
-    return valid(merge_and_preprocess(av), quiet=quiet)
-
-
 def hash_ajson(merge_result):
     string = utils.json_dumps(merge_result, indent=None)
     return hashlib.md5(string.encode("utf-8")).hexdigest()
@@ -245,16 +237,52 @@ class Identical(RuntimeError):
         self.hashval = hashval
 
 
-# TODO: 'quiet' (validation-check), 'hash_check' and 'update_fragment' are all symptoms of spaghetti logic and need to be removed.
+# function was split out to please complexity checker
+def _identical_articles(raw_original, raw_new, final_new, oldhash, newhash):
+    """compares the previous article version with the new article version.
+    returns `True` if the two are identical.
+    `raw_original` is the raw, merged, fragment data that hasn't been pre-processed yet.
+    `raw_new` is the raw, merged, fragment data that hasn't been pre-processed yet.
+    `final_new` is the new, pre-processed, fragment data.
+    `oldhash` is the hash of the old data.
+    `newhash` is the hash of the new data."""
+    if not final_new:
+        # no data, probably because it's invalid.
+        return False
+
+    identical_hash = oldhash == newhash
+
+    # compare pubdates
+    # `preprocess` will alter the publication date value if it hasn't been published yet.
+    old_pubdate = raw_original.get("published")
+    new_pubdate = final_new.get("-published")
+    identical_pubdate = old_pubdate == new_pubdate
+
+    # compare metadata
+    # metadata are any attributes prefixed with a hyphen, for example "-related-articles-internal".
+    # no metadata is present in the final rendered article-json and is used solely for other logic,
+    # like related articles creating new relations in the database.
+    meta_key_list = [
+        "-related-articles-internal",
+        "-related-articles-external",
+        # "-history", # unused for now
+    ]
+    identical_meta = all(
+        raw_original.get(meta_key) == raw_new.get(meta_key)
+        for meta_key in meta_key_list
+    )
+    return identical_hash and identical_pubdate and identical_meta
+
+
+# TODO: 'quiet' (validation-check) and 'update_fragment' are symptoms of spaghetti logic and need to be removed.
 def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment=True):
     """updates the article with the result of the merge operation.
     if the result of the merge was valid, the merged result will be saved.
     if invalid, a ValidationError will be raised"""
     log_context = {"article-version": av, "hash_check": hash_check}
 
-    # todo: only necessary if hashcheck is being done
     try:
-        # merge -> *merges current fragment set*
+        # `merge` merges the *current* fragment set.
         # adding new fragment data must wait until we have what we need from the old
         raw_original = merge(av)
     except StateError:
@@ -264,30 +292,31 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
     if data:
         add(av, models.XML2JSON, data["article"], pos=0, update=update_fragment)
 
-    # merge_if_valid -> merge -> preprocess - *merges current fragment set*
-    # TODO: inline the above and remove those intermediate functions, it's too obfuscated here
-    result = merge_if_valid(av, quiet=quiet)  # raises ValidationError
-    newhash, oldhash = hash_ajson(result), av.article_json_hash
+    raw_new = merge(av)
 
-    if hash_check:
-        # if old is identical to new, then skip commit and roll the transaction back
+    # scrub the merged result, update dates, remove any meta, etc
+    result = pre_process(av, raw_new)
+
+    # validate the result.
+    # if invalid, returns nothing.
+    # if invalid and quiet=False, a ValidationError will be raised
+    result = valid(result, quiet=quiet)
+
+    oldhash = av.article_json_hash
+    newhash = hash_ajson(result)
+
+    if (
+        hash_check
+        and result
+        and _identical_articles(raw_original, raw_new, result, oldhash, newhash)
+    ):
+        # if old is identical to new, then skip commit and roll the transaction back.
         # backfills (thousands of forced ingest) require skipping when identical
-        # day-to-day INGEST and PUBLISH events require this too. happens on multiple deliveries
-        # silent corrections (forced ingest) where only pubdate has changed now requires this
-
-        if oldhash == newhash:
-            # article data is identical
-            # compare pubdates
-            # `preprocess` will alter the publication date value if it hasn't been published yet
-            oldpubdate = raw_original.get("published")
-            newpubdate = result.get("-published")
-
-            if oldpubdate == newpubdate:
-                raise Identical(
-                    "article data is identical to the article data already stored",
-                    av,
-                    newhash,
-                )
+        # day-to-day INGEST and PUBLISH events require this too.
+        # happens on multiple deliveries and silent corrections (forced ingest).
+        raise Identical(
+            "article data is identical to the article data already stored", av, newhash,
+        )
 
     # postprocess
     # result is None when VALIDATE_FAILS_FORCE = False and validation fails

@@ -327,6 +327,11 @@ def json_dumps(obj, **kwargs):
     return json.dumps(obj, default=_handler, **kwargs)
 
 
+def deepcopy_data(data):
+    "a faster `deepcopy` for standard data. No support for objects."
+    return json.loads(json.dumps(data))
+
+
 # http://stackoverflow.com/questions/29847098/the-best-way-to-merge-multi-nested-dictionaries-in-python-2-7
 def deepmerge(d1, d2):
     d1 = copy.deepcopy(d1)

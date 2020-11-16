@@ -658,7 +658,10 @@ class AddFragment(base.BaseCase):
             article__manuscript_id=self.msid
         )[0]
         self.assertTrue(self.av.published())
-        self.assertTrue(fragments.merge_if_valid(self.av))
+
+        result = fragments.merge(self.av)
+        result = fragments.pre_process(self.av, result)
+        self.assertTrue(fragments.valid(result))
 
         self.c = Client()
         self.ac = Client(**{mware.CGROUPS: "view-unpublished-content"})
@@ -892,7 +895,10 @@ class DeleteFragment(base.BaseCase):
         fobj = models.ArticleFragment.objects.get(type=models.XML2JSON)
         fobj.fragment["title"] = None
         fobj.save()
-        self.assertTrue(fragments.merge_if_valid(self.av))  # returns None if invalid
+
+        result = fragments.merge(self.av)
+        result = fragments.pre_process(self.av, result)
+        self.assertTrue(fragments.valid(result))
         url = reverse(
             "v2:article-fragment", kwargs={"msid": self.msid, "fragment_id": self.key}
         )
@@ -914,7 +920,10 @@ class FragmentEvents(base.TransactionBaseCase):
             article__manuscript_id=self.msid
         )[0]
         self.assertTrue(self.av.published())
-        self.assertTrue(fragments.merge_if_valid(self.av))
+
+        result = fragments.merge(self.av)
+        result = fragments.pre_process(self.av, result)
+        self.assertTrue(fragments.valid(result))
 
         self.c = Client()
         self.ac = Client(**{mware.CGROUPS: "view-unpublished-content"})

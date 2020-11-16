@@ -18,8 +18,9 @@ from jsonschema.exceptions import ValidationError
 
 class IngestIdentical(BaseCase):
     def setUp(self):
-        self.fixture = join(self.fixture_dir, "ajson", "elife-20105-v1.xml.json")
-        self.ajson = self.load_ajson(self.fixture)
+        self.msid = 1968
+        self.fixture = join(self.fixture_dir, "ajson", "elife-01968-v1.xml.json")
+        self.ajson = json.load(open(self.fixture, "r"))
 
     def test_ingest_identical(self):
         "ingesting an article whose identical data already exists raises an Identical exception"
@@ -50,15 +51,30 @@ class IngestIdentical(BaseCase):
             self.assertFalse(mock.called)
 
     def test_ingest_identical_except_pubdate(self):
-        "common case, another ingest or silent correction (forced ingest) with just the pubdate changed"
+        "an ingest or silent correction (forced ingest) with just the pubdate changed"
         ajson_ingestor.ingest(self.ajson)
         self.assertEqual(1, models.ArticleVersion.objects.count())
 
-        self.ajson["article"]["published"] = "2019-01-01"
+        self.ajson["article"]["published"] = "2016-10-04"
 
         ajson_ingestor.ingest_publish(self.ajson)
-        av = models.ArticleVersion.objects.get(article__manuscript_id=20105)
-        self.assertEqual(utils.todt("2019-01-01"), av.datetime_published)
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
+        self.assertEqual(utils.todt("2016-10-04"), av.datetime_published)
+
+    def test_ingest_identical_except_related_articles(self):
+        "an ingest or silent correction (forced ingest) with just the related articles changed"
+        ajson_ingestor.ingest(self.ajson)
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+
+        # "01749" => "00666"
+        self.ajson["article"]["-related-articles-internal"] = ["00666"]
+
+        ajson_ingestor.ingest_publish(self.ajson)
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
+
+        related_articles = av.articleversionrelation_set.all()
+        self.assertEqual(1, related_articles.count())
+        self.assertEqual(666, related_articles[0].related_to.manuscript_id)
 
     # handy test but may not belong in this test suite
 
