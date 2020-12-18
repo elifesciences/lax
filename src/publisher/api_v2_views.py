@@ -16,6 +16,42 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+#
+#
+#
+
+PROFILING = False
+
+import cProfile, pstats
+
+
+def profile(fn):
+    if not PROFILING:
+        return fn
+
+    def wrapper(*args, **kwargs):
+        pr = cProfile.Profile(timeunit=0.001)
+        pr.enable()
+        result = fn(*args, **kwargs)
+        pr.disable()
+
+        sortby = "cumulative"
+        ps = pstats.Stats(pr).sort_stats(sortby)
+        fname = "/tmp/output-%s.prof" % fn.__name__
+        if settings.CONN_MAX_AGE > 0:
+            fname = "/tmp/output-%s.pooled.prof" % fn.__name__
+        ps.dump_stats(fname)
+        print("wrote", fname)
+
+        return result
+
+    return wrapper
+
+
+#
+#
+#
+
 ERR = "error"
 
 CURRENT_POA_VERSION = str(settings.ALL_SCHEMA_IDX["poa"][0][0])
@@ -100,6 +136,7 @@ def is_authenticated(request):
     return val or False
 
 
+@profile
 @api_view(["HEAD", "GET"])
 @renderer_classes((StaticHTMLRenderer,))
 def ping(request):
@@ -111,6 +148,7 @@ def ping(request):
     )
 
 
+@profile
 @api_view(["HEAD", "GET"])
 def article_list(request):
     "returns a list of snippets"
@@ -127,6 +165,7 @@ def article_list(request):
         return ErrorResponse(400, "bad request", err.message)
 
 
+@profile
 @api_view(["HEAD", "GET"])
 def article(request, msid):
     "return the article-json for the most recent version of the given article ID"
@@ -138,6 +177,7 @@ def article(request, msid):
         return Http404()
 
 
+@profile
 @api_view(["HEAD", "GET"])
 def article_version_list(request, msid):
     "returns a list of versions for the given article ID"
@@ -151,6 +191,7 @@ def article_version_list(request, msid):
         return Http404()
 
 
+@profile
 @api_view(["HEAD", "GET"])
 def article_version(request, msid, version):
     "returns the article-json for a specific version of the given article ID"
@@ -163,7 +204,7 @@ def article_version(request, msid, version):
         return Http404()
 
 
-# TODO: test 404
+@profile
 @api_view(["HEAD", "GET"])
 def article_related(request, msid):
     "return the related articles for a given article ID"

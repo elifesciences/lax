@@ -143,7 +143,10 @@ TEST_OUTPUT_FILE_NAME = "junit.xml"
 # lax often receives long bursts of traffic from dependant services
 # UPDATE: not working, no improvement recorded.
 # perhaps third party pooling is required: https://pgbouncer.github.io/usage.html
-# CONN_MAX_AGE = 60 # seconds.
+# 2020-12-18: 'idle_in_transaction_session_timeout' for PSQL 11.1+ under RDS is 12 hours.
+# this should be less than that.
+# CONN_MAX_AGE = 0 # default
+CONN_MAX_AGE = 120  # seconds, arbitrary.
 
 DATABASES = {
     "default": {
