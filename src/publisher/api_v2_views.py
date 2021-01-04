@@ -163,7 +163,6 @@ def article_version(request, msid, version):
         return Http404()
 
 
-# TODO: test 404
 @api_view(["HEAD", "GET"])
 def article_related(request, msid):
     "return the related articles for a given article ID"
