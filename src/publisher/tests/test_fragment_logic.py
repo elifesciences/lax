@@ -1,6 +1,7 @@
 from os.path import join
 import json
 from . import base
+from unittest.mock import patch
 from publisher import fragment_logic as logic, ajson_ingestor, models
 from datetime import datetime
 from django.test import override_settings
@@ -256,6 +257,27 @@ class FragmentMerge(base.BaseCase):
 
         expected = {"title": "foo"}
         self.assertEqual(expected, logic.merge(self.av))
+
+    def test_reset_merged_fragments(self):
+        logic.add(self.msid, "frag1", {"title": "foo"})
+        logic.add(self.msid, "frag2", {"body": "bar"})
+        logic.add(self.msid, "frag3", {"foot": "baz"})
+
+        result = logic.merge(self.av)
+        self.assertEqual("foo", result['title'])
+        self.assertEqual("bar", result['body'])
+        self.assertEqual("baz", result['foot'])
+
+        # just to ensure we're dealing with a whole article fixture
+        self.assertEqual("published", result['stage'])
+
+        with patch('publisher.fragment_logic.settings.MERGE_FOREIGN_FRAGMENTS', False):
+            logic.reset_merged_fragments(self.av.article)
+            result = logic.merge(self.av)
+            self.assertEqual("A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human", result['title'])
+            self.assertFalse("bar" in result)
+            self.assertFalse("baz" in result)
+            self.assertEqual("published", result['stage'])
 
 
 """

@@ -372,8 +372,19 @@ def delete_fragment_update_article(art, key):
         # notify event bus that article change has occurred
         transaction.on_commit(partial(aws_events.notify, art.manuscript_id))
 
-        # hash check disabled. if removing fragment doesn't alter final article, then fragment should still be removed
+        # `hash_check=False`: if removing fragment doesn't alter final article, then fragment should still be removed
         return set_all_article_json(art, quiet=False, hash_check=False)
+
+def reset_merged_fragments(art):
+    """re-merges and re-sets article-json for given `art` object.
+    Added 2021-01-21 to fix valid article-json that yielded invalid article-json snippets."""
+    with transaction.atomic():
+        # notify event bus that article change has occurred
+        transaction.on_commit(partial(aws_events.notify, art.manuscript_id))
+
+        # `hash_check=False`: if removing fragment doesn't alter final article, then fragment should still be removed
+        return set_all_article_json(art, quiet=False, hash_check=False)
+
 
 #
 #
