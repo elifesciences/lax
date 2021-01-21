@@ -3,6 +3,7 @@ import json
 from . import base
 from publisher import fragment_logic as logic, ajson_ingestor, models
 from datetime import datetime
+from django.test import override_settings
 
 """
 ingesting an article creates our initial ArticleFragment, the 'xml->json' fragment
@@ -244,6 +245,17 @@ class FragmentMerge(base.BaseCase):
         av = self.freshen(self.av)
         expected_version_date = "2001-01-01T01:01:01Z"  # no microsecond component
         self.assertEqual(expected_version_date, av.article_json_v1["versionDate"])
+
+    @override_settings(MERGE_FOREIGN_FRAGMENTS=False)
+    def test_foreign_snippets_can_be_excluded(self):
+        "foreign fragments can be added but fail to merge if disallowed"
+        logic.add(self.av, "xml->json", {"title": "foo"}, update=True)
+        logic.add(self.msid, "frag1", {"body": "bar"})
+        logic.add(self.msid, "frag2", {"foot": "baz"})
+        self.assertEqual(3, models.ArticleFragment.objects.count())
+
+        expected = {"title": "foo"}
+        self.assertEqual(expected, logic.merge(self.av))
 
 
 """

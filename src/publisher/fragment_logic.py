@@ -58,9 +58,11 @@ def merge(av):
     """returns the merged result for a particlar article version"""
     # all fragments belonging to this specific article version or
     # to this article in general
-    fragments = models.ArticleFragment.objects.filter(article=av.article).filter(
-        Q(version=av.version) | Q(version=None)
-    )
+    query = Q(version=av.version) | Q(version=None)
+    if not settings.MERGE_FOREIGN_FRAGMENTS:
+        # ((version=av.version OR version=none) AND type=xml->json)
+        query &= Q(type=models.XML2JSON)
+    fragments = models.ArticleFragment.objects.filter(article=av.article).filter(query)
     if not fragments:
         raise StateError(codes.NO_RECORD, "%r has no fragments that can be merged" % av)
     return utils.merge_all([f.fragment for f in fragments])
@@ -372,7 +374,6 @@ def delete_fragment_update_article(art, key):
 
         # hash check disabled. if removing fragment doesn't alter final article, then fragment should still be removed
         return set_all_article_json(art, quiet=False, hash_check=False)
-
 
 #
 #
