@@ -259,6 +259,7 @@ class FragmentMerge(base.BaseCase):
         self.assertEqual(expected, logic.merge(self.av))
 
     def test_reset_merged_fragments(self):
+        "article-json can be reset, ignoring any foreign (unknown) fragment types."
         logic.add(self.msid, "frag1", {"title": "foo"})
         logic.add(self.msid, "frag2", {"body": "bar"})
         logic.add(self.msid, "frag3", {"foot": "baz"})

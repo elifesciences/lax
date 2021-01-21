@@ -383,7 +383,7 @@ def reset_merged_fragments(art):
         # notify event bus that article change has occurred
         transaction.on_commit(partial(aws_events.notify, art.manuscript_id))
 
-        # `hash_check=False`: if removing fragment doesn't alter final article, then fragment should still be removed
+        # `hash_check=False`: reset merged fragments regardless of whether final article-json is changed
         return set_all_article_json(art, quiet=False, hash_check=False)
 
 
