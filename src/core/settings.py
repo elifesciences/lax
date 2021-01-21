@@ -293,8 +293,7 @@ RELATED_ARTICLE_STUBS = cfg("general.related-article-stubs", True)
 VALIDATE_FAILS_FORCE = True
 
 # allow fragments pushed in from other sources?
-# todo: read from app.cfg
-MERGE_FOREIGN_FRAGMENTS = True
+MERGE_FOREIGN_FRAGMENTS = cfg("general.merge-foreign-fragments", True)
 
 #
 # logging
