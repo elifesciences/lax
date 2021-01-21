@@ -375,6 +375,7 @@ def delete_fragment_update_article(art, key):
         # `hash_check=False`: if removing fragment doesn't alter final article, then fragment should still be removed
         return set_all_article_json(art, quiet=False, hash_check=False)
 
+
 def reset_merged_fragments(art):
     """re-merges and re-sets article-json for given `art` object.
     Added 2021-01-21 to fix valid article-json that yielded invalid article-json snippets."""
