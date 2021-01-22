@@ -1,8 +1,10 @@
 from os.path import join
 import json
 from . import base
+from unittest.mock import patch
 from publisher import fragment_logic as logic, ajson_ingestor, models
 from datetime import datetime
+from django.test import override_settings
 
 """
 ingesting an article creates our initial ArticleFragment, the 'xml->json' fragment
@@ -244,6 +246,42 @@ class FragmentMerge(base.BaseCase):
         av = self.freshen(self.av)
         expected_version_date = "2001-01-01T01:01:01Z"  # no microsecond component
         self.assertEqual(expected_version_date, av.article_json_v1["versionDate"])
+
+    @override_settings(MERGE_FOREIGN_FRAGMENTS=False)
+    def test_foreign_snippets_can_be_excluded(self):
+        "foreign fragments can be added but fail to merge if disallowed"
+        logic.add(self.av, "xml->json", {"title": "foo"}, update=True)
+        logic.add(self.msid, "frag1", {"body": "bar"})
+        logic.add(self.msid, "frag2", {"foot": "baz"})
+        self.assertEqual(3, models.ArticleFragment.objects.count())
+
+        expected = {"title": "foo"}
+        self.assertEqual(expected, logic.merge(self.av))
+
+    def test_reset_merged_fragments(self):
+        "article-json can be reset, ignoring any foreign (unknown) fragment types."
+        logic.add(self.msid, "frag1", {"title": "foo"})
+        logic.add(self.msid, "frag2", {"body": "bar"})
+        logic.add(self.msid, "frag3", {"foot": "baz"})
+
+        result = logic.merge(self.av)
+        self.assertEqual("foo", result["title"])
+        self.assertEqual("bar", result["body"])
+        self.assertEqual("baz", result["foot"])
+
+        # just to ensure we're dealing with a whole article fixture
+        self.assertEqual("published", result["stage"])
+
+        with patch("publisher.fragment_logic.settings.MERGE_FOREIGN_FRAGMENTS", False):
+            logic.reset_merged_fragments(self.av.article)
+            result = logic.merge(self.av)
+            self.assertEqual(
+                "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human",
+                result["title"],
+            )
+            self.assertFalse("bar" in result)
+            self.assertFalse("baz" in result)
+            self.assertEqual("published", result["stage"])
 
 
 """
