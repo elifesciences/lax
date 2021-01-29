@@ -69,9 +69,9 @@ def merge(av):
 
 
 def valid(merge_result, quiet=True):
-    """returns True if the merged result is valid article-json
-    quiet=True will swallow validation errors and log the error
-    quiet=False will raise a ValidationError"""
+    """returns True if the merged result is valid article-json.
+    `quiet=True` will swallow validation errors and log the error.
+    `quiet=False` will raise a ValidationError."""
     msid = merge_result.get("id", "[no id]")
     version = merge_result.get("version", "[no version]")
     log_context = {"msid": msid, "version": version}
@@ -123,6 +123,73 @@ def valid(merge_result, quiet=True):
             % (status, versions_list)
         )
         raise first(validation_errors)
+
+
+def valid_snippet(merge_result, quiet=True):
+    """returns `True` if the merged result is a valid article-json snippet.
+    Wraps snippet in a list and validates as an `article-list` type as there is no distinct schema for an article-snippet.
+    Validating against a full article schema results in gigantic validation errors.
+    `quiet=True` will swallow validation errors and log the error.
+    `quiet=False` will raise a ValidationError."""
+    msid = merge_result.get("id", "[no id]")
+    version = merge_result.get("version", "[no version]")
+    log_context = {"msid": msid, "version": version}
+
+    snippet = merge_result
+    wrapped_snippet = {"total": 1, "items": [snippet]}
+
+    schema_key = "list"
+    validation_errors = []
+    versions_list = []
+    for version, schema in settings.ALL_SCHEMA_IDX[schema_key]:
+        try:
+            versions_list.append(version)
+            return utils.validate(wrapped_snippet, schema)
+
+        except KeyError:
+            msg = "merging %s returned a data structure that couldn't be used to determine validation"
+            LOG.exception(msg, msid, extra=log_context)
+            # legitimate error that needs to break things
+            raise
+
+        except ValueError:
+            # either the schema is bad or the struct is bad
+            LOG.exception(
+                "while validating snippet for %s v%s, failed to load schema file %s",
+                msid,
+                version,
+                schema,
+                extra=log_context,
+            )
+            # this is a legitimate error and needs to break things
+            raise
+
+        except ValidationError as err:
+            # not valid under this schema version
+            LOG.info(
+                "while validating snippet for %s v%s with %s, failed to validate with error: %s",
+                msid,
+                version,
+                schema,
+                err.message,
+            )
+            validation_errors.append(err)
+            # try the next version of the schema (if one exists)
+            continue
+
+    if validation_errors and not quiet:
+        versions_list = " and ".join(map(str, versions_list))
+        # "while validating 123456 v2 with /path/to/schema.json versions [1], failed to validate with error: ..."
+        err = first(validation_errors)
+        LOG.warning(
+            "while validating %s v%s with %s versions %s, failed to validate with error: %s",
+            msid,
+            version,
+            schema,
+            versions_list,
+            err.message,
+        )
+        raise err
 
 
 def extract_snippet(merged_result):
@@ -304,6 +371,9 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
     # if invalid and quiet=False, a ValidationError will be raised
     result = valid(result, quiet=quiet)
 
+    snippet = extract_snippet(result)
+    snippet_result = valid_snippet(snippet, quiet=quiet)
+
     oldhash = av.article_json_hash
     newhash = hash_ajson(result)
 
@@ -328,7 +398,7 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
 
     # save
     av.article_json_v1 = result
-    av.article_json_v1_snippet = extract_snippet(result)
+    av.article_json_v1_snippet = snippet
     av.article_json_hash = newhash
     av.save()
 
