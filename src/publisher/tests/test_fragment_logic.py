@@ -317,6 +317,7 @@ def test_extract_snippet_empty_cases():
     for case in case_list:
         assert expected == logic.extract_snippet(case)
 
+
 def test_valid_snippet():
     "snippets can be validated."
     ajson_fixture = join(base.FIXTURE_DIR, "ajson", "elife-01968-v1.xml.json")
@@ -324,10 +325,11 @@ def test_valid_snippet():
 
     snippet = logic.extract_snippet(merged_ajson["article"])
     assert logic.valid_snippet(snippet, quiet=False)
-    
-    snippet['status'] = "pants"
+
+    snippet["status"] = "pants"
     with pytest.raises(ValidationError):
         logic.valid_snippet(snippet, quiet=False)
+
 
 def test_valid_snippet_bad_data():
     pass
