@@ -258,6 +258,7 @@ class Ingest(BaseCase):
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
         del self.ajson["article"]
+        # todo: can we be more specific about the exception here?
         self.assertRaises(Exception, ajson_ingestor.ingest, self.ajson)
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
@@ -268,6 +269,7 @@ class Ingest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
         del self.ajson["article"]["title"]
+        # todo: can we be more specific about the exception here?
         self.assertRaises(Exception, ajson_ingestor.ingest, self.ajson)
         self.assertEqual(models.Journal.objects.count(), 0)
         self.assertEqual(models.Article.objects.count(), 0)
@@ -331,6 +333,15 @@ class Ingest(BaseCase):
         # not a great test ...
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
+
+    def test_article_json_not_stored_if_snippet_not_valid(self):
+        """INGEST and PUBLISH events cause the fragments to be merged, a snippet extracted and 
+        the results stored, but only if valid. If the snippet is invalid, an exception is raised."""
+        bad_snippet = {"foo": "bar"}
+        with patch(
+            "publisher.fragment_logic.extract_snippet", return_value=bad_snippet
+        ):
+            self.assertRaises(StateError, ajson_ingestor.ingest, self.ajson)
 
     @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_article_json_not_stored_if_invalid(self):
@@ -624,15 +635,13 @@ class UnicodePreserved(BaseCase):
         expected = ajson["snippet"]["authors"][1]["name"]["preferred"]
 
         # /articles/{id}
-        given = logic.most_recent_article_version(self.msid).article_json_v1["authors"][
-            1
-        ]["name"]["preferred"]
+        given = logic.most_recent_article_version(self.msid).article_json_v1
+        given = given["authors"][1]["name"]["preferred"]
         self.assertEqual(expected, given)
 
         # /articles/{id}/versions/{version}
-        given = logic.article_version(self.msid, self.version).article_json_v1[
-            "authors"
-        ][1]["name"]["preferred"]
+        given = logic.article_version(self.msid, self.version).article_json_v1
+        given = given["authors"][1]["name"]["preferred"]
         self.assertEqual(expected, given)
 
     def test_api_doesnt_mangle_unicode(self):
@@ -681,6 +690,8 @@ class UnicodePreserved(BaseCase):
         self.assertEqual(expected, given)
 
 
+# todo: this looks like it's testing `utils.validate`
+# move to `test_utils.py`
 class ValidationFailureError(BaseCase):
     def setUp(self):
         self.valid_fixture = self.load_ajson(
