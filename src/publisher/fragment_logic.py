@@ -139,7 +139,7 @@ def valid_snippet(merge_result, quiet=True):
     version = merge_result.get("version", "[no version]")
     wrapped_data = _validate(msid, version, wrapped_data, schema_key, quiet)
     if wrapped_data:
-        return wrapped_data['items'][0]
+        return wrapped_data["items"][0]
 
 
 def extract_snippet(merged_result):
