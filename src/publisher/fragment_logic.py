@@ -69,9 +69,9 @@ def merge(av):
 
 
 def _validate(msid, version, data, schema_key, quiet=True):
-    """returns True if the given `data` is valid against at least one of the schema versions, pointed to by `schema_key`.
+    """returns `True` if the given `data` is valid against at least one of the schema versions, pointed to by `schema_key`.
     `quiet=True` will swallow validation errors and log the error.
-    `quiet=False` will raise a ValidationError."""
+    `quiet=False` will raise a `ValidationError`."""
 
     assert schema_key and schema_key in ["poa", "vor", "list"], (
         "unsupported schema %r" % schema_key
@@ -116,9 +116,9 @@ def _validate(msid, version, data, schema_key, quiet=True):
 
 
 def valid(merge_result, quiet=True):
-    """returns True if the merged result is valid article-json.
+    """returns `True` if the merged result is valid article-json.
     `quiet=True` will swallow validation errors and log the error.
-    `quiet=False` will raise a ValidationError."""
+    `quiet=False` will raise a `ValidationError`."""
     schema_key = merge_result["status"]  # 'poa' or 'vor'
     msid = merge_result.get("id", "[no id]")
     version = merge_result.get("version", "[no version]")
@@ -127,10 +127,9 @@ def valid(merge_result, quiet=True):
 
 def valid_snippet(merge_result, quiet=True):
     """returns `True` if the merged result is a valid article-json snippet.
-    Wraps snippet in a list and validates as an `article-list` type as there is no distinct schema for an article-snippet.
-    Validating against a full article schema results in gigantic validation errors.
+    Wraps snippet in a list and validates as an article list as there is no distinct schema for an article snippet.
     `quiet=True` will swallow validation errors and log the error.
-    `quiet=False` will raise a ValidationError."""
+    `quiet=False` will raise a `ValidationError`."""
     if not merge_result:
         return None
     schema_key = "list"
