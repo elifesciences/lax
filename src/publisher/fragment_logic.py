@@ -68,7 +68,7 @@ def merge(av):
     return utils.merge_all([f.fragment for f in fragments])
 
 
-def _validate(data, schema_key, quiet=True):
+def _validate(msid, version, data, schema_key, quiet=True):
     """returns True if the given `data` is valid against at least one of the schema versions, pointed to by `schema_key`.
     `quiet=True` will swallow validation errors and log the error.
     `quiet=False` will raise a ValidationError."""
@@ -76,12 +76,6 @@ def _validate(data, schema_key, quiet=True):
     assert schema_key and schema_key in ["poa", "vor", "list"], (
         "unsupported schema %r" % schema_key
     )
-
-    msid = data.get("id", "[no id]")
-    version = data.get("version", "[no version]")
-
-    if schema_key == "list":
-        data = {"total": 1, "items": [data]}
 
     log_context = {"msid": msid, "version": version}
 
@@ -126,7 +120,9 @@ def valid(merge_result, quiet=True):
     `quiet=True` will swallow validation errors and log the error.
     `quiet=False` will raise a ValidationError."""
     schema_key = merge_result["status"]  # 'poa' or 'vor'
-    return _validate(merge_result, schema_key, quiet)
+    msid = merge_result.get("id", "[no id]")
+    version = merge_result.get("version", "[no version]")
+    return _validate(msid, version, merge_result, schema_key, quiet)
 
 
 def valid_snippet(merge_result, quiet=True):
@@ -138,7 +134,12 @@ def valid_snippet(merge_result, quiet=True):
     if not merge_result:
         return None
     schema_key = "list"
-    return _validate(merge_result, schema_key, quiet)
+    wrapped_data = {"total": 1, "items": [merge_result]}
+    msid = merge_result.get("id", "[no id]")
+    version = merge_result.get("version", "[no version]")
+    wrapped_data = _validate(msid, version, wrapped_data, schema_key, quiet)
+    if wrapped_data:
+        return wrapped_data['items'][0]
 
 
 def extract_snippet(merged_result):
