@@ -68,61 +68,77 @@ def merge(av):
     return utils.merge_all([f.fragment for f in fragments])
 
 
-def valid(merge_result, quiet=True):
-    """returns True if the merged result is valid article-json
-    quiet=True will swallow validation errors and log the error
-    quiet=False will raise a ValidationError"""
-    msid = merge_result.get("id", "[no id]")
-    version = merge_result.get("version", "[no version]")
+def _validate(msid, version, data, schema_key, quiet=True):
+    """returns `True` if the given `data` is valid against at least one of the schema versions, pointed to by `schema_key`.
+    `quiet=True` will swallow validation errors and log the error.
+    `quiet=False` will raise a `ValidationError`."""
+
+    assert schema_key and schema_key in ["poa", "vor", "list"], (
+        "unsupported schema %r" % schema_key
+    )
+
     log_context = {"msid": msid, "version": version}
 
-    status = merge_result["status"]  # 'poa' or 'vor'
     validation_errors = []
     versions_list = []
-    for version, schema in settings.ALL_SCHEMA_IDX[status]:
+    for version, schema in settings.ALL_SCHEMA_IDX[schema_key]:
         try:
             versions_list.append(version)
-            return utils.validate(merge_result, schema)
+            return utils.validate(data, schema)
 
         except KeyError:
-            msg = "merging %s returned a data structure that couldn't be used to determine validation"
-            LOG.exception(msg, msid, extra=log_context)
+            msg = f"merging {msid} returned a data structure that couldn't be used to determine validity."
+            LOG.exception(msg, extra=log_context)
             # legitimate error that needs to break things
             raise
 
         except ValueError:
             # either the schema is bad or the struct is bad
-            LOG.exception(
-                "validating %s v%s failed to load schema file %s",
-                msid,
-                version,
-                schema,
-                extra=log_context,
-            )
+            msg = f"validating {msid} v{version} failed to load schema file {schema}."
+            LOG.exception(msg, extra=log_context)
             # this is a legitimate error and needs to break things
             raise
 
         except ValidationError as err:
             # not valid under this schema version
-            LOG.info(
-                "while validating %s v%s with %s, failed to validate with error: %s",
-                msid,
-                version,
-                schema,
-                err.message,
-            )
+            msg = f"while validating {msid} v{version} with {schema}, failed to validate with error: {err.message}"
+            LOG.info(msg)
             validation_errors.append(err)
             # try the next version of the schema (if one exists)
             continue
 
     if validation_errors and not quiet:
         versions_list = " and ".join(map(str, versions_list))
-        # "failed to validate using poa article schema version 1 and 2"
-        LOG.warning(
-            "failed to validate using %s article schema version %s"
-            % (status, versions_list)
-        )
+        # "failed to validate 12345 v1 using schema 'vor' version 1 and 2"
+        msg = f"failed to validate {msid} v{version} using schema '{schema_key}' version {versions_list}"
+        LOG.warning(msg)
         raise first(validation_errors)
+
+
+def valid(merge_result, quiet=True):
+    """returns `True` if the merged result is valid article-json.
+    `quiet=True` will swallow validation errors and log the error.
+    `quiet=False` will raise a `ValidationError`."""
+    schema_key = merge_result["status"]  # 'poa' or 'vor'
+    msid = merge_result.get("id", "[no id]")
+    version = merge_result.get("version", "[no version]")
+    return _validate(msid, version, merge_result, schema_key, quiet)
+
+
+def valid_snippet(merge_result, quiet=True):
+    """returns `True` if the merged result is a valid article-json snippet.
+    Wraps snippet in a list and validates as an article list as there is no distinct schema for an article snippet.
+    `quiet=True` will swallow validation errors and log the error.
+    `quiet=False` will raise a `ValidationError`."""
+    if not merge_result:
+        return None
+    schema_key = "list"
+    wrapped_data = {"total": 1, "items": [merge_result]}
+    msid = merge_result.get("id", "[no id]")
+    version = merge_result.get("version", "[no version]")
+    wrapped_data = _validate(msid, version, wrapped_data, schema_key, quiet)
+    if wrapped_data:
+        return wrapped_data["items"][0]
 
 
 def extract_snippet(merged_result):
@@ -304,6 +320,9 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
     # if invalid and quiet=False, a ValidationError will be raised
     result = valid(result, quiet=quiet)
 
+    snippet = extract_snippet(result)
+    snippet = valid_snippet(snippet, quiet=quiet)
+
     oldhash = av.article_json_hash
     newhash = hash_ajson(result)
 
@@ -323,17 +342,17 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
     # postprocess
     # result is None when VALIDATE_FAILS_FORCE = False and validation fails
     # this is some old logic that will be removed in a later PR
-    if result:
+    if result and snippet:
         del result["-published"]  # set in preprocess
 
     # save
     av.article_json_v1 = result
-    av.article_json_v1_snippet = extract_snippet(result)
+    av.article_json_v1_snippet = snippet
     av.article_json_hash = newhash
     av.save()
 
     # todo: more bad old logic that silently fails on validation errors. remove.
-    if not result:
+    if not result or not snippet:
         msg = "this article failed to merge it's fragments into a valid result. Any article-json previously set for this version of the article has been removed. This article cannot be published in it's current state."
         LOG.critical(msg, extra=log_context)
     return result

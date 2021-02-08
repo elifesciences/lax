@@ -5,6 +5,8 @@ from unittest.mock import patch
 from publisher import fragment_logic as logic, ajson_ingestor, models
 from datetime import datetime
 from django.test import override_settings
+import pytest
+from jsonschema import ValidationError
 
 """
 ingesting an article creates our initial ArticleFragment, the 'xml->json' fragment
@@ -314,3 +316,22 @@ def test_extract_snippet_empty_cases():
     expected = None
     for case in case_list:
         assert expected == logic.extract_snippet(case)
+
+
+def test_valid_snippet():
+    "snippets can be validated."
+    ajson_fixture = join(base.FIXTURE_DIR, "ajson", "elife-01968-v1.xml.json")
+    merged_ajson = json.load(open(ajson_fixture, "r"))
+    snippet = logic.extract_snippet(merged_ajson["article"])
+    assert snippet == logic.valid_snippet(snippet, quiet=False)
+
+
+def test_invalid_snippet():
+    "snippets can be validated, invalid data raise a `ValidationError` or return None if `quiet=True`."
+    ajson_fixture = join(base.FIXTURE_DIR, "ajson", "elife-01968-v1.xml.json")
+    merged_ajson = json.load(open(ajson_fixture, "r"))
+    snippet = logic.extract_snippet(merged_ajson["article"])
+    snippet["status"] = "pants"
+    assert not logic.valid_snippet(snippet, quiet=True)
+    with pytest.raises(ValidationError):
+        logic.valid_snippet(snippet, quiet=False)

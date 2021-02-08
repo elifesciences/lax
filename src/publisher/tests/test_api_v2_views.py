@@ -806,6 +806,24 @@ class AddFragment(base.BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1)  # 'xml->json'
         self.assertEqual(resp.status_code, 400)  # bad client request
 
+    def test_add_valid_fragment_creates_invalid_snippet(self):
+        "request with valid fragment that causes the generation of an invalid snippet is refused."
+        self.assertEqual(models.ArticleFragment.objects.count(), 1)  # xml->json
+        fragment = {"title": "Pants"}  # valid
+        url = reverse(
+            "v2:article-fragment",
+            kwargs={"msid": self.msid, "fragment_id": "test-frag"},
+        )
+        bad_snippet = {"foo": "bar"}
+        with patch(
+            "publisher.fragment_logic.extract_snippet", return_value=bad_snippet
+        ):
+            resp = self.ac.post(
+                url, json.dumps(fragment), content_type="application/json"
+            )
+        self.assertEqual(models.ArticleFragment.objects.count(), 1)  # 'xml->json'
+        self.assertEqual(resp.status_code, 400)  # bad client request
+
     def test_add_fragment_causes_no_change(self):
         "request with fragment that would cause no change in the merged article json is accepted."
         # behind the scenes the hash check is disabled so the Identical exception is not raised
