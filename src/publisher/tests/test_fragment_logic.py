@@ -3,6 +3,7 @@ import json
 from . import base
 from unittest.mock import patch
 from publisher import fragment_logic as logic, ajson_ingestor, models
+from publisher.utils import StateError
 from datetime import datetime
 from django.test import override_settings
 import pytest
@@ -212,26 +213,42 @@ class FragmentMerge(base.BaseCase):
         self.assertFalse("statusDate" in av2.article_json_v1)
         self.assertFalse("versionDate" in av2.article_json_v1)
 
-    def test_invalid_merge_deletes_article_json(self):
-        fragment = models.ArticleFragment.objects.all()[0]
-        # simulate a value that was once valid but no longer is
-        fragment.fragment["title"] = ""
+    def test_invalid_merge_preserves_article_json(self):
+        """the previously set article-json and it's snippet are preserved if the 
+        current set of fragments no longer validate when merged (for whatever reason)"""
+
+        expected = "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human"
+        original_title = self.av.article_json_v1["title"]
+        self.assertEqual(expected, original_title)
+
+        # simulates a fragment that was once valid but no longer is.
+        # perhaps an empty title was once valid but now has a minimum length..
+        fragment = models.ArticleFragment(
+            article=self.av.article,
+            version=self.av.version,
+            type="bad-frag",
+            fragment={"title": ""},
+            position=1,
+        )
         fragment.save()
 
-        # ensure fragment is now invalid.
+        # ensure current set of fragments is now invalid.
         result = logic.merge(self.av)
         result = logic.pre_process(self.av, result)
         self.assertFalse(logic.valid(result))
 
+        self.freshen(self.av)
+
         # article is still serving up invalid content :(
         self.assertTrue(self.av.article_json_v1)
 
-        # ensure delete happens successfully
-        self.assertFalse(logic.set_article_json(self.av, quiet=True))
+        # attempting to re-set the article-json will fail (invalid),
+        # even when `quiet` is `True`.
+        self.assertRaises(StateError, logic.set_article_json, self.av, quiet=True)
 
-        # article is no longer serving up invalid content :)
-        av = self.freshen(self.av)
-        self.assertFalse(av.article_json_v1)
+        # article-json with the original title is still being served up
+        self.freshen(self.av)
+        self.assertEqual(expected, self.av.article_json_v1["title"])
 
     def test_merged_datetime_content(self):
         "microseconds are stripped from the datetime published value when stored"

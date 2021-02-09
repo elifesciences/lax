@@ -104,12 +104,10 @@ class SimpleBaseCase(unittest.TestCase):
         struct.update(adata)
         delall(struct, ["journal"])  # can't be serialized, not utilised anyway
 
-        with self.settings(VALIDATE_FAILS_FORCE=False):
-            # bad ajson won't fail ingest
-            av = ajson_ingestor.ingest_publish({"article": struct}, force=True)
-            av.datetime_published = utils.todt(struct["published"])
-            av.save()
-            return av
+        av = ajson_ingestor.ingest_publish({"article": struct}, force=True)
+        av.datetime_published = utils.todt(struct["published"])
+        av.save()
+        return av
 
     def assertJSONEqual(self, x, y, *args):
         self.assertEqual(json.dumps(x, indent=2), json.dumps(y, indent=2), *args)
