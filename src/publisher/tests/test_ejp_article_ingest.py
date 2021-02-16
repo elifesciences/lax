@@ -1,6 +1,6 @@
 from . import base
 from os.path import join
-from publisher import logic, models, ejp_ingestor
+from publisher import logic, models, ejp_ingestor, utils
 from dateutil import parser
 
 
@@ -66,40 +66,84 @@ class EJPIngest(base.BaseCase):
 
     def test_ejp_ingest_over_existing_data_with_defaults(self):
         "importing ejp articles over existing articles causes an error"
-        self.assertEqual(models.Article.objects.count(), 0)
-        article_data_list = [
-            {"manuscript_id": 123, "journal": self.journal},
-            {"manuscript_id": 11835, "journal": self.journal},
-            {"manuscript_id": 321, "journal": self.journal},
-        ]
-        [
-            self.add_or_update_article(**article_data)
-            for article_data in article_data_list
-        ]
-        self.assertEqual(models.Article.objects.count(), 3)
-        # this logic (not updating if told not to) is now thoroughly tested as part
-        # of the ajson ingestor logic and the utils.create_or_update func
-        # self.assertRaises(AssertionError, ejp_ingestor.import_article_list_from_json_path, self.journal, self.tiny_json_path)
+        self.assertEqual(0, models.Article.objects.count())
+
+        # does not exist in import
+        art1 = {
+            "journal": self.journal,
+            "manuscript_id": 123,
+            "doi": "10.7554/eLife.000123",
+        }
+        # exists in ejp import
+        art2 = {
+            "journal": self.journal,
+            "manuscript_id": 11835,
+            "doi": "10.7554/eLife.11835",
+            "ejp_type": "FOO",
+        }
+        # does not exist in ejp import
+        art3 = {
+            "journal": self.journal,
+            "manuscript_id": 321,
+            "doi": "10.7554/eLife.000321",
+        }
+
+        for art in [art1, art2, art3]:
+            utils.create_or_update(models.Article, art, ["manuscript_id"], update=False)
+        self.assertEqual(3, models.Article.objects.count())
+
+        # attempt to import 6 new articles.
+        # 1 of the 6 already exists and will not be updated with data from the import
+        ejp_ingestor.import_article_list_from_json_path(
+            self.journal, self.tiny_json_path
+        )
+
+        # there should now be the original 3 articles after import + 5 new ones
+        self.assertEqual(8, models.Article.objects.count())
+
+        # and the overlapping article should not have been modified
         self.assertEqual(
-            models.Article.objects.count(), 3
-        )  # import is atomic, all or nothing.
+            "FOO", models.Article.objects.get(manuscript_id=11835).ejp_type
+        )
 
     def test_ejp_ingest_over_existing_data(self):
-        "importing ejp articles and updating existing articles is possible but only if we explicitly say so"
+        "importing ejp articles and updating existing articles is possible but *only if we explicitly say so*"
         self.assertEqual(models.Article.objects.count(), 0)
-        article_data_list = [
-            {"manuscript_id": 123, "journal": self.journal},
-            {"manuscript_id": 11835, "journal": self.journal},
-            {"manuscript_id": 321, "journal": self.journal},
-        ]
-        [
-            self.add_or_update_article(**article_data)
-            for article_data in article_data_list
-        ]
-        self.assertEqual(models.Article.objects.count(), 3)
+
+        # does not exist in import
+        art1 = {
+            "journal": self.journal,
+            "manuscript_id": 123,
+            "doi": "10.7554/eLife.000123",
+        }
+        # exists in ejp import
+        art2 = {
+            "journal": self.journal,
+            "manuscript_id": 11835,
+            "doi": "10.7554/eLife.11835",
+            "ejp_type": "FOO",
+        }
+        # does not exist in ejp import
+        art3 = {
+            "journal": self.journal,
+            "manuscript_id": 321,
+            "doi": "10.7554/eLife.000321",
+        }
+
+        for art in [art1, art2, art3]:
+            utils.create_or_update(models.Article, art, ["manuscript_id"], update=False)
+        self.assertEqual(3, models.Article.objects.count())
+
+        # attempt to import 6 new articles.
+        # 1 of the 6 already exists and will be updated with data from the import
         ejp_ingestor.import_article_list_from_json_path(
             self.journal, self.tiny_json_path, update=True
         )
-        self.assertEqual(models.Article.objects.count(), 8)
-        art = models.Article.objects.get(manuscript_id=11835)
-        self.assertTrue(art.initial_decision)
+
+        # there should now be the original 3 articles after import + 5 new ones
+        self.assertEqual(8, models.Article.objects.count())
+
+        # and the overlapping article should not have been modified
+        updated_article = models.Article.objects.get(manuscript_id=11835)
+        self.assertEqual("RA", updated_article.ejp_type)
+        self.assertTrue(updated_article.initial_decision)
