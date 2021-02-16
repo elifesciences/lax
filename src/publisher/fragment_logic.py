@@ -328,7 +328,7 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
 
     # todo: more bad old logic that silently fails on validation errors. remove.
     if not result or not snippet:
-        msg = "this article failed to merge it's fragments into a valid result. Any article-json previously set for this version of the article has been removed. This article cannot be published in it's current state."
+        msg = "this article failed to merge it's fragments into a valid result and will not be saved to the database."
         LOG.critical(msg, extra=log_context)
         raise StateError(codes.INVALID, msg)
 
