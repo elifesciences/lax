@@ -496,40 +496,6 @@ class V2Content(base.BaseCase):
         )
         self.assertEqual(resp.status_code, 404)
 
-    @override_settings(VALIDATE_FAILS_FORCE=False)
-    def test_article_versions_list_placeholder(self):
-        "invalid article-json causes a placeholder to be served instead"
-        invalid_ajson = json.load(
-            open(join(self.fixture_dir, "ajson", "elife-20125-v4.xml.json"), "r")
-        )
-        invalid_ajson["article"]["title"] = ""
-        av = ajson_ingestor.ingest_publish(invalid_ajson, force=True)
-        self.freshen(av)
-
-        # we now have a published article in lax with invalid article-json
-
-        resp = self.c.get(
-            reverse("v2:article-version-list", kwargs={"msid": self.msid1})
-        )
-        data = utils.json_loads(resp.content)
-
-        # the invalid-but-published culprit
-        v4 = data["versions"][-1]
-
-        expected_struct = utils.json_loads(
-            utils.json_dumps(
-                {
-                    "-invalid": True,
-                    "id": av.article.manuscript_id,
-                    "status": av.status,
-                    "published": av.article.datetime_published,
-                    "version": 4,
-                    "versionDate": av.datetime_published,
-                }
-            )
-        )
-        self.assertEqual(expected_struct, v4)
-
     def test_article_version(self):
         versions = [1, 2, 3]
         for ver in versions:

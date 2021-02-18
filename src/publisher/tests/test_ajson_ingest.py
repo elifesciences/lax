@@ -275,7 +275,6 @@ class Ingest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
-    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails(self):
         "attempting to ingest an article with a version greater than 1 when no article versions currently exists fails"
         # no article exists, attempt to ingest v2
@@ -289,7 +288,6 @@ class Ingest(BaseCase):
         self.assertEqual(models.Article.objects.count(), 0)
         self.assertEqual(models.ArticleVersion.objects.count(), 0)
 
-    @override_settings(VALIDATE_FAILS_FORCE=False)
     def test_out_of_sequence_ingest_fails2(self):
         "attempting to ingest an article with a version greater than another unpublished version fails"
         av = ajson_ingestor.ingest(self.ajson)  # v1
@@ -334,6 +332,15 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
 
+    def test_article_json_not_stored_if_not_valid(self):
+        """INGEST and PUBLISH events cause the fragments to be merged and stored, but
+        only if valid. 
+        Ensure nothing is stored if result of merge is invalid, even if forced."""
+        self.assertRaises(StateError, ajson_ingestor.ingest, self.invalid_ajson)
+        self.assertRaises(
+            StateError, ajson_ingestor.ingest, self.invalid_ajson, force=True
+        )
+
     def test_article_json_not_stored_if_snippet_not_valid(self):
         """INGEST and PUBLISH events cause the fragments to be merged, a snippet extracted and 
         the results stored, but only if valid. If the snippet is invalid, an exception is raised."""
@@ -342,15 +349,6 @@ class Ingest(BaseCase):
             "publisher.fragment_logic.extract_snippet", return_value=bad_snippet
         ):
             self.assertRaises(StateError, ajson_ingestor.ingest, self.ajson)
-
-    @override_settings(VALIDATE_FAILS_FORCE=False)
-    def test_article_json_not_stored_if_invalid(self):
-        """INGEST and PUBLISH events cause the fragments to be merged and stored but
-        only if valid. ensure nothing is stored if result of merge is invalid"""
-        av = ajson_ingestor.ingest(self.invalid_ajson, force=True)
-        av = self.freshen(av)
-        self.assertEqual(av.article_json_v1, None)
-        self.assertEqual(av.article_json_v1_snippet, None)
 
 
 class Publish(BaseCase):

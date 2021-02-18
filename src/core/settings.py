@@ -22,7 +22,7 @@ SRC_DIR = os.path.dirname(os.path.dirname(__file__))  # ll: /path/to/lax/src/
 PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/lax/
 
 CFG_NAME = "app.cfg"
-DYNCONFIG = configparser.SafeConfigParser(
+DYNCONFIG = configparser.ConfigParser(
     **{"allow_no_value": True, "defaults": {"dir": SRC_DIR, "project": PROJECT_NAME}}
 )
 DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME))  # ll: /path/to/lax/app.cfg
@@ -285,12 +285,6 @@ EVENT_BUS = {
 ENABLE_RELATIONS = True
 # when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, True.
 RELATED_ARTICLE_STUBS = cfg("general.related-article-stubs", True)
-
-# DEPRECATED: failure to validate article-json should always fail an ingest/publish.
-# when ingesting and publishing article-json with the force=True parameter,
-# should validation failures cause the ingest/publish action to fail?
-# VALIDATE_FAILS_FORCE = cfg('general.validate-fails-force', True)
-VALIDATE_FAILS_FORCE = True
 
 # allow fragments pushed in from other sources?
 MERGE_FOREIGN_FRAGMENTS = cfg("general.merge-foreign-fragments", True)
