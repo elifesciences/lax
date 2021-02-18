@@ -326,7 +326,6 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
     oldhash = av.article_json_hash
     newhash = hash_ajson(result)
 
-    # todo: more bad old logic that silently fails on validation errors. remove.
     if not result or not snippet:
         msg = "this article failed to merge it's fragments into a valid result and will not be saved to the database."
         LOG.critical(msg, extra=log_context)

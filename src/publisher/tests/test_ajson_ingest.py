@@ -332,9 +332,10 @@ class Ingest(BaseCase):
         self.assertNotEqual(av.article_json_v1, None)
         self.assertNotEqual(av.article_json_v1_snippet, None)
 
-    def test_article_json_not_stored_if_invalid(self):
-        """INGEST and PUBLISH events cause the fragments to be merged and stored but
-        only if valid. Ensure nothing is stored if result of merge is invalid, even if forced."""
+    def test_article_json_not_stored_if_not_valid(self):
+        """INGEST and PUBLISH events cause the fragments to be merged and stored, but
+        only if valid. 
+        Ensure nothing is stored if result of merge is invalid, even if forced."""
         self.assertRaises(StateError, ajson_ingestor.ingest, self.invalid_ajson)
         self.assertRaises(
             StateError, ajson_ingestor.ingest, self.invalid_ajson, force=True

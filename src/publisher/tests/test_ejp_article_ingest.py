@@ -65,7 +65,7 @@ class EJPIngest(base.BaseCase):
             self.assertEqual(getattr(art, key), val)
 
     def test_ejp_ingest_over_existing_data_with_defaults(self):
-        "importing ejp articles over existing articles causes an error"
+        "importing EJP stubs over existing articles isn't possible by default"
         self.assertEqual(0, models.Article.objects.count())
 
         # does not exist in import
@@ -89,7 +89,9 @@ class EJPIngest(base.BaseCase):
         }
 
         for art in [art1, art2, art3]:
-            utils.create_or_update(models.Article, art, ["manuscript_id"], update=False)
+            utils.create_or_update(
+                models.Article, art, ["manuscript_id", "journal"], update=False
+            )
         self.assertEqual(3, models.Article.objects.count())
 
         # attempt to import 6 new articles.
@@ -101,13 +103,13 @@ class EJPIngest(base.BaseCase):
         # there should now be the original 3 articles after import + 5 new ones
         self.assertEqual(8, models.Article.objects.count())
 
-        # and the overlapping article should not have been modified
+        # and the overlapping article should *not* have been modified
         self.assertEqual(
             "FOO", models.Article.objects.get(manuscript_id=11835).ejp_type
         )
 
     def test_ejp_ingest_over_existing_data(self):
-        "importing ejp articles and updating existing articles is possible but *only if we explicitly say so*"
+        "importing EJP stubs over existing articles isn't possible by default, unless `update` is explicitly set to `True`"
         self.assertEqual(models.Article.objects.count(), 0)
 
         # does not exist in import
@@ -131,7 +133,9 @@ class EJPIngest(base.BaseCase):
         }
 
         for art in [art1, art2, art3]:
-            utils.create_or_update(models.Article, art, ["manuscript_id"], update=False)
+            utils.create_or_update(
+                models.Article, art, ["manuscript_id", "journal"], update=False
+            )
         self.assertEqual(3, models.Article.objects.count())
 
         # attempt to import 6 new articles.
@@ -143,7 +147,7 @@ class EJPIngest(base.BaseCase):
         # there should now be the original 3 articles after import + 5 new ones
         self.assertEqual(8, models.Article.objects.count())
 
-        # and the overlapping article should not have been modified
+        # and the overlapping article should have modified the original article
         updated_article = models.Article.objects.get(manuscript_id=11835)
         self.assertEqual("RA", updated_article.ejp_type)
         self.assertTrue(updated_article.initial_decision)
