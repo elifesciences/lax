@@ -16,7 +16,6 @@ from et3 import render
 from et3.extract import path as p
 from functools import partial
 from jsonschema import ValidationError
-from django.conf import settings
 
 LOG = logging.getLogger(__name__)
 
@@ -192,7 +191,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         # identity (this data already exists) and validity (this data is malformed)
 
         # validation and hash check of article-json occurs here
-        quiet = False if settings.VALIDATE_FAILS_FORCE else force
+        quiet = force
         # only update the fragment if this article version has *not* been published *or* if force=True
         update_fragment = not av.published() or force
         fragments.set_article_json(
@@ -315,7 +314,7 @@ def _publish(msid, version, force=False) -> models.ArticleVersion:
         # merge the fragments we have available and make them available for serving.
         # allow errors when the publish operation is being forced.
         # NOTE: hash checks will always fail on publish events as we modify the `versionDate`.
-        quiet = False if settings.VALIDATE_FAILS_FORCE else force
+        quiet = force
         fragments.set_article_json(av, data=None, quiet=quiet, hash_check=False)
 
         # notify event bus that article change has occurred
