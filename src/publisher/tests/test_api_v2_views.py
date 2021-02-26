@@ -208,7 +208,7 @@ class V2ContentTypes(base.BaseCase):
         # map the known types to expected types
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"
-        art_vor_type = "application/vnd.elife.article-vor+json; version=4"
+        art_vor_type = "application/vnd.elife.article-vor+json; version=5"
         art_history_type = "application/vnd.elife.article-history+json; version=1"
         art_related_type = "application/vnd.elife.article-related+json; version=1"
 
@@ -381,7 +381,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-vor+json; version=4"
+            resp.content_type, "application/vnd.elife.article-vor+json; version=5"
         )
 
         data = utils.json_loads(resp.content)

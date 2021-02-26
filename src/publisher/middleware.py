@@ -181,19 +181,17 @@ def content_check(get_response_fn):
 #
 
 
-def vor_valid_under_v3(ajson):
-    "returns True if given article-json is valid under version 3 of the VOR spec (no structured abstract)"
-    return not has_structured_abstract(ajson)
-
-
 def downgrade_vor_content_type(get_response_fn):
     """if a content-type less than the current VOR version is requested, downgrade content-type if possible 
     or return a 406"""
 
     def middleware(request):
-        request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
         response = get_response_fn(request)
 
+        # 2021-02-26: disabled as support for v5 VOR added and v3 VOR dropped.
+        # v5 VOR simply makes a Reference property optional.
+        # v4 article-json that was valid continues to be valid under v5.
+        """
         if response.status_code != 200:
             # unsuccessful response, ignore
             return response
@@ -206,6 +204,7 @@ def downgrade_vor_content_type(get_response_fn):
             # this isn't a vor
             return response
 
+        request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
         client_accepts_list = flatten_accept(request_accept_header)
         client_accepts_vor_list = [
             row for row in client_accepts_list if row[0] == vor_ctype
@@ -247,6 +246,8 @@ def downgrade_vor_content_type(get_response_fn):
         return ErrorResponse(
             406, "not acceptable", "could not negotiate an acceptable response type",
         )
+        """
+        return response
 
     return middleware
 
