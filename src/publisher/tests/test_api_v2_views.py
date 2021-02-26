@@ -49,22 +49,17 @@ def test_accept_types():
             "application/vnd.elife.article-poa+json",
             "application/vnd.elife.article-poa+json; version=3",
         ),
-        # 5, deprecated case. previous POA spec version
-        (
-            "application/vnd.elife.article-poa+json; version=2",
-            "application/vnd.elife.article-poa+json; version=2",
-        ),
-        # 6, ideal case. requested latest POA spec version
+        # 5, ideal case. requested latest POA spec version
         (
             "application/vnd.elife.article-poa+json; version=3",
             "application/vnd.elife.article-poa+json; version=3",
         ),
-        # 7, possible case. requested a set of POA spec versions. max version is used.
+        # 6, possible case. requested a set of POA spec versions. max version is used.
         (
             "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
             "application/vnd.elife.article-poa+json; version=2",
         ),
-        # 8, possible case. multiple different specific specs requested.
+        # 7, possible case. multiple different specific specs requested.
         # presence of specific vor content type shouldn't affect specific poa version returned
         (
             "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-poa+json; version=2",
@@ -129,55 +124,6 @@ def test_unacceptable_types():
             resp = Client().get(url, HTTP_ACCEPT=client_accepts)
             msg = "failed case %s, got: %s" % (i + 1, resp.status_code,)
             assert 406 == resp.status_code, msg
-
-
-def test_structured_abstract_not_downgraded_vor():
-    "a vor with a structured abstract cannot be downgraded to vor v3"
-    msid = 31549  # vor spec version 4, our first
-    fixture_path = join(
-        base.FIXTURE_DIR, "structured-abstracts", "elife-31549-v1.xml.json"
-    )
-    fixture = json.load(open(fixture_path, "r"))["article"]
-    mock = Mock(article_json_v1=fixture, status="vor")
-    vor_v3_ctype = "application/vnd.elife.article-vor+json; version=3"
-
-    with patch("publisher.logic.most_recent_article_version", return_value=mock):
-        url = reverse("v2:article", kwargs={"msid": msid})
-        resp = Client().get(url, HTTP_ACCEPT=vor_v3_ctype)
-        assert 406 == resp.status_code
-
-
-def test_structured_abstract_not_downgraded_poa():
-    "a poa with a structured abstract cannot be downgraded to poa v2"
-    msid = 31549  # vor spec version 4, our first
-    fixture_path = join(
-        base.FIXTURE_DIR, "structured-abstracts", "elife-31549-v1.xml.json"
-    )
-    fixture = json.load(open(fixture_path, "r"))["article"]
-    fixture["status"] = "poa"
-    mock = Mock(article_json_v1=fixture, status="poa")
-    poa_v2_ctype = "application/vnd.elife.article-poa+json; version=2"
-
-    with patch("publisher.logic.most_recent_article_version", return_value=mock):
-        url = reverse("v2:article", kwargs={"msid": msid})
-        resp = Client().get(url, HTTP_ACCEPT=poa_v2_ctype)
-        assert 406 == resp.status_code
-
-
-def test_deprecated_header_present():
-    "requests for deprecated content received a deprecated header in the response"
-    msid = 16695
-    fixture_path = join(base.FIXTURE_DIR, "ajson", "elife-16695-v1.xml.json")
-    fixture = json.load(open(fixture_path, "r"))["article"]
-    mock = Mock(article_json_v1=fixture, status="poa")
-    deprecated_ctype = "application/vnd.elife.article-poa+json; version=2"
-
-    with patch("publisher.logic.most_recent_article_version", return_value=mock):
-        url = reverse("v2:article", kwargs={"msid": msid})
-        resp = Client().get(url, HTTP_ACCEPT=deprecated_ctype)
-        assert 200 == resp.status_code
-        msg = "Deprecation: Support for this Content-Type version will be removed"
-        assert msg == resp["warning"]
 
 
 #
