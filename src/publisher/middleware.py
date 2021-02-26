@@ -188,10 +188,6 @@ def downgrade_vor_content_type(get_response_fn):
     def middleware(request):
         response = get_response_fn(request)
 
-        # 2021-02-26: disabled as support for v5 VOR added and v3 VOR dropped.
-        # v5 VOR simply makes a Reference property optional.
-        # v4 article-json that was valid continues to be valid under v5.
-        """
         if response.status_code != 200:
             # unsuccessful response, ignore
             return response
@@ -221,32 +217,24 @@ def downgrade_vor_content_type(get_response_fn):
 
         max_accepted_vor = max(client_accepts_vor_versions)
         current_vor_version = settings.ALL_SCHEMA_IDX["vor"][0][0]
+        deprecated_vor_version = settings.ALL_SCHEMA_IDX["vor"][1][0]
 
         if max_accepted_vor == current_vor_version:
             # user requested the current latest VOR version
             return response
 
-        body = json.loads(response.content.decode("utf-8"))
+        # 2021-02-26: v5 VOR simply makes a Reference property optional.
+        # v4 article-json that was valid continues to be valid under v5,
+        # no fancy downgrading required.
+        if max_accepted_vor == deprecated_vor_version:
+            # (a 'deprecated' header is set in the `deprecated` middleware)
+            return response
 
-        if max_accepted_vor == 3:
-            # client specifically accepts a v3 VOR only
-            # we might be ok if the content is valid under v3
-            if vor_valid_under_v3(body):
-                # all good, drop content-type returned to VOR v3
-                # we have to recreate the response because the Django/REST library response is immutable or something
-                new_content_type = "application/vnd.elife.article-vor+json; version=3"
-                new_response = HttpResponse(
-                    response.content, content_type=new_content_type
-                )
-                # this is where RESTResponses keep it
-                new_response.content_type = new_content_type
-                return new_response
-
-        # an unsupported VOR version was requested.
+        # a specific and unsupported VOR version was requested.
         return ErrorResponse(
             406, "not acceptable", "could not negotiate an acceptable response type",
         )
-        """
+
         return response
 
     return middleware
@@ -312,7 +300,7 @@ def downgrade_poa_content_type(get_response_fn):
                 new_response.content_type = new_content_type
                 return new_response
 
-        # an unsupported POA version was requested
+        # a specific and unsupported POA version was requested
         return ErrorResponse(
             406, "not acceptable", "could not negotiate an acceptable response type",
         )
