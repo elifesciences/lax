@@ -164,6 +164,23 @@ def test_structured_abstract_not_downgraded_poa():
         assert 406 == resp.status_code
 
 
+def test_vor_v5_downgrade_to_v4():
+    "a vor with 'journal' references missing the 'pages' attribute cannot be downgraded to vor v4"
+    msid = "09560"
+    fixture_path = join(settings.SCHEMA_PATH, "samples/article-vor/v5/complete.json")
+    fixture = json.load(open(fixture_path, "r"))
+    mock = Mock(article_json_v1=fixture, status="vor")
+    vor_v4_ctype = "application/vnd.elife.article-vor+json; version=4"
+    vor_v5_ctype = "application/vnd.elife.article-vor+json; version=5"
+
+    with patch("publisher.logic.most_recent_article_version", return_value=mock):
+        url = reverse("v2:article", kwargs={"msid": msid})
+        resp = Client().get(url, HTTP_ACCEPT=vor_v4_ctype)
+        assert 406 == resp.status_code
+        resp = Client().get(url, HTTP_ACCEPT=vor_v5_ctype)
+        assert 200 == resp.status_code
+
+
 def test_deprecated_header_present():
     "requests for deprecated content received a deprecated header in the response"
     msid = 16695
@@ -208,7 +225,7 @@ class V2ContentTypes(base.BaseCase):
         # map the known types to expected types
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"
-        art_vor_type = "application/vnd.elife.article-vor+json; version=4"
+        art_vor_type = "application/vnd.elife.article-vor+json; version=5"
         art_history_type = "application/vnd.elife.article-history+json; version=1"
         art_related_type = "application/vnd.elife.article-related+json; version=1"
 
@@ -381,7 +398,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-vor+json; version=4"
+            resp.content_type, "application/vnd.elife.article-vor+json; version=5"
         )
 
         data = utils.json_loads(resp.content)
