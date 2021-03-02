@@ -402,6 +402,27 @@ def reset_merged_fragments(art):
         return set_all_article_json(art, quiet=False, hash_check=False)
 
 
+def validate_merged_fragments(art):
+    """for each article version of given article object, merge the fragments and validate them.
+    does not write anything to the database."""
+    av_list = art.articleversion_set.all()
+    for av in av_list:
+        print("testing", av)
+        raw_data = merge(av)
+
+        # scrub the merged result, update dates, remove any meta, etc
+        result = pre_process(av, raw_data)
+
+        # validate the result.
+        if valid(result, quiet=True):
+            print("valid article-json")
+            snippet = extract_snippet(result)
+            if valid_snippet(snippet, quiet=True):
+                print("valid snippet")
+        else:
+            print("invalid article-json, skipping snippet")
+
+
 #
 #
 #
