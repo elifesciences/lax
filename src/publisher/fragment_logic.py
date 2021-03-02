@@ -80,10 +80,10 @@ def _validate(msid, version, data, schema_key, quiet=True):
     log_context = {"msid": msid, "version": version}
 
     validation_errors = []
-    versions_list = []
-    for version, schema in settings.ALL_SCHEMA_IDX[schema_key]:
+    schema_versions_list = []
+    for schema_version, schema in settings.ALL_SCHEMA_IDX[schema_key]:
         try:
-            versions_list.append(version)
+            versions_list.append(schema_version)
             return utils.validate(data, schema)
 
         except KeyError:
@@ -101,7 +101,7 @@ def _validate(msid, version, data, schema_key, quiet=True):
 
         except ValidationError as err:
             # not valid under this schema version
-            msg = f"while validating {msid} v{version} with {schema}, failed to validate with error: {err.message}"
+            msg = f"while validating {msid} v{version} with {schema} v{schema_version}, failed to validate with error: {err.message}"
             LOG.info(msg)
             validation_errors.append(err)
             # try the next version of the schema (if one exists)
