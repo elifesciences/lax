@@ -83,7 +83,7 @@ def _validate(msid, version, data, schema_key, quiet=True):
     schema_versions_list = []
     for schema_version, schema in settings.ALL_SCHEMA_IDX[schema_key]:
         try:
-            versions_list.append(schema_version)
+            schema_versions_list.append(schema_version)
             return utils.validate(data, schema)
 
         except KeyError:
@@ -108,9 +108,9 @@ def _validate(msid, version, data, schema_key, quiet=True):
             continue
 
     if validation_errors and not quiet:
-        versions_list = " and ".join(map(str, versions_list))
+        schema_versions_str = " and ".join(map(str, schema_versions_list))
         # "failed to validate 12345 v1 using schema 'vor' version 1 and 2"
-        msg = f"failed to validate {msid} v{version} using schema '{schema_key}' version {versions_list}"
+        msg = f"failed to validate {msid} v{version} using schema '{schema_key}' version {schema_versions_str}"
         LOG.warning(msg)
         raise first(validation_errors)
 
