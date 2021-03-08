@@ -80,10 +80,10 @@ def _validate(msid, version, data, schema_key, quiet=True):
     log_context = {"msid": msid, "version": version}
 
     validation_errors = []
-    versions_list = []
-    for version, schema in settings.ALL_SCHEMA_IDX[schema_key]:
+    schema_versions_list = []
+    for schema_version, schema in settings.ALL_SCHEMA_IDX[schema_key]:
         try:
-            versions_list.append(version)
+            schema_versions_list.append(schema_version)
             return utils.validate(data, schema)
 
         except KeyError:
@@ -101,16 +101,16 @@ def _validate(msid, version, data, schema_key, quiet=True):
 
         except ValidationError as err:
             # not valid under this schema version
-            msg = f"while validating {msid} v{version} with {schema}, failed to validate with error: {err.message}"
+            msg = f"while validating {msid} v{version} with {schema} v{schema_version}, failed to validate with error: {err.message}"
             LOG.info(msg)
             validation_errors.append(err)
             # try the next version of the schema (if one exists)
             continue
 
     if validation_errors and not quiet:
-        versions_list = " and ".join(map(str, versions_list))
+        schema_versions_str = " and ".join(map(str, schema_versions_list))
         # "failed to validate 12345 v1 using schema 'vor' version 1 and 2"
-        msg = f"failed to validate {msid} v{version} using schema '{schema_key}' version {versions_list}"
+        msg = f"failed to validate {msid} v{version} using schema '{schema_key}' version {schema_versions_str}"
         LOG.warning(msg)
         raise first(validation_errors)
 
@@ -400,6 +400,27 @@ def reset_merged_fragments(art):
 
         # `hash_check=False`: reset merged fragments regardless of whether final article-json is changed
         return set_all_article_json(art, quiet=False, hash_check=False)
+
+
+def validate_merged_fragments(art):
+    """for each article version of given article object, merge the fragments and validate them.
+    does not write anything to the database."""
+    av_list = art.articleversion_set.all()
+    for av in av_list:
+        print("testing", av)
+        raw_data = merge(av)
+
+        # scrub the merged result, update dates, remove any meta, etc
+        result = pre_process(av, raw_data)
+
+        # validate the result.
+        if valid(result, quiet=True):
+            print("valid article-json")
+            snippet = extract_snippet(result)
+            if valid_snippet(snippet, quiet=True):
+                print("valid snippet")
+        else:
+            print("invalid article-json, skipping snippet")
 
 
 #

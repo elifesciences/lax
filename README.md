@@ -1,13 +1,10 @@
 # Lax
  
-An effort by [eLife Sciences](http://elifesciences.org) to provide a flexible, 
-mostly-structured, data store for articles.
+Lax is a data storage application for articles at eLife Sciences.
 
-This project uses the [Python programming language](https://www.python.org/),
+This project uses the [Python programming language](https://www.python.org/), 
 the [Django web framework](https://www.djangoproject.com/) and a
 [relational database](https://en.wikipedia.org/wiki/Relational_database_management_system).
-
-[Github repo](https://github.com/elifesciences/lax/).
 
 ## API
 
@@ -16,11 +13,11 @@ Documentation can be found here:
 * [API GUI](https://api.elifesciences.org/documentation/#articles)
 * [code](https://github.com/elifesciences/lax/blob/master/src/publisher/api.py)
 
-For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) article:
+For example, the [Homo Naledi](https://elifesciences.org/articles/09560) article:
 
 * [https://lax.elifesciences.org/api/v2/articles/09560](https://lax.elifesciences.org/api/v2/articles/09560)
 
-## installation
+## install
 
 [code](https://github.com/elifesciences/lax/blob/master/install.sh)  
 
@@ -28,23 +25,21 @@ For example, the [Homo Naledi](http://elifesciences.org/content/4/e09560) articl
     cd lax
     ./install.sh
 
-Postgresql is used in production so there is a dependency on psycopg2 which 
-requires your distribution's 'libpq' library to be installed. On Arch Linux, 
-this is 'libpqxx', on Ubuntu this is 'libpq-dev'.
+PostgreSQL is used in production which depends on psycopg2 and your distribution's 'libpq' library.
 
-## updating
+## update
 
 [code](https://github.com/elifesciences/lax/blob/master/install.sh)  
 
     ./install.sh
 
-## testing 
+## test
 
 [code](https://github.com/elifesciences/lax/blob/master/src/publisher/tests/)  
 
     ./test.sh
 
-## running
+## run (development)
 
 [code](https://github.com/elifesciences/lax/blob/master/runserver.sh)
 
@@ -55,52 +50,39 @@ this is 'libpqxx', on Ubuntu this is 'libpq-dev'.
 
 [code](https://github.com/elifesciences/lax/blob/master/src/publisher/models.py)
 
-A publisher has one or many journals, each journal has many articles.
+A *publisher* has one or many *journals*, each journal has many *articles* and each each article has many *versions*.
 
-Each article is uniquely identified by it's 'manuscript id', a simple integer.
+Each article is uniquely identified by its 'manuscript id', a simple integer.
 
-Each article may have many versions. Each article version contains the 
-article-json (derived from the article's JATS xml), the date and time it was
-published, etc.
+Each article version contains the final article-json (derived from the article's JATS xml), the date and time it was 
+published, updated, etc.
 
-## loading article JSON
+Each article also has one or many *article fragments*. Article fragments are merged to become the final article-json.
+There is one main fragment - the 'xml to json' fragment - and occasionally smaller fragments added by services that 
+produce article content outside of the typical article production workflow.
 
-Lax has support for two internal (to eLife) types of article json: EIF and 
-'article-json'. 
+Each article may have many *events* associated with it, such as when it was received, reviewed, decisions made, etc.
 
-[EIF](https://github.com/elifesciences/elife-eif-schema) was a loosely 
-structured format that was extremely convenient for sharing just the important 
-bulk of article data between the elife-bot, lax, and the Drupal journal website.
+Each article version may be *related* to other *articles* (not article *versions*) internally within Lax as well 
+externally via a URL.
 
-This format is deprecated and support will eventually be removed.
+## loading article-json
 
-The other format is [article-json](https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-vor.v1.json), 
-defined as part of elife's API definition effort and used extensively in our 
-new infrastructure.
+Lax supports an eLife-specific JSON representation of JATS XML called 'article-json'.
 
-These article-json files can be imported into Lax with:
+[article-json](https://github.com/elifesciences/api-raml/blob/develop/dist/model/article-vor.v1.json) is part of elife's 
+overall API definition and used extensively.
+
+article-json files can be imported into Lax with:
 
 [code](https://github.com/elifesciences/lax/blob/master/src/publisher/management/commands/ingest.py)
 
     ./manage.sh ingest /path/to/article.json
     
-See the [bot-lax-adaptor](https://github.com/elifesciences/bot-lax-adaptor) for
-converting JATs XML to article-json.
+See also [bot-lax-adaptor](https://github.com/elifesciences/bot-lax-adaptor) for converting JATs XML to article-json and
+bulk loading content using 'backfills'.
 
 ## Copyright & Licence
 
-Copyright 2016 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+Copyright 2021 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
 
