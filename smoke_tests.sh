@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-for path in / /api/v2/articles; do
+for path in / /api/v2/ping /api/v2/articles; do
     [ $(curl --write-out %{http_code} --silent --output /dev/null https://$(hostname)$path) == 200 ]
 done
 
