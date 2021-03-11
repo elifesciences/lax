@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ex
 
+wait_for_port 80
+
 num_attempts=3
 retry_delay=5 # seconds
 
