@@ -6,12 +6,20 @@ wait_for_port 80
 num_attempts=3
 retry_delay=5 # seconds
 
+request () {
+    host=$(hostname)
+    path="$1"
+    expected="$2"
+    actual=$(curl --retry $num_attempts --retry-delay $retry_delay --write-out "%{http_code}" --silent --output /dev/null "$host$path")
+    test "$expected" = "$actual"
+}
+
 for path in / /api/v2/articles; do
-    [ $(curl --retry $num_attempts --retry-delay $retry_delay --write-out %{http_code} --silent --output /dev/null https://$(hostname)$path) == 200 ]
+    request "$path" 200
 done
 
 for path in /admin /explorer; do
-    [ $(curl --retry $num_attempts --retry-delay $retry_delay --write-out %{http_code} --silent --output /dev/null https://$(hostname)$path) == 301 ]
+    request "$path" 301
 done
 
 
