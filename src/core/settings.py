@@ -237,9 +237,8 @@ ALL_SCHEMA_IDX = {
         (4, join(SCHEMA_PATH, "model/article-vor.v4.json")),
     ],
     HISTORY: [
-        (2, join(SCHEMA_PATH, "model/article-history.v2.json"))(
-            1, join(SCHEMA_PATH, "model/article-history.v1.json")
-        )
+        (2, join(SCHEMA_PATH, "model/article-history.v2.json")),
+        (1, join(SCHEMA_PATH, "model/article-history.v1.json")),
     ],
     LIST: [(1, join(SCHEMA_PATH, "model/article-list.v1.json"))],
     RELATED: [(1, join(SCHEMA_PATH, "model/article-related.v1.json"))],
