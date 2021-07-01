@@ -2,7 +2,7 @@ import json
 from jsonschema import ValidationError
 from os.path import join
 import copy
-from publisher import utils, models, logic
+from publisher import utils, models, logic, ajson_ingestor
 from publisher.tests import base
 import pytz
 from datetime import datetime, timedelta
@@ -335,3 +335,54 @@ class TestUtils(base.BaseCase):
         for row in cases:
             dict_list, expected = row[:-1], row[-1]
             self.assertEqual(utils.merge_all(dict_list), expected)
+
+
+class ValidationFailureError(base.BaseCase):
+    def setUp(self):
+        self.valid_fixture = self.load_ajson(
+            join(self.fixture_dir, "ajson", "elife-20125-v1.xml.json")
+        )
+        self.poa_schema = settings.SCHEMA_IDX["poa"]
+
+        # before any test uses this fixture, prove it actually is valid ...
+        utils.validate(self.valid_fixture["article"], self.poa_schema)
+
+    def test_heaps_of_failures_detected(self):
+        invalid_fixture = {"party": "pants"}
+        try:
+            utils.validate(invalid_fixture, settings.SCHEMA_IDX["poa"])
+        except ValidationError as err:
+            self.assertTrue("(error 10 of 10, 19 total)" in err.message)
+
+    def test_n_failures_detected(self):
+        invalid_fixture = copy.deepcopy(self.valid_fixture)
+
+        # two errors:
+        # jsonschema.exceptions.ValidationError: volume = 0 is less than the minimum of 1
+        # *and* it bypasses the PositiveSmallIntegerField integrity check in sqlite+psql
+        invalid_fixture["article"]["volume"] = 0
+        # jsonschema.exceptions.ValidationError: doi = 'asdf' does not match '^10[.][0-9]{4,}[^\\s"/<>]*/[^\\s"]+$'
+        invalid_fixture["article"]["doi"] = "asdf"
+
+        # multi-schema failure
+        invalid_fixture["article"]["authors"][0]["type"] = "monster"  # from 'person'
+
+        try:
+            ajson_ingestor.ingest(invalid_fixture)
+        except utils.StateError as err:
+            # when ingesting we wrap the ValidationError in a StateError.
+            # ensure we still have access to this instance of ValidationError.
+            self.assertTrue(isinstance(err.args[2], ValidationError))
+
+            errinst = err.args[2]
+
+            poa_failures = 3
+            snippet_failures = 2
+            self.assertEqual(errinst.count, poa_failures + snippet_failures)
+            self.assertEqual(len(errinst.error_list), poa_failures + snippet_failures)
+
+            self.assertTrue("(error 5 of 5)" in err.message)
+            self.assertTrue("(error 5 of 5)" in err.trace)
+
+            # the `trace` also contains the full dump of all sub-errors ('possibilities')
+            self.assertTrue("(error 3, possibility 7)" in err.trace)
