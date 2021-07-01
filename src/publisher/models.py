@@ -383,6 +383,7 @@ class ArticleFragment(models.Model):
         ordering = ("position", "datetime_record_created")
 
 
+DATE_PREPRINT_PUBLISHED = "date-preprint"
 DATE_EJP_QC, DATE_EJP_DECISION = "date-qc", "date-decision"
 DATE_XML_RECEIVED, DATE_XML_ACCEPTED = "date-xml-received", "date-xml-accepted"
 DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = (
@@ -393,6 +394,7 @@ DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = (
 
 def article_event_choices():
     return [
+        (DATE_PREPRINT_PUBLISHED, "preprint published"),
         (DATE_EJP_QC, "quality check date"),
         (DATE_EJP_DECISION, "decision date"),
         (DATE_XML_RECEIVED, "received date (XML)"),
@@ -409,19 +411,23 @@ class ArticleEvent(models.Model):
     event = models.CharField(max_length=25, choices=article_event_choices())
     datetime_event = models.DateTimeField()
     value = models.CharField(
-        max_length=50,
+        max_length=255,
         blank=True,
         null=True,
         help_text="a value, if any, associated with this event",
+    )
+    uri = models.URLField(
+        max_length=2000, null=True, blank=True, help_text="location of event, if any"
     )
 
     class Meta:
         # this means if the times on certain events change, they'll get a new event
         unique_together = ("article", "event", "datetime_event")
+        # least to most recent (ASC), then alphabetically by event type
         ordering = (
             "datetime_event",
             "event",
-        )  # least to most recent (ASC), then alphabetically by event type
+        )
 
     def __str__(self):
         return "%s: %s" % (self.event, self.value or self.datetime_event)

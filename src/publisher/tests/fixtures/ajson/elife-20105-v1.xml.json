@@ -10,7 +10,13 @@
         }, 
         "-history": {
             "received": "2016-07-27T00:00:00Z", 
-            "accepted": "2016-10-03T00:00:00Z"
+            "accepted": "2016-10-03T00:00:00Z",
+            "preprint": {
+                "status": "preprint",
+                "description": "This manuscript was published as a preprint at bioRxiv.",
+                "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
+                "date": "2016-04-21T00:00:00Z"
+            }
         }, 
         "status": "poa", 
         "id": "20105", 
@@ -53,7 +59,13 @@
         }, 
         "-history": {
             "received": "2016-07-27T00:00:00Z", 
-            "accepted": "2016-10-03T00:00:00Z"
+            "accepted": "2016-10-03T00:00:00Z",
+            "preprint": {
+                "status": "preprint",
+                "description": "This manuscript was published as a preprint at bioRxiv.",
+                "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
+                "date": "2016-04-21T00:00:00Z"
+            }
         }, 
         "status": "poa", 
         "id": "20105", 

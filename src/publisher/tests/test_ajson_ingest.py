@@ -591,6 +591,7 @@ class UnicodePreserved(BaseCase):
     """
     ensures unicode isn't being mangled at any step of the processing
     http://jira.elifesciences.org:8080/browse/ELPP-2013
+    https://github.com/elifesciences/issues/issues/3012
 
         {"type":"person","name":{"index":"Lengyel, MĂĄtĂŠ","preferred":"MĂĄtĂŠ Lengyel"}}
 

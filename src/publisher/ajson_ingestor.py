@@ -1,3 +1,6 @@
+"""handles 'INGEST' and 'PUBLISH' requests, converting article-json from bot-lax-adaptor into lax objects and updating their statuses.
+see `events.py` for converting article-json into event data."""
+
 import copy
 from publisher import (
     models,
@@ -19,24 +22,19 @@ from jsonschema import ValidationError
 
 LOG = logging.getLogger(__name__)
 
-# make the article-json lax compatible
-# receives a list of article-json
 
-
-def exclude_if_empty(val):
-    if not val:
-        return render.EXCLUDE_ME
-    return val
+def elide(val):
+    return val or render.EXCLUDE_ME
 
 
 ARTICLE = {
     "manuscript_id": [p("id"), int],
     "volume": [p("volume")],
     "type": [p("type")],
-    "doi": [p("id"), utils.msid2doi],  # remove when apiv1 is turned off
-    "date_received": [p("-history.received", None), utils.todt, exclude_if_empty],
-    "date_accepted": [p("-history.accepted", None), utils.todt, exclude_if_empty],
-    # 'ejp_type': [p('type'), models.EJP_TYPE_REV_SLUG_IDX.get]
+    # todo: 'doi' deprecated in favour of 'manuscript_id'. remove when api-v1 is turned off.
+    "doi": [p("id"), utils.msid2doi],
+    "date_received": [p("-history.received", None), utils.todt, elide],
+    "date_accepted": [p("-history.accepted", None), utils.todt, elide],
 }
 
 ARTICLE_VERSION = {
@@ -53,7 +51,7 @@ ARTICLE_VERSION = {
 
 
 def _ingest_objects(data, create, update, force, log_context):
-    "ingest helper. returns the journal, article, an article version and a list of article events"
+    "INGEST event helper. returns the journal, article, an article version and a list of article events"
 
     # WARN: log_context is a mutable dict
 
@@ -67,27 +65,27 @@ def _ingest_objects(data, create, update, force, log_context):
 
     try:
         article_struct = render.render_item(ARTICLE, data["article"])
+        unique_key_list = ["manuscript_id", "journal"]
         article, created, updated = create_or_update(
             models.Article,
             article_struct,
-            ["manuscript_id", "journal"],
+            unique_key_list,
             create,
             update,
             journal=journal,
         )
-
         log_context["article"] = article
 
         previous_article_versions = []
         if updated:
+            # earliest -> latest
             previous_article_versions = list(
                 article.articleversion_set.all().order_by("version")
-            )  # earliest -> latest
+            )
 
         av_struct = render.render_item(ARTICLE_VERSION, data["article"])
-        # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published.
-        # 2018-11-22: not strictly true anymore, forced INGEST events are expected to change pubdates
-        # we'll handle that further down in _ingest though
+        # this is an INGEST event and *not* a PUBLISH event. we don't touch the date published unless
+        # it is a *forced* INGEST event, in which case that is handled further down.
         del av_struct["datetime_published"]
 
         av, created, updated = create_or_update(
@@ -99,7 +97,6 @@ def _ingest_objects(data, create, update, force, log_context):
             commit=False,
             article=article,
         )
-
         log_context["article-version"] = av
 
         events.ajson_ingest_events(article, data["article"], force)
