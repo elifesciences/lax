@@ -38,7 +38,7 @@ def ErrorResponse(code, title, detail=None):
     if not detail:
         del body["detail"]
     return HttpResponse(
-        status=code, content_type="application/error", content=json.dumps(body)
+        status=code, content_type="application/json", content=json.dumps(body)
     )
 
 

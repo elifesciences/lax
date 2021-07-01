@@ -221,7 +221,7 @@ class V2ContentTypes(base.BaseCase):
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"
         art_vor_type = "application/vnd.elife.article-vor+json; version=5"
-        art_history_type = "application/vnd.elife.article-history+json; version=1"
+        art_history_type = "application/vnd.elife.article-history+json; version=2"
         art_related_type = "application/vnd.elife.article-related+json; version=1"
 
         case_list = {
@@ -450,7 +450,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
 
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-history+json; version=1"
+            resp.content_type, "application/vnd.elife.article-history+json; version=2"
         )
         data = utils.json_loads(resp.content)
 
@@ -482,7 +482,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
 
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-history+json; version=1"
+            resp.content_type, "application/vnd.elife.article-history+json; version=2"
         )
         data = utils.json_loads(resp.content)
 
