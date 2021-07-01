@@ -18,10 +18,6 @@ from unittest.mock import patch, Mock
 
 SCHEMA_IDX = settings.SCHEMA_IDX  # weird, can't import directly from settings ??
 
-#
-# transition to lighter tests
-#
-
 
 def test_ping():
     resp = Client().get(reverse("v2:ping"))
@@ -221,7 +217,6 @@ class V2ContentTypes(base.BaseCase):
         for path in [self.ajson_fixture_v1, self.ajson_fixture_v2]:
             ajson_ingestor.ingest_publish(json.load(open(path, "r")))
 
-        # TODO: more cases of fixed content versions :(
         # map the known types to expected types
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"

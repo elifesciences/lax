@@ -6,10 +6,12 @@ from functools import partial
 from annoying.fields import JSONField
 from .utils import msid2doi, mk_dxdoi_link, json_dumps, ordered_json_loads
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 JSONField = partial(JSONField, serializer=json_dumps, deserializer=ordered_json_loads)
 
-POA, VOR = "poa", "vor"
+POA = settings.POA
+VOR = settings.VOR
 
 # lsh@2020-09: todo, remove. should have been removed years ago
 class Publisher(models.Model):

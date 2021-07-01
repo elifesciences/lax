@@ -9,33 +9,43 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
-from .models import POA, VOR, XML2JSON
+from .models import XML2JSON
 from et3.extract import path as p
 from et3.render import render_item
 import logging
+from django.http.multipartparser import parse_header
 
 LOG = logging.getLogger(__name__)
 
-ERR = "error"
 
-CURRENT_POA_VERSION = str(settings.ALL_SCHEMA_IDX["poa"][0][0])
-CURRENT_VOR_VERSION = str(settings.ALL_SCHEMA_IDX["vor"][0][0])
+def _ctype(content_type_key):
+    "returns a content type for the given `content_type_key`."
+    assert content_type_key in settings.CONTENT_TYPES
+    return "application/vnd.elife.article-%s+json" % content_type_key
 
 
-def ctype(status):
-    return {
-        POA: "application/vnd.elife.article-poa+json; version=" + CURRENT_POA_VERSION,
-        VOR: "application/vnd.elife.article-vor+json; version=" + CURRENT_VOR_VERSION,
-        ERR: "application/json",
-    }[status]
+def ctype(content_type_key, version=None):
+    """returns a content type and version header for the given `content_type_key` and `version`.
+    if no `version` is specified then the latest version is used."""
+    content_type = _ctype(content_type_key)
+    current_version = str(settings.ALL_SCHEMA_IDX[content_type_key][0][0])
+    version = version or current_version
+    return "%s; version=%s" % (content_type, version)
 
 
 def ErrorResponse(code, title, detail=None):
     body = {"title": title, "detail": detail}
     if not detail:
         del body["detail"]
+    return HttpResponse(
+        status=code, content_type="application/error", content=json.dumps(body)
+    )
 
-    return HttpResponse(status=code, content_type=ctype(ERR), content=json.dumps(body))
+
+def Http406():
+    return ErrorResponse(
+        406, "not acceptable", "could not negotiate an acceptable response type"
+    )
 
 
 def Http404(detail=None):
@@ -88,6 +98,62 @@ def request_args(request, **overrides):
     return render_item(desc, request.GET)
 
 
+def flatten_accept(accepts_header_str):
+    lst = []
+    for mime in accepts_header_str.split(","):
+        # ('application/vnd.elife.article-vor+json', {'version': 2})
+        parsed_mime, parsed_params = parse_header(mime.encode())
+        # ll: ('*/*', 'version', None)
+        # ll: ('application/json', 'version', None)
+        # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
+        lst.append((parsed_mime, "version", parsed_params.pop("version", None)))
+    return lst
+
+
+def negotiate(request, content_type_key):
+    """parses the 'accept-type' header in the request and returns a content-type header and version.
+    returns `None` if a content-type can't be negotiated."""
+    # "application/vnd.elife.article-blah+json"
+    response_mime = _ctype(content_type_key)
+
+    # 2
+    max_content_type_version = settings.ALL_SCHEMA_IDX[content_type_key][0][0]
+
+    # ("application/vnd.elife.article-blah+json", 2)
+    perfect_response = (response_mime, max_content_type_version)
+
+    accepts_header_str = request.META.get("HTTP_ACCEPT")
+    if not accepts_header_str:
+        # not specified/user accepts anything
+        return perfect_response
+
+    general_cases = ["*/*", "application/*", "application/json"]
+    acceptable_mimes_list = flatten_accept(accepts_header_str)
+    versions = []
+    for acceptable_mime in acceptable_mimes_list:
+        if acceptable_mime[0] in general_cases:
+            # user accepts anything
+            return perfect_response
+
+        if acceptable_mime[0] == response_mime:
+            if not acceptable_mime[-1]:
+                # user accepts the unqualified content type
+                return perfect_response
+
+            # user is picky about the version of the content type they want.
+            # we need to make sure the version value isn't bogus.
+            # todo: is this safe? what does `parse_header` do for us?
+            version = int(acceptable_mime[-1])
+            if version > 0 and version <= max_content_type_version:
+                versions.append(version)
+
+    if not versions:
+        # can't figure out what they want
+        return
+
+    return (response_mime, max(versions))
+
+
 #
 #
 #
@@ -120,9 +186,7 @@ def article_list(request):
         kwargs["only_published"] = not authenticated
         total, results = logic.latest_article_version_list(**kwargs)
         struct = {"total": total, "items": lmap(logic.article_snippet_json, results)}
-        return Response(
-            struct, content_type="application/vnd.elife.article-list+json; version=1"
-        )
+        return Response(struct, content_type=ctype(settings.LIST))
     except AssertionError as err:
         return ErrorResponse(400, "bad request", err.message)
 
@@ -138,17 +202,36 @@ def article(request, msid):
         return Http404()
 
 
-@api_view(["HEAD", "GET"])
-def article_version_list(request, msid):
+def article_version_list__v1(request, msid):
     "returns a list of versions for the given article ID"
     authenticated = is_authenticated(request)
     try:
         resp = logic.article_version_history(msid, only_published=not authenticated)
-        return Response(
-            resp, content_type="application/vnd.elife.article-history+json; version=1"
-        )
+        return Response(resp, content_type=ctype(settings.HISTORY, 1))
     except models.Article.DoesNotExist:
         return Http404()
+
+
+def article_version_list__v2(request, msid):
+    "returns a list of versions for the given article ID"
+    authenticated = is_authenticated(request)
+    try:
+        resp = logic.article_version_history(msid, only_published=not authenticated)
+        return Response(resp, content_type=ctype(settings.HISTORY))
+    except models.Article.DoesNotExist:
+        return Http404()
+
+
+@api_view(["HEAD", "GET"])
+def article_version_list(request, msid):
+    "returns a list of versions for the given article ID"
+    content_type = negotiate(request, settings.HISTORY)
+    if not content_type:
+        return Http406()
+    content_type, content_type_version = content_type
+    if content_type_version == 2:
+        return article_version_list__v2(request, msid)
+    return article_version_list__v1(request, msid)
 
 
 @api_view(["HEAD", "GET"])
@@ -169,9 +252,7 @@ def article_related(request, msid):
     authenticated = is_authenticated(request)
     try:
         rl = logic.relationships(msid, only_published=not authenticated)
-        return Response(
-            rl, content_type="application/vnd.elife.article-related+json; version=1"
-        )
+        return Response(rl, content_type=ctype(settings.RELATED))
     except models.Article.DoesNotExist:
         return Http404()
 
