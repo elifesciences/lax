@@ -195,6 +195,7 @@ REST_FRAMEWORK = {
         "publisher.negotiation.POAArticleVersion2",
         "publisher.negotiation.VORArticleVersion4",
         "publisher.negotiation.VORArticleVersion3",
+        "publisher.negotiation.ArticleHistoryVersion2",
         "publisher.negotiation.ArticleHistoryVersion1",
         "publisher.negotiation.ArticleRelatedVersion1",
         # general cases

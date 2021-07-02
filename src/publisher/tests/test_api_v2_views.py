@@ -10,6 +10,7 @@ from publisher import (
     utils,
     logic,
     relation_logic,
+    api_v2_views,
 )
 from django.test import Client, override_settings
 from django.urls import reverse
@@ -17,6 +18,65 @@ from django.conf import settings
 from unittest.mock import patch, Mock
 
 SCHEMA_IDX = settings.SCHEMA_IDX  # weird, can't import directly from settings ??
+
+
+def test_negotiate():
+    cases = [
+        # 1, typical case. accepts anything, gets latest POA spec version
+        ("*/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        # 2, edge case. accepts almost anything, gets latest POA spec version
+        ("application/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        # 3, typical case. requested any POA or VOR spec version
+        (
+            "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 3),
+        ),
+        # 4, ideal case. any POA version, gets explicit latest version
+        (
+            "application/vnd.elife.article-poa+json",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 3),
+        ),
+        # 5, deprecated case. previous POA spec version
+        (
+            "application/vnd.elife.article-poa+json; version=2",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 2),
+        ),
+        # 6, ideal case. requested latest POA spec version
+        (
+            "application/vnd.elife.article-poa+json; version=3",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 3),
+        ),
+        # 7, possible case. requested a set of POA spec versions. max version is used.
+        (
+            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 2),
+        ),
+        # 8, possible case. multiple different specific specs requested.
+        # presence of specific vor content type shouldn't affect specific poa version returned
+        (
+            "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-poa+json; version=2",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 2),
+        ),
+        # ---, other content types
+        (
+            "application/vnd.elife.article-history+json",
+            "history",
+            ("application/vnd.elife.article-history+json", 2),
+        ),
+        (
+            "application/vnd.elife.article-history+json; version=1",
+            "history",
+            ("application/vnd.elife.article-history+json", 1),
+        ),
+    ]
+    for accepts_header_str, content_type_key, expected in cases:
+        assert api_v2_views.negotiate(accepts_header_str, content_type_key) == expected
 
 
 def test_ping():
@@ -77,19 +137,19 @@ def test_accept_types():
         for i, (client_accepts, expected_accepted) in enumerate(cases):
             url = reverse("v2:article", kwargs={"msid": msid})
             resp = Client().get(url, HTTP_ACCEPT=client_accepts)
-            msg = "failed case %s %r, got: %s" % (
+            fail_msg = "failed case %s %r, got: %s" % (
                 i + 1,
                 client_accepts,
                 resp.status_code,
             )
-            assert 200 == resp.status_code, msg
+            assert 200 == resp.status_code, fail_msg
 
-            msg = "failed case %s %r, got: %s" % (
+            fail_msg = "failed case %s %r, got: %s" % (
                 i + 1,
                 client_accepts,
                 resp.content_type,
             )
-            assert expected_accepted == resp.content_type, msg
+            assert expected_accepted == resp.content_type, fail_msg
 
 
 def test_unacceptable_types():
@@ -407,13 +467,15 @@ class V2Content(base.BaseCase):
     def test_article_unpublished_version_not_returned(self):
         "unpublished article versions are not returned"
         self.unpublish(self.msid2, version=3)
-        self.assertEqual(
+        num_avl = (
             models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2)
             .exclude(datetime_published=None)
-            .count(),
-            2,
+            .count()
         )
-        resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid2}))
+        self.assertEqual(num_avl, 2)
+
+        url = reverse("v2:article", kwargs={"msid": self.msid2})
+        resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
         data = utils.json_loads(resp.content)
 
@@ -423,15 +485,29 @@ class V2Content(base.BaseCase):
         # correct data
         self.assertEqual(data["version"], 2)  # third version was unpublished
 
-        # list of versions
+        # --- list of versions, v1
+        article_history_v1 = "application/vnd.elife.article-history+json; version=1"
         version_list = self.c.get(
-            reverse("v2:article-version-list", kwargs={"msid": self.msid2})
+            reverse("v2:article-version-list", kwargs={"msid": self.msid2}),
+            HTTP_ACCEPT=article_history_v1,
         )
         self.assertEqual(version_list.status_code, 200)
         version_list_data = utils.json_loads(version_list.content)
         self.assertEqual(len(version_list_data["versions"]), 2)
 
-        # directly trying to access the unpublished version
+        # --- list of versions, v2
+        article_history_v2 = "application/vnd.elife.article-history+json; version=2"
+        version_list = self.c.get(
+            reverse("v2:article-version-list", kwargs={"msid": self.msid2}),
+            HTTP_ACCEPT=article_history_v2,
+        )
+        self.assertEqual(version_list.status_code, 200)
+        version_list_data = utils.json_loads(version_list.content)
+        self.assertEqual(len(version_list_data["versions"]), 3)
+        self.assertEqual(version_list_data["versions"][0]["status"], "preprint")
+        utils.validate(version_list_data, SCHEMA_IDX["history"])
+
+        # --- directly trying to access the unpublished version
         unpublished_version = self.c.get(
             reverse("v2:article-version", kwargs={"msid": self.msid2, "version": 3})
         )

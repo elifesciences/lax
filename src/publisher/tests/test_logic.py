@@ -252,7 +252,7 @@ class Two(BaseCase):
         pass
 
 
-class Three(BaseCase):
+class ArticleHistoryV1(BaseCase):
     def setUp(self):
         ingest_these = ["elife-16695-v1.xml.json"]  # research article
         ajson_dir = join(self.fixture_dir, "ajson")
@@ -273,6 +273,44 @@ class Three(BaseCase):
         for extype in logic.EXCLUDE_RECEIVED_ACCEPTED_DATES:
             models.Article.objects.filter(manuscript_id=self.msid).update(type=extype)
             resp = logic.article_version_history__v1(self.msid)
+            self.assertTrue("received" not in resp)
+            self.assertTrue("accepted" not in resp)
+
+
+class ArticleHistoryV2(BaseCase):
+    def setUp(self):
+        self.msid = 16695
+        path = join(self.fixture_dir, "ajson", "elife-16695-v1.xml.json")
+        fixture = json.load(open(path, "r"))
+        preprint = {
+            "status": "preprint",
+            "description": "This manuscript was published as a preprint at bioRxiv.",
+            "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
+            "date": "2019-02-15T00:00:00Z",
+        }
+        fixture["article"]["-history"]["preprint"] = preprint
+        ajson_ingestor.ingest_publish(fixture)
+
+    def test_preprints_returned(self):
+        resp = logic.article_version_history__v2(self.msid)
+        self.assertEqual(len(resp["versions"]), 2)
+        expected = {
+            "status": "preprint",
+            "description": "This manuscript was published as a preprint at bioRxiv.",
+            "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
+            "date": utils.todt("2019-02-15T00:00:00Z"),
+        }
+        self.assertEqual(resp["versions"][0], expected)
+
+    def test_certain_articles_dont_get_accepted_received_dates(self):
+        "received and accepted dates are not returned for certain article types"
+        resp = logic.article_version_history__v2(self.msid)
+        self.assertTrue("received" in resp)
+        self.assertTrue("accepted" in resp)
+
+        for extype in logic.EXCLUDE_RECEIVED_ACCEPTED_DATES:
+            models.Article.objects.filter(manuscript_id=self.msid).update(type=extype)
+            resp = logic.article_version_history__v2(self.msid)
             self.assertTrue("received" not in resp)
             self.assertTrue("accepted" not in resp)
 

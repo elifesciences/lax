@@ -1,7 +1,7 @@
 import json, jsonschema
 from django.core import exceptions as django_errors
 from . import models, logic, fragment_logic
-from .utils import ensure, isint, lmap
+from .utils import ensure, isint, toint, lmap
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
@@ -106,11 +106,12 @@ def flatten_accept(accepts_header_str):
         # ll: ('*/*', 'version', None)
         # ll: ('application/json', 'version', None)
         # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
-        lst.append((parsed_mime, "version", parsed_params.pop("version", None)))
+        version = parsed_params.pop("version", b"").decode("utf-8")
+        lst.append((parsed_mime, "version", version or None))
     return lst
 
 
-def negotiate(request, content_type_key):
+def negotiate(accepts_header_str, content_type_key):
     """parses the 'accept-type' header in the request and returns a content-type header and version.
     returns `None` if a content-type can't be negotiated."""
     # "application/vnd.elife.article-blah+json"
@@ -122,12 +123,14 @@ def negotiate(request, content_type_key):
     # ("application/vnd.elife.article-blah+json", 2)
     perfect_response = (response_mime, max_content_type_version)
 
-    accepts_header_str = request.META.get("HTTP_ACCEPT")
     if not accepts_header_str:
         # not specified/user accepts anything
         return perfect_response
 
-    general_cases = ["*/*", "application/*", "application/json"]
+    general_cases = [
+        "*/*",
+        "application/*",
+    ]  # REST Framework says no: "application/json"
     acceptable_mimes_list = flatten_accept(accepts_header_str)
     versions = []
     for acceptable_mime in acceptable_mimes_list:
@@ -142,9 +145,8 @@ def negotiate(request, content_type_key):
 
             # user is picky about the version of the content type they want.
             # we need to make sure the version value isn't bogus.
-            # todo: is this safe? what does `parse_header` do for us?
-            version = int(acceptable_mime[-1])
-            if version > 0 and version <= max_content_type_version:
+            version = toint(acceptable_mime[-1])
+            if version and version > 0 and version <= max_content_type_version:
                 versions.append(version)
 
     if not versions:
@@ -224,7 +226,8 @@ def article_version_list__v2(request, msid):
 @api_view(["HEAD", "GET"])
 def article_version_list(request, msid):
     "returns a list of versions for the given article ID"
-    content_type = negotiate(request, settings.HISTORY)
+    accepts_header_str = request.META.get("HTTP_ACCEPT")
+    content_type = negotiate(accepts_header_str, settings.HISTORY)
     if not content_type:
         return Http406()
     content_type, content_type_version = content_type

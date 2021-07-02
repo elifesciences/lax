@@ -182,10 +182,32 @@ class TestUtils(base.BaseCase):
         for int_val in int_list:
             self.assertTrue(utils.isint(int_val))
 
-    def test_isnotint(self):
+    def test_isint__bad_cases(self):
         not_int_list = ["one", "a", utils]
         for not_int in not_int_list:
             self.assertFalse(utils.isint(not_int), "testing %s" % not_int)
+
+    def test_toint(self):
+        cases = [
+            (None, None),
+            ([], None),
+            ({}, None),
+            (b"", None),
+            ("", None),
+            ("abc", None),
+            ("1,000,000", None),
+            ("0", 0),
+            ("1", 1),
+            ("123", 123),
+            ("   123   ", 123),
+            ("123abc", None),
+            (0, 0),
+            (1, 1),
+            (-1, -1),
+            ("-1", -1),
+        ]
+        for given, expected in cases:
+            self.assertEqual(utils.toint(given), expected)
 
     def test_nth(self):
         expected_list = [
