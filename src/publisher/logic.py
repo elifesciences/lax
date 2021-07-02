@@ -331,7 +331,7 @@ def article_version_history__v2(msid, only_published=True):
                 "status": "preprint",
                 "description": preprint.value,
                 "uri": preprint.uri,
-                "date": preprint.date,
+                "date": preprint.datetime_event,
             }
         )
 

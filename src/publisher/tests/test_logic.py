@@ -266,13 +266,13 @@ class Three(BaseCase):
 
     def test_certain_articles_dont_get_accepted_received_dates(self):
         "received and accepted dates are not returned for certain article types"
-        resp = logic.article_version_history(self.msid)
+        resp = logic.article_version_history__v1(self.msid)
         self.assertTrue("received" in resp)
         self.assertTrue("accepted" in resp)
 
         for extype in logic.EXCLUDE_RECEIVED_ACCEPTED_DATES:
             models.Article.objects.filter(manuscript_id=self.msid).update(type=extype)
-            resp = logic.article_version_history(self.msid)
+            resp = logic.article_version_history__v1(self.msid)
             self.assertTrue("received" not in resp)
             self.assertTrue("accepted" not in resp)
 
