@@ -189,10 +189,11 @@ class Article(models.Model):
     # the actual preferred classification isn't being captured in any single place
     # full set of preferred naming can be captured from "display channel (Published)",
     # "NLM article type" then "sub display channel (published)"
-    # https://docs.google.com/spreadsheets/d/1FpqQovdxt_VnR70SVVk7k3tjZnQnTAeURnc1PEtkz0k/edit#gid=0
+    # - https://docs.google.com/spreadsheets/d/1FpqQovdxt_VnR70SVVk7k3tjZnQnTAeURnc1PEtkz0k/edit#gid=0
+    # 'research', 'editorial', etc
     type = models.CharField(
         max_length=50, blank=True, null=True, help_text="xml article-type."
-    )  # research, editorial, etc
+    )
     ejp_type = models.CharField(
         max_length=3,
         blank=True,

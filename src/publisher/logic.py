@@ -1,4 +1,4 @@
-from django.db import connection
+from django.db import connection, reset_queries
 from . import models
 from django.conf import settings
 import logging
@@ -9,7 +9,29 @@ from django.db.models import Max, F  # , Q, When
 
 LOG = logging.getLogger(__name__)
 
-# cachable?
+
+def qdebug(f):
+    "query debug output. prints number of sql queries and time taken in ms"
+
+    def wrap(*args, **kwargs):
+        reset_queries()
+        result = f(*args, **kwargs)
+        qt = [(float(query["time"]) * 1000) for query in connection.queries]
+
+        print("%s queries" % len(qt))
+        print("%s ms" % sum(qt))
+        print()
+
+        return result
+
+    return wrap
+
+
+#
+#
+#
+
+
 def journal(name=None):
     journal = {"name": name}
     if not name:
@@ -235,9 +257,9 @@ def relationships(msid, only_published=True):
 
 
 def date_received(art):
-    # the date received, scraped from the xml, is guaranteed to not exist for certain article types
+    # the date received, scraped from the xml, is guaranteed to not exist for certain article types.
     # the initial quality check date will not exist under certain circumstances:
-    # James, 20170317: "there are some instances in the archive where articles were essentially first submitted as full submissions rather than initial submissions, due to appeals or previous interactions etc. The logic we've been using for PoA is that if there is no initial qc date, use the full qc date."
+    # James@2017-03-17: "there are some instances in the archive where articles were essentially first submitted as full submissions rather than initial submissions, due to appeals or previous interactions etc. The logic we've been using for PoA is that if there is no initial qc date, use the full qc date."
     return firstnn([art.date_received, art.date_initial_qc, art.date_full_qc])
 
 
@@ -258,8 +280,8 @@ def date_accepted(art):
 
 EXCLUDE_RECEIVED_ACCEPTED_DATES = [models.EDITORIAL, models.INSIGHT]
 
-
-def article_version_history(msid, only_published=True):
+#  @qdebug # 3 queries @ ~13ms local psql
+def article_version_history__v1(msid, only_published=True):
     "returns a list of snippets for the history of the given article"
     article = models.Article.objects.get(manuscript_id=msid)
     avl = article.articleversion_set.all()
@@ -274,6 +296,49 @@ def article_version_history(msid, only_published=True):
         "received": date_received(article),
         "accepted": date_accepted(article),
         "versions": lmap(article_snippet_json, avl),
+    }
+
+    if article.type in EXCLUDE_RECEIVED_ACCEPTED_DATES:
+        struct = exsubdict(struct, ["received", "accepted"])
+
+    return struct
+
+
+#  @qdebug # 2 queries @ ~10ms local psql
+def article_version_history__v2(msid, only_published=True):
+    """returns a list of snippets for the history of the given article.
+    v2 of this functions also returns pre-print events.
+    returns None if no version history found."""
+
+    q = models.ArticleVersion.objects.select_related("article").filter(
+        article__manuscript_id=msid
+    )
+    if only_published:
+        q = q.exclude(datetime_published=None)
+
+    avl = list(q)
+    if not avl:
+        return
+
+    article = q[0].article
+
+    events = []
+    for preprint in article.articleevent_set.filter(
+        event=models.DATE_PREPRINT_PUBLISHED
+    ):
+        events.append(
+            {
+                "status": "preprint",
+                "description": preprint.value,
+                "uri": preprint.uri,
+                "date": preprint.date,
+            }
+        )
+
+    struct = {
+        "received": date_received(article),
+        "accepted": date_accepted(article),
+        "versions": events + lmap(article_snippet_json, avl),
     }
 
     if article.type in EXCLUDE_RECEIVED_ACCEPTED_DATES:

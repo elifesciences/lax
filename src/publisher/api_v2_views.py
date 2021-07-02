@@ -206,7 +206,7 @@ def article_version_list__v1(request, msid):
     "returns a list of versions for the given article ID"
     authenticated = is_authenticated(request)
     try:
-        resp = logic.article_version_history(msid, only_published=not authenticated)
+        resp = logic.article_version_history__v1(msid, only_published=not authenticated)
         return Response(resp, content_type=ctype(settings.HISTORY, 1))
     except models.Article.DoesNotExist:
         return Http404()
@@ -215,11 +215,10 @@ def article_version_list__v1(request, msid):
 def article_version_list__v2(request, msid):
     "returns a list of versions for the given article ID"
     authenticated = is_authenticated(request)
-    try:
-        resp = logic.article_version_history(msid, only_published=not authenticated)
-        return Response(resp, content_type=ctype(settings.HISTORY))
-    except models.Article.DoesNotExist:
+    resp = logic.article_version_history__v2(msid, only_published=not authenticated)
+    if not resp:
         return Http404()
+    return Response(resp, content_type=ctype(settings.HISTORY))
 
 
 @api_view(["HEAD", "GET"])
