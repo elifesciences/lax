@@ -1,3 +1,4 @@
+import pytest
 from core import middleware as mware
 from datetime import timedelta
 from . import base
@@ -18,6 +19,23 @@ from django.conf import settings
 from unittest.mock import patch, Mock
 
 SCHEMA_IDX = settings.SCHEMA_IDX  # weird, can't import directly from settings ??
+
+
+def test_ctype():
+    cases = [
+        ("history", None, "application/vnd.elife.article-history+json; version=2"),
+        ("history", 2, "application/vnd.elife.article-history+json; version=2"),
+        ("history", 1, "application/vnd.elife.article-history+json; version=1"),
+    ]
+    for content_type_key, version, expected in cases:
+        assert api_v2_views.ctype(content_type_key, version) == expected
+
+
+def test_ctype__bad_cases():
+    cases = [("history", 9), ("history", "asdf"), ("pants", None)]
+    for content_type_key, version in cases:
+        with pytest.raises(AssertionError):
+            api_v2_views.ctype(content_type_key, version)
 
 
 def test_negotiate():

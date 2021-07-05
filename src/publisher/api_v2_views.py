@@ -28,8 +28,10 @@ def ctype(content_type_key, version=None):
     """returns a content type and version header for the given `content_type_key` and `version`.
     if no `version` is specified then the latest version is used."""
     content_type = _ctype(content_type_key)
-    current_version = str(settings.ALL_SCHEMA_IDX[content_type_key][0][0])
+    current_version = settings.ALL_SCHEMA_IDX[content_type_key][0][0]
     version = version or current_version
+    if version != current_version:
+        assert version in settings.SCHEMA_VERSIONS[content_type_key]
     return "%s; version=%s" % (content_type, version)
 
 
@@ -113,7 +115,10 @@ def flatten_accept(accepts_header_str):
 
 def negotiate(accepts_header_str, content_type_key):
     """parses the 'accept-type' header in the request and returns a content-type header and version.
-    returns `None` if a content-type can't be negotiated."""
+    returns `None` if a content-type can't be negotiated.
+
+    Note! this 'negotiation' is in addition to/overlaps with/is confused with 
+    the Django REST Framework content negotiation. That library has the final word right now, unfortunately."""
     # "application/vnd.elife.article-blah+json"
     response_mime = _ctype(content_type_key)
 
@@ -215,7 +220,7 @@ def article_version_list__v1(request, msid):
 
 
 def article_version_list__v2(request, msid):
-    "returns a list of versions for the given article ID"
+    "returns a list of versions for the given article ID, including preprint events."
     authenticated = is_authenticated(request)
     resp = logic.article_version_history__v2(msid, only_published=not authenticated)
     if not resp:

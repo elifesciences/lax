@@ -14,9 +14,11 @@ def add(art, event, value=None, datetime_event=None, uri=None):
     "creates/updates an ArticleEvent and attaches it to the given `art`"
     utils.ensure(art, "need art")
     datetime_event = datetime_event or utils.utcnow()
+    if value:
+        value = str(value)[:255]
     struct = {
         "event": event,
-        "value": str(value),
+        "value": value,
         "datetime_event": datetime_event,
         "uri": uri,
     }

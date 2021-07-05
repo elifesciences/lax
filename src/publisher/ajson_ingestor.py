@@ -1,5 +1,5 @@
 """handles 'INGEST' and 'PUBLISH' requests, converting article-json from bot-lax-adaptor into lax objects and updating their statuses.
-see `events.py` for converting article-json into event data."""
+see `events.py` for converting article-json into ArticleEvent data."""
 
 import copy
 from publisher import (

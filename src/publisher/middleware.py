@@ -3,9 +3,8 @@ import json
 import logging
 from .utils import isint
 from rest_framework.response import Response as RESTResponse
-from .api_v2_views import ErrorResponse
+from .api_v2_views import flatten_accept, ErrorResponse
 from django.http import HttpResponse
-from django.http.multipartparser import parse_header
 
 LOG = logging.getLogger(__name__)
 
@@ -16,20 +15,6 @@ def get_content_type(resp):
         return resp.get("Content-Type")
     elif isinstance(resp, RESTResponse):
         return resp.content_type
-
-
-def flatten_accept(header, just_elife=False):
-    lst = []
-    for mime in header.split(","):
-        # ('application/vnd.elife.article-vor+json', {'version': 2})
-        parsed_mime, parsed_params = parse_header(mime.encode())
-        if just_elife and "elife" not in parsed_mime:
-            continue
-        # ll: ('*/*', 'version', None)
-        # ll: ('application/json', 'version', None)
-        # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
-        lst.append((parsed_mime, "version", parsed_params.pop("version", None)))
-    return lst
 
 
 def has_structured_abstract(ajson):
