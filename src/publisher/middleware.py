@@ -57,12 +57,12 @@ def requested_version(request, response):
 DEPRECATED_VOR = (
     "application/vnd.elife.article-vor+json",
     "version",
-    bytes(str(settings.ALL_SCHEMA_IDX["vor"][-1][0]), "utf-8"),
+    str(settings.ALL_SCHEMA_IDX["vor"][-1][0]),
 )
 DEPRECATED_POA = (
     "application/vnd.elife.article-poa+json",
     "version",
-    bytes(str(settings.ALL_SCHEMA_IDX["poa"][-1][0]), "utf-8"),
+    str(settings.ALL_SCHEMA_IDX["poa"][-1][0]),
 )
 
 DEPRECATED_CONTENT_TYPES = [DEPRECATED_VOR, DEPRECATED_POA]

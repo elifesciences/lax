@@ -266,6 +266,7 @@ def test_deprecated_header_present():
     with patch("publisher.logic.most_recent_article_version", return_value=mock):
         url = reverse("v2:article", kwargs={"msid": msid})
         resp = Client().get(url, HTTP_ACCEPT=deprecated_ctype)
+        assert resp.content_type == deprecated_ctype
         assert 200 == resp.status_code
         msg = "Deprecation: Support for this Content-Type version will be removed"
         assert msg == resp["warning"]
