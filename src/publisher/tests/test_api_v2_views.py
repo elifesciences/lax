@@ -534,23 +534,41 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX["history"])
 
         # correct data
-        self.assertEqual(
-            len(data["versions"]), 2
-        )  # this article only has two *published*
+        # this article has two *published* and one *preprint*
+        self.assertEqual(len(data["versions"]), 3)
 
         # correct order
-        expected = [1, 2]
-        given = [data["versions"][i]["version"] for i in range(0, 2)]
+        expected = [None, 1, 2]
+        given = [version.get("version") for version in data["versions"]]
         self.assertEqual(given, expected)
 
-    def test_unpublished_article_versions_list(self):
+    def test_unpublished_article_versions_list__v1(self):
         "valid json content is returned"
 
-        # 2016-07-21: lax used to depend on certain values from ejp, but these are now pulled from the xml.
-        # we need some data that can only come from ejp for this
-        # import ejp_ingestor
-        # ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
-        # ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
+        accepts = "application/vnd.elife.article-history+json; version=1"
+        resp = self.ac.get(
+            reverse("v2:article-version-list", kwargs={"msid": self.msid2}),
+            HTTP_ACCEPT=accepts,
+        )
+        self.assertEqual(resp.status_code, 200)
+
+        self.assertEqual(resp.content_type, accepts)
+        data = utils.json_loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX["history"])
+
+        # correct data
+        # this article (on this version of the endpoint) has two *published*, one *unpublished*
+        self.assertEqual(len(data["versions"]), 3)
+
+        # correct order
+        expected = [1, 2, 3]
+        given = [version.get("version") for version in data["versions"]]
+        self.assertEqual(given, expected)
+
+    def test_unpublished_article_versions_list__v2(self):
+        "valid json content is returned"
 
         resp = self.ac.get(
             reverse("v2:article-version-list", kwargs={"msid": self.msid2})
@@ -566,13 +584,12 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX["history"])
 
         # correct data
-        self.assertEqual(
-            len(data["versions"]), 3
-        )  # this article has two *published*, one *unpublished*
+        # this article has two *published*, one *unpublished* and one *preprint*
+        self.assertEqual(len(data["versions"]), 4)
 
         # correct order
-        expected = [1, 2, 3]
-        given = [data["versions"][i]["version"] for i in range(0, 3)]
+        expected = [None, 1, 2, 3]  # 'None' for preprint without formal version
+        given = [version.get("version") for version in data["versions"]]
         self.assertEqual(given, expected)
 
     def test_article_versions_list_does_not_exist(self):
@@ -742,7 +759,8 @@ class AddFragment(base.BaseCase):
         article_url = reverse("v2:article-version-list", kwargs={"msid": self.msid})
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
-        self.assertEqual(data["versions"][0]["title"], fragment["title"])
+        self.assertEqual(data["versions"][0]["status"], "preprint")
+        self.assertEqual(data["versions"][1]["title"], fragment["title"])
 
     def test_fragment_needs_authentication(self):
         "only admin users can modify content"
@@ -772,9 +790,11 @@ class AddFragment(base.BaseCase):
         article_url = reverse("v2:article-version-list", kwargs={"msid": self.msid})
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
-        self.assertEqual(len(data["versions"]), 2)
-        self.assertEqual(data["versions"][0]["title"], fragment["title"])
+
+        self.assertEqual(len(data["versions"]), 3)
+        self.assertEqual(data["versions"][0]["status"], "preprint")
         self.assertEqual(data["versions"][1]["title"], fragment["title"])
+        self.assertEqual(data["versions"][2]["title"], fragment["title"])
 
     def test_add_fragment_twice(self):
         key = "test-frag"
