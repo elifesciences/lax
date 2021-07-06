@@ -117,6 +117,13 @@ def isint(v):
         return False
 
 
+def toint(v):
+    try:
+        return int(str(v))
+    except (ValueError, TypeError):
+        return None
+
+
 def mk_dxdoi_link(doi):
     return "https://dx.doi.org/%s" % doi
 

@@ -91,7 +91,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # content types are deprecated before being removed entirely
-    "publisher.middleware.deprecated",
+    "publisher.middleware.mark_deprecated",
     "core.middleware.KongAuthentication",  # sets a header if it looks like an authenticated request
     "publisher.middleware.error_content_check",
     # order is important here.
@@ -195,6 +195,7 @@ REST_FRAMEWORK = {
         "publisher.negotiation.POAArticleVersion2",
         "publisher.negotiation.VORArticleVersion4",
         "publisher.negotiation.VORArticleVersion3",
+        "publisher.negotiation.ArticleHistoryVersion2",
         "publisher.negotiation.ArticleHistoryVersion1",
         "publisher.negotiation.ArticleRelatedVersion1",
         # general cases
@@ -220,23 +221,38 @@ EXPLORER_DEFAULT_CONNECTION = "default"
 # API opts
 #
 
+CONTENT_TYPES = "poa", "vor", "history", "list", "related"
+POA, VOR, HISTORY, LIST, RELATED = CONTENT_TYPES
+
 SCHEMA_PATH = join(PROJECT_DIR, "schema/api-raml/dist")
 
 # a response is valid if it validates under any version of it's schema.
 # order is important. if all attempts to validate fail, the first validation error is re-raised
 ALL_SCHEMA_IDX = {
-    "poa": [
+    POA: [
         (3, join(SCHEMA_PATH, "model/article-poa.v3.json")),
         (2, join(SCHEMA_PATH, "model/article-poa.v2.json")),
     ],
-    "vor": [
+    VOR: [
         (5, join(SCHEMA_PATH, "model/article-vor.v5.json")),
         (4, join(SCHEMA_PATH, "model/article-vor.v4.json")),
     ],
-    "history": [(1, join(SCHEMA_PATH, "model/article-history.v1.json"))],
-    "list": [(1, join(SCHEMA_PATH, "model/article-list.v1.json"))],
+    HISTORY: [
+        (2, join(SCHEMA_PATH, "model/article-history.v2.json")),
+        (1, join(SCHEMA_PATH, "model/article-history.v1.json")),
+    ],
+    LIST: [(1, join(SCHEMA_PATH, "model/article-list.v1.json"))],
+    RELATED: [(1, join(SCHEMA_PATH, "model/article-related.v1.json"))],
 }
+
+# {"vor": "/path/to/model/article-vor.v5.json", "poa": ...}
 SCHEMA_IDX = {tpe: rows[0][1] for tpe, rows in ALL_SCHEMA_IDX.items()}
+
+# {"vor": [5, 4], "history": [2, 1], ...}
+SCHEMA_VERSIONS = {
+    tpe: [row[0] for row in rows] for tpe, rows in ALL_SCHEMA_IDX.items()
+}
+
 API_PATH = join(SCHEMA_PATH, "api.raml")
 
 # a schema failure may have multiple independent failures and each failure

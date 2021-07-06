@@ -17,7 +17,7 @@ django-filter = "==2.2.*"
 django-markdown2 = "~=0.3"
 django-sql-explorer = "~=1.1"
 django-tqdm = "==1.0.0"
-djangorestframework = "==3.11.0"
+djangorestframework = "~=3.11"
 et3 = "~=1.5"
 # lsh@2020-07: pinned, isort==5.0.3 has changed it's api
 isort = "~=4.3"
