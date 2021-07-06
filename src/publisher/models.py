@@ -6,10 +6,12 @@ from functools import partial
 from annoying.fields import JSONField
 from .utils import msid2doi, mk_dxdoi_link, json_dumps, ordered_json_loads
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 JSONField = partial(JSONField, serializer=json_dumps, deserializer=ordered_json_loads)
 
-POA, VOR = "poa", "vor"
+POA = settings.POA
+VOR = settings.VOR
 
 # lsh@2020-09: todo, remove. should have been removed years ago
 class Publisher(models.Model):
@@ -187,10 +189,11 @@ class Article(models.Model):
     # the actual preferred classification isn't being captured in any single place
     # full set of preferred naming can be captured from "display channel (Published)",
     # "NLM article type" then "sub display channel (published)"
-    # https://docs.google.com/spreadsheets/d/1FpqQovdxt_VnR70SVVk7k3tjZnQnTAeURnc1PEtkz0k/edit#gid=0
+    # - https://docs.google.com/spreadsheets/d/1FpqQovdxt_VnR70SVVk7k3tjZnQnTAeURnc1PEtkz0k/edit#gid=0
+    # 'research', 'editorial', etc
     type = models.CharField(
         max_length=50, blank=True, null=True, help_text="xml article-type."
-    )  # research, editorial, etc
+    )
     ejp_type = models.CharField(
         max_length=3,
         blank=True,
@@ -381,6 +384,7 @@ class ArticleFragment(models.Model):
         ordering = ("position", "datetime_record_created")
 
 
+DATE_PREPRINT_PUBLISHED = "date-preprint"
 DATE_EJP_QC, DATE_EJP_DECISION = "date-qc", "date-decision"
 DATE_XML_RECEIVED, DATE_XML_ACCEPTED = "date-xml-received", "date-xml-accepted"
 DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = (
@@ -391,6 +395,7 @@ DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = (
 
 def article_event_choices():
     return [
+        (DATE_PREPRINT_PUBLISHED, "preprint published"),
         (DATE_EJP_QC, "quality check date"),
         (DATE_EJP_DECISION, "decision date"),
         (DATE_XML_RECEIVED, "received date (XML)"),
@@ -407,19 +412,23 @@ class ArticleEvent(models.Model):
     event = models.CharField(max_length=25, choices=article_event_choices())
     datetime_event = models.DateTimeField()
     value = models.CharField(
-        max_length=50,
+        max_length=255,
         blank=True,
         null=True,
         help_text="a value, if any, associated with this event",
+    )
+    uri = models.URLField(
+        max_length=2000, null=True, blank=True, help_text="location of event, if any"
     )
 
     class Meta:
         # this means if the times on certain events change, they'll get a new event
         unique_together = ("article", "event", "datetime_event")
+        # least to most recent (ASC), then alphabetically by event type
         ordering = (
             "datetime_event",
             "event",
-        )  # least to most recent (ASC), then alphabetically by event type
+        )
 
     def __str__(self):
         return "%s: %s" % (self.event, self.value or self.datetime_event)

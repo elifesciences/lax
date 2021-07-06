@@ -1,3 +1,4 @@
+import pytest
 from core import middleware as mware
 from datetime import timedelta
 from . import base
@@ -10,6 +11,7 @@ from publisher import (
     utils,
     logic,
     relation_logic,
+    api_v2_views,
 )
 from django.test import Client, override_settings
 from django.urls import reverse
@@ -18,9 +20,81 @@ from unittest.mock import patch, Mock
 
 SCHEMA_IDX = settings.SCHEMA_IDX  # weird, can't import directly from settings ??
 
-#
-# transition to lighter tests
-#
+
+def test_ctype():
+    cases = [
+        ("history", None, "application/vnd.elife.article-history+json; version=2"),
+        ("history", 2, "application/vnd.elife.article-history+json; version=2"),
+        ("history", 1, "application/vnd.elife.article-history+json; version=1"),
+    ]
+    for content_type_key, version, expected in cases:
+        assert api_v2_views.ctype(content_type_key, version) == expected
+
+
+def test_ctype__bad_cases():
+    cases = [("history", 9), ("history", "asdf"), ("pants", None)]
+    for content_type_key, version in cases:
+        with pytest.raises(AssertionError):
+            api_v2_views.ctype(content_type_key, version)
+
+
+def test_negotiate():
+    cases = [
+        # 1, typical case. accepts anything, gets latest POA spec version
+        ("*/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        # 2, edge case. accepts almost anything, gets latest POA spec version
+        ("application/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        # 3, typical case. requested any POA or VOR spec version
+        (
+            "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 3),
+        ),
+        # 4, ideal case. any POA version, gets explicit latest version
+        (
+            "application/vnd.elife.article-poa+json",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 3),
+        ),
+        # 5, deprecated case. previous POA spec version
+        (
+            "application/vnd.elife.article-poa+json; version=2",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 2),
+        ),
+        # 6, ideal case. requested latest POA spec version
+        (
+            "application/vnd.elife.article-poa+json; version=3",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 3),
+        ),
+        # 7, possible case. requested a set of POA spec versions. max version is used.
+        (
+            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 2),
+        ),
+        # 8, possible case. multiple different specific specs requested.
+        # presence of specific vor content type shouldn't affect specific poa version returned
+        (
+            "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-poa+json; version=2",
+            "poa",
+            ("application/vnd.elife.article-poa+json", 2),
+        ),
+        # ---, other content types
+        (
+            "application/vnd.elife.article-history+json",
+            "history",
+            ("application/vnd.elife.article-history+json", 2),
+        ),
+        (
+            "application/vnd.elife.article-history+json; version=1",
+            "history",
+            ("application/vnd.elife.article-history+json", 1),
+        ),
+    ]
+    for accepts_header_str, content_type_key, expected in cases:
+        assert api_v2_views.negotiate(accepts_header_str, content_type_key) == expected
 
 
 def test_ping():
@@ -81,19 +155,19 @@ def test_accept_types():
         for i, (client_accepts, expected_accepted) in enumerate(cases):
             url = reverse("v2:article", kwargs={"msid": msid})
             resp = Client().get(url, HTTP_ACCEPT=client_accepts)
-            msg = "failed case %s %r, got: %s" % (
+            fail_msg = "failed case %s %r, got: %s" % (
                 i + 1,
                 client_accepts,
                 resp.status_code,
             )
-            assert 200 == resp.status_code, msg
+            assert 200 == resp.status_code, fail_msg
 
-            msg = "failed case %s %r, got: %s" % (
+            fail_msg = "failed case %s %r, got: %s" % (
                 i + 1,
                 client_accepts,
                 resp.content_type,
             )
-            assert expected_accepted == resp.content_type, msg
+            assert expected_accepted == resp.content_type, fail_msg
 
 
 def test_unacceptable_types():
@@ -133,6 +207,7 @@ def test_unacceptable_types():
 
 def test_structured_abstract_not_downgraded_vor():
     "a vor with a structured abstract cannot be downgraded to vor v3"
+
     msid = 31549  # vor spec version 4, our first
     fixture_path = join(
         base.FIXTURE_DIR, "structured-abstracts", "elife-31549-v1.xml.json"
@@ -192,6 +267,7 @@ def test_deprecated_header_present():
     with patch("publisher.logic.most_recent_article_version", return_value=mock):
         url = reverse("v2:article", kwargs={"msid": msid})
         resp = Client().get(url, HTTP_ACCEPT=deprecated_ctype)
+        assert resp.content_type == deprecated_ctype
         assert 200 == resp.status_code
         msg = "Deprecation: Support for this Content-Type version will be removed"
         assert msg == resp["warning"]
@@ -221,12 +297,11 @@ class V2ContentTypes(base.BaseCase):
         for path in [self.ajson_fixture_v1, self.ajson_fixture_v2]:
             ajson_ingestor.ingest_publish(json.load(open(path, "r")))
 
-        # TODO: more cases of fixed content versions :(
         # map the known types to expected types
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"
         art_vor_type = "application/vnd.elife.article-vor+json; version=5"
-        art_history_type = "application/vnd.elife.article-history+json; version=1"
+        art_history_type = "application/vnd.elife.article-history+json; version=2"
         art_related_type = "application/vnd.elife.article-related+json; version=1"
 
         case_list = {
@@ -412,13 +487,15 @@ class V2Content(base.BaseCase):
     def test_article_unpublished_version_not_returned(self):
         "unpublished article versions are not returned"
         self.unpublish(self.msid2, version=3)
-        self.assertEqual(
+        num_avl = (
             models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2)
             .exclude(datetime_published=None)
-            .count(),
-            2,
+            .count()
         )
-        resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid2}))
+        self.assertEqual(num_avl, 2)
+
+        url = reverse("v2:article", kwargs={"msid": self.msid2})
+        resp = self.c.get(url)
         self.assertEqual(resp.status_code, 200)
         data = utils.json_loads(resp.content)
 
@@ -428,15 +505,29 @@ class V2Content(base.BaseCase):
         # correct data
         self.assertEqual(data["version"], 2)  # third version was unpublished
 
-        # list of versions
+        # --- list of versions, v1
+        article_history_v1 = "application/vnd.elife.article-history+json; version=1"
         version_list = self.c.get(
-            reverse("v2:article-version-list", kwargs={"msid": self.msid2})
+            reverse("v2:article-version-list", kwargs={"msid": self.msid2}),
+            HTTP_ACCEPT=article_history_v1,
         )
         self.assertEqual(version_list.status_code, 200)
         version_list_data = utils.json_loads(version_list.content)
         self.assertEqual(len(version_list_data["versions"]), 2)
 
-        # directly trying to access the unpublished version
+        # --- list of versions, v2
+        article_history_v2 = "application/vnd.elife.article-history+json; version=2"
+        version_list = self.c.get(
+            reverse("v2:article-version-list", kwargs={"msid": self.msid2}),
+            HTTP_ACCEPT=article_history_v2,
+        )
+        self.assertEqual(version_list.status_code, 200)
+        version_list_data = utils.json_loads(version_list.content)
+        self.assertEqual(len(version_list_data["versions"]), 3)
+        self.assertEqual(version_list_data["versions"][0]["status"], "preprint")
+        utils.validate(version_list_data, SCHEMA_IDX["history"])
+
+        # --- directly trying to access the unpublished version
         unpublished_version = self.c.get(
             reverse("v2:article-version", kwargs={"msid": self.msid2, "version": 3})
         )
@@ -455,7 +546,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
 
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-history+json; version=1"
+            resp.content_type, "application/vnd.elife.article-history+json; version=2"
         )
         data = utils.json_loads(resp.content)
 
@@ -463,23 +554,41 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX["history"])
 
         # correct data
-        self.assertEqual(
-            len(data["versions"]), 2
-        )  # this article only has two *published*
+        # this article has two *published* and one *preprint*
+        self.assertEqual(len(data["versions"]), 3)
 
         # correct order
-        expected = [1, 2]
-        given = [data["versions"][i]["version"] for i in range(0, 2)]
+        expected = [None, 1, 2]
+        given = [version.get("version") for version in data["versions"]]
         self.assertEqual(given, expected)
 
-    def test_unpublished_article_versions_list(self):
+    def test_unpublished_article_versions_list__v1(self):
         "valid json content is returned"
 
-        # 2016-07-21: lax used to depend on certain values from ejp, but these are now pulled from the xml.
-        # we need some data that can only come from ejp for this
-        # import ejp_ingestor
-        # ejp_data = join(self.fixture_dir, 'dummy-ejp-for-v2-api-fixtures.json')
-        # ejp_ingestor.import_article_list_from_json_path(logic.journal(), ejp_data, create=False, update=True)
+        accepts = "application/vnd.elife.article-history+json; version=1"
+        resp = self.ac.get(
+            reverse("v2:article-version-list", kwargs={"msid": self.msid2}),
+            HTTP_ACCEPT=accepts,
+        )
+        self.assertEqual(resp.status_code, 200)
+
+        self.assertEqual(resp.content_type, accepts)
+        data = utils.json_loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX["history"])
+
+        # correct data
+        # this article (on this version of the endpoint) has two *published*, one *unpublished*
+        self.assertEqual(len(data["versions"]), 3)
+
+        # correct order
+        expected = [1, 2, 3]
+        given = [version.get("version") for version in data["versions"]]
+        self.assertEqual(given, expected)
+
+    def test_unpublished_article_versions_list__v2(self):
+        "valid json content is returned"
 
         resp = self.ac.get(
             reverse("v2:article-version-list", kwargs={"msid": self.msid2})
@@ -487,7 +596,7 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 200)
 
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-history+json; version=1"
+            resp.content_type, "application/vnd.elife.article-history+json; version=2"
         )
         data = utils.json_loads(resp.content)
 
@@ -495,13 +604,12 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX["history"])
 
         # correct data
-        self.assertEqual(
-            len(data["versions"]), 3
-        )  # this article has two *published*, one *unpublished*
+        # this article has two *published*, one *unpublished* and one *preprint*
+        self.assertEqual(len(data["versions"]), 4)
 
         # correct order
-        expected = [1, 2, 3]
-        given = [data["versions"][i]["version"] for i in range(0, 3)]
+        expected = [None, 1, 2, 3]  # 'None' for preprint without formal version
+        given = [version.get("version") for version in data["versions"]]
         self.assertEqual(given, expected)
 
     def test_article_versions_list_does_not_exist(self):
@@ -671,7 +779,8 @@ class AddFragment(base.BaseCase):
         article_url = reverse("v2:article-version-list", kwargs={"msid": self.msid})
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
-        self.assertEqual(data["versions"][0]["title"], fragment["title"])
+        self.assertEqual(data["versions"][0]["status"], "preprint")
+        self.assertEqual(data["versions"][1]["title"], fragment["title"])
 
     def test_fragment_needs_authentication(self):
         "only admin users can modify content"
@@ -701,9 +810,11 @@ class AddFragment(base.BaseCase):
         article_url = reverse("v2:article-version-list", kwargs={"msid": self.msid})
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
-        self.assertEqual(len(data["versions"]), 2)
-        self.assertEqual(data["versions"][0]["title"], fragment["title"])
+
+        self.assertEqual(len(data["versions"]), 3)
+        self.assertEqual(data["versions"][0]["status"], "preprint")
         self.assertEqual(data["versions"][1]["title"], fragment["title"])
+        self.assertEqual(data["versions"][2]["title"], fragment["title"])
 
     def test_add_fragment_twice(self):
         key = "test-frag"
