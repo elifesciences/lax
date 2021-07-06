@@ -91,7 +91,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # content types are deprecated before being removed entirely
-    "publisher.middleware.deprecated",
+    "publisher.middleware.mark_deprecated",
     "core.middleware.KongAuthentication",  # sets a header if it looks like an authenticated request
     "publisher.middleware.error_content_check",
     # order is important here.

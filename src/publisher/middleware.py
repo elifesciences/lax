@@ -3,7 +3,7 @@ import json
 import logging
 from .utils import isint
 from rest_framework.response import Response as RESTResponse
-from .api_v2_views import flatten_accept, ErrorResponse
+from .api_v2_views import flatten_accept, ErrorResponse, _ctype
 from django.http import HttpResponse
 
 LOG = logging.getLogger(__name__)
@@ -54,22 +54,20 @@ def requested_version(request, response):
 
 # deprecated content-types are simply the oldest ones
 
-DEPRECATED_VOR = (
-    "application/vnd.elife.article-vor+json",
-    "version",
-    str(settings.ALL_SCHEMA_IDX["vor"][-1][0]),
-)
-DEPRECATED_POA = (
-    "application/vnd.elife.article-poa+json",
-    "version",
-    str(settings.ALL_SCHEMA_IDX["poa"][-1][0]),
-)
-
-DEPRECATED_CONTENT_TYPES = [DEPRECATED_VOR, DEPRECATED_POA]
+# a list of triples like `(mime, 'version', version)`
+# see `flatten_accept`
+DEPRECATED_CONTENT_TYPES = []
+for tpe, rows in settings.ALL_SCHEMA_IDX.items():
+    if len(rows) > 1:
+        for deprecated_version, _ in rows[1:]:
+            # stringify version because that is what `flatten_accept` returns
+            deprecated = (_ctype(tpe), "version", str(deprecated_version))
+            DEPRECATED_CONTENT_TYPES.append(deprecated)
 
 
-def is_deprecated(request):
-    accepts = flatten_accept(request.META.get("HTTP_ACCEPT", "*/*"))
+def is_deprecated(accepts_header_str):
+    "returns `True` if *any* of the mime types in the parsed 'accepts' header string are deprecated."
+    accepts = flatten_accept(accepts_header_str)
     for target in DEPRECATED_CONTENT_TYPES:
         if target in accepts:
             return True
@@ -80,10 +78,14 @@ def is_deprecated(request):
 #
 
 
-def deprecated(get_response_fn):
+def mark_deprecated(get_response_fn):
+    """returns `True` if *any* of the *requested* content types are deprecated.
+    lsh@2021-07-6: should probably be changed to test the negotiated content type."""
+
     def middleware(request):
+        accepts_header_str = request.META.get("HTTP_ACCEPT", "*/*")
         response = get_response_fn(request)
-        if is_deprecated(request):
+        if is_deprecated(accepts_header_str):
             msg = "Deprecation: Support for this Content-Type version will be removed"
             response["warning"] = msg
         return response

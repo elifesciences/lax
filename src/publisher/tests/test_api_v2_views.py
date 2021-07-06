@@ -207,6 +207,7 @@ def test_unacceptable_types():
 
 def test_structured_abstract_not_downgraded_vor():
     "a vor with a structured abstract cannot be downgraded to vor v3"
+
     msid = 31549  # vor spec version 4, our first
     fixture_path = join(
         base.FIXTURE_DIR, "structured-abstracts", "elife-31549-v1.xml.json"

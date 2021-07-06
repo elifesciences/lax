@@ -101,7 +101,10 @@ def request_args(request, **overrides):
 
 
 def flatten_accept(accepts_header_str):
+    "returns a list of triples like [(mime, 'version', version), ...]"
     lst = []
+    if not accepts_header_str:
+        return lst
     for mime in accepts_header_str.split(","):
         # ('application/vnd.elife.article-vor+json', {'version': 2})
         parsed_mime, parsed_params = parse_header(mime.encode())
