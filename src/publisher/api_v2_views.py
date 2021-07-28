@@ -16,7 +16,6 @@ from django.http.multipartparser import parse_header
 LOG = logging.getLogger(__name__)
 
 
-# lsh@2021-07-28: some very simple conveniences I miss from REST Framework's Response obj
 class HttpResponse(DjangoHttpResponse):
     @property
     def content_type(self):
@@ -128,9 +127,9 @@ def flatten_accept(accepts_header_str):
     for mime in accepts_header_str.split(","):
         # ('application/vnd.elife.article-vor+json', {'version': 2})
         parsed_mime, parsed_params = parse_header(mime.encode())
-        # ll: ('*/*', 'version', None)
-        # ll: ('application/json', 'version', None)
-        # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
+        # ('*/*', 'version', None)
+        # ('application/json', 'version', None)
+        # ('application/vnd.elife.article-poa+json', 'version', 2)
         version = parsed_params.pop("version", b"").decode("utf-8")
         lst.append((parsed_mime, "version", version or None))
     return lst
@@ -138,10 +137,8 @@ def flatten_accept(accepts_header_str):
 
 def negotiate(accepts_header_str, content_type_key):
     """parses the 'accept-type' header in the request and returns a content-type header and version.
-    returns `None` if a content-type can't be negotiated.
+    returns `None` if a content-type can't be negotiated."""
 
-    Note! this 'negotiation' is in addition to/overlaps with/is confused with 
-    the Django REST Framework content negotiation. That library has the final word right now, unfortunately."""
     # "application/vnd.elife.article-blah+json"
     response_mime = _ctype(content_type_key)
 
@@ -155,10 +152,7 @@ def negotiate(accepts_header_str, content_type_key):
         # not specified/user accepts anything
         return perfect_response
 
-    general_cases = [
-        "*/*",
-        "application/*",
-    ]  # REST Framework says no: "application/json"
+    general_cases = ["*/*", "application/*", "application/json"]
     acceptable_mimes_list = flatten_accept(accepts_header_str)
     versions = []
     for acceptable_mime in acceptable_mimes_list:

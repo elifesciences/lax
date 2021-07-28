@@ -2,19 +2,13 @@ from django.conf import settings
 import json
 import logging
 from .utils import isint
-from rest_framework.response import Response as RESTResponse
-from .api_v2_views import flatten_accept, error_response, _ctype
-from django.http import HttpResponse
+from .api_v2_views import flatten_accept, _ctype, http_406
 
 LOG = logging.getLogger(__name__)
 
 
 def get_content_type(resp):
-    if isinstance(resp, HttpResponse):
-        # Django response object used outside of REST framework
-        return resp.get("Content-Type")
-    elif isinstance(resp, RESTResponse):
-        return resp.content_type
+    return resp.get("Content-Type")
 
 
 def has_structured_abstract(ajson):
@@ -98,6 +92,7 @@ def mark_deprecated(get_response_fn):
 #
 
 
+# todo: revisit this
 def error_content_check(get_response_fn):
     """REST Framework may refuse requests before we can ever handle them.
     this middleware ensures all unsuccessful responses have the correct structure"""
@@ -162,9 +157,7 @@ def content_check(get_response_fn):
         # print()
 
         if not acceptable:
-            return error_response(
-                406, "not acceptable", "could not negotiate an acceptable response type"
-            )
+            return http_406()
         return response
 
     return middleware
@@ -230,19 +223,12 @@ def downgrade_vor_content_type(get_response_fn):
             # we might be ok if the content is valid under v4
             if vor_valid_under_v4(body):
                 # all good, drop content-type returned to VOR v4
-                # (we have to recreate the response because the Django/REST library response is immutable or something)
                 new_content_type = "application/vnd.elife.article-vor+json; version=4"
-                new_response = HttpResponse(
-                    response.content, content_type=new_content_type
-                )
-                # this is where RESTResponses keep it
-                new_response.content_type = new_content_type
-                return new_response
+                response["Content-Type"] = new_content_type
+                return response
 
         # an unsupported VOR version was requested.
-        return error_response(
-            406, "not acceptable", "could not negotiate an acceptable response type",
-        )
+        return http_406()
 
     return middleware
 
@@ -298,18 +284,11 @@ def downgrade_poa_content_type(get_response_fn):
             body = json.loads(response.content.decode("utf-8"))
             if poa_valid_under_v2(body):
                 # all good, drop content-type returned to POA v2
-                # we have to recreate the response because the Django/REST library response is immutable or something
                 new_content_type = "application/vnd.elife.article-poa+json; version=2"
-                new_response = HttpResponse(
-                    response.content, content_type=new_content_type
-                )
-                # this is where RESTResponses keep it
-                new_response.content_type = new_content_type
-                return new_response
+                response["Content-Type"] = new_content_type
+                return response
 
         # an unsupported POA version was requested
-        return error_response(
-            406, "not acceptable", "could not negotiate an acceptable response type",
-        )
+        return http_406()
 
     return middleware
