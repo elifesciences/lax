@@ -13,7 +13,8 @@ if [ ! -e app.cfg ]; then
     ln -s elife.cfg app.cfg
 fi
 
-pip install -r requirements.txt --no-cache-dir
+pip install pip wheel --upgrade
+pip install -r requirements.txt
 NEW_RELIC_EXTENSIONS=false pip install --no-binary :all: newrelic==2.82.0.62
 
 python src/manage.py migrate --no-input
