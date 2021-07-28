@@ -59,11 +59,13 @@ class DownstreamCaching(object):
             "stale-while-revalidate": settings.CACHE_HEADERS_TTL,
             "stale-if-error": (60 * 60) * 24,  # 1 day, 86400 seconds
         }
+
         private_directives = {
             "private": True,
             "max-age": 0,  # seconds
             "must-revalidate": True,
         }
+
         error_directives = {
             "must-revalidate": True,
             "no-cache": True,  # redundant but harmless
@@ -77,7 +79,7 @@ class DownstreamCaching(object):
         if response.status_code > 399:
             directives = error_directives
 
-        if not response.get("Cache-Control"):
+        if not response.get("Cache-Control", None):
             patch_cache_control(response, **directives)
         patch_vary_headers(response, ["Accept"])
 

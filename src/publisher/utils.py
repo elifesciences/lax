@@ -6,7 +6,7 @@ import os, copy, json, glob
 import pytz
 from dateutil import parser
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, date
 from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
@@ -211,6 +211,8 @@ def todt(val):
     if val is None:
         return None
     dt = val
+    if type(dt) == date:
+        dt = datetime(year=dt.year, month=dt.month, day=dt.day)
     if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
     dt.replace(microsecond=0)  # not useful, never been useful, will never be useful.

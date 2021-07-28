@@ -3,7 +3,7 @@ import json
 import logging
 from .utils import isint
 from rest_framework.response import Response as RESTResponse
-from .api_v2_views import flatten_accept, ErrorResponse, _ctype
+from .api_v2_views import flatten_accept, error_response, _ctype
 from django.http import HttpResponse
 
 LOG = logging.getLogger(__name__)
@@ -162,7 +162,7 @@ def content_check(get_response_fn):
         # print()
 
         if not acceptable:
-            return ErrorResponse(
+            return error_response(
                 406, "not acceptable", "could not negotiate an acceptable response type"
             )
         return response
@@ -240,7 +240,7 @@ def downgrade_vor_content_type(get_response_fn):
                 return new_response
 
         # an unsupported VOR version was requested.
-        return ErrorResponse(
+        return error_response(
             406, "not acceptable", "could not negotiate an acceptable response type",
         )
 
@@ -308,7 +308,7 @@ def downgrade_poa_content_type(get_response_fn):
                 return new_response
 
         # an unsupported POA version was requested
-        return ErrorResponse(
+        return error_response(
             406, "not acceptable", "could not negotiate an acceptable response type",
         )
 
