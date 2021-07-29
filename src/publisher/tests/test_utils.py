@@ -5,7 +5,7 @@ import copy
 from publisher import utils, models, logic, ajson_ingestor
 from publisher.tests import base
 import pytz
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
 
@@ -342,6 +342,19 @@ class TestUtils(base.BaseCase):
                     hour=14,
                     minute=0,
                     second=30,
+                    tzinfo=pytz.utc,
+                ),
+            ),
+            # date object becomes a zeroed out UTC datetime object
+            (
+                date(year=2001, month=1, day=1),
+                datetime(
+                    year=2001,
+                    month=1,
+                    day=1,
+                    hour=0,
+                    minute=0,
+                    second=0,
                     tzinfo=pytz.utc,
                 ),
             ),

@@ -44,6 +44,8 @@ def test_negotiate():
         ("*/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
         # 2, edge case. accepts almost anything, gets latest POA spec version
         ("application/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        # 2, accepts json which is all this API returns.
+        ("application/json", "poa", ("application/vnd.elife.article-poa+json", 3)),
         # 3, typical case. requested any POA or VOR spec version
         (
             "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",

@@ -8,6 +8,7 @@ rm -rf venv/
 # whatever your preferred version of python is, eLife needs to support python3.6 (Ubuntu 18.04)
 python3.6 -m venv venv
 
+# install wheel because uwsgi was caught trying to compile itself.
 source venv/bin/activate
 pip install pip wheel --upgrade
 

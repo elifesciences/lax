@@ -40,6 +40,8 @@ def ctype(content_type_key, version=None):
 
 
 def response(data, code=200, content_type=None, headers=None):
+    """returns given `data` to the user, assuming it's been encoded properly already.
+    Assumes a plain text content-type by default."""
     content_type = content_type or "text/plain; charset=UTF-8"
     headers = headers or {}
     resp_obj = HttpResponse(status=code, content_type=content_type, content=data)
@@ -49,9 +51,9 @@ def response(data, code=200, content_type=None, headers=None):
 
 
 def json_response(data, code=200, content_type=None, headers=None):
+    "dumps given `data` to json and sets a sensible default content-type header."
     content_type = content_type or "application/json"
     headers = headers or {}
-    # todo: `indent=4` would be nice ... is there a performance penalty
     json_string = utils.json_dumps(data)
     return response(json_string, code, content_type, headers)
 
@@ -64,12 +66,14 @@ def error_response(code, title, detail=None):
 
 
 def http_406():
+    "returns a HTTP 406 json error response (couldn't negotiate content type with request)."
     title = "not acceptable"
     detail = "could not negotiate an acceptable response type"
     return error_response(406, title, detail)
 
 
 def http_404(detail=None):
+    "returns a HTTP 404 json error response (couldn't find requested resource)"
     return error_response(404, "not found", detail)
 
 
@@ -303,6 +307,8 @@ def article_fragment(request, msid, fragment_id):
 
         if request.method == "POST":
             if request.content_type != "application/json":
+                # a 406 is where we can't negotiate a content type to return.
+                # a 415 is where the content given to us isn't supported.
                 return error_response(
                     415,
                     "refused: unsupported data. content-type must be 'application/json'",

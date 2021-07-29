@@ -8,6 +8,8 @@ LOG = logging.getLogger(__name__)
 
 
 def get_content_type(resp):
+    # `resp.content_type` would also work, *however* we can't guarantee
+    # every HttpResponse object will subclass our custom response.
     return resp.get("Content-Type")
 
 
@@ -92,10 +94,11 @@ def mark_deprecated(get_response_fn):
 #
 
 
-# todo: revisit this
+# todo: this middleware needs to go away and `error_response` in api_v2_views needs to
+# emit responses valid against https://datatracker.ietf.org/doc/html/rfc7807 and
+# https://github.com/elifesciences/api-raml/blob/develop/dist/model/error.v1.json
 def error_content_check(get_response_fn):
-    """REST Framework may refuse requests before we can ever handle them.
-    this middleware ensures all unsuccessful responses have the correct structure"""
+    """This middleware ensures all unsuccessful responses have the correct structure."""
 
     def middleware(request):
         response = get_response_fn(request)
