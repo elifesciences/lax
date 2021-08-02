@@ -1,3 +1,4 @@
+import json
 import jsonschema
 from django.core import exceptions as django_errors
 from . import models, logic, fragment_logic, utils
@@ -323,6 +324,13 @@ def article_fragment(request, msid, fragment_id):
             data = {fragment_id: "deleted"}
 
         return json_response(data)
+
+    except json.decoder.JSONDecodeError:
+        return error_response(
+            400,
+            "refused: bad data",
+            "that fragment cannot be read and has been refused",
+        )
 
     except django_errors.ValidationError:
         # failed model validation somehow. can happen on empty fragments

@@ -1,6 +1,8 @@
 from django.conf import settings
 import logging
 from django.utils.deprecation import MiddlewareMixin
+from django.views.decorators.cache import patch_cache_control
+from django.utils.cache import patch_vary_headers
 
 LOG = logging.getLogger(__name__)
 
@@ -44,9 +46,6 @@ class KongAuthentication(MiddlewareMixin):
 #
 #
 
-from django.views.decorators.cache import patch_cache_control
-from django.utils.cache import patch_vary_headers
-
 
 class DownstreamCaching(object):
     def __init__(self, get_response):
@@ -79,7 +78,7 @@ class DownstreamCaching(object):
         if response.status_code > 399:
             directives = error_directives
 
-        if not response.get("Cache-Control", None):
+        if not response.get("Cache-Control"):
             patch_cache_control(response, **directives)
         patch_vary_headers(response, ["Accept"])
 
