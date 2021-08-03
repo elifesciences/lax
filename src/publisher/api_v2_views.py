@@ -4,6 +4,7 @@ from django.core import exceptions as django_errors
 from . import models, logic, fragment_logic, utils
 from .utils import ensure, isint, toint, lmap
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.http import HttpResponse as DjangoHttpResponse
@@ -13,6 +14,7 @@ from et3.extract import path as p
 from et3.render import render_item
 import logging
 from django.http.multipartparser import parse_header
+
 
 LOG = logging.getLogger(__name__)
 
@@ -292,6 +294,7 @@ def article_related(request, msid):
 
 
 @require_http_methods(["POST", "DELETE"])
+@csrf_exempt
 def article_fragment(request, msid, fragment_id):
     # authenticated
     if not is_authenticated(request):

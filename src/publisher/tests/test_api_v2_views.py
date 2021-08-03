@@ -784,6 +784,32 @@ class AddFragment(base.BaseCase):
         self.assertEqual(data["versions"][0]["status"], "preprint")
         self.assertEqual(data["versions"][1]["title"], fragment["title"])
 
+    def test_add_fragment_csrf_check(self):
+        "POST and DELETE requests to the add_fragment view are not subject to CSRF checks (but still require KONG authentication)"
+        key = "test-frag"
+        url = reverse(
+            "v2:article-fragment", kwargs={"msid": self.msid, "fragment_id": key}
+        )
+        fragment = {"title": "Electrostatic selection"}
+        fragment = json.dumps(fragment)
+
+        csrf_client = Client(enforce_csrf_checks=True)
+        csrf_auth_client = Client(
+            enforce_csrf_checks=True, **{mware.CGROUPS: "view-unpublished-content"}
+        )
+
+        # unauthenticated, csrf-enforced POST
+        resp = csrf_client.post(url, fragment, content_type="application/json")
+        self.assertEqual(resp.status_code, 403)  # forbidden
+
+        # authenticated, csrf-enforced POST
+        resp = csrf_auth_client.post(url, fragment, content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
+        # authenticated, csrf-enforced DELETE
+        resp = csrf_auth_client.delete(url)
+        self.assertEqual(resp.status_code, 200)
+
     def test_fragment_needs_authentication(self):
         "only admin users can modify content"
         key = "test-frag"
