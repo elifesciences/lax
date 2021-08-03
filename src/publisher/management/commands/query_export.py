@@ -33,10 +33,10 @@ class Command(BaseCommand):
         exporter = exporters.get_exporter_class("csv")(q)
         safe_title = slugify(q.title)
 
-        # ll: query1--dummy-query.csv
+        # "query1--dummy-query.csv"
         daily_fname = "query%s--%s.csv" % (q.id, safe_title)
 
-        # ll: query1--dummy-query--2016-01-31-23-59-59.csv
+        # "query1--dummy-query--2016-01-31-23-59-59.csv"
         timestamped_fname = "query%s--%s--%s.csv" % (
             q.id,
             safe_title,

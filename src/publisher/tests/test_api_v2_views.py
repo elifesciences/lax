@@ -44,6 +44,8 @@ def test_negotiate():
         ("*/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
         # 2, edge case. accepts almost anything, gets latest POA spec version
         ("application/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        # 2, accepts json which is all this API returns.
+        ("application/json", "poa", ("application/vnd.elife.article-poa+json", 3)),
         # 3, typical case. requested any POA or VOR spec version
         (
             "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
@@ -875,7 +877,19 @@ class AddFragment(base.BaseCase):
         )
         self.assertEqual(resp.status_code, 415)  # unsupported media type
 
-    def test_add_bad_fragment(self):
+    def test_add_bad_fragment__corrupt_json(self):
+        """request with fragment that can't be decoded is refused as bad data"""
+        self.assertEqual(models.ArticleFragment.objects.count(), 1)  # xml->json
+        fragment = "{"
+        url = reverse(
+            "v2:article-fragment",
+            kwargs={"msid": self.msid, "fragment_id": "test-frag"},
+        )
+        resp = self.ac.post(url, fragment, content_type="application/json")
+        self.assertEqual(models.ArticleFragment.objects.count(), 1)  # 'xml->json'
+        self.assertEqual(resp.status_code, 400)  # bad client request
+
+    def test_add_bad_fragment__invalid_article(self):
         """request with fragment that would cause otherwise validating article json
         to become invalid is refused"""
         self.assertEqual(models.ArticleFragment.objects.count(), 1)  # xml->json
@@ -888,7 +902,7 @@ class AddFragment(base.BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1)  # 'xml->json'
         self.assertEqual(resp.status_code, 400)  # bad client request
 
-    def test_add_invalid_fragment(self):
+    def test_add_bad_fragment__invalid_fragment(self):
         "request with fragment that would fail the ArticleFragment schema is refused"
         self.assertEqual(models.ArticleFragment.objects.count(), 1)  # xml->json
         fragment = {}  # empty
@@ -928,9 +942,8 @@ class AddFragment(base.BaseCase):
         )
         resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(
-            models.ArticleFragment.objects.count(), 2
-        )  # 'xml->json', 'test-frag'
+        # ['xml->json', 'test-frag']
+        self.assertEqual(models.ArticleFragment.objects.count(), 2)
 
 
 class DeleteFragment(base.BaseCase):

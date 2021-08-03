@@ -23,7 +23,7 @@ export LAX_MULTIPROCESSING=1
 # run the tests
 if [ $print_coverage -eq 0 ]; then
     # a *specific* test file or test has been given, don't bother with coverage et al
-    pytest $module -vvv --no-migrations --cov=src --cov-config=.coveragerc
+    pytest $module -vvv --no-migrations
 else
     # '-n 8' is good for me on a 12 core machine.
     # lax--ci has 1 core though.
