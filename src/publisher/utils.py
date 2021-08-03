@@ -10,13 +10,14 @@ from datetime import datetime, date
 from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
-from kids.cache import cache
 from rfc3339 import rfc3339
 from django.db import transaction, IntegrityError
 from django.conf import settings
 import traceback
 
 LOG = logging.getLogger(__name__)
+
+_SCHEMA_CACHE = {}
 
 lmap = lambda func, *iterable: list(map(func, *iterable))
 
@@ -378,9 +379,13 @@ def unique(seq):
 #
 
 
-@cache
 def load_schema(schema_path):
-    return json.load(open(schema_path, "r", encoding="utf-8"))
+    global _SCHEMA_CACHE
+    if schema_path in _SCHEMA_CACHE:
+        return _SCHEMA_CACHE[schema_path]
+    data = json.load(open(schema_path, "r", encoding="utf-8"))
+    _SCHEMA_CACHE[schema_path] = data
+    return data
 
 
 def validate(struct, schema_path):

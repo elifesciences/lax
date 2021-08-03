@@ -1,6 +1,5 @@
-# from mock import patch
 from io import StringIO
-import os, json  # , copy
+import os, json
 from django.test import TestCase as DjangoTestCase, TransactionTestCase
 from publisher import models, utils, ajson_ingestor
 from django.core.management import call_command as dj_call_command
