@@ -379,15 +379,6 @@ def unique(seq):
 #
 
 
-def load_schema(schema_path):
-    global _SCHEMA_CACHE
-    if schema_path in _SCHEMA_CACHE:
-        return _SCHEMA_CACHE[schema_path]
-    data = json.load(open(schema_path, "r", encoding="utf-8"))
-    _SCHEMA_CACHE[schema_path] = data
-    return data
-
-
 def validate(struct, schema_path):
     try:
         # this has the effect of converting any datetime objects to rfc3339 formatted strings
@@ -397,7 +388,7 @@ def validate(struct, schema_path):
         raise
 
     try:
-        schema = load_schema(schema_path)
+        schema = settings.SCHEMA_MAP[schema_path]
         jsonschema.validate(struct, schema)
         return struct
 

@@ -11,7 +11,7 @@ from os.path import join
 from datetime import datetime
 import configparser as configparser
 from pythonjsonlogger import jsonlogger
-import yaml
+import json, yaml
 from et3.render import render_item
 from et3.extract import path as p
 
@@ -221,6 +221,12 @@ SCHEMA_IDX = {tpe: rows[0][1] for tpe, rows in ALL_SCHEMA_IDX.items()}
 SCHEMA_VERSIONS = {
     tpe: [row[0] for row in rows] for tpe, rows in ALL_SCHEMA_IDX.items()
 }
+
+# {"/path/to/model/article-vor.v5.json": {...}, ...}
+SCHEMA_MAP = {}
+for path_list in ALL_SCHEMA_IDX.values():
+    for _, path in path_list:
+        SCHEMA_MAP[path] = json.load(open(path, "r"))
 
 API_PATH = join(SCHEMA_PATH, "api.raml")
 

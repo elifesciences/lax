@@ -24,7 +24,7 @@ class Command(BaseCommand):
                     av.article_json_hash = fragment_logic.hash_ajson(av.article_json_v1)
                     av.save()
                     # 13 of 152
-                    print("%s or %s" % (i, num))
+                    print("%s of %s" % (i, num))
         except KeyboardInterrupt:
             print("ctrl-c caught")
             sys.exit(1)
