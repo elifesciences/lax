@@ -17,8 +17,6 @@ import traceback
 
 LOG = logging.getLogger(__name__)
 
-_SCHEMA_CACHE = {}
-
 lmap = lambda func, *iterable: list(map(func, *iterable))
 
 lfilter = lambda func, *iterable: list(filter(func, *iterable))
