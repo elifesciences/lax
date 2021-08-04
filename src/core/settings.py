@@ -226,7 +226,8 @@ SCHEMA_VERSIONS = {
 SCHEMA_MAP = {}
 for path_list in ALL_SCHEMA_IDX.values():
     for _, path in path_list:
-        SCHEMA_MAP[path] = json.load(open(path, "r"))
+        print("loading schema: %s" % path)
+        SCHEMA_MAP[path] = json.load(open(path, "rb"))
 
 API_PATH = join(SCHEMA_PATH, "api.raml")
 
@@ -238,9 +239,8 @@ NUM_SCHEMA_ERRORS = NUM_SCHEMA_ERROR_SUBS = 10
 def _load_api_raml(path):
     # load the api.raml file, ignoring any "!include" commands
     yaml.add_multi_constructor("", lambda *args: "[disabled]")
-    return yaml.load(open(path, "r"), Loader=yaml.FullLoader)["traits"]["paged"][
-        "queryParameters"
-    ]
+    api = yaml.load(open(path, "r"), Loader=yaml.FullLoader)
+    return api["traits"]["paged"]["queryParameters"]
 
 
 API_OPTS = render_item(
@@ -380,6 +380,5 @@ LOGGING["loggers"].update(
     dict(list(zip(module_loggers, [logger] * len(module_loggers))))
 )
 
-CACHE_HEADERS_TTL = cfg(
-    "general.cache-headers-ttl", 60 * 5
-)  # 5 minutes, 300 seconds by default
+# 5 minutes, 300 seconds by default
+CACHE_HEADERS_TTL = cfg("general.cache-headers-ttl", 60 * 5)
