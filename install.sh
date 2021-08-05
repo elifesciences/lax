@@ -2,6 +2,7 @@
 set -e # everything must succeed.
 echo "[-] install.sh"
 
+# lax requires api-raml to exist before it can start.
 . download-api-raml.sh
 
 . mkvenv.sh
@@ -15,7 +16,6 @@ fi
 
 pip install pip wheel --upgrade
 pip install -r requirements.txt
-NEW_RELIC_EXTENSIONS=false pip install --no-binary :all: newrelic==2.82.0.62
 
 python src/manage.py migrate --no-input
 
