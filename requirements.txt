@@ -1,10 +1,10 @@
-# file generated 2021-08-03 - see update-dependencies.sh
+# file generated 2021-08-05 - see update-dependencies.sh
 appdirs==1.4.4
 astroid==1.6.6
 attrs==21.2.0
 black==19.10b0
-boto3==1.18.12
-botocore==1.21.12
+boto3==1.18.14
+botocore==1.21.14
 certifi==2021.5.30
 charset-normalizer==2.0.4
 click==8.0.1
@@ -32,6 +32,7 @@ lazy-object-proxy==1.6.0
 mando==0.6.4
 markdown2==2.4.0
 mccabe==0.6.1
+newrelic==6.8.0.163
 ordered-set==3.1.1
 packaging==21.0
 pathspec==0.9.0
@@ -56,7 +57,7 @@ python-slugify==4.0.1
 pytz==2021.1
 PyYAML==5.4.1
 radon==4.5.2
-regex==2021.7.6
+regex==2021.8.3
 requests==2.26.0
 rfc3339==6.2
 s3transfer==0.5.0
