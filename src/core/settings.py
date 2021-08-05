@@ -11,7 +11,7 @@ from os.path import join
 from datetime import datetime
 import configparser as configparser
 from pythonjsonlogger import jsonlogger
-import yaml
+import json, yaml
 from et3.render import render_item
 from et3.extract import path as p
 
@@ -222,6 +222,13 @@ SCHEMA_VERSIONS = {
     tpe: [row[0] for row in rows] for tpe, rows in ALL_SCHEMA_IDX.items()
 }
 
+# {"/path/to/model/article-vor.v5.json": {...}, ...}
+SCHEMA_MAP = {}
+for path_list in ALL_SCHEMA_IDX.values():
+    for _, path in path_list:
+        print("loading schema: %s" % path)
+        SCHEMA_MAP[path] = json.load(open(path, "rb"))
+
 API_PATH = join(SCHEMA_PATH, "api.raml")
 
 # a schema failure may have multiple independent failures and each failure
@@ -232,9 +239,8 @@ NUM_SCHEMA_ERRORS = NUM_SCHEMA_ERROR_SUBS = 10
 def _load_api_raml(path):
     # load the api.raml file, ignoring any "!include" commands
     yaml.add_multi_constructor("", lambda *args: "[disabled]")
-    return yaml.load(open(path, "r"), Loader=yaml.FullLoader)["traits"]["paged"][
-        "queryParameters"
-    ]
+    api = yaml.load(open(path, "r"), Loader=yaml.FullLoader)
+    return api["traits"]["paged"]["queryParameters"]
 
 
 API_OPTS = render_item(
@@ -374,6 +380,5 @@ LOGGING["loggers"].update(
     dict(list(zip(module_loggers, [logger] * len(module_loggers))))
 )
 
-CACHE_HEADERS_TTL = cfg(
-    "general.cache-headers-ttl", 60 * 5
-)  # 5 minutes, 300 seconds by default
+# 5 minutes, 300 seconds by default
+CACHE_HEADERS_TTL = cfg("general.cache-headers-ttl", 60 * 5)

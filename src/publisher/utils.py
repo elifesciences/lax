@@ -10,7 +10,6 @@ from datetime import datetime, date
 from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
-from kids.cache import cache
 from rfc3339 import rfc3339
 from django.db import transaction, IntegrityError
 from django.conf import settings
@@ -378,11 +377,6 @@ def unique(seq):
 #
 
 
-@cache
-def load_schema(schema_path):
-    return json.load(open(schema_path, "r", encoding="utf-8"))
-
-
 def validate(struct, schema_path):
     try:
         # this has the effect of converting any datetime objects to rfc3339 formatted strings
@@ -392,7 +386,7 @@ def validate(struct, schema_path):
         raise
 
     try:
-        schema = load_schema(schema_path)
+        schema = settings.SCHEMA_MAP[schema_path]
         jsonschema.validate(struct, schema)
         return struct
 
