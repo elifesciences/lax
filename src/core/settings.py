@@ -226,7 +226,6 @@ SCHEMA_VERSIONS = {
 SCHEMA_MAP = {}
 for path_list in ALL_SCHEMA_IDX.values():
     for _, path in path_list:
-        print("loading schema: %s" % path)
         SCHEMA_MAP[path] = json.load(open(path, "rb"))
 
 API_PATH = join(SCHEMA_PATH, "api.raml")
