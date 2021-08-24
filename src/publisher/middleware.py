@@ -22,11 +22,6 @@ def has_structured_abstract(ajson):
         return "text" not in ajson["abstract"]["content"][0]
 
 
-def decision_letter_is_present(ajson):
-    "returns `True` if a decision letter is present."
-    return "decisionLetter" in ajson
-
-
 #
 #
 #
@@ -170,9 +165,13 @@ def content_check(get_response_fn):
 
 
 def vor_valid_under_v5(ajson):
-    """returns True if given article-json is valid under version 5 of the VOR spec.
-    VOR v6 allows either a `decisionLetter` or an `editorEvaluation` or both."""
-    return decision_letter_is_present(ajson)
+    "returns True if given article-json is valid under version 5 of the VOR spec."
+    # True, when an authorResponse is *not* present, or, 
+    # when an authorResponse *is* present *and* includes a decisionLetter.
+    if 'authorResponse' in ajson:
+        return "decisionLetter" in ajson
+    return True
+
 
 
 def downgrade_vor_content_type(get_response_fn):
