@@ -166,12 +166,11 @@ def content_check(get_response_fn):
 
 def vor_valid_under_v5(ajson):
     "returns True if given article-json is valid under version 5 of the VOR spec."
-    # True, when an authorResponse is *not* present, or, 
+    # True, when an authorResponse is *not* present, or,
     # when an authorResponse *is* present *and* includes a decisionLetter.
-    if 'authorResponse' in ajson:
+    if "authorResponse" in ajson:
         return "decisionLetter" in ajson
     return True
-
 
 
 def downgrade_vor_content_type(get_response_fn):
