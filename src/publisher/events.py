@@ -28,7 +28,7 @@ def add(art, event, value=None, datetime_event=None, uri=None):
 
     # 2021-09-21: the `unique_key_list` was fine until preprint events were captured in the XML.
     # now, the `datetime_event` is easily modifiable and more likely to change.
-    if event["event"] == "date-preprint":
+    if event == "date-preprint":
         # "if a *preprint* event for this *article* at this *uri* exists,
         # *update* the record rather than *create* a new one."
         unique_key_list = ["article", "event", "uri"]
