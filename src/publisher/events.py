@@ -26,13 +26,6 @@ def add(art, event, value=None, datetime_event=None, uri=None):
 
     unique_key_list = ["article", "event", "datetime_event"]
 
-    # 2021-09-21: the `unique_key_list` was fine until preprint events were captured in the XML.
-    # now, the `datetime_event` is easily modifiable and more likely to change.
-    if event == "date-preprint":
-        # "if a *preprint* event for this *article* at this *uri* exists,
-        # *update* the record rather than *create* a new one."
-        unique_key_list = ["article", "event", "uri"]
-
     ae, created, updated = create_or_update(
         models.ArticleEvent, struct, unique_key_list, create, update, article=art,
     )
@@ -154,6 +147,15 @@ def ajson_ingest_events(article, data, force=False):
     "scrapes and inserts events from article-json data"
     data["forced?"] = force
     ae_structs = [render.render_item(desc, data) for desc in INGEST_EVENTS]
+    # lsh@2021-09-21: certain events should be unique, like preprint events.
+    # if any events to be created are in the singleton list, remove them before creating new ones.
+    # this behaviour will prevent re-ingesting POAs (with no events) from deleting events created during a VOR ingest.
+    singletons = [models.DATE_PREPRINT_PUBLISHED]
+    for ae in ae_structs:
+        if ae["event"] in singletons:
+            models.ArticleEvent.objects.filter(
+                article=article, event=ae["event"]
+            ).delete()
     return add_many(article, ae_structs, force, skip_missing_datestamped=True)
 
 
