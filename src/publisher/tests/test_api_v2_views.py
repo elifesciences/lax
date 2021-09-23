@@ -839,6 +839,7 @@ class AddFragment(base.BaseCase):
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
 
+        # preprint, POAv1, POAv2
         self.assertEqual(len(data["versions"]), 3)
         self.assertEqual(data["versions"][0]["status"], "preprint")
         self.assertEqual(data["versions"][1]["title"], fragment["title"])

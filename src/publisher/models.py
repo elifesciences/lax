@@ -424,6 +424,7 @@ class ArticleEvent(models.Model):
     class Meta:
         # this means if the times on certain events change, they'll get a new event
         unique_together = ("article", "event", "datetime_event")
+
         # least to most recent (ASC), then alphabetically by event type
         ordering = (
             "datetime_event",
