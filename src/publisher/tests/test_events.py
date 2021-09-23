@@ -85,7 +85,26 @@ class One(base.BaseCase):
         self.assertEqual(preprint.uri, new_uri)
 
     def test_ingest_events_poa_doesnt_wipe_vor_events(self):
-        ""
+        "missing event data in later ingests doesn't wipe out earlier events"
+        # ingest article with preprint event
+        ajson_ingestor.ingest_publish(self.with_history)
+        preprint = models.ArticleEvent.objects.get(event="date-preprint")
+        expected = datetime(2016, 4, 21, 0, 0, tzinfo=pytz.UTC)
+        self.assertEqual(preprint.datetime_event, expected)
+
+        # ingest next version without prevent event
+        # (in reality all versions would have, but we can't always rely on that)
+        v2_path = join(self.fixture_dir, "ajson", "elife-20105-v2.xml.json")
+        v2 = self.load_ajson(v2_path)
+        if "preprint" in v2["article"]["-history"]:
+            # (it's not, I only updated the v1 fixture with a preprint)
+            del v2["article"]["-history"]["preprint"]
+
+        ajson_ingestor.ingest(v2)
+        # still just one event, unmodified
+        preprint = models.ArticleEvent.objects.get(event="date-preprint")
+        expected = datetime(2016, 4, 21, 0, 0, tzinfo=pytz.UTC)
+        self.assertEqual(preprint.datetime_event, expected)
 
 
 class RelatedEvents(base.TransactionBaseCase):
