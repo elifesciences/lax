@@ -34,9 +34,25 @@ def add(art, event, value=None, datetime_event=None, uri=None):
 
 def add_many(article, ae_list, force=False, skip_missing_datestamped=False):
     if skip_missing_datestamped:
-        # ignores any events missing a 'datetime' key
-        # WARN: if 'datetime' is present but is empty, it *will be given a datetime of now()*
-        ae_list = utils.lfilter(lambda struct: "datetime_event" in struct, ae_list)
+        # ignores any events missing a 'datetime' key.
+        # why?? not all articles generate all events, but a dict with keys will still be generated.
+        # we detect these 'empty' events by looking at it's timestamp. if it's empty, discard it.
+        # but, because we make life complicated for ourselves, some events don't have datestamps
+        # and we need to capture them anyway.
+        # WARN: if 'datetime' field is present but is empty, it *will be given a datetime of now()*.
+        # use `elide` to remove field entirely.
+        ae_list = [ae for ae in ae_list if "datetime_event" in ae]
+
+    # lsh@2021-09-21: certain events should be unique, like preprint events.
+    # if any events to be created are in the singleton list, remove them before creating new ones.
+    # this behaviour will prevent re-ingesting POAs (with no events) from deleting events created during a VOR ingest.
+    singletons = [models.DATE_PREPRINT_PUBLISHED]
+    for ae in ae_list:
+        if ae["event"] in singletons:
+            models.ArticleEvent.objects.filter(
+                article=article, event=ae["event"]
+            ).delete()
+
     return [add(article, **struct) for struct in ae_list]
 
 
@@ -147,15 +163,6 @@ def ajson_ingest_events(article, data, force=False):
     "scrapes and inserts events from article-json data"
     data["forced?"] = force
     ae_structs = [render.render_item(desc, data) for desc in INGEST_EVENTS]
-    # lsh@2021-09-21: certain events should be unique, like preprint events.
-    # if any events to be created are in the singleton list, remove them before creating new ones.
-    # this behaviour will prevent re-ingesting POAs (with no events) from deleting events created during a VOR ingest.
-    singletons = [models.DATE_PREPRINT_PUBLISHED]
-    for ae in ae_structs:
-        if ae["event"] in singletons:
-            models.ArticleEvent.objects.filter(
-                article=article, event=ae["event"]
-            ).delete()
     return add_many(article, ae_structs, force, skip_missing_datestamped=True)
 
 
