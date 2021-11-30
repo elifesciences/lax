@@ -6,11 +6,10 @@ import os, copy, json, glob
 import pytz
 from dateutil import parser
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, date
 from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
-from kids.cache import cache
 from rfc3339 import rfc3339
 from django.db import transaction, IntegrityError
 from django.conf import settings
@@ -117,6 +116,13 @@ def isint(v):
         return False
 
 
+def toint(v):
+    try:
+        return int(str(v))
+    except (ValueError, TypeError):
+        return None
+
+
 def mk_dxdoi_link(doi):
     return "https://dx.doi.org/%s" % doi
 
@@ -137,9 +143,8 @@ def msid2doi(msid):
 
 
 def version_from_path(path):
-    _, msid, ver = os.path.split(path)[-1].split(
-        "-"
-    )  # ll: ['elife', '09560', 'v1.xml']
+    # ['elife', '09560', 'v1.xml']
+    _, msid, ver = os.path.split(path)[-1].split("-")
     ver = ver[1]  # "v1.xml" -> "1"
     return int(msid), int(ver)
 
@@ -204,6 +209,8 @@ def todt(val):
     if val is None:
         return None
     dt = val
+    if type(dt) == date:
+        dt = datetime(year=dt.year, month=dt.month, day=dt.day)
     if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
     dt.replace(microsecond=0)  # not useful, never been useful, will never be useful.
@@ -370,11 +377,6 @@ def unique(seq):
 #
 
 
-@cache
-def load_schema(schema_path):
-    return json.load(open(schema_path, "r", encoding="utf-8"))
-
-
 def validate(struct, schema_path):
     try:
         # this has the effect of converting any datetime objects to rfc3339 formatted strings
@@ -384,7 +386,7 @@ def validate(struct, schema_path):
         raise
 
     try:
-        schema = load_schema(schema_path)
+        schema = settings.SCHEMA_MAP[schema_path]
         jsonschema.validate(struct, schema)
         return struct
 

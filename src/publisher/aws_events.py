@@ -15,7 +15,7 @@ def sns_topic_arn():
     "returns an arn path to an AWS event bus. this is used to connect and send/receive events"
     vals = {}
     vals.update(settings.EVENT_BUS)
-    # ll: arn:aws:sns:us-east-1:112634557572:bus-articles--ci
+    # "arn:aws:sns:us-east-1:112634557572:bus-articles--ci"
     arn = "arn:aws:sns:{region}:{subscriber}:{name}--{env}".format(**vals)
     LOG.info("using topic arn: %s", arn)
     return arn

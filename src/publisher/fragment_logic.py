@@ -289,7 +289,20 @@ def _identical_articles(raw_original, raw_new, final_new, oldhash, newhash):
         raw_original.get(meta_key) == raw_new.get(meta_key)
         for meta_key in meta_key_list
     )
-    return identical_hash and identical_pubdate and identical_meta
+
+    # compare bits of history
+    history_key_list = [
+        #'received',
+        #'accepted',
+        "preprint"
+    ]
+    identical_history = all(
+        raw_original.get("-history", {}).get(history_key)
+        == raw_new.get("-history", {}).get(history_key)
+        for history_key in history_key_list
+    )
+
+    return identical_hash and identical_pubdate and identical_meta and identical_history
 
 
 # TODO: 'quiet' (validation-check) and 'update_fragment' are symptoms of spaghetti logic and need to be removed.

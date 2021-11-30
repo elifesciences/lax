@@ -2,34 +2,15 @@ from django.conf import settings
 import json
 import logging
 from .utils import isint
-from rest_framework.response import Response as RESTResponse
-from .api_v2_views import ErrorResponse
-from django.http import HttpResponse
-from django.http.multipartparser import parse_header
+from .api_v2_views import flatten_accept, _ctype, http_406
 
 LOG = logging.getLogger(__name__)
 
 
 def get_content_type(resp):
-    if isinstance(resp, HttpResponse):
-        # Django response object used outside of REST framework
-        return resp.get("Content-Type")
-    elif isinstance(resp, RESTResponse):
-        return resp.content_type
-
-
-def flatten_accept(header, just_elife=False):
-    lst = []
-    for mime in header.split(","):
-        # ('application/vnd.elife.article-vor+json', {'version': 2})
-        parsed_mime, parsed_params = parse_header(mime.encode())
-        if just_elife and "elife" not in parsed_mime:
-            continue
-        # ll: ('*/*', 'version', None)
-        # ll: ('application/json', 'version', None)
-        # ll: ('application/vnd.elife.article-poa+json', 'version', 2)
-        lst.append((parsed_mime, "version", parsed_params.pop("version", None)))
-    return lst
+    # `resp.content_type` would also work, *however* we can't guarantee
+    # every HttpResponse object will subclass our custom response.
+    return resp.get("Content-Type")
 
 
 def has_structured_abstract(ajson):
@@ -39,15 +20,6 @@ def has_structured_abstract(ajson):
         # a structured abstract has the keys 'type', 'id', 'title', 'content'
         # a structured abstract will *not* have the 'text' key
         return "text" not in ajson["abstract"]["content"][0]
-
-
-def all_journal_references_have_pages_property(ajson):
-    "return `True` if all 'journal' type references in given `ajson` have a 'pages' attribute."
-    for ref in ajson.get("references", []):
-        if ref["type"] == "journal":
-            if not "pages" in ref:
-                return False
-    return True
 
 
 #
@@ -69,22 +41,20 @@ def requested_version(request, response):
 
 # deprecated content-types are simply the oldest ones
 
-DEPRECATED_VOR = (
-    "application/vnd.elife.article-vor+json",
-    "version",
-    bytes(str(settings.ALL_SCHEMA_IDX["vor"][-1][0]), "utf-8"),
-)
-DEPRECATED_POA = (
-    "application/vnd.elife.article-poa+json",
-    "version",
-    bytes(str(settings.ALL_SCHEMA_IDX["poa"][-1][0]), "utf-8"),
-)
-
-DEPRECATED_CONTENT_TYPES = [DEPRECATED_VOR, DEPRECATED_POA]
+# a list of triples like `(mime, 'version', version)`
+# see `flatten_accept`
+DEPRECATED_CONTENT_TYPES = []
+for tpe, rows in settings.ALL_SCHEMA_IDX.items():
+    if len(rows) > 1:
+        for deprecated_version, _ in rows[1:]:
+            # stringify version because that is what `flatten_accept` returns
+            deprecated = (_ctype(tpe), "version", str(deprecated_version))
+            DEPRECATED_CONTENT_TYPES.append(deprecated)
 
 
-def is_deprecated(request):
-    accepts = flatten_accept(request.META.get("HTTP_ACCEPT", "*/*"))
+def is_deprecated(accepts_header_str):
+    "returns `True` if *any* of the mime types in the parsed 'accepts' header string are deprecated."
+    accepts = flatten_accept(accepts_header_str)
     for target in DEPRECATED_CONTENT_TYPES:
         if target in accepts:
             return True
@@ -95,10 +65,14 @@ def is_deprecated(request):
 #
 
 
-def deprecated(get_response_fn):
+def mark_deprecated(get_response_fn):
+    """returns `True` if *any* of the *requested* content types are deprecated.
+    lsh@2021-07-6: should probably be changed to test the negotiated content type."""
+
     def middleware(request):
+        accepts_header_str = request.META.get("HTTP_ACCEPT", "*/*")
         response = get_response_fn(request)
-        if is_deprecated(request):
+        if is_deprecated(accepts_header_str):
             msg = "Deprecation: Support for this Content-Type version will be removed"
             response["warning"] = msg
         return response
@@ -111,9 +85,11 @@ def deprecated(get_response_fn):
 #
 
 
+# todo: this middleware needs to go away and `error_response` in api_v2_views needs to
+# emit responses valid against https://datatracker.ietf.org/doc/html/rfc7807 and
+# https://github.com/elifesciences/api-raml/blob/develop/dist/model/error.v1.json
 def error_content_check(get_response_fn):
-    """REST Framework may refuse requests before we can ever handle them.
-    this middleware ensures all unsuccessful responses have the correct structure"""
+    """This middleware ensures all unsuccessful responses have the correct structure."""
 
     def middleware(request):
         response = get_response_fn(request)
@@ -175,9 +151,7 @@ def content_check(get_response_fn):
         # print()
 
         if not acceptable:
-            return ErrorResponse(
-                406, "not acceptable", "could not negotiate an acceptable response type"
-            )
+            return http_406()
         return response
 
     return middleware
@@ -190,9 +164,13 @@ def content_check(get_response_fn):
 #
 
 
-def vor_valid_under_v4(ajson):
-    "returns True if given article-json is valid under version 4 of the VOR spec (all 'journal' references have a 'pages' property)"
-    return all_journal_references_have_pages_property(ajson)
+def vor_valid_under_v5(ajson):
+    "returns True if given article-json is valid under version 5 of the VOR spec."
+    # True, when an authorResponse is *not* present, or,
+    # when an authorResponse *is* present *and* includes a decisionLetter.
+    if "authorResponse" in ajson:
+        return "decisionLetter" in ajson
+    return True
 
 
 def downgrade_vor_content_type(get_response_fn):
@@ -238,24 +216,17 @@ def downgrade_vor_content_type(get_response_fn):
 
         body = json.loads(response.content.decode("utf-8"))
 
-        if max_accepted_vor == 4:
-            # client specifically accepts a v4 VOR only
-            # we might be ok if the content is valid under v4
-            if vor_valid_under_v4(body):
-                # all good, drop content-type returned to VOR v4
-                # (we have to recreate the response because the Django/REST library response is immutable or something)
-                new_content_type = "application/vnd.elife.article-vor+json; version=4"
-                new_response = HttpResponse(
-                    response.content, content_type=new_content_type
-                )
-                # this is where RESTResponses keep it
-                new_response.content_type = new_content_type
-                return new_response
+        if max_accepted_vor == 5:
+            # client specifically accepts a v5 VOR only
+            # we might be ok if the content is valid under v5
+            if vor_valid_under_v5(body):
+                # all good, drop content-type returned to VOR v5
+                new_content_type = "application/vnd.elife.article-vor+json; version=5"
+                response["Content-Type"] = new_content_type
+                return response
 
         # an unsupported VOR version was requested.
-        return ErrorResponse(
-            406, "not acceptable", "could not negotiate an acceptable response type",
-        )
+        return http_406()
 
     return middleware
 
@@ -311,18 +282,11 @@ def downgrade_poa_content_type(get_response_fn):
             body = json.loads(response.content.decode("utf-8"))
             if poa_valid_under_v2(body):
                 # all good, drop content-type returned to POA v2
-                # we have to recreate the response because the Django/REST library response is immutable or something
                 new_content_type = "application/vnd.elife.article-poa+json; version=2"
-                new_response = HttpResponse(
-                    response.content, content_type=new_content_type
-                )
-                # this is where RESTResponses keep it
-                new_response.content_type = new_content_type
-                return new_response
+                response["Content-Type"] = new_content_type
+                return response
 
         # an unsupported POA version was requested
-        return ErrorResponse(
-            406, "not acceptable", "could not negotiate an acceptable response type",
-        )
+        return http_406()
 
     return middleware
