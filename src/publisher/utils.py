@@ -228,6 +228,20 @@ def todt(val):
     return dt
 
 
+def to_date(dt):
+    if not dt:
+        return None
+    if type(dt) == date:
+        return dt
+    if type(dt) == datetime:
+        return dt.date()
+    if type(dt) == str:
+        dt = parser.parse(dt, fuzzy=False)
+        dt = dt.astimezone(pytz.utc)
+        return dt.date()
+    raise ValueError("unsupported type %r" % type(dt))
+
+
 def utcnow():
     "returns a UTC datetime stamp with a UTC timezone object attached"
     # there is a datetime.utcnow(), but it doesn't attach a timezone object
@@ -323,6 +337,8 @@ def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
 
     def _handler(obj):
+        # datetime objects: 2015-03-17T00:00:00+00:00
+        # date objects: 2015-03-17
         if hasattr(obj, "isoformat"):
             return ymdhms(obj)
         else:
