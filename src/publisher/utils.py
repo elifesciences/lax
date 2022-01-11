@@ -339,13 +339,15 @@ def json_dumps(obj, **kwargs):
     def _handler(obj):
         # datetime objects: 2015-03-17T00:00:00+00:00
         # date objects: 2015-03-17
-        if hasattr(obj, "isoformat"):
+        obj_t = type(obj)
+        if obj_t == date:
+            return ymd(obj)
+        if obj_t == datetime:
             return ymdhms(obj)
-        else:
-            raise TypeError(
-                "Object of type %s with value of %s is not JSON serializable"
-                % (type(obj), repr(obj))
-            )
+        raise TypeError(
+            "Object of type %s with value of %s is not JSON serializable"
+            % (type(obj), repr(obj))
+        )
 
     return json.dumps(obj, default=_handler, **kwargs)
 
