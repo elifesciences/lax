@@ -60,15 +60,22 @@ class IngestIdentical(BaseCase):
         self.assertEqual(utils.todt("2016-10-04"), av.datetime_published)
 
     def test_ingest_identical_except_related_articles(self):
-        "an ingest or silent correction (forced ingest) with just the related articles changed"
-        ajson_ingestor.ingest(self.ajson)
-        self.assertEqual(1, models.ArticleVersion.objects.count())
+        "an ingest or silent correction (a forced ingest) with just the related articles changed"
 
+        # ingest with no relations
+        self.ajson["article"]["-related-articles-internal"] = []
+        ajson_ingestor.ingest_publish(self.ajson)
+        self.assertEqual(1, models.ArticleVersion.objects.count())
+        self.assertEqual(0, models.ArticleVersionRelation.objects.count())
+
+        # add a relation
         # "01749" => "00666"
         self.ajson["article"]["-related-articles-internal"] = ["00666"]
 
-        ajson_ingestor.ingest_publish(self.ajson)
+        # ingest again
+        ajson_ingestor.ingest(self.ajson, force=True)
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
+        self.assertEqual(1, models.ArticleVersionRelation.objects.count())
 
         related_articles = av.articleversionrelation_set.all()
         self.assertEqual(1, related_articles.count())

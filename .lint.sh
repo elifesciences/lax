@@ -13,13 +13,13 @@ pyflakes ./src/
 # https://github.com/PyCQA/pylint/issues/1113
 
 echo "pylint"
-pylint -E ./src/publisher/** --load-plugins=pylint_django --disable=E1103 2> /dev/null
+pylint -E ./src/publisher/** --load-plugins=pylint_django --disable=E1103
 # specific warnings we're interested in, comma separated with no spaces
 # presence of these warnings are a failure
 pylint ./src/publisher/** --load-plugins=pylint_django --disable=all --reports=n --score=n \
     --enable=redefined-builtin
 
 echo "scrubbing"
-. .scrub.sh 2> /dev/null
+. .scrub.sh
 
 echo "[✓] .lint.sh"
