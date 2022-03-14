@@ -10,7 +10,7 @@ request () {
     host=$(hostname)
     path="$1"
     expected="$2"
-    actual=$(curl --retry $num_attempts --retry-delay $retry_delay --write-out "%{http_code}" --silent --output /dev/null "$host$path")
+    actual=$(curl --retry $num_attempts --retry-delay $retry_delay --write-out "%{http_code}" --silent --output /dev/null "https://$host$path")
     test "$expected" = "$actual"
 }
 
