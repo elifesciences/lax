@@ -173,7 +173,7 @@ def test_accept_types():
 
 
 def test_unacceptable_types():
-    """lax responds with HTTP 406 when a content-type or a specific version 
+    """lax responds with HTTP 406 when a content-type or a specific version
     of a content-type cannot be reconciled against actual content types and versions"""
     cases = [
         # 1, obsolete (poa v1)
@@ -203,7 +203,10 @@ def test_unacceptable_types():
         for i, client_accepts in enumerate(cases):
             url = reverse("v2:article", kwargs={"msid": msid})
             resp = Client().get(url, HTTP_ACCEPT=client_accepts)
-            msg = "failed case %s, got: %s" % (i + 1, resp.status_code,)
+            msg = "failed case %s, got: %s" % (
+                i + 1,
+                resp.status_code,
+            )
             assert 406 == resp.status_code, msg
 
 

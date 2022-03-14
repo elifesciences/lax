@@ -150,11 +150,9 @@ def version_from_path(path):
 
 
 def compfilter(fnlist):
-    "returns true if given val "
-
+    "returns true if given val"
     def fn(val):
         return all([fn(val) for fn in fnlist])
-
     return fn
 
 
@@ -186,7 +184,7 @@ def firstnn(x):
 
 
 def delall(ddict, lst):
-    "mutator. "
+    "mutator."
 
     def delkey(key):
         try:

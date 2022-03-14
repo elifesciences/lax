@@ -4,7 +4,8 @@ from publisher import ajson_ingestor, aws_events
 from . import base
 from os.path import join
 from django.urls import reverse
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User # don't do this
+from django.contrib.auth import get_user_model  # do this
 from django.test import Client, override_settings
 
 
@@ -66,7 +67,9 @@ class One(base.BaseCase):
     def setUp(self):
         self.ac = Client()
 
-        user = User.objects.create_superuser("john", "john@example.org", "password")
+        user = get_user_model().objects.create_superuser(
+            "john", "john@example.org", "password"
+        )
         # https://docs.djangoproject.com/en/1.11/topics/testing/tools/#django.test.Client.force_login
         self.ac.force_login(user)
 

@@ -180,7 +180,8 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterUniqueTogether(
-            name="article", unique_together=set([("doi", "version")]),
+            name="article",
+            unique_together=set([("doi", "version")]),
         ),
         migrations.AlterField(
             model_name="article",
@@ -190,7 +191,10 @@ class Migration(migrations.Migration):
                 help_text=b"The version of the article. Version=None means pre-publication",
             ),
         ),
-        migrations.AlterModelOptions(name="article", options={},),
+        migrations.AlterModelOptions(
+            name="article",
+            options={},
+        ),
         migrations.AddField(
             model_name="journal",
             name="inception",
@@ -266,11 +270,26 @@ class Migration(migrations.Migration):
                 unique=True,
             ),
         ),
-        migrations.AlterUniqueTogether(name="article", unique_together=set([]),),
-        migrations.RemoveField(model_name="article", name="datetime_published",),
-        migrations.RemoveField(model_name="article", name="version",),
-        migrations.RemoveField(model_name="article", name="status",),
-        migrations.RemoveField(model_name="article", name="title",),
+        migrations.AlterUniqueTogether(
+            name="article",
+            unique_together=set([]),
+        ),
+        migrations.RemoveField(
+            model_name="article",
+            name="datetime_published",
+        ),
+        migrations.RemoveField(
+            model_name="article",
+            name="version",
+        ),
+        migrations.RemoveField(
+            model_name="article",
+            name="status",
+        ),
+        migrations.RemoveField(
+            model_name="article",
+            name="title",
+        ),
         migrations.AddField(
             model_name="articleversion",
             name="article",
@@ -304,9 +323,13 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterUniqueTogether(
-            name="articleversion", unique_together=set([("article", "version")]),
+            name="articleversion",
+            unique_together=set([("article", "version")]),
         ),
-        migrations.RemoveField(model_name="article", name="datetime_accepted",),
+        migrations.RemoveField(
+            model_name="article",
+            name="datetime_accepted",
+        ),
         migrations.AddField(
             model_name="article",
             name="date_full_decision",
@@ -502,10 +525,17 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterModelOptions(
-            name="article", options={"ordering": ("-date_initial_qc",)},
+            name="article",
+            options={"ordering": ("-date_initial_qc",)},
         ),
-        migrations.RemoveField(model_name="article", name="datetime_submitted",),
-        migrations.RemoveField(model_name="article", name="website_path",),
+        migrations.RemoveField(
+            model_name="article",
+            name="datetime_submitted",
+        ),
+        migrations.RemoveField(
+            model_name="article",
+            name="website_path",
+        ),
         migrations.AlterField(
             model_name="journal",
             name="name",
@@ -570,7 +600,8 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AlterUniqueTogether(
-            name="articlefragment", unique_together=set([("article", "type")]),
+            name="articlefragment",
+            unique_together=set([("article", "type")]),
         ),
         migrations.AlterField(
             model_name="articlefragment",
@@ -602,7 +633,8 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterModelOptions(
-            name="articleversion", options={"ordering": ("version",)},
+            name="articleversion",
+            options={"ordering": ("version",)},
         ),
         migrations.AlterField(
             model_name="article",
@@ -1088,7 +1120,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ("datetime_event", "event"),},
+            options={
+                "ordering": ("datetime_event", "event"),
+            },
         ),
         migrations.AlterUniqueTogether(
             name="articleevent",

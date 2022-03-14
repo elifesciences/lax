@@ -299,7 +299,9 @@ def article_fragment(request, msid, fragment_id):
     # authenticated
     if not is_authenticated(request):
         return error_response(
-            403, "not authenticated", "only authenticated users can modify content",
+            403,
+            "not authenticated",
+            "only authenticated users can modify content",
         )
 
     # article exists

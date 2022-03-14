@@ -214,7 +214,7 @@ class FragmentMerge(base.BaseCase):
         self.assertFalse("versionDate" in av2.article_json_v1)
 
     def test_invalid_merge_preserves_article_json(self):
-        """the previously set article-json and it's snippet are preserved if the 
+        """the previously set article-json and it's snippet are preserved if the
         current set of fragments no longer validate when merged (for any reason)"""
 
         expected = "A Cryptochrome 2 Mutation Yields Advanced Sleep Phase in Human"
