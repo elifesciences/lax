@@ -5,7 +5,7 @@ import copy
 from publisher import utils, models, logic, ajson_ingestor
 from publisher.tests import base
 import pytz
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from django.utils import timezone
 from django.conf import settings
 
@@ -345,9 +345,41 @@ class TestUtils(base.BaseCase):
                     tzinfo=pytz.utc,
                 ),
             ),
+            # date object becomes a zeroed out UTC datetime object
+            (
+                date(year=2001, month=1, day=1),
+                datetime(
+                    year=2001,
+                    month=1,
+                    day=1,
+                    hour=0,
+                    minute=0,
+                    second=0,
+                    tzinfo=pytz.utc,
+                ),
+            ),
         ]
         for string, expected in cases:
             self.assertEqual(utils.todt(string), expected)
+
+    def test_to_date(self):
+        cases = [
+            (None, None),
+            ("", None),
+            ("2001-01-01", date(year=2001, month=1, day=1)),
+            ("2001-01-01T00:00:00Z", date(year=2001, month=1, day=1)),
+            (date(year=2001, month=1, day=1), date(year=2001, month=1, day=1)),
+            (
+                datetime(year=2001, month=1, day=1, hour=1, minute=1, second=1),
+                date(year=2001, month=1, day=1),
+            ),
+            # timezones are handled.
+            ("2001-01-02T01:01:01+09:30", date(year=2001, month=1, day=1)),
+            # lack of timezones are handled
+            ("2001-01-01T01:01:01", date(year=2001, month=1, day=1)),
+        ]
+        for given, expected in cases:
+            self.assertEqual(utils.to_date(given), expected)
 
     def test_deepmerge(self):
         cases = [

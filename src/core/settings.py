@@ -1,9 +1,9 @@
 """generalised settings for the Lax project.
 
-per-instance settings are in /path/to/app/app.cfg
+per-instance settings are in /path/to/lax/app.cfg
 example settings can be found in /path/to/lax/elife.cfg
 
-./install.sh will create a symlink from dev.cfg -> lax.cfg if lax.cfg not found."""
+`./install.sh` creates a symlink from `elife.cfg` to `app.cfg` if `app.cfg` not found."""
 
 import os
 import multiprocessing
@@ -11,21 +11,21 @@ from os.path import join
 from datetime import datetime
 import configparser as configparser
 from pythonjsonlogger import jsonlogger
-import yaml
+import json, yaml
 from et3.render import render_item
 from et3.extract import path as p
 
 PROJECT_NAME = "lax"
 
 # Build paths inside the project like this: os.path.join(SRC_DIR, ...)
-SRC_DIR = os.path.dirname(os.path.dirname(__file__))  # ll: /path/to/lax/src/
-PROJECT_DIR = os.path.dirname(SRC_DIR)  # ll: /path/to/lax/
+SRC_DIR = os.path.dirname(os.path.dirname(__file__))  # "/path/to/lax/src/"
+PROJECT_DIR = os.path.dirname(SRC_DIR)  # "/path/to/lax/"
 
 CFG_NAME = "app.cfg"
 DYNCONFIG = configparser.ConfigParser(
     **{"allow_no_value": True, "defaults": {"dir": SRC_DIR, "project": PROJECT_NAME}}
 )
-DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME))  # ll: /path/to/lax/app.cfg
+DYNCONFIG.read(join(PROJECT_DIR, CFG_NAME))  # "/path/to/lax/app.cfg"
 
 
 def cfg(path, default=0xDEADBEEF):
@@ -38,10 +38,11 @@ def cfg(path, default=0xDEADBEEF):
     try:
         val = DYNCONFIG.get(*path.split("."))
         return lu.get(val, val)
+    # given key in section hasn't been defined
     except (
         configparser.NoOptionError,
         configparser.NoSectionError,
-    ):  # given key in section hasn't been defined
+    ):
         if default == 0xDEADBEEF:
             raise ValueError("no value/section set for setting at %r" % path)
         return default
@@ -76,7 +77,6 @@ INSTALLED_APPS = (
     "django_markdown2",  # landing page is rendered markdown
     "explorer",  # sql creation
     # 'django_db_logger', # logs certain entries to the database
-    "rest_framework",
     "publisher",
 )
 
@@ -178,37 +178,6 @@ STATIC_ROOT = join(PROJECT_DIR, "collected-static")
 
 STATICFILES_DIRS = (os.path.join(SRC_DIR, "static"),)
 
-# from publisher.negotiation import KNOWN_CLASSES
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    # ],
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
-    "DEFAULT_PERMISSION_CLASSES": [],
-    # 'DEFAULT_CONTENT_NEGOTIATION_CLASS': 'publisher.negotiation.eLifeContentNegotiation',
-    "DEFAULT_RENDERER_CLASSES": (
-        # order is important, most to least specific
-        "publisher.negotiation.ArticleListVersion1",
-        "publisher.negotiation.POAArticleVersion3",
-        "publisher.negotiation.POAArticleVersion2",
-        "publisher.negotiation.VORArticleVersion4",
-        "publisher.negotiation.VORArticleVersion3",
-        "publisher.negotiation.ArticleHistoryVersion2",
-        "publisher.negotiation.ArticleHistoryVersion1",
-        "publisher.negotiation.ArticleRelatedVersion1",
-        # general cases
-        "publisher.negotiation.VORArticle",
-        "publisher.negotiation.POAArticle",
-        "publisher.negotiation.ArticleRelated",
-        "publisher.negotiation.ArticleHistory",
-        "publisher.negotiation.ArticleList",
-        "rest_framework.renderers.JSONRenderer",
-    ),
-}
-
-
 #
 # sql explorer
 #
@@ -234,8 +203,8 @@ ALL_SCHEMA_IDX = {
         (2, join(SCHEMA_PATH, "model/article-poa.v2.json")),
     ],
     VOR: [
+        (6, join(SCHEMA_PATH, "model/article-vor.v6.json")),
         (5, join(SCHEMA_PATH, "model/article-vor.v5.json")),
-        (4, join(SCHEMA_PATH, "model/article-vor.v4.json")),
     ],
     HISTORY: [
         (2, join(SCHEMA_PATH, "model/article-history.v2.json")),
@@ -253,6 +222,12 @@ SCHEMA_VERSIONS = {
     tpe: [row[0] for row in rows] for tpe, rows in ALL_SCHEMA_IDX.items()
 }
 
+# {"/path/to/model/article-vor.v5.json": {...}, ...}
+SCHEMA_MAP = {}
+for path_list in ALL_SCHEMA_IDX.values():
+    for _, path in path_list:
+        SCHEMA_MAP[path] = json.load(open(path, "rb"))
+
 API_PATH = join(SCHEMA_PATH, "api.raml")
 
 # a schema failure may have multiple independent failures and each failure
@@ -263,9 +238,8 @@ NUM_SCHEMA_ERRORS = NUM_SCHEMA_ERROR_SUBS = 10
 def _load_api_raml(path):
     # load the api.raml file, ignoring any "!include" commands
     yaml.add_multi_constructor("", lambda *args: "[disabled]")
-    return yaml.load(open(path, "r"), Loader=yaml.FullLoader)["traits"]["paged"][
-        "queryParameters"
-    ]
+    api = yaml.load(open(path, "r"), Loader=yaml.FullLoader)
+    return api["traits"]["paged"]["queryParameters"]
 
 
 API_OPTS = render_item(
@@ -309,13 +283,13 @@ MERGE_FOREIGN_FRAGMENTS = cfg("general.merge-foreign-fragments", True)
 # logging
 #
 
-LOG_NAME = "%s.log" % PROJECT_NAME  # ll: lax.log
+LOG_NAME = "%s.log" % PROJECT_NAME  # "lax.log"
 
 INGESTION_LOG_NAME = "ingestion-%s.log" % PROJECT_NAME
 
 LOG_DIR = PROJECT_DIR if DEBUG else "/var/log/"
-LOG_FILE = join(LOG_DIR, LOG_NAME)  # ll: /var/log/lax.log
-INGESTION_LOG_FILE = join(LOG_DIR, INGESTION_LOG_NAME)  # ll: /var/log/lax.log
+LOG_FILE = join(LOG_DIR, LOG_NAME)  # "/var/log/lax.log"
+INGESTION_LOG_FILE = join(LOG_DIR, INGESTION_LOG_NAME)  # "/var/log/lax.log"
 
 # whereever our log files are, ensure they are writable before we do anything else.
 def writable(path):
@@ -405,6 +379,5 @@ LOGGING["loggers"].update(
     dict(list(zip(module_loggers, [logger] * len(module_loggers))))
 )
 
-CACHE_HEADERS_TTL = cfg(
-    "general.cache-headers-ttl", 60 * 5
-)  # 5 minutes, 300 seconds by default
+# 5 minutes, 300 seconds by default
+CACHE_HEADERS_TTL = cfg("general.cache-headers-ttl", 60 * 5)

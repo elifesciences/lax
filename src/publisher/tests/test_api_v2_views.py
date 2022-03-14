@@ -44,6 +44,8 @@ def test_negotiate():
         ("*/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
         # 2, edge case. accepts almost anything, gets latest POA spec version
         ("application/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        # 2, accepts json which is all this API returns.
+        ("application/json", "poa", ("application/vnd.elife.article-poa+json", 3)),
         # 3, typical case. requested any POA or VOR spec version
         (
             "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
@@ -171,7 +173,7 @@ def test_accept_types():
 
 
 def test_unacceptable_types():
-    """lax responds with HTTP 406 when a content-type or a specific version 
+    """lax responds with HTTP 406 when a content-type or a specific version
     of a content-type cannot be reconciled against actual content types and versions"""
     cases = [
         # 1, obsolete (poa v1)
@@ -201,7 +203,10 @@ def test_unacceptable_types():
         for i, client_accepts in enumerate(cases):
             url = reverse("v2:article", kwargs={"msid": msid})
             resp = Client().get(url, HTTP_ACCEPT=client_accepts)
-            msg = "failed case %s, got: %s" % (i + 1, resp.status_code,)
+            msg = "failed case %s, got: %s" % (
+                i + 1,
+                resp.status_code,
+            )
             assert 406 == resp.status_code, msg
 
 
@@ -300,7 +305,7 @@ class V2ContentTypes(base.BaseCase):
         # map the known types to expected types
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"
-        art_vor_type = "application/vnd.elife.article-vor+json; version=5"
+        art_vor_type = "application/vnd.elife.article-vor+json; version=6"
         art_history_type = "application/vnd.elife.article-history+json; version=2"
         art_related_type = "application/vnd.elife.article-related+json; version=1"
 
@@ -473,7 +478,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-vor+json; version=5"
+            resp.content_type, "application/vnd.elife.article-vor+json; version=6"
         )
 
         data = utils.json_loads(resp.content)
@@ -782,6 +787,32 @@ class AddFragment(base.BaseCase):
         self.assertEqual(data["versions"][0]["status"], "preprint")
         self.assertEqual(data["versions"][1]["title"], fragment["title"])
 
+    def test_add_fragment_csrf_check(self):
+        "POST and DELETE requests to the add_fragment view are not subject to CSRF checks (but still require KONG authentication)"
+        key = "test-frag"
+        url = reverse(
+            "v2:article-fragment", kwargs={"msid": self.msid, "fragment_id": key}
+        )
+        fragment = {"title": "Electrostatic selection"}
+        fragment = json.dumps(fragment)
+
+        csrf_client = Client(enforce_csrf_checks=True)
+        csrf_auth_client = Client(
+            enforce_csrf_checks=True, **{mware.CGROUPS: "view-unpublished-content"}
+        )
+
+        # unauthenticated, csrf-enforced POST
+        resp = csrf_client.post(url, fragment, content_type="application/json")
+        self.assertEqual(resp.status_code, 403)  # forbidden
+
+        # authenticated, csrf-enforced POST
+        resp = csrf_auth_client.post(url, fragment, content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
+        # authenticated, csrf-enforced DELETE
+        resp = csrf_auth_client.delete(url)
+        self.assertEqual(resp.status_code, 200)
+
     def test_fragment_needs_authentication(self):
         "only admin users can modify content"
         key = "test-frag"
@@ -811,6 +842,7 @@ class AddFragment(base.BaseCase):
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
 
+        # preprint, POAv1, POAv2
         self.assertEqual(len(data["versions"]), 3)
         self.assertEqual(data["versions"][0]["status"], "preprint")
         self.assertEqual(data["versions"][1]["title"], fragment["title"])
@@ -875,7 +907,19 @@ class AddFragment(base.BaseCase):
         )
         self.assertEqual(resp.status_code, 415)  # unsupported media type
 
-    def test_add_bad_fragment(self):
+    def test_add_bad_fragment__corrupt_json(self):
+        """request with fragment that can't be decoded is refused as bad data"""
+        self.assertEqual(models.ArticleFragment.objects.count(), 1)  # xml->json
+        fragment = "{"
+        url = reverse(
+            "v2:article-fragment",
+            kwargs={"msid": self.msid, "fragment_id": "test-frag"},
+        )
+        resp = self.ac.post(url, fragment, content_type="application/json")
+        self.assertEqual(models.ArticleFragment.objects.count(), 1)  # 'xml->json'
+        self.assertEqual(resp.status_code, 400)  # bad client request
+
+    def test_add_bad_fragment__invalid_article(self):
         """request with fragment that would cause otherwise validating article json
         to become invalid is refused"""
         self.assertEqual(models.ArticleFragment.objects.count(), 1)  # xml->json
@@ -888,7 +932,7 @@ class AddFragment(base.BaseCase):
         self.assertEqual(models.ArticleFragment.objects.count(), 1)  # 'xml->json'
         self.assertEqual(resp.status_code, 400)  # bad client request
 
-    def test_add_invalid_fragment(self):
+    def test_add_bad_fragment__invalid_fragment(self):
         "request with fragment that would fail the ArticleFragment schema is refused"
         self.assertEqual(models.ArticleFragment.objects.count(), 1)  # xml->json
         fragment = {}  # empty
@@ -928,9 +972,8 @@ class AddFragment(base.BaseCase):
         )
         resp = self.ac.post(url, json.dumps(fragment), content_type="application/json")
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(
-            models.ArticleFragment.objects.count(), 2
-        )  # 'xml->json', 'test-frag'
+        # ['xml->json', 'test-frag']
+        self.assertEqual(models.ArticleFragment.objects.count(), 2)
 
 
 class DeleteFragment(base.BaseCase):

@@ -5,7 +5,7 @@ from jsonschema import ValidationError
 from django.db.models import Q
 from django.conf import settings
 from . import utils, models, aws_events, codes
-from .utils import create_or_update, ensure, subdict, StateError, lmap, first
+from .utils import create_or_update, ensure, subdict, StateError, lmap
 import logging
 from django.db import transaction
 
@@ -112,7 +112,7 @@ def _validate(msid, version, data, schema_key, quiet=True):
         # "failed to validate 12345 v1 using schema 'vor' version 1 and 2"
         msg = f"failed to validate {msid} v{version} using schema '{schema_key}' version {schema_versions_str}"
         LOG.warning(msg)
-        raise first(validation_errors)
+        raise validation_errors[0]
 
 
 def valid(merge_result, quiet=True):
@@ -289,7 +289,20 @@ def _identical_articles(raw_original, raw_new, final_new, oldhash, newhash):
         raw_original.get(meta_key) == raw_new.get(meta_key)
         for meta_key in meta_key_list
     )
-    return identical_hash and identical_pubdate and identical_meta
+
+    # compare bits of history
+    history_key_list = [
+        #'received',
+        #'accepted',
+        "preprint"
+    ]
+    identical_history = all(
+        raw_original.get("-history", {}).get(history_key)
+        == raw_new.get("-history", {}).get(history_key)
+        for history_key in history_key_list
+    )
+
+    return identical_hash and identical_pubdate and identical_meta and identical_history
 
 
 # TODO: 'quiet' (validation-check) and 'update_fragment' are symptoms of spaghetti logic and need to be removed.
@@ -338,8 +351,11 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
         # backfills (thousands of forced ingest) require skipping when identical
         # day-to-day INGEST and PUBLISH events require this too.
         # happens on multiple deliveries and silent corrections (forced ingest).
+        msg = "article data is identical to the article data already stored",
         raise Identical(
-            "article data is identical to the article data already stored", av, newhash,
+            msg,
+            av,
+            newhash,
         )
 
     # postprocess

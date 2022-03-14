@@ -1,6 +1,8 @@
 from django.conf import settings
 import logging
 from django.utils.deprecation import MiddlewareMixin
+from django.views.decorators.cache import patch_cache_control
+from django.utils.cache import patch_vary_headers
 
 LOG = logging.getLogger(__name__)
 
@@ -44,9 +46,6 @@ class KongAuthentication(MiddlewareMixin):
 #
 #
 
-from django.views.decorators.cache import patch_cache_control
-from django.utils.cache import patch_vary_headers
-
 
 class DownstreamCaching(object):
     def __init__(self, get_response):
@@ -59,11 +58,13 @@ class DownstreamCaching(object):
             "stale-while-revalidate": settings.CACHE_HEADERS_TTL,
             "stale-if-error": (60 * 60) * 24,  # 1 day, 86400 seconds
         }
+
         private_directives = {
             "private": True,
             "max-age": 0,  # seconds
             "must-revalidate": True,
         }
+
         error_directives = {
             "must-revalidate": True,
             "no-cache": True,  # redundant but harmless

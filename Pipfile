@@ -7,49 +7,49 @@ verify_ssl = true
 python_version = "3.6"
 
 [packages]
-#astroid = "==1.6.5" # old pin
 boto3 = "~=1.11"
 django-annoying = "~=0.10"
 django-autoslug = "==1.9.6"
 #django-db-logger = "==0.1.8rc1"
 # lsh@2020-09: not semver, 2.3 drops support for Django 1.11
-django-filter = "==2.2.*"
+# lsh@2022-02: I can't see how this is being used, disabling.
+#django-filter = "==2.2.*"
 django-markdown2 = "~=0.3"
 django-sql-explorer = "~=1.1"
-django-tqdm = "==1.0.0"
-djangorestframework = "~=3.11"
 et3 = "~=1.5"
 # lsh@2020-07: pinned, isort==5.0.3 has changed it's api
 isort = "~=4.3"
 joblib = "~=0.14"
 jsonschema = "~=3.2"
-"kids.cache" = "==0.0.7"
-netaddr = "~=0.7"
 ordered-set = "~=3.1"
-psycopg2 = "~=2.8"
+# psycopg2 doesn't use semver.
+# psycopg2 2.9.x isn't compatible with django 2.2:
+# https://github.com/psycopg/psycopg2/issues/1293
+psycopg2 = "==2.8.*"
 python-dateutil = "~=2.8"
 python-json-logger = "~=0.1"
 python-slugify = "~=4.0"
 pytz = "*"
 requests = "~=2.22"
-#requirements-detector = "==0.6" # ?
 rfc3339 = "~=6.2"
-# django doesn't use semver properly.
+# django doesn't use semver.
 # minor releases may introduce breaking and backwards incompatible changes:
 # https://docs.djangoproject.com/el/3.0/internals/release-process/
 Django = "==2.2.*"
 PyYAML = "~=5.3"
 uWSGI = "~=2.0"
+newrelic = "*"
 
 [dev-packages]
-mock = "==3.0.5"
+# lsh@2022-03-14: greater versions not available for python3.8.
+# remove once using python3.8 exclusively
+dataclasses = "<=0.6"
 unittest-xml-reporting = "==2.5.2"
 coverage = "~=5.0"
-black = "==19.10b0"
-# prospector = "==1.2.0" # ?
+black = "*"
 pyflakes = "~=2.1"
-pylint = "~=1.9"
-pylint-django = "~=0.11"
+pylint = "~=2.0"
+pylint-django = "~=2.0"
 pytest = "~=6.0"
 pytest-cov = "~=2.8"
 pytest-django = "~=4.1"

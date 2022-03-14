@@ -6,11 +6,10 @@ import os, copy, json, glob
 import pytz
 from dateutil import parser
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, date
 from functools import partial
 import logging
 from django.db.models.fields.related import ManyToManyField
-from kids.cache import cache
 from rfc3339 import rfc3339
 from django.db import transaction, IntegrityError
 from django.conf import settings
@@ -144,19 +143,16 @@ def msid2doi(msid):
 
 
 def version_from_path(path):
-    _, msid, ver = os.path.split(path)[-1].split(
-        "-"
-    )  # ll: ['elife', '09560', 'v1.xml']
+    # ['elife', '09560', 'v1.xml']
+    _, msid, ver = os.path.split(path)[-1].split("-")
     ver = ver[1]  # "v1.xml" -> "1"
     return int(msid), int(ver)
 
 
 def compfilter(fnlist):
-    "returns true if given val "
-
+    "returns true if given val"
     def fn(val):
         return all([fn(val) for fn in fnlist])
-
     return fn
 
 
@@ -188,7 +184,7 @@ def firstnn(x):
 
 
 def delall(ddict, lst):
-    "mutator. "
+    "mutator."
 
     def delkey(key):
         try:
@@ -211,6 +207,8 @@ def todt(val):
     if val is None:
         return None
     dt = val
+    if type(dt) == date:
+        dt = datetime(year=dt.year, month=dt.month, day=dt.day)
     if not isinstance(dt, datetime):
         dt = parser.parse(val, fuzzy=False)
     dt.replace(microsecond=0)  # not useful, never been useful, will never be useful.
@@ -226,6 +224,20 @@ def todt(val):
             LOG.debug("converting an aware dt that isn't in utc TO utc: %r", dt)
             return dt.astimezone(pytz.utc)
     return dt
+
+
+def to_date(dt):
+    if not dt:
+        return None
+    if type(dt) == date:
+        return dt
+    if type(dt) == datetime:
+        return dt.date()
+    if type(dt) == str:
+        dt = parser.parse(dt, fuzzy=False)
+        dt = dt.astimezone(pytz.utc)
+        return dt.date()
+    raise ValueError("unsupported type %r" % type(dt))
 
 
 def utcnow():
@@ -323,13 +335,17 @@ def json_dumps(obj, **kwargs):
     "drop-in for json.dumps that handles datetime objects."
 
     def _handler(obj):
-        if hasattr(obj, "isoformat"):
+        # datetime objects: 2015-03-17T00:00:00+00:00
+        # date objects: 2015-03-17
+        obj_t = type(obj)
+        if obj_t == date:
+            return ymd(obj)
+        if obj_t == datetime:
             return ymdhms(obj)
-        else:
-            raise TypeError(
-                "Object of type %s with value of %s is not JSON serializable"
-                % (type(obj), repr(obj))
-            )
+        raise TypeError(
+            "Object of type %s with value of %s is not JSON serializable"
+            % (type(obj), repr(obj))
+        )
 
     return json.dumps(obj, default=_handler, **kwargs)
 
@@ -377,11 +393,6 @@ def unique(seq):
 #
 
 
-@cache
-def load_schema(schema_path):
-    return json.load(open(schema_path, "r", encoding="utf-8"))
-
-
 def validate(struct, schema_path):
     try:
         # this has the effect of converting any datetime objects to rfc3339 formatted strings
@@ -391,7 +402,7 @@ def validate(struct, schema_path):
         raise
 
     try:
-        schema = load_schema(schema_path)
+        schema = settings.SCHEMA_MAP[schema_path]
         jsonschema.validate(struct, schema)
         return struct
 

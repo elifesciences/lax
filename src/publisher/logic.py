@@ -260,7 +260,8 @@ def date_received(art):
     # the date received, scraped from the xml, is guaranteed to not exist for certain article types.
     # the initial quality check date will not exist under certain circumstances:
     # James@2017-03-17: "there are some instances in the archive where articles were essentially first submitted as full submissions rather than initial submissions, due to appeals or previous interactions etc. The logic we've been using for PoA is that if there is no initial qc date, use the full qc date."
-    return firstnn([art.date_received, art.date_initial_qc, art.date_full_qc])
+    dt = firstnn([art.date_received, art.date_initial_qc, art.date_full_qc])
+    return utils.to_date(dt)
 
 
 def date_accepted(art):
@@ -275,7 +276,8 @@ def date_accepted(art):
         (art.rev3_decision, art.date_rev3_decision),
         (art.rev4_decision, art.date_rev4_decision),
     ]
-    return second(firstnn([pair for pair in attrs if pair[0] == models.AF]))
+    dt = second(firstnn([pair for pair in attrs if pair[0] == models.AF]))
+    return utils.to_date(dt)
 
 
 EXCLUDE_RECEIVED_ACCEPTED_DATES = [models.EDITORIAL, models.INSIGHT]
