@@ -304,8 +304,8 @@ class RelationList(base.BaseCase):
 
         for msid, expected_relations in expected_relationships:
             av = models.Article.objects.get(manuscript_id=msid).latest_version
-            actual_relationships = relation_logic.internal_relationships_for_article_version(
-                av
+            actual_relationships = (
+                relation_logic.internal_relationships_for_article_version(av)
             )
             self.assertCountEqual(
                 expected_relations,
@@ -330,8 +330,8 @@ class RelationList(base.BaseCase):
 
         for msid, expected_relations in expected_relationships:
             av = models.Article.objects.get(manuscript_id=msid).latest_version
-            actual_relationships = relation_logic.internal_relationships_for_article_version(
-                av
+            actual_relationships = (
+                relation_logic.internal_relationships_for_article_version(av)
             )
             self.assertCountEqual(
                 expected_relations,

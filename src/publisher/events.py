@@ -27,7 +27,12 @@ def add(art, event, value=None, datetime_event=None, uri=None):
     unique_key_list = ["article", "event", "datetime_event"]
 
     ae, created, updated = create_or_update(
-        models.ArticleEvent, struct, unique_key_list, create, update, article=art,
+        models.ArticleEvent,
+        struct,
+        unique_key_list,
+        create,
+        update,
+        article=art,
     )
     return ae
 

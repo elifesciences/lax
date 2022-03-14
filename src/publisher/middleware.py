@@ -174,7 +174,7 @@ def vor_valid_under_v5(ajson):
 
 
 def downgrade_vor_content_type(get_response_fn):
-    """if a content-type less than the current VOR version is requested, downgrade content-type if possible 
+    """if a content-type less than the current VOR version is requested, downgrade content-type if possible
     or return a 406"""
 
     def middleware(request):

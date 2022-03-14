@@ -13,6 +13,7 @@ pyflakes ./src/
 # https://github.com/PyCQA/pylint/issues/1113
 
 echo "pylint"
+export DJANGO_SETTINGS_MODULE=core.settings
 pylint -E ./src/publisher/** --load-plugins=pylint_django --disable=E1103
 # specific warnings we're interested in, comma separated with no spaces
 # presence of these warnings are a failure

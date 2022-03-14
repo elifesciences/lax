@@ -339,7 +339,7 @@ class Ingest(BaseCase):
 
     def test_article_json_not_stored_if_not_valid(self):
         """INGEST and PUBLISH events cause the fragments to be merged and stored, but
-        only if valid. 
+        only if valid.
         Ensure nothing is stored if result of merge is invalid, even if forced."""
         self.assertRaises(StateError, ajson_ingestor.ingest, self.invalid_ajson)
         self.assertRaises(
@@ -347,7 +347,7 @@ class Ingest(BaseCase):
         )
 
     def test_article_json_not_stored_if_snippet_not_valid(self):
-        """INGEST and PUBLISH events cause the fragments to be merged, a snippet extracted and 
+        """INGEST and PUBLISH events cause the fragments to be merged, a snippet extracted and
         the results stored, but only if valid. If the snippet is invalid, an exception is raised."""
         bad_snippet = {"foo": "bar"}
         with patch(
