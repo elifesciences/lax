@@ -151,8 +151,10 @@ def version_from_path(path):
 
 def compfilter(fnlist):
     "returns true if given val"
+
     def fn(val):
         return all([fn(val) for fn in fnlist])
+
     return fn
 
 

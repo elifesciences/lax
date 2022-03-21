@@ -7,7 +7,6 @@ appname = "publisher"
 
 urlpatterns = (
     [
-        url(r"^ping$", views.ping, name="ping"),
         url(r"^articles$", views.article_list, name="article-list"),
         url(r"^articles/(?P<msid>\d+)$", views.article, name="article"),
         url(

@@ -198,16 +198,6 @@ def is_authenticated(request):
 
 
 @require_http_methods(["HEAD", "GET"])
-def ping(request):
-    "returns a test response for monitoring, *never* to be cached"
-    return response(
-        "pong",
-        content_type="text/plain; charset=UTF-8",
-        headers={"Cache-Control": "must-revalidate, no-cache, no-store, private"},
-    )
-
-
-@require_http_methods(["HEAD", "GET"])
 def article_list(request):
     "returns a list of snippets"
     authenticated = is_authenticated(request)
