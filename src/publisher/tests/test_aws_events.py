@@ -4,6 +4,7 @@ from publisher import ajson_ingestor, aws_events
 from . import base
 from os.path import join
 from django.urls import reverse
+
 # from django.contrib.auth.models import User # don't do this
 from django.contrib.auth import get_user_model  # do this
 from django.test import Client, override_settings

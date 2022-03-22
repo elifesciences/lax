@@ -99,14 +99,6 @@ def test_negotiate():
         assert api_v2_views.negotiate(accepts_header_str, content_type_key) == expected
 
 
-def test_ping():
-    resp = Client().get(reverse("v2:ping"))
-    assert resp.status_code == 200
-    assert resp.content_type == "text/plain; charset=UTF-8"
-    assert resp["Cache-Control"] == "must-revalidate, no-cache, no-store, private"
-    assert resp.content.decode("utf-8") == "pong"
-
-
 def test_accept_types():
     "valid HTTP 'Accept' headers return expected 'Content-Type' responses"
     # (client accepts, expected accepts)
@@ -390,7 +382,6 @@ class V2Content(base.BaseCase):
         cases = [
             reverse("v2:article", kwargs={"msid": self.msid1}),
             reverse("v2:article-list"),
-            reverse("v2:ping"),
             reverse("v2:article-version", kwargs={"msid": self.msid1, "version": 1}),
             reverse("v2:article-version-list", kwargs={"msid": self.msid1}),
             reverse("v2:article-relations", kwargs={"msid": self.msid1}),

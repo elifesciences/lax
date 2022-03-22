@@ -351,7 +351,7 @@ def set_article_json(av, data=None, quiet=True, hash_check=True, update_fragment
         # backfills (thousands of forced ingest) require skipping when identical
         # day-to-day INGEST and PUBLISH events require this too.
         # happens on multiple deliveries and silent corrections (forced ingest).
-        msg = "article data is identical to the article data already stored",
+        msg = "article data is identical to the article data already stored"
         raise Identical(
             msg,
             av,
