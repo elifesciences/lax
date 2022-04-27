@@ -1,3 +1,4 @@
+import os
 from django.db import connection, reset_queries
 from . import models
 from django.conf import settings
@@ -6,6 +7,7 @@ from publisher import utils, relation_logic
 from publisher.utils import ensure, lmap, lfilter, firstnn, second, exsubdict
 from django.utils import timezone
 from django.db.models import Max, F  # , Q, When
+from psycopg2.extensions import AsIs
 
 LOG = logging.getLogger(__name__)
 
@@ -19,12 +21,37 @@ def qdebug(f):
         qt = [(float(query["time"]) * 1000) for query in connection.queries]
 
         print("%s queries" % len(qt))
-        print("%s ms" % sum(qt))
+        print("%s s" % sum(qt))
         print()
 
         return result
 
     return wrap
+
+
+# todo: shift into settings.py ?
+SQL_LIST = [
+    "internal-relationships-for-msid.sql",
+    "external-relationships-for-msid.sql"
+]
+SQL_MAP = {os.path.basename(path): open(os.path.join(settings.SQL_PATH, path), "r").read()
+           for path in SQL_LIST}
+
+def dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
+def execute_sql(filename, params):
+    with connection.cursor() as cursor:
+        cursor.execute(SQL_MAP[filename], params)
+        rows = dictfetchall(cursor)
+    #return list(filter(None, map(coerce_summary_row, rows)))
+    return rows
+
 
 
 #
@@ -223,7 +250,7 @@ def article_version_list(msid, only_published=True):
 
 
 def relationships(msid, only_published=True):
-    "returns all relationships for the given article"
+    "returns all relationships for the given `msid`"
     av = most_recent_article_version(msid, only_published)
 
     extr = relation_logic.external_relationships_for_article_version(av)
@@ -249,6 +276,16 @@ def relationships(msid, only_published=True):
     extcl = [aver.citation for aver in extr]
 
     return extcl + avl
+
+def relationships_2(msid, only_published=True):
+    "returns all relationships for the given `msid`"
+    
+    params = [msid,
+              AsIs("AND av0.datetime_published IS NOT NULL" if only_published else "")]
+
+    extr = execute_sql("external-relationships-for-msid.sql", params)
+    intr = execute_sql("internal-relationships-for-msid.sql", params)
+
 
 
 #

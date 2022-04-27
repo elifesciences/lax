@@ -1,3 +1,4 @@
+import cProfile, pstats
 import json
 import jsonschema
 from django.core import exceptions as django_errors
@@ -14,9 +15,48 @@ from et3.extract import path as p
 from et3.render import render_item
 import logging
 from django.http.multipartparser import parse_header
+import django.db.transaction
 
 
 LOG = logging.getLogger(__name__)
+
+PROFILING = True
+
+def profile(fn):
+    "prints profiling stats using cProfile when used a view decorator."
+
+    if not PROFILING:
+        return fn
+
+    def wrapper(*args, **kwargs):
+
+        db_conn = django.db.transaction.get_connection()
+        
+        pr = cProfile.Profile(timeunit=0.001)
+        pr.enable()
+        result = fn(*args, **kwargs)
+        pr.disable()
+
+        for i, query in enumerate(db_conn.queries):
+            print()
+            print("query %s (%s ms): %s" % (i + 1, query['time'], query['sql']))
+            print()
+
+        print("%s database queries (%s ms)" %
+              (len(db_conn.queries), round(sum(float(q['time']) for q in db_conn.queries), 4)))
+        
+        print()
+            
+        sortby = "cumulative"
+        ps = pstats.Stats(pr).sort_stats(sortby)
+        ps.print_stats(.03)
+        fname = "/tmp/output-%s.prof" % fn.__name__
+        ps.dump_stats(fname)
+        print("wrote", fname)
+
+        return result
+
+    return wrapper
 
 
 class HttpResponse(DjangoHttpResponse):
@@ -191,7 +231,6 @@ def negotiate(accepts_header_str, content_type_key):
 
 
 def is_authenticated(request):
-    # this header is never set, but only for this API because on /articles/42 it works
     val = request.META.get(settings.KONG_AUTH_HEADER)
     # LOG.info("authenticated? %s type %s" % (val, type(val)))
     return val or False
@@ -266,6 +305,7 @@ def article_version(request, msid, version):
         return http_404()
 
 
+@profile
 @require_http_methods(["HEAD", "GET"])
 def article_related(request, msid):
     "return the related articles for a given article ID"

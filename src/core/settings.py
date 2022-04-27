@@ -193,7 +193,8 @@ EXPLORER_DEFAULT_CONNECTION = "default"
 CONTENT_TYPES = "poa", "vor", "history", "list", "related"
 POA, VOR, HISTORY, LIST, RELATED = CONTENT_TYPES
 
-SCHEMA_PATH = join(PROJECT_DIR, "schema/api-raml/dist")
+SCHEMA_PATH = join(PROJECT_DIR, "schema", "api-raml", "dist")
+SQL_PATH = join(PROJECT_DIR, "schema", "sql")
 
 # a response is valid if it validates under any version of it's schema.
 # order is important. if all attempts to validate fail, the first validation error is re-raised
