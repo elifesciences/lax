@@ -194,7 +194,6 @@ CONTENT_TYPES = "poa", "vor", "history", "list", "related"
 POA, VOR, HISTORY, LIST, RELATED = CONTENT_TYPES
 
 SCHEMA_PATH = join(PROJECT_DIR, "schema", "api-raml", "dist")
-SQL_PATH = join(PROJECT_DIR, "schema", "sql")
 
 # a response is valid if it validates under any version of it's schema.
 # order is important. if all attempts to validate fail, the first validation error is re-raised
@@ -253,6 +252,17 @@ API_OPTS = render_item(
     },
     _load_api_raml(API_PATH),
 )
+
+# load raw SQL
+
+SQL_PATH = join(PROJECT_DIR, "schema", "sql")
+SQL_LIST = [
+    "internal-relationships-for-msid.sql",
+    "internal-reverse-relationships-for-msid.sql",
+    "external-relationships-for-msid.sql"
+]
+SQL_MAP = {os.path.basename(path): open(os.path.join(SQL_PATH, path), "r").read()
+           for path in SQL_LIST}
 
 # KONG gateway options
 
@@ -382,3 +392,6 @@ LOGGING["loggers"].update(
 
 # 5 minutes, 300 seconds by default
 CACHE_HEADERS_TTL = cfg("general.cache-headers-ttl", 60 * 5)
+
+# ---
+

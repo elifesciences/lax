@@ -3,7 +3,7 @@
 
 --EXPLAIN ANALYSE
 
--- find the article version details of all the internal relationships for the most recent version of the given manuscript-id
+-- find the *external* relationships for the *most recent version* of an article and return it's citation
 
 SELECT 
     aver0.citation
@@ -19,7 +19,7 @@ AND
     av0.id IN
     (
         -- find all external relationships for the most recent version of the given manuscript-id
-    
+
         SELECT
             articleversion_id
         FROM
@@ -48,17 +48,17 @@ AND
                             WHERE
                                 av2.article_id = av.article_id
 
+                            -- exclude *unpublished* article versions
+                            %s -- AND datetime_published IS NOT NULL
+
                             GROUP BY
                                 av2.article_id
                         )
 
-                        
                         AND
-                            --a.manuscript_id = 4363
                             a.manuscript_id = %s
 
                         AND
                             av.article_id = a.id
                 )
     )
-%s

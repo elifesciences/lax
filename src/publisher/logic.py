@@ -1,3 +1,4 @@
+import json
 import os
 from django.db import connection, reset_queries
 from . import models
@@ -28,15 +29,6 @@ def qdebug(f):
 
     return wrap
 
-
-# todo: shift into settings.py ?
-SQL_LIST = [
-    "internal-relationships-for-msid.sql",
-    "external-relationships-for-msid.sql"
-]
-SQL_MAP = {os.path.basename(path): open(os.path.join(settings.SQL_PATH, path), "r").read()
-           for path in SQL_LIST}
-
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
@@ -47,10 +39,8 @@ def dictfetchall(cursor):
 
 def execute_sql(filename, params):
     with connection.cursor() as cursor:
-        cursor.execute(SQL_MAP[filename], params)
-        rows = dictfetchall(cursor)
-    #return list(filter(None, map(coerce_summary_row, rows)))
-    return rows
+        cursor.execute(settings.SQL_MAP[filename], params)
+        return dictfetchall(cursor)
 
 
 
@@ -277,14 +267,33 @@ def relationships(msid, only_published=True):
 
     return extcl + avl
 
-def relationships_2(msid, only_published=True):
+def relationships2(msid, only_published=True):
     "returns all relationships for the given `msid`"
     
-    params = [msid,
-              AsIs("AND av0.datetime_published IS NOT NULL" if only_published else "")]
-
+    params = [
+        AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
+        msid,
+    ]
+    
+    # returns a list of citations
     extr = execute_sql("external-relationships-for-msid.sql", params)
+
+    # returns article-json snippets
     intr = execute_sql("internal-relationships-for-msid.sql", params)
+    intr_rev = execute_sql("internal-reverse-relationships-for-msid.sql", params)
+
+    extr = [i['citation'] for i in extr]
+    #intr = [i['article_json_v1_snippet'] or 'null' for i in intr]
+    intr = []
+    intr_rev = [i['article_json_v1_snippet'] or 'null' for i in intr_rev]
+
+    data = json.loads("[%s]" % (','.join(extr + intr + intr_rev),))
+
+    #data = sorted(data, key=lambda r: r and r['id'])
+                  
+    return data
+
+    
 
 
 

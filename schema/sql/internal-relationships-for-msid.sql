@@ -1,14 +1,12 @@
 
-\timing
+--\timing
 
 --EXPLAIN ANALYSE
 
 -- find the article version details of all the internal relationships for the most recent version of the given manuscript-id
+-- with the test fixture this should return 3 articles, 20162, 877, 1
 
 select 
-    av0.id,
-    av0.article_id,
-    av0.version,
     av0.article_json_v1_snippet
 
 from 
@@ -28,7 +26,6 @@ where
             avr.articleversion_id = 
                 (
                     -- find the most recent version of the given manuscript-id
-                    
                     select
                         av.id
 
@@ -38,31 +35,30 @@ where
 
                     where
                         av.version = (
-                                                
                             select 
                                 max(av2.version) 
                             from 
                                 publisher_articleversion av2
-
                             where 
                                 av2.article_id = av.article_id
+
+                            -- we want to exclude *unpublished* article versions typically
+                            %s -- AND datetime_published IS NOT NULL
 
                             group by 
                                 av2.article_id
                         )
-
-                        --and
-                            -- 7546 has three interal relations and one version
-                            -- 7454 has many article versions and no relations
-                            -- 9560 is homo naledi, has one version and one relation
-                            --a.manuscript_id in (7454, 7546, 9560)
                         
                         and
                             --a.manuscript_id = 7546
+                            --a.manuscript_id = 9560
+                            --a.manuscript_id = 1234567890
                             a.manuscript_id = %s
 
                         and
                             av.article_id = a.id
                 )
     )
-%s
+
+order by
+    av0.id asc

@@ -311,7 +311,8 @@ def article_related(request, msid):
     "return the related articles for a given article ID"
     authenticated = is_authenticated(request)
     try:
-        rl = logic.relationships(msid, only_published=not authenticated)
+        #rl = logic.relationships(msid, only_published=not authenticated)
+        rl = logic.relationships2(msid, only_published=not authenticated)
         return json_response(rl, content_type=ctype(settings.RELATED))
     except models.Article.DoesNotExist:
         return http_404()
