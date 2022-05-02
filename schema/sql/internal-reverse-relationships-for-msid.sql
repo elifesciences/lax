@@ -6,61 +6,47 @@
 -- find the latest article version details, of all the articles pointing to (related_to) the given manuscript-id
 -- with the test fixture article (a.67147), we should get no articles.
 
+-- lax=# select * from publisher_articleversionrelation where related_to_id = 1
+--   id   | articleversion_id | related_to_id 
+-- -------+-------------------+---------------
+--  41097 |              6072 |             1
+--  41101 |              6102 |             1
+--  41105 |              6129 |             1
+--  41555 |               302 |             1
 
-select 
-    --av.id,
-    --av.version,
-    --a0.id as article_id,
-    --a0.manuscript_id as article_msid
+SELECT
     av.article_json_v1_snippet
-
-from
+FROM
     publisher_articleversion av,
-    publisher_article a0
-
-where
-    av.article_id = a0.id
-    
-and
-
+    publisher_article a
+WHERE
+    av.article_id = a.id
+AND
     -- max article versions only
-    av.version = (
-                            
-        select 
+    av.version = (           
+        SELECT
             max(av2.version) 
-        from 
+        FROM
             publisher_articleversion av2
-
-        where 
+        WHERE
             av2.article_id = av.article_id
-            
-        -- we want to exclude *unpublished* article versions typically
-        %s -- AND datetime_published IS NOT NULL
-
-        group by 
+        -- exclude unpublished article versions
+        %s
+        GROUP BY
             av2.article_id
     )
-    
-and
-
-    av.id in (
-
+AND
+    av.id IN (
         -- find all article versions pointing to (related_to) the given article's manuscript id
-
-        select distinct
+        SELECT DISTINCT
             avr.articleversion_id
-
-        from 
-            publisher_article a,
+        FROM
+            publisher_article a2,
             publisher_articleversionrelation avr
-
-        where
-            a.id = avr.related_to_id
-
-        and
-            --a.manuscript_id = 9560
-            a.manuscript_id = %s
+        WHERE
+            a2.id = avr.related_to_id
+        AND
+            a2.manuscript_id = %s
     )
-
-order by
-    av.id asc
+ORDER BY
+    av.id ASC

@@ -305,7 +305,7 @@ def article_version(request, msid, version):
         return http_404()
 
 
-@profile
+#@profile
 @require_http_methods(["HEAD", "GET"])
 def article_related(request, msid):
     "return the related articles for a given article ID"

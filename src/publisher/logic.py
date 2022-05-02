@@ -283,14 +283,11 @@ def relationships2(msid, only_published=True):
     intr_rev = execute_sql("internal-reverse-relationships-for-msid.sql", params)
 
     extr = [i['citation'] for i in extr]
-    #intr = [i['article_json_v1_snippet'] or 'null' for i in intr]
-    intr = []
+    intr = [i['article_json_v1_snippet'] or 'null' for i in intr]
     intr_rev = [i['article_json_v1_snippet'] or 'null' for i in intr_rev]
 
     data = json.loads("[%s]" % (','.join(extr + intr + intr_rev),))
 
-    #data = sorted(data, key=lambda r: r and r['id'])
-                  
     return data
 
     
