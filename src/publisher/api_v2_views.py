@@ -22,6 +22,7 @@ LOG = logging.getLogger(__name__)
 
 PROFILING = True
 
+
 def profile(fn):
     "prints profiling stats using cProfile when used a view decorator."
 
@@ -31,7 +32,7 @@ def profile(fn):
     def wrapper(*args, **kwargs):
 
         db_conn = django.db.transaction.get_connection()
-        
+
         pr = cProfile.Profile(timeunit=0.001)
         pr.enable()
         result = fn(*args, **kwargs)
@@ -39,17 +40,22 @@ def profile(fn):
 
         for i, query in enumerate(db_conn.queries):
             print()
-            print("query %s (%s ms): %s" % (i + 1, query['time'], query['sql']))
+            print("query %s (%s ms): %s" % (i + 1, query["time"], query["sql"]))
             print()
 
-        print("%s database queries (%s ms)" %
-              (len(db_conn.queries), round(sum(float(q['time']) for q in db_conn.queries), 4)))
-        
+        print(
+            "%s database queries (%s ms)"
+            % (
+                len(db_conn.queries),
+                round(sum(float(q["time"]) for q in db_conn.queries), 4),
+            )
+        )
+
         print()
-            
+
         sortby = "cumulative"
         ps = pstats.Stats(pr).sort_stats(sortby)
-        ps.print_stats(.03)
+        ps.print_stats(0.03)
         fname = "/tmp/output-%s.prof" % fn.__name__
         ps.dump_stats(fname)
         print("wrote", fname)
@@ -305,13 +311,13 @@ def article_version(request, msid, version):
         return http_404()
 
 
-#@profile
+# @profile
 @require_http_methods(["HEAD", "GET"])
 def article_related(request, msid):
     "return the related articles for a given article ID"
     authenticated = is_authenticated(request)
     try:
-        #rl = logic.relationships(msid, only_published=not authenticated)
+        # rl = logic.relationships(msid, only_published=not authenticated)
         rl = logic.relationships2(msid, only_published=not authenticated)
         return json_response(rl, content_type=ctype(settings.RELATED))
     except models.Article.DoesNotExist:

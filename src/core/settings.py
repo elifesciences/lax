@@ -259,10 +259,12 @@ SQL_PATH = join(PROJECT_DIR, "schema", "sql")
 SQL_LIST = [
     "internal-relationships-for-msid.sql",
     "internal-reverse-relationships-for-msid.sql",
-    "external-relationships-for-msid.sql"
+    "external-relationships-for-msid.sql",
 ]
-SQL_MAP = {os.path.basename(path): open(os.path.join(SQL_PATH, path), "r").read()
-           for path in SQL_LIST}
+SQL_MAP = {
+    os.path.basename(path): open(os.path.join(SQL_PATH, path), "r").read()
+    for path in SQL_LIST
+}
 
 # KONG gateway options
 
@@ -394,4 +396,3 @@ LOGGING["loggers"].update(
 CACHE_HEADERS_TTL = cfg("general.cache-headers-ttl", 60 * 5)
 
 # ---
-

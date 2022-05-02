@@ -57,4 +57,5 @@ AND
                     a2.manuscript_id = %s
             )
     )
-
+ORDER BY
+    av.id ASC

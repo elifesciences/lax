@@ -1,5 +1,4 @@
 import json
-import os
 from django.db import connection, reset_queries
 from . import models
 from django.conf import settings
@@ -29,19 +28,17 @@ def qdebug(f):
 
     return wrap
 
+
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
-    return [
-        dict(zip(columns, row))
-        for row in cursor.fetchall()
-    ]
+    return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
 
 def execute_sql(filename, params):
     with connection.cursor() as cursor:
         cursor.execute(settings.SQL_MAP[filename], params)
         return dictfetchall(cursor)
-
 
 
 #
@@ -267,14 +264,15 @@ def relationships(msid, only_published=True):
 
     return extcl + avl
 
+
 def relationships2(msid, only_published=True):
     "returns all relationships for the given `msid`"
-    
+
     params = [
         AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
         msid,
     ]
-    
+
     # returns a list of citations
     extr = execute_sql("external-relationships-for-msid.sql", params)
 
@@ -282,16 +280,13 @@ def relationships2(msid, only_published=True):
     intr = execute_sql("internal-relationships-for-msid.sql", params)
     intr_rev = execute_sql("internal-reverse-relationships-for-msid.sql", params)
 
-    extr = [i['citation'] for i in extr]
-    intr = [i['article_json_v1_snippet'] or 'null' for i in intr]
-    intr_rev = [i['article_json_v1_snippet'] or 'null' for i in intr_rev]
+    extr = [i["citation"] for i in extr]
+    intr = [i["article_json_v1_snippet"] or "null" for i in intr]
+    intr_rev = [i["article_json_v1_snippet"] or "null" for i in intr_rev]
 
-    data = json.loads("[%s]" % (','.join(extr + intr + intr_rev),))
+    data = json.loads("[%s]" % (",".join(extr + intr + intr_rev),))
 
     return data
-
-    
-
 
 
 #

@@ -98,8 +98,7 @@ def internal_relationships_for_article_version(av):
 
     rev = models.ArticleVersionRelation.objects.filter(related_to=av.article)
 
-    #lst = [r.related_to for r in fwd]
-    lst = []
+    lst = [r.related_to for r in fwd]
     lst.extend([r.articleversion.article for r in rev])
 
     return sorted(set(lst), key=lambda artobj: artobj.manuscript_id)
