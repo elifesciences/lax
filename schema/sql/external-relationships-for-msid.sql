@@ -6,59 +6,59 @@
 -- find the *external* relationships for the *most recent version* of an article and return it's citation
 
 SELECT 
-    aver0.citation
+    aver.citation
 
 FROM
-    publisher_articleversion av0,
-    publisher_articleversionextrelation aver0
+    publisher_articleversion av,
+    publisher_articleversionextrelation aver
     
 WHERE
-    av0.id = aver0.articleversion_id
+    av.id = aver.articleversion_id
 
 AND
-    av0.id IN
+    av.id IN
     (
         -- find all external relationships for the most recent version of the given manuscript-id
 
         SELECT
             articleversion_id
         FROM
-            publisher_articleversionextrelation aver1
+            publisher_articleversionextrelation aver2
 
         WHERE
-            aver1.articleversion_id = 
+            aver2.articleversion_id = 
                 (
                     -- find the most recent version of the given manuscript-id
                     
                     SELECT
-                        av.id
+                        av2.id
 
                     FROM
-                        publisher_articleversion av,
+                        publisher_articleversion av2,
                         publisher_article a
 
                     WHERE
-                        av.version = (
+                        av2.version = (
                                                 
                             SELECT
-                                max(av2.version) 
+                                max(av3.version) 
                             FROM
-                                publisher_articleversion av2
+                                publisher_articleversion av3
 
                             WHERE
-                                av2.article_id = av.article_id
+                                av3.article_id = av2.article_id
 
                             -- exclude *unpublished* article versions
                             %s -- AND datetime_published IS NOT NULL
 
                             GROUP BY
-                                av2.article_id
+                                av3.article_id
                         )
 
                         AND
                             a.manuscript_id = %s
 
                         AND
-                            av.article_id = a.id
+                            av2.article_id = a.id
                 )
     )
