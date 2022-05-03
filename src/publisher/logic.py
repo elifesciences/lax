@@ -275,8 +275,7 @@ def relationships2(msid, only_published=True):
     
     # returns a list of citations
     extr_params = [
-        AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
-        msid, #av.id,
+        av.id,
     ]
     extr = execute_sql("external-relationships-for-msid.sql", extr_params)
 
