@@ -268,17 +268,21 @@ def relationships(msid, only_published=True):
 def relationships2(msid, only_published=True):
     "returns all relationships for the given `msid`"
 
+    # we can do the SQL queries without this, but we need a DoesNotExist to be raised
+    # if the msid does not exist (or has not been published) yet.
+    # it also simplifies the raw SQL slightly at the expense of an extra db query.
+    av = most_recent_article_version(msid, only_published)
+    
     # returns a list of citations
     extr_params = [
         AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
-        msid,
+        msid, #av.id,
     ]
     extr = execute_sql("external-relationships-for-msid.sql", extr_params)
 
     # returns article-json snippets
     intr_params = [
-        AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
-        msid,
+        av.id,
         AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
     ]
     intr = execute_sql("internal-relationships-for-msid.sql", intr_params)
@@ -286,7 +290,7 @@ def relationships2(msid, only_published=True):
     # returns article-json snippets
     intr_rev_params = [
         AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
-        msid,
+        msid, #av.id,
     ]
     intr_rev = execute_sql("internal-reverse-relationships-for-msid.sql", intr_rev_params)
 
@@ -295,12 +299,6 @@ def relationships2(msid, only_published=True):
     intr_rev = [i["article_json_v1_snippet"] or "null" for i in intr_rev]
 
     data = json.loads("[%s]" % (",".join(extr + intr + intr_rev),))
-
-    # it's not as simple as this.
-    # if the *articleversion* does not exist (yet), then raise it.
-    # don't raise it simply because there are no relations
-    #if not data:
-    #    raise models.Article.DoesNotExist()
     
     return data
 

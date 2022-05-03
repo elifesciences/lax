@@ -45,27 +45,11 @@ AND
                 WHERE
                     av2.article_id = a2.id 
                 AND
-                    av2.version = (
-                        -- max versions only
-                        SELECT
-                            max(av3.version) 
-                        FROM
-                            publisher_articleversion av3
-                        WHERE
-                            av3.article_id = av2.article_id
-                        -- do not consider unpublished article versions
-                        %s
-                        GROUP BY
-                            av3.article_id
-                    )
-                AND
-                    --a2.manuscript_id = 9560
-                    a2.manuscript_id = %s
+                    av2.id = %s
             )
     )
 
--- of the article versions we're selecting, only use the max versions 
--- (just like how we only consider the relationships of the max version of the given manuscript id)
+-- of the article versions we're selecting, only use the max versions
 AND
     av.version = (
         -- max versions only
