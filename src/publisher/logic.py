@@ -293,13 +293,18 @@ def relationships2(msid, only_published=True):
     ]
     intr_rev = execute_sql("internal-reverse-relationships-for-msid.sql", intr_rev_params)
 
-    extr = [i["citation"] for i in extr]
-    intr = [i["article_json_v1_snippet"] or "null" for i in intr]
-    intr_rev = [i["article_json_v1_snippet"] or "null" for i in intr_rev]
+    extr = [json.loads(i["citation"]) for i in extr]
+    intr = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr]
+    intr_rev = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr_rev]
 
-    data = json.loads("[%s]" % (",".join(extr + intr + intr_rev),))
-    
-    return data
+    av_results = intr + intr_rev
+
+    # unique items only, sorted by manuscript_id ASC
+    data = {d.get('id') or d.get('uri'):d for d in av_results}.values()
+    data = sorted(data, key=lambda d: d['id'])
+
+    # any external citations are tacked on to the beginning
+    return extr + data
 
 
 #

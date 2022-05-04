@@ -21,7 +21,7 @@
 --        877 |          9561 |  2092 |          1
 
 
-SELECT 
+SELECT
     av.article_json_v1_snippet
 FROM
     publisher_articleversion av, 
@@ -30,8 +30,8 @@ WHERE
     -- join article
     av.article_id = a.id 
 AND
-    a.id = (
-        SELECT 
+    a.id in (
+        SELECT
             related_to_id 
         FROM
             publisher_articleversionrelation avr 

@@ -20,7 +20,7 @@ import django.db.transaction
 
 LOG = logging.getLogger(__name__)
 
-PROFILING = True
+PROFILING = False
 
 
 def profile(fn):
