@@ -40,14 +40,14 @@ def profile(fn):
 
         for i, query in enumerate(db_conn.queries):
             print()
-            print("query %s (%s ms): %s" % (i + 1, query["time"], query["sql"]))
+            print("query %s (%s ms): %s" % (i + 1, float(query["time"]) * 1000, query["sql"]))
             print()
 
         print(
             "%s database queries (%s ms)"
             % (
                 len(db_conn.queries),
-                round(sum(float(q["time"]) for q in db_conn.queries), 4),
+                round(sum(float(q["time"]) for q in db_conn.queries) * 1000, 4),
             )
         )
 
