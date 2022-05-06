@@ -272,7 +272,7 @@ def relationships2(msid, only_published=True):
     # if the msid does not exist (or has not been published) yet.
     # it also simplifies the raw SQL slightly at the expense of an extra db query.
     av = most_recent_article_version(msid, only_published)
-    
+
     # returns a list of citations
     extr_params = [
         av.id,
@@ -289,9 +289,11 @@ def relationships2(msid, only_published=True):
     # returns article-json snippets
     intr_rev_params = [
         AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
-        msid, #av.id,
+        msid,
     ]
-    intr_rev = execute_sql("internal-reverse-relationships-for-msid.sql", intr_rev_params)
+    intr_rev = execute_sql(
+        "internal-reverse-relationships-for-msid.sql", intr_rev_params
+    )
 
     extr = [json.loads(i["citation"]) for i in extr]
     intr = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr]
@@ -300,8 +302,8 @@ def relationships2(msid, only_published=True):
     av_results = intr + intr_rev
 
     # unique items only, sorted by manuscript_id ASC
-    data = {d.get('id') or d.get('uri'):d for d in av_results}.values()
-    data = sorted(data, key=lambda d: d['id'])
+    data = {d.get("id") or d.get("uri"): d for d in av_results}.values()
+    data = sorted(data, key=lambda d: d["id"])
 
     # any external citations are tacked on to the beginning
     return extr + data
