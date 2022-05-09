@@ -15,7 +15,7 @@ django-autoslug = "==1.9.6"
 # lsh@2022-02: I can't see how this is being used, disabling.
 #django-filter = "==2.2.*"
 django-markdown2 = "~=0.3"
-django-sql-explorer = "~=1.1"
+django-sql-explorer = "~=2.4"
 et3 = "~=1.5"
 # lsh@2020-07: pinned, isort==5.0.3 has changed it's api
 isort = "~=4.3"
