@@ -382,4 +382,4 @@ LOGGING["loggers"].update(
 # 5 minutes, 300 seconds by default
 CACHE_HEADERS_TTL = cfg("general.cache-headers-ttl", 60 * 5)
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

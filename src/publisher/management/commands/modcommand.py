@@ -1,6 +1,6 @@
 import os
 from django.core.management.base import CommandParser
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, DjangoHelpFormatter
 import logging
 
 LOG = logging.getLogger(__name__)
@@ -10,7 +10,7 @@ LOG = logging.getLogger(__name__)
 # we may be able to remove a chunk of this now:
 # - https://docs.djangoproject.com/en/3.1/howto/custom-management-commands/#django.core.management.BaseCommand.create_parser
 class ModCommand(BaseCommand):
-    def create_parser(self, prog_name, subcommand):
+    def create_parser(self, prog_name, subcommand, **kwargs):
         """
         Create and return the ``ArgumentParser`` which will be used to
         parse the arguments to this command.
@@ -18,13 +18,15 @@ class ModCommand(BaseCommand):
         parser = CommandParser(
             prog="%s %s" % (os.path.basename(prog_name), subcommand),
             description=self.help or None,
+            formatter_class=DjangoHelpFormatter,
+            missing_args_message=getattr(self, "missing_args_message", None),
+            called_from_command_line=getattr(self, "_called_from_command_line", None),
+            **kwargs,
         )
         # parser.add_argument('--version', action='version', version=self.get_version())
         parser.add_argument(
             "-v",
             "--verbosity",
-            action="store",
-            dest="verbosity",
             default=1,
             type=int,
             choices=[0, 1, 2, 3],
@@ -48,8 +50,6 @@ class ModCommand(BaseCommand):
         parser.add_argument(
             "--no-color",
             action="store_true",
-            dest="no_color",
-            default=False,
             help="Don't colorize the command output.",
         )
         parser.add_argument(
@@ -57,5 +57,11 @@ class ModCommand(BaseCommand):
             action="store_true",
             help="Force colorization of the command output.",
         )
+        if self.requires_system_checks:
+            parser.add_argument(
+                "--skip-checks",
+                action="store_true",
+                help="Skip system checks.",
+            )
         self.add_arguments(parser)
         return parser
