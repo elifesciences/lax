@@ -1,10 +1,7 @@
-
 --\timing
-
 --EXPLAIN ANALYSE
 
--- find the *external* relationships for the given article version ID and return just the citation
--- (used to be more complex :)
+-- find the *external* relationships for the given article version ID and return just the citation.
 
 SELECT 
     aver.citation

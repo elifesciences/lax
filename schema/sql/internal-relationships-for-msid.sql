@@ -1,11 +1,8 @@
-
 --\timing
-
 --EXPLAIN ANALYSE
 
--- find the article version details of all the internal relationships for the most recent version of the given manuscript-id
+-- find the article version details of all the internal relationships for the most recent version of the given manuscript-id.
 -- note: the most recent article version may have a different set of relationships than previous versions of the article.
--- with the test fixture this should return 3 articles, 20162, 877, 1
 
 -- lax=# select * from publisher_articleversionrelation where articleversion_id = 2520;
 --  id   | articleversion_id | related_to_id 
@@ -27,9 +24,9 @@ FROM
     publisher_articleversion av, 
     publisher_article a  
 WHERE
-    -- join article
     av.article_id = a.id 
 AND
+    -- find all article ids (not manuscript ids) that other articles are pointing at for the given articleversion id.
     a.id in (
         SELECT
             related_to_id 
@@ -49,17 +46,16 @@ AND
             )
     )
 
--- of the article versions we're selecting, only use the max versions
+-- of the article versions we're selecting, only use the max versions.
 AND
     av.version = (
-        -- max versions only
         SELECT
             max(av4.version) 
         FROM
             publisher_articleversion av4
         WHERE
             av4.article_id = av.article_id
-        -- of the article versions we're selecting, do not consider unpublished article versions
+        -- of the article versions we're selecting, do not consider unpublished article versions.
         %s
         GROUP BY
             av4.article_id

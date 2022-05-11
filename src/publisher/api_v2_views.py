@@ -23,6 +23,7 @@ LOG = logging.getLogger(__name__)
 PROFILING = False
 
 
+# see also: logic.qdebug
 def profile(fn):
     "prints profiling stats using cProfile when used a view decorator."
 
@@ -40,7 +41,10 @@ def profile(fn):
 
         for i, query in enumerate(db_conn.queries):
             print()
-            print("query %s (%s ms): %s" % (i + 1, float(query["time"]) * 1000, query["sql"]))
+            print(
+                "query %s (%s ms): %s"
+                % (i + 1, float(query["time"]) * 1000, query["sql"])
+            )
             print()
 
         print(
@@ -311,12 +315,13 @@ def article_version(request, msid, version):
         return http_404()
 
 
-# @profile
 @require_http_methods(["HEAD", "GET"])
 def article_related(request, msid):
     "return the related articles for a given article ID"
     authenticated = is_authenticated(request)
     try:
+        # lsh@2022-05-11: disabled, replaced with raw SQL for better, fixed, performance.
+        # - https://github.com/elifesciences/issues/issues/7290
         # rl = logic.relationships(msid, only_published=not authenticated)
         rl = logic.relationships2(msid, only_published=not authenticated)
         return json_response(rl, content_type=ctype(settings.RELATED))

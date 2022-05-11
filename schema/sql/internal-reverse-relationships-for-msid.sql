@@ -1,10 +1,7 @@
-
 --\timing
-
 --EXPLAIN ANALYSE
 
--- find the latest article version details, of all the articles pointing to (related_to) the given manuscript-id
--- with the test fixture article (a.67147), we should get no articles.
+-- find the latest article version details, of all the articles pointing to (related_to) the given manuscript-id.
 
 -- lax=# select * from publisher_articleversionrelation where related_to_id = 1
 --   id   | articleversion_id | related_to_id 

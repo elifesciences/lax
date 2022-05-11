@@ -30,7 +30,7 @@ def qdebug(f):
 
 
 def dictfetchall(cursor):
-    "Return all rows from a cursor as a dict"
+    "returns all results from given db `cursor` as a list of dictionaries."
     columns = [col[0] for col in cursor.description]
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
@@ -301,11 +301,11 @@ def relationships2(msid, only_published=True):
 
     av_results = intr + intr_rev
 
-    # unique items only, sorted by manuscript_id ASC
-    data = {d.get("id") or d.get("uri"): d for d in av_results}.values()
+    # unique items only, sorted by manuscript_id, ascending
+    data = {d["id"]: d for d in av_results if d}.values()
     data = sorted(data, key=lambda d: d["id"])
 
-    # any external citations are tacked on to the beginning
+    # any external citations precede internal relations
     return extr + data
 
 
