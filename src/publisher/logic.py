@@ -1,3 +1,4 @@
+import json
 from django.db import connection, reset_queries
 from . import models
 from django.conf import settings
@@ -6,6 +7,7 @@ from publisher import utils, relation_logic
 from publisher.utils import ensure, lmap, lfilter, firstnn, second, exsubdict
 from django.utils import timezone
 from django.db.models import Max, F  # , Q, When
+from psycopg2.extensions import AsIs
 
 LOG = logging.getLogger(__name__)
 
@@ -19,12 +21,24 @@ def qdebug(f):
         qt = [(float(query["time"]) * 1000) for query in connection.queries]
 
         print("%s queries" % len(qt))
-        print("%s ms" % sum(qt))
+        print("%s s" % sum(qt))
         print()
 
         return result
 
     return wrap
+
+
+def dictfetchall(cursor):
+    "returns all results from given db `cursor` as a list of dictionaries."
+    columns = [col[0] for col in cursor.description]
+    return [dict(zip(columns, row)) for row in cursor.fetchall()]
+
+
+def execute_sql(filename, params):
+    with connection.cursor() as cursor:
+        cursor.execute(settings.SQL_MAP[filename], params)
+        return dictfetchall(cursor)
 
 
 #
@@ -223,7 +237,7 @@ def article_version_list(msid, only_published=True):
 
 
 def relationships(msid, only_published=True):
-    "returns all relationships for the given article"
+    "returns all relationships for the given `msid`"
     av = most_recent_article_version(msid, only_published)
 
     extr = relation_logic.external_relationships_for_article_version(av)
@@ -249,6 +263,50 @@ def relationships(msid, only_published=True):
     extcl = [aver.citation for aver in extr]
 
     return extcl + avl
+
+
+def relationships2(msid, only_published=True):
+    "returns all relationships for the given `msid`"
+
+    # we can do the SQL queries without this, but we need a DoesNotExist to be raised
+    # if the msid does not exist (or has not been published) yet.
+    # it also simplifies the raw SQL slightly at the expense of an extra db query.
+    av = most_recent_article_version(msid, only_published)
+
+    # returns a list of citations
+    extr_params = [
+        av.id,
+    ]
+    extr = execute_sql("external-relationships-for-msid.sql", extr_params)
+
+    # returns article-json snippets
+    intr_params = [
+        av.id,
+        AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
+    ]
+    intr = execute_sql("internal-relationships-for-msid.sql", intr_params)
+
+    # returns article-json snippets
+    intr_rev_params = [
+        AsIs("AND datetime_published IS NOT NULL" if only_published else ""),
+        msid,
+    ]
+    intr_rev = execute_sql(
+        "internal-reverse-relationships-for-msid.sql", intr_rev_params
+    )
+
+    extr = [json.loads(i["citation"]) for i in extr]
+    intr = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr]
+    intr_rev = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr_rev]
+
+    av_results = intr + intr_rev
+
+    # unique items only, sorted by manuscript_id, ascending
+    data = {d["id"]: d for d in av_results if d}.values()
+    data = sorted(data, key=lambda d: d["id"])
+
+    # any external citations precede internal relations
+    return extr + data
 
 
 #

@@ -18,7 +18,7 @@ app.cfg
 ingestion-lax.log.json
 /src/core/prod_settings.py
 aws-perms.sh
-schema/
+schema/api-raml/
 article-xml
 .scrapy-cache
 dumps/
