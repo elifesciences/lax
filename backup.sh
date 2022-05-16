@@ -7,4 +7,5 @@ tag=${1:-latest}
 #./manage.sh --skip-install dumpdata --exclude=contenttypes --natural-foreign --natural-primary --indent=4 | gzip -9 - > "/tmp/lax-db-${tag}.json.gz"
 
 # ~70mins as of 2022-03-09
-cd /opt/ubr && sudo ./ubr.sh | tee "/tmp/lax-db-jenkins-prod-lax-${tag}.log"
+#  ~4mins as of 2022-05-11
+cd /opt/ubr && sudo DESCRIPTOR_DIR=/etc/ubr-alt ./ubr.sh | tee "/tmp/lax-db-jenkins-prod-lax-${tag}.log"
