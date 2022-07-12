@@ -1,11 +1,11 @@
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = [
-    url(r"^admin/", admin.site.urls),
-    url(r"^explorer/", include("explorer.urls")),
-    url(r"^", include("publisher.urls")),
+    re_path(r"^admin/", admin.site.urls),
+    re_path(r"^explorer/", include("explorer.urls")),
+    re_path(r"^", include("publisher.urls")),
 ]
 
 if settings.DEBUG:
