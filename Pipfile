@@ -19,7 +19,7 @@ django-sql-explorer = "~=2.4"
 et3 = "~=1.5"
 # lsh@2020-07: pinned, isort==5.0.3 has changed it's api
 isort = "~=4.3"
-joblib = "~=0.14"
+joblib = "~=1.2"
 jsonschema = "~=3.2"
 ordered-set = "~=3.1"
 # psycopg2 doesn't use semver.
@@ -48,7 +48,8 @@ unittest-xml-reporting = "==2.5.2"
 coverage = "~=5.0"
 black = "*"
 pyflakes = "~=2.1"
-pylint = "~=2.0"
+# lsh@2022-10-10: pylint has broken again in 2.15.3, pinning it to patch versions of 2.14 only
+pylint = "==2.14.*"
 pylint-django = "~=2.0"
 pytest = "~=6.0"
 pytest-cov = "~=2.8"
