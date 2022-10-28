@@ -51,9 +51,9 @@ pyflakes = "~=2.1"
 # lsh@2022-10-10: pylint has broken again in 2.15.3, pinning it to patch versions of 2.14 only
 pylint = "==2.14.*"
 pylint-django = "~=2.0"
-pytest = "~=6.0"
+pytest = "~=7.2"
 pytest-cov = "~=2.8"
 pytest-django = "~=4.1"
 # run pytest in parallel with `-n` switch
-pytest-xdist = "~=2.2"
+pytest-xdist = "~=3.0"
 xenon = "~=0.7"
