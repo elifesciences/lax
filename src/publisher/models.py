@@ -384,6 +384,7 @@ class ArticleFragment(models.Model):
         ordering = ("position", "datetime_record_created")
 
 
+DATE_REVIEWED_PREPRINT = "date-reviewed-preprint"
 DATE_PREPRINT_PUBLISHED = "date-preprint"
 DATE_EJP_QC, DATE_EJP_DECISION = "date-qc", "date-decision"
 DATE_XML_RECEIVED, DATE_XML_ACCEPTED = "date-xml-received", "date-xml-accepted"
@@ -395,6 +396,7 @@ DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = (
 
 def article_event_choices():
     return [
+        (DATE_REVIEWED_PREPRINT, "reviewed-preprint version published"),
         (DATE_PREPRINT_PUBLISHED, "preprint published"),
         (DATE_EJP_QC, "quality check date"),
         (DATE_EJP_DECISION, "decision date"),
