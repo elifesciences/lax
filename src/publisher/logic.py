@@ -384,7 +384,7 @@ def article_version_history__v2(msid, only_published=True):
 
     events = []
     for preprint in article.articleevent_set.filter(
-        event=models.DATE_PREPRINT_PUBLISHED
+        event__in=[models.DATE_PREPRINT_PUBLISHED, models.DATE_REVIEWED_PREPRINT]
     ):
         events.append(
             {
