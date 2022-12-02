@@ -25,6 +25,9 @@ class One(base.BaseCase):
         expected_events = [
             models.DATE_PREPRINT_PUBLISHED,
             models.DATE_XML_RECEIVED,
+            models.DATE_REVIEWED_PREPRINT,
+            models.DATE_REVIEWED_PREPRINT,
+            models.DATE_REVIEWED_PREPRINT,
             models.DATE_XML_ACCEPTED,
             models.DATETIME_ACTION_INGEST,
         ]
@@ -42,6 +45,9 @@ class One(base.BaseCase):
         expected_events = [
             models.DATE_PREPRINT_PUBLISHED,
             models.DATE_XML_RECEIVED,
+            models.DATE_REVIEWED_PREPRINT,
+            models.DATE_REVIEWED_PREPRINT,
+            models.DATE_REVIEWED_PREPRINT,
             models.DATE_XML_ACCEPTED,
             models.DATETIME_ACTION_INGEST,
             models.DATETIME_ACTION_PUBLISH,

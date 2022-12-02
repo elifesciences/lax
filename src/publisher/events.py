@@ -89,7 +89,7 @@ INGEST_EVENTS = [
     },
 ]
 INGEST_EVENTS__REVIEWED_PREPRINT = {
-    "event": [models.DATE_PREPRINT_PUBLISHED],
+    "event": [models.DATE_REVIEWED_PREPRINT],
     "datetime_event": [p("date", render.EXCLUDE_ME)],
     "value": [p("description", None)],
     "uri": [p("uri", None)],
