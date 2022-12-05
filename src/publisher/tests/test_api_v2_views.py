@@ -368,7 +368,7 @@ class V2Content(base.BaseCase):
             ajson_ingestor.ingest_publish(data)
 
         self.msid1 = 20125
-        self.msid2 = 20105
+        self.msid2 = 20105  # preprint, reviewed-preprint
 
         # 2 article, 6 versions, 5 published, 1 unpublished
         self.unpublish(self.msid2, version=3)
@@ -519,8 +519,17 @@ class V2Content(base.BaseCase):
         )
         self.assertEqual(version_list.status_code, 200)
         version_list_data = utils.json_loads(version_list.content)
-        self.assertEqual(len(version_list_data["versions"]), 3)
+        self.assertEqual(len(version_list_data["versions"]), 6)
         self.assertEqual(version_list_data["versions"][0]["status"], "preprint")
+        self.assertEqual(
+            version_list_data["versions"][1]["status"], "preprint"
+        )  # reviewed
+        self.assertEqual(
+            version_list_data["versions"][2]["status"], "preprint"
+        )  # reviewed
+        self.assertEqual(
+            version_list_data["versions"][3]["status"], "preprint"
+        )  # reviewed
         utils.validate(version_list_data, SCHEMA_IDX["history"])
 
         # --- directly trying to access the unpublished version
@@ -550,11 +559,11 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX["history"])
 
         # correct data
-        # this article has two *published* and one *preprint*
-        self.assertEqual(len(data["versions"]), 3)
+        # this article has two *published*, one *preprint* and three *reviewed-preprint*
+        self.assertEqual(len(data["versions"]), 6)
 
         # correct order
-        expected = [None, 1, 2]
+        expected = [None, None, None, None, 1, 2]  # preprint  # reviewed-preprint
         given = [version.get("version") for version in data["versions"]]
         self.assertEqual(given, expected)
 
@@ -600,11 +609,11 @@ class V2Content(base.BaseCase):
         utils.validate(data, SCHEMA_IDX["history"])
 
         # correct data
-        # this article has two *published*, one *unpublished* and one *preprint*
-        self.assertEqual(len(data["versions"]), 4)
+        # this article has two *published*, one *unpublished*, one *preprint* and three *reviewed-preprints*
+        self.assertEqual(len(data["versions"]), 7)
 
         # correct order
-        expected = [None, 1, 2, 3]  # 'None' for preprint without formal version
+        expected = [None, None, None, None, 1, 2, 3]  # preprint  # reviewed preprints
         given = [version.get("version") for version in data["versions"]]
         self.assertEqual(given, expected)
 
@@ -776,7 +785,10 @@ class AddFragment(base.BaseCase):
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
         self.assertEqual(data["versions"][0]["status"], "preprint")
-        self.assertEqual(data["versions"][1]["title"], fragment["title"])
+        self.assertEqual(data["versions"][1]["status"], "preprint")  # reviewed-print
+        self.assertEqual(data["versions"][2]["status"], "preprint")  # reviewed-print
+        self.assertEqual(data["versions"][3]["status"], "preprint")  # reviewed-print
+        self.assertEqual(data["versions"][4]["title"], fragment["title"])
 
     def test_add_fragment_csrf_check(self):
         "POST and DELETE requests to the add_fragment view are not subject to CSRF checks (but still require KONG authentication)"
@@ -833,11 +845,14 @@ class AddFragment(base.BaseCase):
         resp = self.c.get(article_url)
         data = utils.json_loads(resp.content)
 
-        # preprint, POAv1, POAv2
-        self.assertEqual(len(data["versions"]), 3)
+        # preprint, 3 x reviewed-preprint, POAv1, POAv2
+        self.assertEqual(len(data["versions"]), 6)
         self.assertEqual(data["versions"][0]["status"], "preprint")
-        self.assertEqual(data["versions"][1]["title"], fragment["title"])
-        self.assertEqual(data["versions"][2]["title"], fragment["title"])
+        self.assertEqual(data["versions"][1]["status"], "preprint")  # reviewed preprint
+        self.assertEqual(data["versions"][2]["status"], "preprint")  # reviewed preprint
+        self.assertEqual(data["versions"][3]["status"], "preprint")  # reviewed preprint
+        self.assertEqual(data["versions"][4]["title"], fragment["title"])
+        self.assertEqual(data["versions"][5]["title"], fragment["title"])
 
     def test_add_fragment_twice(self):
         key = "test-frag"

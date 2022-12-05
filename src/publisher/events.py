@@ -1,7 +1,7 @@
 "handles the creation of article events, converting bot-lax article-json into event objects."
 
 from et3 import render
-from et3.extract import path as p
+from et3.extract import path as p, lookup
 from publisher import models, utils
 from publisher.utils import create_or_update, todt
 
@@ -88,6 +88,12 @@ INGEST_EVENTS = [
         "value": [p("forced?"), lambda v: "forced=%s" % v],
     },
 ]
+INGEST_EVENTS__REVIEWED_PREPRINT = {
+    "event": [models.DATE_REVIEWED_PREPRINT],
+    "datetime_event": [p("date", render.EXCLUDE_ME)],
+    "value": [p("description", None)],
+    "uri": [p("uri", None)],
+}
 
 PUBLISH_EVENTS = [
     {
@@ -168,7 +174,13 @@ def ajson_ingest_events(article, data, force=False):
     "scrapes and inserts events from article-json data"
     data["forced?"] = force
     ae_structs = [render.render_item(desc, data) for desc in INGEST_EVENTS]
-    return add_many(article, ae_structs, force, skip_missing_datestamped=True)
+    rpp_structs = [
+        render.render_item(INGEST_EVENTS__REVIEWED_PREPRINT, event)
+        for event in lookup(data, "-history.reviewed-preprint-list", [])
+    ]
+    return add_many(
+        article, ae_structs + rpp_structs, force, skip_missing_datestamped=True
+    )
 
 
 def ajson_publish_events(av, force=False):

@@ -9,15 +9,35 @@
             "location": "https://raw.githubusercontent.com/elifesciences/elife-article-xml/f0dd69e8d0976e68868ced40de0b7140c040e250/articles/elife-20105-v1.xml"
         }, 
         "-history": {
-            "received": "2016-07-27T00:00:00Z", 
-            "accepted": "2016-10-03T00:00:00Z",
             "preprint": {
                 "status": "preprint",
                 "description": "This manuscript was published as a preprint at bioRxiv.",
                 "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
                 "date": "2016-04-21T00:00:00Z"
-            }
-        }, 
+            },
+            "received": "2016-07-27T00:00:00Z",
+            "reviewed-preprint-list": [
+                {
+                    "status": "reviewed-preprint",
+                    "description": "This manuscript was published as a reviewed preprint.",
+                    "uri": "https://doi.org/10.7554/eLife.1234567890.1",
+                    "date": "2016-08-01T00:00:00Z"
+                },
+                {
+                    "status": "reviewed-preprint",
+                    "description": "The reviewed preprint was revised.",
+                    "uri": "https://doi.org/10.7554/eLife.1234567890.2",
+                    "date": "2016-09-01T00:00:00Z"
+                },
+                {
+                    "status": "reviewed-preprint",
+                    "description": "The reviewed preprint was revised.",
+                    "uri": "https://doi.org/10.7554/eLife.1234567890.3",
+                    "date": "2016-10-01T00:00:00Z"
+                }
+            ],
+            "accepted": "2016-10-03T00:00:00Z"
+        },
         "status": "poa", 
         "id": "20105", 
         "version": 1, 
@@ -58,14 +78,34 @@
             "patched": true
         }, 
         "-history": {
-            "received": "2016-07-27T00:00:00Z", 
-            "accepted": "2016-10-03T00:00:00Z",
             "preprint": {
                 "status": "preprint",
                 "description": "This manuscript was published as a preprint at bioRxiv.",
                 "uri": "https://www.biorxiv.org/content/10.1101/2019.08.22.6666666v1",
                 "date": "2016-04-21T00:00:00Z"
-            }
+            },
+            "received": "2016-07-27T00:00:00Z",
+            "reviewed-preprint-list": [
+                {
+                    "status": "reviewed-preprint",
+                    "description": "This manuscript was published as a reviewed preprint.",
+                    "uri": "https://doi.org/10.7554/eLife.1234567890.1",
+                    "date": "2016-08-01T00:00:00Z"
+                },
+                {
+                    "status": "reviewed-preprint",
+                    "description": "The reviewed preprint was revised.",
+                    "uri": "https://doi.org/10.7554/eLife.1234567890.2",
+                    "date": "2016-09-01T00:00:00Z"
+                },
+                {
+                    "status": "reviewed-preprint",
+                    "description": "The reviewed preprint was revised.",
+                    "uri": "https://doi.org/10.7554/eLife.1234567890.3",
+                    "date": "2016-10-01T00:00:00Z"
+                }
+            ],
+            "accepted": "2016-10-03T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "20105", 
