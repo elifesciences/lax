@@ -214,7 +214,7 @@ ALL_SCHEMA_IDX = {
     RELATED: [(1, join(SCHEMA_PATH, "model/article-related.v1.json"))],
 }
 
-# {"vor": "/path/to/model/article-vor.v5.json", "poa": ...}
+# {"vor": "/path/to/api-raml/dist/model/article-vor.v7.json", "poa": ...}
 SCHEMA_IDX = {tpe: rows[0][1] for tpe, rows in ALL_SCHEMA_IDX.items()}
 
 # {"vor": [5, 4], "history": [2, 1], ...}
@@ -222,7 +222,7 @@ SCHEMA_VERSIONS = {
     tpe: [row[0] for row in rows] for tpe, rows in ALL_SCHEMA_IDX.items()
 }
 
-# {"/path/to/model/article-vor.v5.json": {...}, ...}
+# {"/path/to/api-raml/dist/model/article-vor.v7.json": {...}, ...}
 SCHEMA_MAP = {}
 for path_list in ALL_SCHEMA_IDX.values():
     for _, path in path_list:
