@@ -40,43 +40,43 @@ def test_ctype__bad_cases():
 
 def test_negotiate():
     cases = [
-        # 1, typical case. accepts anything, gets latest POA spec version
+        # typical case. accepts anything, gets latest POA spec version
         ("*/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
-        # 2, edge case. accepts almost anything, gets latest POA spec version
+        # edge case. accepts almost anything, gets latest POA spec version
         ("application/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
-        # 2, accepts json which is all this API returns.
+        # accepts json which is all this API returns.
         ("application/json", "poa", ("application/vnd.elife.article-poa+json", 3)),
-        # 3, typical case. requested any POA or VOR spec version
+        # typical case. requested any POA or VOR spec version
         (
             "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
             "poa",
             ("application/vnd.elife.article-poa+json", 3),
         ),
-        # 4, ideal case. any POA version, gets explicit latest version
+        # ideal case. any POA version, gets explicit latest version
         (
             "application/vnd.elife.article-poa+json",
             "poa",
             ("application/vnd.elife.article-poa+json", 3),
         ),
-        # 5, deprecated case. previous POA spec version
+        # deprecated case. previous POA spec version
         (
             "application/vnd.elife.article-poa+json; version=2",
             "poa",
             ("application/vnd.elife.article-poa+json", 2),
         ),
-        # 6, ideal case. requested latest POA spec version
+        # ideal case. requested latest POA spec version
         (
             "application/vnd.elife.article-poa+json; version=3",
             "poa",
             ("application/vnd.elife.article-poa+json", 3),
         ),
-        # 7, possible case. requested a set of POA spec versions. max version is used.
+        # possible case. requested a set of POA spec versions. max version is used.
         (
             "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
             "poa",
             ("application/vnd.elife.article-poa+json", 2),
         ),
-        # 8, possible case. multiple different specific specs requested.
+        # possible case. multiple different specific specs requested.
         # presence of specific vor content type shouldn't affect specific poa version returned
         (
             "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-poa+json; version=2",
@@ -103,36 +103,36 @@ def test_accept_types():
     "valid HTTP 'Accept' headers return expected 'Content-Type' responses"
     # (client accepts, expected accepts)
     cases = [
-        # 1, typical case. accepts anything, gets latest POA spec version
+        # typical case. accepts anything, gets latest POA spec version
         ("*/*", "application/vnd.elife.article-poa+json; version=3"),
-        # 2, edge case. accepts almost anything, gets latest POA spec version
+        # edge case. accepts almost anything, gets latest POA spec version
         ("application/*", "application/vnd.elife.article-poa+json; version=3"),
-        # 3, typical case. requested any POA or VOR spec version
+        # typical case. requested any POA or VOR spec version
         (
             "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
             "application/vnd.elife.article-poa+json; version=3",
         ),
-        # 4, ideal case. any POA version, gets explicit latest version
+        # ideal case. any POA version, gets explicit latest version
         (
             "application/vnd.elife.article-poa+json",
             "application/vnd.elife.article-poa+json; version=3",
         ),
-        # 5, deprecated case. previous POA spec version
+        # deprecated case. previous POA spec version
         (
             "application/vnd.elife.article-poa+json; version=2",
             "application/vnd.elife.article-poa+json; version=2",
         ),
-        # 6, ideal case. requested latest POA spec version
+        # ideal case. requested latest POA spec version
         (
             "application/vnd.elife.article-poa+json; version=3",
             "application/vnd.elife.article-poa+json; version=3",
         ),
-        # 7, possible case. requested a set of POA spec versions. max version is used.
+        # possible case. requested a set of POA spec versions. max version is used.
         (
             "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
             "application/vnd.elife.article-poa+json; version=2",
         ),
-        # 8, possible case. multiple different specific specs requested.
+        # possible case. multiple different specific specs requested.
         # presence of specific vor content type shouldn't affect specific poa version returned
         (
             "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-poa+json; version=2",
@@ -168,21 +168,21 @@ def test_unacceptable_types():
     """lax responds with HTTP 406 when a content-type or a specific version
     of a content-type cannot be reconciled against actual content types and versions"""
     cases = [
-        # 1, obsolete (poa v1)
+        # obsolete (poa v1)
         "application/vnd.elife.article-poa+json; version=1",
-        # 2, cannot fulfill request (fixture is a poa, not a specific obsolete vor)
+        # cannot fulfill request (fixture is a poa, not a specific obsolete vor)
         "application/vnd.elife.article-vor+json; version=1",
-        # 3, cannot fulfill request (fixture is a poa, not a specific valid vor)
+        # cannot fulfill request (fixture is a poa, not a specific valid vor)
         "application/vnd.elife.article-vor+json; version=4",
-        # 4, cannot fulfill request (fixture is a poa, not a general vor)
+        # cannot fulfill request (fixture is a poa, not a general vor)
         "application/vnd.elife.article-vor+json",
-        # 5, cannot fulfill request (fixture is still a poa)
+        # cannot fulfill request (fixture is still a poa)
         "application/vnd.elife.article-vor+json; version=1, application/vnd.elife.article-vor+json; version=2",
-        # 6, fictitious content versions (for now)
-        "application/vnd.elife.article-vor+json; version=8, application/vnd.elife.article-vor+json; version=9",
-        # 7. fictitious content versions (for now)
-        "application/vnd.elife.article-poa+json; version=9",
-        # 8. unrecognised content types
+        # fictitious content versions
+        "application/vnd.elife.article-poa+json; version=99",
+        # multiple fictitious content versions
+        "application/vnd.elife.article-vor+json; version=88, application/vnd.elife.article-vor+json; version=99",
+        # unrecognised content types
         "application/foo.bar.baz; version=1",
     ]
 
@@ -221,7 +221,9 @@ def test_structured_abstract_not_downgraded_vor():
 
 def test_structured_abstract_not_downgraded_poa():
     "a poa with a structured abstract cannot be downgraded to poa v2"
-    msid = 31549  # vor spec version 4, our first
+    # vor spec version 4, our first
+    # yes, I'm reusing a vor fixture for a poa test. same rules apply.
+    msid = 31549
     fixture_path = join(
         base.FIXTURE_DIR, "structured-abstracts", "elife-31549-v1.xml.json"
     )
@@ -234,23 +236,6 @@ def test_structured_abstract_not_downgraded_poa():
         url = reverse("v2:article", kwargs={"msid": msid})
         resp = Client().get(url, HTTP_ACCEPT=poa_v2_ctype)
         assert 406 == resp.status_code
-
-
-def test_vor_v5_downgrade_to_v4():
-    "a vor with 'journal' references missing the 'pages' attribute cannot be downgraded to vor v4"
-    msid = "09560"
-    fixture_path = join(settings.SCHEMA_PATH, "samples/article-vor/v5/complete.json")
-    fixture = json.load(open(fixture_path, "r"))
-    mock = Mock(article_json_v1=fixture, status="vor")
-    vor_v4_ctype = "application/vnd.elife.article-vor+json; version=4"
-    vor_v5_ctype = "application/vnd.elife.article-vor+json; version=5"
-
-    with patch("publisher.logic.most_recent_article_version", return_value=mock):
-        url = reverse("v2:article", kwargs={"msid": msid})
-        resp = Client().get(url, HTTP_ACCEPT=vor_v4_ctype)
-        assert 406 == resp.status_code
-        resp = Client().get(url, HTTP_ACCEPT=vor_v5_ctype)
-        assert 200 == resp.status_code
 
 
 def test_deprecated_header_present():
@@ -297,7 +282,7 @@ class V2ContentTypes(base.BaseCase):
         # map the known types to expected types
         art_list_type = "application/vnd.elife.article-list+json; version=1"
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"
-        art_vor_type = "application/vnd.elife.article-vor+json; version=6"
+        art_vor_type = "application/vnd.elife.article-vor+json; version=7"
         art_history_type = "application/vnd.elife.article-history+json; version=2"
         art_related_type = "application/vnd.elife.article-related+json; version=1"
 
@@ -469,7 +454,7 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-vor+json; version=6"
+            resp.content_type, "application/vnd.elife.article-vor+json; version=7"
         )
 
         data = utils.json_loads(resp.content)
