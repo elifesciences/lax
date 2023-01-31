@@ -166,7 +166,6 @@ def content_check(get_response_fn):
 
 def vor_valid_under_v6(ajson):
     "returns True if given article-json is valid under version 6 of the VOR spec."
-    # TODO: pending outcome of https://github.com/elifesciences/api-raml/pull/292
     return True
 
 
