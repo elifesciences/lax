@@ -164,18 +164,14 @@ def content_check(get_response_fn):
 #
 
 
-def vor_valid_under_v5(ajson):
-    "returns True if given article-json is valid under version 5 of the VOR spec."
-    # True, when an authorResponse is *not* present, or,
-    # when an authorResponse *is* present *and* includes a decisionLetter.
-    if "authorResponse" in ajson:
-        return "decisionLetter" in ajson
+def vor_valid_under_v6(ajson):
+    "returns True if given article-json is valid under version 6 of the VOR spec."
     return True
 
 
 def downgrade_vor_content_type(get_response_fn):
-    """if a content-type less than the current VOR version is requested, downgrade content-type if possible
-    or return a 406"""
+    """if a content-type less than the current VOR version is requested,
+    downgrade content-type if possible or return a 406"""
 
     def middleware(request):
         request_accept_header = request.META.get("HTTP_ACCEPT", "*/*")
@@ -216,12 +212,12 @@ def downgrade_vor_content_type(get_response_fn):
 
         body = json.loads(response.content.decode("utf-8"))
 
-        if max_accepted_vor == 5:
-            # client specifically accepts a v5 VOR only
-            # we might be ok if the content is valid under v5
-            if vor_valid_under_v5(body):
-                # all good, drop content-type returned to VOR v5
-                new_content_type = "application/vnd.elife.article-vor+json; version=5"
+        if max_accepted_vor == 6:
+            # client specifically accepts a v6 VOR only (deprecated)
+            # we might be ok if the content is valid under v6
+            if vor_valid_under_v6(body):
+                # all good, drop content-type returned to VOR v6
+                new_content_type = "application/vnd.elife.article-vor+json; version=6"
                 response["Content-Type"] = new_content_type
                 return response
 
