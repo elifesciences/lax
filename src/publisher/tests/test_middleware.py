@@ -14,7 +14,6 @@ def test_VORv6_downgraded():
 
     request_mock = api_v2_views.json_response(v6_vor, content_type=v6_ctype)
     with mock.patch("publisher.api_v2_views.article", return_value=request_mock):
-
         # v5 requested, we respond with a v6 ...
         resp = Client().get(
             reverse("v2:article", kwargs={"msid": 123}), HTTP_ACCEPT=v5_ctype
@@ -35,7 +34,6 @@ def test_VORv6_not_downgraded():
 
     request_mock = api_v2_views.json_response(v6_vor, content_type=v6_ctype)
     with mock.patch("publisher.api_v2_views.article", return_value=request_mock):
-
         # v5 requested, we respond with a v6
         resp = Client().get(
             reverse("v2:article", kwargs={"msid": 123}), HTTP_ACCEPT=v5_ctype

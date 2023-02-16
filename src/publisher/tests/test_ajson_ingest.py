@@ -348,7 +348,8 @@ class Ingest(BaseCase):
 
     def test_article_json_not_stored_if_snippet_not_valid(self):
         """INGEST and PUBLISH events cause the fragments to be merged, a snippet extracted and
-        the results stored, but only if valid. If the snippet is invalid, an exception is raised."""
+        the results stored, but only if valid. If the snippet is invalid, an exception is raised.
+        """
         bad_snippet = {"foo": "bar"}
         with patch(
             "publisher.fragment_logic.extract_snippet", return_value=bad_snippet

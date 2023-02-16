@@ -8,7 +8,6 @@ import publisher.utils
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("publisher", "0007_auto_20170721_0857")]
 
     operations = [

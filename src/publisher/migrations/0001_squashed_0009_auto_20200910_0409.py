@@ -11,7 +11,6 @@ import publisher.utils
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("publisher", "0001_squashed_0040_auto_20170315_0459"),
         ("publisher", "0002_auto_20170321_0226"),

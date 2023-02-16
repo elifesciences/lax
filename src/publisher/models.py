@@ -13,6 +13,7 @@ JSONField = partial(JSONField, serializer=json_dumps, deserializer=ordered_json_
 POA = settings.POA
 VOR = settings.VOR
 
+
 # lsh@2020-09: todo, remove. should have been removed years ago
 class Publisher(models.Model):
     name = models.CharField(max_length=255)
@@ -75,6 +76,7 @@ EJP_TYPE_REV_SLUG_IDX = {
 
 
 EDITORIAL, INSIGHT = "editorial", "insight"
+
 
 # TODO: this mapping is unused and can be removed
 def xml_type_choices():

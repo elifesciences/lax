@@ -85,7 +85,8 @@ def article_json(av):
 
 def article_snippet_json(av, placeholder_if_invalid=True):
     """return the *valid* article snippet json for the given article version.
-    if `placeholder_if_invalid=True` and article is invalid, return a stubby 'placeholder'"""
+    if `placeholder_if_invalid=True` and article is invalid, return a stubby 'placeholder'
+    """
     return (
         av.article_json_v1_snippet or placeholder(av)
         if placeholder_if_invalid
@@ -339,6 +340,7 @@ def date_accepted(art):
 
 
 EXCLUDE_RECEIVED_ACCEPTED_DATES = [models.EDITORIAL, models.INSIGHT]
+
 
 #  @qdebug # 3 queries @ ~13ms local psql
 def article_version_history__v1(msid, only_published=True):
