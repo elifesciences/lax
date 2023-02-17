@@ -7,7 +7,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("publisher", "0008_articleversion_article_json_hash"),
     ]

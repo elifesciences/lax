@@ -409,7 +409,8 @@ def delete_fragment_update_article(art, key):
 
 def reset_merged_fragments(art):
     """re-merges and re-sets article-json for given `art` object.
-    Added 2021-01-21 to fix valid article-json that yielded invalid article-json snippets."""
+    Added 2021-01-21 to fix valid article-json that yielded invalid article-json snippets.
+    """
     with transaction.atomic():
         # notify event bus that article change has occurred
         transaction.on_commit(partial(aws_events.notify, art.manuscript_id))

@@ -9,6 +9,7 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+
 # used by backfill.sh to get a list of
 def article_version_list_as_csv():
     q = (

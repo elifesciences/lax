@@ -21,8 +21,6 @@ lmap = lambda func, *iterable: list(map(func, *iterable))
 
 lfilter = lambda func, *iterable: list(filter(func, *iterable))
 
-keys = lambda d: list(d.keys())
-
 lzip = lambda *iterable: list(zip(*iterable))
 
 
@@ -31,7 +29,6 @@ def formatted_traceback(errobj):
 
 
 class StateError(RuntimeError):
-
     idx_code = 0
     idx_message = 1
     idx_trace = 2
@@ -131,14 +128,8 @@ def pad_msid(msid):
     return "%05d" % int(msid)
 
 
-def doi2msid(doi):
-    "doi to manuscript id used in EJP"
-    prefix = "10.7554/eLife."
-    return doi[len(prefix) :].lstrip("0")
-
-
 def msid2doi(msid):
-    assert isint(msid), "given msid must be an integer: %r" % msid
+    ensure(isint(msid), "given msid must be an integer: %r" % msid)
     return "10.7554/eLife.%s" % pad_msid(msid)
 
 
@@ -147,15 +138,6 @@ def version_from_path(path):
     _, msid, ver = os.path.split(path)[-1].split("-")
     ver = ver[1]  # "v1.xml" -> "1"
     return int(msid), int(ver)
-
-
-def compfilter(fnlist):
-    "returns true if given val"
-
-    def fn(val):
-        return all([fn(val) for fn in fnlist])
-
-    return fn
 
 
 def nth(idx, x):
@@ -289,7 +271,7 @@ def dictmap(func, data, **funcargs):
 
 
 def has_all_keys(data, expected_keys):
-    actual_keys = keys(data)
+    actual_keys = list(data.keys())
     return all([key in actual_keys for key in expected_keys])
 
 
@@ -427,7 +409,8 @@ def validate(struct, schema_path):
 def flatten_validation_errors(error):
     """an error can have sub-errors and each sub-error can have it's own errors (a tree).
     two nodes at different depths may be equally important in determining failure.
-    this visits each node depth-first, returning a single list of errors that can be sorted."""
+    this visits each node depth-first, returning a single list of errors that can be sorted.
+    """
     rt = []
     for suberror in error.context:
         res = flatten_validation_errors(suberror)
@@ -558,6 +541,7 @@ def format_validation_error_list(error_list, schema_file):
 #
 #
 #
+
 
 # modified from:
 # http://stackoverflow.com/questions/9323749/python-check-if-one-dictionary-is-a-subset-of-another-larger-dictionary

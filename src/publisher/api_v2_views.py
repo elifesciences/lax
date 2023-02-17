@@ -31,7 +31,6 @@ def profile(fn):
         return fn
 
     def wrapper(*args, **kwargs):
-
         db_conn = django.db.transaction.get_connection()
 
         pr = cProfile.Profile(timeunit=0.001)

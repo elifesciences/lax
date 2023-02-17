@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [("publisher", "0001_squashed_0040_auto_20170315_0459")]
 
     operations = [

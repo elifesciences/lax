@@ -39,6 +39,7 @@ def import_article(journal, article_data, create=True, update=False):
 #
 #
 
+
 # http://stackoverflow.com/questions/14995743/how-to-deserialize-the-datetime-in-a-json-object-in-python
 def load_with_datetime(pairs):  # , format='%Y-%m-%d'):
     """Load with dates"""

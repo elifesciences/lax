@@ -304,6 +304,7 @@ LOG_DIR = PROJECT_DIR if DEBUG else "/var/log/"
 LOG_FILE = join(LOG_DIR, LOG_NAME)  # "/var/log/lax.log"
 INGESTION_LOG_FILE = join(LOG_DIR, INGESTION_LOG_NAME)  # "/var/log/lax.log"
 
+
 # whereever our log files are, ensure they are writable before we do anything else.
 def writable(path):
     os.system("touch " + path)
