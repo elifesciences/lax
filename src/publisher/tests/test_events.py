@@ -26,6 +26,7 @@ class One(base.BaseCase):
             models.DATE_PREPRINT_PUBLISHED,
             models.DATE_XML_RECEIVED,
             models.DATE_REVIEWED_PREPRINT,
+            models.DATE_SENT_FOR_PEER_REVIEW,
             models.DATE_REVIEWED_PREPRINT,
             models.DATE_REVIEWED_PREPRINT,
             models.DATE_XML_ACCEPTED,
@@ -35,7 +36,7 @@ class One(base.BaseCase):
         ael = models.ArticleEvent.objects.all()
         self.assertEqual(ael.count(), len(expected_events))
 
-        # order should be preserved
+        # ensure chronological order of events is preserved
         for event_type, event_obj in zip(expected_events, ael):
             self.assertEqual(event_obj.event, event_type)
             if event_type == models.DATETIME_ACTION_INGEST:
@@ -46,6 +47,7 @@ class One(base.BaseCase):
             models.DATE_PREPRINT_PUBLISHED,
             models.DATE_XML_RECEIVED,
             models.DATE_REVIEWED_PREPRINT,
+            models.DATE_SENT_FOR_PEER_REVIEW,
             models.DATE_REVIEWED_PREPRINT,
             models.DATE_REVIEWED_PREPRINT,
             models.DATE_XML_ACCEPTED,

@@ -75,7 +75,7 @@ INGEST_EVENTS = [
     },
     {
         "event": [models.DATE_SENT_FOR_PEER_REVIEW],
-        "datetime_event": [p("-history.date-sent-for-peer-review", render.EXCLUDE_ME)],
+        "datetime_event": [p("-history.sent-for-peer-review", render.EXCLUDE_ME)],
     },
     {
         "event": [models.DATE_XML_RECEIVED],
