@@ -405,6 +405,7 @@ def article_version_history__v2(msid, only_published=True):
     struct = {
         "received": date_received(article),
         "accepted": date_accepted(article),
+        "sentForReview": None,
         "versions": events + lmap(article_snippet_json, avl),
     }
 
@@ -415,6 +416,10 @@ def article_version_history__v2(msid, only_published=True):
         ae for ae in article_event_list if ae.event == models.DATE_SENT_FOR_PEER_REVIEW
     ]
     if sent_for_peer_review_event:
-        struct["sentForReview"] = sent_for_peer_review_event[0].datetime_event
+        struct["sentForReview"] = utils.to_date(
+            sent_for_peer_review_event[0].datetime_event
+        )
+    else:
+        del struct["sentForReview"]
 
     return struct

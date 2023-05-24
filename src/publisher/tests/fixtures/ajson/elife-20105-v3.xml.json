@@ -10,7 +10,8 @@
         }, 
         "-history": {
             "received": "2016-07-27T00:00:00Z", 
-            "accepted": "2016-10-03T00:00:00Z"
+            "accepted": "2016-10-03T00:00:00Z",
+            "sent-for-peer-review": "2017-01-30T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "20105", 
@@ -52,7 +53,8 @@
         }, 
         "-history": {
             "received": "2016-07-27T00:00:00Z", 
-            "accepted": "2016-10-03T00:00:00Z"
+            "accepted": "2016-10-03T00:00:00Z",
+            "sent-for-peer-review": "2017-01-30T00:00:00Z"
         }, 
         "status": "poa", 
         "id": "20105", 
