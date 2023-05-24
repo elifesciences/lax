@@ -547,6 +547,8 @@ class V2Content(base.BaseCase):
         # this article has two *published*, one *preprint* and three *reviewed-preprint*
         self.assertEqual(len(data["versions"]), 6)
 
+        # TODO: add sentForReview date
+
         # correct order
         expected = [None, None, None, None, 1, 2]  # preprint  # reviewed-preprint
         given = [version.get("version") for version in data["versions"]]

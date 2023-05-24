@@ -21,11 +21,20 @@ export LAX_MULTIPROCESSING=1
 # run the tests
 if [ $print_coverage -eq 0 ]; then
     # a *specific* test file or test has been given, don't bother with coverage et al
-    pytest $module -vvv --no-migrations
+    pytest $module \
+        -vvv \
+        --no-migrations \
+        -n $(nproc)
 else
     # '-n 8' is good for me on a 12 core machine.
     # lax--ci has 2 cores though.
-    pytest "$module" -vvv -n $(nproc) --cov=src --cov-config=.coveragerc --junitxml=build/junit.xml --override-ini junit_family=xunit1
+    pytest "$module" \
+        -vvv \
+        --no-migrations \
+        -n $(nproc) \
+        --cov=src --cov-config=.coveragerc \
+        --junitxml=build/junit.xml \
+        --override-ini junit_family=xunit1
     coverage report
 
     # only run if tests pass
