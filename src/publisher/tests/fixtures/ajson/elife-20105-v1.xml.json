@@ -36,6 +36,7 @@
                     "date": "2016-10-01T00:00:00Z"
                 }
             ],
+            "sent-for-peer-review": "2016-08-15T00:00:00Z",
             "accepted": "2016-10-03T00:00:00Z"
         },
         "status": "poa", 
@@ -105,6 +106,7 @@
                     "date": "2016-10-01T00:00:00Z"
                 }
             ],
+            "sent-for-peer-review": "2016-08-15T00:00:00Z",
             "accepted": "2016-10-03T00:00:00Z"
         }, 
         "status": "poa", 

@@ -388,6 +388,7 @@ class ArticleFragment(models.Model):
 
 DATE_REVIEWED_PREPRINT = "date-reviewed-preprint"
 DATE_PREPRINT_PUBLISHED = "date-preprint"
+DATE_SENT_FOR_PEER_REVIEW = "date-sent-for-peer-review"
 DATE_EJP_QC, DATE_EJP_DECISION = "date-qc", "date-decision"
 DATE_XML_RECEIVED, DATE_XML_ACCEPTED = "date-xml-received", "date-xml-accepted"
 DATETIME_ACTION_INGEST, DATETIME_ACTION_PUBLISH = (
@@ -400,6 +401,7 @@ def article_event_choices():
     return [
         (DATE_REVIEWED_PREPRINT, "reviewed-preprint version published"),
         (DATE_PREPRINT_PUBLISHED, "preprint published"),
+        (DATE_SENT_FOR_PEER_REVIEW, "sent for peer review"),
         (DATE_EJP_QC, "quality check date"),
         (DATE_EJP_DECISION, "decision date"),
         (DATE_XML_RECEIVED, "received date (XML)"),
@@ -413,7 +415,7 @@ def article_event_choices():
 class ArticleEvent(models.Model):
     # when the Article is deleted, delete this article event
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    event = models.CharField(max_length=25, choices=article_event_choices())
+    event = models.CharField(max_length=50, choices=article_event_choices())
     datetime_event = models.DateTimeField()
     value = models.CharField(
         max_length=255,
