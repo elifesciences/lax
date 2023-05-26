@@ -506,15 +506,12 @@ class V2Content(base.BaseCase):
         version_list_data = utils.json_loads(version_list.content)
         self.assertEqual(len(version_list_data["versions"]), 6)
         self.assertEqual(version_list_data["versions"][0]["status"], "preprint")
-        self.assertEqual(
-            version_list_data["versions"][1]["status"], "preprint"
-        )  # reviewed
-        self.assertEqual(
-            version_list_data["versions"][2]["status"], "preprint"
-        )  # reviewed
-        self.assertEqual(
-            version_list_data["versions"][3]["status"], "preprint"
-        )  # reviewed
+        # reviewed
+        self.assertEqual(version_list_data["versions"][1]["status"], "preprint")
+        # reviewed
+        self.assertEqual(version_list_data["versions"][2]["status"], "preprint")
+        # reviewed
+        self.assertEqual(version_list_data["versions"][3]["status"], "preprint")
         utils.validate(version_list_data, SCHEMA_IDX["history"])
 
         # --- directly trying to access the unpublished version
@@ -529,6 +526,32 @@ class V2Content(base.BaseCase):
         self.assertEqual(resp.status_code, 404)
 
     def test_article_versions_list(self):
+        "regular article with multiple versions and no preprint history looks as expected"
+        resp = self.c.get(
+            reverse("v2:article-version-list", kwargs={"msid": self.msid1})
+        )
+        self.assertEqual(resp.status_code, 200)
+
+        self.assertEqual(
+            resp.content_type, "application/vnd.elife.article-history+json; version=2"
+        )
+        data = utils.json_loads(resp.content)
+
+        # valid data
+        utils.validate(data, SCHEMA_IDX["history"])
+
+        # correct data
+        self.assertEqual(len(data["versions"]), 3)
+        self.assertEqual(data["received"], "2016-07-28")
+        self.assertEqual(data["accepted"], "2016-08-30")
+        self.assertTrue("sentForReview" not in data)
+
+        # correct order
+        expected = [1, 2, 3]
+        given = [version.get("version") for version in data["versions"]]
+        self.assertEqual(given, expected)
+
+    def test_article_versions_list_with_preprints(self):
         "valid json content is returned"
         resp = self.c.get(
             reverse("v2:article-version-list", kwargs={"msid": self.msid2})
@@ -546,6 +569,9 @@ class V2Content(base.BaseCase):
         # correct data
         # this article has two *published*, one *preprint* and three *reviewed-preprint*
         self.assertEqual(len(data["versions"]), 6)
+        self.assertEqual(data["received"], "2016-07-27")
+        self.assertEqual(data["accepted"], "2016-10-03")
+        self.assertEqual(data["sentForReview"], "2016-08-15")  # 20105 v1
 
         # correct order
         expected = [None, None, None, None, 1, 2]  # preprint  # reviewed-preprint

@@ -385,9 +385,14 @@ def article_version_history__v2(msid, only_published=True):
     article = q[0].article
 
     events = []
-    for preprint in article.articleevent_set.filter(
-        event__in=[models.DATE_PREPRINT_PUBLISHED, models.DATE_REVIEWED_PREPRINT]
-    ):
+
+    article_event_list = article.articleevent_set.all()
+    preprint_event_list = [
+        ae
+        for ae in article_event_list
+        if ae.event in [models.DATE_PREPRINT_PUBLISHED, models.DATE_REVIEWED_PREPRINT]
+    ]
+    for preprint in preprint_event_list:
         events.append(
             {
                 "status": "preprint",
@@ -400,10 +405,21 @@ def article_version_history__v2(msid, only_published=True):
     struct = {
         "received": date_received(article),
         "accepted": date_accepted(article),
+        "sentForReview": None,
         "versions": events + lmap(article_snippet_json, avl),
     }
 
     if article.type in EXCLUDE_RECEIVED_ACCEPTED_DATES:
         struct = exsubdict(struct, ["received", "accepted"])
+
+    sent_for_peer_review_event = [
+        ae for ae in article_event_list if ae.event == models.DATE_SENT_FOR_PEER_REVIEW
+    ]
+    if sent_for_peer_review_event:
+        struct["sentForReview"] = utils.to_date(
+            sent_for_peer_review_event[0].datetime_event
+        )
+    else:
+        del struct["sentForReview"]
 
     return struct
