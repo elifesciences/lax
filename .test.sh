@@ -23,8 +23,7 @@ if [ $print_coverage -eq 0 ]; then
     # a *specific* test file or test has been given, don't bother with coverage et al
     pytest $module \
         -vvv \
-        --no-migrations \
-        -n $(nproc)
+        --no-migrations
 else
     # '-n 8' is good for me on a 12 core machine.
     # lax--ci has 2 cores though.
