@@ -1,10 +1,10 @@
-# file generated 2023-05-12 - see update-dependencies.sh
-asgiref==3.6.0
+# file generated 2023-05-26 - see update-dependencies.sh
+asgiref==3.7.1
 astroid==2.11.7
 attrs==23.1.0
 black==23.3.0
-boto3==1.26.133
-botocore==1.29.133
+boto3==1.26.141
+botocore==1.29.141
 certifi==2023.5.7
 charset-normalizer==3.1.0
 click==8.1.3
@@ -42,19 +42,19 @@ psycopg2==2.8.6
 pyflakes==2.5.0
 pylint==2.14.5
 pylint-django==2.5.3
-pylint-plugin-utils==0.7
+pylint-plugin-utils==0.8.2
 pyrsistent==0.19.3
 pytest==7.3.1
 pytest-cov==2.12.1
 pytest-django==4.5.2
-pytest-xdist==3.2.1
+pytest-xdist==3.3.1
 python-dateutil==2.8.2
 python-json-logger==0.1.11
 python-slugify==4.0.1
 pytz==2023.3
 PyYAML==5.4.1
 radon==5.1.0
-requests==2.30.0
+requests==2.31.0
 rfc3339==6.2
 s3transfer==0.6.1
 six==1.16.0
@@ -63,9 +63,9 @@ text-unidecode==1.3
 toml==0.10.2
 tomli==2.0.1
 tomlkit==0.11.8
-typing_extensions==4.5.0
+typing_extensions==4.6.2
 unittest-xml-reporting==2.5.2
-urllib3==1.26.15
+urllib3==1.26.16
 uWSGI==2.0.21
 wrapt==1.15.0
 xenon==0.9.0
