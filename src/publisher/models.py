@@ -478,3 +478,49 @@ class ArticleVersionExtRelation(models.Model):
 
     def __repr__(self):
         return "<ArticleVersionRelation %s>" % self
+
+
+class ReviewedPreprint(models.Model):
+    manuscript_id = models.BigIntegerField(primary_key=True)
+    content = models.TextField(help_text="the valid reviewed-preprint")
+    # lsh@2023-08: I don't know about this yet.
+    # I might add it the first time the spec introduces changes that require a backfill.
+    # content_version = models.PositiveSmallIntegerField(
+    #    help_text="version of the reviewed-preprint schema validated against"
+    # )
+
+    datetime_record_created = models.DateTimeField(
+        auto_now_add=True, help_text="Date and time this record was created"
+    )
+    datetime_record_updated = models.DateTimeField(
+        auto_now=True, help_text="Date and time this record was updated"
+    )
+
+    class Meta:
+        ordering = ("manuscript_id",)  # ASC
+
+    def __str__(self):
+        return self.manuscript_id
+
+    def __repr__(self):
+        return "<ReviewedPreprint %s>" % self.manuscript_id
+
+
+class ArticleVersionReviewedPreprintRelation(models.Model):
+    # when the ReviewedPreprint is deleted, delete this reviewed-preprint relationship
+    reviewedpreprint = models.ForeignKey(ReviewedPreprint, on_delete=models.CASCADE)
+    # todo: should we be relating the reviewed preprint to the article or articleversion ?
+    #       can the rpp disappear between article-versions or will it always be there?
+    #       current method is to use the msid in the relations to check for 'RP' + msid in the references.
+    #       so if the xml relations change or the xml references change, the new articleversion may drop the relation.
+    # when the ArticleVersion is deleted, delete this reviewed-preprint relationship.
+    articleversion = models.ForeignKey(ArticleVersion, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("articleversion", "reviewedpreprint")
+
+    def __str__(self):
+        return "%s => %s" % (self.articleversion.id, self.reviewedpreprint.id)
+
+    def __repr__(self):
+        return "<ArticleVersionReviewedPreprintRelation %s>" % self

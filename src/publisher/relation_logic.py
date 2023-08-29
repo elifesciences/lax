@@ -1,6 +1,5 @@
-from functools import partial
 from publisher import models, codes
-from publisher.utils import create_or_update, lmap, ensure, first, StateError, msid2doi
+from publisher.utils import create_or_update, ensure, first, StateError, msid2doi
 import logging
 from django.conf import settings
 
@@ -8,9 +7,12 @@ LOG = logging.getLogger(__name__)
 
 
 def remove_relationships(av):
-    "destroys any relationships that may exist for given ArticleVersion"
+    """destroys any relationships that may exist for given ArticleVersion `av`.
+    this is necessary to accommodate silent corrections where the relations for
+    a specific article version may change."""
     models.ArticleVersionRelation.objects.filter(articleversion=av).delete()
     models.ArticleVersionExtRelation.objects.filter(articleversion=av).delete()
+    models.ArticleVersionReviewedPreprintRelation.objects.filter(articleversion=av).delete()
 
 
 #
@@ -20,7 +22,7 @@ def remove_relationships(av):
 
 
 def relate(av, a):
-    "creates a relationship between an ArticleVersion and an Article"
+    "creates a relationship between an ArticleVersion `av` and an Article `a`."
     data = {"articleversion": av, "related_to": a}
     return first(
         create_or_update(models.ArticleVersionRelation, data, create=True, update=False)
@@ -46,18 +48,18 @@ def relate_using_msid(av, msid, quiet=False):
 
     if art:
         return relate(av, art)
-    else:
-        msg = (
-            "article with msid %r not found (and not created) attempting to relate %r => %s"
-            % (msid, av, msid)
-        )
-        if not quiet:
-            raise StateError(codes.NO_RECORD, msg)
-        LOG.error(msg)
+
+    msg = (
+        "article with msid %r not found (and not created) attempting to relate %r => %s"
+        % (msid, av, msid)
+    )
+    if not quiet:
+        raise StateError(codes.NO_RECORD, msg)
+    LOG.error(msg)
 
 
 def relate_using_msid_list(av, msid_list, quiet=False):
-    return lmap(partial(relate_using_msid, av, quiet=quiet), msid_list)
+    return [relate_using_msid(av, msid, quiet) for msid in msid_list]
 
 
 #
@@ -80,7 +82,34 @@ def associate(av, citation):
 
 
 def relate_using_citation_list(av, citation_list):
-    return lmap(partial(associate, av), citation_list)
+    return [associate(av, citation) for citation in citation_list]
+
+
+# reviewed preprints relationships
+
+
+def relate_using_reviewed_preprint(av, rpp):
+    ensure(
+        isinstance(av, models.ArticleVersion),
+        "expected an ArticleVersion object, got: %r" % type(av),
+    )
+    ensure(
+        isinstance(rpp, models.ReviewedPreprint),
+        "expected a ReviewedPreprint object, got: %r" % type(rpp),
+    )
+    data = {
+        "articleversion": av,
+        "reviewedpreprint": rpp,
+    }
+    key = ["articleversion", "reviewedpreprint"]
+    rppr, _, _ = create_or_update(
+        models.ArticleVersionReviewedPreprintRelation,
+        data,
+        key,
+        create=True,
+        update=True,
+    )
+    return rppr
 
 
 #

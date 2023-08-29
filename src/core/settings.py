@@ -284,9 +284,10 @@ EVENT_BUS = {
 
 # Lax settings
 
-# toggle to bypass the creation of relationships between articles internally
+# toggle to bypass the creation of relationships between articles internally.
+# used during testing to control object creation.
 ENABLE_RELATIONS = True
-# when ingesting an article, if an article says it's related to an article that doesn't exist, should an Article stub be created? default, True.
+# when an article-version is related to an article that doesn't exist, should an Article stub be created? default, True.
 RELATED_ARTICLE_STUBS = cfg("general.related-article-stubs", True)
 
 # allow fragments pushed in from other sources?

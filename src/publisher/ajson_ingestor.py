@@ -27,6 +27,10 @@ def elide(val):
     return val or render.EXCLUDE_ME
 
 
+def identity(val):
+    return val
+
+
 ARTICLE = {
     "manuscript_id": [p("id"), int],
     "volume": [p("volume")],
@@ -43,6 +47,11 @@ ARTICLE_VERSION = {
     "status": [p("status")],
     # only v1 article-json has a published date. v2 article-json does not
     "datetime_published": [p("published", None), utils.todt],
+}
+
+REVIEWED_PREPRINT = {
+    "manuscript_id": [p("id"), int],
+    "content": [identity],
 }
 
 #
@@ -118,7 +127,7 @@ def _ingest_objects(data, create, update, force, log_context):
 def _ingest(data, force=False) -> models.ArticleVersion:
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
     unpublished article-version data can be ingested multiple times UNLESS that article version has been published.
-    published article-version data can be ingested only if force=True"""
+    published article-version data can be ingested only if `force=True`."""
 
     create = update = True
     log_context = {}
@@ -156,7 +165,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
             else:
                 if not av.version == 1:
                     # uhoh. we're attempting to create our first article version and it isn't a version 1
-                    msg = "refusing to ingest new article version out of sequence. no other article versions exist so I expect a v1"
+                    msg = "refusing to ingest new article version out of sequence. no other article versions exist so a v1 was expected."
                     log_context.update(
                         {"given-version": av.version, "expected-version": 1}
                     )
@@ -203,8 +212,13 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         relationships.relate_using_citation_list(
             av, data["article"].get("-related-articles-external", [])
         )
-
-        # 2017-12-20: end section
+        for rpp in data["article"].get("-related-articles-reviewed-preprints", []):
+            rpp_struct = render.render_item(REVIEWED_PREPRINT, rpp)
+            key = ["manuscript_id"]
+            rpp_obj, _, _ = create_or_update(
+                models.ReviewedPreprint, rpp_struct, key, create, update, commit=False
+            )
+            relationships.relate_using_reviewed_preprint(av, rpp_obj)
 
         # passed all checks, save
         av.save()
