@@ -4,6 +4,7 @@ set -e
 default_folder="/opt/bot-lax-adaptor"
 folder="${1-$default_folder}"
 cd $folder
+git reset --hard
 git fetch
 git checkout master
 git pull origin master

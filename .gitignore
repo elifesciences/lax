@@ -13,7 +13,6 @@ build/
 .repop*
 htmlcov/
 app.cfg
-/newrelic.ini
 /uwsgi.ini
 ingestion-lax.log.json
 /src/core/prod_settings.py
