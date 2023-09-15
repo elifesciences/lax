@@ -38,7 +38,6 @@ rfc3339 = "~=6.2"
 Django = "==3.2.*"
 PyYAML = "~=5.3"
 uWSGI = "~=2.0"
-newrelic = "*"
 
 [dev-packages]
 # lsh@2022-03-14: greater versions not available for python3.8.
