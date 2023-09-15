@@ -280,6 +280,12 @@ def relationships2(msid, only_published=True):
     ]
     extr = execute_sql("external-relationships-for-msid.sql", extr_params)
 
+    # returns a list of reviewed-preprints
+    rppr_params = [
+        av.id,
+    ]
+    rppr = execute_sql("reviewed-preprints-for-av-id.sql", rppr_params)
+
     # returns article-json snippets
     intr_params = [
         av.id,
@@ -297,6 +303,7 @@ def relationships2(msid, only_published=True):
     )
 
     extr = [json.loads(i["citation"]) for i in extr]
+    rppr = [json.loads(i["content"]) for i in rppr]
     intr = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr]
     intr_rev = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr_rev]
 
@@ -307,7 +314,7 @@ def relationships2(msid, only_published=True):
     data = sorted(data, key=lambda d: d["id"])
 
     # any external citations precede internal relations
-    return extr + data
+    return extr + rppr + data
 
 
 #

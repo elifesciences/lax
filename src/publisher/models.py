@@ -481,8 +481,8 @@ class ArticleVersionExtRelation(models.Model):
 
 
 class ReviewedPreprint(models.Model):
-    manuscript_id = models.BigIntegerField(primary_key=True)
-    content = models.TextField(help_text="the valid reviewed-preprint")
+    manuscript_id = models.BigIntegerField(unique=True)
+    content = models.TextField(help_text="valid reviewed-preprint JSON")
     # lsh@2023-08: I don't know about this yet.
     # I might add it the first time the spec introduces changes that require a backfill.
     # content_version = models.PositiveSmallIntegerField(

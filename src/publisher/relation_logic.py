@@ -12,7 +12,9 @@ def remove_relationships(av):
     a specific article version may change."""
     models.ArticleVersionRelation.objects.filter(articleversion=av).delete()
     models.ArticleVersionExtRelation.objects.filter(articleversion=av).delete()
-    models.ArticleVersionReviewedPreprintRelation.objects.filter(articleversion=av).delete()
+    models.ArticleVersionReviewedPreprintRelation.objects.filter(
+        articleversion=av
+    ).delete()
 
 
 #

@@ -260,6 +260,7 @@ SQL_LIST = [
     "internal-relationships-for-msid.sql",
     "internal-reverse-relationships-for-msid.sql",
     "external-relationships-for-msid.sql",
+    "reviewed-preprints-for-av-id.sql",
 ]
 SQL_MAP = {
     os.path.basename(path): open(os.path.join(SQL_PATH, path), "r").read()
