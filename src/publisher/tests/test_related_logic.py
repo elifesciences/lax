@@ -26,9 +26,8 @@ class RelatedInternally(base.BaseCase):
         self.av = models.ArticleVersion.objects.get(
             article__manuscript_id=self.msid1, version=1
         )
-        self.a = models.Article.objects.get(
-            manuscript_id=self.msid2
-        )  # note: no version information
+        # note: no version information
+        self.a = models.Article.objects.get(manuscript_id=self.msid2)
 
     def tearDown(self):
         pass

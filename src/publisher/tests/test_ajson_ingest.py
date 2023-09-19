@@ -60,7 +60,7 @@ class IngestIdentical(BaseCase):
         self.assertEqual(utils.todt("2016-10-04"), av.datetime_published)
 
     def test_ingest_identical_except_related_articles(self):
-        "an ingest or silent correction (a forced ingest) with just the related articles changed"
+        "an identical ingest except for relations will see relations created and destroyed"
 
         # ingest with no relations
         self.ajson["article"]["-related-articles-internal"] = []
@@ -68,7 +68,7 @@ class IngestIdentical(BaseCase):
         self.assertEqual(1, models.ArticleVersion.objects.count())
         self.assertEqual(0, models.ArticleVersionRelation.objects.count())
 
-        # add a relation
+        # add an internal relation
         # "01749" => "00666"
         self.ajson["article"]["-related-articles-internal"] = ["00666"]
 
@@ -77,9 +77,20 @@ class IngestIdentical(BaseCase):
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
         self.assertEqual(1, models.ArticleVersionRelation.objects.count())
 
+        # ensure properly related
         related_articles = av.articleversionrelation_set.all()
         self.assertEqual(1, related_articles.count())
         self.assertEqual(666, related_articles[0].related_to.manuscript_id)
+
+        # remove the internal relation
+        self.ajson["article"]["-related-articles-internal"] = []
+
+        # ingest again
+        ajson_ingestor.ingest(self.ajson, force=True)
+
+        # ensure relation is gone.
+        av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
+        self.assertEqual(0, models.ArticleVersionRelation.objects.count())
 
     # handy test but may not belong in this test suite
 
