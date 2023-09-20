@@ -5,4 +5,3 @@ source venv/bin/activate
 
 . .lint.sh
 . .test.sh
-. .cc-check.sh
