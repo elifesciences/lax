@@ -1,10 +1,10 @@
 import json
 from os.path import join
-from .base import BaseCase
+from . import base
 from publisher import logic, ajson_ingestor, models, utils, relation_logic
 
 
-class One(BaseCase):
+class One(base.BaseCase):
     def setUp(self):
         self.journal = logic.journal()
         import_all = [
@@ -149,7 +149,7 @@ class One(BaseCase):
                 raise
 
 
-class Two(BaseCase):
+class Two(base.BaseCase):
     def setUp(self):
         ingest_these = [
             "elife-01968-v1.xml.json",
@@ -252,7 +252,7 @@ class Two(BaseCase):
         pass
 
 
-class ArticleHistoryV1(BaseCase):
+class ArticleHistoryV1(base.BaseCase):
     def setUp(self):
         ingest_these = ["elife-16695-v1.xml.json"]  # research article
         ajson_dir = join(self.fixture_dir, "ajson")
@@ -277,7 +277,7 @@ class ArticleHistoryV1(BaseCase):
             self.assertTrue("accepted" not in resp)
 
 
-class ArticleHistoryV2(BaseCase):
+class ArticleHistoryV2(base.BaseCase):
     def setUp(self):
         self.msid = 16695
         path = join(self.fixture_dir, "ajson", "elife-16695-v1.xml.json")
@@ -315,7 +315,7 @@ class ArticleHistoryV2(BaseCase):
             self.assertTrue("accepted" not in resp)
 
 
-class RelationshipLogic(BaseCase):
+class RelationshipLogic(base.BaseCase):
     def setUp(self):
         ingest_these = [
             "elife-01968-v1.xml.json",  # => 01749
@@ -348,7 +348,7 @@ class RelationshipLogic(BaseCase):
     def test_relationship_data(self):
         "we expect to see the article snippet of the related article"
         create_relationships = [(self.msid1, [self.msid2])]  # 1 => 2
-        relation_logic._relate_using_msids(create_relationships)
+        base._relate_using_msids(create_relationships)
 
         av1 = self.av
         av2 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2)
@@ -365,7 +365,7 @@ class RelationshipLogic(BaseCase):
     def test_relationship_data2(self):
         "we expect to see the article snippet of the relationed article and external citations"
         create_relationships = [(self.msid1, [self.msid2])]  # 1 => 2
-        relation_logic._relate_using_msids(create_relationships)
+        base._relate_using_msids(create_relationships)
 
         av1 = self.av
         av2 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2)

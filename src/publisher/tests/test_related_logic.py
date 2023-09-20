@@ -369,7 +369,7 @@ class RelationList(base.BaseCase):
             (self.msid2, [self.msid3]),  # 2 => 3
             (self.msid3, [self.msid1]),  # 3 => 1
         ]
-        relation_logic._relate_using_msids(create_relationships)
+        base._relate_using_msids(create_relationships)
 
         expected_relationships = [
             (self.msid1, [self.msid2, self.msid3]),  # 1 => [2, 3]
@@ -397,7 +397,7 @@ class RelationList(base.BaseCase):
             (self.msid2, [self.msid3, self.msid1]),  # 2 => 3, 1
             (self.msid3, [self.msid1, self.msid2]),  # 3 => 1, 2
         ]
-        relation_logic._relate_using_msids(create_relationships)
+        base._relate_using_msids(create_relationships)
 
         expected_relationships = [
             (self.msid1, [self.msid2, self.msid3]),  # 1 => [2, 3]
@@ -419,7 +419,7 @@ class RelationList(base.BaseCase):
     def test_relation_data(self):
         "we expect to see the article object of the related article"
         create_relationships = [(self.msid1, [self.msid2])]  # 1 => 2
-        relation_logic._relate_using_msids(create_relationships)
+        base._relate_using_msids(create_relationships)
 
         av1 = self.av
         av2 = models.ArticleVersion.objects.get(article__manuscript_id=self.msid2)

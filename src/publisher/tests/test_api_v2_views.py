@@ -10,7 +10,6 @@ from publisher import (
     fragment_logic as fragments,
     utils,
     logic,
-    relation_logic,
     api_v2_views,
 )
 from django.test import Client, override_settings
@@ -376,6 +375,8 @@ class V2Content(base.BaseCase):
             expected_status_code = 200
             self.assertEqual(expected_status_code, resp.status_code)
 
+    # /articles
+
     def test_article_list(self):
         "a list of published articles are returned to an unauthenticated response"
         resp = self.c.get(reverse("v2:article-list"))
@@ -418,6 +419,8 @@ class V2Content(base.BaseCase):
             idx[self.msid1]["version"], 3
         )  # we get the unpublished v3 back
         self.assertEqual(idx[self.msid2]["version"], 3)
+
+    # /articles/{id}
 
     def test_article_poa(self):
         "the latest version of the requested article is returned"
@@ -524,6 +527,8 @@ class V2Content(base.BaseCase):
         fake_msid = 123
         resp = self.c.get(reverse("v2:article", kwargs={"msid": fake_msid}))
         self.assertEqual(resp.status_code, 404)
+
+    # /articles/{id}/versions
 
     def test_article_versions_list(self):
         "regular article with multiple versions and no preprint history looks as expected"
@@ -637,6 +642,8 @@ class V2Content(base.BaseCase):
         )
         self.assertEqual(resp.status_code, 404)
 
+    # /articles/{id}/versions/{version}
+
     def test_article_version(self):
         versions = [1, 2, 3]
         for ver in versions:
@@ -663,8 +670,10 @@ class V2Content(base.BaseCase):
         )
         self.assertEqual(resp.status_code, 404)
 
+    # /articles/{id}/related
+
     def test_related_articles(self):
-        "related articles endpoint exists and returns a 200 response for published article"
+        "related articles endpoint returns a successful, but empty, 200 response for a published article with no relations."
         resp = self.c.get(reverse("v2:article-relations", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(utils.json_loads(resp.content), [])
@@ -674,24 +683,80 @@ class V2Content(base.BaseCase):
         resp = self.c.get(reverse("v2:article-relations", kwargs={"msid": 42}))
         self.assertEqual(resp.status_code, 404)
 
+    def test_related_articles_expected_data(self):
+        "related articles endpoint returns the correct data for internal, external and reviewed-preprint relations"
+
+        av = logic.most_recent_article_version(self.msid1)
+        related_to = logic.most_recent_article_version(self.msid2)
+
+        citation = {"uri": "https://example.org", "citations": {"foo": "bar"}}
+        rpp = {
+            "id": "85380",
+            "doi": "10.1101/2022.12.20.521179",
+            "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf",
+            "status": "reviewed",
+            "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song",
+            "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals",
+            "published": "2023-03-24T03:00:00Z",
+            "reviewedDate": "2023-03-24T03:00:00Z",
+            "versionDate": "2023-06-28T03:00:00Z",
+            "statusDate": "2023-06-28T03:00:00Z",
+            "stage": "published",
+            "subjects": [
+                {"id": "developmental-biology", "name": "Developmental Biology"}
+            ],
+            "type": "reviewed-preprint",
+        }
+
+        # create a reviewed-preprint relation
+        data = {
+            "article": {
+                "-related-articles-internal": [related_to.article.manuscript_id],
+                "-related-articles-external": [citation],
+                "-related-articles-reviewed-preprints": [rpp],
+            }
+        }
+        ajson_ingestor._update_relationships(
+            av, data, create=True, update=True, force=False
+        )
+        rpp = models.ReviewedPreprint.objects.first()
+
+        resp = self.c.get(reverse("v2:article-relations", kwargs={"msid": self.msid1}))
+        self.assertEqual(resp.status_code, 200)
+
+        expected = json.dumps(
+            [
+                # {'uri': 'https://example.org', 'citations': {'foo': 'bar'}},
+                citation,
+                # {'id': '85380', 'doi': '10.1101/2022.12.20.521179', 'pdf': 'https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf', 'status': 'reviewed', 'authorLine': 'Zhipeng Wang, Cheng Jin ... Wei Song', 'title': 'Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals', 'published': '2023-03-24T03:00:00Z', 'reviewedDate': '2023-03-24T03:00:00Z', 'versionDate': '2023-06-28T03:00:00Z', 'statusDate': '2023-06-28T03:00:00Z', 'stage': 'published', 'subjects': [{'id': 'developmental-biology', 'name': 'Developmental Biology'}], 'type': 'reviewed-preprint'},
+                json.loads(rpp.content),
+                # [{"uri": "https://example.org", "citations": {"foo": "bar"}}, {"id": "85380", "doi": "10.1101/2022.12.20.521179", "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf", "status": "reviewed", "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song", "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals", "published": "2023-03-24T03:00:00Z", "reviewedDate": "2023-03-24T03:00:00Z", "versionDate": "2023-06-28T03:00:00Z", "statusDate": "2023-06-28T03:00:00Z", "stage": "published", "subjects": [{"id": "developmental-biology", "name": "Developmental Biology"}], "type": "reviewed-preprint"}, {"status": "poa", "id": "20105", "version": 2, "type": "research-article", "doi": "10.7554/eLife.20105", "authorLine": "Neel H Shah et al.", "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", "published": "2016-10-04T00:00:00Z", "volume": 5, "elocationId": "e20105", "pdf": "https://cdn.elifesciences.org/articles/20105/elife-20105-v2.pdf", "subjects": [{"id": "biophysics-structural-biology", "name": "Biophysics and Structural Biology"}, {"id": "immunology", "name": "Immunology"}], "researchOrganisms": ["E. coli"], "copyright": {"license": "CC-BY-4.0", "holder": "Shah et al.", "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."}, "stage": "published", "statusDate": "2016-10-04T00:00:00Z", "versionDate": "2023-09-20T05:22:19Z"}]
+                logic.article_snippet_json(related_to),
+            ]
+        )
+        self.assertEqual(expected, resp.content.decode("utf-8"))
+
     def test_related_articles_on_unpublished_article(self):
         """related articles endpoint returns a 200 response to an authenticated request for
-        an unpublished article and a 404 to an unauthenticated request"""
+        an unpublished article and a 404 to an unauthenticated request."""
         self.unpublish(self.msid2, version=3)
         self.unpublish(self.msid2, version=2)
         self.unpublish(self.msid2, version=1)
 
-        # auth
+        # authenticated
         resp = self.ac.get(reverse("v2:article-relations", kwargs={"msid": self.msid2}))
         self.assertEqual(resp.status_code, 200)
 
-        # no auth
+        # not authenticated
         resp = self.c.get(reverse("v2:article-relations", kwargs={"msid": self.msid2}))
         self.assertEqual(resp.status_code, 404)
 
-    def test_related_articles_expected_data(self):
+    def test_related_articles_expected_data_mixed_publication_status(self):
+        """related articles endpoint returns the correct article snippets for the relation A->B,
+        when the latest version of B (v3) is unpublished."""
+
         # create a relationship between 1 and 2
-        relation_logic._relate_using_msids([(self.msid1, [self.msid2])])
+        base._relate_using_msids([(self.msid1, [self.msid2])])
 
         # no auth
         expected = [
@@ -713,7 +778,7 @@ class V2Content(base.BaseCase):
 
     def test_related_article_with_unpublished_article(self):
         # create a relationship between 1 and 2
-        relation_logic._relate_using_msids([(self.msid1, [self.msid2])])
+        base._relate_using_msids([(self.msid1, [self.msid2])])
         # unpublish v2
         self.unpublish(self.msid2)
 
@@ -735,7 +800,7 @@ class V2Content(base.BaseCase):
 
     def test_related_article_with_stub_article(self):
         # create a relationship between 1 and 2
-        relation_logic._relate_using_msids([(self.msid1, [self.msid2])])
+        base._relate_using_msids([(self.msid1, [self.msid2])])
         # delete all ArticleVersions leaving just an Article (stub)
         models.ArticleVersion.objects.filter(article__manuscript_id=self.msid2).delete()
 

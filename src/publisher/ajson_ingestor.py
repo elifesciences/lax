@@ -121,6 +121,23 @@ def _ingest_objects(data, create, update, force, log_context):
         )
 
 
+def _update_relationships(av, data, create, update, force):
+    relationships.remove_relationships(av)
+    relationships.relate_using_msid_list(
+        av, data["article"].get("-related-articles-internal", []), quiet=force
+    )
+    relationships.relate_using_citation_list(
+        av, data["article"].get("-related-articles-external", [])
+    )
+    for rpp in data["article"].get("-related-articles-reviewed-preprints", []):
+        rpp_struct = render.render_item(REVIEWED_PREPRINT, rpp)
+        key = ["manuscript_id"]
+        rpp_obj, _, _ = create_or_update(
+            models.ReviewedPreprint, rpp_struct, key, create, update
+        )
+        relationships.relate_using_reviewed_preprint(av, rpp_obj)
+
+
 #
 #
 #
@@ -210,20 +227,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
         # an `id` value that we can use to relate it to other objects.
 
         # update the relationships
-        relationships.remove_relationships(av)
-        relationships.relate_using_msid_list(
-            av, data["article"].get("-related-articles-internal", []), quiet=force
-        )
-        relationships.relate_using_citation_list(
-            av, data["article"].get("-related-articles-external", [])
-        )
-        for rpp in data["article"].get("-related-articles-reviewed-preprints", []):
-            rpp_struct = render.render_item(REVIEWED_PREPRINT, rpp)
-            key = ["manuscript_id"]
-            rpp_obj, _, _ = create_or_update(
-                models.ReviewedPreprint, rpp_struct, key, create, update
-            )
-            relationships.relate_using_reviewed_preprint(av, rpp_obj)
+        _update_relationships(av, data, create, update, force)
 
         # passed all checks, save
         # lsh@2023-09-19: save again? this could be unnecessary

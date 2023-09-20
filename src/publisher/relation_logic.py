@@ -143,20 +143,6 @@ def external_relationships_for_article_version(av):
 #
 
 
-def _relate_using_msids(matrix):
-    """
-    create_relationships = [
-        (self.msid1, [self.msid2]), # 1 => 2
-        (self.msid2, [self.msid3]), # 2 => 3
-        (self.msid3, [self.msid1]), # 3 => 1
-    ]
-    _relate_using_msids(create_relationships)
-    """
-    for target, msid_list in matrix:
-        av = models.Article.objects.get(manuscript_id=target).latest_version
-        relate_using_msid_list(av, msid_list)
-
-
 def _print_relations():
     for avr in models.ArticleVersionRelation.objects.all():
         print(avr)
