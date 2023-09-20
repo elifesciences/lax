@@ -569,6 +569,7 @@ def create_or_update(
     data.update(orig_data)
     data.update(overrides)
     key_list = key_list or data.keys()
+
     try:
         # try and find an entry of Model using the key fields in the given data
         inst = Model.objects.get(**subdict(data, key_list))

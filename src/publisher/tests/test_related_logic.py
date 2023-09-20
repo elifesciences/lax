@@ -66,22 +66,6 @@ class RelatedInternally(base.BaseCase):
             self.assertEqual(relationship.articleversion, self.av)
             self.assertEqual(relationship.related_to.manuscript_id, msid)
 
-    """
-    # removing previous relationships is now the responsibility of the ingestor
-    def test_replacing_relationships(self):
-        # create a few relationships
-        relation_logic.relate_using_msid_list(self.av, [self.msid2, self.msid3])
-        self.assertEqual(2, models.ArticleVersionRelation.objects.count())
-
-        # adding the same again and we'll still have 2
-        relation_logic.relate_using_msid_list(self.av, [self.msid2])
-        self.assertEqual(2, models.ArticleVersionRelation.objects.count())
-
-        # adding the same again, but with replace=True, we'll have just 1
-        relation_logic.relate_using_msid_list(self.av, [self.msid2], replace=True)
-        self.assertEqual(1, models.ArticleVersionRelation.objects.count())
-    """
-
 
 class RelatedExternally(base.BaseCase):
     def setUp(self):

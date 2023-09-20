@@ -103,6 +103,7 @@ def _ingest_objects(data, create, update, force, log_context):
             ["article", "version"],
             create,
             update,
+            # lsh@2023-09-19: what does commit=False get us? it won't commit the transaction.
             commit=False,
             article=article,
         )
@@ -204,6 +205,9 @@ def _ingest(data, force=False) -> models.ArticleVersion:
             av, data, quiet=quiet, hash_check=True, update_fragment=update_fragment
         )
 
+        # `av` at this point has been `.save`d inside `fragments.set_article_json` and has
+        # an `id` value that we can use to relate it to other objects.
+
         # update the relationships
         relationships.remove_relationships(av)
         relationships.relate_using_msid_list(
@@ -216,11 +220,12 @@ def _ingest(data, force=False) -> models.ArticleVersion:
             rpp_struct = render.render_item(REVIEWED_PREPRINT, rpp)
             key = ["manuscript_id"]
             rpp_obj, _, _ = create_or_update(
-                models.ReviewedPreprint, rpp_struct, key, create, update, commit=False
+                models.ReviewedPreprint, rpp_struct, key, create, update
             )
             relationships.relate_using_reviewed_preprint(av, rpp_obj)
 
         # passed all checks, save
+        # lsh@2023-09-19: save again? this could be unnecessary
         av.save()
 
         # notify event bus that article change has occurred

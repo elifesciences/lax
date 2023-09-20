@@ -67,23 +67,67 @@ class IngestIdentical(BaseCase):
         ajson_ingestor.ingest_publish(self.ajson)
         self.assertEqual(1, models.ArticleVersion.objects.count())
         self.assertEqual(0, models.ArticleVersionRelation.objects.count())
+        self.assertEqual(0, models.ArticleVersionExtRelation.objects.count())
+        self.assertEqual(0, models.ReviewedPreprint.objects.count())
+        self.assertEqual(
+            0, models.ArticleVersionReviewedPreprintRelation.objects.count()
+        )
 
-        # add an internal relation
+        # add an internal, external relation and reviewed-preprint relations
         # "01749" => "00666"
         self.ajson["article"]["-related-articles-internal"] = ["00666"]
+        self.ajson["article"]["-related-articles-external"] = [
+            {"uri": "https://example.org"},
+        ]
+        self.ajson["article"]["-related-articles-reviewed-preprints"] = [
+            {
+                "id": "85380",
+                "doi": "10.1101/2022.12.20.521179",
+                "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf",
+                "status": "reviewed",
+                "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song",
+                "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals",
+                "published": "2023-03-24T03:00:00Z",
+                "reviewedDate": "2023-03-24T03:00:00Z",
+                "versionDate": "2023-06-28T03:00:00Z",
+                "statusDate": "2023-06-28T03:00:00Z",
+                "stage": "published",
+                "subjects": [
+                    {"id": "developmental-biology", "name": "Developmental Biology"}
+                ],
+                "type": "reviewed-preprint",
+            }
+        ]
 
         # ingest again
         ajson_ingestor.ingest(self.ajson, force=True)
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
         self.assertEqual(1, models.ArticleVersionRelation.objects.count())
+        self.assertEqual(1, models.ArticleVersionExtRelation.objects.count())
+        self.assertEqual(1, models.ReviewedPreprint.objects.count())
+        self.assertEqual(
+            1, models.ArticleVersionReviewedPreprintRelation.objects.count()
+        )
 
-        # ensure properly related
+        # ensure internal article is properly related
         related_articles = av.articleversionrelation_set.all()
         self.assertEqual(1, related_articles.count())
         self.assertEqual(666, related_articles[0].related_to.manuscript_id)
 
-        # remove the internal relation
+        # ensure external article is properly related
+        related_ext = av.articleversionextrelation_set.all()
+        self.assertEqual(1, related_ext.count())
+        self.assertEqual("https://example.org", related_ext[0].uri)
+
+        # ensure reviewed-preprint is properly related
+        related_rpp = av.articleversionreviewedpreprintrelation_set.all()
+        self.assertEqual(1, related_rpp.count())
+        self.assertEqual(85380, related_rpp[0].reviewedpreprint.manuscript_id)
+
+        # remove the relations
         self.ajson["article"]["-related-articles-internal"] = []
+        self.ajson["article"]["-related-articles-external"] = []
+        self.ajson["article"]["-related-articles-reviewed-preprints"] = []
 
         # ingest again
         ajson_ingestor.ingest(self.ajson, force=True)
@@ -91,6 +135,14 @@ class IngestIdentical(BaseCase):
         # ensure relation is gone.
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
         self.assertEqual(0, models.ArticleVersionRelation.objects.count())
+        self.assertEqual(0, models.ArticleVersionExtRelation.objects.count())
+        self.assertEqual(
+            0, models.ArticleVersionReviewedPreprintRelation.objects.count()
+        )
+
+        # reviewed-preprints are preserved.
+        # this data is shared and may actually be updated by other relations.
+        self.assertEqual(1, models.ReviewedPreprint.objects.count())
 
     # handy test but may not belong in this test suite
 

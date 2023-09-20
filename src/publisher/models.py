@@ -500,7 +500,7 @@ class ReviewedPreprint(models.Model):
         ordering = ("manuscript_id",)  # ASC
 
     def __str__(self):
-        return self.manuscript_id
+        return str(self.manuscript_id)
 
     def __repr__(self):
         return "<ReviewedPreprint %s>" % self.manuscript_id

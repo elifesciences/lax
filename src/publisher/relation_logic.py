@@ -99,15 +99,14 @@ def relate_using_reviewed_preprint(av, rpp):
         isinstance(rpp, models.ReviewedPreprint),
         "expected a ReviewedPreprint object, got: %r" % type(rpp),
     )
+    ensure(av.id and rpp.id, "objects must exist in database")
     data = {
         "articleversion": av,
         "reviewedpreprint": rpp,
     }
-    key = ["articleversion", "reviewedpreprint"]
     rppr, _, _ = create_or_update(
         models.ArticleVersionReviewedPreprintRelation,
         data,
-        key,
         create=True,
         update=True,
     )
