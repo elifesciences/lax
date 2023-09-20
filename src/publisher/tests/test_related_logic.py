@@ -3,6 +3,7 @@ import json, copy
 from . import base
 from publisher import ajson_ingestor, models, relation_logic, utils  # , logic
 from django.core.exceptions import ValidationError
+import pytest
 
 
 class RelatedInternally(base.BaseCase):
@@ -147,6 +148,103 @@ class RelatedExternally(base.BaseCase):
         self.assertEqual(0, models.ArticleVersionExtRelation.objects.count())
 
 
+@pytest.mark.django_db
+def test_rpp_is_ingested_and_loaded():
+    "a reviewed-preprint relation can be ingested, stored and retrieved"
+    fixture = join(base.FIXTURE_DIR, "ajson", "elife-16695-v1.xml.json")
+    ajson = json.load(open(fixture, "r"))
+
+    rpp_struct = {
+        "id": "85380",
+        "doi": "10.1101/2022.12.20.521179",
+        "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf",
+        "status": "reviewed",
+        "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song",
+        "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals",
+        "published": "2023-03-24T03:00:00Z",
+        "reviewedDate": "2023-03-24T03:00:00Z",
+        "versionDate": "2023-06-28T03:00:00Z",
+        "statusDate": "2023-06-28T03:00:00Z",
+        "stage": "published",
+        "subjects": [{"id": "developmental-biology", "name": "Developmental Biology"}],
+        "type": "reviewed-preprint",
+    }
+
+    ajson["article"]["-related-articles-reviewed-preprints"] = [rpp_struct]
+    ajson_ingestor.ingest(ajson)
+
+    # ensure created
+    assert models.Article.objects.count() == 1
+    assert models.ArticleVersion.objects.count() == 1
+    assert models.ReviewedPreprint.objects.count() == 1
+    assert models.ArticleVersionReviewedPreprintRelation.objects.count() == 1
+
+    av = models.ArticleVersion.objects.first()
+    rpp = models.ReviewedPreprint.objects.first()
+
+    # ensure related
+    assert av.articleversionreviewedpreprintrelation_set.first().reviewedpreprint == rpp
+
+    # ensure correct
+    assert rpp.manuscript_id == 85380
+    assert rpp.content == json.dumps(rpp_struct)
+    assert json.loads(rpp.content) == rpp_struct
+
+
+@pytest.mark.django_db
+def test_rpp_updated_by_unrelated_ingest():
+    "a reviewed-preprint relation created for one article may be updated by another article"
+    msid = 16695
+    msid2 = 1234
+
+    fixture = join(base.FIXTURE_DIR, "ajson", "elife-16695-v1.xml.json")
+    ajson = json.load(open(fixture, "r"))
+
+    rpp_struct = {
+        "id": "85380",
+        "doi": "10.1101/2022.12.20.521179",
+        "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf",
+        "status": "reviewed",
+        "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song",
+        "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals",
+        "published": "2023-03-24T03:00:00Z",
+        "reviewedDate": "2023-03-24T03:00:00Z",
+        "versionDate": "2023-06-28T03:00:00Z",
+        "statusDate": "2023-06-28T03:00:00Z",
+        "stage": "published",
+        "subjects": [{"id": "developmental-biology", "name": "Developmental Biology"}],
+        "type": "reviewed-preprint",
+    }
+
+    ajson["article"]["-related-articles-reviewed-preprints"] = [rpp_struct]
+    ajson_ingestor.ingest_publish(ajson)
+
+    av = models.ArticleVersion.objects.get(article__manuscript_id=msid)
+    rpp = models.ReviewedPreprint.objects.first()
+    assert json.loads(rpp.content)["reviewedDate"] == "2023-03-24T03:00:00Z"
+
+    updated_rpp_struct = rpp_struct
+    updated_rpp_struct.update({"reviewedDate": "2023-07-01T00:00:00Z"})
+
+    ajson2 = ajson
+    ajson2["article"]["id"] = str(msid2)
+    ajson2["article"]["-related-articles-reviewed-preprints"] = [updated_rpp_struct]
+
+    ajson_ingestor.ingest_publish(ajson2)
+    av2 = models.ArticleVersion.objects.get(article__manuscript_id=msid2)
+
+    assert models.Article.objects.count() == 2
+    assert models.ArticleVersion.objects.count() == 2
+    assert models.ReviewedPreprint.objects.count() == 1
+    assert models.ArticleVersionReviewedPreprintRelation.objects.count() == 2
+
+    rpp2 = av2.articleversionreviewedpreprintrelation_set.first().reviewedpreprint
+
+    assert av.id != av2.id
+    assert rpp.id == rpp2.id
+    assert json.loads(rpp2.content)["reviewedDate"] == "2023-07-01T00:00:00Z"
+
+
 class IngestPublish(base.BaseCase):
     def setUp(self):
         ingest_these = [
@@ -160,21 +258,17 @@ class IngestPublish(base.BaseCase):
             ajson_ingestor.ingest_publish(data)
         self.assertEqual(models.ArticleVersion.objects.count(), 3)
 
-    def tearDown(self):
-        pass
-
     def test_relations_created_during_ingest(self):
         self.assertEqual(1, models.ArticleVersionRelation.objects.count())  # 13038
         self.assertEqual(1, models.ArticleVersionExtRelation.objects.count())  # 13620
 
-    def test_relations_replaced_during_ingest(self):
+    def test_relations_replaced_during_forced_ingest(self):
         data = json.load(
             open(join(self.fixture_dir, "relatedness", "elife-13038-v1.xml.json"))
         )
-        # point to 13620
+        # change relation from 04718 to 13620
         data["article"]["-related-articles-internal"] = ["13620"]
-        data["article"]["foo"] = "bar"  # tweak article data to avoid failing hashcheck
-        ajson_ingestor.ingest(data, force=True)
+        ajson_ingestor.ingest(data, force=True)  # force, because article is published
         avr = models.ArticleVersionRelation.objects.all()
         self.assertEqual(1, avr.count())  # still have just the one relationship ...
         # and it's been updated
@@ -182,7 +276,7 @@ class IngestPublish(base.BaseCase):
             avr[0].related_to, models.Article.objects.get(manuscript_id="13620")
         )
 
-    def test_v1_relations_preserved_ingesting_v2(self):
+    def test_v1_internal_relations_preserved_ingesting_v2(self):
         data = json.load(
             open(join(self.fixture_dir, "relatedness", "elife-13038-v1.xml.json"))
         )

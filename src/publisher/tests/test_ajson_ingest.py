@@ -64,6 +64,9 @@ class IngestIdentical(BaseCase):
 
         # ingest with no relations
         self.ajson["article"]["-related-articles-internal"] = []
+        self.ajson["article"]["-related-articles-external"] = []
+        self.ajson["article"]["-related-articles-reviewed-preprints"] = []
+
         ajson_ingestor.ingest_publish(self.ajson)
         self.assertEqual(1, models.ArticleVersion.objects.count())
         self.assertEqual(0, models.ArticleVersionRelation.objects.count())
@@ -132,7 +135,7 @@ class IngestIdentical(BaseCase):
         # ingest again
         ajson_ingestor.ingest(self.ajson, force=True)
 
-        # ensure relation is gone.
+        # ensure relations are gone.
         av = models.ArticleVersion.objects.get(article__manuscript_id=self.msid)
         self.assertEqual(0, models.ArticleVersionRelation.objects.count())
         self.assertEqual(0, models.ArticleVersionExtRelation.objects.count())

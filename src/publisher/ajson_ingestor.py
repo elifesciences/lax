@@ -1,6 +1,7 @@
 """handles 'INGEST' and 'PUBLISH' requests, converting article-json from bot-lax-adaptor into lax objects and updating their statuses.
 see `events.py` for converting article-json into ArticleEvent data."""
 
+import json
 import copy
 from publisher import (
     models,
@@ -51,7 +52,7 @@ ARTICLE_VERSION = {
 
 REVIEWED_PREPRINT = {
     "manuscript_id": [p("id"), int],
-    "content": [identity],
+    "content": [identity, json.dumps],
 }
 
 #
