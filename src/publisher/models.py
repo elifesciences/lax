@@ -507,20 +507,18 @@ class ReviewedPreprint(models.Model):
 
 
 class ArticleVersionReviewedPreprintRelation(models.Model):
-    # when the ReviewedPreprint is deleted, delete this reviewed-preprint relationship
+    # when the ReviewedPreprint is deleted, delete this relationship.
     reviewedpreprint = models.ForeignKey(ReviewedPreprint, on_delete=models.CASCADE)
-    # todo: should we be relating the reviewed preprint to the article or articleversion ?
-    #       can the rpp disappear between article-versions or will it always be there?
-    #       current method is to use the msid in the relations to check for 'RP' + msid in the references.
-    #       so if the xml relations change or the xml references change, the new articleversion may drop the relation.
-    # when the ArticleVersion is deleted, delete this reviewed-preprint relationship.
+    # when the ArticleVersion is deleted, delete this relationship.
     articleversion = models.ForeignKey(ArticleVersion, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ("articleversion", "reviewedpreprint")
 
     def __str__(self):
-        return "%s => %s" % (self.articleversion.id, self.reviewedpreprint.id)
+        # "av 123 => rpp 321"
+        return "av %s => rpp %s" % (self.articleversion.id, self.reviewedpreprint.id)
 
     def __repr__(self):
+        # "<ArticleVersionReviewedPreprintRelation av 123 => rpp 321>"
         return "<ArticleVersionReviewedPreprintRelation %s>" % self

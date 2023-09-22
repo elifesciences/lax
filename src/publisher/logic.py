@@ -280,7 +280,7 @@ def relationships2(msid, only_published=True):
     ]
     extr = execute_sql("external-relationships-for-msid.sql", extr_params)
 
-    # returns a list of reviewed-preprints
+    # returns a list of reviewed-preprints JSON snippets
     rppr_params = [
         av.id,
     ]

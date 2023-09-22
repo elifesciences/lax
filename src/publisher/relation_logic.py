@@ -9,7 +9,8 @@ LOG = logging.getLogger(__name__)
 def remove_relationships(av):
     """destroys any relationships that may exist for given ArticleVersion `av`.
     this is necessary to accommodate silent corrections where the relations for
-    a specific article version may change."""
+    a specific article version may change.
+    This should be executed with a transaction."""
     models.ArticleVersionRelation.objects.filter(articleversion=av).delete()
     models.ArticleVersionExtRelation.objects.filter(articleversion=av).delete()
     models.ArticleVersionReviewedPreprintRelation.objects.filter(
@@ -99,7 +100,7 @@ def relate_using_reviewed_preprint(av, rpp):
         isinstance(rpp, models.ReviewedPreprint),
         "expected a ReviewedPreprint object, got: %r" % type(rpp),
     )
-    ensure(av.id and rpp.id, "objects must exist in database")
+    ensure(av.id and rpp.id, "both objects must be saved before being related")
     data = {
         "articleversion": av,
         "reviewedpreprint": rpp,

@@ -122,6 +122,10 @@ def _ingest_objects(data, create, update, force, log_context):
 
 
 def _update_relationships(av, data, create, update, force):
+    """render the various '-related-articles-*' metadata attached to the payload into article relationships.
+    any existing relationships are removed before new ones are created.
+    This prevents changes to relations in the XML from from accumulating during ingest.
+    """
     relationships.remove_relationships(av)
     relationships.relate_using_msid_list(
         av, data["article"].get("-related-articles-internal", []), quiet=force

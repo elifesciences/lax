@@ -60,7 +60,7 @@ class IngestIdentical(BaseCase):
         self.assertEqual(utils.todt("2016-10-04"), av.datetime_published)
 
     def test_ingest_identical_except_related_articles(self):
-        "an identical ingest except for relations will see relations created and destroyed"
+        "an identical ingest except for relations will see relations created/destroyed/preserved"
 
         # ingest with no relations
         self.ajson["article"]["-related-articles-internal"] = []

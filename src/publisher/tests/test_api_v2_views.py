@@ -688,6 +688,7 @@ class V2Content(base.BaseCase):
 
         av = logic.most_recent_article_version(self.msid1)
         related_to = logic.most_recent_article_version(self.msid2)
+        related_to_snippet = logic.article_snippet_json(related_to)
 
         citation = {"uri": "https://example.org", "citations": {"foo": "bar"}}
         rpp = {
@@ -708,7 +709,7 @@ class V2Content(base.BaseCase):
             "type": "reviewed-preprint",
         }
 
-        # create a reviewed-preprint relation
+        # create a set of relationships
         data = {
             "article": {
                 "-related-articles-internal": [related_to.article.manuscript_id],
@@ -719,21 +720,11 @@ class V2Content(base.BaseCase):
         ajson_ingestor._update_relationships(
             av, data, create=True, update=True, force=False
         )
-        rpp = models.ReviewedPreprint.objects.first()
 
         resp = self.c.get(reverse("v2:article-relations", kwargs={"msid": self.msid1}))
         self.assertEqual(resp.status_code, 200)
 
-        expected = json.dumps(
-            [
-                # {'uri': 'https://example.org', 'citations': {'foo': 'bar'}},
-                citation,
-                # {'id': '85380', 'doi': '10.1101/2022.12.20.521179', 'pdf': 'https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf', 'status': 'reviewed', 'authorLine': 'Zhipeng Wang, Cheng Jin ... Wei Song', 'title': 'Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals', 'published': '2023-03-24T03:00:00Z', 'reviewedDate': '2023-03-24T03:00:00Z', 'versionDate': '2023-06-28T03:00:00Z', 'statusDate': '2023-06-28T03:00:00Z', 'stage': 'published', 'subjects': [{'id': 'developmental-biology', 'name': 'Developmental Biology'}], 'type': 'reviewed-preprint'},
-                json.loads(rpp.content),
-                # [{"uri": "https://example.org", "citations": {"foo": "bar"}}, {"id": "85380", "doi": "10.1101/2022.12.20.521179", "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf", "status": "reviewed", "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song", "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals", "published": "2023-03-24T03:00:00Z", "reviewedDate": "2023-03-24T03:00:00Z", "versionDate": "2023-06-28T03:00:00Z", "statusDate": "2023-06-28T03:00:00Z", "stage": "published", "subjects": [{"id": "developmental-biology", "name": "Developmental Biology"}], "type": "reviewed-preprint"}, {"status": "poa", "id": "20105", "version": 2, "type": "research-article", "doi": "10.7554/eLife.20105", "authorLine": "Neel H Shah et al.", "title": "An electrostatic selection mechanism controls sequential kinase signaling downstream of the T cell receptor", "published": "2016-10-04T00:00:00Z", "volume": 5, "elocationId": "e20105", "pdf": "https://cdn.elifesciences.org/articles/20105/elife-20105-v2.pdf", "subjects": [{"id": "biophysics-structural-biology", "name": "Biophysics and Structural Biology"}, {"id": "immunology", "name": "Immunology"}], "researchOrganisms": ["E. coli"], "copyright": {"license": "CC-BY-4.0", "holder": "Shah et al.", "statement": "This article is distributed under the terms of the <a href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License</a> permitting unrestricted use and redistribution provided that the original author and source are credited."}, "stage": "published", "statusDate": "2016-10-04T00:00:00Z", "versionDate": "2023-09-20T05:22:19Z"}]
-                logic.article_snippet_json(related_to),
-            ]
-        )
+        expected = json.dumps([citation, rpp, related_to_snippet])
         self.assertEqual(expected, resp.content.decode("utf-8"))
 
     def test_related_articles_on_unpublished_article(self):
