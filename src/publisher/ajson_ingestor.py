@@ -1,6 +1,7 @@
 """handles 'INGEST' and 'PUBLISH' requests, converting article-json from bot-lax-adaptor into lax objects and updating their statuses.
 see `events.py` for converting article-json into ArticleEvent data."""
 
+import json
 import copy
 from publisher import (
     models,
@@ -27,6 +28,10 @@ def elide(val):
     return val or render.EXCLUDE_ME
 
 
+def identity(val):
+    return val
+
+
 ARTICLE = {
     "manuscript_id": [p("id"), int],
     "volume": [p("volume")],
@@ -43,6 +48,11 @@ ARTICLE_VERSION = {
     "status": [p("status")],
     # only v1 article-json has a published date. v2 article-json does not
     "datetime_published": [p("published", None), utils.todt],
+}
+
+REVIEWED_PREPRINT = {
+    "manuscript_id": [p("id"), int],
+    "content": [identity, json.dumps],
 }
 
 #
@@ -94,6 +104,7 @@ def _ingest_objects(data, create, update, force, log_context):
             ["article", "version"],
             create,
             update,
+            # lsh@2023-09-19: what does commit=False get us? it won't commit the transaction.
             commit=False,
             article=article,
         )
@@ -110,6 +121,27 @@ def _ingest_objects(data, create, update, force, log_context):
         )
 
 
+def _update_relationships(av, data, create, update, force):
+    """render the various '-related-articles-*' metadata attached to the payload into article relationships.
+    any existing relationships are removed before new ones are created.
+    This prevents changes to relations in the XML from from accumulating during ingest.
+    """
+    relationships.remove_relationships(av)
+    relationships.relate_using_msid_list(
+        av, data["article"].get("-related-articles-internal", []), quiet=force
+    )
+    relationships.relate_using_citation_list(
+        av, data["article"].get("-related-articles-external", [])
+    )
+    for rpp in data["article"].get("-related-articles-reviewed-preprints", []):
+        rpp_struct = render.render_item(REVIEWED_PREPRINT, rpp)
+        key = ["manuscript_id"]
+        rpp_obj, _, _ = create_or_update(
+            models.ReviewedPreprint, rpp_struct, key, create, update
+        )
+        relationships.relate_using_reviewed_preprint(av, rpp_obj)
+
+
 #
 #
 #
@@ -118,7 +150,7 @@ def _ingest_objects(data, create, update, force, log_context):
 def _ingest(data, force=False) -> models.ArticleVersion:
     """ingests article-json. returns a triple of (journal obj, article obj, article version obj)
     unpublished article-version data can be ingested multiple times UNLESS that article version has been published.
-    published article-version data can be ingested only if force=True"""
+    published article-version data can be ingested only if `force=True`."""
 
     create = update = True
     log_context = {}
@@ -156,7 +188,7 @@ def _ingest(data, force=False) -> models.ArticleVersion:
             else:
                 if not av.version == 1:
                     # uhoh. we're attempting to create our first article version and it isn't a version 1
-                    msg = "refusing to ingest new article version out of sequence. no other article versions exist so I expect a v1"
+                    msg = "refusing to ingest new article version out of sequence. no other article versions exist so a v1 was expected."
                     log_context.update(
                         {"given-version": av.version, "expected-version": 1}
                     )
@@ -195,18 +227,14 @@ def _ingest(data, force=False) -> models.ArticleVersion:
             av, data, quiet=quiet, hash_check=True, update_fragment=update_fragment
         )
 
-        # update the relationships
-        relationships.remove_relationships(av)
-        relationships.relate_using_msid_list(
-            av, data["article"].get("-related-articles-internal", []), quiet=force
-        )
-        relationships.relate_using_citation_list(
-            av, data["article"].get("-related-articles-external", [])
-        )
+        # `av` at this point has been `.save`d inside `fragments.set_article_json` and has
+        # an `id` value that we can use to relate it to other objects.
 
-        # 2017-12-20: end section
+        # update the relationships
+        _update_relationships(av, data, create, update, force)
 
         # passed all checks, save
+        # lsh@2023-09-19: save again? this could be unnecessary
         av.save()
 
         # notify event bus that article change has occurred

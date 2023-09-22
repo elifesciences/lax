@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "[-] .lint.sh"
-
 # pylint likes to lint them
 find src/ -name '*.py[c|~]' -delete
 find src/ -regex "\(.*__pycache__.*\|*.py[co]\)" -delete
@@ -22,5 +20,3 @@ pylint ./src/publisher/** --load-plugins=pylint_django --disable=all --reports=n
 
 echo "scrubbing"
 . .scrub.sh
-
-echo "[✓] .lint.sh"

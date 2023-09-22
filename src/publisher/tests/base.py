@@ -1,7 +1,7 @@
 from io import StringIO
 import os, json
 from django.test import TestCase as DjangoTestCase, TransactionTestCase
-from publisher import models, utils, ajson_ingestor
+from publisher import models, utils, ajson_ingestor, relation_logic
 from django.core.management import call_command as dj_call_command
 import unittest
 
@@ -98,3 +98,20 @@ class BaseCase(SimpleBaseCase, DjangoTestCase):
 
 class TransactionBaseCase(SimpleBaseCase, TransactionTestCase):
     pass
+
+
+# ---
+
+
+def _relate_using_msids(matrix):
+    """
+    create_relationships = [
+        (self.msid1, [self.msid2]), # 1 => 2
+        (self.msid2, [self.msid3]), # 2 => 3
+        (self.msid3, [self.msid1]), # 3 => 1
+    ]
+    _relate_using_msids(create_relationships)
+    """
+    for target, msid_list in matrix:
+        av = models.Article.objects.get(manuscript_id=target).latest_version
+        relation_logic.relate_using_msid_list(av, msid_list)

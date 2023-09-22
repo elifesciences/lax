@@ -478,3 +478,47 @@ class ArticleVersionExtRelation(models.Model):
 
     def __repr__(self):
         return "<ArticleVersionRelation %s>" % self
+
+
+class ReviewedPreprint(models.Model):
+    manuscript_id = models.BigIntegerField(unique=True)
+    content = models.TextField(help_text="valid reviewed-preprint JSON")
+    # lsh@2023-08: I don't know about this yet.
+    # I might add it the first time the spec introduces changes that require a backfill.
+    # content_version = models.PositiveSmallIntegerField(
+    #    help_text="version of the reviewed-preprint schema validated against"
+    # )
+
+    datetime_record_created = models.DateTimeField(
+        auto_now_add=True, help_text="Date and time this record was created"
+    )
+    datetime_record_updated = models.DateTimeField(
+        auto_now=True, help_text="Date and time this record was updated"
+    )
+
+    class Meta:
+        ordering = ("manuscript_id",)  # ASC
+
+    def __str__(self):
+        return str(self.manuscript_id)
+
+    def __repr__(self):
+        return "<ReviewedPreprint %s>" % self.manuscript_id
+
+
+class ArticleVersionReviewedPreprintRelation(models.Model):
+    # when the ReviewedPreprint is deleted, delete this relationship.
+    reviewedpreprint = models.ForeignKey(ReviewedPreprint, on_delete=models.CASCADE)
+    # when the ArticleVersion is deleted, delete this relationship.
+    articleversion = models.ForeignKey(ArticleVersion, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("articleversion", "reviewedpreprint")
+
+    def __str__(self):
+        # "av 123 => rpp 321"
+        return "av %s => rpp %s" % (self.articleversion.id, self.reviewedpreprint.id)
+
+    def __repr__(self):
+        # "<ArticleVersionReviewedPreprintRelation av 123 => rpp 321>"
+        return "<ArticleVersionReviewedPreprintRelation %s>" % self

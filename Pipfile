@@ -55,4 +55,3 @@ pytest-cov = "~=2.8"
 pytest-django = "~=4.1"
 # run pytest in parallel with `-n` switch
 pytest-xdist = "~=3.0"
-xenon = "~=0.7"

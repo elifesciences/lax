@@ -1,5 +1,4 @@
 *.pyc
-.tox/
 *~
 *.sqlite*
 *.orig
@@ -19,5 +18,4 @@ ingestion-lax.log.json
 aws-perms.sh
 schema/api-raml/
 article-xml
-.scrapy-cache
 dumps/
