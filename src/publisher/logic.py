@@ -20,9 +20,14 @@ def qdebug(f):
         result = f(*args, **kwargs)
         qt = [(float(query["time"]) * 1000) for query in connection.queries]
 
+        [print(q['sql']) for q  in connection.queries]
+        
         print("%s queries" % len(qt))
-        print("%s s" % sum(qt))
+        print("%s ms" % sum(qt))
         print()
+        print(result)
+        print()
+        print("-------------------------------------------")
 
         return result
 
@@ -34,7 +39,7 @@ def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
-
+@qdebug
 def execute_sql(filename, params):
     with connection.cursor() as cursor:
         cursor.execute(settings.SQL_MAP[filename], params)
@@ -369,7 +374,13 @@ def article_version_history__v1(msid, only_published=True):
 
     if article.type in EXCLUDE_RECEIVED_ACCEPTED_DATES:
         struct = exsubdict(struct, ["received", "accepted"])
+    else:
+        if not struct['received']:
+            del struct['received']
 
+        if not struct['accepted']
+            del struct['accepted']
+        
     return struct
 
 
@@ -418,6 +429,12 @@ def article_version_history__v2(msid, only_published=True):
 
     if article.type in EXCLUDE_RECEIVED_ACCEPTED_DATES:
         struct = exsubdict(struct, ["received", "accepted"])
+    else:
+        if not struct['received']:
+            del struct['received']
+
+        if not struct['accepted']
+            del struct['accepted']
 
     sent_for_peer_review_event = [
         ae for ae in article_event_list if ae.event == models.DATE_SENT_FOR_PEER_REVIEW
