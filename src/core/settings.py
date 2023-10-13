@@ -211,7 +211,10 @@ ALL_SCHEMA_IDX = {
         (1, join(SCHEMA_PATH, "model/article-history.v1.json")),
     ],
     LIST: [(1, join(SCHEMA_PATH, "model/article-list.v1.json"))],
-    RELATED: [(1, join(SCHEMA_PATH, "model/article-related.v1.json"))],
+    RELATED: [
+        (2, join(SCHEMA_PATH, "model/article-related.v2.json")),
+        (1, join(SCHEMA_PATH, "model/article-related.v1.json")),
+    ],
 }
 
 # {"vor": "/path/to/api-raml/dist/model/article-vor.v7.json", "poa": ...}
