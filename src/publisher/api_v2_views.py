@@ -319,11 +319,21 @@ def article_related(request, msid):
     "return the related articles for a given article ID"
     authenticated = is_authenticated(request)
     try:
+        accepts_header_str = request.META.get("HTTP_ACCEPT")
+        content_type = negotiate(accepts_header_str, settings.RELATED)
+        if not content_type:
+            return http_406()
+        content_type, content_type_version = content_type
+        only_published = not authenticated
+        include_rpp = content_type_version == 2
         # lsh@2022-05-11: disabled, replaced with raw SQL for better, fixed, performance.
         # - https://github.com/elifesciences/issues/issues/7290
         # rl = logic.relationships(msid, only_published=not authenticated)
-        rl = logic.relationships2(msid, only_published=not authenticated)
-        return json_response(rl, content_type=ctype(settings.RELATED))
+        rl = logic.relationships2(msid, only_published, include_rpp)
+        return json_response(
+            rl, content_type=ctype(settings.RELATED, version=content_type_version)
+        )
+
     except models.Article.DoesNotExist:
         return http_404()
 

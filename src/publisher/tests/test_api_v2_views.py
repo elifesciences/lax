@@ -237,6 +237,20 @@ def test_structured_abstract_not_downgraded_poa():
         assert 406 == resp.status_code
 
 
+def test_related_downgraded():
+    "related v1 content type requests prevents reviewed-preprints from being returned."
+    msid = 123
+    v1_ctype = "application/vnd.elife.article-related+json; version=1"
+    mock = []
+    with patch("publisher.logic.relationships2", return_value=mock) as patched:
+        url = reverse("v2:article-relations", kwargs={"msid": msid})
+        resp = Client().get(url, HTTP_ACCEPT=v1_ctype)
+        _, _, param_include_rpp = patched.call_args.args
+        assert param_include_rpp is False
+        assert resp.content_type == v1_ctype
+        assert 200 == resp.status_code
+
+
 def test_deprecated_header_present():
     "requests for deprecated content received a deprecated header in the response"
     msid = 16695
@@ -283,7 +297,7 @@ class V2ContentTypes(base.BaseCase):
         art_poa_type = "application/vnd.elife.article-poa+json; version=3"
         art_vor_type = "application/vnd.elife.article-vor+json; version=7"
         art_history_type = "application/vnd.elife.article-history+json; version=2"
-        art_related_type = "application/vnd.elife.article-related+json; version=1"
+        art_related_type = "application/vnd.elife.article-related+json; version=2"
 
         case_list = {
             reverse("v2:article-list"): art_list_type,

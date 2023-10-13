@@ -272,7 +272,7 @@ def relationships(msid, only_published=True):
     return extcl + avl
 
 
-def relationships2(msid, only_published=True):
+def relationships2(msid, only_published=True, include_rpp=True):
     "returns all relationships for the given `msid`"
 
     # we can do the SQL queries without this, but we need a DoesNotExist to be raised
@@ -287,10 +287,12 @@ def relationships2(msid, only_published=True):
     extr = execute_sql("external-relationships-for-msid.sql", extr_params)
 
     # returns a list of reviewed-preprints JSON snippets
-    rppr_params = [
-        av.id,
-    ]
-    rppr = execute_sql("reviewed-preprints-for-av-id.sql", rppr_params)
+    rppr = []
+    if include_rpp:
+        rppr_params = [
+            av.id,
+        ]
+        rppr = execute_sql("reviewed-preprints-for-av-id.sql", rppr_params)
 
     # returns article-json snippets
     intr_params = [
