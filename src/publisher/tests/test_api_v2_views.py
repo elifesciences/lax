@@ -748,7 +748,6 @@ class V2Content(base.BaseCase):
 
         av = logic.most_recent_article_version(self.msid2)
         related_to = logic.most_recent_article_version(self.msid1)
-        related_to_snippet = logic.article_snippet_json(related_to)
 
         rpp = {
             "id": self.msid1,
