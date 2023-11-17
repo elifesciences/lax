@@ -741,6 +741,53 @@ class V2Content(base.BaseCase):
         expected = json.dumps([citation, rpp, related_to_snippet])
         self.assertEqual(expected, resp.content.decode("utf-8"))
 
+    def test_related_articles__prefer_vor_over_rpp(self):
+        "related articles endpoint returns the vor of an article if both an rpp and vor exist"
+        # (very similar to previous tests but `av` and `related_to` switched around.
+        # this is so we're getting a vor in the response and not a poa, not that it should matter too much.)
+
+        av = logic.most_recent_article_version(self.msid2)
+        related_to = logic.most_recent_article_version(self.msid1)
+        related_to_snippet = logic.article_snippet_json(related_to)
+
+        rpp = {
+            "id": self.msid1,
+            "doi": "10.1101/2022.12.20.521179",
+            "pdf": "https://github.com/elifesciences/enhanced-preprints-data/raw/master/data/85380/v2/85380-v2.pdf",
+            "status": "reviewed",
+            "authorLine": "Zhipeng Wang, Cheng Jin ... Wei Song",
+            "title": "Identification of quiescent FOXC2<sup>+</sup> spermatogonial stem cells in adult mammals",
+            "published": "2023-03-24T03:00:00Z",
+            "reviewedDate": "2023-03-24T03:00:00Z",
+            "versionDate": "2023-06-28T03:00:00Z",
+            "statusDate": "2023-06-28T03:00:00Z",
+            "stage": "published",
+            "subjects": [
+                {"id": "developmental-biology", "name": "Developmental Biology"}
+            ],
+            "type": "reviewed-preprint",
+        }
+
+        # create a set of relationships
+        data = {
+            "article": {
+                "-related-articles-internal": [related_to.article.manuscript_id],
+                "-related-articles-external": [],
+                "-related-articles-reviewed-preprints": [rpp],
+            }
+        }
+        ajson_ingestor._update_relationships(
+            av, data, create=True, update=True, force=False
+        )
+
+        resp = self.c.get(reverse("v2:article-relations", kwargs={"msid": self.msid2}))
+        self.assertEqual(resp.status_code, 200)
+
+        expected = [("20125", "vor")]
+        actual = [(item["id"], item["status"]) for item in resp.json()]
+
+        self.assertEqual(expected, actual)
+
     def test_related_articles_on_unpublished_article(self):
         """related articles endpoint returns a 200 response to an authenticated request for
         an unpublished article and a 404 to an unauthenticated request."""
