@@ -315,14 +315,19 @@ def relationships2(msid, only_published=True, include_rpp=True):
     intr = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr]
     intr_rev = [json.loads(i["article_json_v1_snippet"]) or "null" for i in intr_rev]
 
-    av_results = intr + intr_rev
+    av_list = intr + intr_rev
 
-    # unique items only, sorted by manuscript_id, ascending
-    data = {d["id"]: d for d in av_results if d}.values()
-    data = sorted(data, key=lambda d: d["id"])
+    # unique articleversions only, sorted by manuscript_id, ascending
+    av_map = {av["id"]: av for av in av_list if av}
+    av_list = sorted(av_map.values(), key=lambda d: d["id"])
+
+    if include_rpp:
+        # lsh@2023-11-17: new buslogic, exclude any rpp that has a matching msid for a POA or VOR relation.
+        # -https://github.com/elifesciences/issues/issues/8529
+        rppr = [rpp for rpp in rppr if str(rpp["id"]) not in av_map]
 
     # any external citations precede internal relations
-    return extr + rppr + data
+    return extr + rppr + av_list
 
 
 #
