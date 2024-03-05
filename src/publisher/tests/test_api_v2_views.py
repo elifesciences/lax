@@ -38,36 +38,48 @@ def test_ctype__bad_cases():
 
 
 def test_negotiate():
+    latest_poa_type = settings.SCHEMA_VERSIONS["poa"][0]
+    previous_poa_type = settings.SCHEMA_VERSIONS["poa"][1]
+    latest_history_type = settings.SCHEMA_VERSIONS["history"][0]
+
     cases = [
         # typical case. accepts anything, gets latest POA spec version
-        ("*/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        ("*/*", "poa", ("application/vnd.elife.article-poa+json", latest_poa_type)),
         # edge case. accepts almost anything, gets latest POA spec version
-        ("application/*", "poa", ("application/vnd.elife.article-poa+json", 3)),
+        (
+            "application/*",
+            "poa",
+            ("application/vnd.elife.article-poa+json", latest_poa_type),
+        ),
         # accepts json which is all this API returns.
-        ("application/json", "poa", ("application/vnd.elife.article-poa+json", 3)),
-        # typical case. requested any POA or VOR spec version
+        (
+            "application/json",
+            "poa",
+            ("application/vnd.elife.article-poa+json", latest_poa_type),
+        ),
+        # typical case. requested any POA or VOR spec version, with POA as precedence.
         (
             "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
             "poa",
-            ("application/vnd.elife.article-poa+json", 3),
+            ("application/vnd.elife.article-poa+json", latest_poa_type),
         ),
         # ideal case. any POA version, gets explicit latest version
         (
             "application/vnd.elife.article-poa+json",
             "poa",
-            ("application/vnd.elife.article-poa+json", 3),
+            ("application/vnd.elife.article-poa+json", latest_poa_type),
         ),
         # deprecated case. previous POA spec version
         (
-            "application/vnd.elife.article-poa+json; version=2",
+            "application/vnd.elife.article-poa+json; version=%s" % previous_poa_type,
             "poa",
-            ("application/vnd.elife.article-poa+json", 2),
+            ("application/vnd.elife.article-poa+json", previous_poa_type),
         ),
         # ideal case. requested latest POA spec version
         (
-            "application/vnd.elife.article-poa+json; version=3",
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
             "poa",
-            ("application/vnd.elife.article-poa+json", 3),
+            ("application/vnd.elife.article-poa+json", latest_poa_type),
         ),
         # possible case. requested a set of POA spec versions. max version is used.
         (
@@ -86,7 +98,7 @@ def test_negotiate():
         (
             "application/vnd.elife.article-history+json",
             "history",
-            ("application/vnd.elife.article-history+json", 2),
+            ("application/vnd.elife.article-history+json", latest_history_type),
         ),
         (
             "application/vnd.elife.article-history+json; version=1",
@@ -100,42 +112,53 @@ def test_negotiate():
 
 def test_accept_types():
     "valid HTTP 'Accept' headers return expected 'Content-Type' responses"
+    latest_poa_type = settings.SCHEMA_VERSIONS["poa"][0]
+    previous_poa_type = settings.SCHEMA_VERSIONS["poa"][1]
+
     # (client accepts, expected accepts)
     cases = [
         # typical case. accepts anything, gets latest POA spec version
-        ("*/*", "application/vnd.elife.article-poa+json; version=3"),
+        (
+            "*/*",
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
+        ),
         # edge case. accepts almost anything, gets latest POA spec version
-        ("application/*", "application/vnd.elife.article-poa+json; version=3"),
+        (
+            "application/*",
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
+        ),
         # typical case. requested any POA or VOR spec version
         (
             "application/vnd.elife.article-poa+json, application/vnd.elife.article-vor+json",
-            "application/vnd.elife.article-poa+json; version=3",
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
         ),
         # ideal case. any POA version, gets explicit latest version
         (
             "application/vnd.elife.article-poa+json",
-            "application/vnd.elife.article-poa+json; version=3",
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
         ),
         # deprecated case. previous POA spec version
         (
-            "application/vnd.elife.article-poa+json; version=2",
-            "application/vnd.elife.article-poa+json; version=2",
+            "application/vnd.elife.article-poa+json; version=%s" % previous_poa_type,
+            "application/vnd.elife.article-poa+json; version=%s" % previous_poa_type,
         ),
         # ideal case. requested latest POA spec version
         (
-            "application/vnd.elife.article-poa+json; version=3",
-            "application/vnd.elife.article-poa+json; version=3",
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
         ),
         # possible case. requested a set of POA spec versions. max version is used.
         (
-            "application/vnd.elife.article-poa+json; version=1, application/vnd.elife.article-poa+json; version=2",
-            "application/vnd.elife.article-poa+json; version=2",
+            "application/vnd.elife.article-poa+json; version=%s, application/vnd.elife.article-poa+json; version=%s"
+            % (previous_poa_type, latest_poa_type),
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
         ),
         # possible case. multiple different specific specs requested.
         # presence of specific vor content type shouldn't affect specific poa version returned
         (
-            "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-poa+json; version=2",
-            "application/vnd.elife.article-poa+json; version=2",
+            "application/vnd.elife.article-vor+json; version=4, application/vnd.elife.article-poa+json; version=%s"
+            % latest_poa_type,
+            "application/vnd.elife.article-poa+json; version=%s" % latest_poa_type,
         ),
     ]
 
@@ -257,7 +280,10 @@ def test_deprecated_header_present():
     fixture_path = join(base.FIXTURE_DIR, "ajson", "elife-16695-v1.xml.json")
     fixture = json.load(open(fixture_path, "r"))["article"]
     mock = Mock(article_json_v1=fixture, status="poa")
-    deprecated_ctype = "application/vnd.elife.article-poa+json; version=2"
+    previous_poa_type = settings.SCHEMA_VERSIONS["poa"][1]
+    deprecated_ctype = (
+        "application/vnd.elife.article-poa+json; version=%s" % previous_poa_type
+    )
 
     with patch("publisher.logic.most_recent_article_version", return_value=mock):
         url = reverse("v2:article", kwargs={"msid": msid})
@@ -292,12 +318,31 @@ class V2ContentTypes(base.BaseCase):
         for path in [self.ajson_fixture_v1, self.ajson_fixture_v2]:
             ajson_ingestor.ingest_publish(json.load(open(path, "r")))
 
+        # latest versions
+        latest_art_list_type = settings.SCHEMA_VERSIONS["list"][0]
+        latest_art_poa_type = settings.SCHEMA_VERSIONS["poa"][0]
+        latest_art_vor_type = settings.SCHEMA_VERSIONS["vor"][0]
+        latest_art_history_type = settings.SCHEMA_VERSIONS["history"][0]
+        latest_art_related_type = settings.SCHEMA_VERSIONS["related"][0]
+
         # map the known types to expected types
-        art_list_type = "application/vnd.elife.article-list+json; version=1"
-        art_poa_type = "application/vnd.elife.article-poa+json; version=3"
-        art_vor_type = "application/vnd.elife.article-vor+json; version=7"
-        art_history_type = "application/vnd.elife.article-history+json; version=2"
-        art_related_type = "application/vnd.elife.article-related+json; version=2"
+        art_list_type = (
+            "application/vnd.elife.article-list+json; version=%s" % latest_art_list_type
+        )
+        art_poa_type = (
+            "application/vnd.elife.article-poa+json; version=%s" % latest_art_poa_type
+        )
+        art_vor_type = (
+            "application/vnd.elife.article-vor+json; version=%s" % latest_art_vor_type
+        )
+        art_history_type = (
+            "application/vnd.elife.article-history+json; version=%s"
+            % latest_art_history_type
+        )
+        art_related_type = (
+            "application/vnd.elife.article-related+json; version=%s"
+            % latest_art_related_type
+        )
 
         case_list = {
             reverse("v2:article-list"): art_list_type,
@@ -305,12 +350,12 @@ class V2ContentTypes(base.BaseCase):
                 "v2:article-version-list", kwargs={"msid": self.msid}
             ): art_history_type,
             reverse("v2:article", kwargs={"msid": self.msid}): art_vor_type,
-            # 'version' here is the article version, not api or mime version
-            # v1 of this article fixture is a POA
+            # 'version' here is the *article* version, not api or mime version.
+            # v1 of this article fixture is a POA.
             reverse(
                 "v2:article-version", kwargs={"msid": self.msid, "version": 1}
             ): art_poa_type,
-            # v2 of this fixture is a VOR
+            # v2 of this fixture is a VOR.
             reverse(
                 "v2:article-version", kwargs={"msid": self.msid, "version": 2}
             ): art_vor_type,
@@ -439,9 +484,12 @@ class V2Content(base.BaseCase):
     def test_article_poa(self):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid2}))
+        latest_art_poa_type = settings.SCHEMA_VERSIONS["poa"][0]
+
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-poa+json; version=3"
+            resp.content_type,
+            "application/vnd.elife.article-poa+json; version=%s" % latest_art_poa_type,
         )
         data = utils.json_loads(resp.content)
 
@@ -454,9 +502,12 @@ class V2Content(base.BaseCase):
     def test_article_poa_unpublished(self):
         "the latest version of the requested article is returned"
         resp = self.ac.get(reverse("v2:article", kwargs={"msid": self.msid2}))
+        latest_art_poa_type = settings.SCHEMA_VERSIONS["poa"][0]
+
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-poa+json; version=3"
+            resp.content_type,
+            "application/vnd.elife.article-poa+json; version=%s" % latest_art_poa_type,
         )
         data = utils.json_loads(resp.content)
 
@@ -469,9 +520,12 @@ class V2Content(base.BaseCase):
     def test_article_vor(self):
         "the latest version of the requested article is returned"
         resp = self.c.get(reverse("v2:article", kwargs={"msid": self.msid1}))
+        latest_art_vor_type = settings.SCHEMA_VERSIONS["vor"][0]
+
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(
-            resp.content_type, "application/vnd.elife.article-vor+json; version=7"
+            resp.content_type,
+            "application/vnd.elife.article-vor+json; version=%s" % latest_art_vor_type,
         )
 
         data = utils.json_loads(resp.content)
