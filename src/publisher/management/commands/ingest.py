@@ -6,6 +6,7 @@ The import script does not obey business rules and merrily update published date
 The ingest script DOES obey business rules and will not publish things twice,
 
 """
+
 from collections import OrderedDict
 import os, io, re, sys, argparse, time
 from publisher import ajson_ingestor, utils, codes, aws_events

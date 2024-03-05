@@ -199,12 +199,12 @@ SCHEMA_PATH = join(PROJECT_DIR, "schema", "api-raml", "dist")
 # order is important. if all attempts to validate fail, the first validation error is re-raised
 ALL_SCHEMA_IDX = {
     POA: [
+        (4, join(SCHEMA_PATH, "model/article-poa.v4.json")),
         (3, join(SCHEMA_PATH, "model/article-poa.v3.json")),
-        (2, join(SCHEMA_PATH, "model/article-poa.v2.json")),
     ],
     VOR: [
+        (8, join(SCHEMA_PATH, "model/article-vor.v8.json")),
         (7, join(SCHEMA_PATH, "model/article-vor.v7.json")),
-        (6, join(SCHEMA_PATH, "model/article-vor.v6.json")),
     ],
     HISTORY: [
         (2, join(SCHEMA_PATH, "model/article-history.v2.json")),
