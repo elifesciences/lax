@@ -12,7 +12,6 @@ LOG = logging.getLogger(__name__)
 #    the presence of this new field shouldn't affect anything.
 # 2. awards may now exclude a list of recipients.
 #    we can't satisfy requests for these articles with older content types.
-#
 
 
 def get_content_type(resp):
@@ -25,6 +24,7 @@ def all_awards_have_recipients(ajson):
     """returns `True` if all awards in `ajson` have a list of recipients.
     returns `True` if `ajson` has no `funding` section.
     returns `True` if `ajson` has no `funding.awards` section."""
+    assert isinstance(ajson, dict), "expected dictionary"
     funding = ajson.get("funding")
     if not funding:
         return True
@@ -168,7 +168,7 @@ def content_check(get_response_fn):
 
 #
 # downgrade content
-# when a content-type is less than the current VOR/POA version requested,
+# when a content-type is less than the current POA/VOR version requested,
 # downgrade response content-type if possible.
 #
 
@@ -226,13 +226,11 @@ def downgrade_vor_content_type(get_response_fn):
             # client specifically accepts an older VOR only (deprecated).
             # we might be ok if the content is valid under the previous version.
             if vor_valid_under_previous_version(body):
-                # body is valid under previous version. downgrade content-type.
-                previous_vor_version_str = str(previous_vor_version)
-                new_content_type = (
-                    "application/vnd.elife.article-vor+json; version="
-                    + previous_vor_version_str
+                # downgrade content-type
+                response["Content-Type"] = (
+                    "application/vnd.elife.article-vor+json; version=%s"
+                    % previous_vor_version
                 )
-                response["Content-Type"] = new_content_type
                 return response
 
         # an unsupported VOR version was requested.
@@ -293,13 +291,11 @@ def downgrade_poa_content_type(get_response_fn):
             # we might be ok if the content is valid under the previous version.
             body = json.loads(response.content.decode("utf-8"))
             if poa_valid_under_previous_version(body):
-                # body is valid under previous version. downgrade content-type.
-                previous_poa_version_str = str(previous_poa_version)
-                new_content_type = (
-                    "application/vnd.elife.article-poa+json; version="
-                    + previous_poa_version_str
+                # downgrade content-type
+                response["Content-Type"] = (
+                    "application/vnd.elife.article-poa+json; version=%s"
+                    % previous_poa_version
                 )
-                response["Content-Type"] = new_content_type
                 return response
 
         # an unsupported POA version was requested
