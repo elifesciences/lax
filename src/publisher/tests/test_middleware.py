@@ -1,41 +1,73 @@
-from publisher import api_v2_views
+from publisher import api_v2_views, middleware
 from django.test import Client
 from django.urls import reverse
 from django.conf import settings
 from unittest import skip, mock
 
 
-@skip("works by itself, but fails when called as part of test suite")
-def test_VORv6_downgraded():
-    "a v6 VOR compatible with v5 has it's content-type successfully downgraded"
-    v6_vor = {"authorResponse": {}, "editorEvaluation": {}, "decisionLetter": {}}
-    v5_ctype = api_v2_views.ctype(settings.VOR, version=5)
-    v6_ctype = api_v2_views.ctype(settings.VOR, version=6)
+def test_all_awards_have_recipients():
+    cases = [
+        ({}, True),
+        ({"foo": "bar"}, True),
+        ({"funding": {}}, True),
+        ({"funding": {"awards": []}}, True),
+        # ---
+        ({"funding": {"awards": [{}]}}, False),
+        ({"funding": {"awards": [{"recipients": []}]}}, True),
+        (
+            {
+                "funding": {
+                    "awards": [
+                        {
+                            "id": "par-1",
+                            "recipients": [
+                                {
+                                    "name": {
+                                        "index": "Foo, Bar",
+                                        "preferred": "Bar Foo",
+                                    },
+                                    "type": "Person",
+                                }
+                            ],
+                            "source": {"name": ["Foo Society"]},
+                        }
+                    ]
+                }
+            },
+            True,
+        ),
+    ]
+    for given, expected in cases:
+        assert middleware.all_awards_have_recipients(given) == expected
 
-    request_mock = api_v2_views.json_response(v6_vor, content_type=v6_ctype)
+
+@skip("works by itself, but fails when called as part of test suite")
+def test_content_type_downgraded():
+    "content-type is downgraded for a request using a deprecated content type if content can be downgraded"
+    previous_vor_type = settings.SCHEMA_VERSIONS["vor"][1]
+    previous_ctype = api_v2_views.ctype(settings.VOR, version=previous_vor_type)
+
+    ajson = {"funding": {"awards": [{"recipients": []}]}}
+    request_mock = api_v2_views.json_response(ajson, content_type=previous_ctype)
     with mock.patch("publisher.api_v2_views.article", return_value=request_mock):
-        # v5 requested, we respond with a v6 ...
+        # problem is probably here: the mock.patch path and reversing the path to the view function.
         resp = Client().get(
-            reverse("v2:article", kwargs={"msid": 123}), HTTP_ACCEPT=v5_ctype
+            reverse("v2:article", kwargs={"msid": 123}), HTTP_ACCEPT=previous_ctype
         )
         assert resp.status_code == 200
-        assert resp.json() == v6_vor
-
-        # that is downgraded to a v5
-        assert resp.content_type == v5_ctype
+        assert resp.headers.get("content-type") == previous_ctype
 
 
 @skip("works by itself, but fails when called as part of test suite")
-def test_VORv6_not_downgraded():
-    "a v6 VOR incompatible with v5 is not downgraded and returns a 406"
-    v6_vor = {"authorResponse": {}, "editorEvaluation": {}}
-    v5_ctype = api_v2_views.ctype(settings.VOR, version=5)
-    v6_ctype = api_v2_views.ctype(settings.VOR, version=6)
+def test_content_type_not_downgraded():
+    "content-type is not downgraded for a request using a deprecated content type if content cannot be downgraded"
+    previous_vor_type = settings.SCHEMA_VERSIONS["vor"][1]
+    previous_ctype = api_v2_views.ctype(settings.VOR, version=previous_vor_type)
 
-    request_mock = api_v2_views.json_response(v6_vor, content_type=v6_ctype)
+    ajson = {"funding": {"awards": [{}]}}
+    request_mock = api_v2_views.json_response(ajson, content_type=previous_ctype)
     with mock.patch("publisher.api_v2_views.article", return_value=request_mock):
-        # v5 requested, we respond with a v6
         resp = Client().get(
-            reverse("v2:article", kwargs={"msid": 123}), HTTP_ACCEPT=v5_ctype
+            reverse("v2:article", kwargs={"msid": 123}), HTTP_ACCEPT=previous_ctype
         )
         assert resp.status_code == 406
