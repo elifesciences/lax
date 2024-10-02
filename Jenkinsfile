@@ -13,17 +13,6 @@ elifePipeline {
     }
     
     elifeMainlineOnly {
-        stage 'End2end tests', {
-            elifeSpectrum(
-                deploy: [
-                    stackname: 'lax--end2end',
-                    revision: commit,
-                    folder: '/srv/lax'
-                ],
-                marker: 'lax'
-            )
-        }
-
         stage 'Deploy on continuumtest', {
             lock('lax--continuumtest') {
                 builderDeployRevision 'lax--continuumtest', commit
