@@ -60,6 +60,6 @@ tomli==2.0.1
 tomlkit==0.12.4
 typing_extensions==4.10.0
 unittest-xml-reporting==2.5.2
-urllib3==1.26.18
+urllib3==1.26.19
 uWSGI==2.0.24
 wrapt==1.16.0
