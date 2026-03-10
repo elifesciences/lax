@@ -8,6 +8,10 @@ retry_delay=5 # seconds
 
 request () {
     host=$(hostname)
+    if [[ "$host" == "ci--lax.elifesciences.org" ]]; then
+        host="ci-lax.elifesciences.org"
+    fi
+
     path="$1"
     expected="$2"
 
