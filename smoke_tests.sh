@@ -8,6 +8,10 @@ retry_delay=5 # seconds
 
 request () {
     host=$(hostname)
+    if [[ "$host" == "ci--lax.elifesciences.org" ]]; then
+        host="ci-lax.elifesciences.org"
+    fi
+
     path="$1"
     expected="$2"
 
@@ -17,6 +21,8 @@ request () {
         test "$expected" = "$actual" && break
         sleep $retry_delay
     done
+
+    test "$expected" = "$actual" || exit 1
 }
 
 for path in / /api/v2/articles; do
