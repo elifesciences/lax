@@ -12,12 +12,17 @@ request () {
         host="ci-lax.elifesciences.org"
     fi
 
+    protocol="https://"
+    if [[ "$host" == "prod--lax.elifesciences.org" ]]; then
+        protocol="http://"
+    fi
+
     path="$1"
     expected="$2"
 
     for _ in $(seq $num_attempts); do
         # in some cases curl won't retry anything at all and fail immediately, so we wrap it in this for-loop and ignore it's rc
-        actual=$(curl --retry $num_attempts --retry-delay $retry_delay --write-out "%{http_code}" --silent --output /dev/null "https://$host$path") || true
+        actual=$(curl --retry $num_attempts --retry-delay $retry_delay --write-out "%{http_code}" --silent --output /dev/null "$protocol$host$path") || true
         test "$expected" = "$actual" && break
         sleep $retry_delay
     done
