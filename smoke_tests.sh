@@ -17,6 +17,8 @@ request () {
         test "$expected" = "$actual" && break
         sleep $retry_delay
     done
+
+    test "$expected" = "$actual" || exit 1
 }
 
 for path in / /api/v2/articles; do
