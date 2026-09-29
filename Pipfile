@@ -30,7 +30,7 @@ python-dateutil = "~=2.8"
 python-json-logger = "~=0.1"
 python-slugify = "~=4.0"
 pytz = "*"
-requests = "~=2.22"
+requests = "~=2.32"
 rfc3339 = "~=6.2"
 # django doesn't use semver.
 # minor releases may introduce breaking and backwards incompatible changes:
